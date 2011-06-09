@@ -32,7 +32,7 @@
 		<p><?= $attendee->first_name; ?>, <?= get_age($attendee->date_of_birth) ;?></p>
 		<p><?= $attendee->college_name; ?> <?= $attendee->grad_year; ?></p>
 		<p>Mutual friends: <?= anchor('list_mutual_friends', 8); ?></p>
-		<p><input type="button" name="name" value="Smile at her" /></p> 
+		<p><input type="button" name="name" value="Smile at <?= $attendee->first_name; ?>" /></p> 
 	</caption>
 
 	<? endforeach; ?>
