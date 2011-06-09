@@ -12,7 +12,7 @@ class Party extends MY_Controller {
 		try {
 			$data= array(
 				'title'=> 'Party',
-				'party_attendees'=> $this->party_model->get_party_attendees($id),
+				'party_attendees'=> $this->party_model->get_party_attendees($id, $user),
 				'profile_pic_size'=> $this->config->item('profile_pic_size'),
 				'party'=> $this->party_model->get_party($id, $user->id),
 			);

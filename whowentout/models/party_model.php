@@ -17,14 +17,20 @@ class Party_model extends CI_Model {
 		return $party;
 	}
 	
-	function get_party_attendees($id) {
-		return $this->db
-			->select('party_attendees.party_id, first_name, last_name, college_name, grad_year, profile_pic, gender, date_of_birth')
-			->where('party_attendees.party_id', $id)
-			->where('gender', 'F')
+	function get_party_attendees($party_id, $user) {
+		$party_attendees = $this->db
+			->select('user_id, party_attendees.party_id, first_name, last_name, college_name, grad_year, profile_pic, gender, date_of_birth')
+			->where('party_attendees.party_id', $party_id)
+			->where('gender', $user->gender == 'M' ? 'F' : 'M')
 			->join('users', 'party_attendees.user_id = users.id')
 			->join('colleges', 'users.college_id = colleges.id')
 			->get('party_attendees')->result();
+		
+		foreach ($party_attendees as &$attendee) {
+			$attendee->was_smiled_at = $this->_get_was_smiled_at($user->id, $attendee->user_id, $party_id);
+		}
+		return $party_attendees;
+		
 	}
 	
 	function get_parties_attended($user_id) {
@@ -70,80 +76,13 @@ class Party_model extends CI_Model {
 		return (3 - $smiles_used);
 	}
 	
-}
-
-
-
-
-
-
-
-
-		
-/*	
-	
-	function get_parties_attended() {
-		return array(
-			 array(
-			'party_id'=> 1,
-			//'place'=> 'McFaddens', 
-			'place_admin'=> 'Alex Webb', 
-			//'date'=> 'Saturday, September 17th', 
-			'smiles_received'=> '4 girls', 
-			'smiles_remaining'=> '3 smiles', 
-			'matches'=> 'Jennifer L.'
-			),
-		 	array(
-			'party_id'=> 2,
-			//'place'=> 'Sigma Chi', 
-			'place_admin'=> 'Joe Shmo', 
-			//'date'=> 'Friday, September 16th', 
-			'smiles_received'=> '3 girls', 
-			'smiles_remaining'=> '0 smiles', 
-			'matches'=> 'Clara S.'
-			),
-			array(
-			'party_id'=> 3,
-			//'place'=> 'Lambda Chi', 
-			'place_admin'=> 'Jonny Cohen', 
-			//'date'=> 'Thursday, September 15th', 
-			'smiles_received'=> '0 girls', 
-			'smiles_remaining'=> '0 smiles', 
-			'matches'=> 'Marissa O.'
-			),
-		);
+	function _get_was_smiled_at($user_id, $attendee_id, $party_id) {
+		return $this->db
+		->from('smiles')
+		->where('sender_id', $user_id)
+		->where('receiver_id', $attendee_id)
+		->where('party_id', $party_id)
+		->count_all_results() == 1;
 	}
-*/
 
-/*
-function get_attendees() {
-	return array(
-		array(
-		'name'=> 'Clara S.',
-		'age'=> 20,
-		'college'=> 'GWU',
-		'grad_year'=> "'13",
-		'image'=> array('src'=> 'clara_pic.jpg', 'alt'=> 'Clara\'s picture', 'class'=> 'ClaraPic'),
-		//'parties_attended'=> $this->get_parties_attended(),
-		'mutual_friends'=> 8,
-		),
-		array(
-		'name'=> 'Natalie E.',
-		'age'=> 21,
-		'college'=> 'GWU',
-		'grad_year'=> "'12",
-		'image'=> array('src'=> 'natalie_pic.jpg', 'alt'=> 'Natalie\'s picture', 'class'=> 'NataliePic'),
-		//'parties_attended'=> $this->get_parties_attended(),
-		'mutual_friends'=> 16,
-		),
-		array(
-		'name'=> 'Marissa O.',
-		'age'=> 20,
-		'college'=> 'GWU',
-		'grad_year'=> "'13",
-		'image'=> array('src'=> 'marissa_pic.jpg', 'alt'=> 'Marissa\'s picture', 'class'=> 'MarissaPic'),
-		//'parties_attended'=> $this->get_parties_attended(),
-		'mutual_friends'=> 14,
-		),
-	);
-*/
+}
