@@ -1,0 +1,97 @@
+#container {
+  margin: 45px;
+  border: 1px solid;
+  width: 1000px;
+}
+
+h1 {
+  font-family: "Lucida Grande";
+  font-size: 1.2em;
+  font-weight: normal;
+  //outline: 1px solid red;
+  margin: 0 0 10px 0;
+  background-color: #104E8B;
+  color: white;
+  padding: 5px 0px 5px 10px ;
+}
+
+p {
+  margin: 5px 0 5px 0;
+  font-size: 1.1em;
+}
+
+header {
+  overflow: hidden;
+  margin: 0px;
+  padding: 30px 20px 30px 20px;
+  background-color: #104E8B;
+  color: white;
+}
+
+header a, header a:active, header a:visited {
+  color: white;
+}
+
+
+section {
+  clear: both;
+  border: 1px solid;
+  margin: 15px 10px 15px 10px;
+  //border-radius: 3px;
+  overflow: hidden;
+}
+.section_content {
+  font-family: "Lucida Grande";
+  margin: 25px 25px;
+}
+
+#welcome-message {
+  clear: both;
+  width: 100%;
+  text-align: center;
+}
+
+#logo {
+  font-family: "Lucida Grande";
+  float: left;
+  font-size: 2em;
+}
+
+#menu {
+  font-family: "Lucida Grande";
+  float: right;
+}
+
+#menu li {
+  display: inline-block;
+  margin: 10px;
+}
+
+#where-did-you-go {
+  font-size: 1.3em;
+}
+
+#about li {
+  margin: 5px 0 5px 0;
+}
+
+.profile_pic {
+  float: left;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.caption {
+  float: left;
+  margin: 25px 0 0 15px;
+}
+
+.gallery {
+  //text-align: center;
+}
+
+.gallery li {
+  display: inline-block;
+  margin: 20px;
+  text-align: center;
+}

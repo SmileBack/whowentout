@@ -13,14 +13,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" href="/favicon.ico">
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-	<?=css_asset('reset')?>
-	<?=css_asset('default')?>
-	<script src="js/modernizer.js"></script>
+	
+	<?= css_asset('reset') ?>
+	<?= css_asset('style') ?>
+	
+	<?= js_asset('jquery.js') ?>
+	<?= js_asset('modernizer.js') ?>
+	<?= js_asset('script.js') ?>
 </head>
 
 <body>	
 	<div id="container">
 		
 		<header class="main">
-			<h1>WhoWentOut</h1>
+			<div id="logo">WhoWentOut</div>
+			
+			<ul id="menu">
+			  <li><?= anchor('dashboard', 'My Dashboard'); ?></li>
+			  <li><?= anchor('homepage', 'Logout'); ?></li>  
+			</ul>
 		</header>
