@@ -4,15 +4,22 @@
   width: 1000px;
 }
 
-h1 {
-  font-family: "Lucida Grande";
-  font-size: 1.2em;
-  font-weight: normal;
-  //outline: 1px solid red;
-  margin: 0 0 10px 0;
+section > h1 {
   background-color: #104E8B;
   color: white;
+  font-size: 1.3em;
+}
+
+h1 {
+  font-family: "Lucida Grande";
+  font-size: 1.8em;
+  font-weight: normal;
+  margin: 0 0 10px 0;
   padding: 5px 0px 5px 10px ;
+}
+
+.where_did_you_go {
+	font-size: 1.8em;
 }
 
 p {
@@ -37,6 +44,7 @@ section {
   clear: both;
   border: 1px solid;
   margin: 15px 10px 15px 10px;
+  padding-bottom: 10px;
   //border-radius: 3px;
   overflow: hidden;
 }
@@ -67,10 +75,6 @@ section {
   margin: 10px;
 }
 
-#where-did-you-go {
-  font-size: 1.3em;
-}
-
 #about li {
   margin: 5px 0 5px 0;
 }
@@ -94,4 +98,84 @@ section {
   display: inline-block;
   margin: 20px;
   text-align: center;
+}
+
+.date {
+  font-weight: bold;
+  font-size: 1.1em;
+  display: inline-block;
+}
+
+.place {
+  font-weight:bold;
+  font-size: 1.1em;
+  display: inline-block;
+}
+
+.smiles {
+  margin: 10px 0 0 0;
+}
+
+.smiles_received {
+  display: inline-block;
+  width: 250px;
+  margin-left: 10px;
+}
+
+.smiles_remaining {
+  display: inline-block;
+  width: 175px;
+}
+
+.matches {
+  display: inline-block;
+}
+
+ul.parties_attended {
+  margin: 0;
+}
+
+ul.parties_attended li {
+  display: block;
+  //border: 1px solid blue;
+}
+
+.party_summary {
+  border-bottom: 1px dotted grey;
+  margin: 10px;
+  padding: 10px;
+}
+
+.last_night {
+  border-bottom: 1px dotted grey;
+  margin: 10px;
+  padding: 10px;
+}
+
+section .notice {
+  float: right;
+  font-style: italic;
+  font-size:.9em;
+}
+
+#my_info_view {
+  width: 35%;
+  height: 280px;
+  float: left;
+  clear: none;
+}
+
+#last_night_view {
+  width: 60.5%;
+  height: 280px;
+  float: left;
+}
+
+.about {
+	padding: 0em 0em 1em 0em;
+	border-bottom: 1px solid black;
+}
+
+.to_get_started {
+	padding: 1em 0em 0em 0em;
 }

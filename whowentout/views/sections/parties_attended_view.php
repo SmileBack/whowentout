@@ -1,34 +1,32 @@
 
-	<ul>
-		<li>
-			Last night
-			<select name="party">	
-				<? foreach ($places as $key => $place): ?>
-					<option><?php print $place->place_name; ?></option>
-				<? endforeach; ?>
-			</select>
-			<button type="submit">Enter</button>
-			Doors close in <?php print $timer; ?></td>
-		</li>	
+	<ul class="parties_attended">
 		
 		<? foreach ($parties_attended as $party): ?>						
 			<li>
+				
+				<div class="party_summary">
 				<!-- Move to a helper -->                                      
-				<span><?= date("l, F jS", strtotime($party->party_date)); ?></span>
-				<span><?= anchor("party/{$party->id}", $party->place_name); ?></span>
+				<div class="date"><?= date("l, F jS", strtotime($party->party_date)); ?></div>
+				| <div class="place"><?= anchor("party/{$party->id}", $party->place_name); ?></div>
 				
 				<!-- TODO: check gender -->
-				<span><?= $party->smiles_received; ?> girls have smiled at you</span>
-				<!-- TODO: Change to singular if one smile is left -->
-				<span><?php print $party->smiles_remaining; ?> smiles left to give</span>
-				
-				<ul>
+				<div class="smiles">
+				  <span class="smiles_received"><?= $party->smiles_received; ?> girls have smiled at you</span>
+				  <span class="smiles_remaining"><?php print $party->smiles_remaining; ?> smiles left to give</span>
+				  <ul class="matches">
 					<? foreach ($party->matches as $match): ?>
 						<li>You and <?= $match->first_name; ?> <?= $match->last_name?> have smiled at each other!</li>
 					<? endforeach; ?>
-				</ul>
+				  </ul>
+				</div>
+				<!-- TODO: Change to singular if one smile is left -->
+				
+				
+
+			   </div>
+			
 			</li>
 		<? endforeach; ?>
 		</ul>
-		<p><em>*you can check in to a maximum of 3 parties per week</em></p>
+		
 

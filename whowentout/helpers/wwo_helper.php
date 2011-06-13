@@ -1,7 +1,7 @@
 <?php
 
 function get_timer() {
-	return '2h 52 min';
+	return '2hrs 52 mins';
 }
 
 function load_view($view_name, $data = array()) {
