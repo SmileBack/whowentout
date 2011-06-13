@@ -1,1 +1,1 @@
-<?= load_section_view('about_view', 'Welcome to WhoWentOut!'); ?>
+<?= load_section_view('about_view', 'WhoWentOut!'); ?>
