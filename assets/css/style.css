@@ -190,3 +190,11 @@ section .notice {
 	font-style:italic;
 	float:right;
 }
+
+#user_caption {
+	font-size:1em;
+}
+
+#email_section {
+	padding: 1em 0em 1em 2em;
+}
