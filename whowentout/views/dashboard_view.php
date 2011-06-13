@@ -1,4 +1,4 @@
-<?= load_section_view('last_night_view', 'Where did you go out last night?'); ?>
+<?= load_section_view('last_night_view', 'Where Did You Go Out Last Night?'); ?>
 
 <?= load_section_view('my_info_view', 'My Info'); ?>
 

@@ -1,6 +1,6 @@
 <div class="about">
 	<p>WhoWentOut is an online platform that connects people after a night out. You can use WhoWentOut to:
-	<ul>
+	<ul class=homepage_list>
 		<li>See who else was at the same party as you</li>
 		<li>Find out which parties were most popular on a particular night</li>
 	</ul>
