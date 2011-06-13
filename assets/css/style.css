@@ -184,3 +184,9 @@ section .notice {
 .to_get_started {
 	padding: 1em 0em 0em 0em;
 }
+
+#party_admin {
+	font-size:1em;
+	font-style:italic;
+	float:right;
+}

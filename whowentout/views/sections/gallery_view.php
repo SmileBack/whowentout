@@ -33,3 +33,5 @@
 <? endforeach; ?>
 
 </ul>
+
+<p id="party_admin">Party Admin: <?= $party->admin_first_name; ?> <?= $party->admin_last_name; ?></p>

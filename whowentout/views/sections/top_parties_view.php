@@ -1,5 +1,5 @@
 
-	<p>This is a list of last night's most popular parties. The list will be continually updated throughout the day as more people check in, and will be finalized at midnight.</p>
+	<p>This is a list of last night's most popular parties. The list will be continually updated throughout the day as more people check in, and will be finalized at 11pm.</p>
 	<ol>	
 		<li>...</li>
 		<li>...</li>

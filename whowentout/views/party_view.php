@@ -1,8 +1,7 @@
 <?= load_section_view('gallery_view', date("l, F jS", strtotime($party->party_date)) . ' | ' . $party->place_name); ?>
 
-<section>
-	<p>Party Admin: <?= $party->admin_first_name; ?> <?= $party->admin_last_name; ?></p>
-</section>
+
+
 
 
 <section>
