@@ -19,7 +19,6 @@
 	
 	<?= js_asset('jquery.js') ?>
 	<?= js_asset('modernizer.js') ?>
-	<?= js_asset('script.js') ?>
 </head>
 
 <body>	
