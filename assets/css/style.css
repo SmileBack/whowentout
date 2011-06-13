@@ -91,12 +91,13 @@ section {
 }
 
 .gallery {
-  //text-align: center;
+  text-align: left;
+  margin: 0;
 }
 
 .gallery li {
   display: inline-block;
-  margin: 20px;
+  margin: 16px;
   text-align: center;
 }
 

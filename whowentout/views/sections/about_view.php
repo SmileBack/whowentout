@@ -21,7 +21,7 @@
 		</select>
 		<input type="submit"/>
 
-		Check in by 11pm [ <?php print $timer; ?> ]
+		Check in by 11pm [ <?php print $timer; ?> remaining ]
 	</form>
 </div>
 	
