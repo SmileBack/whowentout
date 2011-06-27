@@ -1,7 +1,17 @@
 <?php
 
-function get_timer() {
-	return '2hrs 52 mins';
+function get_closing_time() {
+  $closing_time_string = date('Y-m-d') . ' ' . '23:00:00';
+  return strtotime($closing_time_string);
+}
+
+function today() {
+  $current_date = gmt_to_local(now(), 'UM8', TRUE); //time in California. MUST CHANGE TO UM5 AT LAUNCH!!!
+  return strtotime(date('Y-m-d', $current_date)); //truncate hours, minutes, seconds	
+}
+
+function yesterday() {
+  return strtotime('-1 day', today());
 }
 
 function load_view($view_name, $data = array()) {

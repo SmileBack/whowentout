@@ -2,9 +2,9 @@
 
 class College_model extends CI_Model {
 
-//This function grabs names of places where parties occur at a college
+//This function grabs names of places where parties occur at a college, and flattens the array
 	function get_places() {
-		$places= $this->db->select('id, place_name')
+		$places = $this->db->select('id, place_name')
 		->where('college_id', 1)
 		->get('places')->result();
 		
@@ -15,6 +15,16 @@ class College_model extends CI_Model {
 		
 		return $new_places;
 	}
-
+	
+	function get_party($place_id, $date) {
+		$parties = $this->db->from('parties')
+	         			->where(array(
+	           				'place_id' => $place_id,
+	           				'party_date' => date('Y-m-d', $date),
+	         			  ))
+	         			->get()->result();
+	    
+		return empty($parties) ? NULL : $parties[0];
+	}
 
 }

@@ -1,12 +1,13 @@
   <p class="where_did_you_go">Where Did You Go Out Last Night?</p> 
  	
-<?= form_open('ajax/party_attended', '', array('current_time'=>now())); ?>
+<?= form_open('user/checkin', '', array('current_time' => now())); ?>
 
-<?= form_dropdown('party', $places)?>		
+<?= form_dropdown('place_id', $places)?>		
 
-<button type="submit">Submit</button>
+<button type="submit">enter</button>
 	
 <?= form_close(); ?>
 	
-	Doors close at 11pm [ in <?php print $timer; ?> ]
-		
+	Doors close at
+	<span class="closing_time" time="<?php print $closing_time; ?>"><?php print date('g:i a', $closing_time); ?></span>
+	[ in <span class="remaining_time">blah</span> ]

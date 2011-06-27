@@ -11,9 +11,9 @@ class Dashboard extends MY_Controller {
 		
 		$user= $this->user_model->get_user();
 		
-		$data= array(
+		$data = array(
 			'title'=> 'Dashboard',
-			'timer'=> get_timer(),
+			'closing_time' => get_closing_time(),
 			'places'=> $this->college_model->get_places(),
 			'user'=> $user,
 			'parties_attended'=> $this->party_model->get_parties_attended($user->id),
