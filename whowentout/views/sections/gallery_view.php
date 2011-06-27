@@ -34,4 +34,6 @@
 
 </ul>
 
-<p id="party_admin">Party Admin: <?= $party->admin_first_name; ?> <?= $party->admin_last_name; ?></p>
+<?php if ($party->admin_first_name): ?>
+  <p id="party_admin">Hosted by: <?= $party->admin_first_name; ?> <?= $party->admin_last_name; ?></p>
+<?php endif;?>
