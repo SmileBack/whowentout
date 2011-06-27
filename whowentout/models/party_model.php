@@ -3,11 +3,11 @@
 class Party_model extends CI_Model {
 	
 	function get_party($id, $user_id) {
-		$party= $this->db
+		$party = $this->db
 			->select('parties.id, party_date, place_name, first_name AS admin_first_name, last_name AS admin_last_name')
 			->where('parties.id', $id)
 			->join('places', 'parties.place_id = places.id')
-			->join('users', 'parties.admin = users.id')
+			->join('users', 'parties.admin = users.id', 'left')
 			->get('parties')->row();
 			
 		$party->matches = $this->_get_matches($user_id, $party->id);
@@ -34,12 +34,13 @@ class Party_model extends CI_Model {
 	}
 	
 	function get_parties_attended($user_id) {
-		$parties_attended= $this->db
+		$parties_attended = $this->db
 			->select('user_id, parties.id, party_date, place_name')
 			->from('party_attendees')
 			->where('user_id', $user_id)
 			->join('parties', 'party_attendees.party_id = parties.id')
 			->join('places', 'parties.place_id = places.id')
+			->order_by('party_date', 'desc')
 			->get()->result();
 		
 		foreach ($parties_attended as &$party) {

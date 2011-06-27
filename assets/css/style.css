@@ -1,5 +1,5 @@
 #container {
-  margin: 45px;
+  margin: 45px auto;
   border: 1px solid;
   width: 1000px;
 }
@@ -81,8 +81,9 @@ section {
 
 .profile_pic {
   float: left;
-  font-size: 0.9em;
+  font-size: 0.8em;
   text-align: center;
+  padding-right: 1em;
 }
 
 .caption {
