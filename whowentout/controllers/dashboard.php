@@ -6,6 +6,8 @@ class Dashboard extends MY_Controller {
 		$this->load->model('college_model');
 		$this->load->model('user_model');
 		$this->load->model('party_model');
+		$this->load->helper('date');
+		$this->load->helper('form');
 		
 		$user= $this->user_model->get_user();
 		
