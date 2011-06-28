@@ -4,14 +4,14 @@ class User_model extends CI_Model {
 		
 	function get_user() {
 		return $this->db
-			->select('users.id, first_name, last_name, college_name, grad_year, profile_pic,
+			->select('users.id AS id, first_name, last_name, college_name, grad_year, profile_pic,
 				email, gender, date_of_birth')
 			->from('users')
-			->where('users.id', 1)
+			->where('users.id', get_user_id())
 			->join('colleges', 'users.college_id = colleges.id')
 			->get()->row();
 	}
-
+  
 }		
 
 

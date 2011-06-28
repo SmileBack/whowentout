@@ -6,7 +6,7 @@ class User extends MY_Controller {
 		$party_id = $this->input->post('party_id');
 		
 		$this->db->insert('party_attendees', array(
-		  'user_id' => 1,
+		  'user_id' => get_user_id(),
 		  'party_id' => $party_id,
 		  'attendee_time' => date('Y-m-d H:i:s'),
 		));

@@ -1,5 +1,13 @@
 <?php
 
+function get_user_id() {
+  return 1;
+}
+
+function get_college_id() {
+  return 1;
+}
+
 function parties_dropdown($college_id, $date) {
   $parties = model('college_model')->get_parties($college_id, $date);
   $options = array();

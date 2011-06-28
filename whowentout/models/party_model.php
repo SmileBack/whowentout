@@ -30,7 +30,6 @@ class Party_model extends CI_Model {
 			$attendee->was_smiled_at = $this->_get_was_smiled_at($user->id, $attendee->user_id, $party_id);
 		}
 		return $party_attendees;
-		
 	}
 	
 	function get_parties_attended($user_id) {
