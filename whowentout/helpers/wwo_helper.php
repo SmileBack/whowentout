@@ -1,5 +1,14 @@
 <?php
 
+function parties_dropdown($college_id, $date) {
+  $parties = model('college_model')->get_parties($college_id, $date);
+  $options = array();
+  foreach ($parties as $party) {
+    $options[$party->id] = $party->place_name;
+  }
+  return form_dropdown('party_id', $options);
+}
+
 function get_closing_time() {
   $closing_time_string = date('Y-m-d') . ' ' . '23:00:00';
   return strtotime($closing_time_string);
@@ -18,6 +27,13 @@ function load_view($view_name, $data = array()) {
   $CI =& get_instance(); 
   return $CI->load->view($view_name, $data, TRUE);
 }
+
+
+function model($model_name) {
+  $CI =& get_instance(); 
+  return $CI->$model_name;
+}
+
 
 /* 
  * Loads the view of a section. The sections are located in views/sections

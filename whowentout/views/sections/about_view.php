@@ -12,13 +12,7 @@
 	<p>To get started, just say where you went out last night and we'll take care of the rest:</p>
 	<p class="where_did_you_go">Where Did You Go Out Last Night?</p>
 	<form>
-		<select name="party">	
-			<?php foreach ($places as $key => $place): ?>
-
-				<option><?php print $place->place_name ?></option>
-
-			<?php endforeach; ?>
-		</select>
+		<?= $parties_dropdown; ?>
 		<input type="submit"/>
 
 		Doors close at 11pm [ in <?php print $timer; ?> ]

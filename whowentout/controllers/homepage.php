@@ -3,11 +3,10 @@
 class Homepage extends MY_Controller {
 	
 	function index() {
-		$this->load->model('college_model');
-		
+    
 		$data= array(
 		  'title'=> 'Home',
-		  'places'=> $this->college_model->get_places(),
+		  'parties_dropdown'=> parties_dropdown(1, strtotime('2011-05-27')),
 		);
 		
 		$this->load_view('homepage_view', $data);

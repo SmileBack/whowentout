@@ -19,7 +19,8 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$date = strtotime('2011-05-27');
+    print parties_dropdown(1, $date);
 	}
 }
 

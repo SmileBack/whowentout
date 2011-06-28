@@ -2,12 +2,12 @@
  	
 <?= form_open('user/checkin', '', array('current_time' => now())); ?>
 
-<?= form_dropdown('place_id', $places)?>		
-
+<?= $parties_dropdown; ?>
+  
 <button type="submit">enter</button>
 	
 <?= form_close(); ?>
 	
 	Doors close at
 	<span class="closing_time" time="<?php print $closing_time; ?>"><?php print date('g:i a', $closing_time); ?></span>
-	[ in <span class="remaining_time">blah</span> ]
+	[ in <span class="remaining_time"></span> ]
