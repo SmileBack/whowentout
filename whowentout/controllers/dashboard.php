@@ -8,7 +8,7 @@ class Dashboard extends MY_Controller {
 		
 		$data = array(
 			'title'=> 'Dashboard',
-			'closing_time' => get_closing_time(),
+			'closing_time' => load_view('closing_time_view'),
 			'parties_dropdown' => parties_dropdown(get_college_id(), strtotime('2011-05-27')),
 			'user'=> $user,
 			'parties_attended'=> $this->party_model->get_parties_attended($user->id),

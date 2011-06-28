@@ -14,8 +14,7 @@
 	<form>
 		<?= $parties_dropdown; ?>
 		<input type="submit"/>
-
-		Doors close at 11pm [ in <?php print $timer; ?> ]
+    <?= $closing_time; ?>
 	</form>
 </div>
 	
