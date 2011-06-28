@@ -20,18 +20,42 @@ class User_model extends CI_Model {
 		));
   }
   
+  
   /**
-   * Tells you if $user_id checked in at any time on $date
+   * Return the party that $user_id attended on $date.
+   * 
+   * @param int $user_id
+   * @param timestamp $date
+   * @return object
+   *   A party object 
+   */
+  function get_attended_party($user_id, $date) {
+    $row = $this->db
+                ->select('party_id')
+                ->from('party_attendees')
+                ->join('parties', 'party_attendees.party_id = parties.id')
+                ->where('user_id', $user_id)
+                ->where('party_date', date('Y-m-d', $date))
+                ->get()->row();
+    if ($row == NULL)
+      return NULL;
+    
+    return model('party_model')->get_party($row->party_id);
+  }
+  
+  /**
+   * Tells you if $user_id attended a party on $date.
+   * 
    * @param type $user_id
    * @param type $date 
    */
-  function has_checked_in($user_id, $date) {
-    
+  function has_attended_party($user_id, $date) {
+    return $this->get_attended_party($user_id, $date) != NULL;
   }
   
   function can_checkin($user_id, $party_id) {
-    $party = model('party')->get_party($user_id, $party_id);
-    if ( $this->has_attended_party($user_id, today()) ) {
+    $party = model('party_model')->get_party($user_id, $party_id);
+    if ( $this->has_attended_party($user_id, $party->party_date) ) {
       return FALSE;
     }
     

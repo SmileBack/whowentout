@@ -8,12 +8,22 @@ function get_college_id() {
   return 1;
 }
 
+/**
+ * Return the first item in $array. The $array can be associative or numeric.
+ * @param array $array
+ * @return mixed 
+ */
+function array_first($array) {
+  return array_shift(array_values($array));
+}
+
 function parties_dropdown($college_id, $date) {
   $parties = model('college_model')->get_parties($college_id, $date);
   $options = array();
   foreach ($parties as $party) {
     $options[$party->id] = $party->place_name;
   }
+  
   return form_dropdown('party_id', $options);
 }
 

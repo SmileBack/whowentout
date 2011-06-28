@@ -48,7 +48,13 @@ class Party_model extends CI_Model {
 		return $party_attendees;
 	}
 	
-	function get_parties_attended($user_id) {
+  /**
+   * Get an array of recent parties that $user_id attended.
+   * @param int $user_id
+   * @return array
+   *   An array of party objects. Each party object also has smile info.
+   */
+	function get_recent_parties_attended($user_id) {
 		$parties_attended = $this->db
 			->select('user_id, parties.id, party_date, place_name')
 			->from('party_attendees')

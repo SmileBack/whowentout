@@ -19,8 +19,10 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-    $attendees = $this->party_model->get_party_attendees(4, 1);
-    $party = $this->party_model->get_party(4, 1);
+    $has_attended = $this->user_model->has_attended_party(1, strtotime('2011-05-24'));
+    var_dump($has_attended);
+    
+    $party = $this->user_model->get_attended_party(1, strtotime('2011-05-24'));
     var_dump($party);
 	}
 }

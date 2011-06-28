@@ -11,10 +11,10 @@
 				
 				<!-- TODO: check gender -->
 				<div class="smiles">
-				  <span class="smiles_received"><?= $party->smiles_received; ?> girls have smiled at you</span>
-				  <span class="smiles_remaining"><?php print $party->smiles_remaining; ?> smiles left to give</span>
+				  <span class="smiles_received"><?= $party->smile_info['smiles_received']; ?> girls have smiled at you</span>
+				  <span class="smiles_remaining"><?php print $party->smile_info['smiles_remaining']; ?> smiles left to give</span>
 				  <ul class="matches">
-					<? foreach ($party->matches as $match): ?>
+					<? foreach ($party->smile_info['matches'] as $match): ?>
 						<li>You and <?= $match->first_name; ?> <?= $match->last_name?> have smiled at each other!</li>
 					<? endforeach; ?>
 				  </ul>
