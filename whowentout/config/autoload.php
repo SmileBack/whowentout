@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('html', 'url', 'wwo', 'asset');
+$autoload['helper'] = array('date', 'html', 'form', 'url', 'wwo', 'asset');
 
 
 /*
@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array('college_model', 'party_model', 'user_model');
 
 
 /* End of file autoload.php */
