@@ -2,19 +2,19 @@
 
 class Party extends MY_Controller {
 	
-	function page($id) {
+	function page($party_id) {
 		$this->load->model('party_model');
 		$this->load->model('user_model');
 		$this->load->config('wwo');
 		
-		$user= $this->user_model->get_user();
-		
+		$user = $this->user_model->get_user();
+    
 		try {
-			$data= array(
+			$data = array(
 				'title'=> 'Party',
-				'party_attendees'=> $this->party_model->get_party_attendees($id, $user),
+        'party'=> $this->party_model->get_party($party_id, $user->id),
+				'party_attendees'=> $this->party_model->get_party_attendees($party_id, $user->id),
 				'profile_pic_size'=> $this->config->item('profile_pic_size'),
-				'party'=> $this->party_model->get_party($id, $user->id),
 			);
 			
 			$this->load_view('party_view', $data);

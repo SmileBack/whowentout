@@ -4,12 +4,9 @@ class User extends MY_Controller {
 	
 	function checkin() {
 		$party_id = $this->input->post('party_id');
-		
-		$this->db->insert('party_attendees', array(
-		  'user_id' => get_user_id(),
-		  'party_id' => $party_id,
-		  'attendee_time' => date('Y-m-d H:i:s'),
-		));
+		$user_id = get_user_id();
+    
+    $this->user_model->checkin($user_id, $party_id);
 		
 		redirect("party/$party_id");
 	}

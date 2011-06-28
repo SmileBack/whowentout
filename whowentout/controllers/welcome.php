@@ -19,8 +19,9 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$date = strtotime('2011-05-27');
-    print parties_dropdown(1, $date);
+    $attendees = $this->party_model->get_party_attendees(4, 1);
+    $party = $this->party_model->get_party(4, 1);
+    var_dump($party);
 	}
 }
 

@@ -1,7 +1,7 @@
 
-<p><?= $party->smiles_received; ?> girls have smiled at you :)</p>
-<p>You have <?= $party->smiles_remaining; ?> smiles left to give</p>
-<? foreach ($party->matches as $match): ?>
+<p><?= $party->smile_info['smiles_received']; ?> girls have smiled at you :)</p>
+<p>You have <?= $party->smile_info['smiles_remaining']; ?> smiles left to give</p>
+<? foreach ($party->smile_info['matches'] as $match): ?>
 <p>You and <?= $match->first_name; ?>  have smiled at each other!</p>
 <? endforeach; ?>
 

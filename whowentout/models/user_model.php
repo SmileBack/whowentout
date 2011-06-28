@@ -12,19 +12,30 @@ class User_model extends CI_Model {
 			->get()->row();
 	}
   
+  function checkin($user_id, $party_id) {
+    $this->db->insert('party_attendees', array(
+		  'user_id' => $user_id,
+		  'party_id' => $party_id,
+		  'checkin_time' => date('Y-m-d H:i:s'),
+		));
+  }
+  
+  /**
+   * Tells you if $user_id checked in at any time on $date
+   * @param type $user_id
+   * @param type $date 
+   */
+  function has_checked_in($user_id, $date) {
+    
+  }
+  
+  function can_checkin($user_id, $party_id) {
+    $party = model('party')->get_party($user_id, $party_id);
+    if ( $this->has_attended_party($user_id, today()) ) {
+      return FALSE;
+    }
+    
+    return TRUE;
+  }
+  
 }		
-
-
-
-
-
-
-
-		
-		//return $this->db->where('user_id', 1)->get('users')->row();
-		
-		//$users = $this->db->get_where('users', array('user_id' => 1))->result();
-		//return $users[0];
-		
-		// the function row() gets the row specified, while the function result() gets an array of rows;
-		// return $this->db->get_where('users', array('user_id' => 1))->row();

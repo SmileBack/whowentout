@@ -22,13 +22,24 @@ function get_closing_time() {
   return strtotime($closing_time_string);
 }
 
-function today() {
-  $current_date = gmt_to_local(now(), 'UM8', TRUE); //time in California. MUST CHANGE TO UM5 AT LAUNCH!!!
-  return strtotime(date('Y-m-d', $current_date)); //truncate hours, minutes, seconds	
+/**
+ * Gives you the timestamp date for today.
+ * @param bool $make_local
+ *   Whether to give the time local to the user.
+ * @return timestamp
+ *   A Unix timestamp for todays date. This could be local or GMT based on $make_local. 
+ */
+function today($make_local = FALSE) {
+  $current_time = now();
+  if ($make_local) {
+    $current_time = gmt_to_local($current_time, 'UM8', TRUE); //time in California. MUST CHANGE TO UM5 AT LAUNCH!!!
+  }
+  
+  return strtotime(date('Y-m-d', $current_time)); //truncate hours, minutes, seconds	
 }
 
-function yesterday() {
-  return strtotime('-1 day', today());
+function yesterday($make_local = FALSE) {
+  return strtotime('-1 day', today($make_local));
 }
 
 function load_view($view_name, $data = array()) {
