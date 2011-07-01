@@ -43,3 +43,13 @@ jQuery(function($) {
   every(1, update_time_message);
   update_time_message();
 });
+
+jQuery(function($) {
+  $('.already_smiled').click(function() {
+    alert('You already smiled at her.');
+  });
+  $('.cant_smile').click(function() {
+    alert('You have used up your smiles.');
+  });
+});
+

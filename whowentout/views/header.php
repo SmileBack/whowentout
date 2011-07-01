@@ -8,7 +8,7 @@
   <!--<![endif]-->
   <head>
     <meta charset="utf-8">
-    <title><?=$title?></title>
+    <title><?=isset($title) ? $title : '' ?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -30,11 +30,17 @@
       <header class="main">
 
         <div id="logo">
-          <?= anchor("/", 'WhoWentOut') ?> (<?= current_time(TRUE)->format('Y-m-d H:i:s'); ?>)
+          <?= anchor("/", 'WhoWentOut') ?> (<?= current_time(TRUE)->format('Y-m-d H:i:s'); ?>, <?= current_user()->first_name ?>)
         </div>
 
         <ul id="menu">
           <li><?= anchor('dashboard', 'My Dashboard'); ?></li>
-          <li><?= anchor('homepage', 'Logout'); ?></li>  
+          <li>
+            <?php if (logged_in()): ?>
+              <?= anchor('user/logout', 'Logout') ?>
+            <?php else: ?>
+              <?= anchor('user/login', 'Login') ?>
+            <?php endif; ?>
+          </li>  
         </ul>
       </header>

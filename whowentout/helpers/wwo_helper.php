@@ -2,14 +2,6 @@
 
 /**
  * @return int
- *   The id of the current user.
- */
-function get_user_id() {
-  return 1;
-}
-
-/**
- * @return int
  *   The id of the current college.
  */
 function get_college_id() {
@@ -39,9 +31,8 @@ function load_view($view_name, $data = array()) {
   return $CI->load->view($view_name, $data, TRUE);
 }
 
-function model($model_name) {
-  $CI =& get_instance(); 
-  return $CI->$model_name;
+function ci() {
+  return get_instance();
 }
 
 /* 

@@ -3,7 +3,7 @@
 class Dashboard extends MY_Controller {
 		
   function index() {
-    $user = $this->user_model->get_user();
+    $user = current_user();
     $college_id = get_college_id();
     $current_time = current_time();
     

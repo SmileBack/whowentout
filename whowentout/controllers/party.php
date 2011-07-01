@@ -3,7 +3,7 @@
 class Party extends MY_Controller {
 	
   function page($party_id) {
-    $user = $this->user_model->get_user();
+    $user = current_user();
 
     try {
       $data = array(

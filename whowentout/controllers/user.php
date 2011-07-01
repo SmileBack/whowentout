@@ -1,7 +1,23 @@
 <?php
 
 class User extends MY_Controller {
-	
+  
+  function login() {
+    $user_id = $this->input->post('user_id');
+    if ($user_id != NULL) {
+      set_user_id($user_id);
+      redirect('dashboard');
+    }
+    else {
+      $this->load_view('login_view');
+    }
+  }
+  
+  function logout() {
+    logout();
+    redirect('/');
+  }
+  
   function checkin() {
     $user_id = get_user_id();
     $party_id = $this->input->post('party_id');

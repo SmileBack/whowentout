@@ -1,16 +1,6 @@
 <?php
 
 class User_model extends CI_Model {
-		
-  function get_user() {
-    return $this->db
-                ->select('users.id AS id, first_name, last_name, college_name, grad_year, profile_pic,
-                        email, gender, date_of_birth')
-                ->from('users')
-                ->where('users.id', get_user_id())
-                ->join('colleges', 'users.college_id = colleges.id')
-                ->get()->row();
-  }
   
   function checkin($user_id, $party_id) {
     if (!$this->can_checkin($user_id, $party_id)) {
@@ -45,7 +35,7 @@ class User_model extends CI_Model {
       return FALSE;
     }
     
-    if ( model('party_model')->get_smiles_remaining($party_id, $sender_id) <= 0 ) {
+    if ( ci()->party_model->get_smiles_remaining($party_id, $sender_id) <= 0 ) {
       return FALSE;
     }
     
@@ -93,7 +83,7 @@ class User_model extends CI_Model {
     if ($row == NULL)
       return NULL;
     
-    return model('party_model')->get_party($row->party_id);
+    return ci()->party_model->get_party($row->party_id);
   }
   
   /**
@@ -120,7 +110,7 @@ class User_model extends CI_Model {
   }
   
   function can_checkin($user_id, $party_id) {
-    $party = model('party_model')->get_party($party_id, $user_id);
+    $party = ci()->party_model->get_party($party_id, $user_id);
     $party_date = new DateTime($party->party_date, get_college_timezone());
     
     // You've already attended a party

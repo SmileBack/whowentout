@@ -43,7 +43,7 @@ class Party_model extends CI_Model {
 
     foreach ($party_attendees as &$attendee) {
       $attendee->was_smiled_at = $this->get_was_smiled_at($party_id, $attendee->id, $user_id);
-      $attendee->can_smile_at = model('user_model')->can_smile_at($user_id, $attendee->id, $party_id);
+      $attendee->can_smile_at = ci()->user_model->can_smile_at($user_id, $attendee->id, $party_id);
     }
 
     return $party_attendees;
