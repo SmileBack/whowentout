@@ -16,7 +16,7 @@ class Dashboard extends MY_Controller {
       'doors_are_closed' => doors_are_closed(),
       'parties_dropdown' => parties_dropdown($parties),
       'parties_attended'=> $this->party_model->get_recent_parties_attended($user->id),
-      'has_attended_party' => $this->user_model->has_attended_party( $user->id, yesterday(TRUE) ),
+      'has_attended_party' => $this->user_model->has_attended_party_on_date( $user->id, yesterday(TRUE) ),
     );
     
     if ($data['has_attended_party']) {

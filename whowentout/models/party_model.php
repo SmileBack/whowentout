@@ -34,7 +34,7 @@ class Party_model extends CI_Model {
   */
   function get_party_attendees($party_id, $user_id) {
     $party_attendees = $this->db
-                            ->select('user_id, party_attendees.party_id, first_name, last_name, college_name, grad_year, profile_pic, gender, date_of_birth')
+                            ->select('user_id as id, party_attendees.party_id as party_id, first_name, last_name, college_name, grad_year, profile_pic, gender, date_of_birth')
                             ->where('party_attendees.party_id', $party_id)
                             ->where('gender', 'F')
                             ->join('users', 'party_attendees.user_id = users.id')
@@ -42,7 +42,8 @@ class Party_model extends CI_Model {
                             ->get('party_attendees')->result();
 
     foreach ($party_attendees as &$attendee) {
-      $attendee->was_smiled_at = $this->get_was_smiled_at($party_id, $user_id, $attendee->user_id);
+      $attendee->was_smiled_at = $this->get_was_smiled_at($party_id, $attendee->id, $user_id);
+      $attendee->can_smile_at = model('user_model')->can_smile_at($user_id, $attendee->id, $party_id);
     }
 
     return $party_attendees;

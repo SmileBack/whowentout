@@ -24,9 +24,17 @@
 	<p><?= $attendee->college_name; ?> <?= $attendee->grad_year; ?></p>
 	<p>Boca Raton, FL</p>
 	<p>Mutual friends: <?= anchor('list_mutual_friends', 8); ?></p>
-	<p><input type="button" name="name" value="Smile at <?= $attendee->first_name; ?>" 
-		<? if ($attendee->was_smiled_at): ?>disabled="disabled"<? endif; ?>
-		/></p> 
+        <p>
+          <?php if ($attendee->can_smile_at): ?>
+          <?= form_open('user/smile', '', array('party_id' => $party->id, 'receiver_id' => $attendee->id)); ?>
+            <input type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>" />
+          <?= form_close(); ?>
+          <?php elseif ($attendee->was_smiled_at): ?>
+          <div class="smiled_at">
+            <?= 'Smiled at ' . $attendee->first_name ?>
+          </div>
+          <?php endif; ?>
+        </p>
 </div>
 
 </li>

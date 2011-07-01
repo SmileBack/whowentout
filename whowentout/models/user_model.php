@@ -17,14 +17,58 @@ class User_model extends CI_Model {
       return FALSE;
     }
     
-    $this->db->insert('party_attendees', 
-                array(
-		  'user_id' => $user_id,
-		  'party_id' => $party_id,
-		  'checkin_time' => gmdate('Y-m-d H:i:s'),
-		));
+    $this->db->insert('party_attendees', array(
+                        'user_id' => $user_id,
+                        'party_id' => $party_id,
+                        'checkin_time' => gmdate('Y-m-d H:i:s'),
+                      ));
     
     return TRUE;
+  }
+  
+  function smile_at($sender_id, $receiver_id, $party_id) {
+    if (!$this->can_smile_at($sender_id, $receiver_id, $party_id))
+      return FALSE;
+    
+    $this->db->insert('smiles',array(
+                        'sender_id' => $sender_id,
+                        'receiver_id' => $receiver_id,
+                        'party_id' => $party_id,
+                        'smile_time' => gmdate('Y-m-d H:i:s'),
+                     ));
+    
+    return TRUE;
+  }
+  
+  function can_smile_at($sender_id, $receiver_id, $party_id) {
+    if ( ! $this->has_attended_party($sender_id, $party_id) ) {
+      return FALSE;
+    }
+    
+    if ( model('party_model')->get_smiles_remaining($party_id, $sender_id) <= 0 ) {
+      return FALSE;
+    }
+    
+    if ( $this->has_smiled_at($sender_id, $receiver_id, $party_id) ) {
+      return FALSE;
+    }
+    
+    return TRUE;
+  }
+  
+  /**
+   * Tells you if $sender_id smiled at $receiver_id at a $party_id.
+   * @param int $sender_id
+   * @param int $receiver_id
+   * @param int $party_id
+   * @return bool
+   */
+  function has_smiled_at($sender_id, $receiver_id, $party_id) {
+    return $this->db->from('smiles')
+                    ->where('sender_id', $sender_id)
+                    ->where('receiver_id', $receiver_id)
+                    ->where('party_id', $party_id)
+                    ->count_all_results() > 0;
   }
   
   /**
@@ -58,8 +102,21 @@ class User_model extends CI_Model {
    * @param type $user_id
    * @param type $date
    */
-  function has_attended_party($user_id, $date) {
+  function has_attended_party_on_date($user_id, $date) {
     return $this->get_attended_party($user_id, $date) != NULL;
+  }
+  
+  /**
+   * Tells you if $user_id attended $party_id.
+   * @param type $user_id
+   * @param type $party_id 
+   * @return bool
+   */
+  function has_attended_party($user_id, $party_id) {
+    return $this->db->from('party_attendees')
+                    ->where('user_id', $user_id)
+                    ->where('party_id', $party_id)
+                    ->count_all_results() > 0;
   }
   
   function can_checkin($user_id, $party_id) {
@@ -67,12 +124,13 @@ class User_model extends CI_Model {
     $party_date = new DateTime($party->party_date, get_college_timezone());
     
     // You've already attended a party
-    if ( $this->has_attended_party($user_id, $party_date) ) {
+    if ( $this->has_attended_party_on_date($user_id, $party_date) ) {
       return FALSE;
     }
     
-    // TODO: You are not within the bounds of the checkin time.
-    
+    // You are not within the bounds of the checkin time.
+    if (doors_are_closed())
+      return FALSE;
     
     return TRUE;
   }
