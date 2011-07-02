@@ -4,20 +4,21 @@ class Party extends MY_Controller {
 	
   function page($party_id) {
     $user = current_user();
-
-    try {
-      $data = array(
-        'title'=> 'Party',
-        'party'=> $this->party_model->get_party($party_id, $user->id),
-        'party_attendees'=> $this->party_model->get_party_attendees($party_id, $user->id),
-        'profile_pic_size'=> $this->config->item('profile_pic_size'),
-      );
-
-      $this->load_view('party_view', $data);
-    } catch (Exception $e) {
+    $party = XParty::get($party_id);
+    
+    if ( ! $user->has_attended_party($party->id) ) {
       show_404();
     }
     
+    $data = array(
+      'title' => 'Party',
+      'party' => $party,
+      'user' => $user,
+      'party_attendees' => $party->attendees,
+      'profile_pic_size' => $this->config->item('profile_pic_size'),
+    );
+
+    $this->load_view('party_view', $data);
   }
   
 }

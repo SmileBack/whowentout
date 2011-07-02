@@ -1,5 +1,7 @@
 <?php
 
+require_once APPPATH . 'libraries/fb/facebook.php';
+
 /**
  * @return int
  *   The id of the current user.
@@ -12,30 +14,34 @@ function set_user_id($user_id) {
   ci()->session->set_userdata('user_id', $user_id);
 }
 
-function logout() {
-  set_user_id(0);
+function logged_in() {
+  return XUser::logged_in();
 }
 
-function logged_in() {
-  return get_user_id() != NULL;
+function deny_anonymous() {
+  if ( ! logged_in() )
+    show_404();
 }
 
 function current_user() {
-  if (!logged_in())
-    return _anonymous_user();
-  
-  return ci()->db
-              ->select('users.id AS id, first_name, last_name, college_name, grad_year, profile_pic,
-                      email, gender, date_of_birth')
-              ->from('users')
-              ->where('users.id', get_user_id())
-              ->join('colleges', 'users.college_id = colleges.id')
-              ->get()->row();
+  return XUser::current();
 }
 
-function _anonymous_user() {
-  return (object) array(
-    'id' => 0,
-    'first_name' => 'Anonymous',
-  );
+function fb() {
+  static $facebook = NULL;
+  if ($facebook == NULL) {
+    $facebook = new Facebook(array(
+      'appId' => ci()->config->item('facebook_app_id'),
+      'secret' => ci()->config->item('facebook_secret_key'),
+    ));
+  }
+  return $facebook;
 }
+
+function get_facebook_data($user_id) {
+  $user = get_user($user_id);
+  $facebook_id = $user->facebook_id;
+  $user_profile = fb()->api("/$facebook_id");
+  return $user_profile;
+}
+

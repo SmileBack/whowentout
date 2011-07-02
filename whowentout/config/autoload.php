@@ -80,7 +80,7 @@ $autoload['helper'] = array('date', 'time', 'html', 'form', 'url', 'wwo', 'user'
 |
 */
 
-$autoload['config'] = array('wwo');
+$autoload['config'] = array('facebook', 'wwo');
 
 
 /*
@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('college_model', 'party_model', 'user_model');
+$autoload['model'] = array();
 
 
 /* End of file autoload.php */

@@ -1,13 +1,15 @@
 <?php
 
 class Dashboard extends MY_Controller {
-		
+  
   function index() {
-    $user = current_user();
-    $college_id = get_college_id();
-    $current_time = current_time();
+    deny_anonymous();
     
-    $parties = $this->college_model->get_open_parties($college_id, today(TRUE));
+    $user = XUser::current();
+    $college = XCollege::current();
+    $time = current_time();
+    
+    $parties = $college->open_parties($time);
     
     $data = array(
       'title'=> 'Dashboard',
@@ -15,14 +17,14 @@ class Dashboard extends MY_Controller {
       'closing_time' => load_view('closing_time_view'),
       'doors_are_closed' => doors_are_closed(),
       'parties_dropdown' => parties_dropdown($parties),
-      'parties_attended'=> $this->party_model->get_recent_parties_attended($user->id),
-      'has_attended_party' => $this->user_model->has_attended_party_on_date( $user->id, yesterday(TRUE) ),
+      'parties_attended' => $user->recent_parties(),
+      'has_attended_party' => $user->has_attended_party_on_date(yesterday(TRUE)),
     );
     
     if ($data['has_attended_party']) {
-      $data['party'] = $this->user_model->get_attended_party( $user->id, yesterday(TRUE) );
+      $data['party'] = $user->get_attended_party( yesterday(TRUE) );
     }
-		
+    
     $this->load_view('dashboard_view', $data);
   }
   

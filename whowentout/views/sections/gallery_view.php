@@ -1,32 +1,25 @@
 
-<p><?= $party->smile_info['smiles_received']; ?> girls have smiled at you :)</p>
-<p>You have <?= $party->smile_info['smiles_remaining']; ?> smiles left to give</p>
+<p><?= $user->smiles_received($party->id) ?> girls have smiled at you :)</p>
+<p>You have <?= $user->smiles_left($party->id) ?> smiles left to give</p>
 
-<? foreach ($party->smile_info['matches'] as $match): ?>
+<? foreach ($user->matches($party->id) as $match): ?>
   <p>You and <?= $match->first_name; ?>  have smiled at each other!</p>
 <? endforeach; ?>
-
 
 <ul class="gallery">
 
   <?php foreach ($party_attendees as $key => $attendee): ?>
   <li>
-
-    <?php print img(array(
-      'src' => $attendee->profile_pic,
-      'width' => $profile_pic_size['width'],
-      'height' => $profile_pic_size['height'],
-      'alt' => '',
-      'class' => '',
-    ));?>
-
+    
+    <?= $attendee->pic; ?>
+    
     <div class="caption">
       <p><?= $attendee->first_name; ?> <?= $attendee->last_name ?></p>
       <p><?= $attendee->college_name; ?> <?= $attendee->grad_year; ?></p>
       <p>Boca Raton, FL</p>
       <p>Mutual friends: <?= anchor('list_mutual_friends', 8); ?></p>
       <p>
-        <?php if ($attendee->was_smiled_at): ?>
+        <?php if ($attendee->was_smiled_at($user->id, $party->id)): ?>
           <div class="smiled_at">Smiled at <?= $attendee->first_name ?></div>
         <?php else: ?>
           <?= form_open('user/smile', '', array('party_id' => $party->id, 'receiver_id' => $attendee->id)); ?>
@@ -41,6 +34,6 @@
 
 </ul>
 
-<?php if ($party->admin_first_name): ?>
-  <p id="party_admin">Hosted by: <?= $party->admin_first_name; ?> <?= $party->admin_last_name; ?></p>
+<?php if ($party->admin): ?>
+  <p id="party_admin">Hosted by: <?= $party->admin->first_name; ?> <?= $party->admin->last_name; ?></p>
 <?php endif;?>

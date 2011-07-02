@@ -1,6 +1,6 @@
 <?php
 
-define('CURRENT_TIME', '2011-05-27 22:06:04 -0700');
+define('CURRENT_TIME', '2011-05-25 22:06:04 -0700');
 
 /**
  * @return DateTime
