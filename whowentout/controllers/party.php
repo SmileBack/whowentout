@@ -14,7 +14,7 @@ class Party extends MY_Controller {
       'title' => 'Party',
       'party' => $party,
       'user' => $user,
-      'party_attendees' => $party->attendees,
+      'party_attendees' => $party->attendees($user->other_gender),
       'profile_pic_size' => $this->config->item('profile_pic_size'),
     );
 

@@ -15,7 +15,7 @@ class XParty extends XObject
     return XUser::get($this->admin_id);
   }
   
-  function get_attendees($gender = 'F') {
+  function attendees($gender = 'F') {
     $attendees = array();
     $rows = $this->db()->select('user_id AS id')
                        ->from('party_attendees')

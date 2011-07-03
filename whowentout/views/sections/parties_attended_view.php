@@ -11,7 +11,7 @@
 
       <!-- TODO: check gender -->
       <div class="smiles">
-        <span class="smiles_received"><?= $user->smiles_received($party->id) ?> girls have smiled at you</span>
+        <span class="smiles_received"><?= $user->smiles_received_message($party->id) ?></span>
         <span class="smiles_remaining"><?= $user->smiles_left($party->id) ?> smiles left to give</span>
         <ul class="matches">
           <? foreach ($user->matches($party->id) as $match ): ?>

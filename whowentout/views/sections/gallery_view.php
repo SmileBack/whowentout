@@ -1,5 +1,5 @@
 
-<p><?= $user->smiles_received($party->id) ?> girls have smiled at you :)</p>
+<p><?= $user->smiles_received_message($party->id) ?></p>
 <p>You have <?= $user->smiles_left($party->id) ?> smiles left to give</p>
 
 <? foreach ($user->matches($party->id) as $match): ?>

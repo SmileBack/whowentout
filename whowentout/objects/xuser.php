@@ -230,7 +230,17 @@ class XUser extends XObject
     return XParty::get($row->id);
   }
   
+  function smiles_received_message($party_id) {
+    $genders = array('M' => 'guy', 'F' => 'girl');
+    $smiles = $this->smiles_received($party_id);
+    $people = $genders[$this->other_gender];
     
+    if ($smiles != 1)
+      $people = $people . 's'; //pluralize
+    
+    return "$smiles $people have smiled at you";
+  }
+  
   /**
    * Tells you if this user attended a party on $date.
    * 
@@ -259,6 +269,10 @@ class XUser extends XObject
       return NULL;
     else
       return fb()->api("/$this->facebook_id");
+  }
+  
+  function get_other_gender() {
+    return $this->gender == 'M' ? 'F' : 'M';
   }
   
   function get_pic_url() {
