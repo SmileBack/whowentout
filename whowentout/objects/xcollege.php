@@ -3,11 +3,11 @@
 class XCollege extends XObject
 {
   
+  protected static $table = 'colleges';
+  
   static function current() {
     return XCollege::get( 1 );
   }
-  
-  protected static $table = 'colleges';
   
   /**
    * Get all of the parties that the user can check into at $time.

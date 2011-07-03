@@ -95,7 +95,7 @@ class XObject
   private function insert() {
     $data = $this->data;
     unset($data['id']);
-    $this->db()->insert($this->table, $data);
+    $this->db()->insert(static::$table, $data);
     
     $this->load( $this->db()->insert_id() ); //load values
   }
@@ -106,7 +106,7 @@ class XObject
     if (empty($changes))
       return;
     
-    $this->db()->update($this->table, $this->changes(), array('id' => $this->id) );
+    $this->db()->update(static::$table, $this->changes(), array('id' => $this->id) );
     
     $this->load($this->id); //refresh values
   }

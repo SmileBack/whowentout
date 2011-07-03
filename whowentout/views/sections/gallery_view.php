@@ -15,7 +15,7 @@
     
     <div class="caption">
       <p><?= $attendee->first_name; ?> <?= $attendee->last_name ?></p>
-      <p><?= $attendee->college_name; ?> <?= $attendee->grad_year; ?></p>
+      <p><?= $attendee->college->name; ?> <?= $attendee->grad_year; ?></p>
       <p>Boca Raton, FL</p>
       <p>Mutual friends: <?= anchor('list_mutual_friends', 8); ?></p>
       <p>
