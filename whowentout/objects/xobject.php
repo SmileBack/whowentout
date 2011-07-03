@@ -3,13 +3,19 @@
 class XObject
 {
   
-  static $rows = array();
+  protected static $rows = array();
+  protected static $table = NULL;
+  
   /**
    * @param type $id
    * @return XUser
    */
   static function get($id) {
     $class = get_called_class();
+    
+    if (is_array($id)) {
+      $id = self::_get_id($id);
+    }
     
     if ( ! isset(self::$rows[$class]) ) {
       self::$rows[$class] = array();
@@ -25,6 +31,15 @@ class XObject
     
   }
   
+  private static function _get_id($conditions) {
+    $table = static::$table;
+    $row = ci()->db->select("$table.id AS id")
+                   ->from($table)
+                   ->where($conditions)
+                   ->get()->row();
+    return $row->id;
+  }
+  
   protected $prev_data = array();
   protected $data = array();
   
@@ -32,12 +47,17 @@ class XObject
     $this->load($id);
   }
   
+  function get_table() {
+    return self::$table;
+  }
+  
   protected function load($id = NULL) {
     if ($id) {
+      $table = static::$table;
       $id = intval($id);
       
       $this->data = $this->db()
-                  ->from($this->table)
+                  ->from($table)
                   ->where('id', $id)
                   ->get()->row();
       $this->data->id = $id;

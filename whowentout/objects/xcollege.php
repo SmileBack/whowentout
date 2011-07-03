@@ -7,7 +7,7 @@ class XCollege extends XObject
     return XCollege::get( 1 );
   }
   
-  protected $table = 'colleges';
+  protected static $table = 'colleges';
   
   /**
    * Get all of the parties that the user can check into at $time.

@@ -3,6 +3,8 @@
 class XUser extends XObject
 {
   
+  protected static $table = 'users';
+  
   static function current() {
     if (logged_in()) {
       return self::get( get_user_id() );
@@ -12,19 +14,39 @@ class XUser extends XObject
     }
   }
   
-  static function login($user_id) {
-    set_user_id($user_id);
+  static function login() {
+    $facebook_id = fb()->getUser();
+    if ($facebook_id) {
+      $current_user = XUser::get(array('facebook_id' => $facebook_id));
+      set_user_id($current_user->id);
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
   }
+  
+  static function fake_login($user_id) {
+    $current_user = XUser::get($user_id);
+    set_user_id($current_user->id);
+  }
+  
+  function logout() {
+    //delete user id
+    set_user_id(0);
+    
+    //destroy facebook session data
+    $app_id = fb()->getAppId();
+    unset($_SESSION["fb_{$app_id}_code"]);
+    unset($_SESSION["fb_{$app_id}_access_token"]);
+    unset($_SESSION["fb_{$app_id}_user_id"]);
+    unset($_SESSION["fb_{$app_id}_state"]);
+  }
+
   
   static function logged_in() {
     return get_user_id() != NULL;
   }
-  
-  static function logout() {
-    set_user_id(0);
-  }
-  
-  protected $table = 'users';
   
   function is_anonymous() {
     return FALSE;

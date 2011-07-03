@@ -2,7 +2,7 @@
 
 class XParty extends XObject
 {
-  protected $table = 'parties';
+  protected static $table = 'parties';
   
   function get_place() {
     return XPlace::get($this->place_id);

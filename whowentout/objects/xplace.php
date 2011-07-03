@@ -2,7 +2,7 @@
 
 class XPlace extends XObject
 {
-  protected $table = 'places';
+  protected static $table = 'places';
   
   function get_admin() {
     if ($this->admin_id == NULL)

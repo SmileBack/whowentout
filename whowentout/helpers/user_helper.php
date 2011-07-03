@@ -2,6 +2,10 @@
 
 require_once APPPATH . 'libraries/fb/facebook.php';
 
+function current_user() {
+  return XUser::current();
+}
+
 /**
  * @return int
  *   The id of the current user.
@@ -14,8 +18,26 @@ function set_user_id($user_id) {
   ci()->session->set_userdata('user_id', $user_id);
 }
 
+
+function login() {
+  return XUser::login();
+}
+
+function fake_login($user_id) {
+  return XUser::fake_login($user_id);
+}
+
+function logout() {
+  return XUser::logout();
+}
+
 function logged_in() {
   return XUser::logged_in();
+}
+
+function anchor_facebook_login($title = 'Facebook Login', $attributes = '') {
+  $link = fb()->getLoginUrl();
+  return anchor($link, $title, $attributes);
 }
 
 function deny_anonymous() {
@@ -23,8 +45,11 @@ function deny_anonymous() {
     show_404();
 }
 
-function current_user() {
-  return XUser::current();
+function require_login() {
+  if ( ! logged_in() ) {
+    redirect('login');
+    exit;
+  }
 }
 
 function fb() {

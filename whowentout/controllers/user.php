@@ -5,12 +5,15 @@ class User extends MY_Controller {
   function login() {
     $user_id = $this->input->post('user_id');
     if ($user_id != NULL) {
-      XUser::login($user_id);
+      fake_login($user_id);
       redirect('dashboard');
     }
-    else {
-      $this->load_view('login_view');
+    elseif (fb()->getUser() != NULL) {
+      login();
+      redirect('dashboard');
     }
+    
+    $this->load_view('login_view');
   }
   
   function logout() {

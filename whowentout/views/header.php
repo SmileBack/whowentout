@@ -30,7 +30,12 @@
       <header class="main">
 
         <div id="logo">
-          <?= anchor("/", 'WhoWentOut') ?> (<?= current_time(TRUE)->format('Y-m-d H:i:s'); ?>, <?= current_user()->first_name ?>)
+          <?= anchor("/", 'WhoWentOut') ?>
+          (
+            <?= current_time(TRUE)->format('Y-m-d H:i:s'); ?>,
+            <?= current_user()->first_name ?>,
+            <?= fb()->getUser(); ?>
+          )
         </div>
 
         <ul id="menu">
@@ -39,7 +44,7 @@
             <?php if (logged_in()): ?>
               <?= anchor('user/logout', 'Logout') ?>
             <?php else: ?>
-              <?= anchor('user/login', 'Login') ?>
+              <?= anchor('login', 'Login') ?>
             <?php endif; ?>
           </li>  
         </ul>
