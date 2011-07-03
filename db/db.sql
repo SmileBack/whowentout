@@ -3,18 +3,40 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-07-03 12:27:33
+# Date/time:                    2011-07-03 12:30:12
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+# Dumping structure for table whowentout.colleges
+CREATE TABLE IF NOT EXISTS `colleges` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.colleges: ~1 rows (approximately)
 /*!40000 ALTER TABLE `colleges` DISABLE KEYS */;
 INSERT INTO `colleges` (`id`, `name`) VALUES
 	(1, 'GW');
 /*!40000 ALTER TABLE `colleges` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.parties
+CREATE TABLE IF NOT EXISTS `parties` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `place_id` int(10) unsigned NOT NULL,
+  `admin_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `place_id` (`place_id`),
+  KEY `admin` (`admin_id`),
+  CONSTRAINT `parties_admin_id` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `parties_place_id` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.parties: ~6 rows (approximately)
 /*!40000 ALTER TABLE `parties` DISABLE KEYS */;
@@ -26,6 +48,18 @@ INSERT INTO `parties` (`id`, `date`, `place_id`, `admin_id`) VALUES
 	(5, '2011-05-25', 2, 8),
 	(6, '2011-05-24', 3, 9);
 /*!40000 ALTER TABLE `parties` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.party_attendees
+CREATE TABLE IF NOT EXISTS `party_attendees` (
+  `user_id` int(10) unsigned NOT NULL,
+  `party_id` int(10) unsigned NOT NULL,
+  `checkin_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`party_id`),
+  KEY `party_id` (`party_id`),
+  CONSTRAINT `party_attendees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `party_attendees_ibfk_2` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.party_attendees: ~22 rows (approximately)
 /*!40000 ALTER TABLE `party_attendees` DISABLE KEYS */;
@@ -54,6 +88,21 @@ INSERT INTO `party_attendees` (`user_id`, `party_id`, `checkin_time`) VALUES
 	(14, 6, NULL);
 /*!40000 ALTER TABLE `party_attendees` ENABLE KEYS */;
 
+
+# Dumping structure for table whowentout.places
+CREATE TABLE IF NOT EXISTS `places` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `college_id` int(10) unsigned NOT NULL,
+  `admin_id` int(10) unsigned DEFAULT NULL,
+  `welcome_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`),
+  KEY `admin` (`admin_id`),
+  CONSTRAINT `places_admin_id` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `places_college_id` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.places: ~3 rows (approximately)
 /*!40000 ALTER TABLE `places` DISABLE KEYS */;
 INSERT INTO `places` (`id`, `name`, `college_id`, `admin_id`, `welcome_date`) VALUES
@@ -62,11 +111,40 @@ INSERT INTO `places` (`id`, `name`, `college_id`, `admin_id`, `welcome_date`) VA
 	(3, 'Lambda Chi', 1, 9, NULL);
 /*!40000 ALTER TABLE `places` ENABLE KEYS */;
 
+
+# Dumping structure for table whowentout.sessions
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` varchar(40) NOT NULL DEFAULT '0',
+  `ip_address` varchar(16) NOT NULL DEFAULT '0',
+  `user_agent` varchar(50) NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text NOT NULL,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
 	('76c5b5cd4a1fecd8f98e867923ce0d30', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1309576207, 'a:1:{s:7:"user_id";i:0;}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.smiles
+CREATE TABLE IF NOT EXISTS `smiles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sender_id` int(10) unsigned NOT NULL,
+  `receiver_id` int(10) unsigned NOT NULL,
+  `party_id` int(10) unsigned NOT NULL,
+  `smile_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_smiles` (`sender_id`,`receiver_id`,`party_id`),
+  KEY `sender_id` (`sender_id`),
+  KEY `receiver_id` (`receiver_id`),
+  KEY `party_id` (`party_id`),
+  CONSTRAINT `smiles_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `smiles_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `smiles_ibfk_3` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.smiles: ~16 rows (approximately)
 /*!40000 ALTER TABLE `smiles` DISABLE KEYS */;
@@ -88,6 +166,25 @@ INSERT INTO `smiles` (`id`, `sender_id`, `receiver_id`, `party_id`, `smile_time`
 	(32, 2, 4, 4, '2011-07-02 03:01:51'),
 	(33, 2, 6, 4, '2011-07-02 03:01:58');
 /*!40000 ALTER TABLE `smiles` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `facebook_id` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `college_id` int(10) unsigned NOT NULL,
+  `grad_year` int(10) unsigned NOT NULL,
+  `profile_pic` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `gender` enum('M','F') NOT NULL,
+  `registration_time` datetime DEFAULT NULL,
+  `date_of_birth` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.users: ~17 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
