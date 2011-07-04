@@ -6,10 +6,6 @@ class XObject
   protected static $rows = array();
   protected static $table = NULL;
   
-  /**
-   * @param type $id
-   * @return XUser
-   */
   static function get($id) {
     $class = get_called_class();
     
@@ -29,6 +25,16 @@ class XObject
       return self::$rows[$class][$id];
     }
     
+  }
+  
+  static function create($data = array()) {
+    $class = get_called_class();
+    $object = new $class();
+    foreach ($data as $property => $value) {
+      $object->$property = $value;
+    }
+    $object->save();
+    return $object;
   }
   
   private static function _get_id($conditions) {

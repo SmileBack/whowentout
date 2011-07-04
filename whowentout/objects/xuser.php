@@ -238,7 +238,9 @@ class XUser extends XObject
     if ($smiles != 1)
       $people = $people . 's'; //pluralize
     
-    return "$smiles $people have smiled at you";
+    $have = $smiles == 1 ? 'has' : 'have';
+    
+    return "$smiles $people $have smiled at you";
   }
   
   /**
@@ -269,6 +271,21 @@ class XUser extends XObject
       return NULL;
     else
       return fb()->api("/$this->facebook_id");
+  }
+  
+  function update_facebook_data() {
+    $genders = array('male' => 'M', 'female' => 'F');
+    $fb_data = $this->fetch_facebook_data();
+    
+    $this->first_name = $fb_data['first_name'];
+    $this->last_name = $fb_data['last_name'];
+    
+    $this->gender = $genders[ $fb_data['gender'] ];
+    
+    if ($this->pic_url == NULL)
+      $this->download_facebook_pic();
+    
+    $this->save();
   }
   
   function get_other_gender() {
