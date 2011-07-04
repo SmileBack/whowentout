@@ -1,13 +1,7 @@
 
 
 <div class="profile_pic">
-  <?= img(array(
-            'src' => $user->profile_pic,
-            'width' => '142',
-            'height' => '196',
-            'alt' => '',
-          ));
-  ?>
+  <?= $user->pic ?>
   <p class="change_pic"><?= anchor('change_pic', 'change pic'); ?></p>
 </div>
 

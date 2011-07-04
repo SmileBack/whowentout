@@ -275,10 +275,6 @@ class XUser extends XObject
     return $this->gender == 'M' ? 'F' : 'M';
   }
   
-  function get_pic_url() {
-    return "https://graph.facebook.com/$this->facebook_id/picture";
-  }
-  
   function get_thumb() {
     return img($this->pic_url);
   }
@@ -286,12 +282,33 @@ class XUser extends XObject
   function get_pic() {
     $size = ci()->config->item('profile_pic_size');
     return img(array(
-      'src' => $this->profile_pic,
+      'src' => $this->pic_url,
       'width' => $size['width'],
       'height' => $size['height'],
       'alt' => '',
       'class' => '',
     ));
+  }
+  
+  function get_pic_url() {
+    if ($this->data['pic_url'] == NULL)
+      $this->download_facebook_pic();
+    
+    return $this->data['pic_url'];
+  }
+  
+  function download_facebook_pic() {
+    $facebook_pic_url = "https://graph.facebook.com/$this->facebook_id/picture?type=large&access_token=" . fb()->getAccessToken();
+    
+    $img = WideImage::loadFromFile($facebook_pic_url);
+    $img->saveToFile("pictures/raw_facebook/$this->id.jpg");
+    
+    $img = $img->resize(150, 200);
+    $img = $img->resizeCanvas(150, 200, 'center', 'center', '000000', 'up');
+    $img->saveToFile("pictures/normal/$this->id.jpg");
+    
+    $this->pic_url = "pictures/normal/$this->id.jpg";
+    $this->save();
   }
   
 }
@@ -311,12 +328,3 @@ class XAnonymousUser extends XObject
   }
   
 }
-
-//  function logout() {
-//    $app_id = fb()->getAppId();
-//    unset($_SESSION["fb_{$app_id}_code"]);
-//    unset($_SESSION["fb_{$app_id}_access_token"]);
-//    unset($_SESSION["fb_{$app_id}_user_id"]);
-//    unset($_SESSION["fb_{$app_id}_state"]);
-//    set_user_id(0);
-//  }

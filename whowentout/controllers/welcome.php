@@ -3,6 +3,8 @@
 class Welcome extends MY_Controller {
   
   public function index() {
+    $user = XUser::get(array('first_name' => 'Robert'));
+    $user->download_facebook_pic();
   }
   
 }
