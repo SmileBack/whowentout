@@ -39,10 +39,12 @@
         </div>
 
         <ul id="menu">
-          <li><?= anchor('dashboard', 'My Dashboard'); ?></li>
+          <?php if (logged_in()): ?>
+            <li><?= anchor('dashboard', 'My Dashboard'); ?></li>
+          <?php endif; ?>
           <li>
             <?php if (logged_in()): ?>
-              <?= anchor('user/logout', 'Logout') ?>
+              <?= anchor('logout', 'Logout') ?>
             <?php else: ?>
               <?= anchor('login', 'Login') ?>
             <?php endif; ?>
