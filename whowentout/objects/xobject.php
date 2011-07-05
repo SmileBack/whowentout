@@ -149,4 +149,19 @@ class XObject
     return ci()->db;
   }
   
+  protected function load_objects($class, $rows) {
+    if ($rows instanceof CI_DB_mysql_driver) {
+      $rows = $rows->get()->result();
+    }
+    elseif ($rows instanceof CI_DB_mysql_result) {
+      $rows = $rows->result();
+    }
+    
+    $objects = array();
+    foreach ($rows as $row) {
+      $objects[] = $class::get( $row->id );
+    }
+    return $objects;
+  }
+  
 }

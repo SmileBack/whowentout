@@ -19,6 +19,7 @@ class Dashboard extends MY_Controller {
       'parties_dropdown' => parties_dropdown($parties),
       'parties_attended' => $user->recent_parties(),
       'has_attended_party' => $user->has_attended_party_on_date(yesterday(TRUE)),
+      'top_parties' => $college->top_parties(),
     );
     
     if ($data['has_attended_party']) {

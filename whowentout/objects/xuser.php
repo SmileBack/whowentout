@@ -302,32 +302,47 @@ class XUser extends XObject
   }
   
   function update_facebook_data() {
-    $genders = array('male' => 'M', 'female' => 'F');
     $fbdata = $this->fetch_facebook_data();
     
-    $this->first_name = $fbdata['first_name'];
-    $this->last_name = $fbdata['last_name'];
-    
-    $this->gender = $genders[ $fbdata['gender'] ];
-    
-    if ($this->email == NULL)
-      $this->email = $fbdata['email'];
-    
-    $this->date_of_birth = date('Y-m-d', strtotime($fbdata['birthday']));
+    $this->_update_name_from_facebook($fbdata);
+    $this->_update_gender_from_facebook($fbdata);
+    $this->_update_email_from_facebook($fbdata);
+    $this->_update_date_of_birth_from_facebook($fbdata);
+    $this->_update_hometown_from_facebook();    
     
     if ($this->college_id == NULL)
-      $this->update_college_from_facebook($fbdata);
-    
-    $this->hometown = $fbdata['hometown']['name'];
+      $this->_update_college_from_facebook($fbdata);
     
     $this->save();
   }
   
-  private function update_college_from_facebook($fbdata) {
+  private function _update_name_from_facebook($fbdata) {
+    $this->first_name = $fbdata['first_name'];
+    $this->last_name = $fbdata['last_name'];
+  }
+  
+  private function _update_gender_from_facebook($fbdata) {
+    $genders = array('male' => 'M', 'female' => 'F');
+    $this->gender = $genders[ $fbdata['gender'] ];
+  }
+  
+  private function _update_email_from_facebook($fbdata) {
+    $this->email = $fbdata['email'];
+  }
+  
+  private function _update_date_of_birth_from_facebook($fbdata) {
+    $this->date_of_birth = date('Y-m-d', strtotime($fbdata['birthday']));
+  }
+  
+  private function _update_college_from_facebook($fbdata) {
     $colleges = $this->_get_possible_colleges($fbdata);
     $college = $colleges[0];
     $this->college_id = $college->id;
     $this->grad_year = $this->_get_grad_year($college, $fbdata);
+  }
+  
+  private function _update_hometown_from_facebook($fbdata) {
+    $this->hometown = $fbdata['hometown']['name'];
   }
   
   private function _get_possible_colleges($fbdata) {
