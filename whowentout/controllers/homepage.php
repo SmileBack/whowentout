@@ -3,8 +3,11 @@
 class Homepage extends MY_Controller {
 
   function index() {
-    $user = XUser::current();
-    $college = XCollege::current();
+    if (logged_in())
+      redirect('dashboard');
+    
+    $user = current_user();
+    $college = current_college();
     $current_time = current_time();
     
     $parties = $college->open_parties(current_time());

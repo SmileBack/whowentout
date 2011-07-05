@@ -13,6 +13,9 @@ class XObject
       $id = self::_get_id($id);
     }
     
+    if ($id == NULL)
+      return NULL;
+    
     if ( ! isset(self::$rows[$class]) ) {
       self::$rows[$class] = array();
     }
@@ -33,8 +36,9 @@ class XObject
     foreach ($data as $property => $value) {
       $object->$property = $value;
     }
+    
     $object->save();
-    return $object;
+    return self::get($object->id);
   }
   
   private static function _get_id($conditions) {

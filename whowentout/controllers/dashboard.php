@@ -3,7 +3,7 @@
 class Dashboard extends MY_Controller {
   
   function index() {
-    require_login();
+    deny_anonymous();
     
     $user = XUser::current();
     $college = XCollege::current();

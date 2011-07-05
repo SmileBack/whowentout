@@ -4,6 +4,26 @@ function ci() {
   return get_instance();
 }
 
+function post($key = NULL) {
+  if ($key) {
+    return ci()->input->post($key);
+  }
+  else {
+    $post = array();
+    foreach ($_POST as $k => $v) {
+      $post[$k] = ci()->input->post($k);
+    }
+    return $post;
+  }
+}
+
+/**
+ * @return XCollege
+ */
+function current_college() {
+  return XCollege::current();
+}
+
 function parties_dropdown($parties) {
   $options = array();
   foreach ($parties as $party) {

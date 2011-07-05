@@ -44,6 +44,7 @@ $route['404_override'] = '';
 $route['party/(:num)'] = 'party/page/$1';
 $route['login'] = 'user/login';
 $route['logout'] = 'user/logout';
+$route['checkin'] = 'user/checkin';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

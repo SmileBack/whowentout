@@ -2,8 +2,13 @@
 
 <?php if ($has_attended_party): ?>
   You attended <?= anchor("party/$party->id", $party->place->name) ?> last night.
+  <ul class="recent_attendees">
+    <?php foreach ($party->recent_attendees($user->other_gender) as $attendee): ?>
+    <li><?= $attendee->thumb ?></li>
+    <?php endforeach; ?>
+  </ul>
 <?php else: ?>
-<?= form_open('user/checkin'); ?>
+<?= form_open('checkin'); ?>
   <?= $parties_dropdown; ?>
   <button type="submit">enter</button>
 <?= form_close(); ?>

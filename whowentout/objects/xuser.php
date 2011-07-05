@@ -18,6 +18,14 @@ class XUser extends XObject
     $facebook_id = fb()->getUser();
     if ($facebook_id) {
       $current_user = XUser::get(array('facebook_id' => $facebook_id));
+      if ($current_user == NULL) {
+        $current_user = XUser::create(array(
+          'facebook_id' => $facebook_id,
+          'registration_time' => gmdate('Y-m-d H:i:s'),
+        ));
+        $current_user->update_facebook_data();
+      }
+      
       set_user_id($current_user->id);
       return TRUE;
     }
@@ -273,14 +281,50 @@ class XUser extends XObject
       return fb()->api("/$this->facebook_id");
   }
   
+  function get_other_gender() {
+    return $this->gender == 'M' ? 'F' : 'M';
+  }
+  
+  function get_pic() {
+    return img($this->pic_url);
+  }
+  
+  function get_thumb() {
+    return img($this->thumb_url);
+  }
+  
+  function get_pic_url() {
+    if ($this->data['pic_url'] == NULL)
+      $this->download_facebook_pic();
+    
+    return 'pictures/normal/' . $this->data['pic_url'];
+  }
+  
+  function get_thumb_url() {
+    if ($this->data['pic_url'] == NULL)
+      $this->download_facebook_pic();
+    
+    return 'pictures/thumb/' . $this->data['pic_url'];
+  }
+  
   function update_facebook_data() {
     $genders = array('male' => 'M', 'female' => 'F');
-    $fb_data = $this->fetch_facebook_data();
+    $fbdata = $this->fetch_facebook_data();
     
-    $this->first_name = $fb_data['first_name'];
-    $this->last_name = $fb_data['last_name'];
+    $this->first_name = $fbdata['first_name'];
+    $this->last_name = $fbdata['last_name'];
     
-    $this->gender = $genders[ $fb_data['gender'] ];
+    $this->gender = $genders[ $fbdata['gender'] ];
+    
+    if ($this->email == NULL)
+      $this->email = $fbdata['email'];
+    
+    $this->date_of_birth = date('Y-m-d', strtotime($fbdata['birthday']));
+    
+    if ($this->college_id == NULL)
+      $this->update_college_from_facebook($fbdata);
+    
+    $this->hometown = $fbdata['hometown']['name'];
     
     if ($this->pic_url == NULL)
       $this->download_facebook_pic();
@@ -288,44 +332,72 @@ class XUser extends XObject
     $this->save();
   }
   
-  function get_other_gender() {
-    return $this->gender == 'M' ? 'F' : 'M';
+  private function update_college_from_facebook($fbdata) {
+    $colleges = $this->_get_possible_colleges($fbdata);
+    $college = $colleges[0];
+    $this->college_id = $college->id;
+    $this->grad_year = $this->_get_grad_year($college, $fbdata);
   }
-  
-  function get_thumb() {
-    return img($this->pic_url);
-  }
-  
-  function get_pic() {
-    $size = ci()->config->item('profile_pic_size');
-    return img(array(
-      'src' => $this->pic_url,
-      'width' => $size['width'],
-      'height' => $size['height'],
-      'alt' => '',
-      'class' => '',
-    ));
-  }
-  
-  function get_pic_url() {
-    if ($this->data['pic_url'] == NULL)
-      $this->download_facebook_pic();
-    
-    return $this->data['pic_url'];
-  }
-  
+
   function download_facebook_pic() {
     $facebook_pic_url = "https://graph.facebook.com/$this->facebook_id/picture?type=large&access_token=" . fb()->getAccessToken();
     
     $img = WideImage::loadFromFile($facebook_pic_url);
     $img->saveToFile("pictures/raw_facebook/$this->id.jpg");
     
-    $img = $img->resize(150, 200);
-    $img = $img->resizeCanvas(150, 200, 'center', 'center', '000000', 'up');
-    $img->saveToFile("pictures/normal/$this->id.jpg");
+    $normal = $img->resize(150, 200);
+    $normal = $normal->resizeCanvas(150, 200, 'center', 'center', '000000', 'up');
+    $normal->saveToFile("pictures/normal/$this->id.jpg");
     
-    $this->pic_url = "pictures/normal/$this->id.jpg";
+    $thumb = $img->resize(105, 140);
+    $thumb = $thumb->resizeCanvas(105, 140, 'center', 'center', '000000', 'up');
+    $thumb->saveToFile("pictures/thumb/$this->id.jpg");
+    
+    $this->pic_url = "$this->id.jpg";
     $this->save();
+  }
+  
+  private function _get_possible_colleges($fbdata) {
+    $colleges = array();
+    $affiliations = $this->_get_affiliations();
+    foreach ($affiliations as $affiliation) {
+      $network_id = $affiliation['nid'];
+      $college = XCollege::get(array(
+        'facebook_network_id' => $network_id
+      ));
+      
+      if ($college == NULL)
+        continue;
+      
+      if ($college->enabled == '0')
+        continue;
+      
+      foreach ($fbdata['education'] as $education) {
+        if ($education['school']['id'] == $college->facebook_network_id) {
+          $this->college_id = $college->id;
+        }
+      }
+      
+      $colleges[] = $college;
+    }
+    return $colleges;
+  }
+  
+  private function _get_affiliations() {
+    $result = fb()->api(array(
+      'method' => 'fql.query',
+      'query' => "SELECT affiliations FROM user WHERE uid = $this->facebook_id",
+    ));
+    return $result[0]['affiliations'];
+  }
+  
+  private function _get_grad_year($college, $fbdata) {
+    foreach ($fbdata['education'] as $education) {
+      if ($education['school']['id'] == $college->facebook_school_id && isset($education['year'])) {
+        return $education['year']['name'];
+      }
+    }
+    return '';
   }
   
 }

@@ -138,7 +138,6 @@ ul.parties_attended {
 
 ul.parties_attended li {
   display: block;
-  //border: 1px solid blue;
 }
 
 .party_summary {
@@ -151,6 +150,11 @@ ul.parties_attended li {
   border-bottom: 1px dotted grey;
   margin: 10px;
   padding: 10px;
+}
+
+.recent_attendees li {
+  display: inline-block;
+  margin: 10px;
 }
 
 section .notice {

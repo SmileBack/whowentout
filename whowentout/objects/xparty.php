@@ -31,4 +31,23 @@ class XParty extends XObject
     return $attendees;
   }
   
+  function recent_attendees($gender = 'F') {
+    $attendees = array();
+    
+    $rows = $this->db()->select('user_id AS id')
+                       ->from('party_attendees')
+                       ->join('users', 'users.id = party_attendees.user_id')
+                       ->where('party_id', $this->id)
+                       ->where('gender', $gender)
+                       ->order_by('checkin_time', 'desc')
+                       ->limit(4)
+                       ->get()->result();
+    
+    foreach ($rows as $row) {
+      $attendees[] = XUser::get($row->id);
+    }
+    
+    return $attendees;
+  }
+  
 }
