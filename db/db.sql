@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-07-04 18:01:07
+# Date/time:                    2011-07-04 20:36:23
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `party_attendees` (
   CONSTRAINT `party_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.party_attendees: ~22 rows (approximately)
+# Dumping data for table whowentout.party_attendees: ~23 rows (approximately)
 /*!40000 ALTER TABLE `party_attendees` DISABLE KEYS */;
 INSERT INTO `party_attendees` (`user_id`, `party_id`, `checkin_time`) VALUES
 	(1, 4, '2011-07-02 02:30:26'),
@@ -129,10 +129,10 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.sessions: ~2 rows (approximately)
+# Dumping data for table whowentout.sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-	('79408842c19b9f9a1d0464aa328cb5cf', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1309827568, 'a:1:{s:7:"user_id";i:1;}');
+	('06094f8a8f0c9bacd1ffe673554eab59', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1309836871, 'a:1:{s:7:"user_id";i:1;}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
 
@@ -151,9 +151,9 @@ CREATE TABLE IF NOT EXISTS `smiles` (
   CONSTRAINT `smiles_party_id` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`),
   CONSTRAINT `smiles_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `smiles_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.smiles: ~11 rows (approximately)
+# Dumping data for table whowentout.smiles: ~8 rows (approximately)
 /*!40000 ALTER TABLE `smiles` DISABLE KEYS */;
 INSERT INTO `smiles` (`id`, `sender_id`, `receiver_id`, `party_id`, `smile_time`) VALUES
 	(26, 1, 6, 4, '2011-07-02 02:38:50'),
@@ -176,7 +176,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `hometown` varchar(255) NOT NULL,
   `college_id` int(10) unsigned DEFAULT NULL,
   `grad_year` int(10) unsigned NOT NULL,
-  `pic_url` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `gender` enum('M','F') NOT NULL,
   `registration_time` datetime DEFAULT NULL,
@@ -185,25 +184,25 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.users: ~14 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `facebook_id`, `first_name`, `last_name`, `hometown`, `college_id`, `grad_year`, `pic_url`, `email`, `gender`, `registration_time`, `date_of_birth`) VALUES
-	(1, '8100231', 'Dan ', 'Berenholtz', '', 1, 2012, '1.jpg', 'dan@gwu.edu', 'M', NULL, '1987-09-10'),
-	(3, '100001150127674', 'Robert', 'Roose', '', 1, 2011, '', 'robert@gwu.edu', 'M', NULL, '1990-10-24'),
-	(4, '1243620029', 'Clara', 'Scheinmann', '', 1, 2013, '', 'clara@gwu.edu', 'F', NULL, '1991-01-31'),
-	(5, '1479330106', 'Natalie', 'Epelman', '', 1, 2012, '', 'natalie@gwu.edu', 'F', NULL, '1990-05-16'),
-	(6, '1067760090', 'Marissa', 'Ostroff', '', 1, 2013, '6.jpg', 'marissa@gwu.edu', 'F', NULL, '1990-12-09'),
-	(7, '1204337494', 'Alex', 'Webb', '', 1, 2012, '', 'alex@gwu.edu', 'M', NULL, '0000-00-00'),
-	(8, '704222664', 'Leon', 'Harari', '', 1, 2012, '', 'leon@gwu.edu', 'M', NULL, '0000-00-00'),
-	(9, '760370505', 'Jonny', 'Cohen', '', 1, 2012, '', 'johnny@gwu.edu', 'M', NULL, '0000-00-00'),
-	(10, '719185695', 'Cassie', 'Scheinmann', '', 1, 2013, '10.jpg', 'cassie@gwu.edu', 'F', NULL, '1991-03-05'),
-	(11, '1099920067', 'Erica ', 'Obersi', '', 1, 2013, '', 'erica@gwu.edu', 'F', NULL, '1990-04-30'),
-	(12, '1682940070', 'Ava', 'Rubin', '', 1, 2013, '', 'ava@gwu.edu', 'F', NULL, '1991-01-09'),
-	(13, '1067760099', 'Anna ', 'Lepkoski', '', 1, 2013, '13.jpg', 'anna@gwu.edu', 'F', NULL, '1991-03-02'),
-	(14, '1120470019', 'Sara', 'Sopher', '', 1, 2012, '14.jpg', 'sara@gwu.edu', 'F', NULL, '0000-00-00'),
-	(31, '776200121', 'Venkat', 'Dinavahi', 'Severna Park, Maryland', 3, 2010, '31.jpg', 'ven@stanford.edu', 'M', '2011-07-05 00:17:35', '1988-10-06');
+INSERT INTO `users` (`id`, `facebook_id`, `first_name`, `last_name`, `hometown`, `college_id`, `grad_year`, `email`, `gender`, `registration_time`, `date_of_birth`) VALUES
+	(1, '8100231', 'Dan ', 'Berenholtz', '', 1, 2012, 'dan@gwu.edu', 'M', NULL, '1987-09-10'),
+	(3, '100001150127674', 'Robert', 'Roose', '', 1, 2011, 'robert@gwu.edu', 'M', NULL, '1990-10-24'),
+	(4, '1243620029', 'Clara', 'Scheinmann', '', 1, 2013, 'clara@gwu.edu', 'F', NULL, '1991-01-31'),
+	(5, '1479330106', 'Natalie', 'Epelman', '', 1, 2012, 'natalie@gwu.edu', 'F', NULL, '1990-05-16'),
+	(6, '1067760090', 'Marissa', 'Ostroff', '', 1, 2013, 'marissa@gwu.edu', 'F', NULL, '1990-12-09'),
+	(7, '1204337494', 'Alex', 'Webb', '', 1, 2012, 'alex@gwu.edu', 'M', NULL, '0000-00-00'),
+	(8, '704222664', 'Leon', 'Harari', '', 1, 2012, 'leon@gwu.edu', 'M', NULL, '0000-00-00'),
+	(9, '760370505', 'Jonny', 'Cohen', '', 1, 2012, 'johnny@gwu.edu', 'M', NULL, '0000-00-00'),
+	(10, '719185695', 'Cassie', 'Scheinmann', '', 1, 2013, 'cassie@gwu.edu', 'F', NULL, '1991-03-05'),
+	(11, '1099920067', 'Erica ', 'Obersi', '', 1, 2013, 'erica@gwu.edu', 'F', NULL, '1990-04-30'),
+	(12, '1682940070', 'Ava', 'Rubin', '', 1, 2013, 'ava@gwu.edu', 'F', NULL, '1991-01-09'),
+	(13, '1067760099', 'Anna ', 'Lepkoski', '', 1, 2013, 'anna@gwu.edu', 'F', NULL, '1991-03-02'),
+	(14, '1120470019', 'Sara', 'Sopher', '', 1, 2012, 'sara@gwu.edu', 'F', NULL, '0000-00-00'),
+	(31, '776200121', 'Venkat', 'Dinavahi', 'Severna Park, Maryland', 3, 2010, 'ven@stanford.edu', 'M', '2011-07-05 00:17:35', '1988-10-06');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

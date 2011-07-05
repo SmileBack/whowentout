@@ -289,22 +289,16 @@ class XUser extends XObject
     return img($this->pic_url);
   }
   
+  function get_pic_url() {
+    return images()->path($this->id, 'normal');
+  }
+  
   function get_thumb() {
     return img($this->thumb_url);
   }
   
-  function get_pic_url() {
-    if ($this->data['pic_url'] == NULL)
-      $this->download_facebook_pic();
-    
-    return 'pictures/normal/' . $this->data['pic_url'];
-  }
-  
   function get_thumb_url() {
-    if ($this->data['pic_url'] == NULL)
-      $this->download_facebook_pic();
-    
-    return 'pictures/thumb/' . $this->data['pic_url'];
+    return images()->path($this->id, 'thumb');
   }
   
   function update_facebook_data() {
@@ -326,9 +320,6 @@ class XUser extends XObject
     
     $this->hometown = $fbdata['hometown']['name'];
     
-    if ($this->pic_url == NULL)
-      $this->download_facebook_pic();
-    
     $this->save();
   }
   
@@ -337,24 +328,6 @@ class XUser extends XObject
     $college = $colleges[0];
     $this->college_id = $college->id;
     $this->grad_year = $this->_get_grad_year($college, $fbdata);
-  }
-
-  function download_facebook_pic() {
-    $facebook_pic_url = "https://graph.facebook.com/$this->facebook_id/picture?type=large&access_token=" . fb()->getAccessToken();
-    
-    $img = WideImage::loadFromFile($facebook_pic_url);
-    $img->saveToFile("pictures/raw_facebook/$this->id.jpg");
-    
-    $normal = $img->resize(150, 200);
-    $normal = $normal->resizeCanvas(150, 200, 'center', 'center', '000000', 'up');
-    $normal->saveToFile("pictures/normal/$this->id.jpg");
-    
-    $thumb = $img->resize(105, 140);
-    $thumb = $thumb->resizeCanvas(105, 140, 'center', 'center', '000000', 'up');
-    $thumb->saveToFile("pictures/thumb/$this->id.jpg");
-    
-    $this->pic_url = "$this->id.jpg";
-    $this->save();
   }
   
   private function _get_possible_colleges($fbdata) {

@@ -4,6 +4,17 @@ function ci() {
   return get_instance();
 }
 
+/**
+ * @return ImageRepository 
+ */
+function images() {
+  static $images = NULL;
+  if (!$images)
+    $images = new ImageRepository ('pics');
+  
+  return $images;
+}
+
 function post($key = NULL) {
   if ($key) {
     return ci()->input->post($key);

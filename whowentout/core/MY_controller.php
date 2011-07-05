@@ -6,6 +6,7 @@ class MY_Controller extends CI_Controller {
     parent::__construct();
     
     require_once APPPATH . 'libraries/wideimage/WideImage.php';
+    require_once APPPATH . 'libraries/imagerepository.php';
     
     require_once APPPATH . '/objects/xobject.php';
     require_once APPPATH . '/objects/xuser.php';
