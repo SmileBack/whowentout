@@ -308,10 +308,8 @@ class XUser extends XObject
     $this->_update_gender_from_facebook($fbdata);
     $this->_update_email_from_facebook($fbdata);
     $this->_update_date_of_birth_from_facebook($fbdata);
-    $this->_update_hometown_from_facebook();    
-    
-    if ($this->college_id == NULL)
-      $this->_update_college_from_facebook($fbdata);
+    $this->_update_hometown_from_facebook($fbdata);
+    $this->_update_college_from_facebook($fbdata);
     
     $this->save();
   }
@@ -336,9 +334,15 @@ class XUser extends XObject
   
   private function _update_college_from_facebook($fbdata) {
     $colleges = $this->_get_possible_colleges($fbdata);
-    $college = $colleges[0];
-    $this->college_id = $college->id;
-    $this->grad_year = $this->_get_grad_year($college, $fbdata);
+    if (empty($colleges)) {
+      $this->college_id = NULL;
+      $this->grad_year = NULL;
+    }
+    else {
+      $college = $colleges[0];
+      $this->college_id = $college->id;
+      $this->grad_year = $this->_get_grad_year($college, $fbdata);
+    }
   }
   
   private function _update_hometown_from_facebook($fbdata) {

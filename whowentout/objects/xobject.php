@@ -47,6 +47,10 @@ class XObject
                    ->from($table)
                    ->where($conditions)
                    ->get()->row();
+    
+    if (empty($row))
+      return NULL;
+    
     return $row->id;
   }
   
