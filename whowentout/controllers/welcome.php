@@ -3,8 +3,8 @@
 class Welcome extends MY_Controller {
   
   public function index() {
-    $_POST['stuff'] = 'yeah';
-    print ci()->input->post('stuff');
+    $students = current_college()->students;
+    var_dump($students);
   }
   
 }

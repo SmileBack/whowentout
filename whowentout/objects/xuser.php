@@ -63,6 +63,10 @@ class XUser extends XObject
     return XCollege::get($this->college_id);
   }
   
+  function get_full_name() {
+    return "$this->first_name $this->last_name";
+  }
+  
   function checkin($party_id) {
     if (!$this->can_checkin($party_id)) {
       return FALSE;
@@ -248,6 +252,16 @@ class XUser extends XObject
     $have = $smiles == 1 ? 'has' : 'have';
     
     return "$smiles $people $have smiled at you";
+  }
+  
+  function smiles_left_message($party_id) {
+    $smiles_left = $this->smiles_left($party_id);
+    $smiles = 'smile';
+    
+    if ($smiles_left != 1)
+      $smiles = $smiles . 's';
+    
+    return "You have $smiles_left $smiles left to give";
   }
   
   /**

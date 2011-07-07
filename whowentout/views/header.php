@@ -43,12 +43,17 @@
             <li><?= anchor('dashboard', 'My Dashboard'); ?></li>
           <?php endif; ?>
           <li>
+            <?php if ( ! logged_in() && WWO_DEBUG): ?>
+              <?= anchor('fakelogin', 'Fake Login') ?>
+            <?php endif; ?>
+          </li>
+          <li>
             <?php if (logged_in()): ?>
               <?= anchor('logout', 'Logout') ?>
             <?php else: ?>
               <?= anchor('login', 'Login') ?>
             <?php endif; ?>
-          </li>  
+          </li>
         </ul>
       </header>
       

@@ -17,6 +17,9 @@ class User extends MY_Controller {
   }
   
   function fakelogin() {
+    if ( ! WWO_DEBUG)
+      show_404();
+      
     $user_id = post('user_id');
     
     if ($user_id != NULL) {
@@ -24,8 +27,19 @@ class User extends MY_Controller {
       redirect(login_destination());
     }
     else {
-      $this->load_view('login_view');
+      $this->load_view('login_view', array(
+        'students_dropdown' => $this->_students_dropdown(),
+      ));
     }
+  }
+  
+  private function _students_dropdown() {
+    $students = current_college()->students;
+    $options = array();
+    foreach ($students as $student) {
+      $options[$student->id] = $student->full_name;
+    }
+    return form_dropdown('user_id', $options);
   }
   
   function logout() {

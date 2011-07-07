@@ -1,6 +1,6 @@
 
 <p><?= $user->smiles_received_message($party->id) ?></p>
-<p>You have <?= $user->smiles_left($party->id) ?> smiles left to give</p>
+<p><?= $user->smiles_left_message($party->id) ?></p>
 
 <? foreach ($user->matches($party->id) as $match): ?>
   <p>You and <?= $match->first_name; ?>  have smiled at each other!</p>

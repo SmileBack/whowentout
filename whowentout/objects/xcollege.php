@@ -20,6 +20,14 @@ class XCollege extends XObject
     $query = $this->_get_open_parties_query($time);
     return $this->load_objects('XParty', $query);
   }
+  
+  function get_students() {
+    $query = $this->db()->select('id')
+                  ->from('users')
+                  ->where('college_id', $this->id)
+                  ->order_by('first_name', 'ASC');
+    return $this->load_objects('XUSer', $query);
+  }
 
   function top_parties() {
     $time = yesterday(TRUE);

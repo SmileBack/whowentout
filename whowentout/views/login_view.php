@@ -1,5 +1,5 @@
 <?= form_open('fakelogin'); ?>
-  <label>User ID</label>
-  <input name="user_id" value="" />
+  <label>Name</label>
+  <?= $students_dropdown ?>
   <input type="submit" value="Fake Login" />
 <?= form_close(); ?>
