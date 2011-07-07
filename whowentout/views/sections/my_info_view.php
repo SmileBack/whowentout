@@ -9,5 +9,5 @@
 <div id="user_caption">
   <p><?= $user->first_name ?> <?= $user->last_name ?></p>
   <p><?= $user->hometown ?></p>
-  <p><?= $user->college->name ?> <?= $user->grad_year ?></p>
+  <p><?= $user->college->name ?> <?= $user->grad_year ? $user->grad_year : '' ?></p>
 </div>

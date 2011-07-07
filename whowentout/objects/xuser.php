@@ -50,7 +50,6 @@ class XUser extends XObject
     unset($_SESSION["fb_{$app_id}_user_id"]);
     unset($_SESSION["fb_{$app_id}_state"]);
   }
-
   
   static function logged_in() {
     return get_user_id() != NULL;
@@ -346,7 +345,15 @@ class XUser extends XObject
   }
   
   private function _update_hometown_from_facebook($fbdata) {
-    $this->hometown = $fbdata['hometown']['name'];
+    $hometown = $fbdata['hometown']['name'];
+    
+    list($city, $state) = preg_split('/\s*,\s*/', $hometown);
+    $abbreviated_state = get_state_abbreviation($state);
+    
+    if ($abbreviated_state == NULL)
+      $abbreviated_state = $state;
+    
+    $this->hometown = "$city, $abbreviated_state";
   }
   
   private function _get_possible_colleges($fbdata) {

@@ -3,20 +3,29 @@
 class User extends MY_Controller {
   
   function login() {
+    ci()->session->keep_flashdata('login_action');
+    
+    $user_id = post('user_id');
+    if (fb()->getUser() == NULL) {
+      redirect(facebook_login_url());
+    }
+    else {
+      login();
+      redirect(login_destination());
+    }
+    
+  }
+  
+  function fakelogin() {
     $user_id = post('user_id');
     
     if ($user_id != NULL) {
       fake_login($user_id);
       redirect(login_destination());
     }
-    elseif (fb()->getUser() != NULL) {
-      login();
-      redirect(login_destination());
-    }
     else {
       $this->load_view('login_view');
     }
-    
   }
   
   function logout() {
@@ -25,30 +34,33 @@ class User extends MY_Controller {
   }
   
   function checkin() {
-    $user = current_user();
+    require_login();
     
-    //user just logged in
-    if (login_action()) {
-      $party_id = login_post('party_id');
+    $party_id = post('party_id');
+    $user = current_user();
+    $party = XParty::get($party_id);
+    $party_date = new DateTime($party->date, get_college_timezone());
+    
+    // User has already attended a party on the date
+    if ( $user->has_attended_party_on_date($party_date) ) {
+      $other_party = $user->get_attended_party($party_date);
+      
+      if ($other_party->id == $party->id)
+        set_message("You have already checked into {$party->place->name}.");
+      else
+        set_message("You have already checked into {$other_party->place->name}, so you can't checkin to {$party->place->name}.");
+        
+      redirect("party/$other_party->id");
+    }
+    
+    if ( ! $user->can_checkin($party->id) ) {
+      show_error("You can't checkin.");
     }
     else {
-      $party_id = post('party_id');
+      $user->checkin($party->id);
     }
     
-    if ( ! logged_in()) {
-      require_login(array(
-        'message' => 'Login in so that you can checkin to ' . XParty::get($party_id)->place->name . '.',
-      ));
-    }
-    
-    if ( ! $user->can_checkin($party_id) ) {
-      show_error("You can't checkin to more than one party for a given day.");
-    }
-    
-    $user->checkin($party_id);
-    clear_login_action();
-    
-    redirect("party/$party_id");
+    redirect("party/$party->id");
   }
   
   function smile() {

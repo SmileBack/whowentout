@@ -46,5 +46,7 @@ $route['login'] = 'user/login';
 $route['logout'] = 'user/logout';
 $route['checkin'] = 'user/checkin';
 
+$route['fakelogin'] = 'user/fakelogin';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

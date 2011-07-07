@@ -28,6 +28,20 @@ function post($key = NULL) {
   }
 }
 
+function set_message($message) {
+  ci()->session->set_userdata('message', $message);
+}
+
+function pull_message() {
+  $message = get_message();
+  ci()->session->unset_userdata('message');
+  return $message;
+}
+
+function get_message() {
+  return ci()->session->userdata('message');
+}
+
 /**
  * @return XCollege
  */
@@ -63,4 +77,10 @@ function load_section_view($section_name, $title = '', $data = array()) {
     'section_title' => $title,
     'section_content' => load_view('sections/' . $section_name, $data)
   ));
+}
+
+function get_state_abbreviation($full_state_name) {
+  require_once 'state_data.php';
+  $data = _get_state_data();
+  return isset($data[$full_state_name]) ? $data[$full_state_name] : NULL;
 }

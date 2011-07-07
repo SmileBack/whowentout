@@ -18,8 +18,19 @@ h1 {
   padding: 5px 0px 5px 10px ;
 }
 
+.message {
+  padding: 6px 10px;
+  color: #333;
+  background-color: #FEF7CB;
+  border: 1px solid transparent;
+  border-color: #FFE475;
+  border-radius: 2px; -webkit-border-radius: 2px; -moz-border-radius: 2px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .where_did_you_go {
-	font-size: 1.4em;
+  font-size: 1.4em;
 }
 
 p {

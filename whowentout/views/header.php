@@ -26,7 +26,7 @@
 
   <body>	
     <div id="container">
-
+      
       <header class="main">
 
         <div id="logo">
@@ -51,3 +51,9 @@
           </li>  
         </ul>
       </header>
+      
+      <?php if (get_message()): ?>
+        <section class="message">
+          <?= pull_message() ?>
+        </section>
+      <?php endif; ?>

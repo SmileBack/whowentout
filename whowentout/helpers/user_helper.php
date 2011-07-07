@@ -3,11 +3,20 @@
 require_once APPPATH . 'libraries/fb/facebook.php';
 
 function require_login($data = array()) {
-  $data['destination'] = uri_string();
-  $data['post'] = post();
-  
-  ci()->session->set_userdata('login_action', $data);
-  redirect('login');
+  if ( ! logged_in() ) {
+    $data['destination'] = uri_string();
+    $data['post'] = post();
+
+    ci()->session->set_flashdata('login_action', $data);
+    
+    redirect('login');
+  }
+  elseif ( logged_in() && login_action() ) {
+    $data = login_action();
+    foreach ($data['post'] as $key => $value) {
+      $_POST[$key] = $value;
+    }
+  }
 }
 
 function login_destination() {
@@ -15,30 +24,13 @@ function login_destination() {
   return $destination ? $destination : 'dashboard';
 }
 
-function login_message() {
-  return login_action('message');
-}
-
-function login_post($key = NULL) {
-  $data = login_action('post');
-  
-  if ($data == NULL)
-    return NULL;
-  
-  return $key ? $data[$key] : $data;
-}
-
 function login_action($key = NULL) {
-  $data = ci()->session->userdata('login_action');
+  $data = ci()->session->flashdata('login_action');
   
   if ($data == NULL)
     return NULL;
   
   return $key ? $data[$key] : $data;
-}
-
-function clear_login_action() {
-  ci()->session->unset_userdata('login_action');
 }
 
 /**
@@ -77,7 +69,7 @@ function logged_in() {
   return XUser::logged_in();
 }
 
-function anchor_facebook_login($title = 'Facebook Login', $attributes = array()) {
+function facebook_login_url() {
   $permissions = array(
     'user_birthday',
     'user_education_history',
@@ -85,10 +77,13 @@ function anchor_facebook_login($title = 'Facebook Login', $attributes = array())
     'email',
     'user_events',
   );
-  $link = fb()->getLoginUrl(array(
+  return fb()->getLoginUrl(array(
     'scope' => implode(',', $permissions),
   ));
-  return anchor($link, $title, $attributes);
+}
+
+function anchor_facebook_login($title = 'Facebook Login', $attributes = array()) {
+  return anchor(facebook_login_url(), $title, $attributes);
 }
 
 function deny_anonymous() {

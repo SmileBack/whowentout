@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-07-06 01:02:09
+# Date/time:                    2011-07-07 00:33:23
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -67,29 +67,34 @@ CREATE TABLE IF NOT EXISTS `party_attendees` (
   CONSTRAINT `party_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.party_attendees: ~24 rows (approximately)
+# Dumping data for table whowentout.party_attendees: ~20 rows (approximately)
 /*!40000 ALTER TABLE `party_attendees` DISABLE KEYS */;
 INSERT INTO `party_attendees` (`user_id`, `party_id`, `checkin_time`) VALUES
 	(3, 4, NULL),
 	(4, 4, NULL),
 	(5, 4, NULL),
+	(6, 1, '2011-07-07 05:43:07'),
 	(6, 4, NULL),
 	(6, 6, '2011-07-04 00:32:44'),
 	(7, 4, NULL),
 	(8, 5, NULL),
+	(9, 3, '2011-07-07 07:30:46'),
 	(9, 5, NULL),
 	(10, 4, NULL),
 	(10, 5, NULL),
 	(10, 6, '2011-07-02 03:13:31'),
+	(11, 3, '2011-07-07 07:31:30'),
 	(11, 4, NULL),
 	(11, 5, NULL),
 	(12, 4, NULL),
 	(12, 5, NULL),
 	(13, 4, NULL),
 	(13, 6, NULL),
+	(14, 3, '2011-07-07 07:29:35'),
 	(14, 4, NULL),
 	(14, 6, NULL),
-	(31, 1, '2011-07-05 23:23:59');
+	(31, 1, '2011-07-07 07:17:11'),
+	(33, 1, '2011-07-07 07:16:37');
 /*!40000 ALTER TABLE `party_attendees` ENABLE KEYS */;
 
 
@@ -129,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 # Dumping data for table whowentout.sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-	('e0994e17b4373e11da33ab7b4b4fbb81', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1309939232, 'a:1:{s:7:"user_id";i:33;}');
+	('c1690a9b78567fffca032bf61c368902', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1310023988, 'a:1:{s:7:"user_id";i:0;}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
 
@@ -148,14 +153,18 @@ CREATE TABLE IF NOT EXISTS `smiles` (
   CONSTRAINT `smiles_party_id` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`),
   CONSTRAINT `smiles_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `smiles_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.smiles: ~9 rows (approximately)
+# Dumping data for table whowentout.smiles: ~3 rows (approximately)
 /*!40000 ALTER TABLE `smiles` DISABLE KEYS */;
 INSERT INTO `smiles` (`id`, `sender_id`, `receiver_id`, `party_id`, `smile_time`) VALUES
 	(31, 31, 10, 6, '2011-07-05 00:34:38'),
 	(32, 31, 14, 6, '2011-07-05 00:34:42'),
-	(33, 10, 31, 6, '2011-07-05 00:35:55');
+	(33, 10, 31, 6, '2011-07-05 00:35:55'),
+	(34, 6, 31, 1, '2011-07-07 07:26:48'),
+	(35, 6, 33, 1, '2011-07-07 07:26:50'),
+	(36, 31, 6, 1, '2011-07-07 07:27:08'),
+	(37, 33, 6, 1, '2011-07-07 07:28:06');
 /*!40000 ALTER TABLE `smiles` ENABLE KEYS */;
 
 
@@ -176,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.users: ~14 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
@@ -193,8 +202,8 @@ INSERT INTO `users` (`id`, `facebook_id`, `first_name`, `last_name`, `hometown`,
 	(12, '1682940070', 'Ava', 'Rubin', '', 1, 2013, 'ava@gwu.edu', 'F', NULL, '1991-01-09'),
 	(13, '1067760099', 'Anna ', 'Lepkoski', '', 1, 2013, 'anna@gwu.edu', 'F', NULL, '1991-03-02'),
 	(14, '1120470019', 'Sara', 'Sopher', '', 1, 2012, 'sara@gwu.edu', 'F', NULL, '0000-00-00'),
-	(31, '776200121', 'Venkat', 'Dinavahi', 'Severna Park, Maryland', 3, 2010, 'ven@stanford.edu', 'M', '2011-07-05 00:17:35', '1988-10-06'),
-	(33, '8100231', 'Dan', 'Berenholtz', 'Fresh Meadows, New York', 1, 0, 'db349@cornell.edu', 'M', '2011-07-06 07:48:07', '1986-09-10');
+	(31, '776200121', 'Venkat', 'Dinavahi', 'Severna Park, MD', 3, 2010, 'ven@stanford.edu', 'M', '2011-07-05 00:17:35', '1988-10-06'),
+	(33, '8100231', 'Dan', 'Berenholtz', 'Kfar Saba, Isreal', 1, 0, 'db349@cornell.edu', 'M', '2011-07-06 07:48:07', '1986-09-10');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
