@@ -22,7 +22,7 @@
         <?php if ($attendee->was_smiled_at($user->id, $party->id)): ?>
           <div class="smiled_at">Smiled at <?= $attendee->first_name ?></div>
         <?php else: ?>
-          <?= form_open('user/smile', '', array('party_id' => $party->id, 'receiver_id' => $attendee->id)); ?>
+          <?= form_open('user/smile', array('class' => 'smile_form'), array('party_id' => $party->id, 'receiver_id' => $attendee->id)); ?>
             <input type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>" />
           <?= form_close(); ?>
         <?php endif ?>

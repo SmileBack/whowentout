@@ -7,7 +7,7 @@ jQuery(function($) {
     currentTime.setSeconds(currentTime.getSeconds() + initialRemainingSeconds);
     return currentTime;
   }
-
+  
   function every(seconds, fn) {
     return setInterval(fn, seconds * 1000);
   }
@@ -44,12 +44,42 @@ jQuery(function($) {
   update_time_message();
 });
 
+WWO = {};
+
 jQuery(function($) {
-  $('.already_smiled').click(function() {
-    alert('You already smiled at her.');
+  
+  $('#checkin_form :submit').click(function(e) {
+    e.preventDefault();
+    
+    var place = $('#checkin_form option:selected').text();
+    WWO.dialog.title('Confirm Checkin')
+     .message('Checkin to ' + place + '?')
+     .refreshPosition()
+     .show('confirm_checkin')
   });
-  $('.cant_smile').click(function() {
-    alert('You have used up your smiles.');
+  
+  $('.smile_form :submit').click(function(e) {
+    e.preventDefault();
+    
+    var action = $(this).attr('value');
+    var form = $(this).closest('form');
+    WWO.dialog.title('Confirm Smile')
+              .message(action + '?')
+              .refreshPosition()
+              .show('confirm_smile', form);
   });
+  
+  var d = WWO.dialog = dialog.create();
 });
 
+$('.confirm_checkin.dialog').live('button_click', function(e, button) {
+  if (button.hasClass('yes')) {
+    $('#checkin_form').submit();
+  }
+});
+
+$('.confirm_smile.dialog').live('button_click', function(e, button, form) {
+  if (button.hasClass('yes')) {
+    form.submit();
+  }
+});

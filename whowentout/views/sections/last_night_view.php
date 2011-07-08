@@ -8,7 +8,7 @@
     <?php endforeach; ?>
   </ul>
 <?php else: ?>
-<?= form_open('checkin'); ?>
+<?= form_open('checkin', array('id' => 'checkin_form')); ?>
   <?= $parties_dropdown; ?>
   <button type="submit">enter</button>
 <?= form_close(); ?>

@@ -7,6 +7,7 @@
 <html lang="en" class="no-js">
   <!--<![endif]-->
   <head>
+    
     <meta charset="utf-8">
     <title><?=isset($title) ? $title : '' ?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -20,11 +21,15 @@
     <?= css_asset('style') ?>
 
     <?= js_asset('jquery.js') ?>
-    <?= js_asset('modernizer.js') ?>
+    <?= js_asset('jquery.margin.js') ?>
+    <?= js_asset('jquery.element.js') ?>
+    <?= js_asset('jquery.dialog.js') ?>
     <?= js_asset('script.js'); ?>
+    
   </head>
 
   <body>	
+    
     <div id="container">
       
       <header class="main">
@@ -55,6 +60,7 @@
             <?php endif; ?>
           </li>
         </ul>
+        
       </header>
       
       <?php if (get_message()): ?>

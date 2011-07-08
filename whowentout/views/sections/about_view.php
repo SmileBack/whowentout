@@ -12,7 +12,7 @@
   <p>To get started, just say where you went out last night and we'll take care of the rest:</p>
   <p class="where_did_you_go">Where Did You Go Out Last Night?</p>
 
-  <?= form_open('checkin'); ?>
+  <?= form_open('checkin', array('id' => 'checkin_form')); ?>
     <?= $parties_dropdown; ?>
     <button type="submit">enter</button>
   <?= form_close(); ?>
