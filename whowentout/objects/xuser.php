@@ -67,6 +67,22 @@ class XUser extends XObject
     return "$this->first_name $this->last_name";
   }
   
+  function get_pic_x() {
+    return $this->data['pic_x'];
+  }
+  
+  function get_pic_y() {
+    return $this->data['pic_y'];
+  }
+  
+  function get_pic_width() {
+    return $this->data['pic_width'];
+  }
+  
+  function get_pic_height() {
+    return $this->data['pic_height'];
+  }
+  
   function checkin($party_id) {
     if (!$this->can_checkin($party_id)) {
       return FALSE;
@@ -298,12 +314,20 @@ class XUser extends XObject
     return $this->gender == 'M' ? 'F' : 'M';
   }
   
+  function get_raw_pic() {
+    return img($this->raw_pic_url);
+  }
+  
+  function get_raw_pic_url() {
+    return $this->_get_image_path('facebook');
+  }
+  
   function get_pic() {
     return img($this->pic_url);
   }
   
   function get_pic_url() {
-    return images()->path($this->id, 'normal');
+    return $this->_get_image_path('normal');
   }
   
   function get_thumb() {
@@ -311,7 +335,15 @@ class XUser extends XObject
   }
   
   function get_thumb_url() {
-    return images()->path($this->id, 'thumb');
+    return $this->_get_image_path('thumb');
+  }
+  
+  function refresh_image($preset) {
+    images()->refresh($this->id, $preset);
+  }
+  
+  private function _get_image_path($preset) {
+    return images()->path($this->id, $preset);
   }
   
   function update_facebook_data() {

@@ -18,12 +18,14 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <?= css_asset('reset') ?>
+    <?= css_asset('jquery.jcrop') ?>
     <?= css_asset('style') ?>
 
     <?= js_asset('jquery.js') ?>
     <?= js_asset('jquery.margin.js') ?>
     <?= js_asset('jquery.element.js') ?>
     <?= js_asset('jquery.dialog.js') ?>
+    <?= js_asset('jquery.jcrop.js') ?>
     <?= js_asset('script.js'); ?>
     
   </head>

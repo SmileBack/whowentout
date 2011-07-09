@@ -15,6 +15,18 @@ class ImageRepository
     $this->$method($id);
   }
   
+  /**
+   * @return WideImage
+   */
+  function get($id, $preset) {
+    $image_path = $this->path($id, $preset);
+    
+    if ($image_path == NULL)
+      return NULL;
+    
+    return WideImage::load($image_path);
+  }
+  
   function path($id, $preset) {
     if ( ! $this->exists($id, $preset) ) {
       $this->refresh($id, $preset);
@@ -33,10 +45,11 @@ class ImageRepository
   }
   
   protected function refresh_normal($id) {
+    $user = XUser::get($id);
     $facebook_image_path = $this->path($id, 'facebook');
-    $img = WideImage::loadFromFile($facebook_image_path)
-                    ->resize(150, 200)
-                    ->resizeCanvas(150, 200, 'center', 'center', '000000', 'up');
+    $img = WideImage::load($facebook_image_path)
+                    ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
+                    ->resize(150, 200);
     $this->saveImage($img, $id, 'normal');
   }
   

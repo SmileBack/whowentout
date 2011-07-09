@@ -270,3 +270,30 @@ section .notice {
   width: 100%;
   height: 100%;
 }
+
+.frame {
+  display: inline-block;
+  background: white;
+  padding: 5px;
+  border: solid 2px #DDD;
+}
+
+#edit_form {
+  margin: 50px 75px;
+}
+
+#crop {
+  display: inline-block;
+}
+
+#crop_preview {
+  display: inline-block;
+  width: 150px;
+  height: 200px;
+  overflow: hidden;
+}
+
+#crop_preview_frame {
+  margin-left: 30px;
+}
+

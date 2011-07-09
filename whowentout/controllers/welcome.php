@@ -3,8 +3,7 @@
 class Welcome extends MY_Controller {
   
   public function index() {
-    $students = current_college()->students;
-    var_dump($students);
+    $user = current_user();
   }
   
 }

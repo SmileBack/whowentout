@@ -2,6 +2,29 @@
 
 class User extends MY_Controller {
   
+  function edit() {
+    if ( ! logged_in())
+      show_404();
+    
+    $user = current_user();
+    
+    $data = array(
+     'user' => current_user(),  
+    );
+    
+    if (post('width') && post('height')) {
+      $user->pic_x = post('x');
+      $user->pic_y = post('y');
+      $user->pic_width = post('width');
+      $user->pic_height = post('height');
+      $user->refresh_image('normal');
+      $user->save();
+      set_message("Saved changes to your pic");
+    }
+    
+    $this->load_view('user_edit_view', $data);
+  }
+  
   function login() {
     ci()->session->keep_flashdata('login_action');
     
