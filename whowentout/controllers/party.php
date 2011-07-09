@@ -16,6 +16,7 @@ class Party extends MY_Controller {
       'user' => $user,
       'party_attendees' => $party->attendees($user->other_gender),
       'profile_pic_size' => $this->config->item('profile_pic_size'),
+      'smiles_left' => $user->smiles_left($party->id),
     );
     
     $this->load_view('party_view', $data);

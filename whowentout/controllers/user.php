@@ -119,11 +119,14 @@ class User extends MY_Controller {
     $party_id = post('party_id');
     $receiver_id = post('receiver_id');
     
-    if ( ! $user->can_smile_at($receiver_id, $party_id) ) {
+    $receiver = XUser::get($receiver_id);
+    
+    if ( ! $user->can_smile_at($receiver->id, $party_id) ) {
       show_error("Smile denied.");
     }
     
     $user->smile_at($receiver_id, $party_id);
+    set_message("Smiled at $receiver->full_name");
     
     redirect("party/$party_id");
   }

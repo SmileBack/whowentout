@@ -22,7 +22,7 @@ button {
   font-size: 12px;
 }
 
-input[disabled] {
+input[type=text][disabled] {
   color: black;
 }
 

@@ -54,6 +54,7 @@ jQuery(function($) {
     var place = $('#checkin_form option:selected').text();
     WWO.dialog.title('Confirm Checkin')
      .message('Checkin to ' + place + '?')
+     .setButtons('yesno')
      .refreshPosition()
      .show('confirm_checkin')
   });
@@ -63,23 +64,36 @@ jQuery(function($) {
     
     var action = $(this).attr('value');
     var form = $(this).closest('form');
-    WWO.dialog.title('Confirm Smile')
-              .message(action + '?')
-              .refreshPosition()
-              .show('confirm_smile', form);
+    var canSmile = $(this).hasClass('can');
+    if (canSmile) {
+      WWO.dialog.title('Confirm Smile')
+                .message(action + '?')
+                .setButtons('yesno')
+                .refreshPosition()
+                .show('confirm_smile', form);
+    }
+    else {
+      action = action.substring(0, 1).toLowerCase() + action.substring(1);
+      WWO.dialog.title("Can't Smile")
+                .message("You can't " + action + " because you are out of smiles")
+                .setButtons('ok')
+                .refreshPosition()
+                .show('cant_smile');
+    }
+    
   });
   
   var d = WWO.dialog = dialog.create();
 });
 
 $('.confirm_checkin.dialog').live('button_click', function(e, button) {
-  if (button.hasClass('yes')) {
+  if (button.hasClass('y')) {
     $('#checkin_form').submit();
   }
 });
 
 $('.confirm_smile.dialog').live('button_click', function(e, button, form) {
-  if (button.hasClass('yes')) {
+  if (button.hasClass('y')) {
     form.submit();
   }
 });

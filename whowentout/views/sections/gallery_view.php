@@ -20,10 +20,10 @@
       <p>Mutual friends: <?= anchor('list_mutual_friends', 8); ?></p>
       <p>
         <?php if ($attendee->was_smiled_at($user->id, $party->id)): ?>
-          <button class="smiled_at" disabled="disabled">Smiled at <?= $attendee->first_name ?></button>
+          <input type="submit" class="smiled_at" disabled="disabled" value="Smiled at <?= $attendee->first_name ?>"></button>
         <?php else: ?>
           <?= form_open('user/smile', array('class' => 'smile_form'), array('party_id' => $party->id, 'receiver_id' => $attendee->id)); ?>
-            <input class="blue button" type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>" />
+            <input type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>" class="<?= $smiles_left == 0 ? 'cant' : 'can' ?>" />
           <?= form_close(); ?>
         <?php endif ?>
       </p>
