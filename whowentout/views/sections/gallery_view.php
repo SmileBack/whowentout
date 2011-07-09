@@ -16,14 +16,14 @@
     <div class="caption">
       <p><?= $attendee->first_name; ?> <?= $attendee->last_name ?></p>
       <p><?= $attendee->college->name; ?> <?= $attendee->grad_year; ?></p>
-      <p>Boca Raton, FL</p>
+      <p>&nbsp;<?= $attendee->hometown ?>&nbsp;</p>
       <p>Mutual friends: <?= anchor('list_mutual_friends', 8); ?></p>
       <p>
         <?php if ($attendee->was_smiled_at($user->id, $party->id)): ?>
-          <div class="smiled_at">Smiled at <?= $attendee->first_name ?></div>
+          <button class="smiled_at" disabled="disabled">Smiled at <?= $attendee->first_name ?></button>
         <?php else: ?>
           <?= form_open('user/smile', array('class' => 'smile_form'), array('party_id' => $party->id, 'receiver_id' => $attendee->id)); ?>
-            <input type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>" />
+            <input class="blue button" type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>" />
           <?= form_close(); ?>
         <?php endif ?>
       </p>

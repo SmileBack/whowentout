@@ -3,7 +3,7 @@
 class Welcome extends MY_Controller {
   
   public function index() {
-    $user = current_user();
+    print grad_year_dropdown();
   }
   
 }

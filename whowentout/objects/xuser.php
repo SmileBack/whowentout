@@ -67,22 +67,6 @@ class XUser extends XObject
     return "$this->first_name $this->last_name";
   }
   
-  function get_pic_x() {
-    return $this->data['pic_x'];
-  }
-  
-  function get_pic_y() {
-    return $this->data['pic_y'];
-  }
-  
-  function get_pic_width() {
-    return $this->data['pic_width'];
-  }
-  
-  function get_pic_height() {
-    return $this->data['pic_height'];
-  }
-  
   function checkin($party_id) {
     if (!$this->can_checkin($party_id)) {
       return FALSE;
@@ -340,6 +324,13 @@ class XUser extends XObject
   
   function refresh_image($preset) {
     images()->refresh($this->id, $preset);
+  }
+  
+  /**
+   * @return WideImage
+   */
+  function image($preset) {
+    return images()->get($this->id, $preset);
   }
   
   private function _get_image_path($preset) {

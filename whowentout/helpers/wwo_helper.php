@@ -58,6 +58,15 @@ function parties_dropdown($parties) {
   return form_dropdown('party_id', $options);
 }
 
+function grad_year_dropdown($selected_year = NULL) {
+  $options = array();
+  for ($i = 1; $i <= 4; $i++) {
+    $year = today()->modify("+$i year")->format('Y');
+    $options[$year] = $year;
+  }
+  return form_dropdown('grad_year', $options, $selected_year);
+}
+
 function load_view($view_name, $data = array()) {
   $CI =& get_instance(); 
   return $CI->load->view($view_name, $data, TRUE);

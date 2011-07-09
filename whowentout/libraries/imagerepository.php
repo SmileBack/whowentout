@@ -42,6 +42,10 @@ class ImageRepository
     $user = XUser::get($id);
     $facebook_pic_url = "https://graph.facebook.com/$user->facebook_id/picture?type=large&access_token=" . fb()->getAccessToken();
     $this->download('facebook', $user->id, $facebook_pic_url);
+    $this->set_default_crop_box($id);
+    
+    $this->refresh_normal($id);
+    $this->refresh_thumb($id);
   }
   
   protected function refresh_normal($id) {
@@ -54,10 +58,11 @@ class ImageRepository
   }
   
   protected function refresh_thumb($id) {
+    $user = XUser::get($id);
     $facebook_image_path = $this->path($id, 'facebook');
-    $img = WideImage::loadFromFile($facebook_image_path)
-                    ->resize(105, 140)
-                    ->resizeCanvas(105, 140, 'center', 'center', '000000', 'up');
+    $img = WideImage::load($facebook_image_path)
+                    ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
+                    ->resize(105, 140);
     $this->saveImage($img, $id, 'thumb');
   }
   
@@ -80,6 +85,33 @@ class ImageRepository
   protected function check_path() {
     if ( ! file_exists($this->path) )
       throw new Exception("The path $this->path doesn't exist");
+  }
+  
+  
+  function set_default_crop_box($id) {
+    $user = XUser::get($id);
+    
+    $padding = 20;
+    
+    $img = $this->get($id, 'facebook');
+    $img_width = $img->getWidth();
+    $img_height = $img->getHeight();
+    
+    if ($img_width / $img_height > 3 / 4) {
+      $user->pic_height = $img_height - $padding * 2;
+      $user->pic_width = $user->pic_height * (3 / 4);
+      
+      $user->pic_x = $img_width / 2 - $user->pic_width / 2;
+      $user->pic_y = $img_height / 2 - $user->pic_height / 2;
+      $user->save();
+    }
+    else {
+      $user->pic_x = $padding;
+      $user->pic_y = $padding;
+      $user->pic_width = $img_width - $padding * 2;
+      $user->pic_height = $user->pic_width * (4 / 3);
+      $user->save();
+    }
   }
   
 }

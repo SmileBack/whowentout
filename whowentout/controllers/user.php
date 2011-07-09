@@ -18,8 +18,21 @@ class User extends MY_Controller {
       $user->pic_width = post('width');
       $user->pic_height = post('height');
       $user->refresh_image('normal');
+      $user->refresh_image('thumb');
+    }
+    
+    if (post('hometown')) {
+      $user->hometown = post('hometown');
+    }
+    
+    if (post('grad_year')) {
+      $user->grad_year = post('grad_year');
+    }
+    
+    if ($user->changed()) {
       $user->save();
-      set_message("Saved changes to your pic");
+      set_message("Saved your info");
+      redirect('dashboard');
     }
     
     $this->load_view('user_edit_view', $data);

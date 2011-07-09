@@ -106,6 +106,11 @@ class XObject
     return $changes;
   }
   
+  function changed() {
+    $changes = $this->changes();
+    return ! empty($changes);
+  }
+  
   private function insert() {
     $data = $this->data;
     unset($data['id']);
@@ -117,7 +122,7 @@ class XObject
   private function update() {
     $changes = $this->changes();
     
-    if (empty($changes))
+    if ( empty($changes) )
       return;
     
     $this->db()->update(static::$table, $this->changes(), array('id' => $this->id) );

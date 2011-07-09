@@ -1298,6 +1298,7 @@
       setSelectRaw([
       parseInt(rect[0], 10) / xscale, parseInt(rect[1], 10) / yscale, parseInt(rect[2], 10) / xscale, parseInt(rect[3], 10) / yscale]);
     }
+    
     //}}}
     function setSelectRaw(l) //{{{
     {
@@ -1463,7 +1464,8 @@
       tellSelect: tellSelect,
       tellScaled: tellScaled,
       setClass: setClass,
-
+      
+      selection: Selection,
       disable: disableCrop,
       enable: enableCrop,
       cancel: cancelCrop,

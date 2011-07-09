@@ -18,7 +18,16 @@ h1 {
   padding: 5px 0px 5px 10px ;
 }
 
+button {
+  font-size: 12px;
+}
+
+input[disabled] {
+  color: black;
+}
+
 .message {
+  margin: 10px 10px 0 10px;
   padding: 6px 10px;
   color: #333;
   background-color: #FEF7CB;
@@ -233,6 +242,13 @@ section .notice {
   margin: 15px 0;
 }
 
+.dialog_buttons a {
+  font-size: 25px;
+  text-decoration: none;
+  margin: 0 25px;
+  font-weight: bold;
+}
+
 .dialog h1 {
   text-align: center;
   margin: 0;
@@ -241,13 +257,6 @@ section .notice {
 .dialog_body {
   text-align: center;
   margin: 20px 0;
-}
-
-.button {
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.5em;
-  margin: 0 20px;
 }
 
 #checkin_form {
@@ -288,12 +297,11 @@ section .notice {
 
 #crop_preview {
   display: inline-block;
-  width: 150px;
-  height: 200px;
+  width: 105px;
+  height: 140px;
   overflow: hidden;
 }
 
 #crop_preview_frame {
   margin-left: 30px;
 }
-

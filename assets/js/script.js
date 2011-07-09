@@ -99,6 +99,8 @@ jQuery(function($) {
   
   api.setSelect([x, y, x + width, y + height]);
   
+  api.selection.enableHandles();
+  
   function set_textbox_coordinates(x, y, width, height) {
     $('#x').val(x);
     $('#y').val(y);
