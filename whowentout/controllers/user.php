@@ -3,7 +3,7 @@
 class User extends MY_Controller {
   
   function edit() {
-    if ( ! logged_in())
+    if ( ! logged_in() )
       show_404();
     
     $user = current_user();
@@ -17,6 +17,7 @@ class User extends MY_Controller {
       $user->pic_y = post('y');
       $user->pic_width = post('width');
       $user->pic_height = post('height');
+      
       $user->refresh_image('normal');
       $user->refresh_image('thumb');
     }
@@ -31,7 +32,7 @@ class User extends MY_Controller {
     
     if ($user->changed()) {
       $user->save();
-      set_message("Saved your info");
+      set_message('Saved your info');
       redirect('dashboard');
     }
     
@@ -39,7 +40,7 @@ class User extends MY_Controller {
   }
   
   function login() {
-    ci()->session->keep_flashdata('login_action');
+    preserve_login_action();
     
     $user_id = post('user_id');
     if (fb()->getUser() == NULL) {
@@ -52,30 +53,20 @@ class User extends MY_Controller {
     
   }
   
-  function fakelogin() {
+  function fakelogin($user_id = NULL) {
     if ( ! WWO_DEBUG)
       show_404();
       
-    $user_id = post('user_id');
-    
     if ($user_id != NULL) {
       fake_login($user_id);
       redirect(login_destination());
     }
     else {
+      $students = current_college()->get_students();
       $this->load_view('login_view', array(
-        'students_dropdown' => $this->_students_dropdown(),
+        'students' => $students,
       ));
     }
-  }
-  
-  private function _students_dropdown() {
-    $students = current_college()->students;
-    $options = array();
-    foreach ($students as $student) {
-      $options[$student->id] = $student->full_name;
-    }
-    return form_dropdown('user_id', $options);
   }
   
   function logout() {
@@ -89,6 +80,10 @@ class User extends MY_Controller {
     $party_id = post('party_id');
     $user = current_user();
     $party = XParty::get($party_id);
+    
+    if ($party == NULL)
+      show_error("Party doesn't exist.");
+    
     $party_date = new DateTime($party->date, get_college_timezone());
     
     // User has already attended a party on the date

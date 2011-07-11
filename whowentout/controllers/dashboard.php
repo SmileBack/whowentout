@@ -3,8 +3,6 @@
 class Dashboard extends MY_Controller {
   
   function index() {
-    deny_anonymous();
-    
     $user = XUser::current();
     $college = XCollege::current();
     $time = current_time();

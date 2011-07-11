@@ -22,4 +22,19 @@ class Party extends MY_Controller {
     $this->load_view('party_view', $data);
   }
   
+  function recent($party_id) {
+    $user = current_user();
+    
+    if ( ! $user->has_attended_party($party_id))
+      show_404();
+    
+    $party = XParty::get($party_id);
+    $recent_attendee_ids = array();
+    foreach ($party->recent_attendees($user->other_gender) as $attendee) {
+      $recent_attendee_ids[] = $attendee->id;
+    }
+    
+    print json_encode($recent_attendee_ids);exit;
+  }
+  
 }

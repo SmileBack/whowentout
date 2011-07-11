@@ -14,31 +14,6 @@ class XUser extends XObject
     }
   }
   
-  static function login() {
-    $facebook_id = fb()->getUser();
-    if ($facebook_id) {
-      $current_user = XUser::get(array('facebook_id' => $facebook_id));
-      if ($current_user == NULL) {
-        $current_user = XUser::create(array(
-          'facebook_id' => $facebook_id,
-          'registration_time' => gmdate('Y-m-d H:i:s'),
-        ));
-        $current_user->update_facebook_data();
-      }
-      
-      set_user_id($current_user->id);
-      return TRUE;
-    }
-    else {
-      return FALSE;
-    }
-  }
-  
-  static function fake_login($user_id) {
-    $current_user = XUser::get($user_id);
-    set_user_id($current_user->id);
-  }
-  
   function logout() {
     //delete user id
     set_user_id(0);
@@ -361,11 +336,13 @@ class XUser extends XObject
   }
   
   private function _update_email_from_facebook($fbdata) {
-    $this->email = $fbdata['email'];
+    if ( isset($fbdata['email']) )
+      $this->email = $fbdata['email'];
   }
   
   private function _update_date_of_birth_from_facebook($fbdata) {
-    $this->date_of_birth = date('Y-m-d', strtotime($fbdata['birthday']));
+    if ( isset($fbdata['birthday']) )
+      $this->date_of_birth = date('Y-m-d', strtotime($fbdata['birthday']));
   }
   
   private function _update_college_from_facebook($fbdata) {
@@ -382,15 +359,17 @@ class XUser extends XObject
   }
   
   private function _update_hometown_from_facebook($fbdata) {
-    $hometown = $fbdata['hometown']['name'];
-    
-    list($city, $state) = preg_split('/\s*,\s*/', $hometown);
-    $abbreviated_state = get_state_abbreviation($state);
-    
-    if ($abbreviated_state == NULL)
-      $abbreviated_state = $state;
-    
-    $this->hometown = "$city, $abbreviated_state";
+    if ( isset($fbdata['hometown']['name']) ) {
+      $hometown = $fbdata['hometown']['name'];
+
+      list($city, $state) = preg_split('/\s*,\s*/', $hometown);
+      $abbreviated_state = get_state_abbreviation($state);
+
+      if ($abbreviated_state == NULL)
+        $abbreviated_state = $state;
+
+      $this->hometown = "$city, $abbreviated_state";
+    }
   }
   
   private function _get_possible_colleges($fbdata) {
@@ -402,15 +381,18 @@ class XUser extends XObject
         'facebook_network_id' => $network_id
       ));
       
-      if ($college == NULL)
-        continue;
+      if ($college == NULL) {
+        $college = create_college($affiliation['name'], $network_id);
+      }
       
       if ($college->enabled == '0')
         continue;
       
-      foreach ($fbdata['education'] as $education) {
-        if ($education['school']['id'] == $college->facebook_network_id) {
-          $this->college_id = $college->id;
+      if (isset($fbdata['education'])) {
+        foreach ($fbdata['education'] as $education) {
+          if ($education['school']['id'] == $college->facebook_network_id) {
+            $this->college_id = $college->id;
+          }
         }
       }
       
@@ -428,11 +410,14 @@ class XUser extends XObject
   }
   
   private function _get_grad_year($college, $fbdata) {
-    foreach ($fbdata['education'] as $education) {
-      if ($education['school']['id'] == $college->facebook_school_id && isset($education['year'])) {
-        return $education['year']['name'];
+    if ( isset($fbdata['education']) ) {
+      foreach ($fbdata['education'] as $education) {
+        if ($education['school']['id'] == $college->facebook_school_id && isset($education['year'])) {
+          return $education['year']['name'];
+        }
       }
     }
+    
     return '';
   }
   

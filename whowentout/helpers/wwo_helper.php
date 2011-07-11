@@ -4,6 +4,44 @@ function ci() {
   return get_instance();
 }
 
+function option_exists($name) {
+  return ci()->db->select('id')
+                 ->from('options')
+                 ->where('id', $name)
+                 ->count_all_results() > 0;
+}
+
+function get_option($name, $default = NULL) {
+  $option = ci()->db->select('value')
+                    ->from('options')
+                    ->where('id', $name)
+                    ->get()->row();
+  
+  if ($option == NULL && $default !== NULL) {
+    set_option($name, $default);
+    return $default;
+  }
+  
+  return $option ? unserialize($option->value) : NULL;
+}
+
+function delete_option($name) {
+  ci()->db->delete('options', array('id' => $name));
+}
+
+function set_option($name, $value) {
+  $option = get_option($name);
+  $value = serialize($value);
+  
+  if (option_exists($name)) {
+    ci()->db->where('id', $name);
+    ci()->db->update('options', array('id' => $name, 'value' => $value));
+  }
+  else {
+    ci()->db->insert('options', array('id' => $name, 'value' => $value));
+  }
+}
+
 /**
  * @return ImageRepository 
  */
@@ -56,6 +94,14 @@ function parties_dropdown($parties) {
   }
   
   return form_dropdown('party_id', $options);
+}
+
+function places_dropdown($places) {
+  $options = array();
+  foreach ($places as $place) {
+    $options[$place->id] = $place->name;
+  }
+  return form_dropdown('place_id', $options);
 }
 
 function grad_year_dropdown($selected_year = NULL) {

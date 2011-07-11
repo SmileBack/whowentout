@@ -9,6 +9,14 @@ class XCollege extends XObject
     return XCollege::get( 1 );
   }
   
+  function add_party($date, $place_id) {
+    $party = XParty::create(array(
+      'place_id' => $place_id,
+      'date' => $date,
+    ));
+    return $party;
+  }
+  
   /**
    * Get all of the parties that the user can check into at $time.
    * @param DateTime $time
@@ -23,10 +31,28 @@ class XCollege extends XObject
   
   function get_students() {
     $query = $this->db()->select('id')
-                  ->from('users')
-                  ->where('college_id', $this->id)
-                  ->order_by('first_name', 'ASC');
+                        ->from('users')
+                        ->where('college_id', $this->id)
+                        ->order_by('first_name', 'ASC');
     return $this->load_objects('XUSer', $query);
+  }
+  
+  function get_places() {
+    $query = $this->db()->select('id')
+                        ->from('places')
+                        ->where('college_id', $this->id)
+                        ->order_by('name', 'ASC');
+    return $this->load_objects('XPlace', $query);
+  }
+  
+  function get_parties() {
+    $query = $this->db()->select('parties.id AS id')
+                        ->from('parties')
+                        ->join('places', 'parties.place_id = places.id')
+                        ->where('college_id', $this->id)
+                        ->order_by('date', 'ASC')
+                        ->order_by('name', 'ASC');
+    return $this->load_objects('XParty', $query);
   }
 
   function top_parties() {

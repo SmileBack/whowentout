@@ -70,13 +70,12 @@ class XObject
       $table = static::$table;
       $id = intval($id);
       
-      $this->data = $this->db()
+      $this->data = (array) $this->db()
                   ->from($table)
                   ->where('id', $id)
                   ->get()->row();
-      $this->data->id = $id;
       
-      $this->data = (array) $this->data;
+      $this->data['id'] = $id;
       $this->prev_data = $this->data;
     }
   }

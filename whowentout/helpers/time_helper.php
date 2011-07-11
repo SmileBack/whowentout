@@ -1,17 +1,26 @@
 <?php
 
-define('CURRENT_TIME', '2011-05-28 22:06:04 -0700');
+function time_delta_seconds() {
+  if (option_exists('fake_time_point')) {
+    $fake_time_point = get_option('fake_time_point');
+    $delta = $fake_time_point['fake_time']->getTimestamp() - $fake_time_point['real_time']->getTimestamp();
+    return $delta;
+  }
+  return 0;
+}
 
 /**
  * @return DateTime
  */
 function current_time($local = FALSE) {
-  if (defined('CURRENT_TIME')) {
-    $dt = new DateTime(CURRENT_TIME);
+  $dt = new DateTime(null, new DateTimeZone('UTC'));
+  
+  if (option_exists('fake_time_point')) {
+    $fake_time_point = get_option('fake_time_point');
+    $delta = date_diff($fake_time_point['real_time'], $fake_time_point['fake_time']);
+    $dt = $dt->add($delta);
   }
-  else {
-    $dt = new DateTime(null, new DateTimeZone('UTC'));
-  }
+  
   return $local ? make_local($dt) : make_gmt($dt);
 }
 

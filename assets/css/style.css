@@ -305,3 +305,21 @@ section .notice {
 #crop_preview_frame {
   margin-left: 30px;
 }
+
+.login_gallery li {
+  display: inline-block;
+  text-align: center;
+  margin: 15px;
+}
+
+#current_time {
+  position: fixed;
+  font-weight: bold;
+  left: 25px;
+  top: 25px;
+}
+
+table td, table th {
+  border: 1px solid;
+  padding: 10px;
+}

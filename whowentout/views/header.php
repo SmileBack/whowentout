@@ -20,17 +20,30 @@
     <?= css_asset('reset') ?>
     <?= css_asset('jquery.jcrop') ?>
     <?= css_asset('style') ?>
-
+    
+    <?= js_asset('date.format.js') ?>
+    
     <?= js_asset('jquery.js') ?>
     <?= js_asset('jquery.margin.js') ?>
     <?= js_asset('jquery.element.js') ?>
     <?= js_asset('jquery.dialog.js') ?>
     <?= js_asset('jquery.jcrop.js') ?>
+    
+    <?= js_asset('core.js') ?>
+    <?= js_asset('time.js') ?>
+    <?= js_asset('dashboard.js') ?>
+    <?= js_asset('crop.js') ?>
     <?= js_asset('script.js'); ?>
     
   </head>
 
-  <body>	
+  <body data-time-delta="<?= time_delta_seconds() ?>">	
+    
+    <div id="wwo" style="display: none;"></div>
+    
+    <div id="current_time">
+      <?= current_time(TRUE)->format('D, M j g:i a') ?>
+    </div>
     
     <div id="container">
       
@@ -38,11 +51,13 @@
 
         <div id="logo">
           <?= anchor("/", 'WhoWentOut') ?>
+          <?php if (FALSE): ?>
           (
             <?= current_time(TRUE)->format('Y-m-d H:i:s'); ?>,
             <?= current_user()->first_name ?>,
             <?= fb()->getUser(); ?>
           )
+          <?php endif; ?>
         </div>
 
         <ul id="menu">
@@ -50,7 +65,7 @@
             <li><?= anchor('dashboard', 'My Dashboard'); ?></li>
           <?php endif; ?>
           <li>
-            <?php if ( ! logged_in() && WWO_DEBUG): ?>
+            <?php if (FALSE && ! logged_in() && WWO_DEBUG): ?>
               <?= anchor('fakelogin', 'Fake Login') ?>
             <?php endif; ?>
           </li>

@@ -17,12 +17,6 @@
     <button type="submit">enter</button>
   <?= form_close(); ?>
   <?= $closing_time; ?>
-    
-  <?php if ($doors_are_closed): ?>
-    <div class="doors_have_closed">
-      Doors have closed for checkin.
-    </div>
-  <?php endif; ?>
   
 </div>
 	
