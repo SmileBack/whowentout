@@ -6,6 +6,8 @@ class Party extends MY_Controller {
     $user = current_user();
     $party = XParty::get($party_id);
     
+    require_profile_edit();
+    
     if ( ! $user->has_attended_party($party->id) ) {
       show_404();
     }
@@ -24,7 +26,6 @@ class Party extends MY_Controller {
   
   function recent($party_id) {
     $user = current_user();
-    
     if ( ! $user->has_attended_party($party_id))
       show_404();
     

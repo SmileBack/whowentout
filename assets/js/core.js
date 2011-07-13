@@ -1,8 +1,12 @@
-var WWOClass = jQuery.subclass();
 var WWO = null;
-
 jQuery(function() {
-  WWO = WWOClass('#wwo');
+  WWO = $('#wwo');
+});
+
+$('#wwo').entwine({
+  timeDelta: function() {
+    return parseInt( this.attr('date-time-delta') );
+  }
 });
 
 function every(seconds, fn) {
@@ -10,8 +14,14 @@ function every(seconds, fn) {
 }
 
 function current_time() {
-  var delta = parseInt( $('body').attr('data-time-delta') );
+  var delta = $('#wwo').timeDelta();
   var time = new Date();
   time.setSeconds(time.getSeconds() + delta);
   return time;
+}
+
+function doors_closing_time() {
+  var unixTs = parseInt( $('#wwo').attr('doors-closing-time') );
+  //Unix timestamp uses seconds while JS Date uses milliseconds
+  return new Date(unixTs * 1000);
 }

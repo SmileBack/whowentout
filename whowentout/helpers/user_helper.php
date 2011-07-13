@@ -22,7 +22,33 @@ function create_user($facebook_id, $data = array()) {
   $data['registration_time'] = current_time()->format('Y-m-d H:i:s');
   $user = XUser::create($data);
   $user->update_facebook_data();
+  $user->refresh_image('facebook');
+  
   return $user;
+}
+
+/**
+ * 
+ * DELETES A USER AND ALL OF HIS INFORMATION!
+ * THIS INCLUDES ALL SMILES AND ATTENDED PARTIES.
+ * 
+ * @param int $user_id
+ *   The ID of the user.
+ * @param type $user_id 
+ */
+function destroy_user($user_id) {
+  if (current_user()->id == $user_id)
+    logout();
+  
+  ci()->db->delete('party_attendees', array('user_id' => $user_id));
+  ci()->db->delete('smiles', array('sender_id' => $user_id));
+  ci()->db->delete('smiles', array('receiver_id' => $user_id));
+  ci()->db->delete('users', array('id' => $user_id));
+}
+
+function require_profile_edit() {
+  if (current_user()->never_edited_profile())
+    redirect('user/edit');
 }
 
 function create_college($name, $facebook_network_id, $facebook_school_id = NULL) {
@@ -60,32 +86,19 @@ function unpack_login_action() {
   }
 }
 
-function require_login($data = array()) {
+function require_login($action = array()) {
   if ( ! logged_in() ) {
-    $data['destination'] = uri_string();
-    $data['post'] = post();
-
-    ci()->session->set_flashdata('login_action', $data);
-    
+    ci()->session->set_userdata('login_action', $action);
     redirect('login');
   }
-  elseif ( logged_in() && login_action() ) {
-    unpack_login_action();
-  }
 }
 
-function login_destination() {
-  $destination = login_action('destination');
-  return $destination ? $destination : 'dashboard';
+function login_action() {
+  return ci()->session->userdata('login_action');
 }
 
-function login_action($key = NULL) {
-  $data = ci()->session->flashdata('login_action');
-  
-  if ($data == NULL)
-    return NULL;
-  
-  return $key ? $data[$key] : $data;
+function clear_login_action() {
+  ci()->session->unset_userdata('login_action');
 }
 
 /**
@@ -108,6 +121,9 @@ function set_user_id($user_id) {
   ci()->session->set_userdata('user_id', $user_id);
 }
 
+/**
+ * @return XUser
+ */
 function login() {
   $facebook_id = fb()->getUser();
   $new_user = FALSE;
@@ -123,7 +139,7 @@ function login() {
     
     set_user_id($current_user->id);
     
-    return TRUE;
+    return current_user();
   }
   else {
     return FALSE;

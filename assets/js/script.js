@@ -1,13 +1,31 @@
-jQuery(function($) {
-  
-  $('#checkin_form :submit').click(function(e) {
+$('#wwo').entwine({
+  doorsOpen: function() {
+    return $('.closing_time').hasClass('doors_open');
+  }
+});
+
+$('#checkin_form').entwine({
+  selectedPlace: function() {
+    return {
+      id: this.find('option:selected').attr('value'),
+      name: this.find('option:selected').text()
+    };
+  }
+});
+
+$('#checkin_form :submit').entwine({
+  form: function() {
+    return this.closest('form');
+  },
+  onclick: function(e) {
     e.preventDefault();
     
-    var place = $('#checkin_form option:selected').text();
-    var doorsOpen = $('.closing_time').hasClass('doors_open');
+    var doorsOpen = $('#wwo').doorsOpen();
+    var place = this.form().selectedPlace();
+    
     if (doorsOpen) {
       WWO.dialog.title('Confirm Checkin')
-       .message('Checkin to ' + place + '?')
+       .message('Checkin to ' + place.name + '?')
        .setButtons('yesno')
        .refreshPosition()
        .show('confirm_checkin')
@@ -19,7 +37,10 @@ jQuery(function($) {
           .refreshPosition()
           .show('cant_checkin');
     }
-  });
+  }
+});
+
+jQuery(function($) {
   
   $('.smile_form :submit').click(function(e) {
     e.preventDefault();
@@ -46,6 +67,12 @@ jQuery(function($) {
   });
   
   WWO.dialog = dialog.create();
+  
+  WWO.dialog.anchor('viewport', 'c'); //keeps the dialog box in the center
+  $(window).bind('scroll', function() { //even when you scroll
+    WWO.dialog.refreshPosition();
+  });
+  
 });
 
 $('.confirm_checkin.dialog').live('button_click', function(e, button) {

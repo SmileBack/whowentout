@@ -24,7 +24,10 @@
     <?= js_asset('date.format.js') ?>
     
     <?= js_asset('jquery.js') ?>
-    <?= js_asset('jquery.margin.js') ?>
+    <?= js_asset('jquery.entwine.js') ?>
+    
+    <?= js_asset('jquery.body.js') ?>
+    <?= js_asset('jquery.position.js') ?>
     <?= js_asset('jquery.element.js') ?>
     <?= js_asset('jquery.dialog.js') ?>
     <?= js_asset('jquery.jcrop.js') ?>
@@ -37,9 +40,9 @@
     
   </head>
 
-  <body data-time-delta="<?= time_delta_seconds() ?>">	
+  <body>	
     
-    <div id="wwo" style="display: none;"></div>
+    <div id="wwo" style="display: none;" date-time-delta="<?= time_delta_seconds() ?>" doors-closing-time="<?= get_closing_time()->getTimestamp() ?>"></div>
     
     <div id="current_time">
       <?= current_time(TRUE)->format('D, M j g:i a') ?>

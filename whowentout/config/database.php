@@ -57,6 +57,21 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+$db['hostgator']['hostname'] = 'localhost';
+$db['hostgator']['username'] = 'wwo_database';
+$db['hostgator']['password'] = 'm6H^.A+7XuJb';
+$db['hostgator']['database'] = 'wwo_database';
+$db['hostgator']['dbdriver'] = 'mysql';
+$db['hostgator']['dbprefix'] = '';
+$db['hostgator']['pconnect'] = TRUE;
+$db['hostgator']['db_debug'] = TRUE;
+$db['hostgator']['cache_on'] = FALSE;
+$db['hostgator']['cachedir'] = '';
+$db['hostgator']['char_set'] = 'utf8';
+$db['hostgator']['dbcollat'] = 'utf8_general_ci';
+$db['hostgator']['swap_pre'] = '';
+$db['hostgator']['autoinit'] = TRUE;
+$db['hostgator']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

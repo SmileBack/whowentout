@@ -56,6 +56,10 @@ class XUser extends XObject
     return TRUE;
   }
   
+  function never_edited_profile() {
+    return $this->last_edit == NULL;
+  }
+  
   function can_checkin($party_id) {
     $party = XParty::get($party_id);
     $party_date = new DateTime($party->date, get_college_timezone());

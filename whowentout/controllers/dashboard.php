@@ -3,6 +3,11 @@
 class Dashboard extends MY_Controller {
   
   function index() {
+    if ( ! logged_in() )
+      show_404();
+    
+    require_profile_edit();
+    
     $user = XUser::current();
     $college = XCollege::current();
     $time = current_time();

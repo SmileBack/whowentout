@@ -1,17 +1,15 @@
 <?php
 
+define('ANONYMOUS_CHECKIN_STATE', 1);
+define('LOGIN_LINK_STATE', 2);
+
 class User extends MY_Controller {
   
-  function edit() {
+  function edit_save() {
     if ( ! logged_in() )
       show_404();
     
     $user = current_user();
-    
-    $data = array(
-     'user' => current_user(),  
-    );
-    
     if (post('width') && post('height')) {
       $user->pic_x = post('x');
       $user->pic_y = post('y');
@@ -31,26 +29,55 @@ class User extends MY_Controller {
     }
     
     if ($user->changed()) {
+      $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
       $user->save();
       set_message('Saved your info');
-      redirect('dashboard');
+    }
+    else {
+      set_message('No changes were made.');
     }
     
-    $this->load_view('user_edit_view', $data);
+    // The first time no-changes edit still counts as a save.
+    if ($user->never_edited_profile()) {
+      $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
+      $user->save();
+    }
+    
+    if (login_action() != NULL) {
+      $action = login_action();
+      if ($action['name'] == 'checkin')
+        redirect('checkin');
+    }
+    
+    redirect('dashboard');
+  }
+  
+  function edit() {
+    require_login();
+    
+    $this->load_view('user_edit_view', array(
+      'user' => current_user(),
+    ));
   }
   
   function login() {
-    preserve_login_action();
-    
     $user_id = post('user_id');
     if (fb()->getUser() == NULL) {
       redirect(facebook_login_url());
     }
     else {
       login();
-      redirect(login_destination());
+      
+      require_profile_edit();
+      
+      if (login_action() != NULL) {
+        $action = login_action();
+        if ($action['name'] == 'checkin')
+          redirect('checkin');
+      }
+      
+      redirect('dashboard');
     }
-    
   }
   
   function fakelogin($user_id = NULL) {
@@ -59,7 +86,7 @@ class User extends MY_Controller {
       
     if ($user_id != NULL) {
       fake_login($user_id);
-      redirect(login_destination());
+      redirect('dashboard');
     }
     else {
       $students = current_college()->get_students();
@@ -75,9 +102,21 @@ class User extends MY_Controller {
   }
   
   function checkin() {
-    require_login();
-    
     $party_id = post('party_id');
+    
+    require_login(array(
+      'name' => 'checkin',
+      'party_id' => $party_id,
+    ));
+    
+    if (login_action() != NULL) {
+      $data = login_action();
+      if ($data['name'] == 'checkin') {
+        clear_login_action();
+        $party_id = $data['party_id'];
+      }
+    }
+    
     $user = current_user();
     $party = XParty::get($party_id);
     

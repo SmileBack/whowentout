@@ -17,8 +17,7 @@ class XParty extends XObject
   
   function attendees($gender = 'F') {
     $attendees = array();
-    $rows = $this->_attendees_query($gender)
-                       ->get()->result();
+    $rows = $this->_attendees_query($gender);
     
     return $this->load_objects('XUser', $rows);
   }
@@ -36,7 +35,8 @@ class XParty extends XObject
                        ->from('party_attendees')
                        ->join('users', 'users.id = party_attendees.user_id')
                        ->where('party_id', $this->id)
-                       ->where('gender', $gender);
+                       ->where('gender', $gender)
+                       ->order_by('first_name', 'desc');
   }
   
   function recent_attendees($gender = 'F') {

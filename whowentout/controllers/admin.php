@@ -3,6 +3,10 @@
 class Admin extends MY_Controller
 {
   
+  function index() {
+    $this->load_view('admin/admin_view');
+  }
+  
   function fake_time() {
     $fake_time = post('fake_time');
     $fake_time_point = get_option('fake_time_point');
@@ -27,6 +31,17 @@ class Admin extends MY_Controller
   
   function parties() {
     $this->load_view('admin/edit_parties_view');
+  }
+  
+  function users() {
+    $this->load_view('admin/users_view');
+  }
+  
+  function destroy_user($user_id) {
+    $user = XUser::get($user_id);
+    destroy_user($user->id);
+    set_message("Destroyed $user->full_name.");
+    redirect('admin/users');
   }
   
   function add_party() {

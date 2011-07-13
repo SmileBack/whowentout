@@ -1,5 +1,5 @@
 
-<?= form_open('user/edit', array('id' => 'edit_form')) ?>
+<?= form_open('user/edit_save', array('id' => 'edit_form')) ?>
   
   <fieldset>
     <ul>

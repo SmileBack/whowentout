@@ -34,26 +34,3 @@ jQuery.fn.element = function(className, selector) {
 }
 
 var Element = jQuery.subclass();
-Element.fn.anchor = function(target, points) {
-  if (target === undefined && points === undefined) {
-    if (this.data('anchor') == null)
-      this.data('anchor', {
-        target: 'body',
-        anchor: 'c'
-      });
-    return this.data('anchor');
-  }
-  else {
-    this.data('anchor', {
-      target: target,
-      anchor: points
-    });
-    this.refreshPosition();
-    return this;
-  }
-}
-Element.fn.refreshPosition = function() {
-  var options = this.anchor();
-  this.applyPosition(options.target, options);
-  return this;
-}

@@ -24,10 +24,19 @@ class XObject
       return self::$rows[$class][$id];
     }
     else {
-      self::$rows[$class][$id] = new $class($id);
+      self::set( $id, new $class($id) );
       return self::$rows[$class][$id];
     }
+  }
+  
+  protected static function set($id, $object) {
+    $class = get_called_class();
     
+    if ( ! isset(self::$rows[$class]) ) {
+      self::$rows[$class] = array();
+    }
+    
+    self::$rows[$class][$id] = $object;
   }
   
   static function create($data = array()) {
@@ -84,9 +93,16 @@ class XObject
     return $this->id == NULL;
   }
   
+  private $just_created = FALSE;
+  function just_created() {
+    return $this->just_created;
+  }
+  
   function save() {
     if ($this->is_new()) {
       $this->insert();
+      $this->just_created = TRUE;
+      self::set($this->id, $this); //set the cache
     }
     else {
       $this->update();

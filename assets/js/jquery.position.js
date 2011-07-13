@@ -77,6 +77,9 @@
 })(jQuery);
 
 $.fn.getBox = function() {
+  if (this.get(0).tl !== undefined)
+    return this.get(0);
+  
   var box = {
     left: $(this).offset().left,
     top: $(this).offset().top,
@@ -105,6 +108,11 @@ $.fn.getPosition = function(target, options) {
     offset: [0, 0],
     animate: false
   };
+  
+  if (typeof options == 'string') {
+    options = {anchor: [options, options]};
+  }
+  
   options = $.extend(defaults, options);
 
   if (typeof options.anchor == 'string') {
@@ -113,7 +121,10 @@ $.fn.getPosition = function(target, options) {
   if (options.anchor.length == 1) {
     options.anchor[1] = options.anchor[0]
   }
-
+  
+  if (target == 'viewport')
+    target = $('body').getViewportBox();
+  
   var targetBox = $(target).getBox();
   var sourceBox = $(this).getBox();
 
@@ -126,7 +137,10 @@ $.fn.getPosition = function(target, options) {
     top: sourceBox.tl.top - sourceBox[options.anchor[0]].top
   };
 
-  return {left: pt.left + translate.left + options.offset[0], top: pt.top + translate.top + options.offset[1]};
+  return {
+    left: pt.left + translate.left + options.offset[0],
+    top: pt.top + translate.top + options.offset[1]
+  };
 }
 
 $.fn.applyPosition = function(target, options) {
@@ -137,5 +151,30 @@ $.fn.applyPosition = function(target, options) {
   else {
     $(this).css({left: position.left + 'px', top: position.top + 'px'});
   }
+  return this;
+}
+
+$.fn.anchor = function(target, points) {
+  if (target === undefined && points === undefined) {
+    if (this.data('anchor') == null)
+      this.data('anchor', {
+        target: 'body',
+        anchor: 'c'
+      });
+    return this.data('anchor');
+  }
+  else {
+    this.data('anchor', {
+      target: target,
+      anchor: points
+    });
+    this.refreshPosition();
+    return this;
+  }
+}
+
+$.fn.refreshPosition = function() {
+  var options = this.anchor();
+  this.applyPosition(options.target, options);
   return this;
 }
