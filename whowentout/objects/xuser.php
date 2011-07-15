@@ -247,6 +247,37 @@ class XUser extends XObject
     return $this->load_objects('XUser', $rows);
   }
   
+  function mutual_friends($person) {
+    $person = user($person);
+    
+    $mutual_friend_fb_ids = fb()->api(array(
+      'method' => 'friends.getMutualFriends',
+      'source_uid' => $this->facebook_id,
+      'target_uid' => $person->facebook_id,
+    ));
+    
+    $queries = array();
+    foreach ($mutual_friend_fb_ids as $fb_id) {
+      $queries[$fb_id] = "SELECT uid,name FROM user WHERE uid=$fb_id";
+    }
+    
+    $mutual_friends_result = fb()->api(array(
+      'method' => 'fql.multiquery',
+      'queries' => $queries,
+    ));
+    
+    $mutual_friends = array();
+    foreach ($mutual_friends_result as $mutual_friend_result) {
+      $friend = (object) array(
+        'facebook_id' => $mutual_friend_result['fql_result_set'][0]['uid'],
+        'full_name' => $mutual_friend_result['fql_result_set'][0]['name'],
+      );
+      $friend->thumb = "https://graph.facebook.com/$friend->facebook_id/picture";
+      $mutual_friends[] = $friend;
+    }
+    return $mutual_friends;
+  }
+  
   /**
    * Return the party that this user attended on $date.
    * 

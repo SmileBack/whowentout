@@ -164,5 +164,20 @@ class User extends MY_Controller {
     
     redirect("party/$party_id");
   }
+  
+  function mutual_friends($target_id) {
+    $user = current_user();
+    $target = user($target_id);
+    
+    if (!$user || !$target) {
+      print "Invalid request.";exit;
+    }
+    
+    $mutual_friends = $user->mutual_friends($target);
+    
+    $this->load->view('mutual_friends_view', array(
+      'mutual_friends' => $mutual_friends, 
+    ));
+  }
 	
 }

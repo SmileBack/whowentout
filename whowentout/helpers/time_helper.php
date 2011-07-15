@@ -108,7 +108,6 @@ function doors_are_open() {
   return $open <= $current && $current < $close;
 }
 
-
 /**
  * Gives you the date for today at current college (12am).
  * @param bool $local

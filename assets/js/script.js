@@ -86,3 +86,11 @@ $('.confirm_smile.dialog').live('button_click', function(e, button, form) {
     form.submit();
   }
 });
+
+$('.mutual_friends').entwine({
+  onclick: function(e) {
+    e.preventDefault();
+    var path = $(this).attr('href');
+    $('#wwo').showMutualFriendsDialog(path);
+  }
+});

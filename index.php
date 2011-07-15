@@ -20,7 +20,7 @@ date_default_timezone_set('America/Los_Angeles');
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-       define('ENVIRONMENT', 'test');
+       define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

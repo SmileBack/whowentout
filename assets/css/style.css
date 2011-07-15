@@ -65,7 +65,6 @@ section {
   border: 1px solid;
   margin: 15px 10px 15px 10px;
   padding-bottom: 10px;
-  //border-radius: 3px;
   overflow: hidden;
 }
 .section_content {
@@ -322,4 +321,38 @@ section .notice {
 table td, table th {
   border: 1px solid;
   padding: 10px;
+}
+
+.mutual_friends {
+  overflow: hidden;
+}
+
+.mutual_friends li {
+  display: block;
+  float: left;
+  clear: both;
+  margin: 5px;
+}
+
+.mutual_friends .thumb {
+  float: left;
+  margin: 5px;
+}
+
+.mutual_friends .full_name {
+  float: left;
+  line-height: 50px;
+  margin: 5px;
+}
+
+.friends_popup .dialog_body {
+  height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.no_friends_in_common {
+  line-height: 40px;
+  font-size: 1.2em;
+  margin: 25px;
 }

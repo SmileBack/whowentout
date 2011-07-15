@@ -38,7 +38,11 @@ class Facebook extends BaseFacebook
     }
     parent::__construct($config);
   }
-
+  
+  public function request($url, $params) {
+    return $this->makeRequest($url, $params);
+  }
+  
   protected static $kSupportedKeys =
     array('state', 'code', 'access_token', 'user_id');
 

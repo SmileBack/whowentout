@@ -6,6 +6,13 @@ jQuery(function() {
 $('#wwo').entwine({
   timeDelta: function() {
     return parseInt( this.attr('date-time-delta') );
+  },
+  showMutualFriendsDialog: function(path) {
+    WWO.dialog.title('Mutual Friends').message('loading...')
+              .setButtons('close').show('friends_popup');
+    WWO.dialog.find('.dialog_body').load(path, function() {
+      WWO.dialog.refreshPosition();
+    });
   }
 });
 

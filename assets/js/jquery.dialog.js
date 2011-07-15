@@ -27,6 +27,9 @@ dialog.buttonSets = {
   ],
   ok: [
     {key: 'ok', title: 'OK'}
+  ],
+  close: [
+    {key: 'close', title: 'Close'}
   ]
 };
 
@@ -40,6 +43,7 @@ dialog.fn.setButtons = function(buttons) {
   }
   return this;
 }
+
 dialog.fn.addButton = function(key, title, attributes) {
   attributes = $.extend({}, {href: '#'}, attributes);
   var button = $('<a/>');
@@ -52,13 +56,20 @@ dialog.fn.addButton = function(key, title, attributes) {
   button.addClass(key);
   
   this.find('.dialog_buttons').append(button);
+  
+  this.refreshPosition();
+  
   return button;
 }
+
 dialog.fn.removeButton = function(key) {
   this.find('.button[data-key=' + key + ']');
+  this.refreshPosition();
 }
+
 dialog.fn.removeAllButtons = function() {
   this.find('.dialog_buttons').empty();
+  this.refreshPosition();
 }
 
 dialog.fn.title = function(text) {
@@ -76,11 +87,12 @@ dialog.fn.message = function(text) {
     return this.find('.dialog_body').text();
   }
   else {
-    this.find('.dialog_body').text(text);
+    this.find('.dialog_body').html(text);
     this.refreshPosition();
     return this;
   }
 }
+
 dialog.fn.show = function(cls, data) {
   if (cls != null) {
     this.attr('class', 'dialog');
@@ -92,6 +104,7 @@ dialog.fn.show = function(cls, data) {
   dialog_mask().fadeIn(300);
   this.fadeIn(300);
 }
+
 dialog.fn.hide = function() {
   dialog_mask().fadeOut(300);
   this.fadeOut(300);
