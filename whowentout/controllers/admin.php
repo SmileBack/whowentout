@@ -12,11 +12,7 @@ class Admin extends MY_Controller
     $fake_time_point = get_option('fake_time_point');
     
     if ($fake_time != NULL) {
-      $fake_time_point = array(
-        'fake_time' => new DateTime($fake_time),
-        'real_time' => new DateTime(),
-      );
-      set_option('fake_time_point', $fake_time_point);
+      set_fake_time(new DateTime($fake_time));
     }
     
     $delta = date_diff($fake_time_point['real_time'], $fake_time_point['fake_time']);
@@ -38,26 +34,26 @@ class Admin extends MY_Controller
   }
   
   function destroy_user($user_id) {
-    $user = XUser::get($user_id);
+    $user = user($user_id);
     destroy_user($user->id);
     set_message("Destroyed $user->full_name.");
     redirect('admin/users');
   }
   
   function add_party() {
-    $date = new DateTime(post('date'), get_college_timezone());
+    $date = new DateTime( post('date'), college()->timezone );
     $place_id = post('place_id');
     
-    $place = XPlace::get($place_id);
+    $place = place($place_id);
     $formatted_date = $date->format('Y-m-d');
     
-    current_college()->add_party($formatted_date, $place_id);
+    college()->add_party($formatted_date, $place_id);
     set_message("Created party on $formatted_date at $place->name.");
     redirect('admin/parties');
   }
   
   function random_checkin($party_id) {
-    $party = XParty::get($party_id);
+    $party = party($party_id);
     $user = get_random_user($party->id);
     
     $user->checkin($party->id);

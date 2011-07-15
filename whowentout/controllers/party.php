@@ -4,7 +4,7 @@ class Party extends MY_Controller {
 	
   function page($party_id) {
     $user = current_user();
-    $party = XParty::get($party_id);
+    $party = party($party_id);
     
     require_profile_edit();
     
@@ -29,7 +29,7 @@ class Party extends MY_Controller {
     if ( ! $user->has_attended_party($party_id))
       show_404();
     
-    $party = XParty::get($party_id);
+    $party = party($party_id);
     $recent_attendee_ids = array();
     foreach ($party->recent_attendees($user->other_gender) as $attendee) {
       $recent_attendee_ids[] = $attendee->id;

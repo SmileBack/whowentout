@@ -20,7 +20,7 @@ date_default_timezone_set('America/Los_Angeles');
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-       define('ENVIRONMENT', 'development');
+       define('ENVIRONMENT', 'test');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -35,10 +35,13 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
+                case 'hostgator':
 			error_reporting(E_ALL);
 		break;
 	
-		case 'testing':
+		case 'test':
+                  break;
+                
 		case 'production':
 			error_reporting(0);
 		break;

@@ -8,13 +8,20 @@ function get_facebook_id($user_name) {
 }
 
 /**
+ * @return XUser
+ */
+function user($user_id) {
+  return XUser::get($user_id);
+}
+
+/**
  * @param int $facebook_id
  * @param array $data
  * @return XUser
  */
 function create_user($facebook_id, $data = array()) {
    //we were given a username
-  if ( ! preg_match('/^\d+$/', $facebook_id) ) {
+  if ($facebook_id && ! preg_match('/^\d+$/', $facebook_id) ) {
     $facebook_id = get_facebook_id($facebook_id);
   }
   
@@ -43,7 +50,12 @@ function destroy_user($user_id) {
   ci()->db->delete('party_attendees', array('user_id' => $user_id));
   ci()->db->delete('smiles', array('sender_id' => $user_id));
   ci()->db->delete('smiles', array('receiver_id' => $user_id));
-  ci()->db->delete('users', array('id' => $user_id));
+  
+  user($user_id)->delete();
+}
+
+function user_exists($user_id) {
+  return user($user_id) != NULL;
 }
 
 function require_profile_edit() {
@@ -51,6 +63,9 @@ function require_profile_edit() {
     redirect('user/edit');
 }
 
+/**
+ * @return XCollege
+ */
 function create_college($name, $facebook_network_id, $facebook_school_id = NULL) {
   $data = array(
     'name' => $name,
@@ -147,7 +162,7 @@ function login() {
 }
 
 function fake_login($user_id) {
-  $current_user = XUser::get($user_id);
+  $current_user = user($user_id);
   set_user_id($current_user->id);
 }
 

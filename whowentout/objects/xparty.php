@@ -5,14 +5,18 @@ class XParty extends XObject
   protected static $table = 'parties';
   
   function get_place() {
-    return XPlace::get($this->place_id);
+    return place($this->place_id);
+  }
+  
+  function get_college() {
+    return $this->place->college;
   }
   
   function get_admin() {
     if ($this->admin_id == NULL)
       return NULL;
     
-    return XUser::get($this->admin_id);
+    return user($this->admin_id);
   }
   
   function attendees($gender = 'F') {
@@ -52,7 +56,7 @@ class XParty extends XObject
                        ->get()->result();
     
     foreach ($rows as $row) {
-      $attendees[] = XUser::get($row->id);
+      $attendees[] = user($row->id);
     }
     
     return $attendees;

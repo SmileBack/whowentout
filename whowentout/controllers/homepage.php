@@ -7,7 +7,7 @@ class Homepage extends MY_Controller {
       redirect('dashboard');
     
     $user = current_user();
-    $college = current_college();
+    $college = college();
     $current_time = current_time();
     
     $parties = $college->open_parties(current_time());

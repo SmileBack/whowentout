@@ -12,6 +12,9 @@ class XObject
     if (is_array($id)) {
       $id = self::_get_id($id);
     }
+    elseif ($id instanceof XObject) {
+      return $id;
+    }
     
     if ($id == NULL)
       return NULL;
@@ -24,8 +27,14 @@ class XObject
       return self::$rows[$class][$id];
     }
     else {
-      self::set( $id, new $class($id) );
-      return self::$rows[$class][$id];
+      $object = new $class($id);
+      if ( $object->exists() ) {
+        self::set( $id, $object );
+        return self::$rows[$class][$id];
+      }
+      else {
+        return FALSE;
+      }
     }
   }
   
@@ -36,7 +45,12 @@ class XObject
       self::$rows[$class] = array();
     }
     
-    self::$rows[$class][$id] = $object;
+    if ($object == NULL) {
+      unset(self::$rows[$class][$id]);
+    }
+    else {
+      self::$rows[$class][$id] = $object;
+    }
   }
   
   static function create($data = array()) {
@@ -74,19 +88,32 @@ class XObject
     return self::$table;
   }
   
+  function exists() {
+    return ! ($this->data == FALSE || $this->data['id'] == NULL);
+  }
+  
   protected function load($id = NULL) {
     if ($id) {
       $table = static::$table;
       $id = intval($id);
       
       $this->data = (array) $this->db()
-                  ->from($table)
-                  ->where('id', $id)
-                  ->get()->row();
+                                 ->from($table)
+                                 ->where('id', $id)
+                                 ->get()->row();
+      
+      if (empty($this->data)) {
+        $this->data = FALSE;
+        return FALSE;
+      }
       
       $this->data['id'] = $id;
       $this->prev_data = $this->data;
     }
+  }
+  
+  function values() {
+    return $this->data;
   }
   
   function is_new() {
@@ -107,6 +134,17 @@ class XObject
     else {
       $this->update();
     }
+  }
+  
+  function delete() {
+    if ($this->is_new())
+      return;
+    
+    $this->db()->delete(static::$table, array('id' => $this->id));
+    
+    self::set($this->id, NULL);
+    
+    $this->data = FALSE;
   }
   
   function changes() {
@@ -144,6 +182,7 @@ class XObject
     
     $this->load($this->id); //refresh values
   }
+  
   
   function __get($name) {
     $method = "get_$name";

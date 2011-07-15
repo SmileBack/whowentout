@@ -1,7 +1,7 @@
 <?php
 
 function time_delta_seconds() {
-  if (option_exists('fake_time_point')) {
+  if (time_is_faked()) {
     $fake_time_point = get_option('fake_time_point');
     $delta = $fake_time_point['fake_time']->getTimestamp() - $fake_time_point['real_time']->getTimestamp();
     return $delta;
@@ -12,10 +12,18 @@ function time_delta_seconds() {
 /**
  * @return DateTime
  */
-function current_time($local = FALSE) {
+function actual_time($local = FALSE) {
   $dt = new DateTime(null, new DateTimeZone('UTC'));
+  return $local ? make_local($dt) : make_gmt($dt);
+}
+
+/**
+ * @return DateTime
+ */
+function current_time($local = FALSE) {
+  $dt = actual_time();
   
-  if (option_exists('fake_time_point')) {
+  if ( time_is_faked() ) {
     $fake_time_point = get_option('fake_time_point');
     $delta = date_diff($fake_time_point['real_time'], $fake_time_point['fake_time']);
     $dt = $dt->add($delta);
@@ -24,40 +32,58 @@ function current_time($local = FALSE) {
   return $local ? make_local($dt) : make_gmt($dt);
 }
 
-/*
- * @return DateTimeZone
- *   The timezone of the current college.
- */
-function get_college_timezone() {
-  return new DateTimeZone('America/Los_Angeles');
+function set_fake_time(DateTime $fake_time) {
+  $fake_time = make_gmt($fake_time);
+  $fake_time_point = array(
+    'fake_time' => $fake_time,
+    'real_time' => actual_time(),
+  );
+  set_option('fake_time_point', $fake_time_point);
+}
+
+function set_fake_time_of_day($h, $m = 0, $s = 0) {
+  $time = current_time();
+  $time->setTime($h, $m, $s);
+  set_fake_time($time);
+  return $time;
+}
+
+function time_is_faked() {
+  return option_exists('fake_time_point');
+}
+
+function unset_fake_time() {
+  unset_option('fake_time_point');
 }
 
 function make_gmt($time) {
+  $time = clone $time;
   $time->setTimezone(new DateTimeZone('UTC'));
   return $time;
 }
 
 function make_local($time) {
-  $time->setTimezone(get_college_timezone());
+  $time = clone $time;
+  $time->setTimezone( college()->timezone );
   return $time;
 }
 
 /**
- * Return the GMT time for when the doors at the current college open for checkin.
+ * Return the GMT time for when the doors at the current college are next open for checkin.
  * @return DateTime
  */
 function get_opening_time($local = FALSE) {
-  $time = today(TRUE)->setTime(1, 0, 0);
-  return $local ? make_local($time) : make_gmt($time);
+  $opening_time = today(TRUE)->setTime(1, 0, 0);
+  return $local ? make_local($opening_time) : make_gmt($opening_time);
 }
 
 /**
- * Return the GMT time for when the doors at the current college close for checkin.
+ * Return the GMT time for when the doors at the current college are next closed for checkin.
  * @return DateTime
  */
 function get_closing_time($local = FALSE) {
-  $time = today(TRUE)->setTime(12 + 11, 0, 0);
-  return $local ? make_local($time) : make_gmt($time);
+  $closing_time = today(TRUE)->setTime(12 + 11, 0, 0);
+  return $local ? make_local($closing_time) : make_gmt($closing_time);
 }
 
 /**
@@ -71,8 +97,17 @@ function get_seconds_until_close() {
 }
 
 function doors_are_closed() {
-  return get_seconds_until_close() == 0;
+  return !doors_are_open();
 }
+
+function doors_are_open() {
+  $current = current_time();
+  $open = get_opening_time();
+  $close = get_closing_time();
+  
+  return $open <= $current && $current < $close;
+}
+
 
 /**
  * Gives you the date for today at current college (12am).

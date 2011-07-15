@@ -4,6 +4,27 @@ function ci() {
   return get_instance();
 }
 
+/**
+ * @return XCollege
+ */
+function college() {
+  return XCollege::current();
+}
+
+/**
+ * @return XPlace
+ */
+function place($place_id) {
+  return XPlace::get($place_id);
+}
+
+/**
+ * @return XParty
+ */
+function party($party_id) {
+  return XParty::get($party_id);
+}
+
 function option_exists($name) {
   return ci()->db->select('id')
                  ->from('options')
@@ -25,7 +46,7 @@ function get_option($name, $default = NULL) {
   return $option ? unserialize($option->value) : NULL;
 }
 
-function delete_option($name) {
+function unset_option($name) {
   ci()->db->delete('options', array('id' => $name));
 }
 
@@ -80,14 +101,10 @@ function get_message() {
   return ci()->session->userdata('message');
 }
 
-/**
- * @return XCollege
- */
-function current_college() {
-  return XCollege::current();
-}
-
 function parties_dropdown($parties) {
+  if (empty($parties))
+    return '';
+  
   $options = array();
   foreach ($parties as $party) {
     $options[$party->id] = $party->place->name;

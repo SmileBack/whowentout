@@ -39,7 +39,11 @@ class ImageRepository
   }
   
   protected function refresh_facebook($id) {
-    $user = XUser::get($id);
+    $user = user($id);
+    
+    if ( ! $user->facebook_id )
+      return;
+    
     $facebook_pic_url = "https://graph.facebook.com/$user->facebook_id/picture?type=large&access_token=" . fb()->getAccessToken();
     $this->download('facebook', $user->id, $facebook_pic_url);
     $this->set_default_crop_box($id);
@@ -49,7 +53,7 @@ class ImageRepository
   }
   
   protected function refresh_normal($id) {
-    $user = XUser::get($id);
+    $user = user($id);
     $facebook_image_path = $this->path($id, 'facebook');
     $img = WideImage::load($facebook_image_path)
                     ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
@@ -58,7 +62,7 @@ class ImageRepository
   }
   
   protected function refresh_thumb($id) {
-    $user = XUser::get($id);
+    $user = user($id);
     $facebook_image_path = $this->path($id, 'facebook');
     $img = WideImage::load($facebook_image_path)
                     ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
@@ -89,7 +93,7 @@ class ImageRepository
   
   
   function set_default_crop_box($id) {
-    $user = XUser::get($id);
+    $user = user($id);
     
     $padding = 20;
     

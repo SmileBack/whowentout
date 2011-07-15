@@ -11,7 +11,7 @@
   </thead>
   
   <tbody>
-    <?php foreach (current_college()->students as $student): ?>
+    <?php foreach (college()->students as $student): ?>
     <tr>
       <td><?= $student->id ?></td>
       <td><?= $student->full_name ?></td>

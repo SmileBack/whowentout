@@ -89,7 +89,7 @@ class User extends MY_Controller {
       redirect('dashboard');
     }
     else {
-      $students = current_college()->get_students();
+      $students = college()->get_students();
       $this->load_view('login_view', array(
         'students' => $students,
       ));
@@ -118,12 +118,12 @@ class User extends MY_Controller {
     }
     
     $user = current_user();
-    $party = XParty::get($party_id);
+    $party = party($party_id);
     
     if ($party == NULL)
       show_error("Party doesn't exist.");
     
-    $party_date = new DateTime($party->date, get_college_timezone());
+    $party_date = new DateTime($party->date, college()->timezone);
     
     // User has already attended a party on the date
     if ( $user->has_attended_party_on_date($party_date) ) {
@@ -153,7 +153,7 @@ class User extends MY_Controller {
     $party_id = post('party_id');
     $receiver_id = post('receiver_id');
     
-    $receiver = XUser::get($receiver_id);
+    $receiver = user($receiver_id);
     
     if ( ! $user->can_smile_at($receiver->id, $party_id) ) {
       show_error("Smile denied.");

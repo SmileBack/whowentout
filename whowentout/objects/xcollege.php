@@ -10,11 +10,23 @@ class XCollege extends XObject
   }
   
   function add_party($date, $place_id) {
+    if ($date instanceof DateTime)
+      $date = date_format($date, 'Y-m-d');
+    
     $party = XParty::create(array(
       'place_id' => $place_id,
       'date' => $date,
     ));
     return $party;
+  }
+  
+  function add_place($name) {
+    $place = XPlace::create(array(
+      'college_id' => $this->id,
+      'name' => $name,
+    ));
+    
+    return $place;
   }
   
   /**
@@ -27,6 +39,10 @@ class XCollege extends XObject
     $parties = array();
     $query = $this->_get_open_parties_query($time);
     return $this->load_objects('XParty', $query);
+  }
+  
+  function get_timezone() {
+    return new DateTimeZone('America/Los_Angeles');
   }
   
   function get_students() {
@@ -54,7 +70,7 @@ class XCollege extends XObject
                         ->order_by('name', 'ASC');
     return $this->load_objects('XParty', $query);
   }
-
+  
   function top_parties() {
     $time = yesterday(TRUE);
     
@@ -89,4 +105,3 @@ class XCollege extends XObject
   }
   
 }
-

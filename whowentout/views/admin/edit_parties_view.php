@@ -5,7 +5,7 @@
   <input name="date" />
 
   <label>Place</label>
-  <?= places_dropdown( current_college()->places ); ?>
+  <?= places_dropdown( college()->places ); ?>
 
   <input type="submit" value="Add" />
 
@@ -21,7 +21,7 @@
     <th>Checkin Random</th>
   </thead>
   <tbody>
-    <?php foreach (current_college()->parties as $party): ?>
+    <?php foreach (college()->parties as $party): ?>
     <tr>
       <td><?= $party->id ?></td>
       <td><?= $party->place->name ?></td>
