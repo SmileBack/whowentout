@@ -42,10 +42,9 @@
 
   <body>	
     
-    <!-- return absolute time and have JavaScript calculate the delta -->
-    <div id="wwo" style="display: none;" date-time-delta="<?= time_delta_seconds() ?>" doors-closing-time="<?= get_closing_time()->getTimestamp() ?>"></div>
+    <?= load_view('wwo_view') ?>
     
-    <div id="current_time">
+    <div id="current_time" class="current_time">
       <?= current_time(TRUE)->format('D, M j g:i a') ?>
     </div>
     

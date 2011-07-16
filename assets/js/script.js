@@ -1,9 +1,3 @@
-$('#wwo').entwine({
-  doorsOpen: function() {
-    return $('.closing_time').hasClass('doors_open');
-  }
-});
-
 $('#checkin_form').entwine({
   selectedPlace: function() {
     return {

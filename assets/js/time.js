@@ -53,10 +53,22 @@ Date.prototype.timeUntil = function(otherDate) {
   return new TimeInterval(otherDate - this);
 }
 
+$('.current_time').entwine({
+  onmatch: function() {
+    var self = $(this);
+    $('#wwo').bind('timechanged', function(e, time) {
+      self.html( self.formatTime(time) );
+    });
+  },
+  onunmatch: function() {},
+  formatTime: function(time) {
+    return time.format('dddd, mmm dS, yyyy')
+     + '<br/>'
+     + time.format('h:MM:ss TT');
+  }
+});
+
 jQuery(function($) {
-  $('#wwo').live('timechanged', function(e, time) {
-    $('#current_time').html( format_time(time) );
-  });
   
   $('#wwo').live('timechanged', function(e, time) {
     var duration = time.timeUntil( doors_closing_time() );
@@ -73,11 +85,11 @@ jQuery(function($) {
     $('.remaining_time').text(duration.format());
   });
   
-  var triggeredDoorsClose = false;
+  var alreadyTriggeredDoorsClose = false;
   $('#wwo').live('timechanged', function(e, time) {
     var duration = time.timeUntil( doors_closing_time() );
-    if (duration.isNegative() && $('#wwo').doorsOpen() && triggeredDoorsClose == false) {
-      triggeredDoorsClose = true;
+    if (duration.isNegative() && $('#wwo').doorsOpen() && alreadyTriggeredDoorsClose == false) {
+      alreadyTriggeredDoorsClose = true;
       $('#wwo').trigger('doorsclose');
     }
   });
@@ -86,12 +98,5 @@ jQuery(function($) {
     $('#wwo').trigger('timechanged', current_time());
   });
   $('#wwo').trigger('timechanged', current_time());
-  
-  function format_time(time) {
-    return time.format('dddd, mmm dS, yyyy')
-     + '<br/>'
-     + time.format('h:MM:ss TT');
-    $('#current_time').html( formattedTime );
-  }
   
 });
