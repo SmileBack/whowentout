@@ -3,6 +3,7 @@
 class Welcome extends MY_Controller {
   
   public function index() {
+    print json_encode(NULL);
   }
   
 }

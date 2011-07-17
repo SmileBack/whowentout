@@ -19,17 +19,17 @@ $('#checkin_form :submit').entwine({
     
     if (doorsOpen) {
       WWO.dialog.title('Confirm Checkin')
-       .message('Checkin to ' + place.name + '?')
-       .setButtons('yesno')
-       .refreshPosition()
-       .show('confirm_checkin')
+         .message('Checkin to ' + place.name + '?')
+         .setButtons('yesno')
+         .refreshPosition()
+         .show('confirm_checkin');
     }
     else {
       WWO.dialog.title("Can't Checkin")
-          .message("You can't checkin because the doors have closed")
-          .setButtons('ok')
-          .refreshPosition()
-          .show('cant_checkin');
+         .message("You can't checkin because the doors have closed")
+         .setButtons('ok')
+         .refreshPosition()
+         .show('cant_checkin');
     }
   }
 });

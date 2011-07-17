@@ -17,9 +17,13 @@ $('#wwo').entwine({
   showMutualFriendsDialog: function(path) {
     WWO.dialog.title('Mutual Friends').message('loading...')
               .setButtons('close').show('friends_popup');
+    WWO.dialog.refreshPosition();
     WWO.dialog.find('.dialog_body').load(path, function() {
       WWO.dialog.refreshPosition();
     });
+  },
+  whereFriendsWentData: function() {
+    return $.parseJSON( this.find('.where-friends-went-data').text() );
   },
   _calculateTimeDelta: function() {
     var serverUnixTs = parseInt( $('#wwo').attr('current-time') );

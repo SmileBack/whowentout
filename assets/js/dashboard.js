@@ -85,3 +85,4 @@ $('.recent_attendees li').entwine({
     return parseInt( this.attr('data-user-id') );
   }
 });
+

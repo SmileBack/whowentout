@@ -174,6 +174,10 @@ function logged_in() {
   return XUser::logged_in();
 }
 
+function connected_to_facebook() {
+  return fb()->getUser() != 0;
+}
+
 function facebook_login_url() {
   $permissions = array(
     'user_birthday',
@@ -181,6 +185,7 @@ function facebook_login_url() {
     'user_hometown',
     'email',
     'user_events',
+    'offline_access',
   );
   return fb()->getLoginUrl(array(
     'scope' => implode(',', $permissions),

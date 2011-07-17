@@ -68,8 +68,12 @@ function set_option($name, $value) {
  */
 function images() {
   static $images = NULL;
-  if (!$images)
-    $images = new ImageRepository ('pics');
+  if (!$images) {
+    if (ENVIRONMENT == 'test')
+      $images = new ImageRepository('testpics');
+    else
+      $images = new ImageRepository('pics');
+  }
   
   return $images;
 }
@@ -155,4 +159,18 @@ function get_state_abbreviation($full_state_name) {
   require_once 'state_data.php';
   $data = _get_state_data();
   return isset($data[$full_state_name]) ? $data[$full_state_name] : NULL;
+}
+
+function where_friends_went_pie_chart_data() {
+  if ( ! logged_in() )
+    return NULL;
+  
+  $data = array();
+  
+  foreach (current_user()->where_friends_went() as $party_id => $friend_ids) {
+    $party = party($party_id);
+    $data[] = array($party->place->name, count($friend_ids));
+  }
+  
+  return $data;
 }

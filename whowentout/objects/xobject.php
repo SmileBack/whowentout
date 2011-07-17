@@ -9,11 +9,10 @@ class XObject
   static function get($id) {
     $class = get_called_class();
     
+    if ($id instanceof XObject) return $id;
+    
     if (is_array($id)) {
       $id = self::_get_id($id);
-    }
-    elseif ($id instanceof XObject) {
-      return $id;
     }
     
     if ($id == NULL)

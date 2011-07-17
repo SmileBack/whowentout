@@ -179,5 +179,7 @@ class User extends MY_Controller {
       'mutual_friends' => $mutual_friends, 
     ));
   }
+  
+  
 	
 }

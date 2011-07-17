@@ -223,3 +223,17 @@ function create_test_users($college_id = NULL) {
   }
   
 }
+
+function checkout_user($user, $party) {
+  $user = user($user);
+  $party = party($party);
+  
+  if ( ! $party || ! $user)
+    return FALSE;
+  
+  ci()->db->delete('party_attendees', array('party_id' => $party->id));
+  ci()->db->delete('smiles', array('party_id' => $party->id, 'sender_id' => $user->id));
+  ci()->db->delete('smiles', array('party_id' => $party->id, 'receiver_id' => $user->id));
+  
+  return TRUE;
+}

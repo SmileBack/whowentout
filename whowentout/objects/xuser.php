@@ -278,6 +278,66 @@ class XUser extends XObject
     return $mutual_friends;
   }
   
+  function friends() {
+    return array(
+      user(array('first_name' => 'Dan')),
+      user(array('first_name' => 'Erica')),
+      user(array('first_name' => 'Alex')),
+      user(array('first_name' => 'Jenny')),
+      user(array('first_name' => 'Rebecca')),
+      user(array('first_name' => 'Claire')),
+      user(array('first_name' => 'Emily')),
+      user(array('first_name' => 'Maggie')),
+    );
+    
+    $this->update_friends_from_facebook();
+    
+    $rows = $this->db()->select('friend_id AS id')
+                       ->from('friends')
+                       ->where('user_id', $this->id);
+    
+    return $this->load_objects('XUser', $rows);
+  }
+  
+  function update_friends_from_facebook() {
+    if ( ! connected_to_facebook() )
+      return;
+    
+    $friends = $this->_fetch_friends_from_facebook();
+        
+    //delete old friends data
+    $this->db()->delete('friends', array('user_id' => $this->id));
+    
+    $rows = array();
+    foreach ($friends as $friend) {
+      $rows[] = array(
+        'user_id' => $this->id,
+        'friend_id' => $friend->id,
+      );
+    }
+    
+    $this->db()->insert_batch('friends', $rows);
+  }
+  
+  function _fetch_friends_from_facebook() {
+    $friends = array();
+    
+    $results = fb()->api(array(
+      'method' => 'fql.query',
+      'query' => "SELECT uid FROM user
+                  WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $this->facebook_id)
+                  AND is_app_user = 1"
+    ));
+    
+    foreach ($results as $result) {
+      $friend = user(array('facebook_id' => $result['uid']));
+      if ($friend)
+        $friends[] = $friend;
+    }
+    
+    return $friends;
+  }
+  
   /**
    * Return the party that this user attended on $date.
    * 
@@ -353,6 +413,38 @@ class XUser extends XObject
                       ->count_all_results() > 0;
   }
   
+  function where_friends_went() {
+    $breakdown = array();
+    
+    $party_ids = implode(',', $this->_party_ids() );
+    $friend_ids = implode(',', $this->_friend_ids());
+    
+    $query = "SELECT user_id, party_id from users
+              INNER JOIN party_attendees
+              ON users.id = party_attendees.user_id AND party_id IN ($party_ids) AND users.id IN ($friend_ids)";
+    $rows = $this->db()->query($query)->result();
+    foreach ($rows as $row) {
+      $breakdown[$row->party_id][] = $row->user_id;
+    }
+    return $breakdown;
+  }
+  
+  private function _party_ids() {
+    $ids = array();
+    foreach ($this->college->open_parties( today(true) ) as $party) {
+      $ids[] = $party->id;
+    }
+    return $ids;
+  }
+  
+  private function _friend_ids() {
+    $ids = array();
+    foreach ($this->friends() as $friend) {
+      $ids[] = $friend->id;
+    }
+    return $ids;
+  }
+  
   function fetch_facebook_data() {
     if ($this->facebook_id == NULL)
       return NULL;
@@ -405,6 +497,9 @@ class XUser extends XObject
   
   function update_facebook_data() {
     if ( ! $this->facebook_id)
+      return;
+    
+    if ( !connected_to_facebook() )
       return;
     
     $fbdata = $this->fetch_facebook_data();
