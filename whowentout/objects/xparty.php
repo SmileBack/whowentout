@@ -64,14 +64,13 @@ class XParty extends XObject
     return $this->_attendees_query()->where('gender', 'M')->count_all_results();
   }
   
-  function recent_attendees($gender = 'F') {
+  function recent_attendees() {
     $attendees = array();
     
     $rows = $this->db()->select('user_id AS id')
                        ->from('party_attendees')
                        ->join('users', 'users.id = party_attendees.user_id')
                        ->where('party_id', $this->id)
-                       ->where('gender', $gender)
                        ->order_by('checkin_time', 'desc')
                        ->limit(4)
                        ->get()->result();

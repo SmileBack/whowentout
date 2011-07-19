@@ -15,14 +15,22 @@ $('.recent_attendees').entwine({
       context: this,
       url: 'party/recent/' + this.partyID(),
       dataType: 'json',
-      success: function(ids) {
+      success: function(newThumbnails) {
         var currentIDs = this.thumbnailIDs();
-        for (var i = ids.length - 1; i >= 0; i--) {
-          if ( i == 0 && $.inArray(ids[i], currentIDs) == -1 )
-            this.insertThumbnail( ids[i] );
+        for (var i = newThumbnails.length - 1; i >= 0; i--) {
+          if ( ! this._thumbnailExists(newThumbnails[i], currentIDs) ) {
+            this.insertThumbnail( newThumbnails[i] );
+          }
         }
       }
     });
+  },
+  _thumbnailExists: function(thumbnail, currentIDs) {
+    for (var k in currentIDs) {
+      if (currentIDs[k] == thumbnail.id)
+        return true;
+    }
+    return false;
   },
   partyID: function() {
     return this.attr('data-party-id');
@@ -34,26 +42,26 @@ $('.recent_attendees').entwine({
     });
     return ids;
   },
-  insertThumbnail: function(id) {
-    console.log('insert thumbnail ' + id);
+  insertThumbnail: function(thumbnail) {
+    console.log('insert thumbnail ' + thumbnail);
     var oldPics = $('.recent_attendees li:gt(2)');
 
-    var thumb = this.createThumbnail(id);
-    thumb.css('opacity', 0);
-    thumb.css('position', 'fixed');
-    $('.recent_attendees').prepend(thumb);
+    var t = this.createThumbnail(thumbnail);
+    t.css('opacity', 0);
+    t.css('position', 'fixed');
+    $('.recent_attendees').prepend(t);
 
-    var originalWidth = thumb.width(); originalWidth = 105;
+    var originalWidth = t.width(); originalWidth = 105;
     var originalMarginLeft = 10;
     var originalMarginRight = 10;
 
     var speed = 300;
-    thumb.css({position: '', 'margin-left': '-' + originalWidth + 'px', 'margin-right': '0px'});
+    t.css({position: '', 'margin-left': '-' + originalWidth + 'px', 'margin-right': '0px'});
 
     if (oldPics.length > 0) {
       oldPics.fadeOut(speed, function() {
         $(this).remove();
-        thumb.animate({
+        t.animate({
           'margin-left': originalMarginLeft + 'px',
           'margin-right': originalMarginRight + 'px'
         }, speed)
@@ -61,22 +69,22 @@ $('.recent_attendees').entwine({
       });
     }
     else {
-      thumb
+      t
       .animate({
         'margin-left': originalMarginLeft + 'px'
       }, speed)
       .animate({opacity: 1}, speed);
     }
 
-    return thumb;
+    return t;
   },
-  createThumbnail: function(id) {
+  createThumbnail: function(thumbnail) {
     var li = $('<li/>');
-    li.attr('data-user-id', id);
+    li.attr('data-user-id', thumbnail.id);
     var img = $('<img/>');
-    img.attr('src', '/pics/thumb/' + id + '.jpg');
+    img.attr('src', thumbnail.path);
     li.append(img);
-    return li
+    return li;
   }
 });
 
@@ -85,4 +93,3 @@ $('.recent_attendees li').entwine({
     return parseInt( this.attr('data-user-id') );
   }
 });
-

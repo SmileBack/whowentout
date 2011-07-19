@@ -16,3 +16,8 @@ $config['imagerepository']['development'] = array(
   'source' => 's3',
   'bucket' => 'whowentoutdev',
 );
+
+$config['imagerepository']['production'] = array(
+  'source' => 's3',
+  'bucket' => 'whowentout',
+);

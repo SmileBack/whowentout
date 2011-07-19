@@ -68,7 +68,6 @@ abstract class BaseImageRepository
   }
   
   function set_default_crop_box($id) {
-    return;
     $user = user($id);
     
     $padding = 20;

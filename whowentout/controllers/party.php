@@ -40,12 +40,15 @@ class Party extends MY_Controller {
       show_404();
     
     $party = party($party_id);
-    $recent_attendee_ids = array();
-    foreach ($party->recent_attendees($user->other_gender) as $attendee) {
-      $recent_attendee_ids[] = $attendee->id;
+    $recent_attendee_images = array();
+    foreach ($party->recent_attendees() as $attendee) {
+      $recent_attendee_images[] = array(
+        'id' => $attendee->id,
+        'path' => $attendee->thumb_url,
+      );
     }
     
-    print json_encode($recent_attendee_ids);exit;
+    print json_encode($recent_attendee_images);exit;
   }
   
 }
