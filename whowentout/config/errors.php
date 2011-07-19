@@ -1,0 +1,34 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+$config = array();
+
+$config['blah'] = 'yeahh';
+
+define('REASON_NOT_IN_COLLEGE', 1 << 1);
+define('REASON_NOT_IN_PARTY', 1 << 2);
+define('REASON_OUT_OF_SMILES', 1 << 3);
+define('REASON_ALREADY_SMILED_AT', 1 << 4);
+define('REASON_DOORS_HAVE_CLOSED', 1 << 5);
+define('REASON_ALREADY_ATTENDED_PARTY', 1 << 6);
+define('REASON_NOT_LOGGED_IN', 1 << 7);
+define('REASON_PARTY_WASNT_YESTERDAY', 1 << 8);
+define('REASON_MISSING_PROFILE_INFO', 1 << 9);
+define('REASON_PARTY_DOESNT_EXIST', 1 << 10);
+define('REASON_RECEIVER_NOT_IN_PARTY', 1 << 11);
+define('REASON_USER_DOESNT_EXIST', 1 << 12);
+define('REASON_CANT_SMILE_AT_SAME_GENDER', 1 << 13);
+
+$config['reasons'][REASON_NOT_IN_COLLEGE] = "NOT IN COLLEGE";
+$config['reasons'][REASON_NOT_IN_PARTY] = "NOT IN PARTY";
+$config['reasons'][REASON_OUT_OF_SMILES] = "OUT OF SMILES";
+$config['reasons'][REASON_ALREADY_SMILED_AT] = "ALREADY SMILED AT";
+$config['reasons'][REASON_DOORS_HAVE_CLOSED] = "DOORS HAVE CLOSED";
+$config['reasons'][REASON_ALREADY_ATTENDED_PARTY] = "ALREADY ATTENDED PARTY";
+$config['reasons'][REASON_NOT_LOGGED_IN] = "REASON NOT LOGGED IN";
+$config['reasons'][REASON_PARTY_WASNT_YESTERDAY] = "PARTY WASNT YESTERDAY";
+$config['reasons'][REASON_MISSING_PROFILE_INFO] = "MISSING PROFILE INFO";
+$config['reasons'][REASON_PARTY_DOESNT_EXIST] = "PARTY DOESNT EXIST";
+$config['reasons'][REASON_RECEIVER_NOT_IN_PARTY] = "RECEIVER NOT IN PARTY";
+$config['reasons'][REASON_ALREADY_ATTENDED_PARTY] = "ALREADY ATTENDED PARTY";
+$config['reasons'][REASON_USER_DOESNT_EXIST] = "USER DOESNT EXIST";
+$config['reasons'][REASON_CANT_SMILE_AT_SAME_GENDER] = "CANT SMILE AT SAME GENDER";

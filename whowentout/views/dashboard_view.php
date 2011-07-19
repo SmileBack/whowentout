@@ -4,6 +4,6 @@
 
 <?= load_section_view('parties_attended_view', "Parties I've Attended"); ?>
 
-<?= load_section_view('friends_view', "Where'd Your Friends Go Out") ?>
+<?= load_section_view('friends_view', "Where Your Friends Went Out") ?>
 
 <?= load_section_view('top_parties_view', "Top Parties"); ?>

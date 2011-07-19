@@ -9,6 +9,7 @@ class XObject
   static function get($id) {
     $class = get_called_class();
     
+    if ($id == NULL) return NULL;
     if ($id instanceof XObject) return $id;
     
     if (is_array($id)) {

@@ -5,7 +5,6 @@
     <?= js_asset('date.format.js') ?>
     
     <?= js_asset('jquery.js') ?>
-    <?= js_asset('chart.js') ?>
     <?= js_asset('jquery.entwine.js') ?>
     
     <?= js_asset('jquery.body.js') ?>
@@ -13,6 +12,7 @@
     <?= js_asset('jquery.element.js') ?>
     <?= js_asset('jquery.dialog.js') ?>
     <?= js_asset('jquery.jcrop.js') ?>
+    <?= js_asset('chart.js') ?>
     
     <?= js_asset('core.js') ?>
     <?= js_asset('time.js') ?>

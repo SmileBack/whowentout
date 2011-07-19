@@ -65,7 +65,8 @@ $autoload['libraries'] = array('database', 'session');
 */
 
 $autoload['helper'] = array('date', 'time', 'html', 'form', 'url', 'wwo', 'user', 'asset', 'test');
-
+if (ENVIRONMENT == 'test')
+  $autoload['helper'][] = 'test';
 
 /*
 | -------------------------------------------------------------------
@@ -80,7 +81,7 @@ $autoload['helper'] = array('date', 'time', 'html', 'form', 'url', 'wwo', 'user'
 |
 */
 
-$autoload['config'] = array('facebook', 'wwo');
+$autoload['config'] = array('facebook', 'amazon', 'errors', 'wwo');
 
 
 /*

@@ -356,3 +356,42 @@ table td, table th {
   font-size: 1.2em;
   margin: 25px;
 }
+
+.where_friends_went > li {
+  display: none;
+}
+
+.where_friends_went > .selected {
+  display: block;
+}
+
+.party_tab {
+}
+
+.party_tab li {
+  display: inline-block;
+  text-align: center;
+}
+
+#friends_view .where_friends_went {
+  width: 40%;
+  height: 200px;
+  float: right;
+  overflow: scroll;
+  overflow-y: hidden;
+}
+
+#friendschart {
+  width: 30%;
+}
+
+.sortbar li {
+  display: inline-block;
+  font-size: 15px;
+  margin: 10px;
+}
+
+.sortbar .selected {
+  font-weight: bold;
+}
+

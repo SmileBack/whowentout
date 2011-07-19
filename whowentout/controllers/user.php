@@ -125,10 +125,13 @@ class User extends MY_Controller {
     
     $party_date = new DateTime($party->date, college()->timezone);
     
-    // User has already attended a party on the date
-    if ( $user->has_attended_party_on_date($party_date) ) {
+    if ( $user->can_checkin($party) ) {
+      $user->checkin($party);
+      redirect("party/$party->id");
+    }
+    elseif ( $user->reason() == REASON_ALREADY_ATTENDED_PARTY) {
       $other_party = $user->get_attended_party($party_date);
-      
+
       if ($other_party->id == $party->id)
         set_message("You have already checked into {$party->place->name}.");
       else
@@ -136,15 +139,11 @@ class User extends MY_Controller {
         
       redirect("party/$other_party->id");
     }
-    
-    if ( ! $user->can_checkin($party->id) ) {
-      show_error("You can't checkin.");
-    }
     else {
-      $user->checkin($party->id);
+      set_message(get_reason_message($user->reason()));
+      redirect('/');
     }
     
-    redirect("party/$party->id");
   }
   
   function smile() {
@@ -180,6 +179,4 @@ class User extends MY_Controller {
     ));
   }
   
-  
-	
 }

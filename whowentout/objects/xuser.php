@@ -155,6 +155,11 @@ class XUser extends XObject
       return FALSE;
     }
     
+    if ( $receiver->gender == $this->gender ) {
+      $this->reason = REASON_CANT_SMILE_AT_SAME_GENDER;
+      return FALSE;
+    }
+    
     if ( ! $receiver->has_attended_party($party) ) {
       $this->reason = REASON_RECEIVER_NOT_IN_PARTY;
       return FALSE;
@@ -288,6 +293,7 @@ class XUser extends XObject
       user(array('first_name' => 'Claire')),
       user(array('first_name' => 'Emily')),
       user(array('first_name' => 'Maggie')),
+      user(array('first_name' => 'Jackie')),
     );
     
     $this->update_friends_from_facebook();
@@ -416,8 +422,15 @@ class XUser extends XObject
   function where_friends_went() {
     $breakdown = array();
     
-    $party_ids = implode(',', $this->_party_ids() );
-    $friend_ids = implode(',', $this->_friend_ids());
+    $party_ids = $this->_party_ids();
+    $friend_ids = $this->_friend_ids();
+    
+    if (empty($party_ids) || empty($friend_ids)) {
+      return array();
+    }
+    
+    $party_ids = implode(',', $party_ids);
+    $friend_ids = implode(',', $friend_ids);
     
     $query = "SELECT user_id, party_id from users
               INNER JOIN party_attendees

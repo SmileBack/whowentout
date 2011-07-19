@@ -1,41 +1,36 @@
 <?php
 
-class ImageRepository
+abstract class BaseImageRepository
 {
-  
-  private $path;
-  
-  function __construct($path) {
-    $this->path = $path;
-    $this->check_path();
-  }
-  
-  function refresh($id, $preset) {
-    $method = "refresh_$preset";
-    $this->$method($id);
-  }
   
   /**
    * @return WideImage
    */
-  function get($id, $preset) {
-    $image_path = $this->path($id, $preset);
-    
-    if ($image_path == NULL)
-      return NULL;
-    
-    return WideImage::load($image_path);
-  }
+  abstract function get($id, $preset);
   
-  function path($id, $preset) {
-    if ( ! $this->exists($id, $preset) ) {
-      $this->refresh($id, $preset);
-    }
-    return "$this->path/$preset/$id.jpg";
-  }
+  /**
+   * @return string
+   */
+  abstract function path($id, $preset);
   
-  function exists($id, $preset) {
-    return file_exists("$this->path/$preset/$id.jpg");
+  /**
+   * @return bool
+   */
+  abstract function exists($id, $preset);
+  
+  abstract function delete($id, $preset);
+  
+  /**
+   *
+   * @param WideImage $img
+   * @param int $id
+   * @param string $preset 
+   */
+  abstract function saveImage($img, $id, $preset);
+  
+  function refresh($id, $preset) {
+    $method = "refresh_$preset";
+    $this->$method($id);
   }
   
   protected function refresh_facebook($id) {
@@ -45,11 +40,13 @@ class ImageRepository
       return;
     
     $facebook_pic_url = "https://graph.facebook.com/$user->facebook_id/picture?type=large&access_token=" . fb()->getAccessToken();
-    $this->download('facebook', $user->id, $facebook_pic_url);
+    $img = WideImage::loadFromFile($facebook_pic_url);
+    $this->saveImage($img, $id, 'facebook');
+    
     $this->set_default_crop_box($id);
     
-    $this->refresh_normal($id);
-    $this->refresh_thumb($id);
+    $this->refresh($id, 'normal');
+    $this->refresh($id, 'thumb');
   }
   
   protected function refresh_normal($id) {
@@ -70,29 +67,8 @@ class ImageRepository
     $this->saveImage($img, $id, 'thumb');
   }
   
-  protected function saveImage($img, $id, $preset) {
-    $this->create_preset($preset);
-    $img->saveToFile("$this->path/$preset/$id.jpg");
-  }
-  
-  protected function download($preset, $id, $url) {
-    $img = WideImage::loadFromFile($url);
-    $this->saveImage($img, $id, $preset);
-  }
-  
-  protected function create_preset($preset) {
-    if ( ! file_exists("$this->path/$preset")) {
-      mkdir("$this->path/$preset");
-    }
-  }
-  
-  protected function check_path() {
-    if ( ! file_exists($this->path) )
-      throw new Exception("The path $this->path doesn't exist");
-  }
-  
-  
   function set_default_crop_box($id) {
+    return;
     $user = user($id);
     
     $padding = 20;
@@ -116,6 +92,142 @@ class ImageRepository
       $user->pic_height = $user->pic_width * (4 / 3);
       $user->save();
     }
+  }
+  
+}
+
+class S3ImageRepository extends BaseImageRepository
+{
+  
+  private $bucket;
+  private $amazon_public_key;
+  private $amazon_secret_key;
+  private $s3;
+  
+  function __construct($bucket) {
+    $this->bucket = $bucket;
+    $this->amazon_public_key = ci()->config->item('amazon_public_key');
+    $this->amazon_secret_key = ci()->config->item('amazon_secret_key');
+  }
+  
+  /**
+   *
+   * @param WideImage $img
+   * @param int $id
+   * @param string $preset 
+   */
+  function saveImage($img, $id, $preset) {
+    $temp_image_path = tempnam(sys_get_temp_dir(), 'img') . '.jpg';
+    $img->saveToFile($temp_image_path);
+    $filename = $this->filename($id, $preset);
+    $respones = $this->s3()->create_object($this->bucket, $filename, array(
+      'fileUpload' => $temp_image_path, 
+      'acl' => AmazonS3::ACL_PUBLIC,
+    ));
+  }
+  
+  /**
+   * @return WideImage
+   */
+  function get($id, $preset) {
+    if ( ! $this->exists($id, $preset) )
+      return NULL;
+    
+    $image_path = $this->path($id, $preset);
+    return WideImage::loadFromFile($image_path);
+  }
+  
+  function path($id, $preset) {
+    if ( ! $this->exists($id, $preset) ) {
+      $this->refresh($id, $preset);
+    }
+    $filename = $this->filename($id, $preset);
+    return $this->s3()->get_object_url($this->bucket, $filename);
+  }
+  
+  function exists($id, $preset) {
+    $filename = $this->filename($id, $preset);
+    return $this->s3()->if_object_exists($this->bucket, $filename);
+  }
+  
+  function delete($id, $preset) {
+    $filename = $this->filename($id, $preset);
+    $this->s3()->delete_object($this->bucket, $filename);
+  }
+  
+  function filename($id, $preset) {
+    return "$id.$preset.jpg";
+  }
+  
+  /**
+   * @return AmazonS3
+   */
+  function s3() {
+    if ($this->s3 == NULL) {
+      $this->s3 = new AmazonS3($this->amazon_public_key, $this->amazon_secret_key);
+      $this->s3()->use_ssl = false;
+    }
+    return $this->s3;
+  }
+  
+}
+
+class FilesystemImageRepository extends BaseImageRepository
+{
+  
+  private $path;
+  
+  function __construct($path) {
+    $this->path = $path;
+    $this->check_path();
+  }
+  
+  function saveImage($img, $id, $preset) {
+    $this->create_preset($preset);
+    $img->saveToFile( $this->filename($id, $preset) );
+  }
+  
+  protected function create_preset($preset) {
+    if ( ! file_exists("$this->path/$preset") ) {
+      mkdir("$this->path/$preset");
+    }
+  }
+  
+  /**
+   * @return WideImage
+   */
+  function get($id, $preset) {
+    $image_path = $this->path($id, $preset);
+    
+    if ($image_path == NULL)
+      return NULL;
+    
+    return WideImage::load($image_path);
+  }
+  
+  function path($id, $preset) {
+    if ( ! $this->exists($id, $preset) ) {
+      $this->refresh($id, $preset);
+    }
+    return $this->filename($id, $preset);
+  }
+  
+  function exists($id, $preset) {
+    return file_exists( $this->filename($id, $preset) );
+  }
+  
+  function delete($id, $preset) {
+    $filename = $this->filename($id, $preset);
+    unlink($filename);
+  }
+  
+  protected function filename($id, $preset) {
+    return "$this->path/$preset/$id.jpg";
+  }
+  
+  protected function check_path() {
+    if ( ! file_exists($this->path) )
+      throw new Exception("The path $this->path doesn't exist");
   }
   
 }

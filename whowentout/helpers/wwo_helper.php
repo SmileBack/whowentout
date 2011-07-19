@@ -68,11 +68,19 @@ function set_option($name, $value) {
  */
 function images() {
   static $images = NULL;
+  
   if (!$images) {
-    if (ENVIRONMENT == 'test')
-      $images = new ImageRepository('testpics');
-    else
-      $images = new ImageRepository('pics');
+    ci()->config->load('imagerepository');
+    $config = ci()->config->item('imagerepository');
+    $config = $config[ $config['active_group'] ];
+    
+    if ($config['source'] == 'filesystem') {
+      return new FilesystemImageRepository($config['path']);
+    }
+    elseif ($config['source'] == 's3') {
+      return new S3ImageRepository($config['bucket']);
+    }
+    
   }
   
   return $images;
@@ -169,8 +177,17 @@ function where_friends_went_pie_chart_data() {
   
   foreach (current_user()->where_friends_went() as $party_id => $friend_ids) {
     $party = party($party_id);
-    $data[] = array($party->place->name, count($friend_ids));
+    $data[] = array($party->place->name, count($friend_ids), $party->id);
   }
   
   return $data;
+}
+
+function get_reason_message($reason) {
+  $reasons = ci()->config->item('reasons');
+  
+  if (is_string($reason))
+    return $reason;
+  else
+    return $reasons[$reason];
 }
