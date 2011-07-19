@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-07-12 17:54:10
+# Date/time:                    2011-07-18 18:22:18
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `colleges` (
   `name` varchar(255) NOT NULL,
   `email_domain` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.colleges: ~24 rows (approximately)
+# Dumping data for table whowentout.colleges: ~51 rows (approximately)
 /*!40000 ALTER TABLE `colleges` DISABLE KEYS */;
 INSERT INTO `colleges` (`id`, `facebook_network_id`, `facebook_school_id`, `enabled`, `name`, `email_domain`) VALUES
 	(1, '16777270', '108727889151725', 1, 'GWU', 'gwu.edu'),
@@ -48,8 +48,53 @@ INSERT INTO `colleges` (`id`, `facebook_network_id`, `facebook_school_id`, `enab
 	(22, '33576814', NULL, 0, 'Plainview- Old Bethpage/JFK High School', '0'),
 	(23, '33574700', NULL, 0, 'Whitfield School', '0'),
 	(24, '33579875', NULL, 0, 'Germantown Academy', '0'),
-	(25, '33581615', NULL, 0, 'Austin High School', '0');
+	(25, '33581615', NULL, 0, 'Austin High School', '0'),
+	(26, '33568076', NULL, 0, 'Donna Klein Jewish Academy', '0'),
+	(27, '16777298', NULL, 0, 'Binghamton', '0'),
+	(28, '50434401', NULL, 0, 'United States Congress', '0'),
+	(29, '33572581', NULL, 0, 'New Jewish High School/Gann Academy', '0'),
+	(30, '16777221', NULL, 0, 'Cornell', '0'),
+	(31, '16777381', NULL, 0, 'CUNY Baruch', '0'),
+	(32, '16777318', NULL, 0, 'Arizona', '0'),
+	(33, '16777572', NULL, 0, 'Ursinus', '0'),
+	(34, '33579702', NULL, 0, 'Wissahickon Senior High School', '0'),
+	(35, '33567356', NULL, 0, 'Gunnery', '0'),
+	(36, '33572565', NULL, 0, 'Framingham High School', '0'),
+	(37, '33575443', NULL, 0, 'Chatham High', '0'),
+	(38, '33566538', NULL, 0, 'Viewpoint School', '0'),
+	(39, '16828524', NULL, 0, 'Universidad Latina', '0'),
+	(40, '33571784', NULL, 0, 'Cheverus High School', '0'),
+	(41, '33566550', NULL, 0, 'Harvard-Westlake', '0'),
+	(42, '33575662', NULL, 0, 'Old Bridge High School', '0'),
+	(43, '33582887', NULL, 0, 'Bellaire High School', '0'),
+	(44, '67109026', NULL, 0, 'Northern Indiana, IN', '0'),
+	(45, '33570087', NULL, 0, 'Valparaiso High School', '0'),
+	(46, '33572381', NULL, 0, 'Brooks School', '0'),
+	(47, '33572537', NULL, 0, 'Tabor Academy', '0'),
+	(48, '33575797', NULL, 0, 'Seton Hall Preparatory School', '0'),
+	(49, '33568239', NULL, 0, 'The Lovett School', '0'),
+	(50, '33575800', NULL, 0, 'Westfield Senior High School', '0'),
+	(51, '33572307', NULL, 0, 'Holliston High School', '0'),
+	(52, '33572711', NULL, 0, 'Cranbrook Kingswood', '0');
 /*!40000 ALTER TABLE `colleges` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.friends
+CREATE TABLE IF NOT EXISTS `friends` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `friend_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+
+# Dumping data for table whowentout.friends: ~4 rows (approximately)
+/*!40000 ALTER TABLE `friends` DISABLE KEYS */;
+INSERT INTO `friends` (`id`, `user_id`, `friend_id`) VALUES
+	(2, 33, 109),
+	(46, 109, 33),
+	(47, 109, 11),
+	(48, 109, 7);
+/*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 
 
 # Dumping structure for table whowentout.options
@@ -62,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `options` (
 # Dumping data for table whowentout.options: ~2 rows (approximately)
 /*!40000 ALTER TABLE `options` DISABLE KEYS */;
 INSERT INTO `options` (`id`, `value`) VALUES
-	('fake_time_point', 'a:2:{s:9:"fake_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-10-07 15:01:00";s:13:"timezone_type";i:1;s:8:"timezone";s:6:"-07:00";}s:9:"real_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-07-11 23:55:17";s:13:"timezone_type";i:3;s:8:"timezone";s:19:"America/Los_Angeles";}}'),
+	('fake_time_point', 'a:2:{s:9:"fake_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-10-07 22:01:00";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:9:"real_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-07-19 00:23:10";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}}'),
 	('temp', '2011-09-28 22:06:04 -0700');
 /*!40000 ALTER TABLE `options` ENABLE KEYS */;
 
@@ -105,8 +150,48 @@ CREATE TABLE IF NOT EXISTS `party_attendees` (
   CONSTRAINT `party_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.party_attendees: ~10 rows (approximately)
+# Dumping data for table whowentout.party_attendees: ~39 rows (approximately)
 /*!40000 ALTER TABLE `party_attendees` DISABLE KEYS */;
+INSERT INTO `party_attendees` (`user_id`, `party_id`, `checkin_time`) VALUES
+	(3, 10, '2011-07-19 01:08:08'),
+	(6, 10, '2011-07-17 00:47:21'),
+	(6, 15, '2011-07-15 23:18:22'),
+	(7, 11, '2011-07-17 00:04:12'),
+	(9, 9, '2011-07-17 00:18:32'),
+	(10, 14, '2011-07-13 06:34:44'),
+	(12, 10, '2011-07-17 22:52:39'),
+	(14, 14, '2011-07-13 06:34:47'),
+	(33, 10, '2011-07-17 00:16:35'),
+	(50, 10, '2011-07-19 01:04:15'),
+	(78, 10, '2011-07-18 00:10:17'),
+	(80, 10, '2011-07-17 00:47:23'),
+	(81, 10, '2011-07-18 00:10:15'),
+	(82, 11, '2011-07-17 00:45:33'),
+	(82, 14, '2011-07-13 06:34:41'),
+	(83, 10, '2011-07-18 00:10:19'),
+	(86, 11, '2011-07-17 00:47:10'),
+	(88, 10, '2011-07-17 00:47:20'),
+	(89, 9, '2011-07-17 17:50:46'),
+	(90, 10, '2011-07-19 01:06:41'),
+	(91, 9, '2011-07-17 00:17:35'),
+	(93, 15, '2011-07-15 23:18:20'),
+	(95, 15, '2011-07-15 23:18:18'),
+	(96, 10, '2011-07-17 01:38:15'),
+	(97, 10, '2011-07-17 22:52:43'),
+	(98, 11, '2011-07-17 00:45:31'),
+	(98, 15, '2011-07-15 23:18:21'),
+	(99, 15, '2011-07-15 23:18:19'),
+	(100, 11, '2011-07-17 00:47:08'),
+	(101, 15, '2011-07-15 22:55:24'),
+	(104, 10, '2011-07-18 00:10:11'),
+	(104, 14, '2011-07-13 06:34:46'),
+	(106, 10, '2011-07-19 01:07:46'),
+	(107, 10, '2011-07-17 22:53:55'),
+	(108, 11, '2011-07-17 00:45:29'),
+	(112, 10, '2011-07-18 00:09:57'),
+	(113, 10, '2011-07-18 00:09:59'),
+	(123, 10, '2011-07-18 00:10:13'),
+	(125, 10, '2011-07-19 00:25:08');
 /*!40000 ALTER TABLE `party_attendees` ENABLE KEYS */;
 
 
@@ -143,10 +228,10 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.sessions: ~2 rows (approximately)
+# Dumping data for table whowentout.sessions: ~1 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-	('b04856a84008378ae025e0cb95abb692', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1310542998, 'a:1:{s:7:"user_id";i:125;}');
+	('06c5340b8b930a58feefab7ab20f49f7', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1311063536, 'a:1:{s:7:"user_id";i:125;}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
 
@@ -165,10 +250,15 @@ CREATE TABLE IF NOT EXISTS `smiles` (
   CONSTRAINT `smiles_party_id` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`),
   CONSTRAINT `smiles_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `smiles_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.smiles: ~0 rows (approximately)
+# Dumping data for table whowentout.smiles: ~4 rows (approximately)
 /*!40000 ALTER TABLE `smiles` DISABLE KEYS */;
+INSERT INTO `smiles` (`id`, `sender_id`, `receiver_id`, `party_id`, `smile_time`) VALUES
+	(3, 33, 96, 10, '2011-07-17 23:21:03'),
+	(4, 33, 88, 10, '2011-07-18 04:13:46'),
+	(5, 88, 112, 10, '2011-07-18 04:15:03'),
+	(6, 88, 33, 10, '2011-07-18 04:15:08');
 /*!40000 ALTER TABLE `smiles` ENABLE KEYS */;
 
 
@@ -194,40 +284,40 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.users: ~44 rows (approximately)
+# Dumping data for table whowentout.users: ~77 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `facebook_id`, `first_name`, `last_name`, `hometown`, `college_id`, `grad_year`, `email`, `gender`, `registration_time`, `last_edit`, `date_of_birth`, `pic_x`, `pic_y`, `pic_width`, `pic_height`) VALUES
 	(3, '100001150127674', 'Robert', 'Roose', 'Topeka, KS', 1, 2011, 'robert@gwu.edu', 'M', NULL, NULL, '1990-10-24', 38, 20, 105, 140),
-	(4, '1243620029', 'Clara', 'Scheinmann', 'Topeka, KS', 1, 2013, 'clara@gwu.edu', 'F', NULL, NULL, '1991-01-31', 20, 20, 140, 187),
+	(4, '1243620029', 'Clara', 'Scheinmann', 'Topeka, KS', 1, 2013, 'clara@gwu.edu', 'F', NULL, '2011-10-07 22:23:35', '1991-01-31', 20, 20, 140, 187),
 	(5, '1479330106', 'Natalie', 'Epelman', 'Topeka, KS', 1, 2012, 'natalie@gwu.edu', 'F', NULL, NULL, '1990-05-16', 17, 20, 147, 196),
 	(6, '1067760090', 'Marissa', 'Ostroff', 'Topeka, KS', 1, 2013, 'marissa@gwu.edu', 'F', NULL, NULL, '1990-12-09', 20, 20, 140, 187),
-	(7, '1204337494', 'Alex', 'Webb', 'Topeka, KS', 1, 2012, 'alex@gwu.edu', 'M', NULL, NULL, '0000-00-00', 59, 20, 83, 110),
+	(7, '569012997', 'Alex', 'Webb', 'Topeka, KS', 1, 2012, 'alex@gwu.edu', 'M', NULL, '2011-10-07 22:24:21', '0000-00-00', 37, 20, 106, 141),
 	(8, '704222664', 'Leon', 'Harari', 'Topeka, KS', 1, 2012, 'leon@gwu.edu', 'M', NULL, NULL, '0000-00-00', 60, 20, 60, 80),
-	(9, '760370505', 'Jonny', 'Cohen', 'Topeka, KS', 1, 2012, 'johnny@gwu.edu', 'M', NULL, NULL, '0000-00-00', 36, 20, 108, 144),
+	(9, '760370505', 'Jonny', 'Cohen', 'Topeka, KS', 1, 2012, 'johnny@gwu.edu', 'M', NULL, '2011-10-07 22:57:45', '0000-00-00', 36, 20, 108, 144),
 	(10, '719185695', 'Cassie', 'Scheinmann', 'Topeka, KS', 1, 2013, 'cassie@gwu.edu', 'F', NULL, NULL, '1991-03-05', 42, 20, 95, 127),
-	(11, '1099920067', 'Erica ', 'Obersi', 'Topeka, KS', 1, 2013, 'erica@gwu.edu', 'F', NULL, NULL, '1990-04-30', 56, 20, 68, 91),
+	(11, '1099920067', 'Erica ', 'Obersi', 'Topeka, KS', 1, 2013, 'erica@gwu.edu', 'F', NULL, NULL, '1990-04-30', 37, 20, 107, 142),
 	(12, '1682940070', 'Ava', 'Rubin', 'Topeka, KS', 1, 2013, 'ava@gwu.edu', 'F', NULL, NULL, '1991-01-09', 32, 20, 116, 155),
 	(13, '1067760099', 'Anna ', 'Lepkoski', 'Topeka, KS', 1, 2013, 'anna@gwu.edu', 'F', NULL, NULL, '1991-03-02', 35, 20, 110, 146),
 	(14, '1120470019', 'Sara', 'Sopher', 'Topeka, KS', 1, 2012, 'sara@gwu.edu', 'F', NULL, NULL, '0000-00-00', 20, 20, 140, 187),
-	(33, '8100231', 'Dan', 'Berenholtz', 'Topeka, KS', 1, 2014, 'db349@cornell.edu', 'M', '2011-07-06 07:48:07', NULL, '1986-09-10', 0, 0, 140, 187),
+	(33, '8100231', 'Dan', 'Berenholtz', 'Topeka, KS', 1, 2014, 'db349@cornell.edu', 'M', '2011-07-06 07:48:07', '2011-10-07 22:11:30', '1986-09-10', 20, 20, 140, 187),
 	(50, '5300477', 'Briana', 'Ashley', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 02:27:09', NULL, '0000-00-00', 24, 20, 133, 177),
 	(78, '5311798', 'Pamela', 'Siegelaub', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:14:02', NULL, '0000-00-00', 20, 20, 140, 187),
 	(80, '5312146', 'Emily', 'Aden', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:21:24', NULL, '0000-00-00', 28, 20, 125, 166),
-	(81, '634575073', 'Casey', 'James', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, '0000-00-00', 20, 20, 140, 187),
+	(81, '634575073', 'Casey', 'James', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, '0000-00-00', 53, 20, 75, 100),
 	(82, '1346882983', 'Claire', 'Bennett', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, '0000-00-00', 20, 20, 140, 187),
 	(83, '539471945', 'Senya', 'Merchant', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, '0000-00-00', 20, 20, 140, 187),
-	(85, '1091460106', 'Jillian', 'Leviton', 'Topeka, KS', 1, 2012, '', 'F', '2011-07-10 03:25:40', NULL, '0000-00-00', 5, 0, 175, 233),
+	(85, '1091460106', 'Jillian', 'Leviton', 'Topeka, KS', 1, 2012, '', 'F', '2011-07-10 03:25:40', NULL, '0000-00-00', 20, 20, 140, 187),
 	(86, '527961219', 'Riley', 'Schamburg', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:40', NULL, '0000-00-00', 24, 20, 133, 177),
-	(87, '1088610196', 'Jess', 'Sardella', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:41', NULL, '0000-00-00', 20, 20, 127, 169),
-	(88, '1339500103', 'Melissa', 'Peters', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:41', NULL, '0000-00-00', 20, 20, 140, 187),
-	(89, '1088670513', 'Jackie', 'Galoma', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:42', NULL, '0000-00-00', 12, 8, 134, 178),
+	(87, '1088610196', 'Jess', 'Sardella', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:41', NULL, '0000-00-00', 20, 20, 140, 187),
+	(88, '1339500103', 'Melissa', 'Peters', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:41', '2011-10-07 22:38:18', '0000-00-00', 0, 0, 81, 108),
+	(89, '1088670513', 'Jackie', 'Galoma', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:42', '2011-10-07 23:09:49', '0000-00-00', 0, 23, 94, 125),
 	(90, '1084350150', 'Nicole', 'Pozzi', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:42', NULL, '0000-00-00', 20, 20, 140, 187),
-	(91, '106631', 'Alisa', 'Brem', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:43', NULL, '0000-00-00', 53, 20, 75, 100),
+	(91, '106631', 'Alisa', 'Brem', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:43', '2011-10-07 22:56:54', '0000-00-00', 53, 20, 75, 100),
 	(92, '20203798', 'Emy', 'Gelb', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:43', NULL, '0000-00-00', 20, 20, 140, 187),
 	(93, '1229670021', 'Nicole', 'White', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, '0000-00-00', 20, 20, 160, 213),
-	(94, '7306880', 'Monica', 'Dreyer', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, '0000-00-00', 20, 20, 140, 187),
+	(94, '7306880', 'Monica', 'Dreyer', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, '0000-00-00', 31, 20, 119, 158),
 	(95, '5304695', 'Swati', 'Venugopal', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, '0000-00-00', 20, 20, 160, 213),
 	(96, '5312769', 'Maggie', 'Brennan', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, '0000-00-00', 20, 20, 140, 187),
 	(97, '1459620102', 'Remi', 'Rosenfeldt', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:45', NULL, '0000-00-00', 54, 20, 71, 95),
@@ -236,13 +326,46 @@ INSERT INTO `users` (`id`, `facebook_id`, `first_name`, `last_name`, `hometown`,
 	(100, '504327686', 'Beth', 'Argaman', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:46', NULL, '0000-00-00', 20, 20, 140, 187),
 	(101, '730755083', 'Alex', 'Caines', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:46', NULL, '0000-00-00', 20, 20, 137, 183),
 	(102, '5312044', 'Alyssa', 'Cooper', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, '0000-00-00', 20, 20, 100, 133),
-	(103, '1223850680', 'Betsy', 'Fortune', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, '0000-00-00', 20, 20, 140, 187),
+	(103, '1223850680', 'Betsy', 'Fortune', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, '0000-00-00', 54, 20, 71, 95),
 	(104, '507233007', 'Allison', 'Markowitz', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, '0000-00-00', 20, 20, 140, 187),
 	(105, '1307940055', 'Carsen', 'Zarin', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, '0000-00-00', 20, 20, 140, 187),
 	(106, '1463190167', 'Jana', 'Teichman', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, '0000-00-00', 20, 20, 140, 187),
 	(107, '1515390516', 'Rebekah', 'Yurco', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, '0000-00-00', 60, 20, 60, 80),
-	(108, '1555110345', 'Jenny', 'Soderbergh', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, '0000-00-00', 20, 20, 140, 187),
-	(125, '776200121', 'Venkat', 'Dinavahi', 'Severna Park, MD', 3, 2012, 'ven@stanford.edu', 'M', '2011-10-08 15:49:18', '2011-10-08 15:49:27', '1988-10-06', 20, 20, 104, 139);
+	(108, '1555110345', 'Jenny', 'Soderbergh', 'Topeka, KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', '2011-10-07 22:43:07', '0000-00-00', 5, 11, 170, 227),
+	(110, '531310504', 'Alexander', 'Zafran', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:47', NULL, '0000-00-00', 53, 20, 74, 99),
+	(111, '8112397', 'Mike', 'Allian', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:48', NULL, '0000-00-00', 20, 20, 140, 187),
+	(112, '1100520174', 'Sean', 'Burstyn', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:49', NULL, '0000-00-00', 54, 20, 71, 95),
+	(113, '1244370118', 'Ari', 'Hoffman', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:50', NULL, '0000-00-00', 20, 20, 140, 187),
+	(114, '5304934', 'Jonathan', 'Kudary', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:51', NULL, '0000-00-00', 59, 20, 83, 110),
+	(115, '6314330', 'Jonathan', 'Yashari', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:52', NULL, '0000-00-00', 16, 20, 148, 197),
+	(116, '16400099', 'Mourad', 'Shehebar', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:53', NULL, '0000-00-00', 38, 20, 104, 139),
+	(117, '10105934', 'Noah', 'Lerman', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:54', NULL, '0000-00-00', 20, 20, 62, 83),
+	(118, '5318741', 'Steve', 'Noghrey', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:22:55', NULL, '0000-00-00', 20, 20, 140, 187),
+	(121, '1458000225', 'Jeff', 'Becker', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:23:00', NULL, '0000-00-00', 20, 20, 140, 187),
+	(122, '1087620202', 'Adam', 'Katzenberg', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:23:01', NULL, '0000-00-00', 20, 20, 140, 187),
+	(123, '1243890775', 'Andrew', 'Chester', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:23:03', NULL, '0000-00-00', 54, 20, 71, 95),
+	(124, '1135539275', 'Peter', 'Cook', 'Topeka, KS', 1, 2012, '', 'M', '2011-10-08 05:23:04', NULL, '0000-00-00', 33, 20, 115, 153),
+	(125, '776200121', 'Venkat', 'Dinavahi', 'Severna Park, MD', 1, 2012, 'ven@stanford.edu', 'M', '2011-10-07 22:19:35', '2011-10-08 18:02:06', '1988-10-06', 40, 63, 104, 139),
+	(127, '746605354', 'Hunter', 'Pritchard', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:50:23', NULL, '0000-00-00', 20, 20, 140, 187),
+	(128, '899965359', 'Brock', 'Treworgy', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:50:30', NULL, '0000-00-00', 20, 20, 140, 187),
+	(129, '504949778', 'Ryan', 'Ashley', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:50:38', NULL, '0000-00-00', 20, 20, 140, 187),
+	(130, '1488840082', 'Victor', 'Bogachev', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:50:46', NULL, '0000-00-00', 60, 20, 60, 80),
+	(131, '591065975', 'Hursh', 'Vasant', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:50:53', NULL, '0000-00-00', 38, 20, 105, 140),
+	(132, '575037558', 'Andrew', 'Schumacher', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:51:01', NULL, '0000-00-00', 20, 20, 140, 187),
+	(133, '667836533', 'Nathan', 'Felton', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:52:23', NULL, '0000-00-00', 54, 20, 71, 95),
+	(134, '1103820248', 'Nick', 'Mejia', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:52:29', NULL, '0000-00-00', 54, 20, 71, 95),
+	(135, '525900942', 'Clement', 'Kristensen', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:52:35', NULL, '0000-00-00', 20, 20, 141, 188),
+	(136, '501474887', 'Steven', 'Chen', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:52:43', NULL, '0000-00-00', 20, 20, 140, 187),
+	(137, '1243050303', 'Luke', 'Stone', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:52:51', NULL, '0000-00-00', 49, 20, 83, 110),
+	(138, '1340850473', 'Chas', 'Pressner', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:52:58', NULL, '0000-00-00', 19, 20, 143, 190),
+	(139, '1114110458', 'Trey', 'O\'Callaghan', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:53:04', NULL, '0000-00-00', 67, 20, 46, 61),
+	(140, '1063440857', 'Pete', 'Chattrabhuti', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:53:12', NULL, '0000-00-00', 20, 20, 140, 187),
+	(141, '677726556', 'Jake', 'Shiffman', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:53:19', NULL, '0000-00-00', 16, 20, 148, 197),
+	(142, '1511370180', 'Ryan', 'Thornton', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:53:27', NULL, '0000-00-00', 60, 20, 60, 80),
+	(143, '1463220074', 'Ian', 'Braun', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:53:34', NULL, '0000-00-00', 20, 20, 140, 187),
+	(144, '1236150489', 'Ben', 'Gillman', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:53:44', NULL, '0000-00-00', 20, 20, 140, 187),
+	(145, '1248270638', 'Bradley', 'Schlafer', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:53:52', NULL, '0000-00-00', 20, 20, 140, 187),
+	(146, '1372767357', 'Harry', 'Meng', 'Topeka, KS', 1, 2013, '', 'M', '2011-10-07 22:53:58', NULL, '0000-00-00', 17, 20, 166, 221);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
