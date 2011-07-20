@@ -465,6 +465,31 @@ class XUser extends XObject
       return fb()->api("/$this->facebook_id");
   }
   
+  function upload_pic() {
+    $this->refresh_image('upload');
+  }
+  
+  function use_facebook_pic() {
+    images()->delete($this->id, 'upload');
+    images()->delete($this->id, 'source');
+    images()->refresh($this->id, 'facebook');
+  }
+  
+  //todo: validate
+  function crop_pic($x, $y, $width, $height) {
+    $this->pic_x = $x;
+    $this->pic_y = $y;
+    $this->pic_width = $width;
+    $this->pic_height = $height;
+    
+    $this->refresh_image('normal');
+    $this->refresh_image('thumb');
+  }
+  
+  function anchor_facebook_message() {
+    return anchor("http://www.facebook.com/messages/$this->facebook_id", 'send message', array('target' => '_blank'));
+  }
+  
   function get_other_gender() {
     return $this->gender == 'M' ? 'F' : 'M';
   }
@@ -474,7 +499,7 @@ class XUser extends XObject
   }
   
   function get_raw_pic_url() {
-    return $this->_get_image_path('facebook');
+    return $this->_get_image_path('source');
   }
   
   function get_pic() {
@@ -504,6 +529,10 @@ class XUser extends XObject
     return images()->get($this->id, $preset);
   }
   
+  function has_pic($preset) {
+    return images()->exists($this->id, $preset);
+  }
+  
   private function _get_image_path($preset) {
     return images()->path($this->id, $preset);
   }
@@ -512,7 +541,7 @@ class XUser extends XObject
     if ( ! $this->facebook_id)
       return;
     
-    if ( !connected_to_facebook() )
+    if ( ! connected_to_facebook() )
       return;
     
     $fbdata = $this->fetch_facebook_data();

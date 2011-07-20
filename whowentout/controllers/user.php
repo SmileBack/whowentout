@@ -10,14 +10,18 @@ class User extends MY_Controller {
       show_404();
     
     $user = current_user();
+    
+    if (post('op') == 'Upload') {
+      $user->upload_pic();
+      redirect('user/edit');
+    }
+    elseif (post('op') == 'Use Facebook Pic') {
+      $user->use_facebook_pic();
+      redirect('user/edit');
+    }
+    
     if (post('width') && post('height')) {
-      $user->pic_x = post('x');
-      $user->pic_y = post('y');
-      $user->pic_width = post('width');
-      $user->pic_height = post('height');
-      
-      $user->refresh_image('normal');
-      $user->refresh_image('thumb');
+      $user->crop_pic( post('x'), post('y'), post('width'), post('height') );
     }
     
     if (post('hometown')) {

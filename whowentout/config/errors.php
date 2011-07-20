@@ -17,6 +17,7 @@ define('REASON_PARTY_DOESNT_EXIST', 1 << 10);
 define('REASON_RECEIVER_NOT_IN_PARTY', 1 << 11);
 define('REASON_USER_DOESNT_EXIST', 1 << 12);
 define('REASON_CANT_SMILE_AT_SAME_GENDER', 1 << 13);
+define('REASON_INVALID_IMAGE', 1 << 14);
 
 $config['reasons'][REASON_NOT_IN_COLLEGE] = "NOT IN COLLEGE";
 $config['reasons'][REASON_NOT_IN_PARTY] = "NOT IN PARTY";

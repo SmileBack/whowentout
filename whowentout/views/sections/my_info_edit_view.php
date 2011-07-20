@@ -1,5 +1,5 @@
 
-<?= form_open('user/edit_save', array('id' => 'edit_form')) ?>
+<?= form_open_multipart('user/edit_save', array('id' => 'edit_form')) ?>
   
   <fieldset>
     <ul>
@@ -32,7 +32,18 @@
         <?= $user->raw_pic ?>
       </div>
     </div>
-
+    
+    <div id="pic_options">
+      <?php if ( $user->has_pic('upload') ): ?>
+        <label>Use your profile picture from Facebook</label>
+        <input type="submit" name="op" value="Use Facebook Pic" />
+      <?php else: ?>
+        <label>Upload your own pic</label>
+        <?= form_upload('upload_pic') ?>
+        <input type="submit" name="op" value="Upload" />
+      <?php endif; ?>
+    </div>
+    
     <input type="hidden" id="x" name="x" value="<?= $user->pic_x ?>"/>
     <input type="hidden" id="y" name="y" value="<?= $user->pic_y ?>"/>
     <input type="hidden" id="width" name="width" value="<?= $user->pic_width ?>" />
@@ -42,7 +53,7 @@
 
 
   <fieldset class="form_buttons">
-    <input type="submit" value="Save" />
+    <input type="submit" name="op" value="Save" />
   </fieldset>
   
 <?= form_close() ?>

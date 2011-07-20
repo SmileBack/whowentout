@@ -13,8 +13,10 @@ $config['imagerepository']['test'] = array(
 );
 
 $config['imagerepository']['development'] = array(
-  'source' => 's3',
-  'bucket' => 'whowentoutdev',
+  'source' => 'filesystem',
+  'path' => 'pics',
+//  'source' => 's3',
+//  'bucket' => 'whowentoutdev',
 );
 
 $config['imagerepository']['production'] = array(

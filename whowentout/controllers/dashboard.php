@@ -8,8 +8,10 @@ class Dashboard extends MY_Controller {
     
     require_profile_edit();
     
-    $user = XUser::current();
-    $college = XCollege::current();
+    
+    
+    $user = current_user();
+    $college = college();
     $time = current_time();
     
     $parties = $college->open_parties($time);

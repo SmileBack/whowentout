@@ -43,16 +43,50 @@ abstract class BaseImageRepository
     $img = WideImage::loadFromFile($facebook_pic_url);
     $this->saveImage($img, $id, 'facebook');
     
-    $this->set_default_crop_box($id);
-    
+    $this->refresh($id, 'source');
     $this->refresh($id, 'normal');
     $this->refresh($id, 'thumb');
   }
   
+  protected function refresh_upload($id) {
+    $user = user($id);
+    
+    $file = $_FILES['upload_pic'];
+    $filepath = $file['tmp_name'];
+    $filename = $file['name'];
+    
+    if ( ! $this->is_valid_image($filepath) ) { //Invalid image
+      return;
+    }
+    
+    $img = WideImage::loadFromUpload('upload_pic');
+    $this->saveImage($img, $id, 'upload');
+    
+    $this->refresh($id, 'source');
+    $this->refresh($id, 'normal');
+    $this->refresh($id, 'thumb');
+  }
+  
+  function refresh_source($id) {
+    if ( $this->exists($id, 'upload') ) {
+      $img = $this->get($id, 'upload');
+    }
+    elseif ( $this->exists($id, 'facebook') ) {
+      $img = $this->get($id, 'facebook');
+    }
+    else {
+      $this->refresh($id, 'facebook');
+      $img = $this->get($id, 'facebook');
+    }
+    $this->saveImage($img, $id, 'source');
+    
+    $this->set_default_crop_box($id);
+  }
+  
   protected function refresh_normal($id) {
     $user = user($id);
-    $facebook_image_path = $this->path($id, 'facebook');
-    $img = WideImage::load($facebook_image_path)
+    $image_path = $this->path($id, 'source');
+    $img = WideImage::load($image_path)
                     ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
                     ->resize(150, 200);
     $this->saveImage($img, $id, 'normal');
@@ -60,8 +94,8 @@ abstract class BaseImageRepository
   
   protected function refresh_thumb($id) {
     $user = user($id);
-    $facebook_image_path = $this->path($id, 'facebook');
-    $img = WideImage::load($facebook_image_path)
+    $image_path = $this->path($id, 'source');
+    $img = WideImage::load($image_path)
                     ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
                     ->resize(105, 140);
     $this->saveImage($img, $id, 'thumb');
@@ -72,7 +106,8 @@ abstract class BaseImageRepository
     
     $padding = 20;
     
-    $img = $this->get($id, 'facebook');
+    $img = $this->get($id, 'source');
+    
     $img_width = $img->getWidth();
     $img_height = $img->getHeight();
     
@@ -91,6 +126,10 @@ abstract class BaseImageRepository
       $user->pic_height = $user->pic_width * (4 / 3);
       $user->save();
     }
+  }
+  
+  private function is_valid_image($filepath) {
+    return getimagesize($filepath) !== FALSE;
   }
   
 }

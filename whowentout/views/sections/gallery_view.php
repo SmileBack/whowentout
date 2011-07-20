@@ -3,7 +3,10 @@
 <p><?= $user->smiles_left_message($party->id) ?></p>
 
 <? foreach ($user->matches($party->id) as $match): ?>
-  <p>You and <?= $match->full_name; ?>  have smiled at each other!</p>
+  <p>
+    You and <?= $match->full_name; ?>  have smiled at each other!
+    <?= $match->anchor_facebook_message() ?>
+  </p>
 <? endforeach; ?>
 
 <h3>Sorting</h3>

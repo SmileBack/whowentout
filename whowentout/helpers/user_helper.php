@@ -39,19 +39,23 @@ function create_user($facebook_id, $data = array()) {
  * DELETES A USER AND ALL OF HIS INFORMATION!
  * THIS INCLUDES ALL SMILES AND ATTENDED PARTIES.
  * 
- * @param int $user_id
+ * @param XUser $user
  *   The ID of the user.
- * @param type $user_id 
  */
-function destroy_user($user_id) {
-  if (current_user()->id == $user_id)
+function destroy_user($user) {
+  $user = user($user);
+  
+  if ($user == NULL)
+    return;
+  
+  if (current_user() == $user)
     logout();
   
-  ci()->db->delete('party_attendees', array('user_id' => $user_id));
-  ci()->db->delete('smiles', array('sender_id' => $user_id));
-  ci()->db->delete('smiles', array('receiver_id' => $user_id));
+  ci()->db->delete('party_attendees', array('user_id' => $user->id));
+  ci()->db->delete('smiles', array('sender_id' => $user->id));
+  ci()->db->delete('smiles', array('receiver_id' => $user->id));
   
-  user($user_id)->delete();
+  $user->delete();
 }
 
 function user_exists($user_id) {
