@@ -174,7 +174,7 @@ class WideImage_vendor_de77_BMP
 	
 	public static function imagecreatefrombmp($filename)
 	{
-		return self::imagecreatefromstring(file_get_contents($filename));
+		return self::imagecreatefromstring(WideImage::file_get_contents($filename));
 	}
 	
 	private static function str_split2($row, $bps, $palette)

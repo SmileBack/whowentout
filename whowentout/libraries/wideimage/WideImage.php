@@ -122,6 +122,19 @@
 			WideImage_MapperFactory::registerMapper($mapper_class_name, $mime_type, strtoupper($extension));
 		}
 		
+                static function file_get_contents($url) {
+                  $c = curl_init();
+                  curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+                  curl_setopt($c, CURLOPT_URL, $url);
+                  $contents = curl_exec($c);
+                  curl_close($c);
+                  
+                  if ($contents)
+                    return $contents;
+                  else
+                    return FALSE;
+                }
+                
 		/**
 		 * Loads an image from a file, URL, HTML input file field, binary string, or a valid image handle.
 		 * The image format is auto-detected. 
@@ -192,7 +205,7 @@
 		 */
 		static function loadFromFile($uri)
 		{
-			$data = file_get_contents($uri);
+			$data = WideImage::file_get_contents($uri);
 			$handle = @imagecreatefromstring($data);
 			if (!self::isValidImageHandle($handle))
 			{

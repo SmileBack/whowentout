@@ -64,7 +64,7 @@ class CacheFile extends CacheCore implements ICacheCore
 	{
 		if (file_exists($this->id) && is_readable($this->id))
 		{
-			$data = file_get_contents($this->id);
+			$data = WideImage::file_get_contents($this->id);
 			$data = $this->gzip ? gzuncompress($data) : $data;
 			$data = unserialize($data);
 

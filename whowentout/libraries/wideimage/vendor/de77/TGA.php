@@ -188,7 +188,7 @@ class WideImage_vendor_de77_TGA
 	
 	static function imagecreatefromtga($filename)
 	{
-		return self::imagecreatefromstring(file_get_contents($filename));
+		return self::imagecreatefromstring(WideImage::file_get_contents($filename));
 	}
 	
 	static function dwordize($str)

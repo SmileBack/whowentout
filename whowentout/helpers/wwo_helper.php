@@ -227,3 +227,16 @@ function send_email($user, $subject, $body) {
               
   $result = $mailer->send($message);
 }
+
+function curl_file_get_contents($url) {
+  $c = curl_init();
+  curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($c, CURLOPT_URL, $url);
+  $contents = curl_exec($c);
+  curl_close($c);
+
+  if ($contents)
+    return $contents;
+  else
+    return FALSE;
+}
