@@ -53,8 +53,7 @@ function job_run($job_id) {
 }
 
 function job_run_async($job_id) {
-  $ip = gethostbyname(gethostname());
-  $job_url = "http://$ip/job/run/$job_id";
+  $job_url = site_url("job/run/$job_id");
   job_curl_post_async($job_url);
 }
 
@@ -72,7 +71,7 @@ function job_curl_post_async($url, $params = array())
     $fp = fsockopen($parts['host'],
                       isset($parts['port']) ? $parts['port'] : 80,
                       $errno, $errstr, 30);
-    
+
     $out  = "POST ".$parts['path']." HTTP/1.1\r\n";
     $out .= "Host: ".$parts['host']."\r\n";
     $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
@@ -84,6 +83,4 @@ function job_curl_post_async($url, $params = array())
 
     fwrite($fp, $out);
     fclose($fp);
-    
-    var_dump($errno, $errstr);
 }

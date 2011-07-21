@@ -16,7 +16,7 @@
 */
 
 if (getenv('server') == 'phpfog') {
-  $config['base_url'] = 'http://www.phpfog.com/';
+  $config['base_url'] = 'http://www.whowentout.com/';
 }
 else {
   $config['base_url'] = 'http://localhost/';
