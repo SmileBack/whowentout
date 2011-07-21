@@ -53,7 +53,8 @@ function job_run($job_id) {
 }
 
 function job_run_async($job_id) {
-  $job_url = "http://127.0.0.1/job/run/$job_id";
+  $ip = gethostbyname(gethostname());
+  $job_url = "http://$ip/job/run/$job_id";
   job_curl_post_async($job_url);
 }
 
