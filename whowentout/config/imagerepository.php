@@ -15,11 +15,14 @@ $config['imagerepository']['test'] = array(
 $config['imagerepository']['development'] = array(
   'source' => 'filesystem',
   'path' => 'pics',
-//  'source' => 's3',
-//  'bucket' => 'whowentoutdev',
 );
 
 $config['imagerepository']['production'] = array(
   'source' => 's3',
   'bucket' => 'whowentout',
+);
+
+$config['imagerepository']['phpfog'] = array(
+  'source' => 's3',
+  'bucket' => 'whowentoutdev',
 );
