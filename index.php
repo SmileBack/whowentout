@@ -1,7 +1,5 @@
 <?php
-
 date_default_timezone_set('America/Los_Angeles');
-include('landing.php');exit;
 
 /*
  *---------------------------------------------------------------
@@ -21,7 +19,7 @@ include('landing.php');exit;
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-       define('ENVIRONMENT', 'phpfog');
+       define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-07-20 17:20:57
+# Date/time:                    2011-07-21 10:03:53
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -244,21 +244,11 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.sessions: ~3 rows (approximately)
+# Dumping data for table whowentout.sessions: ~2 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-	('052bad447adff6e11c504391f3c9e425', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/', 1311232061, 'a:1:{s:7:"user_id";i:96;}'),
-	('19b13ac1549e3805c056ec691973a7b2', '127.0.0.1', '0', 1311226969, ''),
-	('2db241cac49e50ee1aea75f86efa41b8', '127.0.0.1', '0', 1311232336, ''),
-	('31ac7ccbe189b9b9569c52ce0786c043', '127.0.0.1', '0', 1311232602, ''),
-	('37e49860271950c24e16223f1dd75739', '127.0.0.1', '0', 1311226103, ''),
-	('3d8bf03279be0570deddc80c8f562f45', '127.0.0.1', '0', 1311226179, ''),
-	('56753c907faa0a7bf96b0359636afcf1', '127.0.0.1', '0', 1311232602, ''),
-	('7f23b2c35fb79b38dc79aaf125864159', '127.0.0.1', '0', 1311227247, ''),
-	('9762b579cc4991ac56ecb6e7ad03d0dd', '127.0.0.1', '0', 1311231184, ''),
-	('d1d2ead8247bdd6bf76a61411820554c', '127.0.0.1', '0', 1311232216, ''),
-	('e8a8a88b00b220ef2228f388a195ef86', '127.0.0.1', '0', 1311226425, ''),
-	('f6eacde2b179660d93880540ca8e9ae9', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1311232350, 'a:1:{s:7:"user_id";i:147;}');
+	('1eb55a9456f4dbc07901c1074ed68970', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1311293007, ''),
+	('3e3a9bfa80d23cf795c127dd00a52dbe', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1311245837, 'a:1:{s:7:"user_id";i:147;}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
 
@@ -277,9 +267,9 @@ CREATE TABLE IF NOT EXISTS `smiles` (
   CONSTRAINT `smiles_party_id` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`),
   CONSTRAINT `smiles_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `smiles_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.smiles: ~8 rows (approximately)
+# Dumping data for table whowentout.smiles: ~2 rows (approximately)
 /*!40000 ALTER TABLE `smiles` DISABLE KEYS */;
 INSERT INTO `smiles` (`id`, `sender_id`, `receiver_id`, `party_id`, `smile_time`) VALUES
 	(12, 96, 147, 10, '2011-07-21 00:12:16'),

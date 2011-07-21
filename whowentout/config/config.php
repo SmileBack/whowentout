@@ -14,11 +14,12 @@
 | path to your installation.
 |
 */
-if (ENVIRONMENT == 'development' || ENVIRONMENT == 'test') {
-  $config['base_url']  = 'http://localhost/';
+
+if (getenv('server') == 'phpfog') {
+  $config['base_url'] = 'http://www.phpfog.com/';
 }
 else {
-  $config['base_url'] = 'http://www.whowentout.com/';
+  $config['base_url'] = 'http://localhost/';
 }
 
 /*
