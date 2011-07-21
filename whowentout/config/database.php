@@ -73,6 +73,22 @@ $db['test']['swap_pre'] = '';
 $db['test']['autoinit'] = TRUE;
 $db['test']['stricton'] = FALSE;
 
+$db['phpfog']['hostname'] = 'db01-share';
+$db['phpfog']['username'] = 'CodeIgniter-8743';
+$db['phpfog']['password'] = 'MySQL4668';
+$db['phpfog']['database'] = 'whowentout-phpfogapp-com';
+$db['phpfog']['dbdriver'] = 'mysql';
+$db['phpfog']['dbprefix'] = '';
+$db['phpfog']['pconnect'] = TRUE;
+$db['phpfog']['db_debug'] = TRUE;
+$db['phpfog']['cache_on'] = FALSE;
+$db['phpfog']['cachedir'] = '';
+$db['phpfog']['char_set'] = 'utf8';
+$db['phpfog']['dbcollat'] = 'utf8_general_ci';
+$db['phpfog']['swap_pre'] = '';
+$db['phpfog']['autoinit'] = TRUE;
+$db['phpfog']['stricton'] = FALSE;
+
 $db['hostgator']['hostname'] = 'localhost';
 $db['hostgator']['username'] = 'wwo_database';
 $db['hostgator']['password'] = 'm6H^.A+7XuJb';

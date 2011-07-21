@@ -14,7 +14,12 @@
 | path to your installation.
 |
 */
-$config['base_url']  = 'http://localhost/';
+if (ENVIRONMENT == 'development' || ENVIRONMENT == 'test') {
+  $config['base_url']  = 'http://localhost/';
+}
+else {
+  $config['base_url'] = 'http://www.whowentout.com/';
+}
 
 /*
 |--------------------------------------------------------------------------
