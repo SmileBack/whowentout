@@ -138,6 +138,8 @@ class XUser extends XObject
                           'smile_time' => gmdate('Y-m-d H:i:s'),
                        ));
     
+    raise_event('smile', $this, $receiver, $party);
+    
     return TRUE;
   }
   
