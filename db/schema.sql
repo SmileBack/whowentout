@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-07-18 18:22:25
+# Date/time:                    2011-07-20 17:20:48
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,6 +30,18 @@ CREATE TABLE IF NOT EXISTS `friends` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `friend_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.jobs
+CREATE TABLE IF NOT EXISTS `jobs` (
+  `id` varchar(40) NOT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `type` varchar(64) NOT NULL,
+  `args` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
