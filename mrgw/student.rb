@@ -1,5 +1,3 @@
-require './objectcache'
-
 class Student
   
   def initialize(data = {})
@@ -38,14 +36,5 @@ class Student
   def to_s
     "#{name} -- #{email}"
   end
-
-  def save
-    if email != nil && email != ""
-      c = ObjectCache.new "data/email"
-    else
-      c = ObjectCache.new "data/noemail"
-    end
-    c[email] = self
-  end
-
+  
 end

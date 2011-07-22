@@ -3,9 +3,14 @@ require 'nokogiri'
 require 'net/http'
 
 require './student'
+require './dbhash'
 
 class GWUDirectory
-
+  
+  def initialize
+    @queries_log = DbHash.new 'data/queries.db'
+  end
+  
   def num_results
     @num_results.nil? ? 0 : @num_results
   end
@@ -17,8 +22,11 @@ class GWUDirectory
     doc = Nokogiri::HTML(html)
 
     @num_results = get_num_results(doc)
-    return [] if @num_results == 0
-
+    if @num_results == 0
+      log_num_results(query, 0)
+      return []
+    end
+    
     doc.xpath("//a[starts-with(@href, 'mailto:')]").each do |a|
       s = Student.new
       s.name = a.at_xpath("ancestor::td[1]//b[1]").text.strip
@@ -37,11 +45,9 @@ class GWUDirectory
 
   #private
   def log_num_results(query, num_results)
-    File.open('data/search/numresults.txt', 'a') do |f|
-      f.puts "#{query}, #{num_results}"
-    end
+    @queries_log[query] = num_results
   end
-
+  
   def get_num_results(doc)
     div = doc.at_xpath("//div[text()=' resulted in a total of ']")
     return 0 if div.nil?
