@@ -25,8 +25,8 @@ function current_time($local = FALSE) {
   
   if ( time_is_faked() ) {
     $fake_time_point = get_option('fake_time_point');
-    $delta = date_diff($fake_time_point['real_time'], $fake_time_point['fake_time']);
-    $dt = $dt->add($delta);
+    $delta = time_delta_seconds();
+    $dt = $dt->modify("+$delta seconds");
   }
   
   return $local ? make_local($dt) : make_gmt($dt);
