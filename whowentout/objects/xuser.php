@@ -543,13 +543,11 @@ class XUser extends XObject
     if ( ! $this->facebook_id)
       return;
     
-    if ( ! connected_to_facebook() )
-      return;
-    
     $fbdata = $this->fetch_facebook_data();
     
     $this->_update_name_from_facebook($fbdata);
     $this->_update_gender_from_facebook($fbdata);
+    
     $this->_update_email_from_facebook($fbdata);
     $this->_update_date_of_birth_from_facebook($fbdata);
     $this->_update_hometown_from_facebook($fbdata);

@@ -4,6 +4,9 @@ class Test extends MY_Controller
 {
   
   function index() {
+    if (ENVIRONMENT != 'test')
+      show_error('ENVIRONMENT must be test.');
+    
     $this->load->library('tester');
     
     $groups = $this->tester->groups();
@@ -12,6 +15,9 @@ class Test extends MY_Controller
   }
   
   function group($group = NULL) {
+    if (ENVIRONMENT != 'test')
+      show_error('ENVIRONMENT must be test.');
+    
     $this->load->library('tester');
     
     $exists = $this->tester->load($group);
