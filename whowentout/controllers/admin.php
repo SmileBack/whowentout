@@ -15,11 +15,18 @@ class Admin extends MY_Controller
       set_fake_time(new DateTime($fake_time));
     }
     
+    $data = array();
     $delta = time_delta_seconds();
     
-    $data = array();
-    $data['fake_time'] = date_format($fake_time_point['fake_time'], 'Y-m-d H:i:s');
+    if ( ! time_is_faked() ) {
+      $fake_time_point = array(
+        'real_time' => actual_time(),
+        'fake_time' => current_time(),
+      );
+    }
+      
     $data['real_time'] = date_format($fake_time_point['real_time'], 'Y-m-d H:i:s');
+    $data['fake_time'] = date_format($fake_time_point['fake_time'], 'Y-m-d H:i:s');
     $data['delta'] = "$delta seconds";
     
     $this->load_view('admin/fake_time_view', $data);
