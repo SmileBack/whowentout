@@ -7,6 +7,8 @@ class DbHash
     @db = SQLite3::Database.new(path)
     @db.results_as_hash = true
     
+    puts @db.methods
+    
     create_table unless table_exists?
   end
   
@@ -20,6 +22,7 @@ class DbHash
   end
   
   def store(k, v)
+    k = k.to_s
     v = serialize_value v
     @db.execute("INSERT OR REPLACE INTO data (key, value) VALUES (?, ?)", k, v)
   end
@@ -69,6 +72,10 @@ class DbHash
   
   def include?(k)
     has_key?(k)
+  end
+  
+  def merge!(other_hash)
+    other_hash.each { |k, v| self[k] = v }
   end
   
   private
