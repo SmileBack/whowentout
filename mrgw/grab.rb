@@ -2,7 +2,7 @@ require './gwudirectory'
 require './dbhash'
 
 letters = ARGV[0]
-raise "You must pick a 2 letter job" if letters.length != 2
+letters = '' if letters.nil?
 
 dir = GWUDirectory.new
 db = DbHash.new 'data/students.db'
@@ -10,7 +10,17 @@ queries = DbHash.new 'data/queries.db'
 
 start = Time.now
 
-("#{letters}aa".."#{letters}zz").each do |query|
+def get_range(letters)
+  if 1 <= letters.length && letters.length <= 4
+    start = 'a' * (4 - letters.length)
+    finish = 'z' * (4 - letters.length)
+    return (letters+start..letters+finish)
+  else
+    return ('aaaa'..'zzzz')
+  end
+end
+
+get_range(letters).each do |query|
   if queries.include?(query)
     puts "#{query}: Already queried. Skipped."
   else
