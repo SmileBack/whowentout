@@ -11,11 +11,11 @@
         <label>School</label>
         <input type="text" value="<?= $user->college->name ?>" disabled="disabled" />
       </li>
-      <li>
+      <li class="<?= in_array('grad_year', $missing_info) ? 'missing' : '' ?>">
         <label>Graduation Year</label>
         <?= grad_year_dropdown($user->grad_year) ?>
       </li>
-      <li>
+      <li class="<?= in_array('hometown', $missing_info) ? 'missing' : '' ?>">
         <label>Hometown</label>
         <input type="text" name="hometown" value="<?= $user->hometown ?>" />
       </li>

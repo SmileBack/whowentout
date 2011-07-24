@@ -8,8 +8,6 @@ class Dashboard extends MY_Controller {
     
     require_profile_edit();
     
-    
-    
     $user = current_user();
     $college = college();
     $time = current_time();
@@ -23,7 +21,7 @@ class Dashboard extends MY_Controller {
       'doors_are_closed' => doors_are_closed(),
       'parties_dropdown' => parties_dropdown($parties),
       'parties_attended' => $user->recent_parties(),
-      'has_attended_party' => $user->has_attended_party_on_date(yesterday(TRUE)),
+      'has_attended_party' => $user->has_attended_party_on_date( yesterday(TRUE) ),
       'top_parties' => $college->top_parties(),
     );
     

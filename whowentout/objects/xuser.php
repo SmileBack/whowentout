@@ -49,8 +49,29 @@ class XUser extends XObject
     return "$this->first_name $this->last_name";
   }
   
+  function needs_to_edit_profile() {
+    return $this->never_edited_profile()
+        || $this->is_missing_info();
+  }
+  
   function never_edited_profile() {
     return $this->last_edit == NULL;
+  }
+  
+  function is_missing_info() {
+    return count($this->get_missing_info()) > 0;
+  }
+  
+  function get_missing_info() {
+    $missing_info = array();
+    
+    if ($this->hometown == '')
+      $missing_info[] = 'hometown';
+    
+    if ($this->grad_year == '' || $this->grad_year == 0)
+      $missing_info[] = 'grad_year';
+    
+    return $missing_info;
   }
   
   function checkin($party) {

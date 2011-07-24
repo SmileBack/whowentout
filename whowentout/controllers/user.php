@@ -61,6 +61,8 @@ class User extends MY_Controller {
     
     $this->load_view('user_edit_view', array(
       'user' => current_user(),
+      'is_missing_info' => current_user()->is_missing_info(),
+      'missing_info' => current_user()->get_missing_info(),
     ));
   }
   

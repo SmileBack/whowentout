@@ -42,8 +42,9 @@ class Admin extends MY_Controller
   
   function destroy_user($user_id) {
     $user = user($user_id);
+    $full_name = $user->full_name;
     destroy_user($user->id);
-    set_message("Destroyed $user->full_name.");
+    set_message("Destroyed $full_name.");
     redirect('admin/users');
   }
   

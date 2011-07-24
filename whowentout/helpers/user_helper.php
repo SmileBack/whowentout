@@ -63,17 +63,18 @@ function user_exists($user_id) {
 }
 
 function require_profile_edit() {
-  if (current_user()->never_edited_profile())
+  if (current_user()->needs_to_edit_profile())
     redirect('user/edit');
 }
 
 /**
  * @return XCollege
  */
-function create_college($name, $facebook_network_id, $facebook_school_id = NULL) {
+function create_college($name, $facebook_network_id, $facebook_school_id = NULL, $enabled = FALSE) {
   $data = array(
     'name' => $name,
     'facebook_network_id' => $facebook_network_id,
+    'enabled' => $enabled ? 1 : 0,
   );
   
   if ($facebook_school_id)
@@ -208,10 +209,18 @@ function deny_anonymous() {
 function fb() {
   static $facebook = NULL;
   if ($facebook == NULL) {
-    $facebook = new Facebook(array(
-      'appId' => ci()->config->item('facebook_app_id'),
-      'secret' => ci()->config->item('facebook_secret_key'),
-    ));
+    if (ENVIRONMENT == 'phpfog') {
+      $facebook = new Facebook(array(
+        'appId' => ci()->config->item('facebook_app_id'),
+        'secret' => ci()->config->item('facebook_secret_key'),
+      ));
+    }
+    else {
+      $facebook = new TestFacebook(array(
+        'appId' => ci()->config->item('facebook_app_id'),
+        'secret' => ci()->config->item('facebook_secret_key'),
+      ));
+    }
   }
   return $facebook;
 }
