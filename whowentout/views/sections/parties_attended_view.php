@@ -15,7 +15,10 @@
         <span class="smiles_remaining"><?= $user->smiles_left_message($party->id) ?></span>
         <ul class="matches">
           <? foreach ($user->matches($party->id) as $match ): ?>
-            <li>You and <?= $match->first_name; ?> <?= $match->last_name ?> have smiled at each other!</li>
+            <li>
+              You and <?= $match->first_name; ?> <?= $match->last_name ?> have smiled at each other!
+              <?= $match->anchor_facebook_message() ?>
+            </li>
           <? endforeach; ?>
         </ul>
       </div>
