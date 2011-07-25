@@ -106,11 +106,7 @@ class User extends MY_Controller {
   
   function checkin() {
     $party_id = post('party_id');
-    $party = party($party_id);
     $user = current_user();
-    
-    if ($party == NULL)
-      show_error("Party with id = $party_id doesn't exist.");
     
     require_login(array(
       'name' => 'checkin', //action name
@@ -124,6 +120,11 @@ class User extends MY_Controller {
         $party_id = $action['party_id'];
       }
     }
+    
+    $party = party($party_id);
+    
+    if ($party == NULL)
+      show_error("Party with id = $party_id doesn't exist.");
     
     $party_date = new DateTime($party->date, college()->timezone);
     
