@@ -136,7 +136,7 @@ function places_dropdown($places) {
 function grad_year_dropdown($selected_year = NULL) {
   $options = array();
   for ($i = 1; $i <= 4; $i++) {
-    $year = today()->modify("+$i year")->format('Y');
+    $year = college()->today()->modify("+$i year")->format('Y');
     $options[$year] = $year;
   }
   return form_dropdown('grad_year', $options, $selected_year);

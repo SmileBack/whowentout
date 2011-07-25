@@ -123,7 +123,7 @@ class XUser extends XObject
     }
     
     // You are not within the bounds of the checkin time.
-    if (doors_are_closed()) {
+    if ( $this->college->doors_are_closed() ) {
       $this->reason = REASON_DOORS_HAVE_CLOSED;
       return FALSE;
     }
@@ -472,7 +472,8 @@ class XUser extends XObject
   
   private function _party_ids() {
     $ids = array();
-    foreach ($this->college->open_parties( today(true) ) as $party) {
+    $today = $this->college->today(TRUE);
+    foreach ( $this->college->open_parties( $today ) as $party ) {
       $ids[] = $party->id;
     }
     return $ids;

@@ -15,7 +15,7 @@ class Homepage extends MY_Controller {
     $data = array(
       'title'=> 'Home',
       'closing_time' => load_view('closing_time_view'),
-      'doors_are_closed' => doors_are_closed(),
+      'doors_are_closed' => $college->doors_are_closed(),
       'parties_dropdown' => parties_dropdown($parties),
       'has_attended_party' => FALSE,
     );

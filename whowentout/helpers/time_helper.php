@@ -29,7 +29,7 @@ function current_time($local = FALSE) {
     $dt = $dt->modify("+$delta seconds");
   }
   
-  return $local ? make_local($dt) : make_gmt($dt);
+  return make_gmt($dt);
 }
 
 function set_fake_time(DateTime $fake_time) {
@@ -60,68 +60,4 @@ function make_gmt($time) {
   $time = clone $time;
   $time->setTimezone(new DateTimeZone('UTC'));
   return $time;
-}
-
-function make_local($time) {
-  $time = clone $time;
-  $time->setTimezone( college()->timezone );
-  return $time;
-}
-
-/**
- * Return the GMT time for when the doors at the current college are next open for checkin.
- * @return DateTime
- */
-function get_opening_time($local = FALSE) {
-  $opening_time = today(TRUE)->setTime(1, 0, 0);
-  return $local ? make_local($opening_time) : make_gmt($opening_time);
-}
-
-/**
- * Return the GMT time for when the doors at the current college are next closed for checkin.
- * @return DateTime
- */
-function get_closing_time($local = FALSE) {
-  $closing_time = today(TRUE)->setTime(12 + 11, 0, 0);
-  return $local ? make_local($closing_time) : make_gmt($closing_time);
-}
-
-/**
- * @return int
- *   The number of seconds until the doors are closed. If the doors have already
- *   closed, 0 will be returned.
- */
-function get_seconds_until_close() {
-  $delta = get_closing_time()->getTimestamp() - current_time()->getTimestamp();
-  return max($delta, 0);
-}
-
-function doors_are_closed() {
-  return !doors_are_open();
-}
-
-function doors_are_open() {
-  $current = current_time();
-  $open = get_opening_time();
-  $close = get_closing_time();
-  
-  return $open <= $current && $current < $close;
-}
-
-/**
- * Gives you the date for today at current college (12am).
- * @param bool $local
- * @return DateTime
- */
-function today($local = FALSE) {
-  $current_local_time = current_time(TRUE);
-  $current_local_time->setTime(0, 0, 0);
-  return $local ? make_local($current_local_time) : make_gmt($current_local_time);
-}
-
-function yesterday($local = FALSE) {
-  $current_local_time = current_time(TRUE);
-  $current_local_time->setTime(0, 0, 0);
-  $current_local_time->modify('-1 day');
-  return $local ? make_local($current_local_time) : make_gmt($current_local_time);
 }

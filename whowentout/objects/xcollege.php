@@ -41,8 +41,78 @@ class XCollege extends XObject
     return $this->load_objects('XParty', $query);
   }
   
+  /**
+   * @return DateTime
+   */
+  function current_time($local = FALSE) {
+    $dt = actual_time();
+
+    if ( time_is_faked() ) {
+      $fake_time_point = get_option('fake_time_point');
+      $delta = time_delta_seconds();
+      $dt = $dt->modify("+$delta seconds");
+    }
+
+    return $local ? $this->make_local($dt) : $this->make_gmt($dt);
+  }
+  
+  function make_gmt($time) {
+    $time = clone $time;
+    $time->setTimezone(new DateTimeZone('UTC'));
+    return $time;
+  }
+
+  function make_local($time) {
+    $time = clone $time;
+    $time->setTimezone( $this->timezone );
+    return $time;
+  }
+  
   function get_timezone() {
     return new DateTimeZone('America/Los_Angeles');
+  }
+  
+  /**
+   * Gives you the date for today at current college (12am).
+   * @param bool $local
+   * @return DateTime
+   */
+  function today($local = FALSE) {
+    $current_local_time = $this->current_time(TRUE);
+    $current_local_time->setTime(0, 0, 0);
+    return $local ? $this->make_local($current_local_time) 
+                  : $this->make_gmt($current_local_time);
+  }
+  
+  function yesterday($local = FALSE) {
+    $current_local_time = $this->current_time(TRUE);
+    $current_local_time->setTime(0, 0, 0);
+    $current_local_time->modify('-1 day');
+    return $local ? $this->make_local($current_local_time)
+                  : $this->make_gmt($current_local_time);
+  }
+  
+  /**
+   * @return int
+   *   The number of seconds until the doors are closed. If the doors have already
+   *   closed, 0 will be returned.
+   */
+  function get_seconds_until_close() {
+    $delta = $this->get_closing_time()->getTimestamp()
+           - $this->current_time()->getTimestamp();
+    return max($delta, 0);
+  }
+
+  function doors_are_closed() {
+    return ! $this->doors_are_open();
+  }
+
+  function doors_are_open() {
+    $current = $this->current_time();
+    $open = $this->get_opening_time();
+    $close = $this->get_closing_time();
+
+    return $open <= $current && $current < $close;
   }
   
   function get_students() {
@@ -51,6 +121,27 @@ class XCollege extends XObject
                         ->where('college_id', $this->id)
                         ->order_by('first_name', 'ASC');
     return $this->load_objects('XUSer', $query);
+  }
+  
+  
+  /**
+   * Return the GMT time for when the doors at the current college are next open for checkin.
+   * @return DateTime
+   */
+  function get_opening_time($local = FALSE) {
+    $opening_time = $this->today(TRUE)->setTime(1, 0, 0);
+    return $local ? $this->make_local($opening_time)
+                  : $this->make_gmt($opening_time);
+  }
+
+  /**
+   * Return the GMT time for when the doors at the current college are next closed for checkin.
+   * @return DateTime
+   */
+  function get_closing_time($local = FALSE) {
+    $closing_time = $this->today(TRUE)->setTime(12 + 11, 0, 0);
+    return $local ? $this->make_local($closing_time)
+                  : $this->make_gmt($closing_time);
   }
   
   function get_places() {
@@ -72,7 +163,7 @@ class XCollege extends XObject
   }
   
   function top_parties() {
-    $time = yesterday(TRUE);
+    $time = $this->yesterday(TRUE);
     
     $sql = "SELECT party_id AS id, party_date, LEAST(males, females) AS score FROM
             (

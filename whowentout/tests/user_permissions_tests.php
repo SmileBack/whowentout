@@ -21,30 +21,31 @@ class User_Permissions_Tests extends TestGroup
   
   function test_doors_are_closed() {
     $time = actual_time(TRUE);
+    $college = $this->college();
     
     $time->setTime(5, 30, 0);
     set_fake_time($time);
-    $this->assert_true(doors_are_open());
+    $this->assert_true($college->doors_are_open());
     
     $time->setTime(12 + 10, 59, 59);
     set_fake_time($time);
-    $this->assert_true(doors_are_open());
+    $this->assert_true($college->doors_are_open());
     
     $time->setTime(12 + 11, 0, 0);
     set_fake_time($time);
-    $this->assert_true(doors_are_closed());
+    $this->assert_true($college->doors_are_closed());
     
     $time->setTime(12 + 11, 30, 0);
     set_fake_time($time);
-    $this->assert_equal(doors_are_closed(), TRUE);
+    $this->assert_equal($college->doors_are_closed(), TRUE);
     
     $time->setTime(12 + 11, 0, 0);
     set_fake_time($time);
-    $this->assert_equal(doors_are_closed(), TRUE);
+    $this->assert_equal($college->doors_are_closed(), TRUE);
     
     $time->setTime(0, 30, 0);
     set_fake_time($time);
-    $this->assert_equal(doors_are_closed(), TRUE);
+    $this->assert_equal($college->doors_are_closed(), TRUE);
   }
   
   function test_can_checkin() {
