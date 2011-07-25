@@ -33,7 +33,7 @@ class XParty extends XObject
                        ->where('party_id', $this->id);
     
     if ($sort == 'checkin_time') {
-      $query = $query->order_by('checkin_time', 'asc');
+      $query = $query->order_by('checkin_time', 'desc');
     }
     elseif ($sort == 'gender') {
       $order = $this->_attendees_query_gender_sort_order();
