@@ -7,6 +7,7 @@ class Dashboard extends MY_Controller {
       show_404();
     
     require_profile_edit();
+    require_gw_network();
     
     $user = current_user();
     $college = college();

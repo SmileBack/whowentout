@@ -19,41 +19,38 @@ class User extends MY_Controller {
       $user->use_facebook_pic();
       redirect('user/edit');
     }
-    
-    if (post('width') && post('height')) {
-      $user->crop_pic( post('x'), post('y'), post('width'), post('height') );
+    elseif (post('op') == 'Save') {
+      if (post('width') && post('height')) {
+        $user->crop_pic( post('x'), post('y'), post('width'), post('height') );
+        $user->hometown = post('hometown');
+        $user->grad_year = post('grad_year');
+      }
+      
+      if ($user->changed()) {
+        $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
+        $user->save();
+        set_message('Saved your info');
+      }
+      else {
+        set_message('No changes were made.');
+      }
+      
+      // The first time no-changes edit still counts as a save.
+      if ($user->never_edited_profile()) {
+        $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
+        $user->save();
+      }
+      
+      if (login_action() != NULL) {
+        $action = login_action();
+        if ($action['name'] == 'checkin')
+          redirect('checkin');
+      }
+
+      redirect('dashboard');
     }
     
-    if (post('hometown')) {
-      $user->hometown = post('hometown');
-    }
-    
-    if (post('grad_year')) {
-      $user->grad_year = post('grad_year');
-    }
-    
-    if ($user->changed()) {
-      $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
-      $user->save();
-      set_message('Saved your info');
-    }
-    else {
-      set_message('No changes were made.');
-    }
-    
-    // The first time no-changes edit still counts as a save.
-    if ($user->never_edited_profile()) {
-      $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
-      $user->save();
-    }
-    
-    if (login_action() != NULL) {
-      $action = login_action();
-      if ($action['name'] == 'checkin')
-        redirect('checkin');
-    }
-    
-    redirect('dashboard');
+    show_404();
   }
   
   function edit() {
@@ -109,25 +106,24 @@ class User extends MY_Controller {
   
   function checkin() {
     $party_id = post('party_id');
-    
-    require_login(array(
-      'name' => 'checkin',
-      'party_id' => $party_id,
-    ));
-    
-    if (login_action() != NULL) {
-      $data = login_action();
-      if ($data['name'] == 'checkin') {
-        clear_login_action();
-        $party_id = $data['party_id'];
-      }
-    }
-    
-    $user = current_user();
     $party = party($party_id);
+    $user = current_user();
     
     if ($party == NULL)
       show_error("Party doesn't exist.");
+    
+    require_login(array(
+      'name' => 'checkin', //action name
+      'party_id' => $party_id,
+    ));
+    
+    if (login_action_exists()) {
+      $action = login_action();
+      if ($action['name'] == 'checkin') {
+        clear_login_action();
+        $party_id = $action['party_id'];
+      }
+    }
     
     $party_date = new DateTime($party->date, college()->timezone);
     

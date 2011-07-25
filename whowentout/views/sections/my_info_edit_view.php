@@ -1,5 +1,24 @@
 
 <?= form_open_multipart('user/edit_save', array('id' => 'edit_form')) ?>
+
+  <?php if ($user->is_missing_info()): ?>
+    <div id="missing_info" class="important_notice">
+      You are missing information!
+    </div>
+  <?php endif; ?>
+  
+  <?php if ($user->college != college()): ?>
+    <div id="must_be_in_network" class="important_notice">
+      <p>
+        You must go to George Washington University to use this website.
+      </p>
+      <p>
+        If you are a student at GWU,
+        <a href="http://www.facebook.com/editaccount.php?networks" target="_blank">click here</a>
+        to add GWU to your list of networks on Facebook.
+      </p>
+    </div>
+  <?php endif; ?>
   
   <fieldset>
     <ul>

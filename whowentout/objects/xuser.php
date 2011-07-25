@@ -77,7 +77,7 @@ class XUser extends XObject
   function checkin($party) {
     $party = party($party);
     
-    if (!$this->can_checkin($party)) {
+    if ( ! $this->can_checkin($party) ) {
       return FALSE;
     }
     
@@ -101,12 +101,12 @@ class XUser extends XObject
     $party_date = new DateTime($party->date, $party->college->timezone);
     $yesterday = yesterday(TRUE);
     
-    if ($party->college != $this->college) {
+    if ( $party->college != $this->college ) {
       $this->reason = REASON_NOT_IN_COLLEGE;
       return FALSE;
     }
     
-    if ( $party_date != $yesterday) {
+    if ( $party_date != $yesterday ) {
       $this->reason = REASON_PARTY_WASNT_YESTERDAY;
       return FALSE;
     }

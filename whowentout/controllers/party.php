@@ -8,8 +8,9 @@ class Party extends MY_Controller {
     $sort = $this->_get_sort();
     
     require_profile_edit();
+    require_gw_network();
     
-    if ( ! $user->has_attended_party($party->id) ) {
+    if ( ! $user->has_attended_party($party) ) {
       show_404();
     }
     

@@ -4,6 +4,7 @@ require_once 'facebook.php';
 
 class TestFacebook extends Facebook
 {
+  
   function api($options) {
     $data = NULL;
     if (is_array($options)) {
@@ -21,7 +22,8 @@ class TestFacebook extends Facebook
     }
     
     //default behavior
-    return $data ? $data : parent::api($options);
+    $args = func_get_args();
+    return $data ? $data : call_user_func_array(array('parent', 'api'), $args);
   }
   
   function modify_776200121_api(&$data) {

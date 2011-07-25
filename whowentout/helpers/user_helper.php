@@ -67,6 +67,12 @@ function require_profile_edit() {
     redirect('user/edit');
 }
 
+function require_gw_network() {
+  if ( current_user()->college != college() ) {
+    redirect('user/edit');
+  }
+}
+
 /**
  * @return XCollege
  */
@@ -115,6 +121,10 @@ function require_login($action = array()) {
 
 function login_action() {
   return ci()->session->userdata('login_action');
+}
+
+function login_action_exists() {
+  return login_action() != NULL;
 }
 
 function clear_login_action() {
