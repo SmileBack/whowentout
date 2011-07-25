@@ -23,10 +23,10 @@ class XUser extends XObject
     
     //destroy facebook session data
     $app_id = fb()->getAppId();
-    unset($_SESSION["fb_{$app_id}_code"]);
-    unset($_SESSION["fb_{$app_id}_access_token"]);
-    unset($_SESSION["fb_{$app_id}_user_id"]);
-    unset($_SESSION["fb_{$app_id}_state"]);
+    $session_vars = array('code', 'access_token', 'user_id', 'state');
+    foreach ($session_vars as $var) {
+      ci()->session->unset_userdata("fb_{$app_id}_{$var}");
+    }
   }
   
   static function logged_in() {
