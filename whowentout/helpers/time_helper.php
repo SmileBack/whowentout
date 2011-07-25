@@ -12,15 +12,15 @@ function time_delta_seconds() {
 /**
  * @return DateTime
  */
-function actual_time($local = FALSE) {
+function actual_time() {
   $dt = new DateTime(null, new DateTimeZone('UTC'));
-  return $local ? make_local($dt) : make_gmt($dt);
+  return make_gmt($dt);
 }
 
 /**
  * @return DateTime
  */
-function current_time($local = FALSE) {
+function current_time() {
   $dt = actual_time();
   
   if ( time_is_faked() ) {

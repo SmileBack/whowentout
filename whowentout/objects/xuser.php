@@ -381,7 +381,7 @@ class XUser extends XObject
    *   A party object 
    */
   function get_attended_party($date) {
-    $date = make_local($date);
+    $date = $this->college->make_local($date);
     
     $row = $this->db()
                 ->select('party_id AS id')

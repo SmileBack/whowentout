@@ -183,7 +183,7 @@ class XCollege extends XObject
   
   private function _get_open_parties_query($time) {
     //open parties today means parties that occured yesterday
-    $time = make_local($time)->modify('-1 day');
+    $time = $this->make_local($time)->modify('-1 day');
     
     return $this->db()
                 ->select('parties.id AS id')
