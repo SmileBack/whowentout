@@ -6,8 +6,7 @@ class Dashboard extends MY_Controller {
     if ( ! logged_in() )
       show_404();
     
-    require_profile_edit();
-    require_gw_network();
+    enforce_restrictions();
     
     $user = current_user();
     $college = college();

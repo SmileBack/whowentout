@@ -7,8 +7,7 @@ class Party extends MY_Controller {
     $party = party($party_id);
     $sort = $this->_get_sort();
     
-    require_profile_edit();
-    require_gw_network();
+    enforce_restrictions();
     
     if ( ! $user->has_attended_party($party) ) {
       show_404();
@@ -37,6 +36,7 @@ class Party extends MY_Controller {
   
   function recent($party_id) {
     $user = current_user();
+    
     if ( ! $user->has_attended_party($party_id) )
       show_404();
     

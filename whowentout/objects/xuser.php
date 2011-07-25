@@ -41,6 +41,11 @@ class XUser extends XObject
     return FALSE;
   }
   
+  function can_use_website() {
+    return $this->college == college() 
+           && ! $this->needs_to_edit_profile();
+  }
+  
   function get_college() {
     return XCollege::get($this->college_id);
   }

@@ -62,15 +62,9 @@ function user_exists($user_id) {
   return user($user_id) != NULL;
 }
 
-function require_profile_edit() {
-  if (current_user()->needs_to_edit_profile())
+function enforce_restrictions() {
+  if ( ! current_user()->can_use_website() )
     redirect('user/edit');
-}
-
-function require_gw_network() {
-  if ( current_user()->college != college() ) {
-    redirect('user/edit');
-  }
 }
 
 /**

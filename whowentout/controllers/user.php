@@ -41,7 +41,7 @@ class User extends MY_Controller {
         $user->save();
       }
       
-      if (login_action() != NULL) {
+      if ( login_action() != NULL && $user->can_use_website() ) {
         $action = login_action();
         if ($action['name'] == 'checkin')
           redirect('checkin');
@@ -110,7 +110,7 @@ class User extends MY_Controller {
     $user = current_user();
     
     if ($party == NULL)
-      show_error("Party doesn't exist.");
+      show_error("Party with id = $party_id doesn't exist.");
     
     require_login(array(
       'name' => 'checkin', //action name
