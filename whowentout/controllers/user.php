@@ -71,7 +71,7 @@ class User extends MY_Controller {
     else {
       login();
       
-      require_profile_edit();
+      enforce_restrictions();
       
       if (login_action() != NULL) {
         $action = login_action();
