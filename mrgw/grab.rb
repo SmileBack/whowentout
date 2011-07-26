@@ -4,6 +4,9 @@ require './dbhash'
 letters = ARGV[0]
 letters = '' if letters.nil?
 
+puts "Starting grab.rb..."
+sleep(10)
+
 dir = GWUDirectory.new
 db = DbHash.new 'data/students.db'
 queries = DbHash.new 'data/queries.db'
