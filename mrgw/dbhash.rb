@@ -7,8 +7,6 @@ class DbHash
     @db = SQLite3::Database.new(path)
     @db.results_as_hash = true
     
-    puts @db.methods
-    
     create_table unless table_exists?
   end
   
