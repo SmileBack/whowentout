@@ -104,13 +104,13 @@ class XUser extends XObject
     }
     
     $party_date = new DateTime($party->date, $party->college->timezone);
-    $yesterday = yesterday(TRUE);
     
     if ( $party->college != $this->college ) {
       $this->reason = REASON_NOT_IN_COLLEGE;
       return FALSE;
     }
     
+    $yesterday = $this->college->yesterday(TRUE);
     if ( $party_date != $yesterday ) {
       $this->reason = REASON_PARTY_WASNT_YESTERDAY;
       return FALSE;
@@ -158,10 +158,10 @@ class XUser extends XObject
       return FALSE;
     
     $this->db()->insert('smiles', array(
-                          'sender_id' => $this->id,
-                          'receiver_id' => $receiver->id,
-                          'party_id' => $party->id,
-                          'smile_time' => gmdate('Y-m-d H:i:s'),
+                        'sender_id' => $this->id,
+                        'receiver_id' => $receiver->id,
+                        'party_id' => $party->id,
+                        'smile_time' => gmdate('Y-m-d H:i:s'),
                        ));
     
     raise_event('smile', $this, $receiver, $party);
@@ -283,31 +283,29 @@ class XUser extends XObject
   function mutual_friends($person) {
     $person = user($person);
     
-    $mutual_friend_fb_ids = fb()->api(array(
-      'method' => 'friends.getMutualFriends',
-      'source_uid' => $this->facebook_id,
-      'target_uid' => $person->facebook_id,
-    ));
+    $params = array($this->id, $person->id, $this->id);
     
-    $queries = array();
-    foreach ($mutual_friend_fb_ids as $fb_id) {
-      $queries[$fb_id] = "SELECT uid,name FROM user WHERE uid=$fb_id";
-    }
-    
-    $mutual_friends_result = fb()->api(array(
-      'method' => 'fql.multiquery',
-      'queries' => $queries,
-    ));
+    $rows = $this->db()
+                 ->query("
+                          SELECT friend_facebook_id, friend_full_name FROM friends
+                          WHERE
+                            user_id = ?
+                          AND
+                            friend_facebook_id IN (SELECT friend_facebook_id FROM friends WHERE user_id = ?)
+                          AND
+                            friend_facebook_id IN (SELECT friend_facebook_id FROM friends WHERE user_id = ?)    
+                         ", $params)->result();
     
     $mutual_friends = array();
-    foreach ($mutual_friends_result as $mutual_friend_result) {
-      $friend = (object) array(
-        'facebook_id' => $mutual_friend_result['fql_result_set'][0]['uid'],
-        'full_name' => $mutual_friend_result['fql_result_set'][0]['name'],
+    foreach ($rows as $row) {
+      $friend = array(
+        'facebook_id' => $row->friend_facebook_id,
+        'full_name' => $row->friend_full_name,  
       );
-      $friend->thumb = "https://graph.facebook.com/$friend->facebook_id/picture";
-      $mutual_friends[] = $friend;
+      $friend['thumb'] = "https://graph.facebook.com/$row->friend_facebook_id/picture&access_token=" . fb()->getAccessToken();
+      $mutual_friends[] = (object) $friend;
     }
+    
     return $mutual_friends;
   }
   
@@ -334,42 +332,25 @@ class XUser extends XObject
   }
   
   function update_friends_from_facebook() {
-    if ( ! connected_to_facebook() )
-      return;
-    
-    $friends = $this->_fetch_friends_from_facebook();
-        
-    //delete old friends data
-    $this->db()->delete('friends', array('user_id' => $this->id));
+    $results = fb()->api(array(
+      'method' => 'fql.query',
+      'query' => "SELECT uid, name, is_app_user FROM user
+                  WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $this->facebook_id)" // AND is_app_user = 1
+    ));
     
     $rows = array();
-    foreach ($friends as $friend) {
+    foreach ($results as $result) {
       $rows[] = array(
         'user_id' => $this->id,
-        'friend_id' => $friend->id,
+        'user_facebook_id' => $this->facebook_id,
+        'friend_facebook_id' => $result['uid'],
+        'friend_full_name' => $result['name'],
       );
     }
     
+    //delete old friends data
+    $this->db()->delete('friends', array('user_id' => $this->id));
     $this->db()->insert_batch('friends', $rows);
-  }
-  
-  function _fetch_friends_from_facebook() {
-    $friends = array();
-    
-    $results = fb()->api(array(
-      'method' => 'fql.query',
-      'query' => "SELECT uid FROM user
-                  WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $this->facebook_id)
-                  AND is_app_user = 1"
-    ));
-    
-    foreach ($results as $result) {
-      $friend = user(array('facebook_id' => $result['uid']));
-      if ($friend)
-        $friends[] = $friend;
-    }
-    
-    return $friends;
   }
   
   /**

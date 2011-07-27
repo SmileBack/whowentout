@@ -3,6 +3,7 @@
     </div>
     
     <?= js_asset('date.format.js') ?>
+    <?= js_asset('timeinterval.js') ?>
     
     <?= js_asset('jquery.js') ?>
     <?= js_asset('jquery.entwine.js') ?>

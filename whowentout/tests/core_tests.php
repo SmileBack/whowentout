@@ -5,6 +5,7 @@ class Core_Tests extends TestGroup
   
   function setup() {
     $this->clear_database();
+    $this->college = create_college('GWU', '111');
   }
   
   function test_post_function() {
@@ -53,6 +54,25 @@ class Core_Tests extends TestGroup
     
     set_fake_time_of_day(5, 12, 29);
     $this->assert_equal(date_format(current_time(), 'H:i:s'), '05:12:29');
+  }
+  
+  function test_college_fake_time() {
+    unset_fake_time();
+    $this->assert_equal(college()->current_time(), new DateTime());
+    $this->assert_true(!time_is_faked());
+    
+    set_fake_time( new DateTime('2011-10-01') );
+    $this->assert_true(time_is_faked());
+    $this->assert_equal(current_time()->format('Y-m-d'), '2011-10-01');
+    
+    unset_fake_time();
+    $this->assert_true(college()->current_time() == actual_time());
+    
+    $real_time = new DateTime();
+    set_fake_time($real_time->modify('+1 hour'));
+    $diff_in_seconds = college()->current_time()->format('U') - actual_time()->format('U');
+    $this->assert_equal($diff_in_seconds, 3600);
+    unset_fake_time();
   }
   
   function test_state_abbreviation() {

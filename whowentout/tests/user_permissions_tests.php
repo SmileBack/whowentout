@@ -20,31 +20,27 @@ class User_Permissions_Tests extends TestGroup
   }
   
   function test_doors_are_closed() {
-    $time = actual_time(TRUE);
-    $college = $this->college();
+    $college = college();
     
-    $time->setTime(5, 30, 0);
-    set_fake_time($time);
-    $this->assert_true($college->doors_are_open());
-    
-    $time->setTime(12 + 10, 59, 59);
-    set_fake_time($time);
-    $this->assert_true($college->doors_are_open());
-    
-    $time->setTime(12 + 11, 0, 0);
-    set_fake_time($time);
-    $this->assert_true($college->doors_are_closed());
-    
-    $time->setTime(12 + 11, 30, 0);
-    set_fake_time($time);
+    $college->set_fake_local_time('2011-10-12 00:00:00');
     $this->assert_equal($college->doors_are_closed(), TRUE);
     
-    $time->setTime(12 + 11, 0, 0);
-    set_fake_time($time);
+    $college->set_fake_local_time('2011-10-13 00:30:00');
     $this->assert_equal($college->doors_are_closed(), TRUE);
     
-    $time->setTime(0, 30, 0);
-    set_fake_time($time);
+    $college->set_fake_local_time('2011-10-13 01:00:00');
+    $this->assert_equal($college->doors_are_open(), TRUE);
+    
+    $college->set_fake_local_time('2011-10-12 5:00:00');
+    $this->assert_equal($college->doors_are_open(), TRUE);
+    
+    $college->set_fake_local_time('2011-10-12 22:59:59');
+    $this->assert_equal($college->doors_are_open(), TRUE);
+    
+    $college->set_fake_local_time('2011-10-12 23:00:00');
+    $this->assert_equal($college->doors_are_closed(), TRUE);
+    
+    $college->set_fake_local_time('2011-10-12 23:30:00');
     $this->assert_equal($college->doors_are_closed(), TRUE);
   }
   
@@ -55,15 +51,15 @@ class User_Permissions_Tests extends TestGroup
     $time = new DateTime('2011-10-02', college()->timezone);
     $time->setTime(12 + 10, 30, 0);
     set_fake_time($time);
-    $this->assert_equal($user->can_checkin($party->id), TRUE);
+    $this->assert_equal($user->can_checkin($party), TRUE);
     
     $time->setTime(1, 0, 0);
     set_fake_time($time);
-    $this->assert_equal($user->can_checkin($party->id), TRUE);
+    $this->assert_equal($user->can_checkin($party), TRUE);
     
     $time->setTime(0, 59, 59);
     set_fake_time($time);
-    $this->assert_equal($user->can_checkin($party->id), FALSE);
+    $this->assert_equal($user->can_checkin($party), FALSE);
   }
   
   function test_cant_checkin_after_close() {
@@ -74,7 +70,7 @@ class User_Permissions_Tests extends TestGroup
     $time->setTime(12 + 11, 30, 0);
     set_fake_time($time);
     
-    $can_checkin = $user->can_checkin($party->id);
+    $can_checkin = $user->can_checkin($party);
     $this->assert_equal($can_checkin, FALSE);
     $this->assert_equal($user->reason(), REASON_DOORS_HAVE_CLOSED);
   }

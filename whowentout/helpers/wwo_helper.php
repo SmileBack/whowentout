@@ -192,6 +192,11 @@ function get_reason_message($reason) {
     return $reasons[$reason];
 }
 
+function update_facebook_friends($user) {
+  $user = user($user);
+  $user->update_friends_from_facebook();
+}
+
 /**
  *
  * @param string$filepath

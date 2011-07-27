@@ -72,6 +72,26 @@ class XCollege extends XObject
     return new DateTimeZone('America/Los_Angeles');
   }
   
+  function get_students() {
+    $query = $this->db()->select('id')
+                        ->from('users')
+                        ->where('college_id', $this->id)
+                        ->order_by('first_name', 'ASC');
+    return $this->load_objects('XUser', $query);
+  }
+  
+  /**
+   * Modify current time so that it matches the local time at this college.
+   * @param string $local_time_string 
+   *  A time string of the format 2011-10-14 22:05:00
+   */
+  function set_fake_local_time($local_time_string) {
+    $tz = $this->current_time(TRUE)->format('O');
+    $time_string = "$local_time_string $tz";
+    $dt = new DateTime($time_string);
+    set_fake_time($dt);
+  }
+  
   /**
    * Gives you the date for today at current college (12am).
    * @param bool $local
@@ -102,27 +122,14 @@ class XCollege extends XObject
            - $this->current_time()->getTimestamp();
     return max($delta, 0);
   }
-
+  
   function doors_are_closed() {
     return ! $this->doors_are_open();
   }
-
-  function doors_are_open() {
-    $current = $this->current_time();
-    $open = $this->get_opening_time();
-    $close = $this->get_closing_time();
-
-    return $open <= $current && $current < $close;
-  }
   
-  function get_students() {
-    $query = $this->db()->select('id')
-                        ->from('users')
-                        ->where('college_id', $this->id)
-                        ->order_by('first_name', 'ASC');
-    return $this->load_objects('XUSer', $query);
+  function doors_are_open() {    
+    return $this->get_opening_time()->getTimestamp() > $this->get_closing_time()->getTimestamp();
   }
-  
   
   /**
    * Return the GMT time for when the doors at the current college are next open for checkin.
@@ -130,16 +137,25 @@ class XCollege extends XObject
    */
   function get_opening_time($local = FALSE) {
     $opening_time = $this->today(TRUE)->setTime(1, 0, 0);
+    
+    //opening time has already passed to return the next opening time.
+    if ( $this->current_time(TRUE) >= $opening_time )
+      $opening_time = $opening_time->modify('+1 day');
+    
     return $local ? $this->make_local($opening_time)
                   : $this->make_gmt($opening_time);
   }
-
+  
   /**
    * Return the GMT time for when the doors at the current college are next closed for checkin.
    * @return DateTime
    */
   function get_closing_time($local = FALSE) {
     $closing_time = $this->today(TRUE)->setTime(12 + 11, 0, 0);
+    
+    if ( $this->current_time(TRUE) >= $closing_time )
+      $closing_time = $closing_time->modify('+1 day');
+    
     return $local ? $this->make_local($closing_time)
                   : $this->make_gmt($closing_time);
   }

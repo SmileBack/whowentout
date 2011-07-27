@@ -1,3 +1,4 @@
+
 <?php if (empty($mutual_friends)): ?>
   <h2 class="no_friends_in_common">
     You have no friends in common.
@@ -6,12 +7,12 @@
   <ul class="mutual_friends">
     <?php foreach ($mutual_friends as $friend): ?>
       <li>
-      <div class="thumb">
-        <?= img($friend->thumb) ?>
-      </div>
-      <div class="full_name">
-        <?= $friend->full_name ?>
-      </div>
+        <div class="thumb">
+          <?= img($friend->thumb) ?>
+        </div>
+        <div class="full_name">
+          <?= $friend->full_name ?>
+        </div>
       </li>
     <?php endforeach; ?>
   </ul>

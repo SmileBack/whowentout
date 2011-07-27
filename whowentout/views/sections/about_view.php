@@ -5,7 +5,9 @@
     <li>Find out which parties were most popular on a particular night</li>
   </ul>
   </p>			
-  <p>WhoWentOut is currently open only to students at the <strong>George Washington University.</strong><p>
+  <p>
+    WhoWentOut is currently open only to students at the <strong>George Washington University.</strong>
+  <p>
 </div>
 
 <div class="to_get_started">	

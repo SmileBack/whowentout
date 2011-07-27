@@ -14,6 +14,9 @@ $('#wwo').entwine({
   doorsOpen: function() {
     return this.attr('doors-open') == 'true';
   },
+  doorsClosed: function() {
+    return ! this.doorsOpen();
+  },
   showMutualFriendsDialog: function(path) {
     WWO.dialog.title('Mutual Friends').message('loading...')
               .setButtons('close').show('friends_popup');
@@ -57,7 +60,7 @@ function doors_opening_time() {
   return new Date(unixTs * 1000);
 }
 
-$.fn.imagesLoaded = function(callback){
+$.fn.imagesLoaded = function(callback) {
   var elems = this.filter('img'),
       len   = elems.length;
       

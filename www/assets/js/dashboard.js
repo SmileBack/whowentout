@@ -43,7 +43,6 @@ $('.recent_attendees').entwine({
     return ids;
   },
   insertThumbnail: function(thumbnail) {
-    console.log('insert thumbnail ' + thumbnail);
     var oldPics = $('.recent_attendees li:gt(2)');
 
     var t = this.createThumbnail(thumbnail);
