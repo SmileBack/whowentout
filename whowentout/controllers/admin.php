@@ -3,11 +3,24 @@
 class Admin extends MY_Controller
 {
   
+  private function can_access() {
+    return logged_in() && current_user()->is_admin();
+  }
+  
+  private function check_access() {
+    if ( ! $this->can_access() )
+      show_404();
+  }
+  
   function index() {
+    $this->check_access();
+    
     $this->load_view('admin/admin_view');
   }
   
   function fake_time() {
+    $this->check_access();
+    
     $fake_time = post('fake_time');
     $fake_time_point = get_option('fake_time_point');
     
@@ -33,14 +46,20 @@ class Admin extends MY_Controller
   }
   
   function parties() {
+    $this->check_access();
+    
     $this->load_view('admin/edit_parties_view');
   }
   
   function users() {
+    $this->check_access();
+    
     $this->load_view('admin/users_view');
   }
   
   function destroy_user($user_id) {
+    $this->check_access();
+    
     $user = user($user_id);
     $full_name = $user->full_name;
     destroy_user($user->id);
@@ -49,6 +68,8 @@ class Admin extends MY_Controller
   }
   
   function add_party() {
+    $this->check_access();
+    
     $date = new DateTime( post('date'), college()->timezone );
     $place_id = post('place_id');
     
@@ -61,6 +82,8 @@ class Admin extends MY_Controller
   }
   
   function random_checkin($party_id) {
+    $this->check_access();
+    
     $party = party($party_id);
     $user = get_random_user($party->id);
     

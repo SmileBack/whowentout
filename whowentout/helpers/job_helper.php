@@ -15,6 +15,7 @@ function job_add($function, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
   
   $row = array(
     'id' => job_unique_id(),
+    'status' => 'pending',
     'type' => $function,
     'created' => current_time()->getTimestamp(),
     'args' => serialize($args),
@@ -31,23 +32,41 @@ function job_delete($job_id) {
 function job_get($job_id) {
   ci()->db->from('jobs')->where('id', $job_id);
   $rows = ci()->db->get()->result();
-  return empty($rows) ? NULL : $rows[0];
-}
-
-function job_pull($job_id) {
-  $job = job_get($job_id);
-  job_delete($job_id);
-  return $job;
+  
+  if (empty($rows))
+    return NULL;
+  
+  $rows[0]->args = unserialize($rows[0]->args);
+  return $rows[0];
 }
 
 function job_run($job_id) {
-  $job = job_pull($job_id);
+  $job = job_get($job_id);
+  $exception = NULL;
   
   if (!$job)
     return FALSE;
   
   $job_function = $job->type;
-  call_user_func_array( $job_function, unserialize($job->args) );
+  try {
+    call_user_func_array( $job_function, $job->args );
+    ci()->db->where('id', $job->id)
+            ->update('jobs', array(
+              'status' => 'complete',
+              'executed' => current_time()->getTimestamp(),
+            ));
+  }
+  catch (Exception $e) {
+    ci()->db->where('id', $job->id)
+        ->update('jobs', array(
+          'status' => 'error',
+          'executed' => current_time()->getTimestamp(),
+          'error_message' => $e->getMessage(),
+          'error_line' => $e->getLine(),
+          'error_file' => $e->getFile(),
+          'error' => serialize($e),
+        ));
+  }
   
   return TRUE;
 }

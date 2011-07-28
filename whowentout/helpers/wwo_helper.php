@@ -192,9 +192,12 @@ function get_reason_message($reason) {
     return $reasons[$reason];
 }
 
-function update_facebook_friends($user) {
+function update_facebook_friends($user, $force_update = FALSE) {
+  $access_token = get_option('admin_facebook_access_token');
+  fb()->setAccessToken($access_token);
+  
   $user = user($user);
-  $user->update_friends_from_facebook();
+  $user->update_friends_from_facebook($force_update);
 }
 
 /**

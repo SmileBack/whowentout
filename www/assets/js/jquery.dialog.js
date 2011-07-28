@@ -2,7 +2,18 @@ var dialog = Element.subclass();
 
 function dialog_mask() {
   if ( $('#mask').length == 0) {
-    $('body').append('<div id="mask" />');
+    var mask = $('<div id="mask"/>').css({
+      display: 'none',
+      position: 'fixed',
+      top: '0px',
+      left: '0px',
+      background: 'black',
+      opacity: 0.4,
+      width: '100%',
+      height: '100%',
+      'z-index': 9000
+    });
+    $('body').append(mask);
   }
   $('#mask').bind('click', function() {
     dialog('.dialog:visible').hide();

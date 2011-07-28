@@ -81,7 +81,7 @@ $('.confirm_smile.dialog').live('button_click', function(e, button, form) {
   }
 });
 
-$('.mutual_friends').entwine({
+$('.show_mutual_friends').entwine({
   onclick: function(e) {
     e.preventDefault();
     var path = $(this).attr('href');

@@ -3,6 +3,17 @@ google.load('visualization', '1', {'packages':['corechart']});
 // Set a callback to run when the Google Visualization API is loaded.
 google.setOnLoadCallback(drawChart);
 
+$('.party_tab').entwine({
+  expandWidth: function() {
+    var width = 0;
+    this.find('li').each(function() {
+      width += $(this).outerWidth();
+    });
+    width += 100;
+    this.css('width', width + 'px');
+  }
+});
+
 // // Callback that creates and populates a data table, 
 // instantiates the pie chart, passes in the data and
 // draws it.
@@ -12,7 +23,7 @@ function drawChart() {
 
 $('#friendschart').live('select', function(e, obj) {
   $('.party_tab.selected').removeClass('selected');
-  $('.party_tab' + obj.partyID).addClass('selected');
+  $('.party_tab' + obj.partyID).addClass('selected').expandWidth();
 });
 
 $('#friendschart').entwine({
@@ -28,7 +39,7 @@ $('#friendschart').entwine({
     this._data.addColumn('number', 'User');
     this._data.addColumn('number', 'party_id');
     this._data.addRows(this._rows);
-
+    
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.PieChart( this.get(0) );
     $(this).data('chart', chart);

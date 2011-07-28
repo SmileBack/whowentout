@@ -1,8 +1,5 @@
 <?php
 
-define('WWO_DEBUG', TRUE);
+define('ADMIN_FACEBOOK_ID', '776200121');
 
-$config['profile_pic_size'] = array(
-  'width'=> 150,
-  'height'=> 200,
-);
+$config['admin_facebook_ids'] = array(ADMIN_FACEBOOK_ID, '8100231');

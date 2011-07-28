@@ -41,6 +41,10 @@ class XUser extends XObject
     return FALSE;
   }
   
+  function is_admin() {
+    return in_array($this->facebook_id, ci()->config->item('admin_facebook_ids'));
+  }
+  
   function can_use_website() {
     return $this->college == college() 
            && ! $this->needs_to_edit_profile();
@@ -282,9 +286,9 @@ class XUser extends XObject
   
   function mutual_friends($person) {
     $person = user($person);
+    update_facebook_friends($person); // update his friends if necessary
     
     $params = array($this->id, $person->id, $this->id);
-    
     $rows = $this->db()
                  ->query("
                           SELECT friend_facebook_id, friend_full_name FROM friends
@@ -310,33 +314,28 @@ class XUser extends XObject
   }
   
   function friends() {
-    return array(
-      user(array('first_name' => 'Dan')),
-      user(array('first_name' => 'Erica')),
-      user(array('first_name' => 'Alex')),
-      user(array('first_name' => 'Jenny')),
-      user(array('first_name' => 'Rebecca')),
-      user(array('first_name' => 'Claire')),
-      user(array('first_name' => 'Emily')),
-      user(array('first_name' => 'Maggie')),
-      user(array('first_name' => 'Jackie')),
-    );
-    
-    $this->update_friends_from_facebook();
-    
     $rows = $this->db()->select('friend_id AS id')
                        ->from('friends')
-                       ->where('user_id', $this->id);
+                       ->where('user_id', $this->id)
+                       ->where('friend_id IS NOT NULL');
     
     return $this->load_objects('XUser', $rows);
   }
   
-  function update_friends_from_facebook() {
-    $results = fb()->api(array(
-      'method' => 'fql.query',
-      'query' => "SELECT uid, name, is_app_user FROM user
-                  WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $this->facebook_id)" // AND is_app_user = 1
-    ));
+  function update_friends_from_facebook($force_update = FALSE) {
+    if ( ! $this->friends_need_update($force_update) )
+      return;
+    
+    try {
+      $results = fb()->api(array(
+        'method' => 'fql.query',
+        'query' => "SELECT uid, name, is_app_user FROM user
+                    WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $this->facebook_id)" // AND is_app_user = 1
+      ));
+    }
+    catch (Exception $e) {
+      return FALSE;
+    }
     
     $rows = array();
     foreach ($results as $result) {
@@ -349,8 +348,36 @@ class XUser extends XObject
     }
     
     //delete old friends data
+    $this->db()->trans_start();
     $this->db()->delete('friends', array('user_id' => $this->id));
     $this->db()->insert_batch('friends', $rows);
+    //update friends
+    $this->db()->query("UPDATE friends
+                        SET friend_id = (SELECT users.id FROM users WHERE users.facebook_id = friend_facebook_id)
+                        WHERE user_id = ?", array($this->id));
+    $this->db()->trans_complete();
+    $this->last_updated_friends = current_time()->format('Y-m-d H:i:s');
+    $this->save();
+    
+    return TRUE;
+  }
+  
+  function friends_need_update($force_update = FALSE) {
+    if ($force_update)
+      return TRUE;
+    elseif ( $this->friends_are_out_of_date() )
+      return TRUE;
+    else
+      return FALSE;
+  }
+  
+  function friends_are_out_of_date() {
+    if ($this->last_updated_friends == NULL)
+      return TRUE;
+    
+    $last_updated = new DateTime($this->last_updated_friends, new DateTimeZone('UTC'));
+    
+    return current_time()->getTimestamp() - $last_updated->getTimestamp() > 600;
   }
   
   /**

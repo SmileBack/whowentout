@@ -84,9 +84,9 @@ class User extends MY_Controller {
   }
   
   function fakelogin($user_id = NULL) {
-    if ( ! WWO_DEBUG)
+    if (ENVIRONMENT == 'production')
       show_404();
-      
+    
     if ($user_id != NULL) {
       fake_login($user_id);
       redirect('dashboard');

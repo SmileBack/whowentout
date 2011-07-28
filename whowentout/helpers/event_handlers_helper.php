@@ -49,3 +49,14 @@ function on_smile_at($sender, $receiver, $party) {
         . anchor(site_url("party/$party->id"), 'Click here') . " to go to the party.";
   job_call_async('send_email', $receiver->id, $subject, $body);
 }
+
+function on_page_load($uri) {
+  if (logged_in()) {
+//    var_dump(current_user()->friends_need_update());
+//    print 'updating fb';
+//    update_facebook_friends(current_user()->id);
+//    print 'done updating!';
+    job_add('update_facebook_friends', current_user()->id);
+//    job_call_async('update_facebook_friends', current_user()->id);
+  }
+}

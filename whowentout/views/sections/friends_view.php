@@ -3,7 +3,7 @@
     <?php $party = party($party_id); ?>
     <li class="party_tab <?= 'party_tab' . $party->id ?>">
       <h3><?= $party->place->name ?></h3>
-      <ul>
+      <ul class="clearfix">
         <?php foreach ($user_ids as $user_id): ?>
         <?php $user = user($user_id); ?>
           <li>

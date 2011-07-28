@@ -8,6 +8,8 @@ class Dashboard extends MY_Controller {
     
     enforce_restrictions();
     
+    raise_event('page_load', uri_string());
+    
     $user = current_user();
     $college = college();
     $time = current_time();

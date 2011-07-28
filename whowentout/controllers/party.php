@@ -13,6 +13,8 @@ class Party extends MY_Controller {
       show_404();
     }
     
+    raise_event('page_load', uri_string());
+    
     $data = array(
       'title' => 'Party',
       'party' => $party,

@@ -33,7 +33,7 @@
       <p><?= $attendee->first_name; ?> <?= $attendee->last_name ?></p>
       <p><?= $attendee->college->name; ?> <?= $attendee->grad_year; ?></p>
       <p>&nbsp;<?= $attendee->hometown ?>&nbsp;</p>
-      <p><?= anchor("user/mutual_friends/$attendee->id", 'Mutual Friends', array('class' => 'mutual_friends')) ?></p>
+      <p><?= anchor("user/mutual_friends/$attendee->id", 'Mutual Friends', array('class' => 'show_mutual_friends')) ?></p>
       <p>
         <?php if ($attendee->gender != $user->gender): ?>
           <?php if ($attendee->was_smiled_at($user->id, $party->id)): ?>
