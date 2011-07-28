@@ -158,10 +158,14 @@ class S3ImageRepository extends BaseImageRepository
     $temp_image_path = tempnam(sys_get_temp_dir(), 'img') . '.jpg';
     $img->saveToFile($temp_image_path);
     $filename = $this->filename($id, $preset);
-    $respones = $this->s3()->create_object($this->bucket, $filename, array(
+    $response = $this->s3()->create_object($this->bucket, $filename, array(
       'fileUpload' => $temp_image_path, 
       'acl' => AmazonS3::ACL_PUBLIC,
     ));
+    
+    $user = user($id);
+    $user->pic_version++;
+    $user->save();
   }
   
   /**
@@ -176,11 +180,13 @@ class S3ImageRepository extends BaseImageRepository
   }
   
   function path($id, $preset) {
+    $user = user($id);
+    
     if ( ! $this->exists($id, $preset) ) {
       $this->refresh($id, $preset);
     }
     $filename = $this->filename($id, $preset);
-    return $this->s3()->get_object_url($this->bucket, $filename);
+    return $this->s3()->get_object_url($this->bucket, $filename) . "?version=$user->pic_version";
   }
   
   function exists($id, $preset) {
@@ -223,6 +229,10 @@ class FilesystemImageRepository extends BaseImageRepository
   function saveImage($img, $id, $preset) {
     $this->create_preset($preset);
     $img->saveToFile( $this->filename($id, $preset) );
+    
+    $user = user($id);
+    $user->pic_version++;
+    $user->save();
   }
   
   protected function create_preset($preset) {

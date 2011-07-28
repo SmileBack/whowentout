@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-07-21 10:04:00
+# Date/time:                    2011-07-28 15:58:44
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,7 +29,10 @@ CREATE TABLE IF NOT EXISTS `colleges` (
 CREATE TABLE IF NOT EXISTS `friends` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
-  `friend_id` int(10) unsigned NOT NULL,
+  `user_facebook_id` bigint(20) unsigned DEFAULT NULL,
+  `friend_id` int(10) unsigned DEFAULT NULL,
+  `friend_facebook_id` bigint(20) unsigned NOT NULL,
+  `friend_full_name` varchar(256) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -39,9 +42,15 @@ CREATE TABLE IF NOT EXISTS `friends` (
 # Dumping structure for table whowentout.jobs
 CREATE TABLE IF NOT EXISTS `jobs` (
   `id` varchar(40) NOT NULL,
-  `created` int(10) unsigned NOT NULL,
   `type` varchar(64) NOT NULL,
+  `status` varchar(32) DEFAULT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `executed` int(10) unsigned DEFAULT NULL,
   `args` text,
+  `error_message` text,
+  `error_line` text,
+  `error_file` text,
+  `error` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -150,12 +159,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) NOT NULL,
   `gender` enum('M','F') NOT NULL,
   `registration_time` datetime DEFAULT NULL,
+  `last_updated_friends` datetime DEFAULT NULL,
   `last_edit` datetime DEFAULT NULL,
   `date_of_birth` date NOT NULL,
   `pic_x` int(10) unsigned DEFAULT NULL,
   `pic_y` int(10) unsigned DEFAULT NULL,
   `pic_width` int(10) unsigned DEFAULT NULL,
   `pic_height` int(10) unsigned DEFAULT NULL,
+  `pic_version` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),
