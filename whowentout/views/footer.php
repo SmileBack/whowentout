@@ -23,10 +23,5 @@
     
     <?= js_asset('script.js'); ?>
     
-    <?php if (FALSE): ?>
-    
-    
-    <?php endif; ?>
-    
   </body>
 </html>

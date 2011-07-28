@@ -3,7 +3,8 @@
 class Welcome extends MY_Controller {
   
   function index() {
-    job_call_async('update_facebook_friends', 156);
+    $user = user(array('first_name' => 'Venkat'));
+    $user->refresh_image('facebook');
   }
   
 }

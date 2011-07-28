@@ -17,6 +17,7 @@ class User extends MY_Controller {
     }
     elseif (post('op') == 'Use Facebook Pic') {
       $user->use_facebook_pic();
+      set_message('Now using your profile pic from Facebook.');
       redirect('user/edit');
     }
     elseif (post('op') == 'Save') {
