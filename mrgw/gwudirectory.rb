@@ -27,6 +27,10 @@ class GWUDirectory
       return []
     end
     
+    if ! valid_page(doc)
+      raise "invalid page"
+    end
+    
     doc.xpath("//a[starts-with(@href, 'mailto:')]").each do |a|
       s = Student.new
       s.name = a.at_xpath("ancestor::td[1]//b[1]").text.strip
@@ -37,6 +41,10 @@ class GWUDirectory
     log_num_results(query, num_results)
     
     return students
+  end
+  
+  def valid_page(doc)
+    return doc.xpath("//input[@name='keywords']").length
   end
 
   def num_results
