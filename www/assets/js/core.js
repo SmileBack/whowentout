@@ -2,7 +2,7 @@ var WWO = null;
 jQuery(function() {
   WWO = $('#wwo');
 });
-
+alert('core.js');
 $('#wwo').entwine({
   onmatch: function() {
     this._calculateTimeDelta();
