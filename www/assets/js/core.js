@@ -15,6 +15,7 @@ $('#wwo').entwine({
     return this.attr('doors-open') == 'true';
   },
   doorsClosed: function() {
+    //returning doors closed
     return ! this.doorsOpen();
   },
   showMutualFriendsDialog: function(path) {
