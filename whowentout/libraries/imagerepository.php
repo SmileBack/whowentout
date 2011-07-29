@@ -12,6 +12,9 @@ abstract class BaseImageRepository
    * @return string
    */
   abstract function path($id, $preset);
+  function url($id, $preset) {
+    return $this->path($id, $preset);
+  }
   
   /**
    * @return bool
@@ -180,13 +183,16 @@ class S3ImageRepository extends BaseImageRepository
   }
   
   function path($id, $preset) {
-    $user = user($id);
-    
     if ( ! $this->exists($id, $preset) ) {
       $this->refresh($id, $preset);
     }
     $filename = $this->filename($id, $preset);
-    return $this->s3()->get_object_url($this->bucket, $filename) . "?version=$user->pic_version";
+    return $this->s3()->get_object_url($this->bucket, $filename);
+  }
+  
+  function url($id, $preset) {
+    $user = user($id);
+    return $this->path($id, $preset) . "?version=$user->pic_version";
   }
   
   function exists($id, $preset) {

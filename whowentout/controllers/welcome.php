@@ -3,8 +3,6 @@
 class Welcome extends MY_Controller {
   
   function index() {
-    $user = user(array('first_name' => 'Venkat'));
-    $user->refresh_image('facebook');
   }
   
 }

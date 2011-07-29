@@ -571,7 +571,7 @@ class XUser extends XObject
   }
   
   private function _get_image_path($preset) {
-    return images()->path($this->id, $preset);
+    return images()->url($this->id, $preset);
   }
   
   function update_facebook_data() {
