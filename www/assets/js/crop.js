@@ -7,7 +7,9 @@ function initialize_crop_ui() {
   var api = WWO.api = $.Jcrop('#crop img', {
     aspectRatio: 0.75,
     onChange: onChange,
-    onSelect: onSelect
+    onSelect: onSelect,
+    boxWidth: 400,
+    boxHeight: 400
   });
   
   api.setSelect([x, y, x + width, y + height]);
