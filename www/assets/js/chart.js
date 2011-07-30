@@ -32,9 +32,13 @@ $('#friendschart').entwine({
   onunmatch: function() {},
   initChart: function() {
     var self = this;
-    // Create our data table.
-    this._data = new google.visualization.DataTable();
     this._rows = $('#wwo').whereFriendsWentData();
+    
+    if (this._rows.length == 0) {
+      return;
+    }
+    
+    this._data = new google.visualization.DataTable();
     this._data.addColumn('string', 'Party');
     this._data.addColumn('number', 'User');
     this._data.addColumn('number', 'party_id');
