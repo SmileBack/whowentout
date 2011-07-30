@@ -22,7 +22,7 @@
   </li>
 </ul>
 
-<ul class="gallery">
+<ul class="gallery" data-sort="<?= $sort ?>">
   
   <?php foreach ($party_attendees as $key => $attendee): ?>
   <li>
