@@ -1,6 +1,39 @@
 $('.gallery').entwine({
+  onmatch: function() {
+    var el = $(this);
+    every(10, function() {
+      el.refreshAttendees();
+    });
+  },
   sorting: function() {
     return this.attr('data-sort');
+  },
+  refreshAttendees: function() {
+    $.ajax({
+      context: this,
+      type: 'post',
+      url: '/party/count/' + this.partyID(),
+      dataType: 'json',
+      data: { sort: this.sorting(), count: this.count() },
+      success: function(response) {
+        var el;
+        console.log(response);
+        for (var k in response.new_attendees) {
+          el = $('<li>' + response.new_attendees[k] + '</li>');
+          el.addClass('new');
+          el.hide();
+          this.prepend(el);
+          el.fadeIn();
+        }
+        this.attr('data-count', response.count);
+      }
+    });
+  },
+  partyID: function() {
+    return parseInt( this.attr('data-party-id') );
+  },
+  count: function() {
+    return parseInt( this.attr('data-count') );
   }
 });
 

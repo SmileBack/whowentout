@@ -54,4 +54,32 @@ class Party extends MY_Controller {
     print json_encode($recent_attendee_images);exit;
   }
   
+  function count($party_id) {
+    if ( ! current_user()->has_attended_party($party_id) )
+      show_404();
+    
+    $response = array();
+    
+    $party = party($party_id);
+    $response['client_count'] = $client_count = intval( post('count') ); // the number of attendees shown in the browser
+    $response['server_count'] = $server_count = $party->count;
+    $response['diff'] = $server_count - $client_count;
+    $response['count'] = $party->count;
+    
+    $query = $party->attendees_query()
+                   ->limit($server_count - $client_count);
+    $new_attendees = $party->load_objects('XUser', $query);
+    
+    $response['new_attendees'] = array();
+    foreach ($new_attendees as $attendee) {
+      $response['new_attendees'][] = load_view('party_attendee_view', array(
+        'party' => $party,
+        'attendee' => $attendee,
+        'smiles_left' => current_user()->smiles_left($party),
+      ));
+    }
+    
+    print json_encode($response);exit;
+  }
+  
 }

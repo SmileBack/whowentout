@@ -212,7 +212,7 @@ class XObject
     return ci()->db;
   }
   
-  protected function load_objects($class, $rows) {
+  function load_objects($class, $rows) {
     if ($rows instanceof CI_DB_mysql_driver) {
       $rows = $rows->get()->result();
     }

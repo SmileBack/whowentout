@@ -13,7 +13,7 @@ $('.recent_attendees').entwine({
   update: function() {
     $.ajax({
       context: this,
-      url: 'party/recent/' + this.partyID(),
+      url: '/party/recent/' + this.partyID(),
       dataType: 'json',
       success: function(newThumbnails) {
         var currentIDs = this.thumbnailIDs();

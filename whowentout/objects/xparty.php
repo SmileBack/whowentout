@@ -21,19 +21,19 @@ class XParty extends XObject
   
   function attendees($sort = 'checkin_time') {
     $attendees = array();
-    $rows = $this->_attendees_query($sort);
+    $rows = $this->attendees_query($sort);
     
     return $this->load_objects('XUser', $rows);
   }
   
-  private function _attendees_query($sort = 'checkin_time') {
+  function attendees_query($sort = 'checkin_time') {
     $query = $this->db()->select('user_id AS id')
                        ->from('party_attendees')
                        ->join('users', 'users.id = party_attendees.user_id')
                        ->where('party_id', $this->id);
     
     if ($sort == 'checkin_time') {
-      $query = $query->order_by('checkin_time', 'desc');
+      $query = $query->order_by('party_attendees.id', 'desc');
     }
     elseif ($sort == 'gender') {
       $order = $this->_attendees_query_gender_sort_order();
@@ -56,12 +56,16 @@ class XParty extends XObject
       return 'asc';
   }
   
+  function get_count() {
+    return $this->attendees_query()->count_all_results();
+  }
+  
   function get_female_count() {
-    return $this->_attendees_query()->where('gender', 'F')->count_all_results();
+    return $this->attendees_query()->where('gender', 'F')->count_all_results();
   }
   
   function get_male_count() {
-    return $this->_attendees_query()->where('gender', 'M')->count_all_results();
+    return $this->attendees_query()->where('gender', 'M')->count_all_results();
   }
   
   function recent_attendees() {
