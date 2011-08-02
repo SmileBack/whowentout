@@ -19,6 +19,7 @@ class Dashboard extends MY_Controller {
     $data = array(
       'title'=> 'Dashboard',
       'user'=> $user,
+      'college' => $college,
       'closing_time' => load_view('closing_time_view'),
       'doors_are_closed' => $college->doors_are_closed(),
       'parties_dropdown' => parties_dropdown($parties),
@@ -32,6 +33,12 @@ class Dashboard extends MY_Controller {
     }
     
     $this->load_view('dashboard_view', $data);
+  }
+  
+  function top_parties() {
+    print load_view('sections/top_parties_view', array(
+      'college' => college(), 
+    ));
   }
   
 }

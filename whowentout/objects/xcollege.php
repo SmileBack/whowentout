@@ -189,7 +189,7 @@ class XCollege extends XObject
   function top_parties() {
     $time = $this->yesterday(TRUE);
     
-    $sql = "SELECT party_id AS id, party_date, LEAST(males, females) AS score FROM
+    $sql = "SELECT party_id AS id, party_date, LEAST(males, females) AS score_a, males+females AS score_b FROM
             (
               SELECT party_id, parties.date AS party_date, SUM(gender = 'M') AS males, SUM(gender = 'F') as females
               FROM party_attendees
@@ -198,7 +198,7 @@ class XCollege extends XObject
               WHERE parties.date = ?    
               GROUP BY party_id
             ) AS party_counts
-            ORDER BY score DESC";
+            ORDER BY score_a DESC, score_b DESC";
     
     $query = $this->db()->query($sql, array(date_format($time, 'Y-m-d')));
     

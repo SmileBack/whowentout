@@ -88,3 +88,36 @@ $('.recent_attendees li').entwine({
     return parseInt( this.attr('data-user-id') );
   }
 });
+
+$('#top_parties').entwine({
+  onmatch: function() {
+    var el = $(this);
+    every(10, function() {
+      el.update();
+    });
+  },
+  onunmatch: function() {},
+  update: function() {
+    $.ajax({
+      context: this,
+      url: '/dashboard/top_parties',
+      dataType: 'html',
+      success: function(response) {
+        var newTopParties = $(response);
+        var isNew = newTopParties.partyIDs().join(',') != this.partyIDs().join(',');
+        console.log(newTopParties.partyIDs());
+        console.log(this.partyIDs());
+        console.log(isNew);
+        if (isNew)
+          this.replaceWith(response);
+      }
+    });
+  },
+  partyIDs: function() {
+    var ids = [];
+    this.find('li').each(function() {
+      ids.push( parseInt($(this).attr('data-id')) );
+    });
+    return ids;
+  }
+});

@@ -89,7 +89,6 @@ class Admin extends MY_Controller
     
     if ( $user->can_checkin($party) ) {
       $user->checkin($party->id);
-    
       set_message( "Randomly checked in $user->full_name to {$party->place->name} on $party->date." );
     }
     else {
