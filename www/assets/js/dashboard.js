@@ -105,9 +105,6 @@ $('#top_parties').entwine({
       success: function(response) {
         var newTopParties = $(response);
         var isNew = newTopParties.partyIDs().join(',') != this.partyIDs().join(',');
-        console.log(newTopParties.partyIDs());
-        console.log(this.partyIDs());
-        console.log(isNew);
         if (isNew)
           this.replaceWith(response);
       }

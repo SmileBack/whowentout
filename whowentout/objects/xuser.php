@@ -714,4 +714,9 @@ class XAnonymousUser extends XObject
     return FALSE;
   }
   
+  function can_use_website() {
+    $this->reason = REASON_NOT_LOGGED_IN;
+    return FALSE;
+  }
+  
 }

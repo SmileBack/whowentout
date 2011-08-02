@@ -198,7 +198,7 @@ class XCollege extends XObject
               WHERE parties.date = ?    
               GROUP BY party_id
             ) AS party_counts
-            ORDER BY score_a DESC, score_b DESC";
+            ORDER BY score_a DESC, score_b DESC LIMIT 3";
     
     $query = $this->db()->query($sql, array(date_format($time, 'Y-m-d')));
     
