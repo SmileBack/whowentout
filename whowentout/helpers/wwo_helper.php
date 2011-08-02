@@ -236,6 +236,13 @@ function send_email($user, $subject, $body) {
   $result = $mailer->send($message);
 }
 
+function body_id() {
+  $uri = uri_string();
+  if (!$uri)
+    $uri = 'home';
+  return preg_replace('/\//', '_', $uri) . '_page';
+}
+
 function curl_file_get_contents($url) {
   $c = curl_init();
   curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);

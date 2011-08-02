@@ -17,7 +17,6 @@ $('.gallery').entwine({
       data: { sort: this.sorting(), count: this.count() },
       success: function(response) {
         var el;
-        console.log(response);
         for (var k in response.new_attendees) {
           el = $('<li>' + response.new_attendees[k] + '</li>');
           el.addClass('new');

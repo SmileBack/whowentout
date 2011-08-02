@@ -1,3 +1,7 @@
+$('#dashboard_page #wwo, #home_page #wwo').live('doorsclose doorsopen nextday', function() {
+  window.location.reload(true);
+});
+
 $('.current_time').entwine({
   onmatch: function() {
     var self = $(this);
@@ -12,6 +16,23 @@ $('.current_time').entwine({
      + time.format('h:MM:ss TT');
   }
 });
+
+function time_passed(time, fn) {
+  var alreadyFired = false;
+  
+  // time has already passed
+  if ( current_time().timeUntil(time).isNegative() )
+    return;
+  
+  $('#wwo').live('timechanged', function(e, currentTime) {
+    var duration = currentTime.timeUntil( time );
+    if (duration.isNegative() && !alreadyFired) {
+      alreadyFired = true;
+      fn();
+    }
+  });
+  
+}
 
 jQuery(function($) {
   
@@ -32,27 +53,17 @@ jQuery(function($) {
     });
   }
   
-  if ( $('#wwo').doorsOpen() ) {
-    var alreadyTriggeredDoorsClose = false;
-    $('#wwo').live('timechanged', function(e, time) {
-      var duration = time.timeUntil( doors_closing_time() );
-      if (duration.isNegative() && $('#wwo').doorsOpen() && alreadyTriggeredDoorsClose == false) {
-        alreadyTriggeredDoorsClose = true;
-        $('#wwo').trigger('doorsclose');
-      }
-    });
-  }
+  time_passed(doors_closing_time(), function() {
+    $('#wwo').trigger('doorsclose');
+  });
   
-  if ( $('#wwo').doorsClosed() ) {
-    var alreadyTriggeredDoorsOpen = false;
-    $('#wwo').live('timechanged', function(e, time) {
-      var duration = time.timeUntil( doors_opening_time() );
-      if (duration.isNegative() && $('#wwo').doorsClosed() && alreadyTriggeredDoorsOpen == false) {
-        alreadyTriggeredDoorsOpen = true;
-        $('#wwo').trigger('doorsclose');
-      }
-    });
-  }
+  time_passed(doors_opening_time(), function() {
+    $('#wwo').trigger('doorsopen');
+  });
+  
+  time_passed(tomorrow_time(), function() {
+    $('#wwo').trigger('nextday');
+  });
   
   every(1, function() {
     $('#wwo').trigger('timechanged', current_time());

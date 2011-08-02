@@ -112,6 +112,14 @@ class XCollege extends XObject
                   : $this->make_gmt($current_local_time);
   }
   
+  function tomorrow($local = FALSE) {
+    $current_local_time = $this->current_time(TRUE);
+    $current_local_time->setTime(0, 0, 0);
+    $current_local_time->modify('+1 day');
+    return $local ? $this->make_local($current_local_time)
+                  : $this->make_gmt($current_local_time);
+  }
+  
   /**
    * @return int
    *   The number of seconds until the doors are closed. If the doors have already

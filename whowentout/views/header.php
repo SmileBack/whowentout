@@ -28,7 +28,7 @@
     
   </head>
 
-  <body>	
+  <body id="<?= body_id() ?>">	
     
     <?= load_view('wwo_view') ?>
     

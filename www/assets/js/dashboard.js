@@ -1,7 +1,3 @@
-$('#wwo').live('doorsclose', function() {
-  window.location.reload(true);
-});
-
 $('.recent_attendees').entwine({
   onmatch: function() {
     var self = this;

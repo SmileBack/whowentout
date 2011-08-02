@@ -61,6 +61,12 @@ function doors_opening_time() {
   return new Date(unixTs * 1000);
 }
 
+function tomorrow_time() {
+  var unixTs = parseInt( $('#wwo').attr('tomorrow-time') );
+  //Unix timestamp uses seconds while JS Date uses milliseconds
+  return new Date(unixTs * 1000);
+}
+
 $.fn.imagesLoaded = function(callback) {
   var elems = this.filter('img'),
       len   = elems.length;

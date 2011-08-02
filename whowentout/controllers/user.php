@@ -32,9 +32,6 @@ class User extends MY_Controller {
         $user->save();
         set_message('Saved your info');
       }
-      else {
-        set_message('No changes were made.');
-      }
       
       // The first time no-changes edit still counts as a save.
       if ($user->never_edited_profile()) {
