@@ -41,4 +41,10 @@ class Dashboard extends MY_Controller {
     ));
   }
   
+  function past_top_parties() {
+    $this->load_view('past_top_parties_view', array(
+      'html' => get_option('past_top_parties_html', ''),
+    ));
+  }
+  
 }

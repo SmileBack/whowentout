@@ -119,6 +119,21 @@ class Admin extends MY_Controller
     redirect('admin/parties');
   }
   
+  function past_top_parties() {
+    $this->check_access();
+    
+    $this->load_view('admin/edit_past_top_parties_view', array(
+      'html' => get_option('past_top_parties_html', ''),
+    ));
+  }
+  
+  function save_past_top_parties() {
+    $this->check_access();
+    set_option('past_top_parties_html', post('past_top_parties_html'));
+    set_message('Saved past top parties html.');
+    redirect('admin/past_top_parties');
+  }
+  
   function random_checkin($party_id) {
     $this->check_access();
     

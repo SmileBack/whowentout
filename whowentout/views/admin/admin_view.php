@@ -5,6 +5,7 @@
       <li><?= anchor('admin/parties', 'Parties') ?></li>
       <li><?= anchor('admin/places', 'Places') ?></li>
       <li><?= anchor('admin/users', 'Users') ?></li>
+      <li><?= anchor('admin/past_top_parties', 'Past Top Parties') ?></li>
       <li><?= anchor('admin/fake_time', 'Fake Time') ?></li>
     </ul>
   </div>
