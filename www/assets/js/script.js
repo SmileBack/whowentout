@@ -50,3 +50,12 @@ jQuery(function($) {
   });
   
 });
+
+$('a.confirm').entwine({
+  onclick: function(e) {
+    var result = confirm("Are you sure?");
+    if (!result) {
+      e.preventDefault();
+    }
+  }
+});

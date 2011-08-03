@@ -1,26 +1,7 @@
 
 <?= form_open_multipart('user/edit_save', array('id' => 'edit_form')) ?>
-
-  <?php if ($user->is_missing_info()): ?>
-    <div id="missing_info" class="important_notice">
-      You are missing information!
-    </div>
-  <?php endif; ?>
   
-  <?php if ($user->college != college()): ?>
-    <div id="must_be_in_network" class="important_notice">
-      <p>
-        You must go to George Washington University to use this website.
-      </p>
-      <p>
-        If you are a student at GWU,
-        <a href="http://www.facebook.com/editaccount.php?networks" target="_blank">click here</a>
-        to add GWU to your list of networks on Facebook.
-      </p>
-    </div>
-  <?php endif; ?>
-  
-  <fieldset>
+  <fieldset class="my_info">
     <ul>
       <li>
         <label>Name</label>
@@ -28,7 +9,11 @@
       </li>
       <li>
         <label>School</label>
-        <input type="text" value="<?= $user->college->name ?>" disabled="disabled" />
+        <?php if ($user->college): ?>
+          <input type="text" value="<?= $user->college->name ?>" disabled="disabled" />
+        <?php else: ?>
+          <input type="text" value="No College Listed" disabled="disabled" />
+        <?php endif; ?>
       </li>
       <li class="<?= in_array('grad_year', $missing_info) ? 'missing' : '' ?>">
         <label>Graduation Year</label>
@@ -41,7 +26,7 @@
     </ul>
   </fieldset>
   
-  <fieldset>
+  <fieldset class="my_pic">
     <div id="crop" class="frame">
       <?= $user->raw_pic ?>
     </div>
@@ -53,14 +38,14 @@
     </div>
     
     <div id="pic_options">
-      <?php if ( $user->has_pic('upload') ): ?>
-        <label>Use your profile picture from Facebook</label>
-        <input type="submit" name="op" value="Use Facebook Pic" />
-      <?php else: ?>
-        <label>Upload your own pic</label>
+      <div>
+        <input type="submit" name="op" value="Use Your Facebook Pic" />
+      </div>
+      <div>
+        <label>Or upload your own pic</label>
         <?= form_upload('upload_pic') ?>
         <input type="submit" name="op" value="Upload" />
-      <?php endif; ?>
+      </div>
     </div>
     
     <input type="hidden" id="x" name="x" value="<?= $user->pic_x ?>"/>

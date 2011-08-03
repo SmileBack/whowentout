@@ -55,6 +55,11 @@
           <?php if (logged_in()): ?>
             <li><?= anchor('dashboard', 'My Dashboard'); ?></li>
           <?php endif; ?>
+          <?php if (logged_in() && current_user()->is_admin()): ?>
+          <li>
+            <?= anchor('admin', 'Admin') ?>
+          </li>
+          <?php endif; ?>
           <li>
             <?php if (logged_in()): ?>
               <?= anchor('logout', 'Logout') ?>

@@ -19,16 +19,18 @@
     <th>Females</th>
     <th>Males</th>
     <th>Checkin Random</th>
+    <th>Delete</th>
   </thead>
   <tbody>
-    <?php foreach (college()->parties as $party): ?>
+    <?php foreach (college()->parties(100) as $party): ?>
     <tr>
       <td><?= $party->id ?></td>
       <td><?= $party->place->name ?></td>
       <td><?= $party->date ?></td>
       <td><?= $party->female_count ?> girls</td>
       <td><?= $party->male_count ?> guys</td>
-      <td><?= anchor("admin/random_checkin/$party->id", 'Random Checkin') ?></td>
+      <td><?= anchor("admin/random_checkin/$party->id", 'Random Checkin', array('class' => 'confirm')) ?></td>
+      <td><?= anchor("admin/delete_party/$party->id", 'Delete', array('class' => 'confirm')) ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

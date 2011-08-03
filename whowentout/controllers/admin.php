@@ -81,6 +81,18 @@ class Admin extends MY_Controller
     redirect('admin/parties');
   }
   
+  function delete_party($party_id) {
+    $this->check_access();
+    
+    $party = party($party_id);
+    $party_date = $party->date;
+    $place_name = $party->place->name;
+    $party->delete();
+    set_message("Deleted party on $party_date at $place_name.");
+    
+    redirect('admin/parties');
+  }
+  
   function random_checkin($party_id) {
     $this->check_access();
     

@@ -15,7 +15,7 @@ class User extends MY_Controller {
       $user->upload_pic();
       redirect('user/edit');
     }
-    elseif (post('op') == 'Use Facebook Pic') {
+    elseif (post('op') == 'Use Your Facebook Pic') {
       $user->use_facebook_pic();
       set_message('Now using your profile pic from Facebook.');
       redirect('user/edit');
@@ -53,6 +53,16 @@ class User extends MY_Controller {
   
   function edit() {
     require_login();
+    
+    if ( ! current_user()->can_use_website() )
+      current_user()->update_facebook_data();
+    
+    if ( current_user()->college != college() ) {
+      set_message(load_view('missing_network_view'));
+    }
+    elseif (current_user()->is_missing_info()) {
+      set_message('You are missing information');
+    }
     
     $this->load_view('user_edit_view', array(
       'user' => current_user(),

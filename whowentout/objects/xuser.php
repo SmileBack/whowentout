@@ -458,6 +458,9 @@ class XUser extends XObject
   function where_friends_went() {
     $breakdown = array();
     
+    if (empty($this->college))
+      return array();
+    
     $party_ids = $this->_party_ids();
     $friend_ids = $this->_friend_ids();
     
@@ -620,7 +623,10 @@ class XUser extends XObject
     else {
       $college = $colleges[0];
       $this->college_id = $college->id;
-      $this->grad_year = $this->_get_grad_year($college, $fbdata);
+      
+      if ( ! $this->grad_year ) {
+        $this->grad_year = $this->_get_grad_year($college, $fbdata);
+      }
     }
   }
   
@@ -639,7 +645,9 @@ class XUser extends XObject
   }
   
   private function _get_possible_colleges($fbdata) {
-    $colleges = array();
+    $enabled_colleges = array();
+    $disabled_colleges = array();
+    
     $affiliations = $this->_get_affiliations();
     foreach ($affiliations as $affiliation) {
       $network_id = $affiliation['nid'];
@@ -651,9 +659,6 @@ class XUser extends XObject
         $college = create_college($affiliation['name'], $network_id);
       }
       
-      if ($college->enabled == '0')
-        continue;
-      
       if (isset($fbdata['education'])) {
         foreach ($fbdata['education'] as $education) {
           if ($education['school']['id'] == $college->facebook_network_id) {
@@ -662,12 +667,15 @@ class XUser extends XObject
         }
       }
       
-      $colleges[] = $college;
+      if ($college->enabled == '1')
+        $enabled_colleges[] = $college;
+      else
+        $disabled_colleges[] = $college;
     }
-    return $colleges;
+    return array_merge($enabled_colleges, $disabled_colleges);
   }
   
-  private function _get_affiliations() {
+  function _get_affiliations() {
     $result = fb()->api(array(
       'method' => 'fql.query',
       'query' => "SELECT affiliations FROM user WHERE uid = $this->facebook_id",

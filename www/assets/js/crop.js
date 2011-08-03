@@ -9,7 +9,7 @@ function initialize_crop_ui() {
     onChange: onChange,
     onSelect: onSelect,
     boxWidth: 400,
-    boxHeight: 400
+    boxHeight: 350
   });
   
   api.setSelect([x, y, x + width, y + height]);

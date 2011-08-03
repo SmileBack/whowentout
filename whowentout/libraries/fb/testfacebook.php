@@ -12,6 +12,9 @@ class TestFacebook extends Facebook
         if ($options['query'] == 'SELECT affiliations FROM user WHERE uid = 776200121') {
           $data = $this->get_776200121_affiliations();
         }
+        elseif ($options['query'] == 'SELECT affiliations FROM user WHERE uid = 100001981675908') {
+          $data = $this->get_100001981675908_affiliations();
+        }
       }
     }
     elseif (is_string($options)) {
@@ -19,11 +22,23 @@ class TestFacebook extends Facebook
         $data = parent::api($options);
         $this->modify_776200121_api($data);
       }
+      elseif ($options == "/100001981675908") {
+        $data = parent::api($options);
+        $this->modify_100001981675908_api($data);
+      }
     }
     
     //default behavior
     $args = func_get_args();
     return $data ? $data : call_user_func_array(array('parent', 'api'), $args);
+  }
+  
+  function get_100001981675908_affiliations() {
+    return $this->get_776200121_affiliations();
+  }
+    
+  function modify_100001981675908_api(&$data) {
+    $this->modify_776200121_api($data);
   }
   
   function modify_776200121_api(&$data) {
@@ -36,7 +51,7 @@ class TestFacebook extends Facebook
       'year' => 
       array (
         'id' => '201638419856163',
-        'name' => '2011',
+        'name' => '2012',
       ),
       'type' => 'College',
     );

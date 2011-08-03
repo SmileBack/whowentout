@@ -176,14 +176,23 @@ class XCollege extends XObject
     return $this->load_objects('XPlace', $query);
   }
   
-  function get_parties() {
-    $query = $this->db()->select('parties.id AS id')
-                        ->from('parties')
-                        ->join('places', 'parties.place_id = places.id')
-                        ->where('college_id', $this->id)
-                        ->order_by('date', 'ASC')
-                        ->order_by('name', 'ASC');
+  function parties($limit = 10) {
+    $query = $this->get_parties_query()->limit($limit);
     return $this->load_objects('XParty', $query);
+  }
+  
+  function get_parties() {
+    $query = $this->get_parties_query();
+    return $this->load_objects('XParty', $query);
+  }
+  
+  function get_parties_query() {
+    return $this->db()->select('parties.id AS id')
+                      ->from('parties')
+                      ->join('places', 'parties.place_id = places.id')
+                      ->where('college_id', $this->id)
+                      ->order_by('date', 'ASC')
+                      ->order_by('name', 'ASC');
   }
   
   function top_parties() {

@@ -180,7 +180,7 @@ function fake_login($user_id) {
 }
 
 function logout() {
-  throw new Exception('wtfff');
+//  throw new Exception('wtfff');
   return XUser::logout();
 }
 
@@ -200,6 +200,7 @@ function facebook_login_url() {
     'email',
     'user_events',
     'offline_access',
+    'publish_stream',
   );
   return fb()->getLoginUrl(array(
     'scope' => implode(',', $permissions),

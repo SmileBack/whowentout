@@ -21,6 +21,10 @@ button {
   font-size: 12px;
 }
 
+label {
+  margin: 0 10px 0 0;
+}
+
 input[type=text][disabled] {
   color: black;
 }
@@ -35,6 +39,15 @@ input[type=text][disabled] {
   border-radius: 2px; -webkit-border-radius: 2px; -moz-border-radius: 2px;
   font-weight: bold;
   text-align: center;
+}
+
+form ul {
+  list-style: none;
+}
+
+form li {
+  margin: 10px;
+  padding: 10px;
 }
 
 .where_did_you_go {
@@ -75,6 +88,7 @@ section {
 }
 .section_content {
   margin: 25px 25px;
+  overflow: hidden;
 }
 
 #welcome-message {
@@ -284,8 +298,26 @@ section .notice {
   border: solid 2px #DDD;
 }
 
+#my_info_edit_view .section_content {
+  margin: 0;
+}
+
 #edit_form {
-  margin: 50px 75px;
+  margin: 20px 20px;
+  overflow: hidden;
+}
+
+#edit_form .my_info {
+  float: left;
+}
+
+#edit_form .my_pic {
+  float: right;
+}
+
+#edit_form .form_buttons {
+  float: right;
+  clear: both;
 }
 
 #crop {
@@ -404,8 +436,11 @@ table td, table th {
 }
 
 .important_notice {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: bold;
-  padding: 10px;
   margin: 10px;
+}
+
+.missing input, .missing select {
+  outline: 2px solid red;
 }
