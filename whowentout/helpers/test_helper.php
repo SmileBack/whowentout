@@ -6,9 +6,10 @@
 function get_random_user($party_id) {
   $party = party($party_id);
   $query = "SELECT id, first_name, last_name FROM users
+              WHERE users.id NOT IN (SELECT user_id FROM party_attendees WHERE party_id = ?)
               ORDER BY RAND()
               LIMIT 1";
-  $rows = ci()->db->query($query)->result();
+  $rows = ci()->db->query($query, array($party->id))->result();
   return user($rows[0]->id);
 }
 
