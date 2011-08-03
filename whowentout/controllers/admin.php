@@ -47,8 +47,12 @@ class Admin extends MY_Controller
   
   function parties() {
     $this->check_access();
-    
     $this->load_view('admin/edit_parties_view');
+  }
+  
+  function places() {
+    $this->check_access();
+    $this->load_view('admin/edit_places_view');
   }
   
   function users() {
@@ -65,6 +69,28 @@ class Admin extends MY_Controller
     destroy_user($user->id);
     set_message("Destroyed $full_name.");
     redirect('admin/users');
+  }
+  
+  function add_place() {
+    $this->check_access();
+    
+    $college = college();
+    $name = post('place_name');
+    $place = $college->add_place($name);
+    
+    set_message("Created place called $place->name.");
+    redirect('admin/places');
+  }
+  
+  function delete_place($place_id) {
+    $this->check_access();
+    
+    $place = place($place_id);
+    $place_name = $place->name;
+    $place->delete();
+    
+    set_message("Deleted place $place_name.");
+    redirect('admin/places');
   }
   
   function add_party() {

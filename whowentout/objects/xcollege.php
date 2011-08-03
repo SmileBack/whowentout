@@ -169,11 +169,15 @@ class XCollege extends XObject
   }
   
   function get_places() {
-    $query = $this->db()->select('id')
-                        ->from('places')
-                        ->where('college_id', $this->id)
-                        ->order_by('name', 'ASC');
+    $query = $this->get_places_query();
     return $this->load_objects('XPlace', $query);
+  }
+  
+  function get_places_query() {
+    return $this->db()->select('id')
+                      ->from('places')
+                      ->where('college_id', $this->id)
+                      ->order_by('name', 'ASC');
   }
   
   function parties($limit = 10) {

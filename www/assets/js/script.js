@@ -53,7 +53,8 @@ jQuery(function($) {
 
 $('a.confirm').entwine({
   onclick: function(e) {
-    var result = confirm("Are you sure?");
+    var action = this.attr('action') || 'do this';
+    var result = confirm("Are you sure you want to " + action + "?");
     if (!result) {
       e.preventDefault();
     }

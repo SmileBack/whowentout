@@ -15,4 +15,10 @@ class XPlace extends XObject
     return user($this->admin_id);
   }
   
+  function get_num_parties() {
+    return $this->db()->from('parties')
+                ->where('place_id', $this->id)
+                ->count_all_results();
+  }
+  
 }

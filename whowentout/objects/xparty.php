@@ -20,10 +20,8 @@ class XParty extends XObject
   }
   
   function attendees($sort = 'checkin_time') {
-    $attendees = array();
-    $rows = $this->attendees_query($sort);
-    
-    return $this->load_objects('XUser', $rows);
+    $query = $this->attendees_query($sort);
+    return $this->load_objects('XUser', $query);
   }
   
   function attendees_query($sort = 'checkin_time') {
