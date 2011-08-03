@@ -64,8 +64,10 @@ $autoload['libraries'] = array('database', 'session');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('date', 'time', 'html', 'form', 'url',
-                            'wwo', 'user', 'asset', 'test', 'job', 'event', 'event_handlers');
+$autoload['helper'] = array('core', 'date', 'time', 'html', 'form', 'url',
+                            'wwo', 'user', 'asset', 'test', 'job', 'event',
+                            'event_handlers');
+
 if (ENVIRONMENT == 'test')
   $autoload['helper'][] = 'test';
 

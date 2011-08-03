@@ -19,9 +19,17 @@
         <label>Graduation Year</label>
         <?= grad_year_dropdown($user->grad_year) ?>
       </li>
-      <li class="<?= in_array('hometown', $missing_info) ? 'missing' : '' ?>">
+      <li class="hometown_info">
         <label>Hometown</label>
-        <input type="text" name="hometown" value="<?= $user->hometown ?>" />
+        <div class="<?= in_array('hometown_city', $missing_info) ? 'missing' : '' ?>">
+          <label>City</label>
+          <input type="text" name="hometown_city"
+                 value="<?= get_hometown_city($user->hometown) ?>" />
+        </div>
+        <div class="<?= in_array('hometown_state', $missing_info) ? 'missing' : '' ?>">
+          <label>State</label>
+            <?= state_dropdown('hometown_state', get_hometown_state($user->hometown)) ?>
+        </div>
       </li>
     </ul>
   </fieldset>

@@ -23,7 +23,8 @@ class User extends MY_Controller {
     elseif (post('op') == 'Save') {
       if (post('width') && post('height')) {
         $user->crop_pic( post('x'), post('y'), post('width'), post('height') );
-        $user->hometown = post('hometown');
+        $user->hometown_city = post('hometown_city');
+        $user->hometown_state = post('hometown_state');
         $user->grad_year = post('grad_year');
       }
       

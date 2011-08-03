@@ -163,10 +163,26 @@ function load_section_view($section_name, $title = '', $data = array()) {
   ));
 }
 
+function get_hometown_city($hometown) {
+  return trim( string_before_last(',', $hometown) );
+}
+
+function get_hometown_state($hometown) {
+  return trim( string_after_last(',', $hometown) );
+}
+
 function get_state_abbreviation($full_state_name) {
   require_once 'state_data.php';
   $data = _get_state_data();
   return isset($data[$full_state_name]) ? $data[$full_state_name] : NULL;
+}
+
+function state_dropdown($name = 'state', $selected = '') {
+  require_once 'state_data.php';
+  $data = array_values(_get_state_data());
+  $options = array('' => '');
+  $options = array_merge($options, array_combine($data, $data));
+  return form_dropdown($name, $options, $selected);
 }
 
 function where_friends_went_pie_chart_data() {

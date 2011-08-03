@@ -74,8 +74,11 @@ class XUser extends XObject
   function get_missing_info() {
     $missing_info = array();
     
-    if ($this->hometown == '')
-      $missing_info[] = 'hometown';
+    if ($this->hometown_city == '')
+      $missing_info[] = 'hometown_city';
+    
+    if ($this->hometown_state == '')
+      $missing_info[] = 'hometown_state';
     
     if ($this->grad_year == '' || $this->grad_year == 0)
       $missing_info[] = 'grad_year';
@@ -311,6 +314,10 @@ class XUser extends XObject
     }
     
     return $mutual_friends;
+  }
+  
+  function get_hometown() {
+    return $this->hometown_city . ', ' . $this->hometown_state;
   }
   
   function friends() {
@@ -633,14 +640,18 @@ class XUser extends XObject
   private function _update_hometown_from_facebook($fbdata) {
     if ( isset($fbdata['hometown']['name']) ) {
       $hometown = $fbdata['hometown']['name'];
-
-      list($city, $state) = preg_split('/\s*,\s*/', $hometown);
+      
+      $city = get_hometown_city($hometown);
+      $state = get_hometown_state($hometown);
       $abbreviated_state = get_state_abbreviation($state);
-
+      
       if ($abbreviated_state == NULL)
         $abbreviated_state = $state;
-
-      $this->hometown = "$city, $abbreviated_state";
+      
+      if ($this->hometown_city == '') {
+        $this->hometown_city = $city;
+        $this->hometown_state = $abbreviated_state;
+      }
     }
   }
   

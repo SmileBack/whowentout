@@ -213,6 +213,10 @@ class XObject
   }
   
   function load_objects($class, $rows) {
+    if (is_string($rows)) {
+      $rows = $this->db()->query($rows);
+    }
+    
     if ($rows instanceof CI_DB_mysql_driver) {
       $rows = $rows->get()->result();
     }
