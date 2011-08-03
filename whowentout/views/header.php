@@ -9,7 +9,7 @@
   <head>
     
     <meta charset="utf-8">
-    <title><?=isset($title) ? $title : '' ?></title>
+    <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
     <meta name="author" content="">

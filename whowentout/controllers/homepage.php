@@ -13,7 +13,7 @@ class Homepage extends MY_Controller {
     $parties = $college->open_parties(current_time());
     
     $data = array(
-      'title'=> 'Home',
+      'title' => 'WhoWentOut',
       'closing_time' => load_view('closing_time_view'),
       'doors_are_closed' => $college->doors_are_closed(),
       'parties_dropdown' => parties_dropdown($parties),
