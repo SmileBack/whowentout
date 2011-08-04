@@ -80,6 +80,21 @@ class XCollege extends XObject
     return $this->load_objects('XUser', $query);
   }
   
+  function get_recent_dates() {
+    $rows = $this->db()->select('DISTINCT(date) AS date')
+                       ->from('parties')
+                       ->join('places', 'parties.place_id = places.id')
+                       ->where('places.college_id', $this->id)
+                       ->order_by('date', 'desc')
+                       ->limit(3)
+                       ->get()->result();
+    $dates = array();
+    foreach ($rows as $row) {
+      $dates[] = new DateTime($row->date, $this->timezone);
+    }
+    return $dates;
+  }
+  
   /**
    * Modify current time so that it matches the local time at this college.
    * @param string $local_time_string 

@@ -185,13 +185,13 @@ function state_dropdown($name = 'state', $selected = '') {
   return form_dropdown($name, $options, $selected);
 }
 
-function where_friends_went_pie_chart_data() {
+function where_friends_went_pie_chart_data(DateTime $date) {
   if ( ! logged_in() )
     return NULL;
   
   $data = array();
   
-  foreach (current_user()->where_friends_went() as $party_id => $friend_ids) {
+  foreach (current_user()->where_friends_went($date) as $party_id => $friend_ids) {
     $party = party($party_id);
     $data[] = array($party->place->name, count($friend_ids), $party->id);
   }

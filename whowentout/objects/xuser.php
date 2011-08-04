@@ -464,13 +464,13 @@ class XUser extends XObject
                       ->count_all_results() > 0;
   }
   
-  function where_friends_went() {
+  function where_friends_went(DateTime $date) {
     $breakdown = array();
     
-    if (empty($this->college))
+    if (!$this->college)
       return array();
     
-    $party_ids = $this->_party_ids();
+    $party_ids = $this->_party_ids($date);
     $friend_ids = $this->_friend_ids();
     
     if (empty($party_ids) || empty($friend_ids)) {
@@ -490,10 +490,9 @@ class XUser extends XObject
     return $breakdown;
   }
   
-  private function _party_ids() {
+  private function _party_ids(DateTime $date) {
     $ids = array();
-    $today = $this->college->today(TRUE);
-    foreach ( $this->college->open_parties( $today ) as $party ) {
+    foreach ( $this->college->open_parties( $date ) as $party ) {
       $ids[] = $party->id;
     }
     return $ids;
@@ -502,7 +501,8 @@ class XUser extends XObject
   private function _friend_ids() {
     $ids = array();
     foreach ($this->friends() as $friend) {
-      $ids[] = $friend->id;
+      if ($friend instanceof XUser)
+        $ids[] = $friend->id;
     }
     return $ids;
   }

@@ -5,6 +5,6 @@
      tomorrow-time="<?= college()->tomorrow()->getTimestamp() ?>"
      doors-open="<?= college()->doors_are_open() ? 'true' : 'false' ?>">
   
-  <div class="where-friends-went-data"><?= json_encode(where_friends_went_pie_chart_data()) ?></div>
+  <div class="where-friends-went-data"><?= json_encode(where_friends_went_pie_chart_data( college()->today() )) ?></div>
   
 </div>

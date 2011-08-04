@@ -47,4 +47,14 @@ class Dashboard extends MY_Controller {
     ));
   }
   
+  function where_friends_went() {
+    $this->load_view('where_friends_went_past_view');
+  }
+  
+  function where_friends_went_data() {
+    $date = new DateTime(post('date'), college()->timezone);
+    $response = where_friends_went_pie_chart_data($date);
+    print json_encode($response);
+  }
+  
 }

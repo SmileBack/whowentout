@@ -180,7 +180,7 @@ function fake_login($user_id) {
 }
 
 function logout() {
-//  throw new Exception('wtfff');
+  throw new Exception('wtfff');
   return XUser::logout();
 }
 

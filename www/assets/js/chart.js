@@ -1,7 +1,9 @@
-// Load the Visualization API and the piechart package.
+var GoogleChartsLoadedDfd = $.Deferred();
+var GoogleChartsLoaded = function() {
+  return GoogleChartsLoadedDfd.promise();
+}
 google.load('visualization', '1', {'packages':['corechart']});
-// Set a callback to run when the Google Visualization API is loaded.
-google.setOnLoadCallback(drawChart);
+google.setOnLoadCallback(GoogleChartsLoadedDfd.resolve);
 
 $('.party_tab').entwine({
   expandWidth: function() {
@@ -14,59 +16,90 @@ $('.party_tab').entwine({
   }
 });
 
-// // Callback that creates and populates a data table, 
-// instantiates the pie chart, passes in the data and
-// draws it.
-function drawChart() {
-  $('#friendschart').initChart();
-}
-
-$('#friendschart').live('select', function(e, obj) {
-  $('.party_tab.selected').removeClass('selected');
-  $('.party_tab' + obj.partyID).addClass('selected').expandWidth();
+$('.friendschart').live('select', function(e, obj) {
+  $(this).deselectParty().selectParty(obj.partyID);
 });
 
-$('#friendschart').entwine({
+$('.friendschart').entwine({
   onmatch: function() {
+    var self = this;
+    $.when(GoogleChartsLoaded())
+    .then(function() {
+      self.initChart();
+    });
   },
   onunmatch: function() {},
-  initChart: function() {
-    var self = this;
-    this._rows = $('#wwo').whereFriendsWentData();
-    
-    if (this._rows.length == 0) {
-      return;
-    }
-    
-    this._data = new google.visualization.DataTable();
-    this._data.addColumn('string', 'Party');
-    this._data.addColumn('number', 'User');
-    this._data.addColumn('number', 'party_id');
-    this._data.addRows(this._rows);
-    
-    // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.PieChart( this.get(0) );
-    $(this).data('chart', chart);
-    chart.draw(this._data, {width: 500, height: 300, pieSliceText: 'value'});
-
-    google.visualization.events.addListener(chart, 'select', function() {
-      var sel = chart.getSelection();
-      
-      if (sel.length == 0)
-        return;
-      
-      var rowId = sel[0].row;
-      var row = self._rows[rowId];
-      var obj = {partyName: row[0], userFullName: row[1], partyID: row[2]};
-      self.trigger('select', [ obj ]);
+  tabs: function() {
+    return this.closest('section').find('.where_friends_went');
+  },
+  date: function() {
+    return this.attr('date');
+  },
+  deselectParty: function() {
+    this.tabs().find('.party_tab.selected').removeClass('selected');
+    return this;
+  },
+  selectParty: function(partyID) {
+    this.tabs().find('.party_tab' + partyID).addClass('selected').expandWidth();
+    return this;
+  },
+  whereFriendsWentData: function() {
+    return $.ajax({
+      url: '/dashboard/where_friends_went_data',
+      type: 'post',
+      dataType: 'json',
+      data: {date: this.date() },
+      context: this
     });
-    
-//    google.visualization.events.addListener(chart, 'onmouseover', function(e) {
-//      e.preventDefault();
-//      e.stopPropagation();
-//    });
-    
   },
   onselect: function() {
+  },
+  initChart: function() {
+    var self = this;
+    var data = this.whereFriendsWentData();
+    
+    data.success(function(rows) {
+      self._rows = rows;
+      if (self._rows.length == 0) {
+        self.setEmptyHtml();
+        return;
+      }
+
+      self._data = new google.visualization.DataTable();
+      self._data.addColumn('string', 'Party');
+      self._data.addColumn('number', 'User');
+      self._data.addColumn('number', 'party_id');
+      self._data.addRows(self._rows);
+      
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.PieChart( this.get(0) );
+      self.data('chart', chart);
+      chart.draw(self._data, {width: 500, height: 300, pieSliceText: 'value'});
+
+      google.visualization.events.addListener(chart, 'select', function() {
+        var sel = chart.getSelection();
+
+        if (sel.length == 0)
+          return;
+
+        var rowId = sel[0].row;
+        var row = self._rows[rowId];
+        var obj = {partyName: row[0], userFullName: row[1], partyID: row[2]};
+        self.trigger('select', [ obj ]);
+      });
+    });
+  },
+  setEmptyHtml: function() {
+    this.html(this.emptyHtml());
+  },
+  emptyHtml: function() {
+    return '<div class="chartArea">'
+    + '<svg class="chart" width="500" height="300">'
+    + '<defs class="defs"></defs>'
+    + '  <g>'
+    + '    <ellipse cx="191.5" cy="151.5" rx="92" ry="92" stroke="#ffffff" stroke-width="1" fill="#3366cc"></ellipse>'
+    + '  </g>'
+    + '</svg>'
+    + '</div>';
   }
 });
