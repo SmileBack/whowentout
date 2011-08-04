@@ -216,6 +216,21 @@ function update_facebook_friends($user, $force_update = FALSE) {
   $user->update_friends_from_facebook($force_update);
 }
 
+
+function post_to_wall($user, $message, $access_token = NULL) {
+  if ( ! $access_token)
+    fb()->setAccessToken($access_token);
+  
+  $user = user($user);
+  $attachment =  array(
+    'message' => $message,
+    'link' => "http://www.whowentout.com",
+    'caption' => "Connecting people after a night out.",
+  );
+  fb()->api("/$user->facebook_id/feed", 'POST', $attachment);
+}
+
+
 /**
  *
  * @param string$filepath

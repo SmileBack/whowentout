@@ -99,6 +99,8 @@ class XUser extends XObject
                           'checkin_time' => gmdate('Y-m-d H:i:s'),
                         ));
     
+    raise_event('checkin', $this, $party);
+    
     return TRUE;
   }
   

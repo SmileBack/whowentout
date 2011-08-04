@@ -52,11 +52,16 @@ function on_smile_at($sender, $receiver, $party) {
 
 function on_page_load($uri) {
   if (logged_in()) {
-//    var_dump(current_user()->friends_need_update());
-//    print 'updating fb';
-//    update_facebook_friends(current_user()->id);
-//    print 'done updating!';
-    job_add('update_facebook_friends', current_user()->id);
-//    job_call_async('update_facebook_friends', current_user()->id);
   }
+}
+
+/**
+ * Occurs when $user checks into a $party.
+ * 
+ * @param XUser $user
+ * @param XParty $party 
+ */
+function on_checkin($user, $party) {
+  $message = "$user->full_name checked into {$party->place->name} using WhoWentOut.";
+  job_call_async('post_to_wall', $user->id, $message, fb()->getAccessToken());
 }
