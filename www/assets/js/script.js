@@ -60,3 +60,73 @@ $('a.confirm').entwine({
     }
   }
 });
+
+$('path').entwine({
+  select: function() {
+    this.attr('stroke', '#000000');
+  }
+});
+
+$(function() {
+  var stroke = {fill: '#36C', stroke: '#D90000', strokeWidth: 1};
+  
+  function draw_point(svg, x, y) {
+    svg.circle(x, y, 2, stroke);
+  }
+  
+  function draw_pie_slice(svg, radius, centerX, centerY, angleStart, angleEnd, color) {
+    //build offset of 10px
+    if (color == '#ff9900') {
+      centerX += 6 * Math.cos(angleStart + (angleEnd - angleStart) / 2);
+      centerY += 6 * Math.sin(angleStart + (angleEnd - angleStart) / 2);
+    }
+    
+    var stroke = {fill: color, stroke: '#ffffff', strokeWidth: 1, data: 'heressomedata'};
+    var path = svg.createPath();
+    var startX = centerX + radius * Math.cos(angleStart);
+    var startY = centerY + radius * Math.sin(angleStart);
+    var endX = centerX + radius * Math.cos(angleEnd);
+    var endY = centerY + radius * Math.sin(angleEnd);
+    var dAngle = angleEnd - angleStart;
+    var drawBiggerArc = dAngle > Math.PI;
+    path.move(startX, startY)
+        .arc(radius, radius, 0, drawBiggerArc, true, endX, endY)
+        .line(centerX, centerY)
+        .line(startX, startY)
+        .close();
+    svg.path(null, path, stroke);
+  }
+  
+  function draw_pie_chart(svg, radius, values) {
+    var colors = ['#3366cc', '#dc3912', '#ff9900', '#109618', '#990099'];
+    
+    var total = 0;
+    for (var k in values) {
+      total += values[k];
+    }
+    
+    var normalizedValues = [];
+    for (var k in values) {
+      normalizedValues.push( values[k] * 2 * Math.PI / total );
+    }
+    
+    var curAngle = - Math.PI / 2;
+    for (var i = 0; i < normalizedValues.length; i++) {
+      draw_pie_slice(svg, radius, radius, radius, curAngle, curAngle + normalizedValues[i], colors[i % colors.length]);
+      curAngle = curAngle + normalizedValues[i];
+    }
+    
+  }
+  
+  function draw(svg) {
+    var values = [3, 2, 5, 3, 3, 3, 5];
+    draw_pie_chart(svg, 75, values);
+  }
+  
+  $('.chart').svg({onLoad: draw});
+  
+  $('path').bind('click', function() {
+    $(this).closest('svg').find('path').attr('stroke', '#ffffff');
+    $(this).attr('stroke', '#000');
+  });
+});

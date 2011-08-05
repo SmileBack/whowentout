@@ -74,7 +74,6 @@ header a, header a:active, header a:visited {
   color: white;
 }
 
-
 section {
   clear: both;
   border: 1px solid;
@@ -421,8 +420,12 @@ table td, table th {
   text-align: center;
 }
 
-#friendschart {
-  width: 30%;
+.friendschart {
+  float: left;
+}
+
+.where_friends_went_section .section_content {
+  margin: 0;
 }
 
 .sortbar li {
@@ -449,4 +452,13 @@ table td, table th {
   display: inline-block;
   margin-right: 10px;
   font-size: 0.9em;
+}
+
+#upcoming_parties_view .party_list {
+  float: left;
+  width: 30%;
+}
+
+.party_list ul {
+  margin-left: 35px;
 }

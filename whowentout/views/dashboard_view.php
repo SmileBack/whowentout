@@ -7,3 +7,5 @@
 <?= load_section_view('friends_view', "Where Your Friends Went Out") ?>
 
 <?= load_section_view('top_parties_view', "Top Parties"); ?>
+
+<?= load_section_view('upcoming_parties_view', "Upcoming Parties"); ?>

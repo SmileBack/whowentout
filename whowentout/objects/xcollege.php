@@ -107,32 +107,36 @@ class XCollege extends XObject
     set_fake_time($dt);
   }
   
+  function day($day_offset, $local = FALSE) {
+    $current_local_time = $this->current_time(TRUE);
+    $current_local_time->setTime(0, 0, 0);
+    
+    if ($day_offset > 0) {
+      $current_local_time->modify("+{$day_offset} day");
+    }
+    elseif ($day_offset < 0) {
+      $current_local_time->modify("-{$day_offset} day");
+    }
+    
+    return $local ? $this->make_local($current_local_time)
+                  : $this->make_gmt($current_local_time);
+  }
+  
   /**
    * Gives you the date for today at current college (12am).
    * @param bool $local
    * @return DateTime
    */
   function today($local = FALSE) {
-    $current_local_time = $this->current_time(TRUE);
-    $current_local_time->setTime(0, 0, 0);
-    return $local ? $this->make_local($current_local_time) 
-                  : $this->make_gmt($current_local_time);
+    return $this->day( 0, $local);
   }
   
   function yesterday($local = FALSE) {
-    $current_local_time = $this->current_time(TRUE);
-    $current_local_time->setTime(0, 0, 0);
-    $current_local_time->modify('-1 day');
-    return $local ? $this->make_local($current_local_time)
-                  : $this->make_gmt($current_local_time);
+    return $this->day(-1, $local);
   }
   
   function tomorrow($local = FALSE) {
-    $current_local_time = $this->current_time(TRUE);
-    $current_local_time->setTime(0, 0, 0);
-    $current_local_time->modify('+1 day');
-    return $local ? $this->make_local($current_local_time)
-                  : $this->make_gmt($current_local_time);
+    return $this->day(+1, $local);
   }
   
   /**
@@ -230,6 +234,19 @@ class XCollege extends XObject
     
     $query = $this->db()->query($sql, array(date_format($time, 'Y-m-d')));
     
+    return $this->load_objects('XParty', $query);
+  }
+  
+  function parties_on(DateTime $date) {
+    $date = $this->make_local($date);
+    $query = $this->db()
+                  ->select('parties.id AS id')
+                  ->from('parties')
+                  ->where(array(
+                    'college_id' => $this->id,
+                    'date' => date_format($date, 'Y-m-d'),
+                  ))
+                  ->join('places', 'parties.place_id = places.id');
     return $this->load_objects('XParty', $query);
   }
   

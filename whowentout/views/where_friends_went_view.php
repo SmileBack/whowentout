@@ -1,7 +1,4 @@
 <ul class="where_friends_went">
-  <li class="empty_message party_tab selected">
-    Here is an empty message.
-  </li>
   <?php foreach (current_user()->where_friends_went( $date ) as $party_id => $user_ids): ?>
     <?php $party = party($party_id); ?>
     <li class="party_tab <?= 'party_tab' . $party->id ?>">
@@ -24,3 +21,9 @@
 </ul>
 
 <div class="friendschart" date="<?= $date->format('Y-m-d') ?>"></div>
+
+<?php if (isset($past_link) && $past_link): ?>
+<div class="where_friends_went_past" style="float: left; clear: both;">
+  <?= anchor('dashboard/where_friends_went', 'Where Friends Went in the Past') ?>
+</div>
+<?php endif; ?>

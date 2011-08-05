@@ -74,7 +74,7 @@ $('.friendschart').entwine({
       // Instantiate and draw our chart, passing in some options.
       var chart = new google.visualization.PieChart( this.get(0) );
       self.data('chart', chart);
-      chart.draw(self._data, {width: 500, height: 300, pieSliceText: 'value'});
+      chart.draw(self._data, {width: 350, height: 200, pieSliceText: 'value'});
 
       google.visualization.events.addListener(chart, 'select', function() {
         var sel = chart.getSelection();
@@ -94,10 +94,11 @@ $('.friendschart').entwine({
   },
   emptyHtml: function() {
     return '<div class="chartArea">'
-    + '<svg class="chart" width="500" height="300">'
+    + '<svg class="chart" width="350" height="200">'
     + '<defs class="defs"></defs>'
     + '  <g>'
-    + '    <ellipse cx="191.5" cy="151.5" rx="92" ry="92" stroke="#ffffff" stroke-width="1" fill="#3366cc"></ellipse>'
+    + '    <ellipse cx="150.5" cy="100.5" rx="62" ry="62" stroke="#ffffff" stroke-width="1" fill="#3366cc"></ellipse>'
+    + '<text text-anchor="middle" x="150" y="104" font-family="Arial" font-size="11" stroke="none" stroke-width="0" fill="#ffffff">empty</text>'
     + '  </g>'
     + '</svg>'
     + '</div>';

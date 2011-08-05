@@ -1,2 +1,7 @@
-
-<?= load_view('where_friends_went_view', array( 'date' => college()->yesterday(TRUE) )) ?>
+<?= 
+  load_view('where_friends_went_view',
+             array(
+               'date' => college()->today(TRUE),
+               'past_link' => TRUE,
+             ))
+?>
