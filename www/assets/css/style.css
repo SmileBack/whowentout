@@ -481,3 +481,7 @@ table td, table th {
   right: 0;
   bottom: 0;
 }
+
+.friends.autocomplete {
+  width: 300px;
+}

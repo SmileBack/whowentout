@@ -205,7 +205,7 @@ class User extends MY_Controller {
                         ->get()->result();
     $matches = array();
     foreach ($results as $result) {
-      $matches[] = array('value' => $result->friend_facebook_id, 'name' => $result->friend_full_name);
+      $matches[] = array('id' => $result->friend_facebook_id, 'title' => $result->friend_full_name);
     }
     print json_encode($matches);exit;
   }

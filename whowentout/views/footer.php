@@ -6,6 +6,7 @@
     <?= js_asset('timeinterval.js') ?>
     
     <?= js_asset('jquery.js') ?>
+    <?= js_asset('jquery.throttle-debounce.js') ?>
     <?= js_asset('jquery.svg.js') ?>
     <?= js_asset('jquery.entwine.js') ?>
     
@@ -13,7 +14,7 @@
     <?= js_asset('jquery.position.js') ?>
     <?= js_asset('jquery.element.js') ?>
     
-    <?= js_asset('jquery.autoSuggest.js') ?>
+    <?= js_asset('jquery.autocomplete.js') ?>
     <?= js_asset('jquery.dialog.js') ?>
     <?= js_asset('jquery.jcrop.js') ?>
     <?= js_asset('chart.js') ?>

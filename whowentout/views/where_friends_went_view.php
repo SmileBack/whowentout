@@ -28,7 +28,7 @@
 </div>
 
 <?= form_open('user/invite', array('class' => 'invite_friends')) ?>
-  <input class="friendselect" />
+  <input class="friends autocomplete" />
 <?= form_close() ?>
 
 <?php endif; ?>

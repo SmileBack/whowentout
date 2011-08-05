@@ -18,7 +18,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <?= css_asset('reset') ?>
-    <?= css_asset('jquery.autoSuggest') ?>
+    <?= css_asset('jquery.autocomplete') ?>
     <?= css_asset('jquery.jcrop') ?>
     <?= css_asset('style') ?>
     

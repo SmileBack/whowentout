@@ -144,6 +144,9 @@ $.fn.getPosition = function(target, options) {
 }
 
 $.fn.applyPosition = function(target, options) {
+  //if ($(this).length == 0 || $(target).length == 0)
+  //  return;
+  
   var position = $(this).getPosition(target, options);
   if (options.animate) {
     $(this).animate({left: position.left + 'px', top: position.top + 'px'}, 500);
