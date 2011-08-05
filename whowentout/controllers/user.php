@@ -191,4 +191,23 @@ class User extends MY_Controller {
     ));
   }
   
+  function friends() {
+    if ( ! logged_in())
+      show_error('Not logged in.');
+    
+    $user_id = current_user()->id;
+    $q = $this->input->get('q');
+    $results = $this->db->select('friend_facebook_id, friend_full_name')
+                        ->from('friends')
+                        ->where('user_id', $user_id )
+                        ->like('friend_full_name', $q, 'both')
+                        ->limit(10)
+                        ->get()->result();
+    $matches = array();
+    foreach ($results as $result) {
+      $matches[] = array('value' => $result->friend_facebook_id, 'name' => $result->friend_full_name);
+    }
+    print json_encode($matches);exit;
+  }
+  
 }

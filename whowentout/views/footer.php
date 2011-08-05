@@ -12,6 +12,8 @@
     <?= js_asset('jquery.body.js') ?>
     <?= js_asset('jquery.position.js') ?>
     <?= js_asset('jquery.element.js') ?>
+    
+    <?= js_asset('jquery.autoSuggest.js') ?>
     <?= js_asset('jquery.dialog.js') ?>
     <?= js_asset('jquery.jcrop.js') ?>
     <?= js_asset('chart.js') ?>

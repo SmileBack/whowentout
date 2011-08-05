@@ -459,6 +459,25 @@ table td, table th {
   width: 30%;
 }
 
-.party_list ul {
-  margin-left: 35px;
+.as-result-item {
+  display: block;
+  overflow: auto;
+}
+
+.as-result-item > * {
+  float: left;
+}
+
+.as-result-item span {
+  line-height: 50px;
+}
+
+#friends_view .section_content {
+  position: relative;
+}
+
+#friends_view .invite_friends {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }

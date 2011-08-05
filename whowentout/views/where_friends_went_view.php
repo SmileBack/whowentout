@@ -26,4 +26,9 @@
 <div class="where_friends_went_past" style="float: left; clear: both;">
   <?= anchor('dashboard/where_friends_went', 'Where Friends Went in the Past') ?>
 </div>
+
+<?= form_open('user/invite', array('class' => 'invite_friends')) ?>
+  <input class="friendselect" />
+<?= form_close() ?>
+
 <?php endif; ?>

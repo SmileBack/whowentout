@@ -130,3 +130,27 @@ $(function() {
     $(this).attr('stroke', '#000');
   });
 });
+
+$('.friendselect').entwine({
+  onmatch: function() {
+    this.initAutoSuggest();
+  },
+  onunmatch: function() {},
+  initAutoSuggest: function() {
+    var self = this;
+    this.autoSuggest('/user/friends', {
+      selectedItemProp: "name",
+      searchObjProps: "name",
+      minChars: 3,
+      resultsHighlight: false,
+      formatList: function(data, el){
+        el.append(self.getFacebookImage(data.value));
+        el.append('<span>&nbsp;&nbsp;' + data.name + '</span>');
+        return el;
+      }
+    });
+  },
+  getFacebookImage: function(facebookId) {
+    return $('<img src="https://graph.facebook.com/' + facebookId + '/picture">');
+  }
+});
