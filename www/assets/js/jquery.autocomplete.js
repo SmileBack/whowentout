@@ -83,8 +83,10 @@ $('.autocomplete_list').entwine({
       this.addItem(items[k]);
     }
     
-    this.chompVisibleItems();
+    this.truncateVisibleItems();
+    this.sortVisibleItems();
     this.makeFirstItemActive();
+    
     return this;
   },
   item: function(id) {
@@ -128,7 +130,7 @@ $('.autocomplete_list').entwine({
       
       this.find('> li.active').removeClass('active');
       this.find('> li:visible:first').addClass('active');
-      this.chompVisibleItems();
+      this.truncateVisibleItems();
 
       return this;
     }
@@ -201,8 +203,23 @@ $('.autocomplete_list').entwine({
       }
     });
   },
-  chompVisibleItems: function() {
+  truncateVisibleItems: function() {
     this.find('> li:visible:gt(5)').hide();
+  },
+  sortVisibleItems: function() {
+    var visibleItems = [];
+    this.find('> li:visible').each(function() {
+      visibleItems.push( $(this) );
+    });
+    visibleItems.sort(function(a, b) {
+      return a.object().title.localeCompare(
+        b.object().title
+      );
+    });
+    visibleItems.reverse();
+    for (var k in visibleItems) {
+      visibleItems[k].detach().prependTo(this);
+    }
   },
   makeFirstItemActive: function() {
     this.setActiveItem( this.find('.autocomplete_list_item:visible:first') );
@@ -246,13 +263,10 @@ $('.autocomplete_list_item').entwine({
     if (q == '')
       return false;
     
-    var keywords = q.toLowerCase().split(/\W+/);
-    var title = this.object().title.toLowerCase();
-    for (var k in keywords) {
-      if ( title.indexOf( keywords[k] ) == -1 )
-        return false;
-    }
-    return true;
+    var keywords = q.split(/\W+/);
+    var title = this.object().title;
+    var re = new RegExp('\\b(' + keywords.join('|') + ')', 'gi');
+    return title.match(re) != null;
   },
   updateHTML: function() {
     this.empty()
