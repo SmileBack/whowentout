@@ -115,7 +115,7 @@ class XCollege extends XObject
       $current_local_time->modify("+{$day_offset} day");
     }
     elseif ($day_offset < 0) {
-      $current_local_time->modify("-{$day_offset} day");
+      $current_local_time->modify("{$day_offset} day");
     }
     
     return $local ? $this->make_local($current_local_time)
@@ -128,7 +128,7 @@ class XCollege extends XObject
    * @return DateTime
    */
   function today($local = FALSE) {
-    return $this->day( 0, $local);
+    return $this->day(0, $local);
   }
   
   function yesterday($local = FALSE) {
