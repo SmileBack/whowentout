@@ -93,7 +93,7 @@ $('.autocomplete_list').entwine({
     if ($.isPlainObject(id))
       return this.find('#list_item_' + id.id);
     else if (id instanceof $)
-      return id;
+      return this.find(id);
   },
   getActiveItem: function() {
     return this.find('.autocomplete_list_item.active');
@@ -130,12 +130,16 @@ $('.autocomplete_list').entwine({
       
       this.find('> li.active').removeClass('active');
       this.find('> li:visible:first').addClass('active');
+      
       this.truncateVisibleItems();
+      this.sortVisibleItems();
+      this.makeFirstItemActive();
 
       return this;
     }
   },
   attachTo: function(input) {
+    console.log('attachTo');
     this.data('input', $(input));
       
     this.width( this.input().outerWidth() );
@@ -185,7 +189,9 @@ $('.autocomplete_list').entwine({
     }
     function on_focus() {
       input.data('keepFocus', true);
-      list.fadeIn(250);
+      list.fadeIn(function() {
+        list.itemFilter(input.val());
+      });
     }
     this.input().blur(on_blur).focus(on_focus);
     
@@ -265,8 +271,13 @@ $('.autocomplete_list_item').entwine({
     
     var keywords = q.split(/\W+/);
     var title = this.object().title;
-    var re = new RegExp('\\b(' + keywords.join('|') + ')', 'gi');
-    return title.match(re) != null;
+    var re;
+    for (var k in keywords) {
+      re = new RegExp('\\b' + keywords[k], 'gi');
+      if (title.match(re) == null)
+        return false;
+    }
+    return true;
   },
   updateHTML: function() {
     this.empty()
@@ -306,7 +317,16 @@ $('.autocomplete_selection').entwine({
     item.find('.autocomplete_close').remove();
     this.autocompleteList().addItem(item);
     this.hide();
-    this.input().val('').show().focus();
+    this.input().val('').show();
+  }
+});
+
+$('.autocomplete_selection .autocomplete_list_item').entwine({
+  onclick: function() {
+    var title = this.object().title;
+    var selection = this.closest('.autocomplete_selection');
+    selection.clear();
+    selection.input().val(title).focus();
   }
 });
 

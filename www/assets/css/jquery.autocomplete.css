@@ -14,6 +14,10 @@
   z-index: 2;
 }
 
+.autocomplete_selection .autocomplete_list_item {
+  cursor: text;
+}
+
 .autocomplete_list {
   position: absolute;
   
