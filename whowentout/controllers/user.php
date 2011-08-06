@@ -191,6 +191,32 @@ class User extends MY_Controller {
     ));
   }
   
+  function invite() {
+    if ( ! logged_in() )
+      show_error('Not logged in.');
+    
+    $friend_facebook_id = post('friend_facebook_id');
+    if (empty($friend_facebook_id)) {
+      set_message('You must select a friend to invite.');
+      redirect('dashboard');
+    }
+    
+    $user_id = current_user()->id;
+    $rows = $this->db->from('friends')
+                     ->where('user_id', $user_id)
+                     ->where('friend_facebook_id', $friend_facebook_id)
+                     ->get()->result();
+    
+    if (empty($rows)) {
+      set_message("No such friend.");
+      redirect('dashboard');
+    }
+    
+    $friend = $rows[0];
+    set_message("Here we would send an invite to $friend->friend_full_name (facebook id = $friend->friend_facebook_id)");
+    redirect('dashboard');
+  }
+  
   function friends() {
     if ( ! logged_in())
       show_error('Not logged in.');

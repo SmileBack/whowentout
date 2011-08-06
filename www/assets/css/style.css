@@ -484,4 +484,15 @@ table td, table th {
 
 .friends.autocomplete {
   width: 300px;
+  height: 35px;
+}
+
+.invite_friends .submit_button {
+  height: 30px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.invite_friends > * {
+  float: left;
 }

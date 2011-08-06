@@ -118,3 +118,6 @@ $('#top_parties').entwine({
     return ids;
   }
 });
+
+$('.invite_friends .autocomplete').live('itemselected', function() {
+});

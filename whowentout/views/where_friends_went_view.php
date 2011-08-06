@@ -21,14 +21,14 @@
 </ul>
 
 <div class="friendschart" date="<?= $date->format('Y-m-d') ?>"></div>
+  <?php if (isset($past_link) && $past_link): ?>
+  <div class="where_friends_went_past" style="float: left; clear: both;">
+    <?= anchor('dashboard/where_friends_went', 'Where Friends Went in the Past') ?>
+  </div>
 
-<?php if (isset($past_link) && $past_link): ?>
-<div class="where_friends_went_past" style="float: left; clear: both;">
-  <?= anchor('dashboard/where_friends_went', 'Where Friends Went in the Past') ?>
-</div>
-
-<?= form_open('user/invite', array('class' => 'invite_friends')) ?>
-  <input class="friends autocomplete" />
-<?= form_close() ?>
-
+  <?= form_open('user/invite', array('class' => 'invite_friends')) ?>
+    <input class="friends autocomplete" name="friend_facebook_id" />
+    <input class="submit_button" type="submit" value="Invite" />
+  <?= form_close() ?>
+    
 <?php endif; ?>
