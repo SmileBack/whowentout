@@ -16,17 +16,29 @@ $('.gallery').entwine({
       dataType: 'json',
       data: { sort: this.sorting(), count: this.count() },
       success: function(response) {
-        var el;
         for (var k in response.new_attendees) {
-          el = $('<li>' + response.new_attendees[k] + '</li>');
-          el.addClass('new');
-          el.hide();
-          this.prepend(el);
-          el.fadeIn();
+          this.insertAttendee(response.new_attendees[k]);
         }
         this.attr('data-count', response.count);
       }
     });
+  },
+  insertAttendee: function(attendeeHTML) {
+    var el = $('<li>' + attendeeHTML + '</li>');
+    el.addClass('new');
+    el.hide();
+    
+    var position = el.find('.party_attendee').attr('data-after');
+    console.log(position);
+    
+    if (position == 'first') {
+      this.prepend(el);
+    }
+    else {
+      $('#party_attendee_' + position).closest('li').after(el);
+    }
+    
+    el.fadeIn();
   },
   partyID: function() {
     return parseInt( this.attr('data-party-id') );

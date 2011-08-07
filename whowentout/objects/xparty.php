@@ -36,6 +36,7 @@ class XParty extends XObject
     elseif ($sort == 'gender') {
       $order = $this->_attendees_query_gender_sort_order();
       $query = $query->order_by('gender', $order);
+      $query = $query->order_by('checkin_time', 'desc');
     }
     elseif ($sort == 'name') {
       $query = $query->order_by('first_name', 'asc');

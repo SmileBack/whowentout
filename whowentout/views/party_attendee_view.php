@@ -1,5 +1,5 @@
 
-<div class="party_attendee">
+<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee" data-after="<?= isset($after) ? $after : '' ?>">
   <?= $attendee->pic; ?>
 
   <div class="caption">
