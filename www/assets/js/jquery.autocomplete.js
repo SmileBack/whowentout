@@ -143,9 +143,7 @@ $('.autocomplete_list').entwine({
     this.data('input', $(input));
       
     this.width( this.input().outerWidth() );
-    this.applyPosition(this.input(), {
-      anchor: ['tc', 'bc']
-    });
+    this.anchor(this.input(), ['tc', 'bc']);
     
     var list = this;
     var input = list.input();
@@ -189,7 +187,7 @@ $('.autocomplete_list').entwine({
     }
     function on_focus() {
       input.data('keepFocus', true);
-      list.fadeIn(function() {
+      list.refreshPosition().fadeIn(function() {
         list.itemFilter(input.val());
       });
     }

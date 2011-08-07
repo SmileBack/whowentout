@@ -600,6 +600,10 @@ class XUser extends XObject
     $this->_update_hometown_from_facebook($fbdata);
     $this->_update_college_from_facebook($fbdata);
     
+    if (intval($this->grad_year) < 2011) {
+      $this->grad_year = '';
+    }
+    
     $this->save();
   }
   

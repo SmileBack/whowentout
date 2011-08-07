@@ -122,6 +122,33 @@ class XCollege extends XObject
                   : $this->make_gmt($current_local_time);
   }
   
+  function party_day($party_day_offset, $local = FALSE) {
+    $party_day_offset = intval($party_day_offset);
+    $current_party_day_offset = 0;
+    $actual_offset = 0;
+    
+    //today won't always work since today might not be a party day
+    if ($party_day_offset == 0)
+      return FALSE;
+    
+    $step = $party_day_offset > 0 ? 1 : -1;
+    do {
+      $current_party_day = $this->day($actual_offset);
+      $actual_offset += $step;
+      if ($this->is_party_day($current_party_day))
+        $current_party_day_offset += $step;
+    } while ($current_party_day_offset != $party_day_offset);
+    
+    return $local ? $this->make_local($current_party_day)
+                  : $this->make_gmt($current_party_day);
+  }
+  
+  function is_party_day(DateTime $day) {
+    $day = $this->make_local($day);
+    $party_days = array('Thursday', 'Friday', 'Saturday');
+    return in_array($day->format('l'), $party_days);
+  }
+  
   /**
    * Gives you the date for today at current college (12am).
    * @param bool $local

@@ -1,10 +1,10 @@
 #container {
-  margin: 45px auto;
+  margin: 10px auto;
   width: 1000px;
 }
 
 section > h1 {
-  background-color: #104E8B;
+  background-color: #474747;
   color: white;
   font-size: 1.3em;
 }
@@ -62,15 +62,17 @@ p {
 header {
   overflow: hidden;
   margin: 0px 11px;
-  padding: 30px 20px 30px 20px;
-  background-color: #104E8B;
+  padding: 20px 20px 15px 20px;
+  background-color: #474747;
   color: white;
   -webkit-box-shadow: 1px 1px 3px 2px #dedede;
   -moz-box-shadow: 1px 1px 3px 2px #dedede;
   box-shadow: 1px 1px 3px 2px #dedede;
 }
 
-header a, header a:active, header a:visited {
+header a,
+header a:active,
+header a:visited {
   color: white;
 }
 
@@ -83,7 +85,6 @@ section {
   -webkit-box-shadow: 1px 1px 3px 2px #dedede;
   -moz-box-shadow: 1px 1px 3px 2px #dedede;
   box-shadow: 1px 1px 3px 2px #dedede;
-  border-radius: 2px;
 }
 .section_content {
   margin: 25px 25px;
@@ -456,7 +457,18 @@ table td, table th {
 
 #upcoming_parties_view .party_list {
   float: left;
-  width: 30%;
+  margin-left: 5%;
+  width: 28%;
+  height: 90px;
+  border-right: 1px dotted grey;
+}
+
+#upcoming_parties_view .party_list:last-child {
+  border-right: none;
+}
+
+.party_list ul {
+  margin-left: 40px;
 }
 
 .as-result-item {
@@ -495,4 +507,10 @@ table td, table th {
 
 .invite_friends > * {
   float: left;
+}
+
+section h1 {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
 }

@@ -7,6 +7,7 @@
 
         <label>Fake Time</label>
         <select name="fake_time">
+          <option value="2011-10-06 15:01:00 -0700">Oct 6</option>
           <option value="2011-10-07 15:01:00 -0700">*3:01 pm Fri, Oct 7, 2011</option>
           <option value="2011-10-07 22:55:00 -0700">*10:53 pm Fri, Oct 7, 2011</option>
           <option value="2011-10-07 22:58:00 -0700">10:58 pm Fri, Oct 7, 2011</option>

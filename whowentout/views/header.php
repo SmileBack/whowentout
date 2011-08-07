@@ -42,7 +42,9 @@
       <header class="main">
 
         <div id="logo">
-          <?= anchor("/", 'WhoWentOut') ?>
+          <a href="/">
+            <img src="/assets/images/logo.png" />
+          </a>
           <?php if (FALSE): ?>
           (
             <?= current_time(TRUE)->format('Y-m-d H:i:s'); ?>,

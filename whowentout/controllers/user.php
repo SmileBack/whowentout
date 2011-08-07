@@ -58,12 +58,18 @@ class User extends MY_Controller {
     if ( ! current_user()->can_use_website() )
       current_user()->update_facebook_data();
     
+    $message = array();
+    
     if ( current_user()->college != college() ) {
-      set_message(load_view('missing_network_view'));
+      $message[] = load_view('missing_network_view');
     }
-    elseif (current_user()->is_missing_info()) {
-      set_message('You are missing information');
+    
+    if (current_user()->is_missing_info()) {
+      $message[] = '<p>You are missing information</p>';
     }
+    
+    if ( ! empty($message) ) 
+      set_message(implode('', $message));
     
     $this->load_view('user_edit_view', array(
       'user' => current_user(),
