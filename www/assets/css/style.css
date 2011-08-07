@@ -4,7 +4,7 @@
 }
 
 section > h1 {
-  background-color: #104E8B;
+  background-color: #104E8C;
   color: white;
   font-size: 1.3em;
 }
@@ -63,7 +63,7 @@ header {
   overflow: hidden;
   margin: 0px 11px;
   padding: 20px 20px 15px 20px;
-  background-color: #104E8B;
+  background-color: #104E8C;
   color: white;
   -webkit-box-shadow: 1px 1px 3px 2px #dedede;
   -moz-box-shadow: 1px 1px 3px 2px #dedede;
