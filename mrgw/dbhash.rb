@@ -56,7 +56,7 @@ class DbHash
   
   def length
     rows = @db.execute("SELECT COUNT(*) AS count FROM data")
-    puts rows.first['count']
+    return rows.first['count']
   end
   
   def empty?
