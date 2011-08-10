@@ -193,6 +193,7 @@ class User extends MY_Controller {
     $mutual_friends = $user->mutual_friends($target);
     
     $this->load->view('mutual_friends_view', array(
+      'target' => $target,
       'mutual_friends' => $mutual_friends, 
     ));
   }

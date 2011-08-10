@@ -8,7 +8,7 @@ function initialize_crop_ui() {
     aspectRatio: 0.75,
     onChange: onChange,
     onSelect: onSelect,
-    boxWidth: 400,
+    boxWidth: 300,
     boxHeight: 350
   });
   

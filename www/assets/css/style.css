@@ -309,10 +309,14 @@ section .notice {
 
 #edit_form .my_info {
   float: left;
+  border-right: 1px dotted grey;
+  padding-right: 30px;
 }
 
 #edit_form .my_pic {
   float: right;
+  border-left: 1px dotted grey;
+  border-left: 30px;
 }
 
 #edit_form .form_buttons {
@@ -513,4 +517,20 @@ table td, table th {
   font-family: Arial, sans-serif;
   font-weight: bold;
   font-size: 1.1em;
+}
+
+.chatbox {
+  position: relative;
+  border: 1px solid;
+  width: 300px;
+  min-height: 300px;
+}
+
+.chatbox_compose {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+.chatbox_compose input {
+  width: 95%;
 }

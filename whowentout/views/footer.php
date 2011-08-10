@@ -23,6 +23,7 @@
     <?= js_asset('time.js') ?>
     <?= js_asset('dashboard.js') ?>
     <?= js_asset('gallery.js') ?>
+    <?= js_asset('chatbox.js') ?>
     <?= js_asset('crop.js') ?>
     
     
