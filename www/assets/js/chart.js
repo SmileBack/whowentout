@@ -5,19 +5,23 @@ var GoogleChartsLoaded = function() {
 google.load('visualization', '1', {'packages':['corechart']});
 google.setOnLoadCallback(GoogleChartsLoadedDfd.resolve);
 
-$('.party_tab').entwine({
-  expandWidth: function() {
-    var width = 0;
-    this.find('li').each(function() {
-      width += $(this).outerWidth();
-    });
-    width += 100;
-    this.css('width', width + 'px');
-  }
-});
-
 $('.friendschart').live('select', function(e, obj) {
   $(this).deselectParty().selectParty(obj.partyID);
+});
+
+$('.tabs').entwine({
+  onmatch: function() {
+    this.find('> li').hide();
+    this.find('> li:first').addClass('selected').show();
+  },
+  onunmatch: function() {},
+  tab: function(id) {
+    return this.find('> li[val=' + id + ']');
+  },
+  selectTab: function(id) {
+    this.find('> li.selected').removeClass('.selected').hide();
+    this.tab(id).addClass('selected').show();
+  }
 });
 
 $('.friendschart').entwine({
@@ -30,17 +34,16 @@ $('.friendschart').entwine({
   },
   onunmatch: function() {},
   tabs: function() {
-    return this.closest('section').find('.where_friends_went');
+    return this.closest('section').find('.tabs');
   },
   date: function() {
     return this.attr('date');
   },
   deselectParty: function() {
-    this.tabs().find('.party_tab.selected').removeClass('selected');
     return this;
   },
   selectParty: function(partyID) {
-    this.tabs().find('.party_tab' + partyID).addClass('selected').expandWidth();
+    this.tabs().selectTab(partyID);
     return this;
   },
   whereFriendsWentData: function() {

@@ -3,11 +3,11 @@
   
   <fieldset class="my_info">
     <ul>
-      <li>
+      <li class="name">
         <label>Name</label>
         <input type="text" value="<?= $user->full_name ?>" disabled="disabled" />
       </li>
-      <li>
+      <li class="school">
         <label>School</label>
         <?php if ($user->college): ?>
           <input type="text" value="<?= $user->college->name ?>" disabled="disabled" />
@@ -15,11 +15,11 @@
           <input type="text" value="No College Listed" disabled="disabled" />
         <?php endif; ?>
       </li>
-      <li class="<?= in_array('grad_year', $missing_info) ? 'missing' : '' ?>">
+      <li class="grad_year <?= in_array('grad_year', $missing_info) ? 'missing' : '' ?>">
         <label>Graduation Year</label>
         <?= grad_year_dropdown($user->grad_year) ?>
       </li>
-      <li class="hometown_info">
+      <li class="hometown">
         <label>Hometown</label>
         <div class="<?= in_array('hometown_city', $missing_info) ? 'missing' : '' ?>">
           <label>City</label>
@@ -35,6 +35,7 @@
   </fieldset>
   
   <fieldset class="my_pic">
+    
     <div id="crop" class="frame">
       <?= $user->raw_pic ?>
     </div>

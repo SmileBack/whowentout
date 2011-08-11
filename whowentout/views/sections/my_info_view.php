@@ -1,12 +1,12 @@
 
 <div class="profile_pic">
   <?= $user->pic ?>
-  <?= anchor('user/edit', 'edit', array('class' => 'edit')); ?>
+  <?= anchor('user/edit', 'change', array('class' => 'edit')); ?>
 </div>
 
 
 <div class="profile_info">
-  <p><?= $user->first_name ?> <?= $user->last_name ?></p>
-  <p><?= $user->hometown ?></p>
-  <p><?= $user->college->name ?> <?= $user->grad_year ? $user->grad_year : '' ?></p>
+  <p class="name"><?= $user->first_name ?> <?= $user->last_name ?></p>
+  <p class="hometown"><?= $user->hometown ?></p>
+  <p class="college"><?= $user->college->name ?> <?= $user->grad_year ? $user->grad_year : '' ?></p>
 </div>

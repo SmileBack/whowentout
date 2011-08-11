@@ -1,4 +1,10 @@
 $('.recent_attendees').entwine({
+  thumbnailCapacity: function() {
+    return 5;
+  },
+  thumbnailWidth: function() {
+    return 90;
+  },
   onmatch: function() {
     var self = this;
     every(10, function() {
@@ -39,14 +45,15 @@ $('.recent_attendees').entwine({
     return ids;
   },
   insertThumbnail: function(thumbnail) {
-    var oldPics = $('.recent_attendees li:gt(2)');
+    var n = this.thumbnailCapacity() - 2;
+    var oldPics = $('.recent_attendees li:gt(' + n + ')');
 
     var t = this.createThumbnail(thumbnail);
     t.css('opacity', 0);
     t.css('position', 'fixed');
     $('.recent_attendees').prepend(t);
 
-    var originalWidth = t.width(); originalWidth = 105;
+    var originalWidth = this.thumbnailWidth();
     var originalMarginLeft = 10;
     var originalMarginRight = 10;
 

@@ -1,4 +1,11 @@
-<?php foreach (college()->recent_dates as $date): ?>
+<?php
+  $dates = array(
+    college()->party_day(-1, TRUE),
+    college()->party_day(-2, TRUE),
+    college()->party_day(-3, TRUE),
+  );
+?>
+<?php foreach ($dates as $date): ?>
 <section class="where_friends_went_section">
   <h1><?= $date->format('l, F jS') ?></h1>
   <div class="section_content">

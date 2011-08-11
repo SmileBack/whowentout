@@ -75,7 +75,7 @@ class XParty extends XObject
                        ->join('users', 'users.id = party_attendees.user_id')
                        ->where('party_id', $this->id)
                        ->order_by('checkin_time', 'desc')
-                       ->limit(4)
+                       ->limit(5)
                        ->get()->result();
     
     foreach ($rows as $row) {

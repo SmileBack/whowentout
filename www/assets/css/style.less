@@ -13,6 +13,28 @@
   box-shadow: 1px 1px 3px 2px #dedede;
 }
 
+.rounded (@radius: 5px) {
+  border-radius: @radius;
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+}
+
+.opacity(@opacity: 1) {
+  /* Netscape */
+  -moz-opacity: @opacity;
+  /* Safari 1.x */
+  -khtml-opacity: @opacity;
+  /* Good browsers */
+  opacity: @opacity;
+}
+
+.horizontal_gallery {
+  > li {
+    display: inline-block;
+    margin: 8px;
+  }
+}
+
 body {
   font-family: "Lucida Grande", Arial, sans-serif;
 }
@@ -51,29 +73,51 @@ header {
 
 #my_info_view {
   width: 35%;
-  height: 280px;
+  height: 240px;
   float: left;
   clear: none;
-  .profile_pic { float: left; }
-  .profile_info { float: right; }
-  .edit { display: block; width: 100%; text-align: center; }
+  .profile_pic {
+    position: relative;
+    float: left;
+    img { width: 130px; }
+    .edit {
+      position: absolute;
+      background-color: black;
+      background-image: url(../images/pencil.png);
+      background-repeat: no-repeat;
+      background-position: 9px 50%;
+      color: white;
+      height: 20px;
+      opacity: .5;
+      padding: 4px 6px 0 26px;
+      bottom: 3px;
+      right: 1px;
+      text-decoration: none;
+      &:hover { text-decoration: underline; opacity: 1; }
+    }
+  }
+  .profile_info {
+    float: right;
+    max-width: 125px;
+  }
 }
 
 #last_night_view {
   width: 60.5%;
-  height: 280px;
+  height: 240px;
   float: left;
-  .recent_attendees li {
-    display: inline-block;
-    margin: 10px;
+  h2 { font-size: 150%; }
+  .recent_attendees {
+    .horizontal_gallery;
+    img { width: 90px; }
   }
 }
 
 #parties_attended_view {
   .date, .divider, .place {
     display: inline-block;
-    margin: 10px;
   }
+  ul { list-style: none; }
   .smiles {
     .received { display: inline-block; width: 200px; }
     .remaining { display: inline-block; width: 200px; }
@@ -150,14 +194,14 @@ table td, table th {
   .selected { font-weight: bold; }
 }
 
-#friends_view .section_body {
-  position: relative;
-}
-
-#friends_view .invite_friends {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+#friends_view, .where_friends_went_section {
+  .section_body { position: relative; }
+  .invite_friends { position: absolute; right: 0; bottom: 0; }
+  .people {
+    .horizontal_gallery;
+    float: right;
+    text-align: center;
+  }
 }
 
 .friends.autocomplete {
@@ -173,5 +217,15 @@ table td, table th {
     &:last-child { border-right: none; }
     h1 { margin: 0 0 0 25px; }
     ul { height: 125px; margin: 0 0 0 70px; }
+  }
+}
+
+form .hometown {
+  > div {
+    display: inline-block;
+    label { margin: 0; font-weight: normal; }
+  }
+  input[name="hometown_city"] {
+    width: 125px;
   }
 }

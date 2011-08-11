@@ -16,5 +16,5 @@
 <?= form_close(); ?>
   <?= $closing_time; ?>
 <?php else: ?>
-  There are currently no parties to checkin to.
+  <h3>There are currently no parties to checkin to.</h3>
 <?php endif; ?>
