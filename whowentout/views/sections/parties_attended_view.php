@@ -1,7 +1,5 @@
 <?php if ( empty($parties_attended) ): ?>
-  <div class="no_parties_attended_message">
-    The parties you checkin to will appear here
-  </div>
+  <h2>The parties you checkin to will appear here</h2>
 <?php else: ?>
   <ul class="parties_attended">
 
@@ -9,14 +7,13 @@
     <li>
 
       <div class="party_summary">
-        <!-- Move to a helper -->                                      
         <div class="date"><?= date("l, F jS", strtotime($party->date)); ?></div>
-        | <div class="place"><?= anchor("party/{$party->id}", $party->place->name); ?></div>
+        <div class="divider">|</div>
+        <div class="place"><?= anchor("party/{$party->id}", $party->place->name); ?></div>
 
-        <!-- TODO: check gender -->
         <div class="smiles">
-          <span class="smiles_received"><?= $user->smiles_received_message($party->id) ?></span>
-          <span class="smiles_remaining"><?= $user->smiles_left_message($party->id) ?></span>
+          <span class="received"><?= $user->smiles_received_message($party->id) ?></span>
+          <span class="remaining"><?= $user->smiles_left_message($party->id) ?></span>
           <ul class="matches">
             <? foreach ($user->matches($party->id) as $match ): ?>
               <li>
@@ -26,8 +23,6 @@
             <? endforeach; ?>
           </ul>
         </div>
-
-        <!-- TODO: Change to singular if one smile is left -->
 
       </div>
 

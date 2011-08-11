@@ -126,6 +126,12 @@ function css_asset($asset_name, $module_name = NULL, $attributes = array())
 	return '<link href="'.css_asset_url($asset_name.'.css', $module_name).'" rel="stylesheet" type="text/css"'.$attribute_str.' />';
 }
 
+function less_asset($asset_name, $module_name = NULL, $attributes = array())
+{
+  $attribute_str = _parse_asset_html($attributes);
+  return '<link href="'.css_asset_url($asset_name.'.less', $module_name).'" rel="stylesheet/less" type="text/css"'.$attribute_str.' />';
+}
+
 // ------------------------------------------------------------------------
 
 /**

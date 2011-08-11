@@ -1,0 +1,177 @@
+@bar_color: #104E8C;
+@bar_text_color: white;
+@page_width: 1000px;
+
+@import 'elements.less';
+@import 'section.less';
+@import 'profile.less';
+@import 'dialog.less';
+
+.shadow {
+  -webkit-box-shadow: 1px 1px 3px 2px #dedede;
+  -moz-box-shadow: 1px 1px 3px 2px #dedede;
+  box-shadow: 1px 1px 3px 2px #dedede;
+}
+
+body {
+  font-family: "Lucida Grande", Arial, sans-serif;
+}
+
+#container {
+  margin: 10px auto;
+  width: @page_width;
+}
+
+input[type=text][disabled] {
+  color: black;
+}
+
+header {
+  .shadow;
+  overflow: hidden;
+  margin: 0px 11px;
+  padding: 20px 20px 15px 20px;
+  background-color: @bar_color;
+  color: @bar_text_color;
+  a, a:active, a:visited { color: @bar_text_color; }
+  nav {
+    float: right;
+    a {
+      display: inline-block;
+      margin: 10px;
+    }
+  }
+}
+
+#logo {
+  margin: 0;
+  float: left;
+  a { text-decoration: none; }
+}
+
+#my_info_view {
+  width: 35%;
+  height: 280px;
+  float: left;
+  clear: none;
+  .profile_pic { float: left; }
+  .profile_info { float: right; }
+  .edit { display: block; width: 100%; text-align: center; }
+}
+
+#last_night_view {
+  width: 60.5%;
+  height: 280px;
+  float: left;
+  .recent_attendees li {
+    display: inline-block;
+    margin: 10px;
+  }
+}
+
+#parties_attended_view {
+  .date, .divider, .place {
+    display: inline-block;
+    margin: 10px;
+  }
+  .smiles {
+    .received { display: inline-block; width: 200px; }
+    .remaining { display: inline-block; width: 200px; }
+    .matches { display: inline-block; list-style: none; }
+  }
+}
+
+#checkin_form {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.closing_time {
+  display: inline-block;
+}
+
+.login_gallery li {
+  display: inline-block;
+  text-align: center;
+  margin: 15px;
+}
+
+#current_time {
+  position: fixed;
+  font-weight: bold;
+  left: 25px;
+  top: 25px;
+}
+
+table td, table th {
+  border: 1px solid;
+  padding: 10px;
+}
+
+.mutual_friends {
+  overflow: hidden;
+  li {
+    display: block;
+    float: left;
+    clear: both;
+    margin: 5px;
+  }
+  .thumb {
+    float: left;
+    margin: 5px;
+  }
+  .full_name {
+    float: left;
+    line-height: 50px;
+    margin: 5px;
+  }
+}
+
+.friends_popup .dialog_body {
+  height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.where_friends_went > li {
+  display: none;
+}
+
+.where_friends_went > .selected {
+  display: block;
+}
+
+.sortbar {
+  li {
+    display: inline-block;
+    font-size: 15px;
+    margin: 10px;
+  }
+  .selected { font-weight: bold; }
+}
+
+#friends_view .section_body {
+  position: relative;
+}
+
+#friends_view .invite_friends {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.friends.autocomplete {
+  width: 300px;
+  height: 35px;
+}
+
+#upcoming_parties_view {
+  .party_list {
+    float: left;
+    width: 33%;
+    border-right: 1px dotted grey;
+    &:last-child { border-right: none; }
+    h1 { margin: 0 0 0 25px; }
+    ul { height: 125px; margin: 0 0 0 70px; }
+  }
+}

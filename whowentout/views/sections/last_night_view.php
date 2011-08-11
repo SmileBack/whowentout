@@ -1,4 +1,4 @@
-<p class="where_did_you_go">Where Did You Go Out Last Night?</p> 
+<h2>Where Did You Go Out Last Night?</h2> 
 
 <?php if ($has_attended_party): ?>
   

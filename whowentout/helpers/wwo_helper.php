@@ -156,10 +156,11 @@ function load_view($view_name, $data = array()) {
  * This works just like when you pass data in with load_view.
  */
 function load_section_view($section_name, $title = '', $data = array()) {
-  return load_view('section_view', array(
+  return render('section', array(
+    'id' => $section_name,
     'section_name' => $section_name,
-    'section_title' => $title,
-    'section_content' => load_view('sections/' . $section_name, $data)
+    'title' => $title,
+    'vars' => $data,
   ));
 }
 

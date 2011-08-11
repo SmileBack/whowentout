@@ -2,12 +2,17 @@
 
 class Dashboard extends MY_Controller {
   
+  function index2() {
+    require APPPATH . 'elements/dashboard/dashboardelement.class.php';
+    $dashboard = new DashboardElement();
+    $dashboard->show();
+  }
+  
   function index() {
     if ( ! logged_in() )
       show_404();
     
     enforce_restrictions();
-    
     raise_event('page_load', uri_string());
     
     $user = current_user();

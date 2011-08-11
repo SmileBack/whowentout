@@ -1,6 +1,4 @@
-<div class="section_description">
-  Click on the circle below to see where your friends went out last night.
-</div>
+<h2>Click on the circle below to see where your friends went out last night.</h2>
 
 <ul class="where_friends_went">
   <?php foreach (current_user()->where_friends_went( $date ) as $party_id => $user_ids): ?>

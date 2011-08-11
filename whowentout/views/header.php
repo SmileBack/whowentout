@@ -20,7 +20,9 @@
     <?= css_asset('reset') ?>
     <?= css_asset('jquery.autocomplete') ?>
     <?= css_asset('jquery.jcrop') ?>
-    <?= css_asset('style') ?>
+    
+    <?= less_asset('style') ?>
+    <?= js_asset('less.js') ?>
     
     <?= js_asset('modernizr.js') ?>
     
@@ -54,23 +56,23 @@
           <?php endif; ?>
         </div>
 
-        <ul id="menu">
+        <nav id="menu">
+          
           <?php if (logged_in()): ?>
-            <li><?= anchor('dashboard', 'My Dashboard'); ?></li>
+          <?= anchor('dashboard', 'My Dashboard'); ?>
           <?php endif; ?>
+          
           <?php if (logged_in() && current_user()->is_admin()): ?>
-          <li>
-            <?= anchor('admin', 'Admin') ?>
-          </li>
+          <?= anchor('admin', 'Admin') ?>
           <?php endif; ?>
-          <li>
-            <?php if (logged_in()): ?>
-              <?= anchor('logout', 'Logout') ?>
-            <?php else: ?>
-              <?= anchor('login', 'Login') ?>
-            <?php endif; ?>
-          </li>
-        </ul>
+          
+          <?php if (logged_in()): ?>
+            <?= anchor('logout', 'Logout') ?>
+          <?php else: ?>
+            <?= anchor('login', 'Login') ?>
+          <?php endif; ?>
+          
+        </nav>
         
       </header>
       
