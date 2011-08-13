@@ -1,15 +1,3 @@
-<section>
-  <h1>Debug</h1>
-  <div class="section_content">
-    <pre>
-      <?= session_id() ?>
-    </pre>
-    <pre>
-      <?php var_dump($_SESSION) ?>
-    </pre>
-  </div>
-</section>
-
 <?= load_section_view('last_night_view', 'Where Did You Go Out Last Night?'); ?>
 
 <?= load_section_view('my_info_view', 'My Info'); ?>

@@ -10,8 +10,6 @@ class Dashboard extends MY_Controller {
   
   function index() {
     if ( ! logged_in() ) {
-      print session_id();
-      var_dump($_SESSION);
       show_404();
     }
     
