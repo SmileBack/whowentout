@@ -29,6 +29,16 @@ $('#wwo').entwine({
   whereFriendsWentData: function() {
     return $.parseJSON( this.find('.where-friends-went-data').text() );
   },
+  testAjax: function() {
+    $.ajax({
+      url: '/welcome/ajax',
+      type: 'post',
+      dataType: 'json',
+      success: function(response) {
+        console.log(response);
+      }
+    });
+  },
   _calculateTimeDelta: function() {
     var serverUnixTs = parseInt( $('#wwo').attr('current-time') );
     //Unix timestamp uses seconds while JS Date uses milliseconds

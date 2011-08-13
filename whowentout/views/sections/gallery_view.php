@@ -9,18 +9,20 @@
   </p>
 <? endforeach; ?>
 
-<h3>Sorting</h3>
-<ul class="sortbar">
-  <li class="sort_checkin_time <?= $sort == 'checkin_time' ? 'selected' : '' ?>">
-    <?= anchor("party/$party->id?sort=checkin_time", "Checkin Time") ?>
-  </li>
-  <li class="sort_first_name <?= $sort == 'name' ? 'selected' : '' ?>">
-    <?= anchor("party/$party->id?sort=name", "Name") ?>
-  </li>
-  <li class="sort_gender <?= $sort == 'gender' ? 'selected' : '' ?>">
-    <?= anchor("party/$party->id?sort=gender", "Gender") ?>
-  </li>
-</ul>
+<div class="sortbar">
+  <h3>Sort by</h3>
+  <ul>
+    <li class="sort_checkin_time <?= $sort == 'checkin_time' ? 'selected' : '' ?>">
+      <?= anchor("party/$party->id?sort=checkin_time", "Checkin Time") ?>
+    </li>
+    <li class="sort_first_name <?= $sort == 'name' ? 'selected' : '' ?>">
+      <?= anchor("party/$party->id?sort=name", "Name") ?>
+    </li>
+    <li class="sort_gender <?= $sort == 'gender' ? 'selected' : '' ?>">
+      <?= anchor("party/$party->id?sort=gender", "Gender") ?>
+    </li>
+  </ul>
+</div>
 
 <ul class="gallery" data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>">
   

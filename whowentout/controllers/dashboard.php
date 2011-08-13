@@ -9,8 +9,11 @@ class Dashboard extends MY_Controller {
   }
   
   function index() {
-    if ( ! logged_in() )
+    if ( ! logged_in() ) {
+      print session_id();
+      var_dump($_SESSION);
       show_404();
+    }
     
     enforce_restrictions();
     raise_event('page_load', uri_string());

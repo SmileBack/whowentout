@@ -138,7 +138,6 @@ function current_user() {
  */
 function get_user_id() {
   return ci()->session->userdata('user_id');
-  uri_string();
 }
 
 function set_user_id($user_id) {
@@ -180,12 +179,11 @@ function fake_login($user_id) {
 }
 
 function logout() {
-//  throw new Exception('wtfff');
   return XUser::logout();
 }
 
 function logged_in() {
-  return XUser::logged_in();
+  return get_user_id() != NULL;
 }
 
 function connected_to_facebook() {

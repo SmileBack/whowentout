@@ -220,6 +220,19 @@ table td, table th {
   }
 }
 
+#gallery_view {
+  .sortbar {
+    float: right;
+    > * { display: inline-block; }
+  }
+  .gallery {
+    .horizontal_gallery;
+    clear: both;
+    width: 850px;
+    margin: 0 auto;
+  }
+}
+
 form .hometown {
   > div {
     display: inline-block;
@@ -228,4 +241,8 @@ form .hometown {
   input[name="hometown_city"] {
     width: 125px;
   }
+}
+
+.party_attendee {
+  .caption { text-align: center; }
 }

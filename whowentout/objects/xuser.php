@@ -29,10 +29,6 @@ class XUser extends XObject
     }
   }
   
-  static function logged_in() {
-    return get_user_id() != NULL;
-  }
-  
   function reason() {
     return $this->reason;
   }
