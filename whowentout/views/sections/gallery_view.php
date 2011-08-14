@@ -1,16 +1,20 @@
 
-<p><?= $user->smiles_received_message($party->id) ?></p>
-<p><?= $user->smiles_left_message($party->id) ?></p>
+<div class="notices">
+  <p class="smiles_received"><?= $user->smiles_received_message($party->id) ?></p>
+  <p class="smiles_left"><?= $user->smiles_left_message($party->id) ?></p>
 
-<? foreach ($user->matches($party->id) as $match): ?>
-  <p>
-    You and <?= $match->full_name; ?>  have smiled at each other!
-    <?= $match->anchor_facebook_message() ?>
-  </p>
-<? endforeach; ?>
-
+  <ul class="smile_matches">
+    <? foreach ($user->matches($party->id) as $match ): ?>
+      <li>
+        You and <?= $match->first_name; ?> <?= $match->last_name ?> have smiled at each other!
+        <?= $match->anchor_facebook_message() ?>
+      </li>
+    <? endforeach; ?>
+  </ul>
+</div>
+  
 <div class="sortbar">
-  <h3>Sort by</h3>
+  <h2>Sort by:</h2>
   <ul>
     <li class="sort_checkin_time <?= $sort == 'checkin_time' ? 'selected' : '' ?>">
       <?= anchor("party/$party->id?sort=checkin_time", "Checkin Time") ?>

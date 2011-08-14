@@ -7,14 +7,14 @@
     <li>
 
       <div class="party_summary">
-        <div class="date"><?= date("l, F jS", strtotime($party->date)); ?></div>
+        <h2 class="date"><?= date("l, F jS", strtotime($party->date)); ?></h2>
         <div class="divider">|</div>
         <div class="place"><?= anchor("party/{$party->id}", $party->place->name); ?></div>
 
-        <div class="smiles">
-          <span class="received"><?= $user->smiles_received_message($party->id) ?></span>
-          <span class="remaining"><?= $user->smiles_left_message($party->id) ?></span>
-          <ul class="matches">
+        <div class="notices">
+          <span class="smiles_received"><?= $user->smiles_received_message($party->id) ?></span>
+          <span class="smiles_left"><?= $user->smiles_left_message($party->id) ?></span>
+          <ul class="smile_matches">
             <? foreach ($user->matches($party->id) as $match ): ?>
               <li>
                 You and <?= $match->first_name; ?> <?= $match->last_name ?> have smiled at each other!

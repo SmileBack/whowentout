@@ -116,12 +116,19 @@ header {
 #parties_attended_view {
   .date, .divider, .place {
     display: inline-block;
+    font-size: 1.1em;
   }
-  ul { list-style: none; }
-  .smiles {
-    .received { display: inline-block; width: 200px; }
-    .remaining { display: inline-block; width: 200px; }
-    .matches { display: inline-block; list-style: none; }
+  .place { font-weight: bold; }
+  .parties_attended > li:first-child { padding-top: 0; }
+  .parties_attended > li {
+    padding: 20px 0 10px 0;
+    border-bottom: 1px dotted grey;
+  }
+  .notices {
+    margin-top: 10px;
+    .smiles_received { display: inline-block; width: 200px; }
+    .smiles_left { display: inline-block; width: 200px; }
+    .smile_matches { display: inline-block; }
   }
 }
 
@@ -201,6 +208,16 @@ table td, table th {
     .horizontal_gallery;
     float: right;
     text-align: center;
+    margin-top: 30px;
+    img { width: 90px; }
+  }
+  .friendschart {
+    overflow: hidden;
+    height: 220px;
+    iframe { 
+      margin-top: -50px;
+      margin-left: -35px;
+    }
   }
 }
 
@@ -220,16 +237,30 @@ table td, table th {
   }
 }
 
+.notices {
+  margin-left: 15px;
+  .smiles_received, .smiles_left, .smile_matches > li {
+    background-image: url(../images/bullet.png);
+    padding-left: 20px;
+    line-height: 20px;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+  }
+}
+
+
 #gallery_view {
+  .notices { font-size: 14px; }
   .sortbar {
     float: right;
+    margin-right: 15px;
     > * { display: inline-block; }
   }
   .gallery {
     .horizontal_gallery;
     clear: both;
-    width: 850px;
     margin: 0 auto;
+    > li { margin: 16px; }
   }
 }
 
