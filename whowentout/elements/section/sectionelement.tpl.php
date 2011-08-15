@@ -1,4 +1,4 @@
-<section id="<?= $id ?>">
+<section class="<?= $id ?>">
   
   <?php if ($title): ?>
     <h1><?= $title ?></h1>

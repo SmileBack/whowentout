@@ -6,9 +6,9 @@
   );
 ?>
 <?php foreach ($dates as $date): ?>
-<section class="where_friends_went_section">
+<section class="friends_view">
   <h1><?= $date->format('l, F jS') ?></h1>
-  <div class="section_content">
+  <div class="section_body">
     <?= load_view('where_friends_went_view', array('date' => $date->modify('+1 day'))) ?>
   </div>
 </section>

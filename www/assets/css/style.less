@@ -3,7 +3,6 @@
 @page_width: 1000px;
 
 @import 'elements.less';
-@import 'section.less';
 @import 'profile.less';
 @import 'dialog.less';
 
@@ -26,6 +25,26 @@
   -khtml-opacity: @opacity;
   /* Good browsers */
   opacity: @opacity;
+}
+
+section {
+  .shadow;
+  clear: both;
+  border: 1px solid;
+  margin: 15px 10px 15px 10px;
+  padding-bottom: 10px;
+  overflow: hidden;
+  > h1 {
+    background-color: @bar_color;
+    color: white;
+    -webkit-box-shadow: 0px 1px 2px 2px #dedede;
+    -moz-box-shadow: 0px 1px 2px 2px #dedede;
+    box-shadow: 0px 1px 2px 2px #dedede;
+  }
+  .section_body {
+    margin: 25px 25px 15px 25px;
+    overflow: hidden;
+  }
 }
 
 .horizontal_gallery {
@@ -55,6 +74,11 @@ header {
   padding: 20px 20px 15px 20px;
   background-color: @bar_color;
   color: @bar_text_color;
+  #logo {
+    margin: 0;
+    float: left;
+    a { text-decoration: none; }
+  }
   a, a:active, a:visited { color: @bar_text_color; }
   nav {
     float: right;
@@ -65,13 +89,18 @@ header {
   }
 }
 
-#logo {
-  margin: 0;
+.last_night_view {
+  width: 60.5%;
+  height: 240px;
   float: left;
-  a { text-decoration: none; }
+  h2 { font-size: 150%; }
+  .recent_attendees {
+    .horizontal_gallery;
+    img { width: 90px; }
+  }
 }
 
-#my_info_view {
+.my_info_view {
   width: 35%;
   height: 240px;
   float: left;
@@ -102,22 +131,11 @@ header {
   }
 }
 
-#top_parties_view {
+.top_parties_view {
   ol { margin: 10px 45px; }
 }
 
-#last_night_view {
-  width: 60.5%;
-  height: 240px;
-  float: left;
-  h2 { font-size: 150%; }
-  .recent_attendees {
-    .horizontal_gallery;
-    img { width: 90px; }
-  }
-}
-
-#parties_attended_view {
+.parties_attended_view {
   .date, .divider, .place {
     display: inline-block;
   }
@@ -204,7 +222,7 @@ table td, table th {
   .selected { font-weight: bold; }
 }
 
-#friends_view, .where_friends_went_section {
+.friends_view {
   .section_body {
     position: relative; margin-left: 0;
     h3, .where_friends_went_past { margin-left: 34px; }
@@ -251,7 +269,7 @@ table td, table th {
   .friends.autocomplete { width: 300px; }
 }
 
-#upcoming_parties_view {
+.upcoming_parties_view {
   .party_list {
     float: left;
     width: 33%;
@@ -277,7 +295,7 @@ table td, table th {
   }
 }
 
-#gallery_view {
+.gallery_view {
   .notices { font-size: 14px; }
   .sortbar {
     float: right;

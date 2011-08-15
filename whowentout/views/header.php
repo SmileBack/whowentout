@@ -55,7 +55,7 @@
           <?php endif; ?>
         </div>
 
-        <nav id="menu">
+        <nav>
           
           <?php if (logged_in()): ?>
           <?= anchor('dashboard', 'My Dashboard'); ?>
