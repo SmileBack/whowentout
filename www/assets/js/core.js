@@ -77,25 +77,74 @@ function tomorrow_time() {
   return new Date(unixTs * 1000);
 }
 
-$.fn.imagesLoaded = function(callback) {
-  var elems = this.filter('img'),
-      len   = elems.length;
-      
-  elems.bind('load',function(){
-      if ( --len <= 0 ) { callback.call(elems, this); }
-  }).each(function(){
-     // cached images don't fire load sometimes, so we reset src.
-     if (this.complete || this.complete === undefined){
-        var src = this.src;
-        // webkit hack from http://groups.google.com/group/jquery-dev/browse_thread/thread/eee6ab7b2da50e1f
-        // data uri bypasses webkit log warning (thx doug jones)
-        this.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-        this.src = src;
-     }  
-  }); 
+jQuery.event.special.imageload = {
+  setup: function(data, namespaces) {
+    var self = $(this);
+    var images = $(this).is('img') ? $(this) : $(this).find('img');
+    var numImages = images.length;
+    var numLoaded = 0;
 
-  return this;
+    images.each(function() {
+      var src = $(this).attr('src');
+      var img = new Image();
+      img.onload = function() {
+        numLoaded++;
+        if (numLoaded >= numImages)
+          self.trigger('imageload');
+      };
+      img.src = src;
+    });
+  },
+  teardown: function(namespaces) {},
+  handler: function(event) {}
 };
+
+$.fn.whenShown = function(fn) {
+  var props = { position: 'absolute', visibility: 'hidden', display: 'block' },
+      hiddenParents = this.parents().andSelf().not(':visible');
+      
+  //set style for hidden elements that allows computing
+  var oldProps = [];
+  hiddenParents.each(function() {
+      var old = {};
+
+      for ( var name in props ) {
+          old[ name ] = this.style[ name ];
+          this.style[ name ] = props[ name ];
+      }
+
+      oldProps.push(old);
+  });
+  
+  var result = fn.call( $(this) );
+  
+  //reset styles
+  hiddenParents.each(function(i) {
+      var old = oldProps[i];
+      for ( var name in props ) {
+          this.style[ name ] = old[ name ];
+      }
+  });
+  
+  return result;
+}
+
+//Optional parameter includeMargin is used when calculating outer dimensions
+$.fn.hiddenDimensions = function(includeMargin) {
+  return this.whenShown(function() {
+    return {
+      width: this.width(),
+      outerWidth: this.outerWidth(),
+      innerWidth: this.innerWidth(),
+      height: this.height(),
+      innerHeight: this.innerHeight(),
+      outerHeight: this.outerHeight(),
+      margin: $.fn.margin ? this.margin() : null,
+      padding: $.fn.padding ? this.padding() : null,
+      border: $.fn.border ? this.border() : null
+    };
+  });
+}
 
 function getParameterByName(name) {
   var match = RegExp('[?&]' + name + '=([^&]*)')

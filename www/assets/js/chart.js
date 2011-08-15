@@ -5,6 +5,14 @@ var GoogleChartsLoaded = function() {
 google.load('visualization', '1', {'packages':['corechart']});
 google.setOnLoadCallback(GoogleChartsLoadedDfd.resolve);
 
+$.fn.totalChildWidth = function() {
+  var width = 0;
+  $(this).children().each(function() {
+    width += $(this).outerWidth(true);
+  });
+  return width;
+}
+
 $('.friendschart').live('select', function(e, obj) {
   $(this).deselectParty().selectParty(obj.partyID);
 });
@@ -51,7 +59,7 @@ $('.friendschart').entwine({
       url: '/dashboard/where_friends_went_data',
       type: 'post',
       dataType: 'json',
-      data: {date: this.date() },
+      data: {date: this.date()},
       context: this
     });
   },
@@ -97,7 +105,7 @@ $('.friendschart').entwine({
   },
   emptyHtml: function() {
     return '<div class="chartArea">'
-    + '<svg class="chart" width="500" height="300">'
+    + '<svg class="empty chart" width="500" height="300">'
     + '<defs class="defs"></defs>'
     + '  <g>'
     + '    <ellipse cx="191.5" cy="151.5" rx="92" ry="92" stroke="#ffffff" stroke-width="1" fill="#3366cc"></ellipse>'
@@ -105,5 +113,17 @@ $('.friendschart').entwine({
     + '  </g>'
     + '</svg>'
     + '</div>';
+  }
+});
+
+$('.people').entwine({
+  onmatch: function() {
+    this.correctScrollWidth().css('visibility', 'visible');
+  },
+  onunmatch: function() {},
+  correctScrollWidth: function() {
+    var requiredWidth = this.find('> ul').totalChildWidth();
+    this.find('> ul').width(requiredWidth);
+    return this;
   }
 });

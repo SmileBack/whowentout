@@ -55,5 +55,5 @@ function initialize_crop_ui() {
 }
 
 jQuery(function($) {
-  $('#crop img').imagesLoaded(initialize_crop_ui);
+  $('#crop img').bind('imageload', initialize_crop_ui);
 });

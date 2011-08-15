@@ -1,4 +1,4 @@
-@bar_color: #104E8C;
+@bar_color: #104e8c;
 @bar_text_color: white;
 @page_width: 1000px;
 
@@ -102,6 +102,10 @@ header {
   }
 }
 
+#top_parties_view {
+  ol { margin: 10px 45px; }
+}
+
 #last_night_view {
   width: 60.5%;
   height: 240px;
@@ -116,7 +120,6 @@ header {
 #parties_attended_view {
   .date, .divider, .place {
     display: inline-block;
-    font-size: 1.1em;
   }
   .place { font-weight: bold; }
   .parties_attended > li:first-child { padding-top: 0; }
@@ -202,28 +205,50 @@ table td, table th {
 }
 
 #friends_view, .where_friends_went_section {
-  .section_body { position: relative; }
-  .invite_friends { position: absolute; right: 0; bottom: 0; }
+  .section_body {
+    position: relative; margin-left: 0;
+    h3, .where_friends_went_past { margin-left: 34px; }
+  }
+  .invite_friends {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    > * { float: left; }
+    .friends.autocomplete { height: 23px; }
+    .autocomplete_list_item { padding: 0 12px; }
+    .submit_button { height: 29px; }
+  }
+  .tabs {
+    float: right;
+    margin: 50px 0 30px 0;
+    > li { overflow: hidden; }
+  }
   .people {
-    .horizontal_gallery;
+    visibility: hidden;
     float: right;
     text-align: center;
-    margin-top: 30px;
+    width: 525px;
+    height: 185px;
+    overflow: hidden;
+    overflow-x: scroll;
     img { width: 90px; }
+    > ul {
+      .horizontal_gallery;
+      overflow: hidden;
+      width: 10000px;
+      li { float: left; }
+    }
+    .full_name > * { display: block; }
   }
   .friendschart {
     overflow: hidden;
-    height: 220px;
-    iframe { 
-      margin-top: -50px;
-      margin-left: -35px;
+    
+    height: 275px;
+    iframe, .empty.chart { 
+      margin-left: -50px;
     }
   }
-}
-
-.friends.autocomplete {
-  width: 300px;
-  height: 35px;
+  .friends.autocomplete { width: 300px; }
 }
 
 #upcoming_parties_view {
@@ -232,22 +257,25 @@ table td, table th {
     width: 33%;
     border-right: 1px dotted grey;
     &:last-child { border-right: none; }
-    h1 { margin: 0 0 0 25px; }
+    h2 { margin: 0 0 0 25px; }
     ul { height: 125px; margin: 0 0 0 70px; }
   }
+}
+
+.bullet {
+  background-image: url(../images/bullet.png);
+  padding-left: 20px;
+  line-height: 20px;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
 }
 
 .notices {
   margin-left: 15px;
   .smiles_received, .smiles_left, .smile_matches > li {
-    background-image: url(../images/bullet.png);
-    padding-left: 20px;
-    line-height: 20px;
-    background-repeat: no-repeat;
-    background-position: 0 50%;
+    .bullet;
   }
 }
-
 
 #gallery_view {
   .notices { font-size: 14px; }

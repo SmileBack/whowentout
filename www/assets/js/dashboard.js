@@ -2,9 +2,6 @@ $('.recent_attendees').entwine({
   thumbnailCapacity: function() {
     return 5;
   },
-  thumbnailWidth: function() {
-    return 90;
-  },
   onmatch: function() {
     var self = this;
     every(10, function() {
@@ -47,38 +44,40 @@ $('.recent_attendees').entwine({
   insertThumbnail: function(thumbnail) {
     var n = this.thumbnailCapacity() - 2;
     var oldPics = $('.recent_attendees li:gt(' + n + ')');
-
     var t = this.createThumbnail(thumbnail);
-    t.css('opacity', 0);
-    t.css('position', 'fixed');
-    $('.recent_attendees').prepend(t);
+    var self = this;
+    t.bind('imageload', function() {
+      t.css('opacity', 0);
+      t.css('position', 'fixed');
+      $('.recent_attendees').prepend(t);
+      
+      var dim = $(this).hiddenDimensions();
+      var originalWidth = dim.innerWidth;
+      var originalMarginLeft = dim.margin.left;
+      var originalMarginRight = dim.margin.right;
 
-    var originalWidth = this.thumbnailWidth();
-    var originalMarginLeft = 10;
-    var originalMarginRight = 10;
+      var speed = 300;
+      t.css({position: '', 'margin-left': '-' + originalWidth + 'px', 'margin-right': '0px'});
 
-    var speed = 300;
-    t.css({position: '', 'margin-left': '-' + originalWidth + 'px', 'margin-right': '0px'});
-
-    if (oldPics.length > 0) {
-      oldPics.fadeOut(speed, function() {
-        $(this).remove();
+      if (oldPics.length > 0) {
+        oldPics.fadeOut(speed, function() {
+          $(this).remove();
+          t.animate({
+            'margin-left': originalMarginLeft + 'px',
+            'margin-right': originalMarginRight + 'px'
+          }, speed)
+          .animate({opacity: 1}, speed);
+        });
+      }
+      else {
         t.animate({
-          'margin-left': originalMarginLeft + 'px',
-          'margin-right': originalMarginRight + 'px'
+          'margin-left': originalMarginLeft + 'px'
         }, speed)
         .animate({opacity: 1}, speed);
-      });
-    }
-    else {
-      t
-      .animate({
-        'margin-left': originalMarginLeft + 'px'
-      }, speed)
-      .animate({opacity: 1}, speed);
-    }
+      }
+    });
 
-    return t;
+    return this;
   },
   createThumbnail: function(thumbnail) {
     var li = $('<li/>');
@@ -93,6 +92,18 @@ $('.recent_attendees').entwine({
 $('.recent_attendees li').entwine({
   userID: function() {
     return parseInt( this.attr('data-user-id') );
+  }
+});
+
+$('#parties_attended_view .notices > *').entwine({
+  onmatch: function() {
+    this.css('cursor', 'pointer');
+  },
+  onunmatch: function() {},
+  onclick: function(e) {
+    e.preventDefault();
+    var link = this.closest('.party_summary').find('a');
+    window.location.href = link.attr('href');
   }
 });
 

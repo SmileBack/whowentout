@@ -1,23 +1,26 @@
-<h2>Click on the circle below to see where your friends went out last night.</h2>
+<h3>Click on the circle below to see where your friends went out last night.</h3>
 
 <ul class="tabs">
   <?php foreach (current_user()->where_friends_went( $date ) as $party_id => $user_ids): ?>
     <?php $party = party($party_id); ?>
     <li val="<?= $party->id ?>">
-      <h3><?= $party->place->name ?></h3>
-      <ul class="people">
-        <?php foreach ($user_ids as $user_id): ?>
-        <?php $user = user($user_id); ?>
-          <li>
-            <div class="thumb">
-              <?= $user->thumb ?>
-            </div>
-            <div class="full_name">
-              <?= $user->full_name ?>
-            </div>
-          </li>
-        <?php endforeach; ?>
-      </ul>
+      <h2><?= $party->place->name ?></h2>
+      <div class="people">
+        <ul>
+          <?php foreach ($user_ids as $user_id): ?>
+          <?php $user = user($user_id); ?>
+            <li>
+              <div class="thumb">
+                <?= $user->thumb ?>
+              </div>
+              <div class="full_name">
+                <span class="first_name"><?= $user->first_name ?></span>
+                <span class="last_name"><?= $user->last_name ?></span>
+              </div>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
     </li>
   <?php endforeach; ?>
 </ul>

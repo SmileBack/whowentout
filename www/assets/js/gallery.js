@@ -25,20 +25,21 @@ $('.gallery').entwine({
   },
   insertAttendee: function(attendeeHTML) {
     var el = $('<li>' + attendeeHTML + '</li>');
+    var gallery = $(this);
     el.addClass('new');
     el.hide();
     
-    var position = el.find('.party_attendee').attr('data-after');
-    console.log(position);
-    
-    if (position == 'first') {
-      this.prepend(el);
-    }
-    else {
-      $('#party_attendee_' + position).closest('li').after(el);
-    }
-    
-    el.fadeIn();
+    el.bind('imageload', function() {
+      var position = el.find('.party_attendee').attr('data-after');
+      console.log(position);
+      if (position == 'first') {
+        gallery.prepend(el);
+      }
+      else {
+        $('#party_attendee_' + position).closest('li').after(el);
+      }
+      el.fadeIn();
+    });
   },
   partyID: function() {
     return parseInt( this.attr('data-party-id') );
