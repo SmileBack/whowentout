@@ -3,13 +3,30 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-07-28 15:58:44
+# Date/time:                    2011-08-15 22:06:43
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+# Dumping structure for table whowentout.chat_messages
+CREATE TABLE IF NOT EXISTS `chat_messages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sent_at` int(10) unsigned NOT NULL,
+  `sender_id` int(10) unsigned NOT NULL,
+  `receiver_id` int(10) unsigned NOT NULL,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sender_id` (`sender_id`),
+  KEY `receiver_id` (`receiver_id`),
+  CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `chat_messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
 
 # Dumping structure for table whowentout.colleges
 CREATE TABLE IF NOT EXISTS `colleges` (
@@ -20,6 +37,20 @@ CREATE TABLE IF NOT EXISTS `colleges` (
   `name` varchar(255) NOT NULL,
   `email_domain` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.college_students
+CREATE TABLE IF NOT EXISTS `college_students` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `college_id` int(10) unsigned NOT NULL,
+  `student_full_name` varchar(255) NOT NULL,
+  `student_email` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`),
+  CONSTRAINT `college_students_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.
@@ -85,13 +116,16 @@ CREATE TABLE IF NOT EXISTS `parties` (
 
 # Dumping structure for table whowentout.party_attendees
 CREATE TABLE IF NOT EXISTS `party_attendees` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `party_id` int(10) unsigned NOT NULL,
   `checkin_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`party_id`),
-  KEY `party_id` (`party_id`),
-  CONSTRAINT `party_attendees_ibfk_2` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`),
-  CONSTRAINT `party_attendees_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id_party_id` (`user_id`,`party_id`),
+  KEY `user_id_key` (`user_id`),
+  KEY `party_id_key` (`party_id`),
+  CONSTRAINT `party_attendee_party` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `party_attendee_user` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.
@@ -114,6 +148,14 @@ CREATE TABLE IF NOT EXISTS `places` (
 # Data exporting was unselected.
 
 
+# Dumping structure for table whowentout.schema_version
+CREATE TABLE IF NOT EXISTS `schema_version` (
+  `version` int(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# Data exporting was unselected.
+
+
 # Dumping structure for table whowentout.sessions
 CREATE TABLE IF NOT EXISTS `sessions` (
   `session_id` varchar(40) NOT NULL DEFAULT '0',
@@ -121,6 +163,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   `user_agent` varchar(50) NOT NULL,
   `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
   `user_data` text NOT NULL,
+  `debug` text,
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -153,7 +196,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `facebook_id` varchar(255) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `hometown` varchar(255) NOT NULL,
+  `hometown_city` varchar(255) NOT NULL,
+  `hometown_state` varchar(255) NOT NULL,
   `college_id` int(10) unsigned DEFAULT NULL,
   `grad_year` int(10) unsigned NOT NULL,
   `email` varchar(255) NOT NULL,

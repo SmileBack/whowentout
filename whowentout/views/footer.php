@@ -2,6 +2,7 @@
 
     </div>
     
+    <?php if(TRUE): ?>
     <?= js_asset('date.format.js') ?>
     <?= js_asset('timeinterval.js') ?>
 
@@ -28,6 +29,7 @@
 
 
     <?= js_asset('script.js'); ?>
+    <?php endif; ?>
     
   </body>
 </html>

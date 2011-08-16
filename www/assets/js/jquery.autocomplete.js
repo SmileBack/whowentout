@@ -8,6 +8,9 @@ $('input.autocomplete').entwine({
     this.autocompleteList().remove();
     this.autocompleteSelection().remove();
   },
+  source: function() {
+    return this.attr('source');
+  },
   selectedObject: function() {
     return this.selectedItem().object();
   },
@@ -21,13 +24,15 @@ $('input.autocomplete').entwine({
     return this.data('autocompleteSelection');
   },
   _createAutocompleteList: function() {
-    var list = $('<ul></ul>').addClass('autocomplete_list');
+    var extraClass = this.attr('extra_class');
+    var list = $('<ul></ul>').addClass('autocomplete_list').addClass(extraClass);
     $('body').append(list);
     this.data('autocompleteList', list);
     this.autocompleteList().attachTo(this);
   },
   _createAutocompleteSelection: function() {
-    var selection = $('<ul></ul>').addClass('autocomplete_selection').hide();
+    var extraClass = this.attr('extra_class');
+    var selection = $('<ul></ul>').addClass('autocomplete_selection').addClass(extraClass).hide();
     selection.width(this.width());
     this.after(selection);
     this.data('autocompleteSelection', selection);
@@ -195,10 +200,13 @@ $('.autocomplete_list').entwine({
     
     this.itemFilter( this.input().val() );
   },
+  source: function() {
+    return this.input().source();
+  },
   updateFromServer: function(q) {
     var self = this;
     $.ajax({
-      url: '/user/friends',
+      url: this.source(),
       type: 'get',
       dataType: 'json',
       data: {q: q},
@@ -279,13 +287,8 @@ $('.autocomplete_list_item').entwine({
   },
   updateHTML: function() {
     this.empty()
-        .append(this.getFacebookImage())
         .append('<span>' + this.object().title + '</span>');
-        
     return this;
-  },
-  getFacebookImage: function() {
-    return $('<img src="https://graph.facebook.com/' + this.object().id + '/picture">');
   }
 });
 

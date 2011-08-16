@@ -1,3 +1,6 @@
+$('.name.autocomplete_list .autocomplete_list_item').entwine({
+});
+
 $('.gallery').entwine({
   onmatch: function() {
     var el = $(this);

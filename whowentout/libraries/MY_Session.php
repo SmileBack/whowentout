@@ -17,7 +17,7 @@ class MY_Session extends CI_Session
          parent::sess_update();
      }
   } 
-    
+  
 }
 
 /* End of file MY_Session.php */

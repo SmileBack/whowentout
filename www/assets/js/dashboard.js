@@ -137,5 +137,18 @@ $('#top_parties').entwine({
   }
 });
 
+$('.friends.autocomplete_list .autocomplete_list_item').entwine({
+  updateHTML: function() {
+    this.empty()
+        .append(this.getFacebookImage())
+        .append('<span>' + this.object().title + '</span>');
+        
+    return this;
+  },
+  getFacebookImage: function() {
+    return $('<img src="https://graph.facebook.com/' + this.object().id + '/picture">');
+  }
+});
+
 $('.invite_friends .autocomplete').live('itemselected', function() {
 });
