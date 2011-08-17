@@ -95,6 +95,38 @@ class XCollege extends XObject
     return $dates;
   }
   
+  function find_student($q) {
+    $parts = explode('/\s+/', $q);
+    $college_id = $this->id;
+    $students = $this->db()->from('college_students')
+                     ->where('college_id', $college_id)
+                     ->where('student_full_name', $q)
+                     ->get()->result();
+    
+    if (empty($students)) {
+      $variations = $this->student_name_variations($q);
+      $students = $this->db()->from('college_students')
+                             ->where('college_id', $college_id)
+                             ->where_in('student_full_name', $variations)
+                             ->get()->result();
+    }
+    
+    var_dump($students);
+  }
+  
+  function student_name_variations($full_name) {
+    list($first_name, $last_name) = preg_split('/\s+/', $full_name);
+    $rows = $this->db()->select('name')
+                       ->from('common_nicknames')
+                       ->where('nickname', $first_name)
+                       ->get()->result();
+    $variations = array();
+    foreach ($rows as $row) {
+      $variations[] = "$row->name $last_name";
+    }
+    return $variations;
+  }
+  
   /**
    * Modify current time so that it matches the local time at this college.
    * @param string $local_time_string 
