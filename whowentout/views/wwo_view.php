@@ -2,8 +2,12 @@
      current-time="<?= current_time()->getTimestamp() ?>"
      doors-closing-time="<?= college()->get_closing_time()->getTimestamp() ?>"
      doors-opening-time="<?= college()->get_opening_time()->getTimestamp() ?>"
+     yesterday-time="<?= college()->yesterday()->getTimestamp() ?>"
      tomorrow-time="<?= college()->tomorrow()->getTimestamp() ?>"
-     doors-open="<?= college()->doors_are_open() ? 'true' : 'false' ?>">
+     doors-open="<?= college()->doors_are_open() ? 'true' : 'false' ?>"
+     gender="<?= logged_in() ? current_user()->gender : '' ?>"
+     other-gender="<?= logged_in() ? current_user()->other_gender : '' ?>"
+ >
   
   <div class="where-friends-went-data"><?= json_encode(where_friends_went_pie_chart_data( college()->today() )) ?></div>
   

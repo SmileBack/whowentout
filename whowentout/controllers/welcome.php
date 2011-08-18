@@ -4,12 +4,17 @@ class Welcome extends MY_Controller
 {
   
   function index() {
-//    $variations = college()->student_name_variations('Ron Webb');
-//    var_dump($variations);
-    $student = college()->find_student('Cassie Scheinman');
+    $this->load_view('emails/smile_received_email', array(
+      'party' => party(11),
+      'sender' => user(array('first_name' => 'Venkat')),
+      'receiver' => user(array('first_name' => 'Ava')),
+      'date' => current_time(TRUE),
+    ));
+    
   }
   
   function index2() {
+    print substr('alexander', 0, 2);
   }
   
 }

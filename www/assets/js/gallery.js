@@ -59,8 +59,16 @@ $('.smile_form :submit').live('click', function(e) {
   var form = $(this).closest('form');
   var canSmile = $(this).hasClass('can');
   if (canSmile) {
+    var senderGender = $('#wwo').otherGender();
+    var message = senderGender == 'M'
+                ? '<p>You are about to ' + action + '.</p>'
+                + '<p>He will know that someone has smiled at him, but he will <em>not</em> know it was you unless he smiles at you as well.</p>'
+                
+                : '<p>You are about to ' + action + '.</p>'
+                + '<p>She will know that someone has smiled at her, but she will <em>not</em> know it was you unless she smiles at you as well.</p>';
+
     WWO.dialog.title('Confirm Smile')
-              .message(action + '?')
+              .message(message)
               .setButtons('yesno')
               .refreshPosition()
               .show('confirm_smile', form);
@@ -68,7 +76,7 @@ $('.smile_form :submit').live('click', function(e) {
   else {
     action = action.substring(0, 1).toLowerCase() + action.substring(1);
     WWO.dialog.title("Can't Smile")
-              .message("You can't " + action + " because you are out of smiles")
+              .message("You can't " + action + " because you have already used up your smiles.")
               .setButtons('ok')
               .refreshPosition()
               .show('cant_smile');

@@ -95,23 +95,37 @@ class XCollege extends XObject
     return $dates;
   }
   
-  function find_student($q) {
-    $parts = explode('/\s+/', $q);
+  function find_student($full_name) {
+    $parts = preg_split('/\s+/', trim($full_name));
+    $first_name = $parts[0];
+    $last_name = $parts[ count($parts) - 1 ];
+    $full_name = "$first_name $last_name";
+    
     $college_id = $this->id;
     $students = $this->db()->from('college_students')
                      ->where('college_id', $college_id)
-                     ->where('student_full_name', $q)
+                     ->where('student_full_name', trim($full_name))
                      ->get()->result();
     
     if (empty($students)) {
-      $variations = $this->student_name_variations($q);
+      $variations = $this->student_name_variations($full_name);
+      if ( ! empty($variations) ) {
+        $students = $this->db()->from('college_students')
+                               ->where('college_id', $college_id)
+                               ->where_in('student_full_name', $variations)
+                               ->get()->result();
+      }
+    }
+    
+    if (empty($students)) {
       $students = $this->db()->from('college_students')
                              ->where('college_id', $college_id)
-                             ->where_in('student_full_name', $variations)
+                             ->like('student_full_name', substr($first_name, 0, 3), 'after')
+                             ->like('student_full_name', " $last_name", 'before')
                              ->get()->result();
     }
     
-    var_dump($students);
+    return count($students) == 1 ? $students[0] : FALSE;
   }
   
   function student_name_variations($full_name) {

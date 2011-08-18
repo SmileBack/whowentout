@@ -39,6 +39,12 @@ $('#wwo').entwine({
       }
     });
   },
+  gender: function() {
+    return this.attr('gender');
+  },
+  otherGender: function() {
+    return this.attr('other-gender');
+  },
   _calculateTimeDelta: function() {
     var serverUnixTs = parseInt( $('#wwo').attr('current-time') );
     //Unix timestamp uses seconds while JS Date uses milliseconds
@@ -67,6 +73,12 @@ function doors_closing_time() {
 
 function doors_opening_time() {
   var unixTs = parseInt( $('#wwo').attr('doors-opening-time') );
+  //Unix timestamp uses seconds while JS Date uses milliseconds
+  return new Date(unixTs * 1000);
+}
+
+function yesterday_time() {
+  var unixTs = parseInt( $('#wwo').attr('yesterday-time') );
   //Unix timestamp uses seconds while JS Date uses milliseconds
   return new Date(unixTs * 1000);
 }
@@ -151,3 +163,4 @@ function getParameterByName(name) {
                   .exec(window.location.search);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
+

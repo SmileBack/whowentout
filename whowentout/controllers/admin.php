@@ -14,8 +14,22 @@ class Admin extends MY_Controller
   
   function index() {
     $this->check_access();
-    
     $this->load_view('admin/admin_view');
+  }
+  
+  function fakelogin($user_id = NULL) {
+    $this->check_access();
+    
+    if ($user_id != NULL) {
+      fake_login($user_id);
+      redirect('dashboard');
+    }
+    else {
+      $students = college()->get_students();
+      $this->load_view('admin/fake_login_view', array(
+        'students' => $students,
+      ));
+    }
   }
   
   function fake_time() {

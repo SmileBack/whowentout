@@ -98,22 +98,6 @@ class User extends MY_Controller {
     }
   }
   
-  function fakelogin($user_id = NULL) {
-    if (ENVIRONMENT == 'production')
-      show_404();
-    
-    if ($user_id != NULL) {
-      fake_login($user_id);
-      redirect('dashboard');
-    }
-    else {
-      $students = college()->get_students();
-      $this->load_view('login_view', array(
-        'students' => $students,
-      ));
-    }
-  }
-  
   function logout() {
     logout();
     redirect('/');

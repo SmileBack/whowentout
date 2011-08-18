@@ -25,14 +25,20 @@ function on_smile($sender, $receiver, $party) {
 function on_smile_back($sender, $receiver, $party) {
   // Send email to the sender 
   $subject = "You and $receiver->full_name have smiled at each other.";
-  $body = "You and $receiver->full_name have smiled at each other. "
-        . anchor(site_url("party/$party->id"), 'Click here') . " to go to the party.";
+  $body = ci()->load->view('emails/match_notification_view', array(
+    'sender' => $sender,
+    'receiver' => $receiver,
+    'party' => $party,
+  ), TRUE);
   job_call_async('send_email', $sender->id, $subject, $body);
   
   // Send email to the receiver
   $subject = "You and $sender->full_name have smiled at each other.";
-  $body = "You and $sender->full_name have smiled at each other. "
-        . anchor(site_url("party/$party->id"), 'Click here') . " to go to the party.";
+  $body = ci()->load->view('emails/match_notification_view', array(
+    'sender' => $receiver,
+    'receiver' => $sender,
+    'party' => $party,
+  ), TRUE);
   job_call_async('send_email', $receiver->id, $subject, $body);
 }
 
@@ -44,9 +50,13 @@ function on_smile_back($sender, $receiver, $party) {
  * @param XParty $party
  */
 function on_smile_at($sender, $receiver, $party) {
-  $subject = "Someone from {$party->place->name} smiled at you.";
-  $body = "Someone from {$party->place->name} has smiled at you. "
-        . anchor(site_url("party/$party->id"), 'Click here') . " to go to the party.";
+  $subject = "A $sender->gender_word from {$party->place->name} has smiled at you.";
+  $body = ci()->load->view('emails/smile_received_email', array(
+    'sender' => $sender,
+    'receiver' => $receiver,
+    'party' => $party,
+    'date' => current_time(TRUE),
+  ), TRUE);
   job_call_async('send_email', $receiver->id, $subject, $body);
 }
 

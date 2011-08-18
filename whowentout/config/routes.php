@@ -48,7 +48,7 @@ $route['logout'] = 'user/logout';
 $route['checkin'] = 'user/checkin';
 $route['top_parties'] = 'dashboard/past_top_parties';
 
-$route['fakelogin'] = 'user/fakelogin';
+$route['fakelogin'] = 'admin/fakelogin';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

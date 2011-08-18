@@ -16,10 +16,17 @@ $('#checkin_form :submit').entwine({
     
     var doorsOpen = $('#wwo').doorsOpen();
     var place = this.form().selectedPlace();
-    
+    /*
+     *
+     *You are about to check-in to McFadden’s for the night of October 7th. 
+     *This will allow you to see others who have checked in as well.
+ 
+ */
     if (doorsOpen) {
+      var date = yesterday_time().format('mmm dS');
       WWO.dialog.title('Confirm Checkin')
-         .message('Checkin to ' + place.name + '?')
+         .message('<p>You are about to check into <em>' + place.name + '</em> for the night of ' + date + '<p>'
+                + '<p>This will allow you to see others to have checked in as well.</p>')
          .setButtons('yesno')
          .refreshPosition()
          .show('confirm_checkin');

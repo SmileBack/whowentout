@@ -1,7 +1,7 @@
 <ul class="login_gallery">
   <?php foreach ($students as $student): ?>
     <li>
-      <a href="user/fakelogin/<?= $student->id ?>">
+      <a href="/admin/fakelogin/<?= $student->id ?>">
         <?= $student->thumb ?>
       </a>
       <p>

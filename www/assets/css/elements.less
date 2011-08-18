@@ -63,3 +63,41 @@ form {
   ul { list-style: none; }
   li { margin: 10px; padding: 10px; }
 }
+
+.submit_button {
+  -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+  box-shadow: inset 0px 1px 0px 0px #ffffff;
+  background-color: #ededed;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+
+
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+  background-color: #dfdfdf;
+
+  border: 1px solid #8F8F8F;
+  display: inline-block;
+  color: #444;
+  padding: 2px 5px;
+  text-decoration: none;
+  text-shadow:1px 1px 0px #ffffff;
+  font-size: 12px;
+  &:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+    background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+  }
+  &:active {
+    position: relative;
+    top: 2px;
+  }
+  &[disabled="disabled"] {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: none;
+    background-color: #F7F7F7;
+  }
+}

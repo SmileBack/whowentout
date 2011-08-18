@@ -27,6 +27,14 @@
   opacity: @opacity;
 }
 
+.heading_bar {
+  background-color: @bar_color;
+  color: white;
+  -webkit-box-shadow: 0px 1px 2px 2px #dedede;
+  -moz-box-shadow: 0px 1px 2px 2px #dedede;
+  box-shadow: 0px 1px 2px 2px #dedede;
+}
+
 section {
   .shadow;
   clear: both;
@@ -34,16 +42,28 @@ section {
   margin: 15px 10px 15px 10px;
   padding-bottom: 10px;
   overflow: hidden;
-  > h1 {
-    background-color: @bar_color;
-    color: white;
-    -webkit-box-shadow: 0px 1px 2px 2px #dedede;
-    -moz-box-shadow: 0px 1px 2px 2px #dedede;
-    box-shadow: 0px 1px 2px 2px #dedede;
-  }
+  > h1 { .heading_bar; }
   .section_body {
     margin: 25px 25px 15px 25px;
     overflow: hidden;
+  }
+}
+
+.dialog {
+  padding: 0;
+  width: 400px;
+  > h1 { .heading_bar; }
+  .dialog_body {
+    margin: 20px;
+    text-align: left;
+  }
+  .dialog_buttons a {
+    font-size: 13px;
+    background-color: lighten(@bar_color, 5%);
+    border-color: #29447E #29447E #1A356E;
+    color: white;
+    padding: 5px 10px;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
   }
 }
 
@@ -232,7 +252,7 @@ table td, table th {
     right: 0;
     bottom: 0;
     > * { float: left; }
-    .friends.autocomplete { height: 23px; }
+    .friends.autocomplete { width: 300px; height: 23px; }
     .autocomplete_list_item { padding: 0 12px; }
     .submit_button { height: 29px; }
   }
@@ -266,7 +286,6 @@ table td, table th {
       margin-left: -50px;
     }
   }
-  .friends.autocomplete { width: 300px; }
 }
 
 .upcoming_parties_view {
@@ -311,8 +330,10 @@ table td, table th {
 }
 
 .invite_to_party_view {
-  .name, .submit_button { display: inline-block; }
-  .name { width: 200px; }
+  label, .name, .submit_button { float: left; }
+  .name.autocomplete { width: 200px; height: 23px; }
+  .autocomplete_list_item { padding: 0 12px; }
+  .submit_button { height: 29px; }
 }
 
 form .hometown {
