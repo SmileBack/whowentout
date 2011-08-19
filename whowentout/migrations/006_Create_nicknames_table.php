@@ -3,16 +3,11 @@
 class Migration_Create_nicknames_table extends Migration {
   
   public function up() {
-    $this->db->query('CREATE TABLE `college_students` (
-                        `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                        `college_id` int(10) unsigned NOT NULL,
-                        `student_full_name` varchar(255) NOT NULL,
-                        `student_email` varchar(255) NOT NULL,
-                        PRIMARY KEY (`id`),
-                        KEY `college_id` (`college_id`),
-                        KEY `student_full_name` (`student_full_name`),
-                        CONSTRAINT `college_students_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
-                      ) ENGINE=InnoDB DEFAULT CHARSET=latin1');
+    $this->db->query('CREATE TABLE `common_nicknames` (
+            `name` varchar(256) NOT NULL,
+            `nickname` varchar(256) NOT NULL,
+            PRIMARY KEY (`name`,`nickname`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=latin1');
     $this->insert_nickname_data();
   }
   
