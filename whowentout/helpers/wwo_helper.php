@@ -158,7 +158,6 @@ function load_view($view_name, $data = array()) {
 function load_section_view($section_name, $title = '', $data = array()) {
   return render('section', array(
     'id' => $section_name,
-    'section_name' => $section_name,
     'title' => $title,
     'vars' => $data,
   ));

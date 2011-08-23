@@ -59,9 +59,14 @@ function every(seconds, fn) {
   return setInterval(fn, seconds * 1000);
 }
 
+function after(seconds, fn) {
+  return setTimeout(fn, seconds * 1000);
+}
+
 function current_time() {
   var time = new Date();
-  time.setMilliseconds( time.getMilliseconds() + $('#wwo').timeDelta() );
+  var tzOffset = 0;//-50400;
+  time.setMilliseconds( time.getMilliseconds() + $('#wwo').timeDelta() + tzOffset);
   return time;
 }
 

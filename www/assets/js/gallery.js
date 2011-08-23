@@ -54,7 +54,6 @@ $('.gallery').entwine({
 
 $('.smile_form :submit').live('click', function(e) {
   e.preventDefault();
-
   var action = $(this).attr('value');
   var form = $(this).closest('form');
   var canSmile = $(this).hasClass('can');
@@ -65,13 +64,13 @@ $('.smile_form :submit').live('click', function(e) {
                 + '<p>He will know that someone has smiled at him, but he will <em>not</em> know it was you unless he smiles at you as well.</p>'
                 
                 : '<p>You are about to ' + action + '.</p>'
-                + '<p>She will know that someone has smiled at her, but she will <em>not</em> know it was you unless she smiles at you as well.</p>';
+                + '<p>She will know that someone has smiled at her, but she will <em>not</em> know it was you unless she smiles back at you.</p>';
 
     WWO.dialog.title('Confirm Smile')
               .message(message)
               .setButtons('yesno')
               .refreshPosition()
-              .show('confirm_smile', form);
+              .showDialog('confirm_smile', form);
   }
   else {
     action = action.substring(0, 1).toLowerCase() + action.substring(1);
@@ -79,7 +78,7 @@ $('.smile_form :submit').live('click', function(e) {
               .message("You can't " + action + " because you have already used up your smiles.")
               .setButtons('ok')
               .refreshPosition()
-              .show('cant_smile');
+              .showDialog('cant_smile');
   }
 
 });

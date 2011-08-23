@@ -83,8 +83,8 @@ $.fn.getBox = function() {
   var box = {
     left: $(this).offset().left,
     top: $(this).offset().top,
-    width: $(this).outerWidth(),
-    height: $(this).outerHeight()
+    width: $(this).outerWidth(true),
+    height: $(this).outerHeight(true)
   };
 
   box.lt = box.tl = {left: box.left, top: box.top};

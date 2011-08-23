@@ -150,5 +150,26 @@ $('.friends.autocomplete_list .autocomplete_list_item').entwine({
   }
 });
 
-$('.invite_friends .autocomplete').live('itemselected', function() {
+$('.invite_friends :submit').entwine({
+  onclick: function(e) {
+    var form = this.closest('form');
+    if (form.find('input.friends').val() == '') {
+      form.notice('Please type the name of a friend.');
+      e.preventDefault();
+    }
+    else if (form.find('.friends').selectedObject() == null) {
+      if (form.find('input.friends').matchingItems().length == 1) {
+        var item = form.find('input.friends').matchingItems();
+        form.find('input.friends').selectItem(item);
+      }
+      else {
+        form.notice('Please select someone from the list.');
+      }
+      e.preventDefault();
+    }
+  }
+});
+
+$('.invite_friends input.friends').live('objectselected', function(e, object) {
+  $(this).closest('form').notice('Click <em>Invite</em> to invite ' + object.title);
 });

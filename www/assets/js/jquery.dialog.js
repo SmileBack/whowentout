@@ -1,133 +1,165 @@
-var dialog = Element.subclass();
-
-function dialog_mask() {
-  if ( $('#mask').length == 0) {
-    var mask = $('<div id="mask"/>').css({
-      display: 'none',
-      position: 'fixed',
-      top: '0px',
-      left: '0px',
-      background: 'black',
-      opacity: 0.4,
-      width: '100%',
-      height: '100%',
-      'z-index': 9000
+$.dialog = {
+  mask: function() {
+    if ( $('#mask').length == 0) {
+      var mask = $('<div id="mask"/>').css({
+        display: 'none',
+        position: 'fixed',
+        top: '0px',
+        left: '0px',
+        background: 'black',
+        opacity: 0.4,
+        width: '100%',
+        height: '100%',
+        'z-index': 9000
+      });
+      $('body').append(mask);
+    }
+    $('#mask').bind('click', function() {
+      $('.dialog:visible').hideDialog();
     });
-    $('body').append(mask);
+    return $('#mask');
+  },
+  create: function() {
+    var d = $('<div class="dialog"> '
+            + '<h1></h1>'
+            + '<div class="dialog_body"></div>'
+            + '<div class="dialog_buttons"></div>'
+            + '</div>');
+    $('body').append(d);
+    return d;
+  },
+  buttonSets: {
+    yesno: [
+      {key: 'y', title: 'Yes'},
+      {key: 'n', title: 'No'}
+    ],
+    ok: [
+      {key: 'ok', title: 'OK'}
+    ],
+    close: [
+      {key: 'close', title: 'Close'}
+    ]
   }
-  $('#mask').bind('click', function() {
-    dialog('.dialog:visible').hide();
-  });
-  return $('#mask');
-}
-
-dialog.create = function() {
-  var d = dialog('<div class="dialog"> '
-               + '<h1></h1>'
-               + '<div class="dialog_body"></div>'
-               + '<div class="dialog_buttons"></div>'
-               + '</div>');
-  $('body').append(d);
-  return d;
-}
-
-dialog.buttonSets = {
-  yesno: [
-    {key: 'y', title: 'Yes'},
-    {key: 'n', title: 'No'}
-  ],
-  ok: [
-    {key: 'ok', title: 'OK'}
-  ],
-  close: [
-    {key: 'close', title: 'Close'}
-  ]
 };
 
-dialog.fn.setButtons = function(buttons) {
-  if (typeof buttons == 'string')
-    buttons = dialog.buttonSets[buttons];
-  
-  this.removeAllButtons();
-  for (var k in buttons) {
-    this.addButton(buttons[k].key, buttons[k].title, buttons[k].attributes);
+$('.dialog').entwine({
+  title: function(text) {
+    if (text === undefined) {
+      return this.find('h1').text();
+    }
+    else {
+      this.find('h1').text(text);
+      this.refreshPosition();
+      return this;
+    }
+  },
+  message: function(text) {
+    if (text === undefined) {
+      return this.find('.dialog_body').text();
+    }
+    else {
+      this.find('.dialog_body').html(text);
+      this.refreshPosition();
+      return this;
+    }
+  },
+  setButtons: function(buttons) {
+    if (typeof buttons == 'string')
+      buttons = $.dialog.buttonSets[buttons];
+
+    this.removeAllButtons();
+    for (var k in buttons) {
+      this.addButton(buttons[k].key, buttons[k].title, buttons[k].attributes);
+    }
+    return this;
+  },
+  addButton: function(key, title, attributes) {
+    attributes = $.extend({}, {href: '#'}, attributes);
+    var button = $('<a/>');
+    button.addClass('button').html(title);
+    for (var prop in attributes) {
+      button.attr(prop, attributes[prop]);
+    }
+
+    button.attr('data-key', key);
+    button.addClass(key);
+
+    this.find('.dialog_buttons').append(button);
+
+    this.refreshPosition();
+
+    return button;
+  },
+  removeButton: function(key) {
+    this.find('.button[data-key=' + key + ']');
+    this.refreshPosition();
+  },
+  removeAllButtons: function() {
+    this.find('.dialog_buttons').empty();
+    this.refreshPosition();
+  },
+  showDialog: function(cls, data) {
+    if (cls != null) {
+      this.attr('class', 'dialog');
+      this.addClass(cls);
+    }
+    if (data != null) {
+      this.data('dialog_data', data);
+    }
+    $.dialog.mask().fadeIn(300);
+    this.fadeIn(300);
+  },
+  hideDialog: function() {
+    $.dialog.mask().fadeOut(300);
+    this.fadeOut(300);
   }
+});
+
+$('.dialog .button').entwine({
+  onclick: function(e) {
+    e.preventDefault();
+    
+    var d = this.closest('.dialog');
+    var data = d.data('dialog_data');
+    d.trigger('button_click', [this, data]);
+
+    d.hideDialog();
+  }
+});
+
+$('#notice').entwine({
+  showNotice: function(message, target, anchor, hideAfter) {
+    hideAfter = hideAfter || 3;
+    this.html(message).anchor(target, anchor).fadeIn(300)
+        .hideAfter(hideAfter);
+        
+    return this;
+  },
+  hideNotice: function() {
+    this.data('hideAfterId', null);
+    this.fadeOut(300);
+    return this;
+  },
+  hideAfter: function(time) {
+    this.cancelHideAfter();
+    var hideAfterId = after(time, function() {
+      $('#notice').hideNotice();
+    });
+    this.data('hideAfterId', hideAfterId);
+    return this;
+  },
+  cancelHideAfter: function() {
+    var hideAfterId = this.data('hideAfterId');
+    if (!hideAfterId)
+      return;
+    clearTimeout(hideAfterId);
+    this.data('hideAfterId', null);
+  }
+});
+
+$.fn.notice = function(message, position, hideAfter){
+  position = position || 't';
+  var anchors = {t: ['bc', 'tc'], b: ['tc', 'bc'], l: ['rc', 'lc'], r: ['lc', 'rc']};
+  $('#notice').showNotice(message, $(this), anchors[position], hideAfter);
   return this;
 }
-
-dialog.fn.addButton = function(key, title, attributes) {
-  attributes = $.extend({}, {href: '#'}, attributes);
-  var button = $('<a/>');
-  button.addClass('button').html(title);
-  for (var prop in attributes) {
-    button.attr(prop, attributes[prop]);
-  }
-  
-  button.attr('data-key', key);
-  button.addClass(key);
-  
-  this.find('.dialog_buttons').append(button);
-  
-  this.refreshPosition();
-  
-  return button;
-}
-
-dialog.fn.removeButton = function(key) {
-  this.find('.button[data-key=' + key + ']');
-  this.refreshPosition();
-}
-
-dialog.fn.removeAllButtons = function() {
-  this.find('.dialog_buttons').empty();
-  this.refreshPosition();
-}
-
-dialog.fn.title = function(text) {
-  if (text === undefined) {
-    return this.find('h1').text();
-  }
-  else {
-    this.find('h1').text(text);
-    this.refreshPosition();
-    return this;
-  }
-}
-dialog.fn.message = function(text) {
-  if (text === undefined) {
-    return this.find('.dialog_body').text();
-  }
-  else {
-    this.find('.dialog_body').html(text);
-    this.refreshPosition();
-    return this;
-  }
-}
-
-dialog.fn.show = function(cls, data) {
-  if (cls != null) {
-    this.attr('class', 'dialog');
-    this.addClass(cls);
-  }
-  if (data != null) {
-    this.data('dialog_data', data);
-  }
-  dialog_mask().fadeIn(300);
-  this.fadeIn(300);
-}
-
-dialog.fn.hide = function() {
-  dialog_mask().fadeOut(300);
-  this.fadeOut(300);
-}
-
-$('.dialog .button').live('click', function(e) {
-  e.preventDefault();
-  
-  var button = $(this);
-  var d = dialog( button.closest('.dialog') );
-  var data = d.data('dialog_data');
-  d.trigger('button_click', [button, data]);
-  
-  d.hide();
-});

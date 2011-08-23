@@ -8,6 +8,9 @@ $('input.autocomplete').entwine({
     this.autocompleteList().remove();
     this.autocompleteSelection().remove();
   },
+  onitemselected: function(e, item) {
+    this.trigger('objectselected', [item.object()] );
+  },
   source: function() {
     return this.attr('source');
   },
@@ -17,11 +20,23 @@ $('input.autocomplete').entwine({
   selectedItem: function() {
     return this.autocompleteSelection().getItem();
   },
+  selectItem: function(item) {
+    this.autocompleteSelection().setItem(item);
+  },
+  getActiveItem: function() {
+    return this.autocompleteList().getActiveItem();
+  },
+  selectActiveItem: function() {
+    this.autocompleteList().selectActiveItem();
+  },
   autocompleteList: function() {
     return this.data('autocompleteList');
   },
   autocompleteSelection: function() {
     return this.data('autocompleteSelection');
+  },
+  matchingItems: function() {
+    return this.autocompleteList().matchingItems();
   },
   _createAutocompleteList: function() {
     var extraClass = this.attr('extra_class');
@@ -55,6 +70,9 @@ $('.autocomplete_list').entwine({
   },
   input: function() {
     return this.data('input');
+  },
+  matchingItems: function() {
+    return this.find('.match');
   },
   clearItems: function() {
     this.empty();
@@ -264,9 +282,9 @@ $('.autocomplete_list_item').entwine({
     else {
       this.data('itemFilter', q);
       if (this.matches(q))
-        this.show();
+        this.addClass('match').show();
       else
-        this.hide();
+        this.removeClass('match').hide();
       
       return this;
     }

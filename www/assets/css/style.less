@@ -6,27 +6,6 @@
 @import 'profile.less';
 @import 'dialog.less';
 
-.shadow {
-  -webkit-box-shadow: 1px 1px 3px 2px #dedede;
-  -moz-box-shadow: 1px 1px 3px 2px #dedede;
-  box-shadow: 1px 1px 3px 2px #dedede;
-}
-
-.rounded (@radius: 5px) {
-  border-radius: @radius;
-  -webkit-border-radius: @radius;
-  -moz-border-radius: @radius;
-}
-
-.opacity(@opacity: 1) {
-  /* Netscape */
-  -moz-opacity: @opacity;
-  /* Safari 1.x */
-  -khtml-opacity: @opacity;
-  /* Good browsers */
-  opacity: @opacity;
-}
-
 .heading_bar {
   background-color: @bar_color;
   color: white;
@@ -137,12 +116,12 @@ header {
       background-position: 9px 50%;
       color: white;
       height: 20px;
-      opacity: .5;
+      .opacity(0.5);
       padding: 4px 6px 0 26px;
       bottom: 3px;
       right: 1px;
       text-decoration: none;
-      &:hover { text-decoration: underline; opacity: 1; }
+      &:hover { text-decoration: underline; .opacity(1); }
     }
   }
   .profile_info {
@@ -252,7 +231,9 @@ table td, table th {
     right: 0;
     bottom: 0;
     > * { float: left; }
-    .friends.autocomplete { width: 300px; height: 23px; }
+    label { clear: left; }
+    .friends.autocomplete { clear: left; width: 300px; height: 23px; }
+    .autocomplete_selection { clear: left; }
     .autocomplete_list_item { padding: 0 12px; }
     .submit_button { height: 29px; }
   }

@@ -34,6 +34,7 @@
   </div>
 
   <?= form_open('user/invite', array('class' => 'invite_friends')) ?>
+    <label>Type the name of a friend to invite.</label>
     <input class="friends autocomplete" extra_class="friends" name="friend_facebook_id" source="/user/friends"/>
     <input class="submit_button" type="submit" value="Invite" />
   <?= form_close() ?>

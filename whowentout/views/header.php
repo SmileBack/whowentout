@@ -34,6 +34,8 @@
     
     <?= load_view('wwo_view') ?>
     
+    <div id="notice"></div>
+    
     <div id="current_time" class="current_time">
       <?= current_time(TRUE)->format('D, M j g:i a') ?>
     </div>

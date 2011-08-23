@@ -1,3 +1,24 @@
+.shadow (@x: 1px, @y: 1px, @blur: 3px, @spread: 2px, @color: #dedede) {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+
+.rounded (@radius: 5px) {
+  border-radius: @radius;
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+}
+
+.opacity(@opacity: 1) {
+  /* Netscape */
+  -moz-opacity: @opacity;
+  /* Safari 1.x */
+  -khtml-opacity: @opacity;
+  /* Good browsers */
+  opacity: @opacity;
+}
+
 h1 {
   font-size: 15px;
   margin: 0 0 10px 0;
@@ -46,7 +67,8 @@ ul {
   background-color: #FEF7CB;
   border: 1px solid transparent;
   border-color: #FFE475;
-  border-radius: 2px; -webkit-border-radius: 2px; -moz-border-radius: 2px;
+  .rounded(2px);
+  .shadow(1px, 1px, 3px, 0px, #dedede);
   font-weight: bold;
   text-align: center;
 }
@@ -69,10 +91,6 @@ form {
   -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
   box-shadow: inset 0px 1px 0px 0px #ffffff;
   background-color: #ededed;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-
 
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
   background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
@@ -100,4 +118,19 @@ form {
     background: none;
     background-color: #F7F7F7;
   }
+}
+
+#notice {
+  display: none;
+  position: absolute;
+  
+  padding: 6px 10px;
+  color: #333;
+  font-weight: bold;
+  background-color: #FEF7CB;
+
+  z-index: 9100;
+  .rounded(2px);
+  .shadow(1px, 1px, 3px, 0px, #dedede);
+  margin: 10px;
 }

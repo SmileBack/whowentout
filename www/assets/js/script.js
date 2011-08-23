@@ -16,12 +16,7 @@ $('#checkin_form :submit').entwine({
     
     var doorsOpen = $('#wwo').doorsOpen();
     var place = this.form().selectedPlace();
-    /*
-     *
-     *You are about to check-in to McFadden’s for the night of October 7th. 
-     *This will allow you to see others who have checked in as well.
- 
- */
+    
     if (doorsOpen) {
       var date = yesterday_time().format('mmm dS');
       WWO.dialog.title('Confirm Checkin')
@@ -29,14 +24,14 @@ $('#checkin_form :submit').entwine({
                 + '<p>This will allow you to see others to have checked in as well.</p>')
          .setButtons('yesno')
          .refreshPosition()
-         .show('confirm_checkin');
+         .showDialog('confirm_checkin');
     }
     else {
       WWO.dialog.title("Can't Checkin")
          .message("You can't checkin because the doors have closed")
          .setButtons('ok')
          .refreshPosition()
-         .show('cant_checkin');
+         .showDialog('cant_checkin');
     }
   }
 });
@@ -49,7 +44,7 @@ $('.confirm_checkin.dialog').live('button_click', function(e, button) {
 
 jQuery(function($) {
   
-  WWO.dialog = dialog.create();
+  WWO.dialog = $.dialog.create();
   
   WWO.dialog.anchor('viewport', 'c'); //keeps the dialog box in the center
   $(window).bind('scroll', function() { //even when you scroll
@@ -66,74 +61,4 @@ $('a.confirm').entwine({
       e.preventDefault();
     }
   }
-});
-
-$('path').entwine({
-  select: function() {
-    this.attr('stroke', '#000000');
-  }
-});
-
-$(function() {
-  var stroke = {fill: '#36C', stroke: '#D90000', strokeWidth: 1};
-  
-  function draw_point(svg, x, y) {
-    svg.circle(x, y, 2, stroke);
-  }
-  
-  function draw_pie_slice(svg, radius, centerX, centerY, angleStart, angleEnd, color) {
-    //build offset of 10px
-    if (color == '#ff9900') {
-      centerX += 6 * Math.cos(angleStart + (angleEnd - angleStart) / 2);
-      centerY += 6 * Math.sin(angleStart + (angleEnd - angleStart) / 2);
-    }
-    
-    var stroke = {fill: color, stroke: '#ffffff', strokeWidth: 1, data: 'heressomedata'};
-    var path = svg.createPath();
-    var startX = centerX + radius * Math.cos(angleStart);
-    var startY = centerY + radius * Math.sin(angleStart);
-    var endX = centerX + radius * Math.cos(angleEnd);
-    var endY = centerY + radius * Math.sin(angleEnd);
-    var dAngle = angleEnd - angleStart;
-    var drawBiggerArc = dAngle > Math.PI;
-    path.move(startX, startY)
-        .arc(radius, radius, 0, drawBiggerArc, true, endX, endY)
-        .line(centerX, centerY)
-        .line(startX, startY)
-        .close();
-    svg.path(null, path, stroke);
-  }
-  
-  function draw_pie_chart(svg, radius, values) {
-    var colors = ['#3366cc', '#dc3912', '#ff9900', '#109618', '#990099'];
-    
-    var total = 0;
-    for (var k in values) {
-      total += values[k];
-    }
-    
-    var normalizedValues = [];
-    for (var k in values) {
-      normalizedValues.push( values[k] * 2 * Math.PI / total );
-    }
-    
-    var curAngle = - Math.PI / 2;
-    for (var i = 0; i < normalizedValues.length; i++) {
-      draw_pie_slice(svg, radius, radius, radius, curAngle, curAngle + normalizedValues[i], colors[i % colors.length]);
-      curAngle = curAngle + normalizedValues[i];
-    }
-    
-  }
-  
-  function draw(svg) {
-    var values = [3, 2, 5, 3, 3, 3, 5];
-    draw_pie_chart(svg, 75, values);
-  }
-  
-  $('.chart').svg({onLoad: draw});
-  
-  $('path').bind('click', function() {
-    $(this).closest('svg').find('path').attr('stroke', '#ffffff');
-    $(this).attr('stroke', '#000');
-  });
 });
