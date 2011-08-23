@@ -1,6 +1,6 @@
 <?php
 
-class Migration_Add_facebook_id_column_to_college_students_table
+class Migration_Add_facebook_id_column_to_college_students_table extends Migration
 {
   
   public function up() {
