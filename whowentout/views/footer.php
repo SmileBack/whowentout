@@ -18,15 +18,12 @@
     <?= js_asset('jquery.autocomplete.js') ?>
     <?= js_asset('jquery.dialog.js') ?>
     <?= js_asset('jquery.jcrop.js') ?>
-    <?= js_asset('chart.js') ?>
-
+    
     <?= js_asset('core.js') ?>
     <?= js_asset('time.js') ?>
     <?= js_asset('dashboard.js') ?>
     <?= js_asset('gallery.js') ?>
-    <?= js_asset('chatbox.js') ?>
     <?= js_asset('crop.js') ?>
-
 
     <?= js_asset('script.js'); ?>
     <?php endif; ?>

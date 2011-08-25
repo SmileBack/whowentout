@@ -25,13 +25,6 @@ class Student
     data['email'] = val
   end
   
-  def filename
-    if email != nil && email != ""
-      "email/" + email.split("@").first + '.yml'
-    else
-      "noemail/#{name}.yml"
-    end
-  end
 
   def to_s
     "#{name} -- #{email}"

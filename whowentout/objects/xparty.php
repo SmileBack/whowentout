@@ -85,4 +85,10 @@ class XParty extends XObject
     return $attendees;
   }
   
+  function increment_version() {
+    $this->version++;
+    $this->save();
+    serverinbox()->push("party_$this->id", $this->version);
+  }
+  
 }

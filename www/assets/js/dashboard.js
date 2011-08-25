@@ -1,12 +1,13 @@
+$('.party.serverinbox').live('newdata', function(e, newData) {
+  console.log('version = ' + newData.toString());
+  $('.recent_attendees').update();
+});
+
 $('.recent_attendees').entwine({
   thumbnailCapacity: function() {
     return 5;
   },
   onmatch: function() {
-    var self = this;
-    every(10, function() {
-      self.update();
-    });
   },
   onunmatch: function() {},
   update: function() {
@@ -109,8 +110,7 @@ $('#parties_attended_view .notices > *').entwine({
 
 $('#top_parties').entwine({
   onmatch: function() {
-    var el = $(this);
-    every(10, function() {
+    every(5 * 60, function() {
       el.update();
     });
   },
@@ -171,5 +171,20 @@ $('.invite_friends :submit').entwine({
 });
 
 $('.invite_friends input.friends').live('objectselected', function(e, object) {
-  $(this).closest('form').notice('Click <em>Invite</em> to invite ' + object.title);
+  var form = $(this).closest('form');
+  var submitButton = form.find('.submit_button');
+  var miniSubmitButton = submitButton.clone().margin({top: -3});
+  
+  var message = $('<p class="invite_notice">'
+                   + '<span>Click </span>'
+                   + '<em>Invite</em>'
+                   + '<span> to invite ' + object.title + '.</span>'
+                   + '</p>');
+  message.find('em').empty().append(miniSubmitButton);
+  
+  miniSubmitButton.bind('click', function() {
+    submitButton.click();
+  });
+  
+  $(this).closest('form').notice(message, 't', 5);
 });

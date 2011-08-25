@@ -130,7 +130,7 @@ $('.dialog .button').entwine({
 $('#notice').entwine({
   showNotice: function(message, target, anchor, hideAfter) {
     hideAfter = hideAfter || 3;
-    this.html(message).anchor(target, anchor).fadeIn(300)
+    this.empty().append(message).anchor(target, anchor).fadeIn(300)
         .hideAfter(hideAfter);
         
     return this;

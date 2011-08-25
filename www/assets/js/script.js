@@ -62,3 +62,53 @@ $('a.confirm').entwine({
     }
   }
 });
+
+$('.serverinbox').entwine({
+  onmatch: function() {
+    this.startChecking();
+  },
+  onunmatch: function() {},
+  inboxUrl: function() {
+    return this.attr('url');
+  },
+  inboxData: function(data) {
+    if (data === undefined) {
+      return this.data('inboxData');
+    }
+    else {
+      var oldData = this.data('inboxData');
+      this.data('inboxData', data);
+      this.trigger('newdata', [data, oldData]);
+      return this;
+    }
+  },
+  startChecking: function() {
+    var self = this;
+    var id = every(2, function() {
+      self.checkInbox();
+    });
+    this.data('pollingId', id);
+  },
+  stopChecking: function() {
+    var id = this.data('pollingId');
+    if (id)
+      cancelEvery(id);
+  },
+  checkInbox: function() {
+    var timestamp = (new Date()).valueOf();
+    var self = this;
+    $.ajax({
+      type: 'get',
+      url: this.inboxUrl() + '?timestamp=' + timestamp,
+      dataType: 'jsonp',
+      jsonp: false,
+      jsonpCallback: 'json',
+      success: function(newInboxData) {
+        var currentInboxData = self.inboxData();
+        if (currentInboxData != newInboxData) {
+          self.inboxData(newInboxData);
+        }
+      }
+    });
+  }
+});

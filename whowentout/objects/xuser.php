@@ -94,6 +94,7 @@ class XUser extends XObject
                           'party_id' => $party->id,
                           'checkin_time' => gmdate('Y-m-d H:i:s'),
                         ));
+    $party->increment_version();
     
     raise_event('checkin', $this, $party);
     

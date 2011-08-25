@@ -8,7 +8,4 @@
      gender="<?= logged_in() ? current_user()->gender : '' ?>"
      other-gender="<?= logged_in() ? current_user()->other_gender : '' ?>"
  >
-  
-  <div class="where-friends-went-data"><?= json_encode(where_friends_went_pie_chart_data( college()->today() )) ?></div>
-  
 </div>

@@ -9,6 +9,8 @@
     <?php endforeach; ?>
   </ul>
   
+  <?= serverinbox_element('party', $party->id); ?>
+  
 <?php elseif ($parties_dropdown): ?>
 <?= form_open('checkin', array('id' => 'checkin_form')); ?>
   <?= $parties_dropdown; ?>

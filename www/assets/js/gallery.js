@@ -1,4 +1,6 @@
-$('.name.autocomplete_list .autocomplete_list_item').entwine({
+$('.party.serverinbox').live('newdata', function(e, newData) {
+  console.log('version = ' + newData.toString());
+  $('.recent_attendees').update();
 });
 
 $('.gallery').entwine({

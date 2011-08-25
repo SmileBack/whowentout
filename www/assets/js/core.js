@@ -20,23 +20,10 @@ $('#wwo').entwine({
   },
   showMutualFriendsDialog: function(path) {
     WWO.dialog.title('Mutual Friends').message('loading...')
-              .setButtons('close').show('friends_popup');
+              .setButtons('close').showDialog('friends_popup');
     WWO.dialog.refreshPosition();
     WWO.dialog.find('.dialog_body').load(path, function() {
       WWO.dialog.refreshPosition();
-    });
-  },
-  whereFriendsWentData: function() {
-    return $.parseJSON( this.find('.where-friends-went-data').text() );
-  },
-  testAjax: function() {
-    $.ajax({
-      url: '/welcome/ajax',
-      type: 'post',
-      dataType: 'json',
-      success: function(response) {
-        console.log(response);
-      }
     });
   },
   gender: function() {
@@ -55,8 +42,16 @@ $('#wwo').entwine({
   }
 });
 
+function cancelEvery(id) {
+  clearInterval(id);
+}
+
 function every(seconds, fn) {
   return setInterval(fn, seconds * 1000);
+}
+
+function cancelAfter(id) {
+  clearTimeout(id);
 }
 
 function after(seconds, fn) {
@@ -168,4 +163,3 @@ function getParameterByName(name) {
                   .exec(window.location.search);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
-

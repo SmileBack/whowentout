@@ -1,7 +1,7 @@
-.shadow (@x: 1px, @y: 1px, @blur: 3px, @spread: 2px, @color: #dedede) {
-  -webkit-box-shadow: @arguments;
-  -moz-box-shadow: @arguments;
-  box-shadow: @arguments;
+.shadow (@x: 1px, @y: 1px, @blur: 3px, @spread: 1px, @color: #dedede) {
+  -webkit-box-shadow: @x @y @blur @spread @color;
+  -moz-box-shadow: @x @y @blur @spread @color;
+  box-shadow: @x @y @blur @spread @color;
 }
 
 .rounded (@radius: 5px) {
