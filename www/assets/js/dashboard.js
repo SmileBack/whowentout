@@ -110,6 +110,7 @@ $('#parties_attended_view .notices > *').entwine({
 
 $('#top_parties').entwine({
   onmatch: function() {
+    var el = this;
     every(5 * 60, function() {
       el.update();
     });

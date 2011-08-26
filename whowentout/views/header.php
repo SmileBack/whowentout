@@ -36,6 +36,10 @@
     
     <div id="notice"></div>
     
+    <div id="chatbar"></div>
+    
+    <?= serverinbox_element('chat', current_user()->id); ?>
+    
     <div id="current_time" class="current_time">
       <?= current_time(TRUE)->format('D, M j g:i a') ?>
     </div>

@@ -15,7 +15,8 @@ function serverinbox_element($object, $id = NULL, $id2 = NULL) {
   $args = func_get_args();
   $class = $object;
   $name = implode('_', $args);
-  return sprintf('<div class="%s server" url="%s"></div>', $class, $name);
+  $url = serverinbox()->url($name);
+  return sprintf('<div class="%s serverinbox" url="%s"></div>', $class, $url);
 }
 
 class FilesystemServerInbox

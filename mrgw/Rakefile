@@ -10,7 +10,7 @@ namespace :db do
   task :environment do
     ActiveRecord::Base.establish_connection(
       :adapter => 'sqlite3',
-      :database => 'data/students.db'
+      :database => 'R:/students.db'
     )
   end
   

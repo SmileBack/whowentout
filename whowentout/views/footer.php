@@ -24,7 +24,8 @@
     <?= js_asset('dashboard.js') ?>
     <?= js_asset('gallery.js') ?>
     <?= js_asset('crop.js') ?>
-
+    <?= js_asset('chat.js') ?>
+    
     <?= js_asset('script.js'); ?>
     <?php endif; ?>
     

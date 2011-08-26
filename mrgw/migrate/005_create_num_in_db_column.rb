@@ -3,6 +3,6 @@ class CreateNumInDbColumn < ActiveRecord::Migration
     add_column :queries, :num_in_db, :integer
   end
   def self.down
-    remove_column :queries
+    remove_column :queries, :num_in_db
   end
 end

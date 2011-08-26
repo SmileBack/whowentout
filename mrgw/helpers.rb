@@ -1,8 +1,10 @@
-def four_subsets(str)
+def string_subsets(str, len)
   subsets = []
   str.downcase.split(/[^a-z]+/).each do |segment|
-    for i in 0..segment.length - 4
-      subsets << segment[i, 4]
+    next if segment.length > len
+    
+    for i in 0..segment.length - len
+      subsets << segment[i, len]
     end
   end
   return subsets.uniq

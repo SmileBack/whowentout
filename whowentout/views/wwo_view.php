@@ -5,6 +5,7 @@
      yesterday-time="<?= college()->yesterday()->getTimestamp() ?>"
      tomorrow-time="<?= college()->tomorrow()->getTimestamp() ?>"
      doors-open="<?= college()->doors_are_open() ? 'true' : 'false' ?>"
+     current-user-id="<?= logged_in() ? '' : current_user()->id ?>"
      gender="<?= logged_in() ? current_user()->gender : '' ?>"
      other-gender="<?= logged_in() ? current_user()->other_gender : '' ?>"
  >

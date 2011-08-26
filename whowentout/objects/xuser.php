@@ -587,6 +587,12 @@ class XUser extends XObject
     return images()->exists($this->id, $preset);
   }
   
+  function increment_version() {
+    $this->version++;
+    $this->save();
+    serverinbox()->push("user_$this->id", $this->version);
+  }
+  
   private function _get_image_path($preset) {
     return images()->url($this->id, $preset);
   }
@@ -716,6 +722,8 @@ class XUser extends XObject
     
     return '';
   }
+  
+  
   
 }
 

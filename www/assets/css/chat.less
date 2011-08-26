@@ -1,0 +1,44 @@
+#chatbar {
+  z-index: 9000;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  right: 10px;
+  direction: rtl;
+  .chatbox {
+    direction: ltr;
+    margin: 0 0 10px 10px;
+    display: inline-block;
+    width: 200px;
+    border: 1px solid;
+    background-color: white;
+    position: relative;
+    .header {
+      padding: 6px;
+      background-color: @bar_color;
+      color: white;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      h3 {
+        float: left;
+      }
+    }
+    .messages {
+      padding: 6px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: 200px;
+    }
+    .input {
+      height: 40px;
+      textarea {
+        .box-sizing(border-box);
+        width: 100%;
+        resize: none;
+      }
+    }
+  }
+  .chatbox.collapsed .body { display: none; }
+}
+
