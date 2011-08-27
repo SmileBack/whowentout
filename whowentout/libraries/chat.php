@@ -21,8 +21,10 @@ class CI_Chat
       'sent_at' => current_time()->getTimestamp(),
     ));
     
-    serverinbox()->push("chat_{$sender->id}", $this->db->insert_id());
-    serverinbox()->push("chat_{$receiver->id}", $this->db->insert_id());
+    $this->version = $this->db->insert_id();
+    
+    serverinbox()->push("chat_{$sender->id}", $this->version);
+    serverinbox()->push("chat_{$receiver->id}", $this->version);
   }
   
   function messages($user_id, $version) {
@@ -36,10 +38,19 @@ class CI_Chat
     
     if ( ! empty($messages) ) {
       $last_message = $messages[ count($messages) - 1 ];
-      $this->version = $last_message->id;
+      $this->version = intval($last_message->id);
     }
     
     return $messages;
+  }
+  
+  function mark_as_read($by, $from) {
+    $from = user($from);
+    $by = user($by);
+    
+    $this->db->where('receiver_id', $by->id)
+             ->where('sender_id', $from->id)
+             ->update('chat_messages', array('is_read' => 1));
   }
   
   function version() {

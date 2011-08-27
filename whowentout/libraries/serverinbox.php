@@ -27,7 +27,7 @@ class FilesystemServerInbox
   }
   
   public function push($id, $data) {
-    $encoded_data = 'json(' . json_encode($data) . ')';
+    $encoded_data = "json_$id(" . json_encode($data) . ")";
     file_put_contents("$this->folder/$id", $encoded_data);
   }
   
@@ -56,7 +56,7 @@ class S3ServerInbox
   }
   
   public function push($id, $data) {
-    $encoded_data = 'json(' . json_encode($data) . ')';
+    $encoded_data = "json_$id(" . json_encode($data) . ')';
     
     $this->s3()->create_object($this->bucket, $id, array(
       'body' => $encoded_data,

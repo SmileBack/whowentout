@@ -8,8 +8,14 @@ class Chat extends MY_Controller
     
     $user = current_user();
     
+    $messages = $this->chat->messages( current_user(), $version );
+    foreach ($messages as &$message) {
+      $message->sender = user($message->sender_id)->to_array();
+      $message->receiver = user($message->receiver_id)->to_array();
+    }
+    
     $response = array(
-      'messages' => $this->chat->messages( current_user(), $version ),
+      'messages' => $messages,
       'version' => $this->chat->version(),
     );
     
@@ -24,6 +30,18 @@ class Chat extends MY_Controller
     $message = post('message');
     
     $this->chat->send($from, $to, $message);
+    
+    print 'done';exit;
+  }
+  
+  function mark_read() {
+    $this->load->library('chat');
+    
+    $from = user( post('from') );
+    
+    $this->chat->mark_as_read(current_user(), $from);
+    
+    print 'done';exit;
   }
   
 }

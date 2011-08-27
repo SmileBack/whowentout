@@ -36,12 +36,17 @@ abstract class BaseImageRepository
     $this->$method($id);
   }
   
+  protected function load_wide_image() {
+    require_once APPPATH . 'libraries/wideimage/WideImage.php';
+  }
+  
   protected function refresh_facebook($id) {
     $user = user($id);
     
     if ( ! $user->facebook_id )
       return;
     
+    $this->load_wide_image();
     $facebook_pic_url = "https://graph.facebook.com/$user->facebook_id/picture?type=large&access_token=" . fb()->getAccessToken();
     $img = WideImage::loadFromFile($facebook_pic_url);
     $this->saveImage($img, $id, 'facebook');
@@ -62,6 +67,7 @@ abstract class BaseImageRepository
       return;
     }
     
+    $this->load_wide_image();
     $img = WideImage::loadFromUpload('upload_pic');
     $this->saveImage($img, $id, 'upload');
     
@@ -87,6 +93,8 @@ abstract class BaseImageRepository
   }
   
   protected function refresh_normal($id) {
+    $this->load_wide_image();
+    
     $user = user($id);
     $image_path = $this->path($id, 'source');
     $img = WideImage::load($image_path)
@@ -96,6 +104,7 @@ abstract class BaseImageRepository
   }
   
   protected function refresh_thumb($id) {
+    $this->load_wide_image();
     $user = user($id);
     $image_path = $this->path($id, 'source');
     $img = WideImage::load($image_path)
@@ -175,6 +184,8 @@ class S3ImageRepository extends BaseImageRepository
    * @return WideImage
    */
   function get($id, $preset) {
+    $this->load_wide_image();
+    
     if ( ! $this->exists($id, $preset) )
       return NULL;
     
@@ -256,6 +267,7 @@ class FilesystemImageRepository extends BaseImageRepository
     if ($image_path == NULL)
       return NULL;
     
+    $this->load_wide_image();
     return WideImage::load($image_path);
   }
   

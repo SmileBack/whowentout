@@ -9,9 +9,14 @@ class Welcome extends MY_Controller
     
     $ven = user(array('first_name' => 'Venkat'));
     $dan = user(array('last_name' => 'Berenholtz'));
+    $maggie = user(96);
+    $claire = user(82);
     
-    $this->chat->send($dan, $ven, 'a newww message');
-    //$this->chat->send($ven, $dan, 'yoyoyoyo');
+    $this->chat->mark_as_read($ven, $maggie);
+//    $ven->ping_server();
+//    $ven->ping_leaving_page();
+    
+//    $dan->ping_server();
   }
   
 }

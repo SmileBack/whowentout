@@ -96,13 +96,16 @@ $('.serverinbox').entwine({
   },
   checkInbox: function() {
     var timestamp = (new Date()).valueOf();
+    var url = this.inboxUrl();
+    var callback = 'json_' + url.substring(url.lastIndexOf('/') + 1);
     var self = this;
     $.ajax({
       type: 'get',
       url: this.inboxUrl() + '?timestamp=' + timestamp,
       dataType: 'jsonp',
       jsonp: false,
-      jsonpCallback: 'json',
+      jsonpCallback: callback,
+      context: this,
       success: function(newInboxData) {
         var currentInboxData = self.inboxData();
         if (currentInboxData != newInboxData) {

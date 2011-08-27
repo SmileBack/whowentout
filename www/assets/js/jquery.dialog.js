@@ -160,6 +160,6 @@ $('#notice').entwine({
 $.fn.notice = function(message, position, hideAfter){
   position = position || 't';
   var anchors = {t: ['bc', 'tc'], b: ['tc', 'bc'], l: ['rc', 'lc'], r: ['lc', 'rc']};
-  $('#notice').showNotice(message, $(this), anchors[position], hideAfter);
+  $('#notice').showNotice(message, $(this), anchors[position] || position, hideAfter);
   return this;
 }

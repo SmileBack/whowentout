@@ -593,6 +593,28 @@ class XUser extends XObject
     serverinbox()->push("user_$this->id", $this->version);
   }
   
+  function ping_server() {
+    $this->last_ping = current_time()->format('Y-m-d H:i:s');
+    $this->save();
+  }
+  
+  function ping_leaving_page() {
+    $this->last_ping = NULL;
+    $this->save();
+  }
+  
+  function to_array() {
+    $array = array(
+      'id' => $this->id,
+      'facebook_id' => $this->facebook_id,
+      'first_name' => $this->first_name,
+      'last_name' => $this->last_name,
+      'gender' => $this->gender,
+      'other_gender' => $this->other_gender,
+    );
+    return $array;
+  }
+  
   private function _get_image_path($preset) {
     return images()->url($this->id, $preset);
   }

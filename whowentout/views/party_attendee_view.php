@@ -7,6 +7,7 @@
     <p><?= $attendee->college->name; ?> <?= $attendee->grad_year; ?></p>
     <p>&nbsp;<?= $attendee->hometown ?>&nbsp;</p>
     <p><?= anchor("user/mutual_friends/$attendee->id", 'Mutual Friends', array('class' => 'show_mutual_friends')) ?></p>
+    <p><a class="open_chat" href="#open_chat" to="<?= $attendee->id ?>">chat</a></p>
     <p>
       <?php if ($attendee->gender != current_user()->gender): ?>
         <?php if ($attendee->was_smiled_at(current_user()->id, $party->id)): ?>
@@ -22,3 +23,5 @@
     </p>
   </div>
 </div>
+
+<div id="user_json_<?= $attendee->id ?>" class="user_json" style="display: none;"><?= json_encode($attendee->to_array()) ?></div>

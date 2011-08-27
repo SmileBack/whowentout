@@ -67,6 +67,19 @@ class XParty extends XObject
     return $this->attendees_query()->where('gender', 'M')->count_all_results();
   }
   
+  function get_online_user_ids() {
+    $a_little_while_ago = current_time()->modify('-10 seconds')->format('Y-m-d H:i:s');
+    $rows = $this->db()->select('id')
+                       ->from('users')
+                       ->where('last_ping >', $a_little_while_ago)
+                       ->get()->result();
+    $ids = array();
+    foreach ($rows as $row) {
+      $ids[] = $row->id;
+    }
+    return $ids;
+  }
+  
   function recent_attendees() {
     $attendees = array();
     

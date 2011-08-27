@@ -1,6 +1,6 @@
 <?php
 
-class Migrations_add_versions_to_objects extends Migration {
+class Migration_Add_versions_to_objects extends Migration {
   
   public function up() {
     $this->db->query("ALTER TABLE `parties`  ADD COLUMN `version` INT(10) UNSIGNED NOT NULL DEFAULT '0' AFTER `id`");

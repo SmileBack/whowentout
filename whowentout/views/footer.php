@@ -7,8 +7,8 @@
     <?= js_asset('timeinterval.js') ?>
 
     <?= js_asset('jquery.js') ?>
+    <?= js_asset('jquery.cookie.js') ?>
     <?= js_asset('jquery.throttle-debounce.js') ?>
-    <?= js_asset('jquery.svg.js') ?>
     <?= js_asset('jquery.entwine.js') ?>
 
     <?= js_asset('jquery.body.js') ?>

@@ -1,14 +1,19 @@
 $('.party.serverinbox').live('newdata', function(e, newData) {
-  console.log('version = ' + newData.toString());
+  console.log('---');
+  console.log('party version = ' + newData.toString());
   $('.recent_attendees').update();
+  $('.gallery').refreshAttendees();
+});
+
+jQuery(function() {
+  $('.gallery').refreshOnlineUsers();
+  every(5, function() {
+    $('.gallery').refreshOnlineUsers();
+  });
 });
 
 $('.gallery').entwine({
   onmatch: function() {
-    var el = $(this);
-    every(10, function() {
-      el.refreshAttendees();
-    });
   },
   sorting: function() {
     return this.attr('data-sort');
@@ -27,6 +32,23 @@ $('.gallery').entwine({
         this.attr('data-count', response.count);
       }
     });
+    return this;
+  },
+  refreshOnlineUsers: function() {
+    $.ajax({
+      context: this,
+      type: 'post',
+      url: '/party/online_users/' + this.partyID(),
+      dataType: 'json',
+      success: function(onlineUserIDs) {
+        this.find('.party_attendee').removeClass('online');
+        for (var k in 
+        onlineUserIDs) {
+          this.attendee(onlineUserIDs[k]).addClass('online');
+        }
+      }
+    });
+    return this;
   },
   insertAttendee: function(attendeeHTML) {
     var el = $('<li>' + attendeeHTML + '</li>');
@@ -41,10 +63,13 @@ $('.gallery').entwine({
         gallery.prepend(el);
       }
       else {
-        $('#party_attendee_' + position).closest('li').after(el);
+        this.attendee(position).closest('li').after(el);
       }
       el.fadeIn();
     });
+  },
+  attendee: function(user_id) {
+    return this.find('#party_attendee_' + user_id);
   },
   partyID: function() {
     return parseInt( this.attr('data-party-id') );
@@ -60,7 +85,7 @@ $('.smile_form :submit').live('click', function(e) {
   var form = $(this).closest('form');
   var canSmile = $(this).hasClass('can');
   if (canSmile) {
-    var senderGender = $('#wwo').otherGender();
+    var senderGender = current_user().other_gender;
     var message = senderGender == 'M'
                 ? '<p>You are about to ' + action + '.</p>'
                 + '<p>He will know that someone has smiled at him, but he will <em>not</em> know it was you unless he smiles at you as well.</p>'

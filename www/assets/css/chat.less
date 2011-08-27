@@ -1,7 +1,6 @@
 #chatbar {
   z-index: 9000;
   position: fixed;
-  width: 100%;
   bottom: 0;
   right: 10px;
   direction: rtl;
@@ -24,11 +23,52 @@
         float: left;
       }
     }
-    .messages {
+    .chatbox_close {
+      float: right;
+      font-size: 20px;
+      font-weight: bold;
+      height: 12px;
+      line-height: 12px;
+      margin-top: 2px;
+      color: white;
+      &:hover { color: yellow; }
+    }
+    .unread_count {
+      @badge_size: 14px;
+      background-color: #f13c31;
+      color: #fff;
+      box-shadow: 0px 1px 3px #ccc;
+      -moz-box-shadow: 0px 1px 3px #ccc;
+      -webkit-box-shadow: 0px 1px 3px #ccc;
+      padding: 2px 2px;
+      margin: 0;
+      text-align: center;
+      text-shadow: 0px -1px 1px #e01b0f;
+      min-width: @badge_size;
+      height: @badge_size;
+      .rounded(@badge_size / 2);
+      font-weight: bold;
+      font-size: 12px;
+      position: absolute;
+      top: -1 * @badge_size / 2;
+      left: -1 * @badge_size / 2;
+    }
+    .unread_count.empty { display: none; }
+    .message { display: none; font-size: 12px; margin: 0; .rounded(0); }
+    .chat_messages {
       padding: 6px;
       overflow-x: hidden;
       overflow-y: auto;
       height: 200px;
+      .chat_message {
+          margin: 10px 10px 0 10px;
+        .chat_sender {
+          font-size: 12px;
+          font-weight: bold;
+        }
+        .chat_message_body {
+        }
+      }
     }
     .input {
       height: 40px;

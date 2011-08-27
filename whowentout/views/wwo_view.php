@@ -1,12 +1,17 @@
-<div id="wwo" style="display: none;"
-     current-time="<?= current_time()->getTimestamp() ?>"
-     doors-closing-time="<?= college()->get_closing_time()->getTimestamp() ?>"
-     doors-opening-time="<?= college()->get_opening_time()->getTimestamp() ?>"
-     yesterday-time="<?= college()->yesterday()->getTimestamp() ?>"
-     tomorrow-time="<?= college()->tomorrow()->getTimestamp() ?>"
-     doors-open="<?= college()->doors_are_open() ? 'true' : 'false' ?>"
-     current-user-id="<?= logged_in() ? '' : current_user()->id ?>"
-     gender="<?= logged_in() ? current_user()->gender : '' ?>"
-     other-gender="<?= logged_in() ? current_user()->other_gender : '' ?>"
- >
-</div>
+<?php
+  $wwo = array();
+  $wwo['currentTime'] = current_time()->getTimestamp();
+  $wwo['doorsClosingTime'] = college()->get_closing_time()->getTimestamp();
+  $wwo['doorsOpeningTime'] = college()->get_opening_time()->getTimestamp();
+  $wwo['yesterdayTime'] = college()->yesterday()->getTimestamp();
+  $wwo['tomorrowTime'] = college()->tomorrow()->getTimestamp();
+  $wwo['doorsOpen'] = college()->doors_are_open();
+  if (logged_in()) {
+    $wwo['currentUser'] = current_user()->to_array();
+  }
+  else {
+    $wwo['currentUser'] = null;
+  }
+?>
+
+<div id="wwo" style="display: none;"><?= json_encode($wwo) ?></div>

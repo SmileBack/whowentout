@@ -54,6 +54,20 @@ class Party extends MY_Controller {
     print json_encode($recent_attendee_images);exit;
   }
   
+  function online_users($party_id) {
+    $user = current_user();
+    
+    $user = current_user();
+    
+    if ( ! $user->has_attended_party($party_id) )
+      show_404();
+    
+    $party = party($party_id);
+    $online_user_ids = $party->get_online_user_ids();
+    
+    print json_encode($online_user_ids);
+  }
+  
   function count($party_id) {
     if ( ! current_user()->has_attended_party($party_id) )
       show_404();

@@ -3,8 +3,23 @@ jQuery(function() {
   WWO = $('#wwo');
 });
 
+jQuery(function() {
+  every(5, function() {
+    $('#wwo').pingServer();
+  });
+  $('#wwo').pingServer();
+  
+  $(window).bind('leave', function() {
+    $('#wwo').pingLeavingServer();
+  });
+});
+
 $('#wwo').entwine({
   onmatch: function() {
+    var data = $.parseJSON(this.text());
+    for (var k in data) {
+      this.data(k, data[k]);
+    }
     this._calculateTimeDelta();
   },
   onunmatch: function() {},
@@ -12,11 +27,47 @@ $('#wwo').entwine({
     return this.data('timedelta');
   },
   doorsOpen: function() {
-    return this.attr('doors-open') == 'true';
+    return this.data('doorsOpen');
   },
   doorsClosed: function() {
-    //returning doors closed
     return ! this.doorsOpen();
+  },
+  user: function(id, object) {
+    if (id == null)
+      return;
+    
+    if (this.data('users') == null)
+      this.data('users', {});
+    
+    if (object === undefined) { //get
+      if (this.data('users')[id] == null && $('#user_json_' + id).length > 0)
+        this.user(id, $.parseJSON( $('#user_json_' + id).text() ));
+      
+      return this.data('users')[id];
+    }
+    else { //set
+      var users = this.data('users') || {};
+      users[id] = object;
+      this.data('users', users);
+    }
+  },
+  pingServer: function() {
+    $.ajax({
+      url: '/user/ping',
+      type: 'get',
+      success: function(response) {
+        console.log('pinged server!');
+      }
+    });
+  },
+  pingLeavingServer: function() {
+    $.ajax({
+      url: '/user/ping_leaving',
+      type: 'get',
+      success: function(response) {
+        console.log('pinged leaving!');
+      }
+    });
   },
   showMutualFriendsDialog: function(path) {
     WWO.dialog.title('Mutual Friends').message('loading...')
@@ -26,14 +77,11 @@ $('#wwo').entwine({
       WWO.dialog.refreshPosition();
     });
   },
-  gender: function() {
-    return this.attr('gender');
-  },
-  otherGender: function() {
-    return this.attr('other-gender');
+  currentUser: function() {
+    return this.data('currentUser');
   },
   _calculateTimeDelta: function() {
-    var serverUnixTs = parseInt( $('#wwo').attr('current-time') );
+    var serverUnixTs = parseInt( $('#wwo').data('currentTime') );
     //Unix timestamp uses seconds while JS Date uses milliseconds
     var serverTime = new Date(serverUnixTs * 1000);
     var browserTime = new Date();
@@ -58,6 +106,14 @@ function after(seconds, fn) {
   return setTimeout(fn, seconds * 1000);
 }
 
+function current_user() {
+  return $('#wwo').currentUser();
+}
+
+function user(id, object) {
+  return $('#wwo').user(id, object);
+}
+
 function current_time() {
   var time = new Date();
   var tzOffset = 0;//-50400;
@@ -66,25 +122,25 @@ function current_time() {
 }
 
 function doors_closing_time() {
-  var unixTs = parseInt( $('#wwo').attr('doors-closing-time') );
+  var unixTs = $('#wwo').data('doorsClosingTime');
   //Unix timestamp uses seconds while JS Date uses milliseconds
   return new Date(unixTs * 1000);
 }
 
 function doors_opening_time() {
-  var unixTs = parseInt( $('#wwo').attr('doors-opening-time') );
+  var unixTs = $('#wwo').data('doorsOpeningTime');
   //Unix timestamp uses seconds while JS Date uses milliseconds
   return new Date(unixTs * 1000);
 }
 
 function yesterday_time() {
-  var unixTs = parseInt( $('#wwo').attr('yesterday-time') );
+  var unixTs = parseInt( $('#wwo').data('yesterdayTime') );
   //Unix timestamp uses seconds while JS Date uses milliseconds
   return new Date(unixTs * 1000);
 }
 
 function tomorrow_time() {
-  var unixTs = parseInt( $('#wwo').attr('tomorrow-time') );
+  var unixTs = parseInt( $('#wwo').data('tomorrowTime') );
   //Unix timestamp uses seconds while JS Date uses milliseconds
   return new Date(unixTs * 1000);
 }
@@ -110,6 +166,18 @@ jQuery.event.special.imageload = {
   teardown: function(namespaces) {},
   handler: function(event) {}
 };
+
+$('a').live('click', function() {
+  $(window).data('isFormOrLink', true);
+});
+$('form').live('submit', function() {
+  $(window).data('isFormOrLink', true);
+});
+$(window).bind('beforeunload', function() {
+  if ( ! $(window).data('isFormOrLink') ) {
+    $(window).trigger('leave');
+  }
+});
 
 $.fn.whenShown = function(fn) {
   var props = { position: 'absolute', visibility: 'hidden', display: 'block' },
@@ -163,3 +231,5 @@ function getParameterByName(name) {
                   .exec(window.location.search);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
+
+

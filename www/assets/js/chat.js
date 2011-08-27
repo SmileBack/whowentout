@@ -1,23 +1,50 @@
 $('.chat.serverinbox').live('newdata', function(e, version) {
+  console.log('---');
+  console.log('chat version changed!');
+  console.log('chat old version = ' + $('#chatbar').version());
+  console.log('chat version = ' + version);
   $('#chatbar').checkForNewMessages();
+});
+
+$(window).bind('beforeunload', function() {
+  $.cookie('chatbarstate', $('#chatbar').state());
+  alert('yea');
 });
 
 $('#chatbar').entwine({
   onmatch: function() {
-    this.addChatbox().title('Chat with Dan B.').collapse();
   },
   onunmatch: function() {},
-  addChatbox: function() {
-    var chatbox = $('<div class="chatbox" from="me" to="33"/>')
+  state: function(state) {
+    if (state === undefined) {
+      state = {};
+      this.find('.chatbox').each(function() {
+        state[ $(this).attr('to') ] = $(this).state();
+      });
+      return state;
+    }
+    else {
+      this.find('.chatbox').each(function() {
+        $(this).state( state[ $(this).attr('to') ] );
+      });
+      return this;
+    }
+  },
+  addChatbox: function(to) {
+    var chatbox = $('<div/>').attr('from', current_user().id).attr('to', to)
                     .append('<div class="header"/>').find('.header')
                       .append('<h3/>')
+                      .append('<a class="chatbox_close">×</a>')
                     .end()
+                    .append('<div class="unread_count"/>')
                     .append('<div class="body"/>').find('.body')
-                      .append('<ul class="messages"/>')
+                      .append('<div class="message"/>')
+                      .append('<ul class="chat_messages"/>')
                       .append('<div class="input"/>').find('.input')
                         .append('<textarea/>')
                       .end()
-                    .end();
+                    .end()
+                    .addClass('chatbox');
     this.append(chatbox);
     return chatbox;
   },
@@ -31,16 +58,91 @@ $('#chatbar').entwine({
       type: 'get',
       dataType: 'json',
       success: function(response) {
-        for (var k in response.messages) {
-          self.find('.chatbox').addMessage(response.messages[k].message);
-        }
-        self.data('version', response.version);
+        self.updateUsers(response.messages);
+        self.populateNewMessages(response.messages, response.version);
       }
     });
+  },
+  updateUsers: function(messages) {
+    for (var k in messages) {
+      if ( ! user(messages[k].sender.id) )
+        user(messages[k].sender.id, messages[k].sender)
+      
+      if ( ! user(messages[k].receiver.id) )
+        user(messages[k].receiver.id, messages[k].receiver)
+    }
+  },
+  populateNewMessages: function(messages, newVersion) {
+    for (var k in messages) {
+      this.insertNewMessage(messages[k]);
+    }
+    this.data('version', newVersion);
+  },
+  insertNewMessage: function(message) {
+    this.chatboxForMessage(message, true).addMessage(message);
+  },
+  chatboxForMessage: function(message, create) {
+    var otherUserID = message.sender_id == current_user().id
+                    ? message.receiver_id : message.sender_id;
+    var chatbox = this.chatbox(otherUserID, create);
+    return chatbox;
+  },
+  chatboxPresent: function(user_id) {
+    return this.chatbox(user_id).length > 0;
+  },
+  chatbox: function(user_id, create) {
+    var chatbox = this.find('.chatbox[to=' + user_id + ']');
+    if (chatbox.length == 0 && create == true) {
+      chatbox = this.addChatbox(user_id);
+    }
+  
+    if (create == true && !chatbox.is(':visible'))
+      chatbox.show();
+      
+    return chatbox;
   }
 });
 
 $('.chatbox').entwine({
+  onmatch: function() {
+    this.refreshTitle();
+  },
+  onunmatch: function() {},
+  state: function(state) {
+    if (state === undefined) {
+      if ( ! this.is(':visible') ) {
+        return 'hidden';
+      }
+      else if ( this.isExpanded() ) {
+        return 'expanded';
+      }
+      else {
+        return 'collapsed';
+      }
+    }
+    else {
+      if (state == 'hidden') {
+        this.hide();
+      }
+      else if (state == 'expanded') {
+        this.show().expand();
+      }
+      else if (state == 'collapsed') {
+        this.show().collapse();
+      }
+    }
+  },
+  close: function() {
+    this.fadeOut(300);
+    return this;
+  },
+  notice: function(message) {
+    this.find('.message').html(message);
+    if (message == null || message == '')
+      this.find('.message').hide();
+    else
+      this.find('.message').show();
+  },
   title: function(title) {
     if (title === undefined) {
       return this.find('h3').html();
@@ -50,17 +152,71 @@ $('.chatbox').entwine({
       return this;
     }
   },
-  otherUserId: function() {
+  refreshTitle: function() {
+    var otherUserID = this.otherUserID();
+    var u = user(otherUserID);
+    this.title(u.first_name + ' ' + u.last_name);
+    
+    if (this.attr('from') == this.attr('to'))
+      this.notice('Do you like talking to yourself?');
+    
+    return this;
+  },
+  otherUserID: function() {
     return this.attr('to');
   },
+  unreadCount: function() {
+    return this.find('.chat_message.unread').length;
+  },
+  markAsRead: function() {
+    $.ajax({
+      url: '/chat/mark_read',
+      type: 'post',
+      data: {from: this.attr('to')},
+      success: function(response) {
+        console.log('marked as readd');
+      }
+    });
+    this.find('.chat_message.unread').removeClass('unread');
+    this.refreshUnreadCount();
+  },
+  refreshUnreadCount: function() {
+    var count = this.unreadCount();
+    var badge = this.find('.unread_count');
+    badge.text(count);
+    if (count == 0) {
+      badge.addClass('empty');
+    }
+    else {
+      badge.removeClass('empty');
+    }
+  },
+  lastMessage: function() {
+    return this.find('.chat_message:last');
+  },
   addMessage: function(message) {
-    var msgLi = $('<li/>').append(message);
-    this.find('.messages').append(msgLi);
+    var msgEl = $('<li class="chat_message"/>');
+    
+    msgEl.attr('from', message.sender.id).attr('to', message.receiver.id);
+    msgEl.append('<div class="chat_sender">' + message.sender.first_name + '</div>');
+    msgEl.append('<div class="chat_message_body">' + message.message + '</div>');
+    
+    if (message.receiver_id == current_user().id && message.is_read == 0) {
+      msgEl.addClass('unread');
+    }
+    
+    msgEl.data('message', message);
+    
+    if (this.lastMessage().attr('from') == msgEl.attr('from'))
+      msgEl.find('.chat_sender').hide();
+    
+    this.find('.chat_messages').append(msgEl);
     this.scrollToBottom();
+    this.refreshUnreadCount();
     return this;
   },
   scrollToBottom: function() {
-    var messagesEl = this.find('.messages');
+    var messagesEl = this.find('.chat_messages');
     var scrollHeight = messagesEl.get(0).scrollHeight;
     messagesEl.scrollTop(scrollHeight);
   },
@@ -70,13 +226,18 @@ $('.chatbox').entwine({
   expand: function() {
     this.removeClass('collapsed');
     this.scrollToBottom();
+    this.find('textarea').focus();
   },
   collapse: function() {
     this.addClass('collapsed');
   },
   toggle: function() {
-    this.toggleClass('collapsed');
-    this.scrollToBottom();
+    if (this.isExpanded()) {
+      this.collapse();
+    }
+    else {
+      this.expand();
+    }
   },
   getTypedMessage: function() {
     return this.find('textarea').val();
@@ -94,7 +255,7 @@ $('.chatbox').entwine({
       url: '/chat/send',
       type: 'post',
       dataType: 'json',
-      data: {to: this.otherUserId(), message: message},
+      data: {to: this.otherUserID(), message: message},
       success: function(response) {
       }
     });
@@ -107,11 +268,30 @@ $('.chatbox .header').entwine({
   }
 });
 
+$('.chatbox .chatbox_close').entwine({
+  onclick: function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.closest('.chatbox').close();
+  }
+});
+
 $('.chatbox textarea').entwine({
   onkeypress: function(e) {
     if (e.which == 13) {  // enter key
       e.preventDefault();
       this.closest('.chatbox').sendTypedMessage();
     }
+  },
+  onfocusin: function(e) {
+    this.closest('.chatbox').markAsRead();
+  }
+});
+
+$('a.open_chat').entwine({
+  onclick: function(e) {
+    e.preventDefault();
+    var to = this.attr('to');
+    $('#chatbar').chatbox(to, true).expand();
   }
 });

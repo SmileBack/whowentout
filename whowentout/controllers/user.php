@@ -208,6 +208,16 @@ class User extends MY_Controller {
     redirect('dashboard');
   }
   
+  function ping() {
+    current_user()->ping_server();
+    print json_encode(array('success' => TRUE));exit;
+  }
+  
+  function ping_leaving() {
+    current_user()->ping_leaving_page();
+    print json_encode(array('success' => TRUE));exit;
+  }
+  
   function friends() {
     if ( ! logged_in())
       show_error('Not logged in.');

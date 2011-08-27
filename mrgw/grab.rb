@@ -192,3 +192,11 @@ queries.each do |q|
     importer.save_students(q.value + '+' + combo_end)
   end
 end
+
+queries = Query.where('length(value) = ? AND num_in_db < num_total_results', 4)
+queries.each do |q|
+  puts "starting with #{q.value} (#{q.num_in_db}/#{q.num_total_results}) ..."
+  ('a'..'z').each do |combo_end|
+    importer.save_students(q.value + '+' + combo_end)
+  end
+end
