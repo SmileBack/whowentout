@@ -5,7 +5,8 @@
     <?php if(TRUE): ?>
     <?= js_asset('date.format.js') ?>
     <?= js_asset('timeinterval.js') ?>
-
+    <?= js_asset('json.js') ?>
+    
     <?= js_asset('jquery.js') ?>
     <?= js_asset('jquery.cookie.js') ?>
     <?= js_asset('jquery.throttle-debounce.js') ?>

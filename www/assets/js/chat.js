@@ -7,8 +7,7 @@ $('.chat.serverinbox').live('newdata', function(e, version) {
 });
 
 $(window).bind('beforeunload', function() {
-  $.cookie('chatbarstate', $('#chatbar').state());
-  alert('yea');
+  $('#chatbar').saveState();
 });
 
 $('#chatbar').entwine({
@@ -29,6 +28,24 @@ $('#chatbar').entwine({
       });
       return this;
     }
+  },
+  hasPreviousState: function() {
+    return $.cookie('chatbarstate') != null;
+  },
+  saveState: function() {
+    var state = this.state();
+    $.cookie('chatbarstate', JSON.stringify(state));
+    return this;
+  },
+  loadState: function() {
+    var state = $.cookie('chatbarstate');
+    if (state == null)
+      return this;
+      
+    this.state( $.parseJSON(state) );
+    $.cookie('chatbarstate', null);
+    
+    return this;
   },
   addChatbox: function(to) {
     var chatbox = $('<div/>').attr('from', current_user().id).attr('to', to)
@@ -77,6 +94,9 @@ $('#chatbar').entwine({
       this.insertNewMessage(messages[k]);
     }
     this.data('version', newVersion);
+    
+    if (this.hasPreviousState())
+      this.loadState();
   },
   insertNewMessage: function(message) {
     this.chatboxForMessage(message, true).addMessage(message);
