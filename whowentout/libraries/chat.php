@@ -40,6 +40,9 @@ class CI_Chat
       $last_message = $messages[ count($messages) - 1 ];
       $this->version = intval($last_message->id);
     }
+    else {
+      $this->version = $version;
+    }
     
     return $messages;
   }

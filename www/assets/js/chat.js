@@ -5,6 +5,9 @@ $('.chat.serverinbox').live('newdata', function(e, version) {
   console.log('chat version = ' + version);
   $('#chatbar').checkForNewMessages();
 });
+jQuery(function() {
+  $('#chatbar').checkForNewMessages();
+});
 
 $(window).bind('beforeunload', function() {
   $('#chatbar').saveState();
@@ -29,22 +32,20 @@ $('#chatbar').entwine({
       return this;
     }
   },
-  hasPreviousState: function() {
-    return $.cookie('chatbarstate') != null;
-  },
   saveState: function() {
-    var state = this.state();
-    $.cookie('chatbarstate', JSON.stringify(state));
+    $.jStorage.set('chatbarstate', this.state());
     return this;
   },
-  loadState: function() {
-    var state = $.cookie('chatbarstate');
-    if (state == null)
+  getSavedState: function() {
+    this.data('stateLoaded', true);
+    return $.jStorage.get('chatbarstate', {});
+  },
+  restoreSavedState: function() {
+    if (this.data('restoredSavedState') == true)
       return this;
-      
-    this.state( $.parseJSON(state) );
-    $.cookie('chatbarstate', null);
     
+    this.state(this.getSavedState());
+    this.data('restoredSavedState', true);
     return this;
   },
   addChatbox: function(to) {
@@ -94,9 +95,7 @@ $('#chatbar').entwine({
       this.insertNewMessage(messages[k]);
     }
     this.data('version', newVersion);
-    
-    if (this.hasPreviousState())
-      this.loadState();
+    this.restoreSavedState();
   },
   insertNewMessage: function(message) {
     this.chatboxForMessage(message, true).addMessage(message);
@@ -117,7 +116,7 @@ $('#chatbar').entwine({
     }
   
     if (create == true && !chatbox.is(':visible'))
-      chatbox.show();
+      chatbox.show().expand();
       
     return chatbox;
   }
@@ -246,6 +245,9 @@ $('.chatbox').entwine({
   expand: function() {
     this.removeClass('collapsed');
     this.scrollToBottom();
+    this.find('textarea');
+  },
+  setFocus: function() {
     this.find('textarea').focus();
   },
   collapse: function() {
@@ -284,7 +286,11 @@ $('.chatbox').entwine({
 
 $('.chatbox .header').entwine({
   onclick: function() {
-    this.closest('.chatbox').toggle();
+    var chatbox = this.closest('.chatbox');
+    chatbox.toggle();
+    if (chatbox.isExpanded()) {
+      chatbox.setFocus();
+    }
   }
 });
 

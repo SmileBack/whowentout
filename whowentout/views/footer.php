@@ -8,7 +8,7 @@
     <?= js_asset('json.js') ?>
     
     <?= js_asset('jquery.js') ?>
-    <?= js_asset('jquery.cookie.js') ?>
+    <?= js_asset('jquery.jstorage.js') ?>
     <?= js_asset('jquery.throttle-debounce.js') ?>
     <?= js_asset('jquery.entwine.js') ?>
 
