@@ -12,9 +12,7 @@ abstract class BaseImageRepository
    * @return string
    */
   abstract function path($id, $preset);
-  function url($id, $preset) {
-    return $this->path($id, $preset);
-  }
+  abstract function url($id, $preset);
   
   /**
    * @return bool
@@ -269,6 +267,7 @@ class FilesystemImageRepository extends BaseImageRepository
     
     $this->load_wide_image();
     return WideImage::load($image_path);
+    
   }
   
   function path($id, $preset) {
@@ -276,6 +275,11 @@ class FilesystemImageRepository extends BaseImageRepository
       $this->refresh($id, $preset);
     }
     return $this->filename($id, $preset);
+  }
+  
+  function url($id, $preset) {
+    $user = user($id);
+    return $this->path($id, $preset) . "?version=$user->pic_version";
   }
   
   function exists($id, $preset) {
