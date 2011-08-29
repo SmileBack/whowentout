@@ -3,13 +3,29 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-08-28 16:54:21
+# Date/time:                    2011-08-28 17:08:14
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+# Dumping structure for table whowentout.chat_messages
+CREATE TABLE IF NOT EXISTS `chat_messages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sent_at` int(10) unsigned NOT NULL,
+  `sender_id` int(10) unsigned NOT NULL,
+  `receiver_id` int(10) unsigned NOT NULL,
+  `message` text NOT NULL,
+  `is_read` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `sender_id` (`sender_id`),
+  KEY `receiver_id` (`receiver_id`),
+  CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `chat_messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.chat_messages: ~10 rows (approximately)
 /*!40000 ALTER TABLE `chat_messages` DISABLE KEYS */;
 INSERT INTO `chat_messages` (`id`, `sent_at`, `sender_id`, `receiver_id`, `message`, `is_read`) VALUES
@@ -24,6 +40,18 @@ INSERT INTO `chat_messages` (`id`, `sent_at`, `sender_id`, `receiver_id`, `messa
 	(81, 1318060527, 159, 142, 'wsup', 0),
 	(82, 1318071896, 159, 86, 'hi', 0);
 /*!40000 ALTER TABLE `chat_messages` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.colleges
+CREATE TABLE IF NOT EXISTS `colleges` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `facebook_network_id` varchar(255) DEFAULT NULL,
+  `facebook_school_id` varchar(255) DEFAULT NULL,
+  `enabled` int(10) unsigned DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `email_domain` varchar(50) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.colleges: ~52 rows (approximately)
 /*!40000 ALTER TABLE `colleges` DISABLE KEYS */;
@@ -81,6 +109,21 @@ INSERT INTO `colleges` (`id`, `facebook_network_id`, `facebook_school_id`, `enab
 	(52, '33572711', NULL, 0, 'Cranbrook Kingswood', '0'),
 	(53, '33566694', NULL, 0, 'San Diego Jewish Academy', '0');
 /*!40000 ALTER TABLE `colleges` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.college_students
+CREATE TABLE IF NOT EXISTS `college_students` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `college_id` int(10) unsigned NOT NULL,
+  `facebook_id` varchar(255) NOT NULL,
+  `student_full_name` varchar(255) NOT NULL,
+  `student_email` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`),
+  KEY `student_full_name` (`student_full_name`),
+  KEY `facebook_id` (`facebook_id`),
+  CONSTRAINT `college_students_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27036 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.college_students: ~27,157 rows (approximately)
 /*!40000 ALTER TABLE `college_students` DISABLE KEYS */;
@@ -27105,6 +27148,14 @@ INSERT INTO `college_students` (`id`, `college_id`, `facebook_id`, `student_full
 	(27035, 1, '', 'James Pizzurro', 'pizzurro@gwu.edu');
 /*!40000 ALTER TABLE `college_students` ENABLE KEYS */;
 
+
+# Dumping structure for table whowentout.common_nicknames
+CREATE TABLE IF NOT EXISTS `common_nicknames` (
+  `name` varchar(256) NOT NULL,
+  `nickname` varchar(256) NOT NULL,
+  PRIMARY KEY (`name`,`nickname`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.common_nicknames: ~551 rows (approximately)
 /*!40000 ALTER TABLE `common_nicknames` DISABLE KEYS */;
 INSERT INTO `common_nicknames` (`name`, `nickname`) VALUES
@@ -27632,6 +27683,19 @@ INSERT INTO `common_nicknames` (`name`, `nickname`) VALUES
 	('Winnifred', 'Winny'),
 	('Zachariah', 'Zach');
 /*!40000 ALTER TABLE `common_nicknames` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.friends
+CREATE TABLE IF NOT EXISTS `friends` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `user_facebook_id` bigint(20) unsigned DEFAULT NULL,
+  `friend_id` int(10) unsigned DEFAULT NULL,
+  `friend_facebook_id` bigint(20) unsigned NOT NULL,
+  `friend_full_name` varchar(256) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `friend_full_name` (`friend_full_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=45290 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.friends: ~2,126 rows (approximately)
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
@@ -29786,6 +29850,22 @@ INSERT INTO `friends` (`id`, `user_id`, `user_facebook_id`, `friend_id`, `friend
 	(45289, 159, 776200121, 157, 100001981675908, 'Bobby Dole');
 /*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 
+
+# Dumping structure for table whowentout.jobs
+CREATE TABLE IF NOT EXISTS `jobs` (
+  `id` varchar(40) NOT NULL,
+  `type` varchar(64) NOT NULL,
+  `status` varchar(32) DEFAULT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `executed` int(10) unsigned DEFAULT NULL,
+  `args` text,
+  `error_message` text,
+  `error_line` text,
+  `error_file` text,
+  `error` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.jobs: ~1,361 rows (approximately)
 /*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
 INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `error_message`, `error_line`, `error_file`, `error`) VALUES
@@ -30047,6 +30127,7 @@ INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `erro
 	('302817ace0eafe15103803b559e41bab50fc3342', 'update_facebook_friends', 'complete', 1318295503, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('30629a265a952593135d1bc470c83211a421a3ee', 'update_facebook_friends', 'complete', 1318264877, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('30773ceba1aa1652030839e10d1de6ef419cd469', 'update_facebook_friends', 'complete', 1318029861, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
+	('30929350307ce07d8167a58a1f8526a3fb3017fc', 'update_facebook_friends', 'complete', 1318211992, 1318211993, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('3106ff97613919fc9fbb46dd2c6e363bddd4aa9c', 'update_facebook_friends', 'complete', 1318264874, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('3154d570bafc0f5d5aa743a54472a94c228a3d77', 'update_facebook_friends', 'complete', 1318264865, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('31a9087fb620e6460ec96c2a7f1622fd14e6d496', 'update_facebook_friends', 'complete', 1318035136, 1314423073, 'a:1:{i:1;i:33;}', NULL, NULL, NULL, NULL),
@@ -30659,6 +30740,7 @@ INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `erro
 	('a7ea5cfe622a4723e11dd16371fc19e4eb570fc2', 'update_facebook_friends', 'complete', 1318089602, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('a8360370b3603b43055a3728a816081fdf89474e', 'update_facebook_friends', 'complete', 1318038377, 1314423073, 'a:1:{i:1;i:33;}', NULL, NULL, NULL, NULL),
 	('a85821cd9c1ebea3d52b1552a2fa2898f2ef98b5', 'update_facebook_friends', 'complete', 1318198597, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
+	('a85cd77789423c9256bd12fdf462d60ff7451511', 'update_facebook_friends', 'complete', 1318212006, 1318212007, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('a8786dc7e1280f086dc13361e87f92acc5938cf1', 'update_facebook_friends', 'complete', 1318198696, 1314423073, 'a:1:{i:1;i:33;}', NULL, NULL, NULL, NULL),
 	('a8a7b96d98393222e61cf95493ce7c0e3833fc38', 'update_facebook_friends', 'complete', 1318303284, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('a8c12e6580d39b7e49f9d07d5c987f7d74dfdca5', 'update_facebook_friends', 'complete', 1318295764, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
@@ -30822,6 +30904,7 @@ INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `erro
 	('ca487f579e2c2b57329b35753d48edd752ceecc2', 'update_facebook_friends', 'complete', 1318028418, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('cae550d86e94d9264e55fb32e18501fb538e62cc', 'update_facebook_friends', 'complete', 1318391157, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('cb1151673dac8e66be9ae8a6772d946437803ad7', 'update_facebook_friends', 'complete', 1318296692, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
+	('cb231dc95341b6ac416abfe4fabd5c438dfda068', 'update_facebook_friends', 'complete', 1318211996, 1318211996, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('cb70a65e9b8096aa7aba9e88d0cbdcb49d9544b5', 'update_facebook_friends', 'complete', 1318034670, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('cbbba4cf3ce53b54a1e9dc287e5097786ec83539', 'update_facebook_friends', 'complete', 1318038538, 1314423073, 'a:1:{i:1;i:33;}', NULL, NULL, NULL, NULL),
 	('cc087172f48ae5a67597b8604fe327bf2223cd49', 'update_facebook_friends', 'complete', 1318264278, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
@@ -30913,6 +30996,7 @@ INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `erro
 	('dbddeb068aaddd123606cf66bb202ae204e1f328', 'update_facebook_friends', 'complete', 1318071844, 1318071844, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('dc1d38b3bafb85189f2303ed98cd5bff8440e631', 'update_facebook_friends', 'complete', 1318297523, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('dc3f467f0a67f5194ea067b2bc6aefb20e56b87c', 'update_facebook_friends', 'complete', 1318118503, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
+	('dc6d2b351c1212b2ff89740117a82ee2ce591f99', 'update_facebook_friends', 'complete', 1318212117, 1318212117, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('dc764a95fb600e39f69da3cdfa5f9bc408b9df6c', 'update_facebook_friends', 'complete', 1318393127, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('dc85c784866650e889e2d1c7bdd1f4110ff3b4cb', 'update_facebook_friends', 'complete', 1318263935, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
 	('dc92ea23159a4bd76707de2ce519d5009ed9493b', 'update_facebook_friends', 'complete', 1318378452, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL),
@@ -31111,6 +31195,14 @@ INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `erro
 	('ff6d7c588fa08e0cc3f0f8b073c999386464ef52', 'update_facebook_friends', 'complete', 1318297868, 1314423073, 'a:1:{i:1;i:159;}', NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 
+
+# Dumping structure for table whowentout.options
+CREATE TABLE IF NOT EXISTS `options` (
+  `id` varchar(512) NOT NULL,
+  `value` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.options: ~3 rows (approximately)
 /*!40000 ALTER TABLE `options` DISABLE KEYS */;
 INSERT INTO `options` (`id`, `value`) VALUES
@@ -31118,6 +31210,21 @@ INSERT INTO `options` (`id`, `value`) VALUES
 	('fake_time_point', 'a:2:{s:9:"fake_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-10-07 22:01:00";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:9:"real_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-08-26 19:58:26";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}}'),
 	('past_top_parties_html', 's:28:"<ul>\r\n<li>yeafef</li>\r\n</ul>";');
 /*!40000 ALTER TABLE `options` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.parties
+CREATE TABLE IF NOT EXISTS `parties` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `version` int(10) unsigned NOT NULL DEFAULT '0',
+  `date` date DEFAULT NULL,
+  `place_id` int(10) unsigned NOT NULL,
+  `admin_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `place_id` (`place_id`),
+  KEY `admin` (`admin_id`),
+  CONSTRAINT `parties_admin_id` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `parties_place_id` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.parties: ~7 rows (approximately)
 /*!40000 ALTER TABLE `parties` DISABLE KEYS */;
@@ -31130,6 +31237,21 @@ INSERT INTO `parties` (`id`, `version`, `date`, `place_id`, `admin_id`) VALUES
 	(24, 0, '2011-10-08', 1, NULL),
 	(26, 0, '2011-10-06', 1, NULL);
 /*!40000 ALTER TABLE `parties` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.party_attendees
+CREATE TABLE IF NOT EXISTS `party_attendees` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `party_id` int(10) unsigned NOT NULL,
+  `checkin_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id_party_id` (`user_id`,`party_id`),
+  KEY `user_id_key` (`user_id`),
+  KEY `party_id_key` (`party_id`),
+  CONSTRAINT `party_attendee_party` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `party_attendee_user` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.party_attendees: ~70 rows (approximately)
 /*!40000 ALTER TABLE `party_attendees` DISABLE KEYS */;
@@ -31206,6 +31328,21 @@ INSERT INTO `party_attendees` (`id`, `user_id`, `party_id`, `checkin_time`) VALU
 	(212, 91, 11, '2011-08-27 01:40:22');
 /*!40000 ALTER TABLE `party_attendees` ENABLE KEYS */;
 
+
+# Dumping structure for table whowentout.places
+CREATE TABLE IF NOT EXISTS `places` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `college_id` int(10) unsigned NOT NULL,
+  `admin_id` int(10) unsigned DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`),
+  KEY `admin` (`admin_id`),
+  CONSTRAINT `places_admin_id` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `places_college_id` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.places: ~3 rows (approximately)
 /*!40000 ALTER TABLE `places` DISABLE KEYS */;
 INSERT INTO `places` (`id`, `name`, `college_id`, `admin_id`, `created_at`) VALUES
@@ -31214,11 +31351,29 @@ INSERT INTO `places` (`id`, `name`, `college_id`, `admin_id`, `created_at`) VALU
 	(3, 'Lambda Chi', 1, 9, NULL);
 /*!40000 ALTER TABLE `places` ENABLE KEYS */;
 
+
+# Dumping structure for table whowentout.schema_version
+CREATE TABLE IF NOT EXISTS `schema_version` (
+  `version` int(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 # Dumping data for table whowentout.schema_version: ~1 rows (approximately)
 /*!40000 ALTER TABLE `schema_version` DISABLE KEYS */;
 INSERT INTO `schema_version` (`version`) VALUES
 	(11);
 /*!40000 ALTER TABLE `schema_version` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.sessions
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` varchar(40) NOT NULL DEFAULT '0',
+  `ip_address` varchar(16) NOT NULL DEFAULT '0',
+  `user_agent` varchar(50) NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text NOT NULL,
+  `debug` text,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.sessions: ~1,209 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
@@ -31311,6 +31466,7 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('128415c38e6082d6b8779e3fa76db75a', '127.0.0.1', '0', 1313488010, '', NULL),
 	('129269d9474aec6a1ca17d873eed3a76', '127.0.0.1', '0', 1313302800, '', NULL),
 	('12cb85460813cdd9cf69259121f70784', '127.0.0.1', '0', 1313487400, '', NULL),
+	('132263acb429bfe1ec38468181143705', '127.0.0.1', '0', 1314601039, '', NULL),
 	('13a2c875bcc945f9c9812d635e63ab21', '127.0.0.1', '0', 1313421191, '', NULL),
 	('140f1fc6b43f4bc154e440aaab4bba8c', '127.0.0.1', '0', 1313396353, '', NULL),
 	('140fbfe4998313ad1844235c860f4709', '127.0.0.1', '0', 1314448476, '', NULL),
@@ -31455,6 +31611,7 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('31e92404110c36e91644b4dde5bf26a7', '127.0.0.1', '0', 1313386717, '', NULL),
 	('31eb86a17c34181d663d6ca3c3aaff6b', '127.0.0.1', '0', 1313668114, '', NULL),
 	('327c15735faf609227fbc940d2395f97', '127.0.0.1', '0', 1314074714, '', NULL),
+	('329213dd702c1f2b4c200bf876953106', '127.0.0.1', '0', 1314601042, '', NULL),
 	('32977b391527130cfe09f181c025c764', '127.0.0.1', '0', 1313664333, '', NULL),
 	('32dee99158a33db4eadea022d868ebee', '127.0.0.1', '0', 1314333939, '', NULL),
 	('3347cdf6a1dcbf4ff2a760466f4669fd', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1313386800, 'a:1:{s:7:"user_id";i:33;}', NULL),
@@ -31603,6 +31760,7 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('50d5834228217f7df521af94ef2771c3', '127.0.0.1', '0', 1314444065, '', NULL),
 	('510d390fd1a07848f0a0e1506d4540aa', '127.0.0.1', '0', 1314414331, '', NULL),
 	('510f517d686f90a738678a8f49d0973d', '127.0.0.1', '0', 1314341906, '', NULL),
+	('5114f09eca138b263671eb694e737cc6', '127.0.0.1', '0', 1314601163, '', NULL),
 	('5181a96e6e99cebed6b409488383022a', '127.0.0.1', '0', 1314076637, '', NULL),
 	('5210969917d40da70239db1c92ee7c57', '127.0.0.1', '0', 1313311442, '', NULL),
 	('522a3e5a4e4c96588b0393883f8c6339', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1313401296, 'a:1:{s:7:"user_id";i:33;}', NULL),
@@ -32249,6 +32407,7 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('db52c8e76ff1c37d3cad1b1a1c12b086', '127.0.0.1', '0', 1313668390, '', NULL),
 	('db53f487f3b19d01b0ba790fe8f32cc1', '127.0.0.1', '0', 1314444149, '', NULL),
 	('db5d7fcac212d4f2509ea2cfeffc6e90', '127.0.0.1', '0', 1313504686, '', NULL),
+	('dc31a5a6d8ab4b547023696858369350', '127.0.0.1', '0', 1314601053, '', NULL),
 	('dc51a7be7e874ff9fe2d0c01e0f7ba6d', '127.0.0.1', '0', 1313486712, '', NULL),
 	('dcb0fbbd984f31691936db2f440ae7d8', '127.0.0.1', '0', 1313653573, '', NULL),
 	('dd1f62ab740e3afe3b0736bb6babbbfa', '127.0.0.1', '0', 1313656571, '', NULL),
@@ -32428,6 +32587,24 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('ffdfc7c36b702bf6fd08763037f6b316', '127.0.0.1', '0', 1313387727, '', NULL);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
+
+# Dumping structure for table whowentout.smiles
+CREATE TABLE IF NOT EXISTS `smiles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sender_id` int(10) unsigned NOT NULL,
+  `receiver_id` int(10) unsigned NOT NULL,
+  `party_id` int(10) unsigned NOT NULL,
+  `smile_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_smiles` (`sender_id`,`receiver_id`,`party_id`),
+  KEY `sender_id` (`sender_id`),
+  KEY `receiver_id` (`receiver_id`),
+  KEY `party_id` (`party_id`),
+  CONSTRAINT `smiles_party_id` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`),
+  CONSTRAINT `smiles_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `smiles_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
 # Dumping data for table whowentout.smiles: ~4 rows (approximately)
 /*!40000 ALTER TABLE `smiles` DISABLE KEYS */;
 INSERT INTO `smiles` (`id`, `sender_id`, `receiver_id`, `party_id`, `smile_time`) VALUES
@@ -32436,6 +32613,36 @@ INSERT INTO `smiles` (`id`, `sender_id`, `receiver_id`, `party_id`, `smile_time`
 	(13, 96, 135, 11, '2011-08-18 05:15:00'),
 	(14, 159, 4, 11, '2011-08-22 21:43:16');
 /*!40000 ALTER TABLE `smiles` ENABLE KEYS */;
+
+
+# Dumping structure for table whowentout.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `version` int(10) unsigned NOT NULL DEFAULT '0',
+  `facebook_id` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `hometown_city` varchar(255) NOT NULL,
+  `hometown_state` varchar(255) NOT NULL,
+  `college_id` int(10) unsigned DEFAULT NULL,
+  `grad_year` int(10) unsigned NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `gender` enum('M','F') NOT NULL,
+  `registration_time` datetime DEFAULT NULL,
+  `last_ping` datetime DEFAULT NULL,
+  `last_updated_friends` datetime DEFAULT NULL,
+  `last_edit` datetime DEFAULT NULL,
+  `date_of_birth` date NOT NULL,
+  `pic_x` int(10) unsigned DEFAULT NULL,
+  `pic_y` int(10) unsigned DEFAULT NULL,
+  `pic_width` int(10) unsigned DEFAULT NULL,
+  `pic_height` int(10) unsigned DEFAULT NULL,
+  `pic_version` int(10) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_facebook_id` (`facebook_id`),
+  KEY `college_id` (`college_id`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.users: ~78 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
@@ -32517,7 +32724,7 @@ INSERT INTO `users` (`id`, `version`, `facebook_id`, `first_name`, `last_name`, 
 	(145, 0, '1248270638', 'Bradley', 'Schlafer', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:52', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13),
 	(146, 0, '1372767357', 'Harry', 'Meng', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:58', NULL, NULL, NULL, '0000-00-00', 17, 20, 166, 221, 13),
 	(157, 0, '100001981675908', 'Bobby', 'Dole', 'Seoul', 'Korea', 1, 2012, 'bobbydolly1@hotmail.com', 'M', '2011-10-08 21:30:03', NULL, NULL, '2011-10-08 21:47:39', '1994-12-18', 20, 20, 150, 200, 19),
-	(159, 0, '776200121', 'Venkat', 'Dinavahi', 'Severna Park', 'MD', 1, 2014, 'vendiddy@gmail.com', 'M', '2011-10-09 21:24:17', '2011-10-10 01:56:55', '2011-10-14 05:52:26', '2011-10-12 05:40:18', '1988-10-06', 20, 20, 104, 139, 33);
+	(159, 0, '776200121', 'Venkat', 'Dinavahi', 'Severna Park', 'MD', 1, 2014, 'vendiddy@gmail.com', 'M', '2011-10-09 21:24:17', '2011-10-10 02:10:48', '2011-10-14 05:52:26', '2011-10-12 05:40:18', '1988-10-06', 20, 20, 104, 139, 33);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
