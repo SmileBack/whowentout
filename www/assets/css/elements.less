@@ -142,3 +142,24 @@ form {
   margin: 10px;
   text-align: center;
 }
+
+.online_badge {
+  @badge_size: 10px;
+  background-color: #228B22;
+  color: #fff;
+  box-shadow: 0px 1px 3px #ccc;
+  -moz-box-shadow: 0px 1px 3px #ccc;
+  -webkit-box-shadow: 0px 1px 3px #ccc;
+  padding: 0;
+  margin: 0 -@badge_size 0 0;
+  text-align: center;
+  text-shadow: 0px -1px 1px #e01b0f;
+  min-width: @badge_size;
+  height: @badge_size;
+  .rounded(@badge_size / 2);
+  font-weight: bold;
+  font-size: 8px;
+  display: inline-block;
+  text-indent: -99999px;
+  cursor: pointer;
+}

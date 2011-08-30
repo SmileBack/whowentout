@@ -1,3 +1,18 @@
+$('a').live('click', function() {
+  $(window).data('isFormOrLink', true);
+});
+$('form').live('submit', function() {
+  $(window).data('isFormOrLink', true);
+});
+$(window).bind('beforeunload', function() {
+  if ( $(window).data('isFormOrLink') ) {
+    $(window).trigger('beforechangepage');
+  }
+  else {
+    $(window).trigger('leave');
+  }
+});
+
 var WWO = null;
 jQuery(function() {
   WWO = $('#wwo');
@@ -64,6 +79,7 @@ $('#wwo').entwine({
     $.ajax({
       url: '/user/ping_leaving',
       type: 'get',
+      async: false,
       success: function(response) {
         console.log('pinged leaving!');
       }
@@ -167,18 +183,6 @@ jQuery.event.special.imageload = {
   handler: function(event) {}
 };
 
-$('a').live('click', function() {
-  $(window).data('isFormOrLink', true);
-});
-$('form').live('submit', function() {
-  $(window).data('isFormOrLink', true);
-});
-$(window).bind('beforeunload', function() {
-  if ( ! $(window).data('isFormOrLink') ) {
-    $(window).trigger('leave');
-  }
-});
-
 $.fn.whenShown = function(fn) {
   var props = { position: 'absolute', visibility: 'hidden', display: 'block' },
       hiddenParents = this.parents().andSelf().not(':visible');
@@ -231,5 +235,3 @@ function getParameterByName(name) {
                   .exec(window.location.search);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
-
-

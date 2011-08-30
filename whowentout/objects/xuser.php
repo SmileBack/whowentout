@@ -411,6 +411,17 @@ class XUser extends XObject
     return party($row->id);
   }
   
+  function get_recently_attended_parties() {
+    $cutoff = $this->college->day(-7, TRUE);
+    $rows = $this->db()
+                ->select('party_id AS id')
+                ->from('party_attendees')
+                ->join('parties', 'party_attendees.party_id = parties.id')
+                ->where('user_id', $this->id)
+                ->where('date >', date_format($cutoff, 'Y-m-d'));
+    return $this->load_objects('XParty', $rows);
+  }
+  
   function smiles_received_message($party) {
     $party = party($party);
     
@@ -593,14 +604,49 @@ class XUser extends XObject
     serverinbox()->push("user_$this->id", $this->version);
   }
   
-  function ping_server() {
-    $this->last_ping = current_time()->format('Y-m-d H:i:s');
-    $this->save();
+  function is_online() {
+    if ($this->last_ping == NULL)
+      return FALSE;
+    
+    $thirty_seconds_ago = current_time()->modify('-30 seconds')->getTimestamp();
+    $last_ping = new DateTime($this->last_ping, new DateTimeZone('UTC'));
+    $last_ping = $last_ping->getTimestamp();
+    
+    return $last_ping > $thirty_seconds_ago;
   }
   
-  function ping_leaving_page() {
+  function ping_server() {
+    $was_online = $this->is_online();
+    
+    $this->last_ping = current_time()->format('Y-m-d H:i:s');
+    $this->save();
+    
+    $just_got_online = !$was_online;
+    if ($just_got_online) {
+      foreach ($this->get_recently_attended_parties() as $party) {
+        $party->increment_version();
+      }
+    }
+  }
+  
+  function ping_leaving_site() {
+    $was_online = $this->is_online();
     $this->last_ping = NULL;
     $this->save();
+    
+    $just_went_offline = $was_online;
+    if ($just_went_offline) {
+      foreach ($this->get_recently_attended_parties() as $party) {
+        $party->increment_version();
+      }
+    }
+  }
+  
+  function get_chatbar_state() {
+    if ($this->data['chatbar_state'] == NULL)
+      return array();
+    else
+      return json_decode($this->data['chatbar_state']);
   }
   
   function to_array() {

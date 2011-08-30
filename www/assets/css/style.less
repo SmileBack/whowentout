@@ -307,8 +307,19 @@ table td, table th {
     clear: both;
     margin: 0 auto;
     > li { margin: 16px; }
+    .party_attendee {
+      .full_name {
+        > * { display: inline-block; }
+      }
+      .online_badge {
+        display: none;
+      }
+      &.online {
+        .open_chat { cursor: pointer; cursor: pointer; }
+      }
+    }
     .party_attendee.online {
-      outline: 1px solid red;
+       .online_badge { display: inline-block; }
     }
   }
 }

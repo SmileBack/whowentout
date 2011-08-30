@@ -3,11 +3,19 @@
   <?= $attendee->pic; ?>
 
   <div class="caption">
-    <p><?= $attendee->first_name; ?> <?= $attendee->last_name ?></p>
+      
+    <div class="full_name" to="<?= $attendee->id ?>">
+      <div><?= $attendee->first_name; ?> <?= $attendee->last_name ?></div>
+      <div class="online_badge"></div>
+    </div>
+    
     <p><?= $attendee->college->name; ?> <?= $attendee->grad_year; ?></p>
     <p>&nbsp;<?= $attendee->hometown ?>&nbsp;</p>
-    <p><?= anchor("user/mutual_friends/$attendee->id", 'Mutual Friends', array('class' => 'show_mutual_friends')) ?></p>
-    <p><a class="open_chat" href="#open_chat" to="<?= $attendee->id ?>">chat</a></p>
+    
+    <p>
+      <?= anchor("user/mutual_friends/$attendee->id", 'Mutual Friends', array('class' => 'show_mutual_friends')) ?>
+    </p>
+    
     <p>
       <?php if ($attendee->gender != current_user()->gender): ?>
         <?php if ($attendee->was_smiled_at(current_user()->id, $party->id)): ?>
@@ -21,7 +29,9 @@
         &nbsp;
       <?php endif; ?>
     </p>
+    
   </div>
+  
 </div>
 
 <div id="user_json_<?= $attendee->id ?>" class="user_json" style="display: none;"><?= json_encode($attendee->to_array()) ?></div>

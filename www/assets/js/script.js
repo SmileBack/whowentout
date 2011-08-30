@@ -65,6 +65,7 @@ $('a.confirm').entwine({
 
 $('.serverinbox').entwine({
   onmatch: function() {
+    this.hide();
     this.startChecking();
   },
   onunmatch: function() {},

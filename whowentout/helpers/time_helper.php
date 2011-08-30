@@ -2,7 +2,7 @@
 
 function time_delta_seconds() {
   if (time_is_faked()) {
-    $fake_time_point = get_option('fake_time_point');
+    $fake_time_point = ci()->option->get('fake_time_point');
     $delta = $fake_time_point['fake_time']->getTimestamp() - $fake_time_point['real_time']->getTimestamp();
     return $delta;
   }
@@ -24,7 +24,7 @@ function current_time() {
   $dt = actual_time();
   
   if ( time_is_faked() ) {
-    $fake_time_point = get_option('fake_time_point');
+    $fake_time_point = ci()->option->get('fake_time_point');
     $delta = time_delta_seconds();
     $dt = $dt->modify("+$delta seconds");
   }
@@ -38,7 +38,7 @@ function set_fake_time(DateTime $fake_time) {
     'fake_time' => $fake_time,
     'real_time' => actual_time(),
   );
-  set_option('fake_time_point', $fake_time_point);
+  ci()->option->set('fake_time_point', $fake_time_point);
 }
 
 function set_fake_time_of_day($h, $m = 0, $s = 0) {
@@ -49,11 +49,11 @@ function set_fake_time_of_day($h, $m = 0, $s = 0) {
 }
 
 function time_is_faked() {
-  return option_exists('fake_time_point');
+  return ci()->option->exists('fake_time_point');
 }
 
 function unset_fake_time() {
-  unset_option('fake_time_point');
+  ci()->option->delete('fake_time_point');
 }
 
 function make_gmt($time) {

@@ -1,6 +1,5 @@
-$('.party.serverinbox').live('newdata', function(e, newData) {
-  console.log('version = ' + newData.toString());
-  $('.recent_attendees').update();
+$('.recent_attendees .party.serverinbox').live('newdata', function(e, newData) {
+  $(this).closest('.recent_attendees').update();
 });
 
 $('.recent_attendees').entwine({

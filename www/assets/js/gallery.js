@@ -1,15 +1,7 @@
-$('.party.serverinbox').live('newdata', function(e, newData) {
-  console.log('---');
-  console.log('party version = ' + newData.toString());
-  $('.recent_attendees').update();
-  $('.gallery').refreshAttendees();
-});
-
-jQuery(function() {
-  $('.gallery').refreshOnlineUsers();
-  every(5, function() {
-    $('.gallery').refreshOnlineUsers();
-  });
+$('.gallery .party.serverinbox').live('newdata', function(e, newData) {
+  $(this).closest('.gallery')
+         .refreshAttendees()
+         .refreshOnlineUsers();
 });
 
 $('.gallery').entwine({
@@ -121,5 +113,23 @@ $('.show_mutual_friends').entwine({
     e.preventDefault();
     var path = $(this).attr('href');
     $('#wwo').showMutualFriendsDialog(path);
+  }
+});
+
+$('.gallery .open_chat').entwine({
+  onmouseenter: function(e) {
+    this.notice('Click to chat', 't');
+  },
+  onmouseleave: function(e) {
+    $('#notice').hideNotice();
+  }
+});
+
+$('.party_attendee.online').entwine({
+  onmatch: function() {
+    this.find('.full_name').addClass('open_chat');
+  },
+  onunmatch: function() {
+    this.find('.full_name').removeClass('open_chat');
   }
 });

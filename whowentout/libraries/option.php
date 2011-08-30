@@ -12,7 +12,6 @@ class CI_Option
   }
   
   function set($name, $value) {
-    $option = $this->get($name);
     $value = serialize($value);
     
     if ($this->exists($name)) {
@@ -23,7 +22,7 @@ class CI_Option
       $this->db->insert('options', array('id' => $name, 'value' => $value));
     }
     
-    $this->cache[$name] = $value;
+    $this->cache[$name] = unserialize($value);
   }
   
   function get($name, $default = NULL) {
@@ -32,10 +31,12 @@ class CI_Option
                          ->from('options')
                          ->where('id', $name)
                          ->get()->row();
-      $this->cache[$name] = unserialize($option->value);
       
       if ($option == NULL && $default !== NULL) {
         $this->set($name, $default);
+      }
+      else {
+        $this->cache[$name] = unserialize($option->value);
       }
     }
     

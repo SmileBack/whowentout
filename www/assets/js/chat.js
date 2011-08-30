@@ -5,17 +5,16 @@ $('.chat.serverinbox').live('newdata', function(e, version) {
   console.log('chat version = ' + version);
   $('#chatbar').checkForNewMessages();
 });
+
 jQuery(function() {
   $('#chatbar').checkForNewMessages();
 });
-
 $(window).bind('beforeunload', function() {
   $('#chatbar').saveState();
 });
 
 $('#chatbar').entwine({
-  onmatch: function() {
-  },
+  onmatch: function() {},
   onunmatch: function() {},
   state: function(state) {
     if (state === undefined) {
@@ -34,10 +33,20 @@ $('#chatbar').entwine({
   },
   saveState: function() {
     $.jStorage.set('chatbarstate', this.state());
+    $.ajax({
+      url: '/chat/save_chatbar_state',
+      type: 'post',
+      data: { chatbar_state: this.state() },
+      async: false,
+      success: function(response) {
+      }
+    });
     return this;
   },
   getSavedState: function() {
-    this.data('stateLoaded', true);
+    if ( $('#wwo').data('chatbar_state') != null ) {
+      $.jStorage.set('chatbarstate', $('#wwo').data('chatbar_state') );
+    }
     return $.jStorage.get('chatbarstate', {});
   },
   restoreSavedState: function() {
@@ -124,7 +133,7 @@ $('#chatbar').entwine({
 
 $('.chatbox').entwine({
   onmatch: function() {
-    this.refreshTitle();
+    this.refreshTitle().refreshUnreadCount();
   },
   onunmatch: function() {},
   state: function(state) {
@@ -246,12 +255,15 @@ $('.chatbox').entwine({
     this.removeClass('collapsed');
     this.scrollToBottom();
     this.find('textarea');
+    return this;
   },
   setFocus: function() {
     this.find('textarea').focus();
+    return this;
   },
   collapse: function() {
     this.addClass('collapsed');
+    return this;
   },
   toggle: function() {
     if (this.isExpanded()) {
@@ -314,10 +326,10 @@ $('.chatbox textarea').entwine({
   }
 });
 
-$('a.open_chat').entwine({
+$('.open_chat').entwine({
   onclick: function(e) {
     e.preventDefault();
     var to = this.attr('to');
-    $('#chatbar').chatbox(to, true).expand();
+    $('#chatbar').chatbox(to, true).expand().setFocus();
   }
 });

@@ -28,9 +28,8 @@
   </ul>
 </div>
 
-<?= serverinbox_element("party", $party->id) ?>
-
 <ul class="gallery" data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>">
+  <?= serverinbox_element("party", $party->id) ?>
   
   <?php foreach ($party_attendees as $key => $attendee): ?>
   <li>

@@ -44,4 +44,13 @@ class Chat extends MY_Controller
     print 'done';exit;
   }
   
+  function save_chatbar_state() {
+    $user = current_user();
+    $state = post('chatbar_state');
+    $user->chatbar_state = json_encode($state);
+    $user->save();
+    
+    print 'done';exit;
+  }
+  
 }

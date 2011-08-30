@@ -214,7 +214,7 @@ class User extends MY_Controller {
   }
   
   function ping_leaving() {
-    current_user()->ping_leaving_page();
+    current_user()->ping_leaving_site();
     print json_encode(array('success' => TRUE));exit;
   }
   
