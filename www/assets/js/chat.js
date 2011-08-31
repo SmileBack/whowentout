@@ -218,7 +218,7 @@ $('.chatbox').entwine({
     }
   },
   lastMessage: function() {
-    return this.find('.chat_message:last');
+    return this.find('.chat_message.normal:last');
   },
   messageWasSentHere: function(message) {
     return message.receiver_id == current_user().id;
@@ -240,14 +240,14 @@ $('.chatbox').entwine({
     if (this.lastMessage().attr('from') == msgEl.attr('from'))
       msgEl.find('.chat_sender').hide();
     
-    //if (message.type == 'notice')
-    //  msgEl.hide();
+    if (message.type == 'notice')
+      msgEl.hide();
     
-    if (message.type == 'notice' && message.message == 'online') {
-      this.addClass('online');
-    }
-    if (message.type == 'notice' && message.message == 'offline') {
-      this.removeClass('online');
+    if (this.messageWasSentHere(message) && message.type == 'notice' && message.is_read == 0) {
+      if (message.message == 'online')
+        this.addClass('online');
+      else if (message.message == 'offline')
+        this.removeClass('online');
     }
     
     this.find('.chat_messages').append(msgEl);
