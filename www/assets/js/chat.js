@@ -61,6 +61,7 @@ $('#chatbar').entwine({
     var chatbox = $('<div/>').attr('from', current_user().id).attr('to', to)
                     .append('<div class="header"/>').find('.header')
                       .append('<h3/>')
+                      .append('<div class="online_badge"></div>')
                       .append('<a class="chatbox_close">×</a>')
                     .end()
                     .append('<div class="unread_count"/>')
@@ -123,10 +124,7 @@ $('#chatbar').entwine({
     if (chatbox.length == 0 && create == true) {
       chatbox = this.addChatbox(user_id);
     }
-  
-    if (create == true && !chatbox.is(':visible'))
-      chatbox.show().expand();
-      
+     
     return chatbox;
   }
 });
@@ -194,7 +192,7 @@ $('.chatbox').entwine({
     return this.attr('to');
   },
   unreadCount: function() {
-    return this.find('.chat_message.unread').length;
+    return this.find('.chat_message.normal.unread').length;
   },
   markAsRead: function() {
     $.ajax({
@@ -228,6 +226,7 @@ $('.chatbox').entwine({
     msgEl.attr('from', message.sender.id).attr('to', message.receiver.id);
     msgEl.append('<div class="chat_sender">' + message.sender.first_name + '</div>');
     msgEl.append('<div class="chat_message_body">' + message.message + '</div>');
+    msgEl.addClass(message.type);
     
     if (message.receiver_id == current_user().id && message.is_read == 0) {
       msgEl.addClass('unread');
@@ -237,6 +236,16 @@ $('.chatbox').entwine({
     
     if (this.lastMessage().attr('from') == msgEl.attr('from'))
       msgEl.find('.chat_sender').hide();
+    
+    if (message.type == 'notice')
+      msgEl.hide();
+    
+    if (message.type == 'notice' && message.message == 'online') {
+      this.addClass('online');
+    }
+    if (message.type == 'notice' && message.message == 'offline') {
+      this.removeClass('online');
+    }
     
     this.find('.chat_messages').append(msgEl);
     this.scrollToBottom();

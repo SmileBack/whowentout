@@ -626,6 +626,15 @@ class XUser extends XObject
       foreach ($this->get_recently_attended_parties() as $party) {
         $party->increment_version();
       }
+      $this->send_came_online_message();
+    }
+  }
+  
+  private function send_came_online_message() {
+    ci()->load->library('chat');
+    $user_ids = ci()->chat->chatted_with_user_ids($this);
+    foreach ($user_ids as $user_id) {
+      ci()->chat->send($this, $user_id, 'online', 'notice');
     }
   }
   
@@ -639,7 +648,17 @@ class XUser extends XObject
     foreach ($this->get_recently_attended_parties() as $party) {
       $party->increment_version();
     }
+    $this->send_went_offline_message();
   }
+  
+  function send_went_offline_message() {
+    ci()->load->library('chat');
+    $user_ids = ci()->chat->chatted_with_user_ids($this);
+    foreach ($user_ids as $user_id) {
+      ci()->chat->send($this, $user_id, 'offline', 'notice');
+    }
+  }
+  
   
   function get_chatbar_state() {
     if ($this->data['chatbar_state'] == NULL)

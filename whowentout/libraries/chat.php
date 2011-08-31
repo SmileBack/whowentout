@@ -11,10 +11,11 @@ class CI_Chat
     $this->db = $this->ci->db;
   }
   
-  function send($sender_id, $receiver_id, $message) {
+  function send($sender_id, $receiver_id, $message, $type = 'normal') {
     $sender = user($sender_id);
     $receiver = user($receiver_id);
     $this->db->insert('chat_messages', array(
+      'type' => $type,
       'sender_id' => $sender->id,
       'receiver_id' => $receiver->id,
       'message' => $message,
@@ -45,6 +46,33 @@ class CI_Chat
     }
     
     return $messages;
+  }
+  
+  function chatted_with_user_ids($from) {
+    $ids = array();
+    $from = user($from);
+    
+    $rows = $this->db->select('sender_id')
+                     ->distinct()
+                     ->from('chat_messages')
+                     ->where('receiver_id', $from->id)
+                     ->get()->result();
+    
+    foreach ($rows as $row) {
+      $ids[] = $row->sender_id;
+    }
+    
+    $rows = $this->db->select('receiver_id')
+                     ->distinct()
+                     ->from('chat_messages')
+                     ->where('sender_id', $from->id)
+                     ->get()->result();
+    
+    foreach ($rows as $row) {
+      $ids[] = $row->receiver_id;
+    }
+    
+    return array_unique($ids);
   }
   
   function mark_as_read($by, $from) {

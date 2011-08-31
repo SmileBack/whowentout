@@ -4,6 +4,12 @@
   bottom: 0;
   right: 10px;
   direction: rtl;
+  .chatbox .online_badge {
+    display: none;
+  }
+  .chatbox.online .online_badge {
+    display: inline-block;
+  }
   .chatbox {
     direction: ltr;
     margin: 0 0 10px 10px;
@@ -21,6 +27,13 @@
       position: relative;
       h3 {
         float: left;
+      }
+      .online_badge {
+        background-color: #ADFF2F;
+        margin-left: 4px;
+        box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
       }
     }
     .chatbox_close {
@@ -68,6 +81,10 @@
         }
         .chat_message_body {
         }
+      }
+      .chat_message.notice {
+        font-size: 80%;
+        color: grey;
       }
     }
     .input {

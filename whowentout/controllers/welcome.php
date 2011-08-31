@@ -12,7 +12,10 @@ class Welcome extends MY_Controller
     $maggie = user(96);
     $claire = user(82);
     
-    var_dump($dan->is_online());
+//    var_dump($dan->is_online());
+//    $this->chat->send($dan, $ven, 'offline', 'notice');
+    $ids = $this->chat->chatted_with_user_ids($ven);
+    var_dump($ids);
   }
   
 }
