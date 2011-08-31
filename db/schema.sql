@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-08-28 17:08:06
+# Date/time:                    2011-08-31 00:57:39
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -14,6 +14,7 @@
 # Dumping structure for table whowentout.chat_messages
 CREATE TABLE IF NOT EXISTS `chat_messages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL DEFAULT 'normal',
   `sent_at` int(10) unsigned NOT NULL,
   `sender_id` int(10) unsigned NOT NULL,
   `receiver_id` int(10) unsigned NOT NULL,
@@ -229,6 +230,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pic_width` int(10) unsigned DEFAULT NULL,
   `pic_height` int(10) unsigned DEFAULT NULL,
   `pic_version` int(10) unsigned NOT NULL DEFAULT '1',
+  `chatbar_state` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),
