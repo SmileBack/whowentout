@@ -144,14 +144,14 @@ form {
 }
 
 .online_badge {
-  @badge_size: 10px;
+  @badge_size: 9px;
   background-color: #228B22;
   color: #fff;
   box-shadow: 0px 1px 3px #ccc;
   -moz-box-shadow: 0px 1px 3px #ccc;
   -webkit-box-shadow: 0px 1px 3px #ccc;
   padding: 0;
-  margin: 0 -@badge_size 0 0;
+  margin: 0 -(@badge_size + 2px) 0 2px;
   text-align: center;
   text-shadow: 0px -1px 1px #e01b0f;
   min-width: @badge_size;

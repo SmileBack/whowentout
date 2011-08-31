@@ -19,4 +19,10 @@ class College extends MY_Controller
     print json_encode($matches);exit;
   }
   
+  function update_offline_users() {
+    //todo: throttle to 1 request / 10 sec or something like that
+    college()->update_offline_users();
+    print json_encode(array('success' => TRUE));exit;
+  }
+  
 }

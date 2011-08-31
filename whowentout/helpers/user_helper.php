@@ -179,7 +179,10 @@ function fake_login($user_id) {
 }
 
 function logout() {
-  return XUser::logout();
+  if (logged_in()) {
+    current_user()->ping_leaving_site();
+    return XUser::logout();
+  }
 }
 
 function logged_in() {

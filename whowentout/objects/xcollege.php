@@ -33,7 +33,7 @@ class XCollege extends XObject
    * Get all of the parties that the user can check into at $time.
    * @param DateTime $time
    * @return array
-   *   An array of party objects.
+   *   An array of iparty objects.
    */
   function open_parties($time) {
     $parties = array();
@@ -321,6 +321,23 @@ class XCollege extends XObject
                   ))
                   ->join('places', 'parties.place_id = places.id');
     return $this->load_objects('XParty', $query);
+  }
+  
+  function update_offline_users() {
+    $a_little_while_ago = current_time()->modify('-10 seconds')->format('Y-m-d H:i:s');
+    //users that should be offline based on last ping but aren't marked as offline
+    $rows = $this->db()->select('id')
+                       ->from('users')
+                       ->where('college_id', $this->id)
+                       ->where('last_ping <', $a_little_while_ago);
+    $users = $this->load_objects('XUser', $rows);
+    
+    $uids = array();
+    foreach ($users as $user) {
+      $user->ping_leaving_site();
+      $uids[] = $user->id;
+    }
+    return $uids;
   }
   
   private function _get_open_parties_query($time) {

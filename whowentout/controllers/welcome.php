@@ -12,12 +12,7 @@ class Welcome extends MY_Controller
     $maggie = user(96);
     $claire = user(82);
     
-//    $ven->ping_server();
-    var_dump($ven->is_online());
-//    $ven->ping_server();
-//    $ven->ping_leaving_page();
-    
-//    $dan->ping_server();
+    var_dump($dan->is_online());
   }
   
 }

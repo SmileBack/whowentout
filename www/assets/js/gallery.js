@@ -33,9 +33,10 @@ $('.gallery').entwine({
       url: '/party/online_users/' + this.partyID(),
       dataType: 'json',
       success: function(onlineUserIDs) {
+        //console.log('refresh online users');
+        //console.log(onlineUserIDs);
         this.find('.party_attendee').removeClass('online');
-        for (var k in 
-        onlineUserIDs) {
+        for (var k in onlineUserIDs) {
           this.attendee(onlineUserIDs[k]).addClass('online');
         }
       }
@@ -50,7 +51,7 @@ $('.gallery').entwine({
     
     el.bind('imageload', function() {
       var position = el.find('.party_attendee').attr('data-after');
-      console.log(position);
+      //console.log(position);
       if (position == 'first') {
         gallery.prepend(el);
       }

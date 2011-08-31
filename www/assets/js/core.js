@@ -24,6 +24,10 @@ jQuery(function() {
   });
   $('#wwo').pingServer();
   
+  every(10, function() {
+    $('#wwo').updateOfflineUsers();
+  });
+    
   $(window).bind('leave', function() {
     $('#wwo').pingLeavingServer();
   });
@@ -71,7 +75,7 @@ $('#wwo').entwine({
       url: '/user/ping',
       type: 'get',
       success: function(response) {
-        console.log('pinged server!');
+        //console.log('pinged server!');
       }
     });
   },
@@ -81,7 +85,18 @@ $('#wwo').entwine({
       type: 'get',
       async: false,
       success: function(response) {
-        console.log('pinged leaving!');
+        //console.log('pinged leaving!');
+      }
+    });
+  },
+  updateOfflineUsers: function() {
+    $.ajax({
+      url: '/college/update_offline_users',
+      type: 'get',
+      dataType: 'json',
+      success: function(response) {
+        //console.log('updated offline users');
+        //console.log(response);
       }
     });
   },

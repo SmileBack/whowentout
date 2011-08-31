@@ -608,11 +608,11 @@ class XUser extends XObject
     if ($this->last_ping == NULL)
       return FALSE;
     
-    $thirty_seconds_ago = current_time()->modify('-30 seconds')->getTimestamp();
+    $a_little_while_ago = current_time()->modify('-10 seconds')->getTimestamp();
     $last_ping = new DateTime($this->last_ping, new DateTimeZone('UTC'));
     $last_ping = $last_ping->getTimestamp();
     
-    return $last_ping > $thirty_seconds_ago;
+    return $last_ping > $a_little_while_ago;
   }
   
   function ping_server() {
@@ -630,15 +630,14 @@ class XUser extends XObject
   }
   
   function ping_leaving_site() {
-    $was_online = $this->is_online();
+    if ($this->last_ping == NULL) //already marked as offline so don't do anything
+      return;
+    
     $this->last_ping = NULL;
     $this->save();
     
-    $just_went_offline = $was_online;
-    if ($just_went_offline) {
-      foreach ($this->get_recently_attended_parties() as $party) {
-        $party->increment_version();
-      }
+    foreach ($this->get_recently_attended_parties() as $party) {
+      $party->increment_version();
     }
   }
   

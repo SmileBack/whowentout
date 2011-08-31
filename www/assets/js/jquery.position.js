@@ -137,16 +137,21 @@ $.fn.getPosition = function(target, options) {
     top: sourceBox.tl.top - sourceBox[options.anchor[0]].top
   };
 
-  return {
+  var position = {
     left: pt.left + translate.left + options.offset[0],
     top: pt.top + translate.top + options.offset[1]
   };
+  
+  if (this.css('position') == 'fixed') {
+    var viewportBoxCorner = $('body').getViewportBox().tl;
+    position.left -= viewportBoxCorner.left;
+    position.top -= viewportBoxCorner.top;
+  }
+  
+  return position;
 }
 
 $.fn.applyPosition = function(target, options) {
-  //if ($(this).length == 0 || $(target).length == 0)
-  //  return;
-  
   var position = $(this).getPosition(target, options);
   if (options.animate) {
     $(this).animate({left: position.left + 'px', top: position.top + 'px'}, 500);
@@ -174,6 +179,11 @@ $.fn.anchor = function(target, points) {
     this.refreshPosition();
     return this;
   }
+}
+
+$.fn.pinDown = function() {
+  this.css('position', 'fixed').refreshPosition();
+  return this;
 }
 
 $.fn.refreshPosition = function() {
