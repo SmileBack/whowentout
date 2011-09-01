@@ -108,7 +108,8 @@ $('#chatbar').entwine({
     this.restoreSavedState();
   },
   insertNewMessage: function(message) {
-    this.chatboxForMessage(message, true).addMessage(message);
+    var chatbox = this.chatboxForMessage(message, true);
+    chatbox.addMessage(message);
   },
   chatboxForMessage: function(message, create) {
     var otherUserID = message.sender_id == current_user().id
@@ -134,6 +135,41 @@ $('.chatbox').entwine({
     this.refreshTitle().refreshUnreadCount();
   },
   onunmatch: function() {},
+  onnoticereceived: function(e, message, msgEl) {
+    if (message.message == 'online')
+      this.status('online');
+    else if (message.message == 'offline')
+      this.status('offline');
+  },
+  onmessagereceived: function(e, message, msgEl) {
+    this.show();
+  },
+  onmessagesendfail: function(e, message, response) {
+    this.notice(response.message);
+  },
+  onstatuschanged: function(e, status) {
+    if (status == 'online')
+      this.addClass('online');
+    else
+      this.removeClass('online');
+    
+    if (status == 'online' && !this.isTalkingToSelf())
+      this.notice('');
+  },
+  status: function(status) {
+    if (status === undefined) {
+      return this.hasClass('online') ? 'online' : 'offline';
+    }
+    else {
+      var prevStatus = this.status();
+      
+      if (prevStatus == status)
+        return this;
+      
+      this.trigger('statuschanged', [status, prevStatus]);
+      return this;
+    }
+  },
   state: function(state) {
     if (state === undefined) {
       if ( ! this.is(':visible') ) {
@@ -156,6 +192,7 @@ $('.chatbox').entwine({
       else if (state == 'collapsed') {
         this.show().collapse();
       }
+      return this;
     }
   },
   close: function() {
@@ -178,12 +215,15 @@ $('.chatbox').entwine({
       return this;
     }
   },
+  isTalkingToSelf: function() {
+    return this.attr('from') == this.attr('to');
+  },
   refreshTitle: function() {
     var otherUserID = this.otherUserID();
     var u = user(otherUserID);
     this.title(u.first_name + ' ' + u.last_name);
     
-    if (this.attr('from') == this.attr('to'))
+    if (this.isTalkingToSelf())
       this.notice('Do you like talking to yourself?');
     
     return this;
@@ -231,10 +271,6 @@ $('.chatbox').entwine({
     msgEl.append('<div class="chat_message_body">' + message.message + '</div>');
     msgEl.addClass(message.type);
     
-    if (this.messageWasSentHere(message) && message.is_read == 0) {
-      msgEl.addClass('unread');
-    }
-    
     msgEl.data('message', message);
     
     if (this.lastMessage().attr('from') == msgEl.attr('from'))
@@ -243,14 +279,18 @@ $('.chatbox').entwine({
     if (message.type == 'notice')
       msgEl.hide();
     
-    if (this.messageWasSentHere(message) && message.type == 'notice' && message.is_read == 0) {
-      if (message.message == 'online')
-        this.addClass('online');
-      else if (message.message == 'offline')
-        this.removeClass('online');
+    this.find('.chat_messages').append(msgEl);
+    
+    if (this.messageWasSentHere(message) && message.is_read == 0) {
+      msgEl.addClass('unread');
+      this.trigger('messagereceived', [message, msgEl]);
     }
     
-    this.find('.chat_messages').append(msgEl);
+    if (this.messageWasSentHere(message) && message.type == 'notice' && message.is_read == 0) {
+      this.trigger('noticereceived', [message, msgEl]);
+    }
+    
+    
     this.scrollToBottom();
     this.refreshUnreadCount();
     return this;
@@ -297,12 +337,19 @@ $('.chatbox').entwine({
     this.clearTypedMessage();
   },
   sendMessage: function(message) {
+    var self = this;
     $.ajax({
       url: '/chat/send',
       type: 'post',
       dataType: 'json',
       data: {to: this.otherUserID(), message: message},
       success: function(response) {
+        if (response.success) {
+          self.trigger('messagesent', [message, response] );
+        }
+        else {
+          self.trigger('messagesendfail', [message, response])
+        }
       }
     });
   }
@@ -342,6 +389,6 @@ $('.open_chat').entwine({
   onclick: function(e) {
     e.preventDefault();
     var to = this.attr('to');
-    $('#chatbar').chatbox(to, true).expand().setFocus();
+    $('#chatbar').chatbox(to, true).show().expand().setFocus();
   }
 });

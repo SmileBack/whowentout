@@ -29,9 +29,20 @@ class Chat extends MY_Controller
     $to = user( post('to') );
     $message = post('message');
     
-    $this->chat->send($from, $to, $message);
+    if ($to->is_online()) {
+      $this->chat->send($from, $to, $message);
+      $response = array(
+        'success' => TRUE,
+      );
+    }
+    else {
+      $response = array(
+        'success' => FALSE,
+        'message' => "<p>Message wasn't delivered because $to->full_name is offline.</p>"
+      );
+    }
     
-    print 'done';exit;
+    print json_encode($response);exit;
   }
   
   function mark_read() {
