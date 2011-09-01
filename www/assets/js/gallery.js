@@ -18,7 +18,7 @@ $('.gallery').entwine({
       dataType: 'json',
       data: { sort: this.sorting(), count: this.count() },
       success: function(response) {
-        for (var k in response.new_attendees) {
+        for (var k = 0; k < response.new_attendees.length; k++) {
           this.insertAttendee(response.new_attendees[k]);
         }
         this.attr('data-count', response.count);
@@ -36,7 +36,7 @@ $('.gallery').entwine({
         //console.log('refresh online users');
         //console.log(onlineUserIDs);
         this.find('.party_attendee').removeClass('online');
-        for (var k in onlineUserIDs) {
+        for (var k = 0; k < onlineUserIDs.length; k++) {
           this.attendee(onlineUserIDs[k]).addClass('online');
         }
       }

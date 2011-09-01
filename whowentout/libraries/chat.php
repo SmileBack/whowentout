@@ -5,6 +5,7 @@ class CI_Chat
   
   private $ci;
   private $version;
+  private $last_query;
   
   function __construct() {
     $this->ci =& get_instance();
@@ -45,6 +46,8 @@ class CI_Chat
       $this->version = $version;
     }
     
+    $this->last_query = $this->db->last_query();
+    
     return $messages;
   }
   
@@ -82,10 +85,16 @@ class CI_Chat
     $this->db->where('receiver_id', $by->id)
              ->where('sender_id', $from->id)
              ->update('chat_messages', array('is_read' => 1));
+    
+    $this->last_query = $this->db->last_query();
   }
   
   function version() {
     return $this->version;
+  }
+  
+  function last_query() {
+    return $this->last_query;
   }
   
 }

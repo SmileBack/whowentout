@@ -102,7 +102,7 @@ $('.autocomplete_list').entwine({
     return this;
   },
   addItems: function(items) {
-    for (var k in items) {
+    for (var k = 0; k < items.length; k++) {
       this.addItem(items[k]);
     }
     
@@ -247,7 +247,7 @@ $('.autocomplete_list').entwine({
       );
     });
     visibleItems.reverse();
-    for (var k in visibleItems) {
+    for (var k = 0; k < visibleItems.length; k++) {
       visibleItems[k].detach().prependTo(this);
     }
   },
@@ -296,7 +296,7 @@ $('.autocomplete_list_item').entwine({
     var keywords = q.split(/\W+/);
     var title = this.object().title;
     var re;
-    for (var k in keywords) {
+    for (var k = 0; k < keywords.length; k++) {
       re = new RegExp('\\b' + keywords[k], 'gi');
       if (title.match(re) == null)
         return false;

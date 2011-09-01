@@ -35,7 +35,7 @@ TimeInterval.prototype.roundUp = function(unit) {
 }
 TimeInterval.prototype.toString = function() {
   var str = [], val = null, units = TimeInterval.units;
-  for (var k in units) {
+  for (var k = 0; k < units.length; k++) {
     val = this.get( units[k] );
     if (val > 0)
       str.unshift( val + ' ' + units[k] );

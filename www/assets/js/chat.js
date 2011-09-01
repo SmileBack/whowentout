@@ -58,21 +58,23 @@ $('#chatbar').entwine({
     return this;
   },
   addChatbox: function(to) {
-    var chatbox = $('<div/>').attr('from', current_user().id).attr('to', to)
-                    .append('<div class="header"/>').find('.header')
-                      .append('<h3/>')
-                      .append('<div class="online_badge"></div>')
-                      .append('<a class="chatbox_close">×</a>')
-                    .end()
-                    .append('<div class="unread_count"/>')
-                    .append('<div class="body"/>').find('.body')
-                      .append('<div class="message"/>')
-                      .append('<ul class="chat_messages"/>')
-                      .append('<div class="input"/>').find('.input')
-                        .append('<textarea/>')
-                      .end()
-                    .end()
-                    .addClass('chatbox');
+    var chatbox = $('<div/>');
+    chatbox.attr('from', current_user().id);
+    chatbox.attr('to', to);
+    chatbox.append('<div class="header"/>').find('.header')
+             .append('<h3/>')
+             .append('<div class="online_badge"></div>')
+             .append('<a class="chatbox_close">×</a>')
+           .end()
+           .append('<div class="unread_count"/>')
+           .append('<div class="body"/>').find('.body')
+             .append('<div class="message"/>')
+             .append('<ul class="chat_messages"/>')
+             .append('<div class="input"/>').find('.input')
+             .append('<textarea/>')
+           .end()
+          .end()
+          .addClass('chatbox');
     this.append(chatbox);
     return chatbox;
   },
@@ -92,18 +94,19 @@ $('#chatbar').entwine({
     });
   },
   updateUsers: function(messages) {
-    for (var k in messages) {
-      if ( ! user(messages[k].sender.id) )
-        user(messages[k].sender.id, messages[k].sender)
+    $.each(messages, function(key, msg) {
+      if ( ! user(msg.sender.id) )
+        user(msg.sender.id, msg.sender);
       
-      if ( ! user(messages[k].receiver.id) )
-        user(messages[k].receiver.id, messages[k].receiver)
-    }
+      if ( ! user(msg.receiver.id) )
+        user(msg.receiver.id, msg.receiver);
+    });
   },
   populateNewMessages: function(messages, newVersion) {
-    for (var k in messages) {
-      this.insertNewMessage(messages[k]);
-    }
+    var self = this;
+    $.each(messages, function(key, msg) {
+      self.insertNewMessage(msg);
+    });
     this.data('version', newVersion);
     this.restoreSavedState();
   },
@@ -135,40 +138,14 @@ $('.chatbox').entwine({
     this.refreshTitle().refreshUnreadCount();
   },
   onunmatch: function() {},
-  onnoticereceived: function(e, message, msgEl) {
+  onnewnotice: function(e, message, msgEl) {
     if (message.message == 'online')
-      this.status('online');
-    else if (message.message == 'offline')
-      this.status('offline');
-  },
-  onmessagereceived: function(e, message, msgEl) {
-    this.show();
-  },
-  onmessagesendfail: function(e, message, response) {
-    this.notice(response.message);
-  },
-  onstatuschanged: function(e, status) {
-    if (status == 'online')
       this.addClass('online');
-    else
+    else if (message.message == 'offline')
       this.removeClass('online');
-    
-    if (status == 'online' && !this.isTalkingToSelf())
-      this.notice('');
   },
-  status: function(status) {
-    if (status === undefined) {
-      return this.hasClass('online') ? 'online' : 'offline';
-    }
-    else {
-      var prevStatus = this.status();
-      
-      if (prevStatus == status)
-        return this;
-      
-      this.trigger('statuschanged', [status, prevStatus]);
-      return this;
-    }
+  onnewmessage: function(e, message, msgEl) {
+    this.show();
   },
   state: function(state) {
     if (state === undefined) {
@@ -192,7 +169,6 @@ $('.chatbox').entwine({
       else if (state == 'collapsed') {
         this.show().collapse();
       }
-      return this;
     }
   },
   close: function() {
@@ -215,15 +191,12 @@ $('.chatbox').entwine({
       return this;
     }
   },
-  isTalkingToSelf: function() {
-    return this.attr('from') == this.attr('to');
-  },
   refreshTitle: function() {
     var otherUserID = this.otherUserID();
     var u = user(otherUserID);
     this.title(u.first_name + ' ' + u.last_name);
     
-    if (this.isTalkingToSelf())
+    if (this.attr('from') == this.attr('to'))
       this.notice('Do you like talking to yourself?');
     
     return this;
@@ -283,11 +256,11 @@ $('.chatbox').entwine({
     
     if (this.messageWasSentHere(message) && message.is_read == 0) {
       msgEl.addClass('unread');
-      this.trigger('messagereceived', [message, msgEl]);
+      this.trigger('newmessage', [message, msgEl]);
     }
     
     if (this.messageWasSentHere(message) && message.type == 'notice' && message.is_read == 0) {
-      this.trigger('noticereceived', [message, msgEl]);
+      this.trigger('newnotice', [message, msgEl]);
     }
     
     
@@ -337,19 +310,12 @@ $('.chatbox').entwine({
     this.clearTypedMessage();
   },
   sendMessage: function(message) {
-    var self = this;
     $.ajax({
       url: '/chat/send',
       type: 'post',
       dataType: 'json',
       data: {to: this.otherUserID(), message: message},
       success: function(response) {
-        if (response.success) {
-          self.trigger('messagesent', [message, response] );
-        }
-        else {
-          self.trigger('messagesendfail', [message, response])
-        }
       }
     });
   }

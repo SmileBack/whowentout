@@ -1,3 +1,15 @@
+if (window.console === undefined) {
+  window.console = {
+    log: function() {
+      
+    }
+  };
+}
+
+$.ajaxSetup({
+    cache: false
+});
+
 $('a').live('click', function() {
   $(window).data('isFormOrLink', true);
 });

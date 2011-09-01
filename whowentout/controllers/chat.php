@@ -17,9 +17,10 @@ class Chat extends MY_Controller
     $response = array(
       'messages' => $messages,
       'version' => $this->chat->version(),
+      'last_query' => $this->chat->last_query(),
     );
     
-    print json_encode($response);
+    print json_encode($response);exit;
   }
   
   function send() {

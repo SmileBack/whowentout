@@ -25,7 +25,7 @@ $('.recent_attendees').entwine({
     });
   },
   _thumbnailExists: function(thumbnail, currentIDs) {
-    for (var k in currentIDs) {
+    for (var k = 0; k < currentIDs.length; k++) {
       if (currentIDs[k] == thumbnail.id)
         return true;
     }

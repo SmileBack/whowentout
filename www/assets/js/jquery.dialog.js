@@ -64,13 +64,15 @@ $('.dialog').entwine({
     }
   },
   setButtons: function(buttons) {
+    var self = this;
     if (typeof buttons == 'string')
       buttons = $.dialog.buttonSets[buttons];
 
     this.removeAllButtons();
-    for (var k in buttons) {
-      this.addButton(buttons[k].key, buttons[k].title, buttons[k].attributes);
-    }
+    $.each(buttons, function(k, button) {
+      self.addButton(button.key, button.title, button.attributes);
+    });
+    
     return this;
   },
   addButton: function(key, title, attributes) {
