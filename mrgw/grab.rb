@@ -234,13 +234,13 @@ def sorted_incomplete_queries
   Query.with_pattern([4, 1]).incomplete.order_by_missing
 end
 
-puts sorted_incomplete_queries.length
-
 sorted_incomplete_queries.each do |query|
+  puts "Starting on #{query.value}..."
   ('a'..'z').each do |char|
     pattern = query.value + '+' + char
-    importer.save_students(char)
+    importer.save_students(pattern)
   end
-  
-  puts "#{query.value} = #{query.num_in_db}/#{query.num_total_results}"
 end
+
+puts "Finished. Great success."
+sleep(2.days)
