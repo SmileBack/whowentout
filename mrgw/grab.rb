@@ -1,6 +1,9 @@
 require 'rubygems'
+
 require 'sqlite3'
 require 'active_record'
+require 'sqlite_extensions'
+
 require 'facets/enumerator'
 
 require 'gwudirectory'
@@ -17,6 +20,20 @@ class Student < ActiveRecord::Base
   
   validates :name, :presence => true
   validates :email, :presence => true, :uniqueness => true
+  
+  def self.gwu_query(q)
+    q_parts = q.split('+')
+    
+    first_q_part = q_parts.shift
+    
+    students = Student.arel_table
+    conditions = students[:name].matches('%' + first_q_part + '%').or(students[:email].eq(first_q_part + '@gwu.edu'))
+    q_parts.each do |q_p|
+      conditions = conditions.and(students[:name].matches('%' + q_p + '%').or(students[:email].eq(q_p + '@gwu.edu')))
+    end
+    
+    where(conditions)
+  end
 end
 
 class Query < ActiveRecord::Base
@@ -29,6 +46,32 @@ class Query < ActiveRecord::Base
   def has_all_students?
     num_in_db == num_total_results
   end
+  
+  def self.complete
+    where(complete_condition)
+  end
+  
+  def self.incomplete
+    where(complete_condition.not)
+  end
+  
+  def self.complete_condition
+    arel_table[:num_in_db].eq(arel_table[:num_total_results])
+  end
+  
+  def self.order_by_missing
+    order('queries.num_total_results - queries.num_in_db DESC')
+  end
+  
+  def self.with_pattern(values)
+    regex = search_pattern_regex(values)
+    where('value REGEXP ?', regex)
+  end
+  
+  def self.search_pattern_regex(values)
+    return '^' + values.map { |v| '[a-z]{' + v.to_s + '}' }.join('\\+') + '$'
+  end
+  
 end
 
 class GWUDirectoryImporter
@@ -111,10 +154,10 @@ class GWUDirectoryImporter
     
     return -1 if query.nil?
     
-    count = Student.where('name LIKE ? OR email = ?', "%#{q}%", "#{q}@gwu.edu").size
-    query.num_in_db = count
+    query.num_in_db = Student.gwu_query(query.value).length
     query.save
-    return count
+    
+    return query.num_in_db
   end
   
   def range(length)
@@ -164,7 +207,6 @@ class GWUDirectoryImporter
     query_subsets.each do |subset|
       query = Query.find_by_value(subset)
       next if query.nil?
-      puts "query #{subset} #{query.num_in_db} ++"
       query.num_in_db += 1
       query.save
     end
@@ -175,7 +217,6 @@ class GWUDirectoryImporter
     query_subsets.each do |subset|
       query = Query.find_by_value(subset)
       next if query.nil?
-      puts "query #{subset} #{query.num_in_db} --"
       query.num_in_db -= 1
       query.save
     end
@@ -185,18 +226,21 @@ end
 
 importer = GWUDirectoryImporter.new
 
-queries = Query.where('length(value) = ? AND num_in_db < num_total_results', 3)
-queries.each do |q|
-  puts "starting with #{q.value} (#{q.num_in_db}/#{q.num_total_results}) ..."
-  ('a'..'z').each do |combo_end|
-    importer.save_students(q.value + '+' + combo_end)
-  end
+def complete_queries
+  Query.with_pattern([4, 1]).complete
+end
+  
+def sorted_incomplete_queries
+  Query.with_pattern([4, 1]).incomplete.order_by_missing
 end
 
-queries = Query.where('length(value) = ? AND num_in_db < num_total_results', 4)
-queries.each do |q|
-  puts "starting with #{q.value} (#{q.num_in_db}/#{q.num_total_results}) ..."
-  ('a'..'z').each do |combo_end|
-    importer.save_students(q.value + '+' + combo_end)
+puts sorted_incomplete_queries.length
+
+sorted_incomplete_queries.each do |query|
+  ('a'..'z').each do |char|
+    pattern = query.value + '+' + char
+    importer.save_students(char)
   end
+  
+  puts "#{query.value} = #{query.num_in_db}/#{query.num_total_results}"
 end
