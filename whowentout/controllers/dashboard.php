@@ -5,7 +5,7 @@ class Dashboard extends MY_Controller
   
   function index() {
     if ( ! logged_in() ) {
-      show_404();
+      redirect('login');
     }
     
     enforce_restrictions();

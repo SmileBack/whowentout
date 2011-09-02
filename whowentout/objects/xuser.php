@@ -675,6 +675,7 @@ class XUser extends XObject
       'last_name' => $this->last_name,
       'gender' => $this->gender,
       'other_gender' => $this->other_gender,
+      'is_online' => $this->is_online(),
     );
     return $array;
   }

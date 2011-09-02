@@ -14,9 +14,9 @@
     <?= css_asset('jquery.jcrop') ?>
     
     <?= less_asset('style') ?>
-    <?= js_asset('less.js') ?>
     
-    <?= js_asset('modernizr.js') ?>
+    <?= js_asset('lib/less.js') ?>
+    <?= js_asset('lib/modernizr.js') ?>
     
   </head>
 

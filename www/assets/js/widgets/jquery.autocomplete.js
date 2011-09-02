@@ -162,7 +162,6 @@ $('.autocomplete_list').entwine({
     }
   },
   attachTo: function(input) {
-    console.log('attachTo');
     this.data('input', $(input));
       
     this.width( this.input().outerWidth() );

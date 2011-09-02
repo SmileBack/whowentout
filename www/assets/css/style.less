@@ -303,23 +303,25 @@ table td, table th {
     > * { display: inline-block; }
   }
   .gallery {
-    .horizontal_gallery;
-    clear: both;
-    margin: 0 auto;
-    > li { margin: 16px; }
-    .party_attendee {
-      .full_name {
-        > * { display: inline-block; }
+    > ul {
+      .horizontal_gallery;
+      clear: both;
+      margin: 0 auto;
+      > li { margin: 16px; }
+      .party_attendee {
+        .full_name {
+          > * { display: inline-block; }
+        }
+        .online_badge {
+          display: none;
+        }
+        &.online {
+          .open_chat { cursor: pointer; cursor: pointer; }
+        }
       }
-      .online_badge {
-        display: none;
+      .party_attendee.online {
+         .online_badge { display: inline-block; }
       }
-      &.online {
-        .open_chat { cursor: pointer; cursor: pointer; }
-      }
-    }
-    .party_attendee.online {
-       .online_badge { display: inline-block; }
     }
   }
 }

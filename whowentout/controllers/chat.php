@@ -9,15 +9,19 @@ class Chat extends MY_Controller
     $user = current_user();
     
     $messages = $this->chat->messages( current_user(), $version );
+    $users = array();
+    
     foreach ($messages as &$message) {
-      $message->sender = user($message->sender_id)->to_array();
-      $message->receiver = user($message->receiver_id)->to_array();
+      $sender = user($message->sender_id);
+      $receiver = user($message->receiver_id);
+      $users[$sender->id] = $sender->to_array();
+      $users[$receiver->id] = $receiver->to_array();
     }
     
     $response = array(
       'messages' => $messages,
       'version' => $this->chat->version(),
-      'last_query' => $this->chat->last_query(),
+      'users' => $users,
     );
     
     print json_encode($response);exit;

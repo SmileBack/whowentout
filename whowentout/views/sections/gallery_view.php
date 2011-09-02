@@ -28,22 +28,24 @@
   </ul>
 </div>
 
-<ul class="gallery" data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>">
+<div class="gallery" data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>">
   <?= serverinbox_element("party", $party->id) ?>
   
-  <?php foreach ($party_attendees as $key => $attendee): ?>
-  <li>
-    <?= 
-      load_view('party_attendee_view', array(
-        'party' => $party,
-        'attendee' => $attendee,
-        'smiles_left' => $smiles_left,
-      ))
-    ?>
-  </li>
-  <?php endforeach; ?>
-
-</ul>
+  <ul>
+    <?php foreach ($party_attendees as $key => $attendee): ?>
+      <li>
+        <?= 
+          load_view('party_attendee_view', array(
+            'party' => $party,
+            'attendee' => $attendee,
+            'smiles_left' => $smiles_left,
+          ))
+        ?>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+  
+</div>
 
 <?php if ($party->admin): ?>
   <p id="party_admin">Hosted by: <?= $party->admin->first_name; ?> <?= $party->admin->last_name; ?></p>

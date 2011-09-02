@@ -7,7 +7,7 @@ if (window.console === undefined) {
 }
 
 $.ajaxSetup({
-    cache: false
+  cache: false
 });
 
 $('a').live('click', function() {

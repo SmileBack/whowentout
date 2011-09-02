@@ -2,30 +2,30 @@
 
     </div>
     
-    <?php if(TRUE): ?>
-    <?= js_asset('date.format.js') ?>
-    <?= js_asset('timeinterval.js') ?>
-    <?= js_asset('json.js') ?>
+    <?php if (TRUE): ?>
+    <?= js_asset('lib/date.format.js') ?>
+    <?= js_asset('lib/timeinterval.js') ?>
+    <?= js_asset('lib/json.js') ?>
     
-    <?= js_asset('jquery.js') ?>
-    <?= js_asset('jquery.jstorage.js') ?>
-    <?= js_asset('jquery.throttle-debounce.js') ?>
-    <?= js_asset('jquery.entwine.js') ?>
+    <?= js_asset('lib/jquery.js') ?>
+    <?= js_asset('lib/jquery.jstorage.js') ?>
+    <?= js_asset('lib/jquery.throttle-debounce.js') ?>
+    <?= js_asset('lib/jquery.entwine.js') ?>
 
-    <?= js_asset('jquery.body.js') ?>
-    <?= js_asset('jquery.position.js') ?>
-    <?= js_asset('jquery.element.js') ?>
-
-    <?= js_asset('jquery.autocomplete.js') ?>
-    <?= js_asset('jquery.dialog.js') ?>
-    <?= js_asset('jquery.jcrop.js') ?>
+    <?= js_asset('lib/jquery.body.js') ?>
+    <?= js_asset('lib/jquery.position.js') ?>
+    <?= js_asset('lib/jquery.jcrop.js') ?>
+    
+    <?= js_asset('widgets/jquery.autocomplete.js') ?>
+    <?= js_asset('widgets/jquery.dialog.js') ?>
+    <?= js_asset('widgets/chatbar.js') ?>
     
     <?= js_asset('core.js') ?>
     <?= js_asset('time.js') ?>
-    <?= js_asset('dashboard.js') ?>
-    <?= js_asset('gallery.js') ?>
-    <?= js_asset('crop.js') ?>
-    <?= js_asset('chat.js') ?>
+    
+    <?= js_asset('pages/dashboard.js') ?>
+    <?= js_asset('pages/gallery.js') ?>
+    <?= js_asset('pages/editinfo.js') ?>
     
     <?= js_asset('script.js'); ?>
     <?php endif; ?>

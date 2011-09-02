@@ -12,7 +12,7 @@ class Welcome extends MY_Controller
     $maggie = user(96);
     $claire = user(82);
     
-    var_dump(fb()->api('/8100231'));
+    
   }
   
 }

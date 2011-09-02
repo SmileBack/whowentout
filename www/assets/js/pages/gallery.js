@@ -46,17 +46,17 @@ $('.gallery').entwine({
   insertAttendee: function(attendeeHTML) {
     var el = $('<li>' + attendeeHTML + '</li>');
     var gallery = $(this);
-    el.addClass('new');
+    el.addClass('new').css('display', 'inline-block');
     el.hide();
     
     el.bind('imageload', function() {
       var position = el.find('.party_attendee').attr('data-after');
       //console.log(position);
       if (position == 'first') {
-        gallery.prepend(el);
+        gallery.find('> ul').prepend(el);
       }
       else {
-        this.attendee(position).closest('li').after(el);
+        gallery.attendee(position).closest('li').after(el);
       }
       el.fadeIn();
     });
