@@ -35,6 +35,7 @@ class Query < ActiveRecord::Base
   
   def self.with_pattern(values)
     regex = search_pattern_regex(values)
+    puts "re = #{regex}"
     where('value REGEXP ?', regex)
   end
   

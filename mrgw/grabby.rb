@@ -1,2 +1,3 @@
+require './common'
 
-system("ruby", "grab.rb")
+puts config('ramaniwubi').to_yaml

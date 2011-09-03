@@ -1,0 +1,1 @@
+sudo mount -t tmpfs -o size=250m tmpfs /home/venkat/mrgwramdrive
