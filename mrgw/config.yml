@@ -3,8 +3,10 @@ ramaniwubi:
     adapter: sqlite3
     database: /home/venkat/mrgwramdrive/students.db
 ramaniwindows:
-  adapter: sqlite3
-  database: R:/students.db
+  database:
+    adapter: sqlite3
+    database: R:/students.db
 wwobestbuynetbook:
-  adapter: sqlite3
-  database: R:/students.db
+  database:
+    adapter: sqlite3
+    database: R:/students.db
