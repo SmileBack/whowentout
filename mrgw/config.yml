@@ -7,4 +7,4 @@ ramaniwindows:
   database: R:/students.db
 wwobestbuynetbook:
   adapter: sqlite3
-  database: R/students.db
+  database: R:/students.db
