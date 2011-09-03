@@ -1,6 +1,13 @@
 require 'yaml'
 
-def config(env)
+if ENV['COMPUTER'].nil?
+  raise "The COMPUTER environment variable must be set."
+  exit
+end
+
+def config(k=nil)
   cfg = YAML::load(open('config.yml'))
-  cfg[env.to_s]
+  
+  env = ENV['COMPUTER']
+  k.nil? ? cfg[env] : cfg[env][k]
 end

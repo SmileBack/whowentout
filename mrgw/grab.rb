@@ -14,6 +14,7 @@ def sorted_incomplete_queries
   Query.with_pattern([4, 1]).incomplete.order_by_missing
 end
 
+sleep(2.seconds)
 sorted_incomplete_queries.each do |query|
   puts "Starting on #{query.value}..."
   ('a'..'z').each do |char|
