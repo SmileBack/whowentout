@@ -6,21 +6,34 @@ require './lib/gwudirectoryimporter'
 
 importer = GWUDirectoryImporter.new
 
-def complete_queries
-  Query.with_pattern([4, 1]).complete
-end
-  
-def sorted_incomplete_queries
-  Query.with_pattern([4, 1]).incomplete.order_by_missing
+def incomplete_first_names
+  first_name_tallies = Student.first_name_tallies
+  first_names = []
+  Query.with_pattern(4).incomplete.each do |q|
+    first_names += first_name_tallies.select { |k, v| k.downcase.include?(q.value) }.keys
+  end
+  first_names.uniq.sort
 end
 
-sleep(2)
-sorted_incomplete_queries.each do |query|
-  puts "Starting on #{query.value}..."
-  ('a'..'z').each do |char|
-    pattern = query.value + '+' + char
-    importer.save_students(pattern)
+def incomplete_last_names
+  last_name_tallies = Student.last_name_tallies
+  last_names = []
+  Query.with_pattern(4).incomplete.each do |q|
+    last_names += last_name_tallies.select { |k, v| k.downcase.include?(q.value) }.keys
+  end
+  last_names.uniq.sort
+end
+
+Query.where(:qtype => 'first_name').prioritize_by_missing.each do |q|
+  ('aa'..'zz').each do |suffix|
+    pattern = q.value + '+' + suffix
+    importer.save_students(pattern, 'first_name_combos')
   end
 end
 
-puts "Finished. Great success."
+Query.where(:qtype => 'last_name').prioritize_by_missing.each do |q|
+  ('aa'..'zz').each do |suffix|
+    pattern = q.value + '+' + suffix
+    importer.save_students(pattern, 'last_name_combos')
+  end
+end
