@@ -8,10 +8,7 @@ end
 
 namespace :db do
   task :environment do
-    ActiveRecord::Base.establish_connection(
-      :adapter => 'sqlite3',
-      :database => 'R:/students.db'
-    )
+    require './database'
   end
   
   desc "Migrate the sqlite database."

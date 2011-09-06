@@ -35,7 +35,7 @@ class GWUDirectoryImporter
     Query.last.value
   end
   
-  def save_students(q)
+  def save_students(q, qtype='normal')
     if already_saved?(q)
       puts "already queried #{q}. skipping."
       return
@@ -54,11 +54,12 @@ class GWUDirectoryImporter
       query.num_total_results = result[:count]
       query.num_returned_results = result[:students].length
       query.num_added_to_db = 0
+      query.qtype = qtype
       
       result[:students].each do |s|
-
+      
         unless student_exists?(s[:email])
-          student = Student.create :name => s[:name], :email => s[:email]
+          student = Student.create :name => s[:name], :email => s[:email], :created_by => query
           query.num_added_to_db += 1
           add_to_query_tally(student, query.value.length)
         else
