@@ -30,15 +30,15 @@ class CI_Chat
       'sender' => $sender,
       'receiver' => $receiver,
       'message' => $message,
+      'version' => $this->version,
     ));
     raise_event('chat_received', array(
       'source' => $receiver,
       'sender' => $sender,
       'receiver' => $receiver,
       'message' => $message,
+      'version' => $this->version,
     ));
-    serverinbox()->push("chat_{$sender->id}", $this->version);
-    serverinbox()->push("chat_{$receiver->id}", $this->version);
   }
   
   function messages($user_id, $version) {

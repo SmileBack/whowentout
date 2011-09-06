@@ -94,7 +94,6 @@ class XUser extends XObject
                           'party_id' => $party->id,
                           'checkin_time' => gmdate('Y-m-d H:i:s'),
                         ));
-    $party->increment_version();
     
     raise_event('checkin', array(
       'source' => $party,
@@ -630,20 +629,11 @@ class XUser extends XObject
     $this->last_ping = current_time()->format('Y-m-d H:i:s');
     $this->save();
     
-    $just_got_online = !$was_online;
-    if ($just_got_online) {
-      foreach ($this->get_recently_attended_parties() as $party) {
-        $party->increment_version();
-      }
-      $this->send_came_online_message();
-    }
-  }
-  
-  private function send_came_online_message() {
-    ci()->load->library('chat');
-    $user_ids = ci()->chat->chatted_with_user_ids($this);
-    foreach ($user_ids as $user_id) {
-      ci()->chat->send($this, $user_id, 'online', 'notice');
+    $just_came_online = !$was_online;
+    if ($just_came_online) {
+      raise_event('user_came_online', array(
+        'user' => $this, 
+      ));
     }
   }
   
@@ -654,20 +644,10 @@ class XUser extends XObject
     $this->last_ping = NULL;
     $this->save();
     
-    foreach ($this->get_recently_attended_parties() as $party) {
-      $party->increment_version();
-    }
-    $this->send_went_offline_message();
+    raise_event('user_went_offline', array(
+      'user' => $this, 
+    ));
   }
-  
-  function send_went_offline_message() {
-    ci()->load->library('chat');
-    $user_ids = ci()->chat->chatted_with_user_ids($this);
-    foreach ($user_ids as $user_id) {
-      ci()->chat->send($this, $user_id, 'offline', 'notice');
-    }
-  }
-  
   
   function get_chatbar_state() {
     if ($this->data['chatbar_state'] == NULL)
