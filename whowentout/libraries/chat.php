@@ -25,6 +25,18 @@ class CI_Chat
     
     $this->version = $this->db->insert_id();
     
+    raise_event('chat_sent', array(
+      'source' => $sender,
+      'sender' => $sender,
+      'receiver' => $receiver,
+      'message' => $message,
+    ));
+    raise_event('chat_received', array(
+      'source' => $receiver,
+      'sender' => $sender,
+      'receiver' => $receiver,
+      'message' => $message,
+    ));
     serverinbox()->push("chat_{$sender->id}", $this->version);
     serverinbox()->push("chat_{$receiver->id}", $this->version);
   }

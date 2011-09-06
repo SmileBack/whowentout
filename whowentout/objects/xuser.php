@@ -96,7 +96,11 @@ class XUser extends XObject
                         ));
     $party->increment_version();
     
-    raise_event('checkin', $this, $party);
+    raise_event('checkin', array(
+      'source' => $party,
+      'user' => $user,
+      'party' => $party,
+    ));
     
     return TRUE;
   }
@@ -170,7 +174,12 @@ class XUser extends XObject
                         'smile_time' => gmdate('Y-m-d H:i:s'),
                        ));
     
-    raise_event('smile', $this, $receiver, $party);
+    raise_event('smile', array(
+      'source' => $party,
+      'party' => $party,
+      'sender' => $this,
+      'receiver' => $receiver,
+    ));
     
     return TRUE;
   }

@@ -220,31 +220,6 @@ function is_valid_image($filepath) {
   return getimagesize($filepath) !== FALSE;
 }
 
-function send_email($user, $subject, $body) {
-  $user = user($user);
-  
-  if ($user == NULL || $user->email == NULL)
-    return FALSE;          
-  
-  require_once APPPATH . 'libraries/swift/swift_required.php';
-  
-  ci()->load->config('email');
-  $config = (object)ci()->config->item('email_server');
-  
-  $transport = Swift_SmtpTransport::newInstance($config->server, $config->port, $config->encryption)
-                ->setUsername($config->username)
-                ->setPassword($config->password);
-
-  $mailer = Swift_Mailer::newInstance($transport);
-  
-  $message = Swift_Message::newInstance($subject)
-              ->setBody($body, 'text/html')
-              ->setFrom($config->username, 'WhoWentOut')
-              ->setTo(array($user->email => $user->full_name));
-              
-  $result = $mailer->send($message);
-}
-
 function body_id() {
   $uri = uri_string();
   if (!$uri)
@@ -264,3 +239,5 @@ function curl_file_get_contents($url) {
   else
     return FALSE;
 }
+
+

@@ -25,10 +25,7 @@ def sorted_incomplete_queries
   Query.with_pattern([4, 1]).incomplete.order_by_missing
 end
 
-queries = Query.with_pattern([4, 1])
-queries.each do |q|
-  q.created.each { |s| puts s.name }
-end
+puts ENV['COMPUTER']
 
 exit
 

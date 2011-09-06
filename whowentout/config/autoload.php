@@ -52,8 +52,7 @@ $autoload['packages'] = array(APPPATH.'third_party');
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'session', 'option', 'element');
-
+$autoload['libraries'] = array('event', 'database', 'session', 'option', 'element');
 
 /*
 | -------------------------------------------------------------------
@@ -65,8 +64,7 @@ $autoload['libraries'] = array('database', 'session', 'option', 'element');
 */
 
 $autoload['helper'] = array('core', 'date', 'time', 'html', 'form', 'url',
-                            'wwo', 'user', 'asset', 'test', 'job', 'event',
-                            'event_handlers');
+                            'wwo', 'user', 'asset', 'test', 'job');
 
 if (ENVIRONMENT == 'test')
   $autoload['helper'][] = 'test';

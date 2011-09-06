@@ -209,5 +209,3 @@ function js_asset($asset_name, $module_name = NULL)
 {
 	return '<script type="text/javascript" src="'.js_asset_url($asset_name, $module_name).'"></script>';
 }
-
-?>

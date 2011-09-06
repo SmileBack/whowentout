@@ -47,9 +47,11 @@ function job_run($job_id) {
   if (!$job)
     return FALSE;
   
-  $job_function = $job->type;
   try {
-    call_user_func_array( $job_function, $job->args );
+    if ( ! function_exists($job->type))
+      throw new Exception("Job type $job->type doesn't exist.");
+    
+    call_user_func_array( $job->type, $job->args );
     ci()->db->where('id', $job->id)
             ->update('jobs', array(
               'status' => 'complete',
