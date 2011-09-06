@@ -2,111 +2,125 @@
 
 class CI_Chat
 {
-  
-  private $ci;
-  private $version;
-  private $last_query;
-  
-  function __construct() {
-    $this->ci =& get_instance();
-    $this->db = $this->ci->db;
+
+    private $ci;
+    private $version;
+    private $last_query;
+
+    function __construct()
+    {
+        $this->ci =& get_instance();
+        $this->db = $this->ci->db;
+    }
+
+    function send($sender_id, $receiver_id, $message_body, $type = 'normal')
+    {
+        $sender = user($sender_id);
+        $receiver = user($receiver_id);
+        $this->db->insert('chat_messages', array(
+                                                'type' => $type,
+                                                'sender_id' => $sender->id,
+                                                'receiver_id' => $receiver->id,
+                                                'message' => $message_body,
+                                                'sent_at' => current_time()->getTimestamp(),
+                                           ));
+
+        $message = $this->message( $this->db->insert_id() );
+
+        raise_event('chat_sent', array(
+                                      'source' => $sender,
+                                      'sender' => $sender,
+                                      'receiver' => $receiver,
+                                      'message' => $message,
+                                      'version' => $this->version,
+                                 ));
+        raise_event('chat_received', array(
+                                          'source' => $receiver,
+                                          'sender' => $sender,
+                                          'receiver' => $receiver,
+                                          'message' => $message,
+                                          'version' => $this->version,
+                                     ));
+    }
+
+  function message($id)
+  {
+      return $this->db->from('chat_messages')
+                      ->where('id', $id)
+                      ->get()->row();
   }
-  
-  function send($sender_id, $receiver_id, $message, $type = 'normal') {
-    $sender = user($sender_id);
-    $receiver = user($receiver_id);
-    $this->db->insert('chat_messages', array(
-      'type' => $type,
-      'sender_id' => $sender->id,
-      'receiver_id' => $receiver->id,
-      'message' => $message,
-      'sent_at' => current_time()->getTimestamp(),
-    ));
-    
-    $this->version = $this->db->insert_id();
-    
-    raise_event('chat_sent', array(
-      'source' => $sender,
-      'sender' => $sender,
-      'receiver' => $receiver,
-      'message' => $message,
-      'version' => $this->version,
-    ));
-    raise_event('chat_received', array(
-      'source' => $receiver,
-      'sender' => $sender,
-      'receiver' => $receiver,
-      'message' => $message,
-      'version' => $this->version,
-    ));
-  }
-  
-  function messages($user_id, $version) {
-    $user = user($user_id);
-    $query = "SELECT * FROM chat_messages WHERE (sender_id = ? OR receiver_id = ?)
+
+  function messages($user_id, $version)
+  {
+      $user = user($user_id);
+      $query = "SELECT * FROM chat_messages WHERE (sender_id = ? OR receiver_id = ?)
                 AND id > ?
                 ORDER BY id ASC";
-    $version = intval($version);
-    
-    $messages = $this->db->query($query, array($user->id, $user->id, $version))->result();
-    
-    if ( ! empty($messages) ) {
-      $last_message = $messages[ count($messages) - 1 ];
-      $this->version = intval($last_message->id);
-    }
-    else {
-      $this->version = $version;
-    }
-    
-    $this->last_query = $this->db->last_query();
-    
-    return $messages;
+      $version = intval($version);
+
+      $messages = $this->db->query($query, array($user->id, $user->id, $version))->result();
+
+      if (!empty($messages)) {
+          $last_message = $messages[count($messages) - 1];
+          $this->version = intval($last_message->id);
+      }
+      else {
+          $this->version = $version;
+      }
+
+      $this->last_query = $this->db->last_query();
+
+      return $messages;
   }
   
-  function chatted_with_user_ids($from) {
-    $ids = array();
-    $from = user($from);
-    
-    $rows = $this->db->select('sender_id')
-                     ->distinct()
-                     ->from('chat_messages')
-                     ->where('receiver_id', $from->id)
-                     ->get()->result();
-    
-    foreach ($rows as $row) {
-      $ids[] = $row->sender_id;
-    }
-    
-    $rows = $this->db->select('receiver_id')
-                     ->distinct()
-                     ->from('chat_messages')
-                     ->where('sender_id', $from->id)
-                     ->get()->result();
-    
-    foreach ($rows as $row) {
-      $ids[] = $row->receiver_id;
-    }
-    
-    return array_unique($ids);
+  function chatted_with_user_ids($from)
+  {
+      $ids = array();
+      $from = user($from);
+
+      $rows = $this->db->select('sender_id')
+              ->distinct()
+              ->from('chat_messages')
+              ->where('receiver_id', $from->id)
+              ->get()->result();
+
+      foreach ($rows as $row) {
+          $ids[] = $row->sender_id;
+      }
+
+      $rows = $this->db->select('receiver_id')
+              ->distinct()
+              ->from('chat_messages')
+              ->where('sender_id', $from->id)
+              ->get()->result();
+
+      foreach ($rows as $row) {
+          $ids[] = $row->receiver_id;
+      }
+
+      return array_unique($ids);
   }
   
-  function mark_as_read($by, $from) {
-    $from = user($from);
-    $by = user($by);
-    
-    $this->db->where('receiver_id', $by->id)
-             ->where('sender_id', $from->id)
-             ->update('chat_messages', array('is_read' => 1));
-    
-    $this->last_query = $this->db->last_query();
+  function mark_as_read($by, $from)
+  {
+      $from = user($from);
+      $by = user($by);
+
+      $this->db->where('receiver_id', $by->id)
+              ->where('sender_id', $from->id)
+              ->update('chat_messages', array('is_read' => 1));
+
+      $this->last_query = $this->db->last_query();
   }
   
-  function version() {
-    return $this->version;
+  function version()
+  {
+      return $this->version;
   }
   
-  function last_query() {
-    return $this->last_query;
+  function last_query()
+  {
+      return $this->last_query;
   }
   
 }

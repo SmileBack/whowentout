@@ -1,14 +1,4 @@
-$('.chat.serverinbox').live('newdata', function(e, version) {
-  console.log('---');
-  console.log('chat version changed!');
-  console.log('chat old version = ' + $('#chatbar').version());
-  console.log('chat version = ' + version);
-  $('#chatbar').checkForNewMessages();
-});
 
-jQuery(function() {
-  $('#chatbar').checkForNewMessages();
-});
 $(window).bind('beforeunload', function() {
   $('#chatbar').saveState();
 });

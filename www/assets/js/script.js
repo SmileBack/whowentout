@@ -1,74 +1,111 @@
 jQuery(function($) {
-  
-  WWO.dialog = $.dialog.create();
-  
-  WWO.dialog.anchor('viewport', 'c'); //keeps the dialog box in the center
-  $(window).bind('scroll', function() { //even when you scroll
-    WWO.dialog.refreshPosition();
-  });
-  
+
+    WWO.dialog = $.dialog.create();
+
+    WWO.dialog.anchor('viewport', 'c'); //keeps the dialog box in the center
+    $(window).bind('scroll', function() { //even when you scroll
+        WWO.dialog.refreshPosition();
+    });
+
 });
 
 $('a.confirm').entwine({
-  onclick: function(e) {
-    var action = this.attr('action') || 'do this';
-    var result = confirm("Are you sure you want to " + action + "?");
-    if (!result) {
-      e.preventDefault();
+    onclick: function(e) {
+        var action = this.attr('action') || 'do this';
+        var result = confirm("Are you sure you want to " + action + "?");
+        if (!result) {
+            e.preventDefault();
+        }
     }
-  }
 });
 
-$('.serverinbox').entwine({
-  onmatch: function() {
-    this.hide();
-    this.startChecking();
-  },
-  onunmatch: function() {},
-  inboxUrl: function() {
-    return this.attr('url');
-  },
-  inboxData: function(data) {
-    if (data === undefined) {
-      return this.data('inboxData');
-    }
-    else {
-      var oldData = this.data('inboxData');
-      this.data('inboxData', data);
-      this.trigger('newdata', [data, oldData]);
-      return this;
-    }
-  },
-  startChecking: function() {
-    var self = this;
-    var id = every(2, function() {
-      self.checkInbox();
-    });
-    this.data('pollingId', id);
-  },
-  stopChecking: function() {
-    var id = this.data('pollingId');
-    if (id)
-      cancelEvery(id);
-  },
-  checkInbox: function() {
-    var timestamp = (new Date()).valueOf();
-    var url = this.inboxUrl();
-    var callback = 'json_' + url.substring(url.lastIndexOf('/') + 1);
-    var self = this;
-    $.ajax({
-      type: 'get',
-      url: this.inboxUrl() + '?timestamp=' + timestamp,
-      dataType: 'jsonp',
-      jsonp: false,
-      jsonpCallback: callback,
-      context: this,
-      success: function(newInboxData) {
-        var currentInboxData = self.inboxData();
-        if (currentInboxData != newInboxData) {
-          self.inboxData(newInboxData);
+$('.serverevents').entwine({
+    onmatch: function() {
+        var self = this;
+        $.ajax({
+            url: '/events/version',
+            type: 'get',
+            dataType: 'json',
+            success: function(response) {
+                self.data('eventsVersion', response.version);
+                self.startChecking();
+            }
+        });
+    },
+    onunmatch: function() {
+    },
+    onneweventsversion: function(e, newVersion, oldVersion) {
+        this.fetchNewEvents(oldVersion);
+    },
+    eventsSource: function() {
+      return this.attr('source');
+    },
+    eventsVersionUrl: function() {
+        return '/events/' + this.eventsSource();
+    },
+    eventsVersion: function(v) {
+        if (v === undefined) {
+            return this.data('eventsVersion');
         }
-      }
-    });
-  }
+        else {
+            var oldVersion = this.data('eventsVersion');
+            this.data('eventsVersion', v);
+            this.trigger('neweventsversion', [v, oldVersion]);
+            return this;
+        }
+    },
+    startChecking: function() {
+        var self = this;
+        var id = every(2, function() {
+            self.checkIfEventsVersionChanged();
+        });
+        this.data('pollVersionId', id);
+
+        return this;
+    },
+    stopChecking: function() {
+        var id = this.data('pollVersionId');
+        if (id)
+            cancelEvery(id);
+
+        return this;
+    },
+    checkIfEventsVersionChanged: function() {
+        var timestamp = (new Date()).valueOf();
+        var url = this.eventsVersionUrl();
+        var callback = 'json_' + url.substring(url.lastIndexOf('/') + 1);
+        var self = this;
+        $.ajax({
+            type: 'get',
+            url: this.eventsVersionUrl() + '?timestamp=' + timestamp,
+            dataType: 'jsonp',
+            jsonp: false,
+            jsonpCallback: callback,
+            context: this,
+            success: function(newVersion) {
+                var currentVersion = self.eventsVersion();
+                if (newVersion != currentVersion) {
+                    self.eventsVersion(newVersion);
+                }
+            }
+        });
+    },
+    fetchNewEvents: function(version) {
+        var self = this;
+        $.ajax({
+            url: '/events/fetch/' + this.eventsSource() + '/' + version,
+            type: 'get',
+            dataType: 'json',
+            success: function(response) {
+                self.triggerServerEvents(response.events);
+                console.log(response.events);
+            }
+        });
+    },
+    triggerServerEvents: function(events) {
+        var self = this;
+        $.each(events, function(k, event) {
+            self.trigger(event.type, event.data);
+        });
+    }
 });

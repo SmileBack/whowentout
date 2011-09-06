@@ -4,7 +4,7 @@ class GWUDirectoryImporter
     @dir = GWUDirectory.new
   end
   
-  def already_saved?(q)
+  def already_queried?(q)
     Query.exists?(:value => q)
   end
   
@@ -36,7 +36,7 @@ class GWUDirectoryImporter
   end
   
   def save_students(q, qtype='normal')
-    if already_saved?(q)
+    if already_queried?(q)
       puts "already queried #{q}. skipping."
       return
     end

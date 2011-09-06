@@ -29,8 +29,6 @@
 </div>
 
 <div class="gallery" data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>">
-  <?= serverinbox_element("party", $party->id) ?>
-  
   <ul>
     <?php foreach ($party_attendees as $key => $attendee): ?>
       <li>

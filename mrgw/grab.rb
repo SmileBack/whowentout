@@ -13,17 +13,29 @@ def incomplete_first_names
     first_names += first_name_tallies.select { |k, v| k.downcase.include?(q.value) }.keys
   end
   first_names.uniq.sort
+end
 
-Query.where(:qtype => 'first_name').prioritize_by_missing.each do |q|
-  ('aa'..'zz').each do |suffix|
-    pattern = q.value + '+' + suffix
-    importer.save_students(pattern, 'first_name_combos')
+def total_unprocessed_names
+  queries = Query.arel_table
+  Query.where(queries[:qtype].eq('first_name').or(queries[:qtype].eq('last_name')))
+end
+
+def query_first_names
+  Query.where(:qtype => 'first_name').prioritize_by_missing.each do |q|
+    ('aa'..'zz').each do |suffix|
+      pattern = q.value + '+' + suffix
+      importer.save_students(pattern, 'first_name_combos')
+    end
   end
 end
 
-Query.where(:qtype => 'last_name').prioritize_by_missing.each do |q|
-  ('aa'..'zz').each do |suffix|
-    pattern = q.value + '+' + suffix
-    importer.save_students(pattern, 'last_name_combos')
+def query_last_names
+  Query.where(:qtype => 'last_name').prioritize_by_missing.each do |q|
+    ('aa'..'zz').each do |suffix|
+      pattern = q.value + '+' + suffix
+      importer.save_students(pattern, 'last_name_combos')
+    end
   end
 end
+
+

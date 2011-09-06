@@ -4,7 +4,6 @@
   
   You attended <?= anchor("party/$party->id", $party->place->name) ?>. Here are the most recent checkins.
   <ul class="recent_attendees" data-party-id="<?= $party->id ?>">
-    <?= serverinbox_element('party', $party->id); ?>
     <?php foreach ($party->recent_attendees() as $attendee): ?>
     <li data-user-id="<?= $attendee->id ?>"><?= $attendee->thumb ?></li>
     <?php endforeach; ?>

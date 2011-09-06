@@ -27,8 +27,10 @@
     <div id="notice"></div>
     
     <div id="chatbar"></div>
-    
-    <?= serverinbox_element('chat', current_user()->id); ?>
+
+    <?php if (logged_in()): ?>
+        <div id="me" class="serverevents" source="user_159"></div>
+    <?php endif; ?>
     
     <div id="current_time" class="current_time">
       <?= current_time(TRUE)->format('D, M j g:i a') ?>
