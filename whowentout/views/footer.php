@@ -15,7 +15,9 @@
     <?= js_asset('lib/jquery.body.js') ?>
     <?= js_asset('lib/jquery.position.js') ?>
     <?= js_asset('lib/jquery.jcrop.js') ?>
-    
+
+    <?= js_asset('lib/serverevents.js') ?>
+
     <?= js_asset('widgets/jquery.autocomplete.js') ?>
     <?= js_asset('widgets/jquery.dialog.js') ?>
     <?= js_asset('widgets/chatbar.js') ?>

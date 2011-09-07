@@ -3,8 +3,10 @@ $('.recent_attendees').entwine({
         return 5;
     },
     onmatch: function() {
+        this._super();
     },
     onunmatch: function() {
+        this._super();
     },
     oncheckin: function(e) {
         this.insertThumbnail(e.user.id);

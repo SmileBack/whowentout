@@ -103,7 +103,7 @@ class XParty extends XObject
         if (current_user()->gender == 'F')
             return 'asc';
     }
-
+    
     function get_count()
     {
         return $this->attendees_query()->count_all_results();
