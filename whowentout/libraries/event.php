@@ -21,23 +21,32 @@ class CI_Event
         $this->db = $this->ci->db;
     }
 
-    function raise($event_name, $data = array())
+    function raise($event_name, $event_data = array())
     {
-        $data = (object)$data;
+        $e = $this->cast_event($event_name, $event_data);
         foreach ($this->plugins() as $plugin_name => $plugin) {
             $handler = "on_$event_name";
             if (method_exists($plugin, $handler)) {
-                $plugin->$handler($data);
+                $plugin->$handler($e);
             }
         }
     }
 
-    function store($event_name, $data = array())
+    private function cast_event($event_name, $data = array())
     {
+        $e = (object)$data;
+        $e->type = $event_name;
+        $e->source = isset($e->source) ? $e->source : 'site';
+        return $e;
+    }
+
+    function store($event_name, $event_data = array())
+    {
+        $e = $this->cast_event($event_name, $event_data);
         $this->db->insert('events', array(
-                                         'type' => $event_name,
-                                         'data' => json_encode($data),
-                                         'source' => isset($data['source']) ? $data['source'] : 'site',
+                                         'type' => $e->type,
+                                         'source' => $e->source,
+                                         'data' => json_encode($e),
                                     ));
     }
 

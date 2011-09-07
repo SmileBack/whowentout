@@ -1,5 +1,5 @@
 
-<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee" data-after="<?= isset($after) ? $after : '' ?>">
+<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee">
   <?= $attendee->pic; ?>
 
   <div class="caption">
@@ -34,4 +34,7 @@
   
 </div>
 
-<div id="user_json_<?= $attendee->id ?>" class="user_json" style="display: none;"><?= json_encode($attendee->to_array()) ?></div>
+<?php if ( ! $attendee->is_current_user()): ?>
+<div id="user_json_<?= $attendee->id ?>" class="user_json"
+     style="display: none;"><?= json_encode($attendee->to_array()) ?></div>
+<?php endif; ?>

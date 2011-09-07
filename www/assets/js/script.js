@@ -98,14 +98,15 @@ $('.serverevents').entwine({
             dataType: 'json',
             success: function(response) {
                 self.triggerServerEvents(response.events);
-                console.log(response.events);
             }
         });
     },
     triggerServerEvents: function(events) {
         var self = this;
+        var e;
         $.each(events, function(k, event) {
-            self.trigger(event.type, event.data);
+            e = $.Event(event.type, event);
+            self.trigger(e);
         });
     }
 });

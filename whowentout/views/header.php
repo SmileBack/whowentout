@@ -22,15 +22,11 @@
 
   <body id="<?= body_id() ?>">	
     
-    <?= load_view('wwo_view') ?>
-    
-    <div id="notice"></div>
-    
-    <div id="chatbar"></div>
+    <?= load_view('js/wwo_view') ?>
+    <?= load_view('js/current_user_view') ?>
 
-    <?php if (logged_in()): ?>
-        <div id="me" class="serverevents" source="user_159"></div>
-    <?php endif; ?>
+    <div id="notice"></div>
+    <div id="chatbar"></div>
     
     <div id="current_time" class="current_time">
       <?= current_time(TRUE)->format('D, M j g:i a') ?>

@@ -3,20 +3,12 @@
 /**
  * @return S3ServerInbox 
  */
-function serverinbox() {
+function serverchannel() {
   static $inbox = NULL;
   if (!$inbox)
     $inbox = new FilesystemServerInbox();
   
   return $inbox;
-}
-
-function serverinbox_element($object, $id = NULL, $id2 = NULL) {
-  $args = func_get_args();
-  $class = $object;
-  $name = implode('_', $args);
-  $url = serverinbox()->url($name);
-  return sprintf('<div class="%s serverinbox" url="%s"></div>', $class, $url);
 }
 
 class FilesystemServerInbox
@@ -55,10 +47,10 @@ class S3ServerInbox
     $this->amazon_secret_key = ci()->config->item('amazon_secret_key');
   }
   
-  public function push($id, $data) {
-    $encoded_data = "json_$id(" . json_encode($data) . ')';
+  public function push($channel, $data) {
+    $encoded_data = "json_$channel(" . json_encode($data) . ')';
     
-    $this->s3()->create_object($this->bucket, $id, array(
+    $this->s3()->create_object($this->bucket, $channel, array(
       'body' => $encoded_data,
       'contentType' => 'application/javascript',
       'acl' => AmazonS3::ACL_PUBLIC,
@@ -66,7 +58,7 @@ class S3ServerInbox
   }
   
   public function delete($id) {
-    $this->s3()->delete_object($bucket, $id);
+    $this->s3()->delete_object($this->bucket, $id);
   }
   
   public function url($id) {

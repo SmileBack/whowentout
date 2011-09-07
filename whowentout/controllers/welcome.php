@@ -8,12 +8,17 @@ class Welcome extends MY_Controller
     {
         $this->load->library('chat');
 
+        $party = party(11);
+
         $ven = user(array('first_name' => 'Venkat'));
         $dan = user(array('last_name' => 'Berenholtz'));
+
+        $remi = user(97);
         $maggie = user(96);
         $claire = user(82);
 
-        $this->chat->send($dan, $ven, 'here is a message');
+        $insert_positions = $party->attendee_insert_positions($remi);
+        var_dump($insert_positions);
     }
 
 }

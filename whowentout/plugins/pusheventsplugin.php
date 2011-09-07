@@ -19,7 +19,7 @@ class PushEventsPlugin
                                                   'receiver' => $e->receiver->to_array(),
                                                   'message' => $e->message,
                                              ));
-        serverinbox()->push($source, $this->ci->event->version());
+        serverchannel()->push($source, $this->ci->event->version());
     }
 
     function on_chat_received($e)
@@ -31,7 +31,7 @@ class PushEventsPlugin
                                                       'receiver' => $e->receiver->to_array(),
                                                       'message' => $e->message,
                                                  ));
-        serverinbox()->push($source, $this->ci->event->version());
+        serverchannel()->push($source, $this->ci->event->version());
     }
 
     /**
@@ -41,6 +41,17 @@ class PushEventsPlugin
      */
     function on_checkin($e)
     {
+        $source = 'party_' . $e->party->id;
+        $this->ci->event->store('checkin', array(
+                                                'source' => $source,
+                                                'user' => $e->user->to_array(),
+                                                'insert_positions' => $e->party->attendee_insert_positions($e->user),
+                                                'party_attendee_view' => load_view('party_attendee_view', array(
+                                                                                                               'party' => $e->party,
+                                                                                                               'attendee' => $e->user,
+                                                                                                          )),
+                                           ));
+        serverchannel()->push($source, $this->ci->event->version());
     }
 
     function on_user_came_online($e)
