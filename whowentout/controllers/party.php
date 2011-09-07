@@ -37,25 +37,7 @@ class Party extends MY_Controller {
            ? $sort
            : $possible_sorts[0];
   }
-
-  function recent($party_id) {
-    $user = current_user();
-
-    if ( ! $user->has_attended_party($party_id) )
-      show_404();
-
-    $party = party($party_id);
-    $recent_attendee_images = array();
-    foreach ($party->recent_attendees() as $attendee) {
-      $recent_attendee_images[] = array(
-        'id' => $attendee->id,
-        'path' => $attendee->thumb_url,
-      );
-    }
-
-    print json_encode($recent_attendee_images);exit;
-  }
-
+  
   function online_users($party_id) {
     $user = current_user();
     

@@ -17,8 +17,6 @@ class Welcome extends MY_Controller
         $maggie = user(96);
         $claire = user(82);
 
-        $insert_positions = $party->attendee_insert_positions($remi);
-        var_dump($insert_positions);
     }
 
 }

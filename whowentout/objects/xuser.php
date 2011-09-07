@@ -724,6 +724,7 @@ class XUser extends XObject
             'other_gender' => $this->other_gender,
             'is_online' => $this->is_online(),
             'is_current_user' => $this->is_current_user(),
+            'thumb_url' => $this->thumb_url,
         );
         return $array;
     }

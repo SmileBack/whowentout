@@ -27,7 +27,7 @@ class XParty extends XObject
         $query = $this->attendees_query($sort);
         return $this->load_objects('XUser', $query);
     }
-
+    
     function attendees_query($sort = 'checkin_time')
     {
         $query = $this->db()->select('user_id AS id')
@@ -46,7 +46,7 @@ class XParty extends XObject
             $query->order_by('party_attendees.id', 'desc');
         }
         elseif ($sort == 'gender') {
-            $order = $this->_attendees_query_gender_sort_order();
+            $order = $this->attendees_query_gender_sort_order();
             $query->order_by('gender', $order)
                     ->order_by('checkin_time', 'desc');
         }
@@ -61,7 +61,8 @@ class XParty extends XObject
     /**
      * @param  $attendee XUser
      * @return array
-     *  An associative array of insert positions keyed by sort order
+     *      An associative array of insert positions.
+     *      It will be of the form [sort] => [id], where [id] is the id of the user the $attendee is right be after.
      */
     function attendee_insert_positions($attendee)
     {
@@ -92,8 +93,8 @@ class XParty extends XObject
 
         return FALSE;
     }
-
-    private function _attendees_query_gender_sort_order()
+    
+    private function attendees_query_gender_sort_order()
     {
         if (!logged_in())
             return 'desc';
@@ -107,7 +108,7 @@ class XParty extends XObject
     {
         return $this->attendees_query()->count_all_results();
     }
-
+    
     function get_female_count()
     {
         return $this->attendees_query()->where('gender', 'F')->count_all_results();
