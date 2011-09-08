@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-09-02 16:49:09
+# Date/time:                    2011-09-07 23:14:56
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -66,6 +66,18 @@ CREATE TABLE IF NOT EXISTS `common_nicknames` (
   `name` varchar(256) NOT NULL,
   `nickname` varchar(256) NOT NULL,
   PRIMARY KEY (`name`,`nickname`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.events
+CREATE TABLE IF NOT EXISTS `events` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  `source` varchar(255) NOT NULL DEFAULT 'site',
+  `data` text,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.
@@ -169,6 +181,18 @@ CREATE TABLE IF NOT EXISTS `places` (
 CREATE TABLE IF NOT EXISTS `schema_version` (
   `version` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.sent_emails
+CREATE TABLE IF NOT EXISTS `sent_emails` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `recipient_email` varchar(255) NOT NULL,
+  `subject` text,
+  `body` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.
 

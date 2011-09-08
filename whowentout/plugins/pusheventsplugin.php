@@ -12,26 +12,26 @@ class PushEventsPlugin
 
     function on_chat_sent($e)
     {
-        $source = 'user_' . $e->sender->id;
+        $channel = 'user_' . $e->sender->id;
         $this->ci->event->store('chat_sent', array(
-                                                  'source' => $source,
+                                                  'channel' => $channel,
                                                   'sender' => $e->sender->to_array(),
                                                   'receiver' => $e->receiver->to_array(),
                                                   'message' => $e->message,
                                              ));
-        serverchannel()->push($source, $this->ci->event->version());
+        serverchannel()->push($channel, $this->ci->event->version());
     }
 
     function on_chat_received($e)
     {
-        $source = 'user_' . $e->receiver->id;
+        $channel = 'user_' . $e->receiver->id;
         $this->ci->event->store('chat_received', array(
-                                                      'source' => $source,
+                                                      'channel' => $channel,
                                                       'sender' => $e->sender->to_array(),
                                                       'receiver' => $e->receiver->to_array(),
                                                       'message' => $e->message,
                                                  ));
-        serverchannel()->push($source, $this->ci->event->version());
+        serverchannel()->push($channel, $this->ci->event->version());
     }
 
     /**
@@ -41,9 +41,9 @@ class PushEventsPlugin
      */
     function on_checkin($e)
     {
-        $source = 'party_' . $e->party->id;
+        $channel = 'party_' . $e->party->id;
         $this->ci->event->store('checkin', array(
-                                                'source' => $source,
+                                                'channel' => $channel,
                                                 'user' => $e->user->to_array(),
                                                 'insert_positions' => $e->party->attendee_insert_positions($e->user),
                                                 'party_attendee_view' => load_view('party_attendee_view', array(
@@ -51,7 +51,7 @@ class PushEventsPlugin
                                                                                                                'attendee' => $e->user,
                                                                                                           )),
                                            ));
-        serverchannel()->push($source, $this->ci->event->version());
+        serverchannel()->push($channel, $this->ci->event->version());
     }
 
     function on_user_came_online($e)
@@ -64,12 +64,12 @@ class PushEventsPlugin
             if ($user_id == $e->user->id)
                 continue;
             
-            $source = 'user_' . $user_id;
+            $channel = 'user_' . $user_id;
             $this->ci->event->store('user_came_online', array(
-                                                             'source' => $source,
+                                                             'channel' => $channel,
                                                              'user' => $user,
                                                         ));
-            serverchannel()->push($source, $this->ci->event->version());
+            serverchannel()->push($channel, $this->ci->event->version());
         }
     }
 
@@ -83,12 +83,12 @@ class PushEventsPlugin
             if ($user_id == $e->user->id)
                 continue;
 
-            $source = 'user_' . $user_id;
+            $channel = 'user_' . $user_id;
             $this->ci->event->store('user_went_offline', array(
-                                                              'source' => $source,
+                                                              'channel' => $channel,
                                                               'user' => $user,
                                                          ));
-            serverchannel()->push($source, $this->ci->event->version());
+            serverchannel()->push($channel, $this->ci->event->version());
         }
     }
 

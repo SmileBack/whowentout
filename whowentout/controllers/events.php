@@ -11,11 +11,11 @@ class Events extends MY_Controller
         exit;
     }
 
-    function fetch($source, $version)
+    function fetch($channel, $version)
     {
         //TODO: check for permissions
         print json_encode(array(
-                              'events' => $this->event->fetch($source, $version),
+                              'events' => $this->event->fetch($channel, $version),
                           ));
         exit;
     }

@@ -44,7 +44,7 @@ class CI_Option
   }
   
   function exists($name) {
-    return $this->get($name) != NULL;
+    return $this->get($name) !== NULL;
   }
   
   function delete($name) {

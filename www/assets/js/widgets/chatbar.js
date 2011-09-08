@@ -1,9 +1,16 @@
 $('#current_user')
         .live('chat_received', function(e) {
-            $('#chatbar').addNewMessage(e.message);
+            $.when($('#chatbar').loadMessages())
+                    .then(function() {
+                        $('#chatbar').addNewMessage(e.message);
+                        $('#chatbar').chatboxForMessage(e.message).show().scrollToBottom();
+                    });
         })
         .live('chat_sent', function(e) {
-            $('#chatbar').addNewMessage(e.message);
+            $.when($('#chatbar').loadMessages())
+                    .then(function() {
+                        $('#chatbar').addNewMessage(e.message);
+                    });
         })
         .live('user_came_online', function(e) {
             $('#chatbar').chatbox(e.user.id).status('online');
@@ -45,6 +52,10 @@ $('#chatbar').entwine({
     },
     loadMessages: function() {
         var self = this;
+
+        if (this.data('loadedMessages')) //already loaded messages
+            return null;
+
         var dfd = $.Deferred();
         $.ajax({
             url: '/chat/messages',
@@ -62,7 +73,8 @@ $('#chatbar').entwine({
                 });
 
                 self.restoreSavedState();
-                dfd.resolve();
+                self.data('loadedMessages', true);
+                dfd.resolve(response.messages);
             }
         });
         return dfd.promise();
@@ -240,8 +252,8 @@ $('.chatbox').entwine({
             self.title(u.first_name + ' ' + u.last_name);
         });
 
-        //if (this.talkingToSelf())
-        //    this.notice('Do you like talking to yourself?');
+        if (this.talkingToSelf())
+            this.notice('Do you like talking to yourself?');
 
         return this;
     },

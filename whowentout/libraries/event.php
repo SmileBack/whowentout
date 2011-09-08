@@ -36,7 +36,7 @@ class CI_Event
     {
         $e = (object)$data;
         $e->type = $event_name;
-        $e->source = isset($e->source) ? $e->source : 'site';
+        $e->channel = isset($e->channel) ? $e->channel : 'site';
         return $e;
     }
 
@@ -45,15 +45,15 @@ class CI_Event
         $e = $this->cast_event($event_name, $event_data);
         $this->db->insert('events', array(
                                          'type' => $e->type,
-                                         'source' => $e->source,
+                                         'channel' => $e->channel,
                                          'data' => json_encode($e),
                                     ));
     }
 
-    function fetch($source, $version)
+    function fetch($channel, $version)
     {
         $rows = $this->db->from('events')
-                         ->where('source', $source)
+                         ->where('channel', $channel)
                          ->where('id >', $version)
                          ->get()->result();
 
