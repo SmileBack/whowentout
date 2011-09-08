@@ -16,7 +16,6 @@ class Welcome extends MY_Controller
         $remi = user(97);
         $maggie = user(96);
         $claire = user(82);
-
     }
 
 }

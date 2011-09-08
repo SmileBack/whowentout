@@ -1,5 +1,9 @@
 $('.gallery').entwine({
     onmatch: function() {
+        this._super();
+    },
+    onunmatch: function() {
+        this._super();
     },
     sorting: function() {
         return this.attr('data-sort');

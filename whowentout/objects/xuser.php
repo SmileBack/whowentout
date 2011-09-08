@@ -729,6 +729,7 @@ class XUser extends XObject
         return $array;
     }
 
+    //this is underscored so it doesn't conflict with the XObject get_{property} methods.
     private function _get_image_path($preset)
     {
         return images()->url($this->id, $preset);

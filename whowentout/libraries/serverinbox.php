@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @return S3ServerInbox 
+ * @return S3ServerInbox
  */
 function serverchannel() {
   static $inbox = NULL;
   if (!$inbox)
     $inbox = new FilesystemServerInbox();
-  
+
   return $inbox;
 }
 
