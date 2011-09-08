@@ -1,6 +1,5 @@
 $('#current_user')
         .live('chat_received', function(e) {
-
             $('#chatbar').addNewMessage(e.message);
         })
         .live('chat_sent', function(e) {
@@ -144,7 +143,9 @@ $('#chatbar').entwine({
 
 $('.chatbox').entwine({
     onmatch: function() {
-        this.refreshTitle().refreshUnreadCount();
+        this.refreshTitle()
+                .refreshUnreadCount()
+                .refreshOnlineBadge();
     },
     onunmatch: function() {
     },
@@ -238,6 +239,7 @@ $('.chatbox').entwine({
         $.when(this.toUser()).then(function(u) {
             self.title(u.first_name + ' ' + u.last_name);
         });
+
         //if (this.talkingToSelf())
         //    this.notice('Do you like talking to yourself?');
 
@@ -245,6 +247,18 @@ $('.chatbox').entwine({
     },
     unreadCount: function() {
         return this.find('.chat_message.normal.unread').length;
+    },
+    refreshOnlineBadge: function() {
+        var self = this;
+        $.when(this.toUser()).then(function(u) {
+            if (u.is_online) {
+                self.status('online');
+            }
+            else {
+                self.status('offline');
+            }
+        });
+        return this;
     },
     markAsRead: function() {
         $.ajax({
@@ -283,8 +297,9 @@ $('.chatbox').entwine({
 
         var msgEl = $('<li/>');
         msgEl.attr('from', message.sender_id).attr('to', message.receiver_id);
-        msgEl.append('<div class="chat_sender"></div>');
-        msgEl.append('<div class="chat_message_body">' + message.message + '</div>');
+        msgEl.append('<div class="message_sender"></div>');
+        msgEl.append('<div class="message_body">' + message.message + '</div>');
+        msgEl.append('<div class="message_time">' + this.formatSentAt(message) + '</div>');
         msgEl.addClass(message.type);
         msgEl.data('message', message);
         msgEl.addClass('chat_message');
@@ -296,12 +311,16 @@ $('.chatbox').entwine({
             msgEl.addClass('unread');
 
         $.when(user(message.sender_id), user(message.receiver_id)).then(function(sender, receiver) {
-            msgEl.find('.chat_sender').text(sender.first_name);
+            msgEl.find('.message_sender').text(sender.first_name);
             self.find('.chat_messages').append(msgEl);
             self.scrollToBottom().refreshUnreadCount();
         });
 
         return this;
+    },
+    formatSentAt: function(message) {
+        var sentAt = new Date(message.sent_at * 1000);
+        return 'sent on ' + sentAt.format('mmmm dS') + ' at ' + sentAt.format('h:MM tt');
     },
     scrollToBottom: function() {
         var messagesEl = this.find('.chat_messages');
