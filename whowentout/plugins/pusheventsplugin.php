@@ -63,7 +63,7 @@ class PushEventsPlugin
             //don't alert yourself...
             if ($user_id == $e->user->id)
                 continue;
-            
+
             $channel = 'user_' . $user_id;
             $this->ci->event->store('user_came_online', array(
                                                              'channel' => $channel,
@@ -90,6 +90,49 @@ class PushEventsPlugin
                                                          ));
             serverchannel()->push($channel, $this->ci->event->version());
         }
+    }
+
+    /**
+     * Occurs when a $e->sender smiles at $e->receiver.
+     *
+     * @param XUser $e->sender
+     * @param XUser $e->receiver
+     * @param XSmile $e->smile
+     * @param XParty $e->party
+     */
+    function on_smile_sent($e)
+    {
+        $channel = 'user_' . $e->smile->receiver->id;
+        $party_notices_view = load_view('party_notices_view', array(
+                                                                   'user' => $e->smile->receiver,
+                                                                   'party' => $e->smile->party,
+                                                              ));
+        $this->ci->event->store('smile_received', array(
+                                                       'channel' => $channel,
+                                                       'party' => $e->smile->party->to_array(),
+                                                       'party_notices_view' => $party_notices_view,
+                                                  ));
+        serverchannel()->push($channel, $this->ci->event->version());
+    }
+
+    /**
+     * Occurs when $sender smiles *back* at $e->receiver.
+     *
+     * @param XSmileMatch $e->match
+     */
+    function on_smile_match($e)
+    {
+        $channel = 'user_' . $e->match->second_smile->receiver->id;
+        $party_notices_view = load_view('party_notices_view', array(
+                                                                   'user' => $e->match->second_smile->receiver,
+                                                                   'party' => $e->match->second_smile->party,
+                                                              ));
+        $this->ci->event->store('smile_match', array(
+                                                    'channel' => $channel,
+                                                    'party' => $e->match->second_smile->party->to_array(),
+                                                    'party_notices_view' => $party_notices_view,
+                                               ));
+        serverchannel()->push($channel, $this->ci->event->version());
     }
 
 }

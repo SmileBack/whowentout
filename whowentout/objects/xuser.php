@@ -193,7 +193,7 @@ class XUser extends XObject
                                      'party_id' => $party->id,
                                      'smile_time' => current_time()->format('Y-m-d H:i:s'),
                                 ));
-
+        
         raise_event('smile_sent', array(
                                        'source' => $party,
                                        'smile' => $smile,

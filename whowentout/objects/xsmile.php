@@ -17,7 +17,7 @@ class XSmile extends XObject
 
     function get_party()
     {
-        return user($this->party_id);
+        return party($this->party_id);
     }
 
 }

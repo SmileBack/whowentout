@@ -152,4 +152,12 @@ class XParty extends XObject
         return $attendees;
     }
 
+    function to_array()
+    {
+        return array(
+            'id' => $this->id,
+            'place_name' => $this->place->name,
+        );
+    }
+
 }

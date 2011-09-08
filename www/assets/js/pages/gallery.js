@@ -4,6 +4,14 @@ $('#current_user')
         })
         .live('user_went_offline', function(e) {
             $('#party_attendee_' + e.user.id).removeClass('online');
+        })
+        .live('smile_received', function(e) {
+            var partyID = e.party.id;
+            $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
+        })
+        .live('smile_match', function(e) {
+            var partyID = e.party.id;
+            $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
         });
 
 $('.gallery').entwine({

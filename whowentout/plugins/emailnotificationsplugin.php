@@ -4,11 +4,11 @@ class EmailNotificationsPlugin
 {
 
     /**
-     * Occurs when $e->sender smiles at $e->receiver but no match has (yet) occured.
-     * If you want to attach behaviors to when a match occured, see on_smile_back.
+     * Occurs when a $e->sender smiles at $e->receiver.
      *
      * @param XUser $e->sender
      * @param XUser $e->receiver
+     * @param XSmile $e->smile
      * @param XParty $e->party
      */
     function on_smile_sent($e)

@@ -144,7 +144,7 @@ header {
     padding: 20px 0 10px 0;
     border-bottom: 1px dotted grey;
   }
-  .notices {
+  .party_notices {
     margin-top: 10px;
     .smiles_received { display: inline-block; width: 200px; }
     .smiles_left { display: inline-block; width: 200px; }
@@ -288,15 +288,21 @@ table td, table th {
   background-position: 0 50%;
 }
 
-.notices {
+.party_notices {
   margin-left: 15px;
-  .smiles_received, .smiles_left, .smile_matches > li {
+  .smiles_received {
+    .bullet;
+  }
+  .smiles_left {
+    .bullet;
+  }
+  .smile_matches > li {
     .bullet;
   }
 }
 
 .gallery_view {
-  .notices { font-size: 14px; }
+  .party_notices { font-size: 14px; }
   .sortbar {
     float: right;
     margin-right: 15px;

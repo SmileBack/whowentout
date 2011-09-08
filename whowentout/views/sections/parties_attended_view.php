@@ -11,18 +11,10 @@
         <div class="divider">|</div>
         <div class="place"><?= anchor("party/{$party->id}", $party->place->name); ?></div>
 
-        <div class="notices">
-          <span class="smiles_received"><?= $user->smiles_received_message($party->id) ?></span>
-          <span class="smiles_left"><?= $user->smiles_left_message($party->id) ?></span>
-          <ul class="smile_matches">
-            <? foreach ($user->matches($party) as $match ): ?>
-              <li>
-                You and <?= $match->other_user->full_name ?> have smiled at each other!
-                <?= $match->other_user->anchor_facebook_message() ?>
-              </li>
-            <? endforeach; ?>
-          </ul>
-        </div>
+          <?= load_view('party_notices_view', array(
+                                                   'user' => $user,
+                                                   'party' => $party,
+                                              )); ?>
 
       </div>
 
