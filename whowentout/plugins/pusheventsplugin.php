@@ -56,10 +56,40 @@ class PushEventsPlugin
 
     function on_user_came_online($e)
     {
+        //notify all other users within the college...
+        $college = $e->user->college;
+        $user = $e->user->to_array();
+        foreach ($college->get_online_users_ids() as $user_id) {
+            //don't alert yourself...
+            if ($user_id == $e->user->id)
+                continue;
+            
+            $source = 'user_' . $user_id;
+            $this->ci->event->store('user_came_online', array(
+                                                             'source' => $source,
+                                                             'user' => $user,
+                                                        ));
+            serverchannel()->push($source, $this->ci->event->version());
+        }
     }
 
     function on_user_went_offline($e)
     {
+        //notify all other users within the college...
+        $college = $e->user->college;
+        $user = $e->user->to_array();
+        foreach ($college->get_online_users_ids() as $user_id) {
+            //don't alert yourself...
+            if ($user_id == $e->user->id)
+                continue;
+
+            $source = 'user_' . $user_id;
+            $this->ci->event->store('user_went_offline', array(
+                                                              'source' => $source,
+                                                              'user' => $user,
+                                                         ));
+            serverchannel()->push($source, $this->ci->event->version());
+        }
     }
 
 }

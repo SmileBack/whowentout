@@ -14,6 +14,7 @@ $(window).bind('beforeunload', function() {
 
 $('#chatbar').entwine({
     onmatch: function() {
+        this.loadMessages();
     },
     onunmatch: function() {
     },
@@ -32,13 +33,35 @@ $('#chatbar').entwine({
             return this;
         }
     },
+    loadMessages: function() {
+        var self = this;
+        var dfd = $.Deferred();
+        $.ajax({
+            url: '/chat/messages',
+            type: 'get',
+            dataType: 'json',
+            success: function(response) {
+                //response provides user objects to speed up loading
+                //save these objects to the cache
+                $.each(response.users, function(key, u){
+                   user(u.id, u);
+                });
+                $.each(response.messages, function(key, msg) {
+                    self.addNewMessage(msg);
+                });
+                self.restoreSavedState();
+                dfd.resolve();
+            }
+        });
+        return dfd.promise();
+    },
     saveState: function() {
         $.jStorage.set('chatbarstate', this.state());
         $.ajax({
             url: '/chat/save_chatbar_state',
             type: 'post',
             data: { chatbar_state: this.state() },
-            async: false,
+            async: false, //async false so the browser stays open during the request
             success: function(response) {
             }
         });
@@ -81,32 +104,6 @@ $('#chatbar').entwine({
     },
     version: function() {
         return this.data('version') || 0;
-    },
-    checkForNewMessages: function() {
-        var self = this;
-        $.ajax({
-            url: '/chat/messages/' + this.version(),
-            type: 'get',
-            dataType: 'json',
-            success: function(response) {
-                self.updateUsers(response.users);
-                self.populateNewMessages(response.messages, response.version);
-            }
-        });
-    },
-    updateUsers: function(users) {
-        var self = this;
-        $.each(users, function(k, u) {
-            user(u.id, u);
-        });
-    },
-    populateNewMessages: function(messages, newVersion) {
-        var self = this;
-        $.each(messages, function(key, msg) {
-            self.addNewMessage(msg);
-        });
-        this.data('version', newVersion);
-        this.restoreSavedState();
     },
     addNewMessage: function(message) {
         var chatbox = this.chatboxForMessage(message, true);
@@ -252,6 +249,7 @@ $('.chatbox').entwine({
         else {
             badge.removeClass('empty');
         }
+        return this;
     },
     lastMessage: function() {
         return this.find('.chat_message.normal:last');
@@ -260,11 +258,10 @@ $('.chatbox').entwine({
         return message.receiver_id == current_user().id;
     },
     addMessage: function(message) {
-        //console.log('--add message--');console.log(message);
+        var self = this;
+
         var msgEl = $('<li/>');
-
         msgEl.attr('from', message.sender_id).attr('to', message.receiver_id);
-
         msgEl.append('<div class="chat_sender"></div>');
         msgEl.append('<div class="chat_message_body">' + message.message + '</div>');
         msgEl.addClass(message.type);
@@ -274,20 +271,22 @@ $('.chatbox').entwine({
         if (this.lastMessage().attr('from') == msgEl.attr('from'))
             msgEl.find('.chat_sender').hide();
 
-        this.find('.chat_messages').append(msgEl);
-
-        if (this.messageWasSentHere(message) && message.is_read == 0) {
+        if (this.messageWasSentHere(message) && message.is_read == 0)
             msgEl.addClass('unread');
-        }
 
-        this.scrollToBottom();
-        this.refreshUnreadCount();
+        $.when(user(message.sender_id), user(message.receiver_id)).then(function(sender, receiver) {
+            msgEl.find('.chat_sender').text(sender.first_name);
+            self.find('.chat_messages').append(msgEl);
+            self.scrollToBottom().refreshUnreadCount();
+        });
+
         return this;
     },
     scrollToBottom: function() {
         var messagesEl = this.find('.chat_messages');
         var scrollHeight = messagesEl.get(0).scrollHeight;
         messagesEl.scrollTop(scrollHeight);
+        return this;
     },
     isExpanded: function() {
         return this.find('.body').is(':visible');
@@ -369,34 +368,6 @@ $('.chatbox textarea').entwine({
     },
     onfocusin: function(e) {
         this.closest('.chatbox').markAsRead();
-    }
-});
-
-$('.chat_message').entwine({
-    onmatch: function() {
-        this.refreshChatMessageSender();
-    },
-    onunmatch: function() {
-    },
-    fromUserID: function() {
-        return this.attr('from');
-    },
-    toUserID: function() {
-        return this.attr('to');
-    },
-    //This may be a deferred object so be sure to use $.when to get the result
-    fromUser: function() {
-        return user(this.fromUserID());
-    },
-    //This may be a deferred object so be sure to use $.when to get the result
-    toUser: function() {
-        return user(this.toUserID());
-    },
-    refreshChatMessageSender: function() {
-        var self = this;
-        $.when(this.fromUser()).then(function(u) {
-            self.find('.chat_sender').text(u.first_name);
-        });
     }
 });
 

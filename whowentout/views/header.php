@@ -26,7 +26,10 @@
     <?= load_view('js/current_user_view') ?>
 
     <div id="notice"></div>
-    <div id="chatbar"></div>
+
+    <?php if (logged_in()): ?>
+        <div id="chatbar"></div>
+    <?php endif; ?>
     
     <div id="current_time" class="current_time">
       <?= current_time(TRUE)->format('D, M j g:i a') ?>

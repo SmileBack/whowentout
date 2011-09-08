@@ -18,3 +18,12 @@ $('a.confirm').entwine({
         }
     }
 });
+
+$('#current_user').entwine({
+    onuser_came_online: function(e) {
+        $('#party_attendee_' + e.user.id).addClass('online');
+    },
+    onuser_went_offline: function(e) {
+        $('#party_attendee_' + e.user.id).removeClass('online');
+    }
+});

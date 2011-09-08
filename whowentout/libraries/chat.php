@@ -25,7 +25,7 @@ class CI_Chat
                                                 'sent_at' => current_time()->getTimestamp(),
                                            ));
 
-        $message = $this->message( $this->db->insert_id() );
+        $message = $this->message($this->db->insert_id());
 
         raise_event('chat_sent', array(
                                       'source' => $sender,
@@ -43,84 +43,65 @@ class CI_Chat
                                      ));
     }
 
-  function message($id)
-  {
-      return $this->db->from('chat_messages')
-                      ->where('id', $id)
-                      ->get()->row();
-  }
+    function message($id)
+    {
+        return $this->db->from('chat_messages')
+                ->where('id', $id)
+                ->get()->row();
+    }
 
-  function messages($user_id, $version)
-  {
-      $user = user($user_id);
-      $query = "SELECT * FROM chat_messages WHERE (sender_id = ? OR receiver_id = ?)
-                AND id > ?
+    function messages($user_id)
+    {
+        $one_week_ago = current_time()->modify('-1 week')->getTimestamp();
+        $user = user($user_id);
+        
+        $query = "SELECT * FROM chat_messages WHERE (sender_id = ? OR receiver_id = ?)
+                    AND sent_at > ?
                 ORDER BY id ASC";
-      $version = intval($version);
 
-      $messages = $this->db->query($query, array($user->id, $user->id, $version))->result();
+        $messages = $this->db->query($query, array($user->id, $user->id, $one_week_ago))->result();
 
-      if (!empty($messages)) {
-          $last_message = $messages[count($messages) - 1];
-          $this->version = intval($last_message->id);
-      }
-      else {
-          $this->version = $version;
-      }
+        return $messages;
+    }
 
-      $this->last_query = $this->db->last_query();
+    function chatted_with_user_ids($from)
+    {
+        $ids = array();
+        $from = user($from);
 
-      return $messages;
-  }
-  
-  function chatted_with_user_ids($from)
-  {
-      $ids = array();
-      $from = user($from);
+        $rows = $this->db->select('sender_id')
+                ->distinct()
+                ->from('chat_messages')
+                ->where('receiver_id', $from->id)
+                ->get()->result();
 
-      $rows = $this->db->select('sender_id')
-              ->distinct()
-              ->from('chat_messages')
-              ->where('receiver_id', $from->id)
-              ->get()->result();
+        foreach ($rows as $row) {
+            $ids[] = $row->sender_id;
+        }
 
-      foreach ($rows as $row) {
-          $ids[] = $row->sender_id;
-      }
+        $rows = $this->db->select('receiver_id')
+                ->distinct()
+                ->from('chat_messages')
+                ->where('sender_id', $from->id)
+                ->get()->result();
 
-      $rows = $this->db->select('receiver_id')
-              ->distinct()
-              ->from('chat_messages')
-              ->where('sender_id', $from->id)
-              ->get()->result();
+        foreach ($rows as $row) {
+            $ids[] = $row->receiver_id;
+        }
 
-      foreach ($rows as $row) {
-          $ids[] = $row->receiver_id;
-      }
+        return array_unique($ids);
+    }
 
-      return array_unique($ids);
-  }
-  
-  function mark_as_read($by, $from)
-  {
-      $from = user($from);
-      $by = user($by);
+    function mark_as_read($by, $from)
+    {
+        $from = user($from);
+        $by = user($by);
 
-      $this->db->where('receiver_id', $by->id)
-              ->where('sender_id', $from->id)
-              ->update('chat_messages', array('is_read' => 1));
+        $this->db->where('receiver_id', $by->id)
+                ->where('sender_id', $from->id)
+                ->update('chat_messages', array('is_read' => 1));
 
-      $this->last_query = $this->db->last_query();
-  }
-  
-  function version()
-  {
-      return $this->version;
-  }
-  
-  function last_query()
-  {
-      return $this->last_query;
-  }
-  
+        $this->last_query = $this->db->last_query();
+    }
+    
 }

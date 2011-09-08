@@ -1,5 +1,5 @@
 
-<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee">
+<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee <?= $attendee->is_online() ? 'online' : '' ?>">
   <?= $attendee->pic; ?>
 
   <div class="caption">

@@ -66,13 +66,19 @@ $('#wwo').entwine({
     },
     user: function(id, object) {
         var self = this;
-        
+        var jsonElID;
+
         if (id == null)
             return;
 
-        if (id == 'current')
+        if (id == 'current') {
             id = this.currentUserID();
-
+            jsonElID = '#current_user';
+        }
+        else {
+            jsonElID = '#user_json_' + id;
+        }
+        
         if (this.data('users') == null)
             this.data('users', {});
 
@@ -83,8 +89,8 @@ $('#wwo').entwine({
             if (this.data('users')[id] != null) { //already present in user cache
                 return this.data('users')[id];
             }
-            else if (this.data('users')[id] == null && $('#user_json_' + id).length > 0) { //user data is present in html dom
-                u = $.parseJSON( $('#user_json_' + id).text() );
+            else if (this.data('users')[id] == null && $(jsonElID).length > 0) { //user data is present in html dom
+                u = $.parseJSON( $(jsonElID).text() );
                 this.user(id, u);
                 return u;
             }
