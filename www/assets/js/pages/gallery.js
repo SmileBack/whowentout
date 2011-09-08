@@ -1,3 +1,11 @@
+$('#current_user')
+.live('user_came_online', function(e) {
+            $('#party_attendee_' + e.user.id).addClass('online');
+        })
+.live('user_went_offline', function(e) {
+            $('#party_attendee_' + e.user.id).removeClass('online');
+        });
+
 $('.gallery').entwine({
     onmatch: function() {
         this._super();

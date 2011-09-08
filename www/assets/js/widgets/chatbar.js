@@ -1,12 +1,23 @@
-$('#current_user').entwine({
-    onchat_received: function(e) {
-        $('#chatbar').addNewMessage(e.message);
-    },
-    onchat_sent: function(e) {
-        $('#chatbar').addNewMessage(e.message);
-    }
-});
+$('#current_user')
+        .live('chat_received', function(e) {
 
+            $('#chatbar').addNewMessage(e.message);
+        })
+        .live('chat_sent', function(e) {
+            $('#chatbar').addNewMessage(e.message);
+        })
+        .live('user_came_online', function(e) {
+            $('#chatbar').chatbox(e.user.id).status('online');
+            $.when(user(e.user.id)).then(function(u) {
+                u.is_online = true;
+            });
+        })
+        .live('user_went_offline', function(e) {
+            $('#chatbar').chatbox(e.user.id).status('offline');
+            $.when(user(e.user.id)).then(function(u) {
+                u.is_online = false;
+            });
+        });
 
 $(window).bind('beforeunload', function() {
     $('#chatbar').saveState();
@@ -43,12 +54,14 @@ $('#chatbar').entwine({
             success: function(response) {
                 //response provides user objects to speed up loading
                 //save these objects to the cache
-                $.each(response.users, function(key, u){
-                   user(u.id, u);
+                $.each(response.users, function(key, u) {
+                    user(u.id, u);
                 });
+
                 $.each(response.messages, function(key, msg) {
                     self.addNewMessage(msg);
                 });
+
                 self.restoreSavedState();
                 dfd.resolve();
             }
@@ -134,6 +147,14 @@ $('.chatbox').entwine({
         this.refreshTitle().refreshUnreadCount();
     },
     onunmatch: function() {
+    },
+    onstatuschanged: function(e, status) {
+        if (status == 'online') {
+            this.addClass('online');
+        }
+        else {
+            this.removeClass('online');
+        }
     },
     fromUserID: function() {
         return this.attr('from');
