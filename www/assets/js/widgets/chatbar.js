@@ -26,7 +26,9 @@ $('#current_user')
         });
 
 $(window).bind('beforeunload', function() {
-    $('#chatbar').saveState();
+    // if the chatbar hasn't restored a state yet it might be too early to do anything
+    if ($('#chatbar').alreadyRestoredSavedState())
+        $('#chatbar').saveState();
 });
 
 $('#chatbar').entwine({
@@ -50,10 +52,13 @@ $('#chatbar').entwine({
             return this;
         }
     },
+    alreadyLoadedMessages: function() {
+        return !!this.data('alreadyLoadedMessages');
+    },
     loadMessages: function() {
         var self = this;
 
-        if (this.data('loadedMessages')) //already loaded messages
+        if (this.alreadyLoadedMessages()) //already loaded messages
             return null;
 
         var dfd = $.Deferred();
@@ -73,7 +78,7 @@ $('#chatbar').entwine({
                 });
 
                 self.restoreSavedState();
-                self.data('loadedMessages', true);
+                self.data('alreadyLoadedMessages', true);
                 dfd.resolve(response.messages);
             }
         });
@@ -97,12 +102,15 @@ $('#chatbar').entwine({
         }
         return $.jStorage.get('chatbarstate', {});
     },
+    alreadyRestoredSavedState: function() {
+      return !!this.data('alreadyRestoredSavedState');
+    },
     restoreSavedState: function() {
-        if (this.data('restoredSavedState') == true)
+        if (this.alreadyRestoredSavedState())
             return this;
 
         this.state(this.getSavedState());
-        this.data('restoredSavedState', true);
+        this.data('alreadyRestoredSavedState', true);
         return this;
     },
     addChatbox: function(to) {

@@ -11,7 +11,6 @@ $.ajaxSetup({
 });
 
 $.fn.attrEq = function(attr, val) {
-    console.log('[' + attr.toString() + '="' + val.toString() + '"]');
     return $(this).filter('[' + attr.toString() + '="' + val.toString() + '"]');
 }
 
