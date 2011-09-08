@@ -16,6 +16,8 @@ class MY_Controller extends CI_Controller
         require_once APPPATH . 'objects/xcollege.php';
         require_once APPPATH . 'objects/xparty.php';
         require_once APPPATH . 'objects/xplace.php';
+        require_once APPPATH . 'objects/xsmile.php';
+        require_once APPPATH . 'objects/xsmilematch.php';
     }
 
     protected function load_view($name, $data = array())

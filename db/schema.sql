@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-09-07 23:14:56
+# Date/time:                    2011-09-08 16:58:31
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `common_nicknames` (
 CREATE TABLE IF NOT EXISTS `events` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
-  `source` varchar(255) NOT NULL DEFAULT 'site',
+  `channel` varchar(255) NOT NULL DEFAULT 'site',
   `data` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -226,6 +226,28 @@ CREATE TABLE IF NOT EXISTS `smiles` (
   CONSTRAINT `smiles_party_id` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`),
   CONSTRAINT `smiles_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `smiles_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.smile_matches
+CREATE TABLE IF NOT EXISTS `smile_matches` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `first_smile_id` int(10) unsigned NOT NULL,
+  `second_smile_id` int(10) unsigned NOT NULL,
+  `first_user_id` int(10) unsigned NOT NULL,
+  `second_user_id` int(10) unsigned NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `first_smile_id` (`first_smile_id`),
+  KEY `second_smile_id` (`second_smile_id`),
+  KEY `first_user_id` (`first_user_id`),
+  KEY `second_user_id` (`second_user_id`),
+  CONSTRAINT `first_smile_id_fk` FOREIGN KEY (`first_smile_id`) REFERENCES `smiles` (`id`),
+  CONSTRAINT `first_user_id_fk` FOREIGN KEY (`first_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `second_smile_id_fk` FOREIGN KEY (`second_smile_id`) REFERENCES `smiles` (`id`),
+  CONSTRAINT `second_user_id_fk` FOREIGN KEY (`second_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.

@@ -8,7 +8,10 @@ if (logged_in()) {
 ?>
 
 <?php if (logged_in()): ?>
-<div id="<?= $id ?>" class="serverevents" source="<?= 'user_' . current_user()->id ?>" style="display: none;">
+<div id="<?= $id ?>" class="serverevents"
+     channel-id="<?= 'user_' . current_user()->id ?>"
+     channel-url="<?= serverchannel_url('user', current_user()->id) ?>"
+     style="display: none;">
     <?= json_encode($current_user); ?>
 </div>
 <?php endif; ?>

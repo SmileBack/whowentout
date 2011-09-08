@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['serverchannel']['active_group'] = 'development';
+$config['serverchannel']['active_group'] = 'phpfog';
 
 $config['serverchannel']['development'] = array(
     'driver' => 'filesystem',

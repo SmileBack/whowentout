@@ -28,7 +28,10 @@
   </ul>
 </div>
 
-<div class="gallery serverevents" source="<?= 'party_' . $party->id ?>" data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>">
+<div class="gallery serverevents"
+     channel-id="<?= 'party_' . $party->id ?>"
+     channel-url="<?= serverchannel_url('party', $party->id) ?>"
+     data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>">
   <ul>
     <?php foreach ($party_attendees as $key => $attendee): ?>
       <li>

@@ -17,11 +17,11 @@ $('.serverevents').entwine({
     onneweventsversion: function(e, newVersion, oldVersion) {
         this.fetchNewEvents(oldVersion);
     },
-    eventsSource: function() {
-      return this.attr('source');
+    channelID: function() {
+        return this.attr('channel-id');
     },
-    eventsVersionUrl: function() {
-        return '/events/' + this.eventsSource();
+    channelUrl: function() {
+        return this.attr('channel-url');
     },
     eventsVersion: function(v) {
         if (v === undefined) {
@@ -36,7 +36,7 @@ $('.serverevents').entwine({
     },
     startChecking: function() {
         var self = this;
-        var id = every(2, function() {
+        var id = every(1, function() {
             self.checkIfEventsVersionChanged();
         });
         this.data('pollVersionId', id);
@@ -52,12 +52,14 @@ $('.serverevents').entwine({
     },
     checkIfEventsVersionChanged: function() {
         var timestamp = (new Date()).valueOf();
-        var url = this.eventsVersionUrl();
+        var url = this.channelUrl();
+        //each channel needs its own callback otherwise there may be race conditions
+        //and multiple simultaneous ajax requests may step on each other
         var callback = 'json_' + url.substring(url.lastIndexOf('/') + 1);
         var self = this;
         $.ajax({
             type: 'get',
-            url: this.eventsVersionUrl() + '?timestamp=' + timestamp,
+            url: this.channelUrl() + '?timestamp=' + timestamp,
             dataType: 'jsonp',
             jsonp: false,
             jsonpCallback: callback,
@@ -73,7 +75,7 @@ $('.serverevents').entwine({
     fetchNewEvents: function(version) {
         var self = this;
         $.ajax({
-            url: '/events/fetch/' + this.eventsSource() + '/' + version,
+            url: '/events/fetch/' + this.channelID() + '/' + version,
             type: 'get',
             dataType: 'json',
             success: function(response) {
