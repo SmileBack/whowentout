@@ -334,7 +334,14 @@ class XUser extends XObject
 
     function matches($party)
     {
-        return array();
+        $query = $this->db()->select('smile_matches.id AS id')
+                            ->from('smile_matches')
+                            ->join('smiles', 'second_smile_id = smiles.id')
+                            ->where('smiles.party_id', $party->id)
+                            ->where('first_user_id', $this->id)
+                            ->or_where('smiles.party_id', $party->id)
+                            ->where('second_user_id', $this->id);
+        return $this->load_objects('XSmileMatch', $query);
     }
 
     function mutual_friends($person)

@@ -1,8 +1,8 @@
 $('#current_user')
-.live('user_came_online', function(e) {
+        .live('user_came_online', function(e) {
             $('#party_attendee_' + e.user.id).addClass('online');
         })
-.live('user_went_offline', function(e) {
+        .live('user_went_offline', function(e) {
             $('#party_attendee_' + e.user.id).removeClass('online');
         });
 
@@ -16,39 +16,11 @@ $('.gallery').entwine({
     sorting: function() {
         return this.attr('data-sort');
     },
+    smilesLeft: function() {
+        return parseInt(this.attr('data-smiles-left'));
+    },
     oncheckin: function(e) { //server generated event
         this.insertAttendee(e.party_attendee_view, e.insert_positions);
-    },
-    refreshAttendees: function() {
-        $.ajax({
-            context: this,
-            type: 'post',
-            url: '/party/count/' + this.partyID(),
-            dataType: 'json',
-            data: { sort: this.sorting(), count: this.count() },
-            success: function(response) {
-                for (var k = 0; k < response.new_attendees.length; k++) {
-                    this.insertAttendee(response.new_attendees[k]);
-                }
-                this.attr('data-count', response.count);
-            }
-        });
-        return this;
-    },
-    refreshOnlineUsers: function() {
-        $.ajax({
-            context: this,
-            type: 'post',
-            url: '/party/online_users/' + this.partyID(),
-            dataType: 'json',
-            success: function(onlineUserIDs) {
-                this.find('.party_attendee').removeClass('online');
-                for (var k = 0; k < onlineUserIDs.length; k++) {
-                    this.attendee(onlineUserIDs[k]).addClass('online');
-                }
-            }
-        });
-        return this;
     },
     insertAttendee: function(attendeeHTML, positions) {
         var insertPosition = positions[ this.sorting() ];
@@ -132,11 +104,24 @@ $('.gallery .open_chat').entwine({
     }
 });
 
+$('.gallery .party_attendee').entwine({
+    onmatch: function() {
+        this._super()
+        var smileButtonClass = this.closest('.gallery').smilesLeft() > 0 ? 'can' : 'cant';
+        this.find('.smile_form .submit_button').addClass(smileButtonClass);
+    },
+    onunmatch: function() {
+        this._super()
+    }
+});
+
 $('.party_attendee.online').entwine({
     onmatch: function() {
+        this._super()
         this.find('.full_name').addClass('open_chat');
     },
     onunmatch: function() {
+        this._super()
         this.find('.full_name').removeClass('open_chat');
     }
 });

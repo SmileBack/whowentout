@@ -18,8 +18,9 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $jenny->smile_at($ven, $party);
-        $ven->smile_at($jenny, $party);
+//        $jenny->smile_at($ven, $party);
+//        $ven->smile_at($jenny, $party);
+        var_dump($ven->matches($party));
     }
 
 }

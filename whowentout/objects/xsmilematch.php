@@ -25,4 +25,24 @@ class XSmileMatch extends XObject
         return user($this->second_user_id);
     }
 
+    function get_this_user()
+    {
+        if ($this->first_user == current_user())
+            return $this->first_user;
+        else if ($this->second_user == current_user())
+            return $this->second_user;
+        else
+            return FALSE;
+    }
+
+    function get_other_user()
+    {
+        if ($this->first_user == current_user())
+            return $this->second_user;
+        else if ($this->second_user == current_user())
+            return $this->first_user;
+        else
+            return FALSE;
+    }
+
 }

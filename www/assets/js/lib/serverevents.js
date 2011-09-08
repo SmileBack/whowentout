@@ -2,6 +2,7 @@ $('.serverevents').entwine({
     onmatch: function() {
         this._super();
         var self = this;
+        this.data('isFetchingNewEvents', false);
         $.ajax({
             url: '/events/version',
             type: 'get',
@@ -13,9 +14,6 @@ $('.serverevents').entwine({
         });
     },
     onunmatch: function() {
-    },
-    onneweventsversion: function(e, newVersion, oldVersion) {
-        this.fetchNewEvents(oldVersion);
     },
     channelID: function() {
         return this.attr('channel-id');
@@ -67,21 +65,32 @@ $('.serverevents').entwine({
             success: function(newVersion) {
                 var currentVersion = self.eventsVersion();
                 if (newVersion != currentVersion) {
-                    self.eventsVersion(newVersion);
+                    self.fetchNewEvents();
                 }
             }
         });
     },
-    fetchNewEvents: function(version) {
+    isFetchingNewEvents: function() {
+        return this.data('isFetchingNewEvents');
+    },
+    fetchNewEvents: function() {
+        if (this.isFetchingNewEvents()) {
+            return this;
+        }
+        
         var self = this;
+        this.data('isFetchingNewEvents', true);
         $.ajax({
-            url: '/events/fetch/' + this.channelID() + '/' + version,
+            url: '/events/fetch/' + this.channelID() + '/' + this.eventsVersion(),
             type: 'get',
             dataType: 'json',
             success: function(response) {
+                self.eventsVersion(response.version);
                 self.triggerServerEvents(response.events);
+                self.data('isFetchingNewEvents', false);
             }
         });
+        return this;
     },
     triggerServerEvents: function(events) {
         var self = this;

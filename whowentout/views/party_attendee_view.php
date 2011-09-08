@@ -1,3 +1,8 @@
+<?php
+if (!isset($smiles_left))
+    $smiles_left = 0;
+?>
+
 <div id="party_attendee_<?= $attendee->id ?>" class="party_attendee <?= $attendee->is_online() ? 'online' : '' ?>">
     <?= $attendee->pic; ?>
 

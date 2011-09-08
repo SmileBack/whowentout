@@ -4,10 +4,10 @@
   <p class="smiles_left"><?= $user->smiles_left_message($party->id) ?></p>
 
   <ul class="smile_matches">
-    <? foreach ($user->matches($party->id) as $match ): ?>
+    <? foreach ($user->matches($party) as $match ): ?>
       <li>
-        You and <?= $match->first_name; ?> <?= $match->last_name ?> have smiled at each other!
-        <?= $match->anchor_facebook_message() ?>
+        You and <?= $match->other_user->full_name ?> have smiled at each other!
+        <?= $match->other_user->anchor_facebook_message() ?>
       </li>
     <? endforeach; ?>
   </ul>
@@ -31,7 +31,8 @@
 <div class="gallery serverevents"
      channel-id="<?= 'party_' . $party->id ?>"
      channel-url="<?= serverchannel_url('party', $party->id) ?>"
-     data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>">
+     data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>"
+     data-smiles-left="<?= $smiles_left ?>">
   <ul>
     <?php foreach ($party_attendees as $key => $attendee): ?>
       <li>

@@ -278,7 +278,6 @@ $('.chatbox').entwine({
             type: 'post',
             data: {from: this.attr('to')},
             success: function(response) {
-                //console.log('marked as readd');
             }
         });
         this.find('.chat_message.unread').removeClass('unread');
