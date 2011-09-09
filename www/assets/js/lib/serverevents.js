@@ -77,7 +77,7 @@ $('.serverevents').entwine({
         if (this.isFetchingNewEvents()) {
             return this;
         }
-        
+
         var self = this;
         this.data('isFetchingNewEvents', true);
         $.ajax({

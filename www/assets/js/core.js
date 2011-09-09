@@ -11,7 +11,11 @@ $.ajaxSetup({
 });
 
 $.fn.attrEq = function(attr, val) {
-    return $(this).filter('[' + attr.toString() + '="' + val.toString() + '"]');
+    attr = attr.toString();
+    val = val.toString();
+    return $(this).filter(function() {
+        return $(this).attr(attr) == val;
+    });
 }
 
 $('a').live('click', function() {
