@@ -122,6 +122,7 @@ class PushEventsPlugin
      */
     function on_smile_match($e)
     {
+        var_dump($e);
         $channel = 'user_' . $e->match->second_smile->receiver->id;
         $party_notices_view = load_view('party_notices_view', array(
                                                                    'user' => $e->match->second_smile->receiver,

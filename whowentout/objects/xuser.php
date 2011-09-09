@@ -334,6 +334,7 @@ class XUser extends XObject
 
     function matches($party)
     {
+        $party = party($party);
         $query = $this->db()->select('smile_matches.id AS id')
                             ->from('smile_matches')
                             ->join('smiles', 'second_smile_id = smiles.id')

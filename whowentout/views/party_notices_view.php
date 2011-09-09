@@ -5,8 +5,8 @@
   <ul class="smile_matches">
     <? foreach ($user->matches($party) as $match ): ?>
       <li>
-        You and <?= $match->other_user->full_name ?> have smiled at each other!
-        <?= $match->other_user->anchor_facebook_message() ?>
+        You and <?= $match->other_user($user)->full_name ?> have smiled at each other!
+        <?= $match->other_user($user)->anchor_facebook_message() ?>
       </li>
     <? endforeach; ?>
   </ul>
