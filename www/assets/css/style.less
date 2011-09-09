@@ -95,7 +95,10 @@ header {
   h2 { font-size: 150%; }
   .recent_attendees {
     .horizontal_gallery;
-    img { width: 90px; }
+    a {
+        display: inline-block;
+        img { width: 90px; }
+    }
   }
 }
 
@@ -146,8 +149,11 @@ header {
   }
   .party_notices {
     margin-top: 10px;
+    .smiles_left {
+        display: inline-block; width: 200px;
+        .smile.help { display: none; }
+    }
     .smiles_received { display: inline-block; width: 200px; }
-    .smiles_left { display: inline-block; width: 200px; }
     .smile_matches { display: inline-block; }
   }
 }
@@ -360,4 +366,19 @@ form .hometown {
 
 .party_attendee {
   .caption { text-align: center; }
+}
+
+.help {
+    cursor: help;
+    font-size: 14px;
+    @size: 16px;
+    width: @size;
+    height: @size;
+    .rounded(@size);
+    display: inline-block;
+    text-align: center;
+    line-height: @size;
+    background-color: @bar_color;
+    color: @bar_text_color;
+    font-weight: bold;
 }

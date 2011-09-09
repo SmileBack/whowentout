@@ -59,12 +59,10 @@ $('.recent_attendees').entwine({
         return this;
     },
     createThumbnail: function(user) {
-        var li = $('<li/>');
-        li.attr('data-user-id', user.id);
-        var img = $('<img/>');
-        img.attr('src', user.thumb_url);
-        li.append(img);
-        return li;
+        var tpl = $('<li><a><img/></a></li>');
+        tpl.find('img').attr('src', user.thumb_url);
+        tpl.find('a').attr('href', '/party/' + this.partyID());
+        return tpl;
     }
 });
 

@@ -38,7 +38,6 @@ if (!isset($smiles_left))
 
                 <input type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>"
                        class="submit_button <?= $smiles_left == 0 ? 'cant' : 'can' ?>"/>
-
                 <?= form_close(); ?>
                 <?php endif ?>
             <?php else: ?>

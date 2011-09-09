@@ -9,7 +9,11 @@ You attended <?= anchor("party/$party->id", $party->place->name) ?>. Here are th
     frequency="10"
     data-party-id="<?= $party->id ?>">
     <?php foreach ($party->recent_attendees() as $attendee): ?>
-    <li data-user-id="<?= $attendee->id ?>"><?= $attendee->thumb ?></li>
+    <li>
+        <a href="<?= "/party/$party->id" ?>">
+            <?= $attendee->thumb ?>
+        </a>
+    </li>
     <?php endforeach; ?>
 </ul>
 
@@ -24,5 +28,10 @@ You attended <?= anchor("party/$party->id", $party->place->name) ?>. Here are th
     <?= $closing_time
     ; ?>
 <?php  else: ?>
-<h3>There are currently no parties to checkin to.</h3>
+    <?= form_open('checkin', array('id' => 'checkin_form')) ?>
+        <select style="width: 80px;">
+            <option></option>
+        </select>
+    <?= form_close() ?>
+    <h3 style="display: inline-block; ">There are currently no parties to checkin to.</h3>
 <?php endif; ?>

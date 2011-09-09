@@ -30,7 +30,7 @@ $('.gallery').entwine({
     },
     initOnlineUsers: function() {
         var self = this;
-        $.when(this.fetchOnlineUsers()).then(function(onlineUserIDs){
+        $.when(this.fetchOnlineUsers()).then(function(onlineUserIDs) {
             for (var k = 0; k < onlineUserIDs.length; k++) {
                 $('#party_attendee_' + onlineUserIDs[k]).addClass('online');
             }
@@ -87,10 +87,10 @@ $('.smile_form :submit').live('click', function(e) {
         var senderGender = current_user().other_gender;
         var message = senderGender == 'M'
                 ? '<p>You are about to ' + action + '.</p>'
-                + '<p>He will know that someone has smiled at him, but he will <em>not</em> know it was you unless he smiles at you as well.</p>'
+                + '<p>He will know that someone has smiled at him, but he will <strong>not</strong> know it was you unless he smiles at you as well.</p>'
 
                 : '<p>You are about to ' + action + '.</p>'
-                + '<p>She will know that someone has smiled at her, but she will <em>not</em> know it was you unless she smiles back at you.</p>';
+                + '<p>She will know that someone has smiled at her, but she will <strong>not</strong> know it was you unless she smiles at you as well.</p>';
 
         WWO.dialog.title('Confirm Smile')
                 .message(message)
@@ -151,5 +151,16 @@ $('.party_attendee.online').entwine({
     onunmatch: function() {
         this._super()
         this.find('.full_name').removeClass('open_chat');
+    }
+});
+
+$('.smile.help').entwine({
+    onmouseenter: function() {
+        var message = '<p>The person you smile at will know that someone has smiled at them,</p>'
+                    + '<p>but they will <strong>not</strong> know it was you unless they smile at you as well.</p>'
+        this.notice(message, 'r');
+    },
+    onmouseleave: function() {
+        $('#notice').hideNotice();
     }
 });

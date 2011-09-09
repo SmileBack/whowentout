@@ -511,16 +511,13 @@ class XUser extends XObject
     {
         $party = party($party);
 
-        $genders = array('M' => 'guy', 'F' => 'girl');
-        $smiles = $this->smiles_received($party->id);
-        $people = $genders[$this->other_gender];
+        $count = $this->smiles_received($party->id);
+        $smiles = 'smile';
 
-        if ($smiles != 1)
-            $people = $people . 's'; //pluralize
+        if ($count != 1)
+            $smiles .= 's'; //pluralize
 
-        $have = $smiles == 1 ? 'has' : 'have';
-
-        return "$smiles $people $have smiled at you";
+        return "$count $smiles received";
     }
 
     function smiles_left_message($party)
@@ -533,7 +530,7 @@ class XUser extends XObject
         if ($smiles_left != 1)
             $smiles = $smiles . 's';
 
-        return "You have $smiles_left $smiles left to give";
+        return "$smiles_left $smiles left to give";
     }
 
     /**
