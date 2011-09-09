@@ -32,6 +32,15 @@ class Party extends MY_Controller
         $this->load_view('party_view', $data);
     }
 
+    function online_user_ids($party_id)
+    {
+        $party = party($party_id);
+        $this->json(array(
+                       'success' => TRUE,
+                       'online_user_ids' => $party->get_online_user_ids(current_user()),
+                    ));
+    }
+
     function _get_sort()
     {
         $possible_sorts = array('checkin_time', 'name', 'gender');

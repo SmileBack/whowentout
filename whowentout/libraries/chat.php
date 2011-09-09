@@ -15,6 +15,9 @@ class CI_Chat
 
     function send($sender_id, $receiver_id, $message_body, $type = 'normal')
     {
+        if (empty($message_body))
+            return;
+        
         $sender = user($sender_id);
         $receiver = user($receiver_id);
         $this->db->insert('chat_messages', array(

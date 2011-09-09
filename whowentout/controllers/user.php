@@ -229,8 +229,13 @@ class User extends MY_Controller
     function ping_leaving()
     {
         current_user()->ping_leaving_site();
-        print json_encode(array('success' => TRUE));
-        exit;
+        $this->json_success();
+    }
+
+    function change_visibility($visibility)
+    {
+        $success = current_user()->change_visibility($visibility);
+        $this->json(array('success' => $success));
     }
 
     function info($user_id) {
@@ -238,12 +243,17 @@ class User extends MY_Controller
         $user = user($user_id);
 
         if (!$user) {
-            $response = array('success' => FALSE, 'error' => "User doesn't exist.");
-            print json_encode($response);exit;
+            $this->json(array(
+                            'success' => FALSE,
+                            'error' => "User doesn't exist.",
+                        ));
         }
         else {
-            $response = array('success' => TRUE, 'user' => $user->to_array());
-            print json_encode($response);exit;
+            $user_data = $user->to_array( $user->is_current_user() );
+            $this->json(array(
+                            'success' => TRUE,
+                            'user' => $user_data,
+                        ));
         }
     }
 

@@ -17,6 +17,7 @@ $('#current_user')
 $('.gallery').entwine({
     onmatch: function() {
         this._super();
+        this.initOnlineUsers();
     },
     onunmatch: function() {
         this._super();
@@ -27,6 +28,26 @@ $('.gallery').entwine({
     smilesLeft: function() {
         return parseInt(this.attr('data-smiles-left'));
     },
+    initOnlineUsers: function() {
+        var self = this;
+        $.when(this.fetchOnlineUsers()).then(function(onlineUserIDs){
+            for (var k = 0; k < onlineUserIDs.length; k++) {
+                $('#party_attendee_' + onlineUserIDs[k]).addClass('online');
+            }
+        });
+        return this;
+    },
+    fetchOnlineUsers: function() {
+        var dfd = $.Deferred();
+        $.ajax({
+            url: '/party/online_user_ids/' + this.partyID(),
+            dataType: 'json',
+            success: function(response) {
+                dfd.resolve(response.online_user_ids);
+            }
+        });
+        return dfd.promise();
+    },
     oncheckin: function(e) { //server generated event
         this.insertAttendee(e.party_attendee_view, e.insert_positions);
     },
@@ -34,8 +55,7 @@ $('.gallery').entwine({
         var insertPosition = positions[ this.sorting() ];
         var el = $('<li>' + attendeeHTML + '</li>');
         var gallery = $(this);
-        el.addClass('new').css('display', 'inline-block');
-        el.hide();
+        el.addClass('new').css('display', 'inline-block').css('opacity', 0);
 
         el.bind('imageload', function() {
             if (insertPosition == 'first') {
@@ -44,7 +64,7 @@ $('.gallery').entwine({
             else {
                 gallery.attendee(insertPosition).closest('li').after(el);
             }
-            el.fadeIn();
+            el.animate({opacity: 1});
         });
     },
     attendee: function(user_id) {

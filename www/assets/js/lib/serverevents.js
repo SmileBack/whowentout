@@ -32,6 +32,9 @@ $('.serverevents').entwine({
             return this;
         }
     },
+    frequency: function() {
+        return parseInt( this.attr('frequency') || '1' );
+    },
     startChecking: function() {
         var self = this;
         var id = every(1, function() {

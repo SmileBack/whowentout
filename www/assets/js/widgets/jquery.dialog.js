@@ -130,38 +130,19 @@ $('.dialog .button').entwine({
 });
 
 $('#notice').entwine({
-  showNotice: function(message, target, anchor, hideAfter) {
-    hideAfter = hideAfter || 3;
-    this.empty().append(message).anchor(target, anchor).fadeIn(300)
-        .hideAfter(hideAfter);
-        
+  showNotice: function(message, target, anchor) {
+    this.empty().append(message).anchor(target, anchor).fadeIn(300);
     return this;
   },
   hideNotice: function() {
-    this.data('hideAfterId', null);
     this.fadeOut(300);
     return this;
-  },
-  hideAfter: function(time) {
-    this.cancelHideAfter();
-    var hideAfterId = after(time, function() {
-      $('#notice').hideNotice();
-    });
-    this.data('hideAfterId', hideAfterId);
-    return this;
-  },
-  cancelHideAfter: function() {
-    var hideAfterId = this.data('hideAfterId');
-    if (!hideAfterId)
-      return;
-    clearTimeout(hideAfterId);
-    this.data('hideAfterId', null);
   }
 });
 
-$.fn.notice = function(message, position, hideAfter){
+$.fn.notice = function(message, position) {
   position = position || 't';
   var anchors = {t: ['bc', 'tc'], b: ['tc', 'bc'], l: ['rc', 'lc'], r: ['lc', 'rc']};
-  $('#notice').showNotice(message, $(this), anchors[position] || position, hideAfter);
+  $('#notice').showNotice(message, $(this), anchors[position] || position);
   return this;
 }

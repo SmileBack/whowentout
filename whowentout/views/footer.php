@@ -24,7 +24,8 @@
     
     <?= js_asset('core.js') ?>
     <?= js_asset('time.js') ?>
-    
+
+    <?= js_asset('pages/home.js') ?>
     <?= js_asset('pages/dashboard.js') ?>
     <?= js_asset('pages/gallery.js') ?>
     <?= js_asset('pages/editinfo.js') ?>

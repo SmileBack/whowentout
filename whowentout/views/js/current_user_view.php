@@ -2,8 +2,7 @@
 if (logged_in()) {
     $id = 'current_user';
     $current_user = array();
-    $current_user['logged_in'] = logged_in();
-    $current_user = array_merge($current_user, current_user()->to_array());
+    $current_user = array_merge($current_user, current_user()->to_array(TRUE));
 }
 ?>
 

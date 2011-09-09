@@ -78,9 +78,10 @@ $('#wwo').entwine({
 
         if (id == null)
             return;
-
-        if (id == 'current') {
+        else if (id == 'current')
             id = this.currentUserID();
+        
+        if (id == this.currentUserID()) {
             jsonElID = '#current_user';
         }
         else {
@@ -91,13 +92,13 @@ $('#wwo').entwine({
             this.data('users', {});
 
         if (object === undefined) { //get
-
             var u = null;
-
+            
             if (this.data('users')[id] != null) { //already present in user cache
                 return this.data('users')[id];
             }
             else if (this.data('users')[id] == null && $(jsonElID).length > 0) { //user data is present in html dom
+                console.log('getting from json');
                 u = $.parseJSON( $(jsonElID).text() );
                 this.user(id, u);
                 return u;

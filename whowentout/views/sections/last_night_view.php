@@ -6,6 +6,7 @@ You attended <?= anchor("party/$party->id", $party->place->name) ?>. Here are th
 <ul class="recent_attendees serverevents"
     channel-id="<?= 'party_' . $party->id ?>"
     channel-url="<?= serverchannel_url('party', $party->id) ?>"
+    frequency="10"
     data-party-id="<?= $party->id ?>">
     <?php foreach ($party->recent_attendees() as $attendee): ?>
     <li data-user-id="<?= $attendee->id ?>"><?= $attendee->thumb ?></li>

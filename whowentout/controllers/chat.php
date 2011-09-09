@@ -12,9 +12,9 @@ class Chat extends MY_Controller
         $users = array();
         foreach ($messages as $message) {
             $sender = user($message->sender_id);
+            $users[$sender->id] = $sender->to_array( $sender->is_current_user() );
             $receiver = user($message->receiver_id);
-            $users[$sender->id] = $sender->to_array();
-            $users[$receiver->id] = $receiver->to_array();
+            $users[$receiver->id] = $receiver->to_array( $receiver->is_current_user() );
         }
 
         $response = array(
@@ -34,7 +34,7 @@ class Chat extends MY_Controller
         $to = user(post('to'));
         $message = post('message');
 
-        if ($to->is_online()) {
+        if ($to->is_online_to($from)) {
             $this->chat->send($from, $to, $message);
             $response = array(
                 'success' => TRUE,

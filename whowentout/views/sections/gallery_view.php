@@ -2,7 +2,7 @@
 <?= load_view('party_notices_view', array(
                                       'user' => $user,
                                       'party' => $party,
-                                    )); ?>
+                                    )) ?>
     
 <div class="sortbar">
   <h2>Sort by:</h2>
@@ -19,9 +19,17 @@
   </ul>
 </div>
 
+<div class="visibilitybar">
+    <h2>You can be seen by:</h2>
+    <a href="everyone">Everyone</a>
+    <a href="friends">Friends</a>
+    <a href="none">Nobody</a>
+</div>
+
 <div class="gallery serverevents"
      channel-id="<?= 'party_' . $party->id ?>"
      channel-url="<?= serverchannel_url('party', $party->id) ?>"
+     frequency="10"
      data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>"
      data-smiles-left="<?= $smiles_left ?>">
   <ul>

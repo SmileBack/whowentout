@@ -139,6 +139,7 @@ class XObject
 
     function save()
     {
+        $this->before_save();
         if ($this->is_new()) {
             $this->insert();
             $this->just_created = TRUE;
@@ -255,4 +256,8 @@ class XObject
         return $objects;
     }
 
+    protected function before_save()
+    {
+    }
+    
 }

@@ -17,7 +17,9 @@ class Welcome extends MY_Controller
         $maggie = user(96);
         $claire = user(82);
         $jenny = user(108);
-        
+
+        $visibility = $this->input->get('visible');
+        $dan->change_visibility($visibility);
     }
 
 }

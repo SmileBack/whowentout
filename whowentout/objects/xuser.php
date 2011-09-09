@@ -18,6 +18,24 @@ class XUser extends XObject
         }
     }
 
+    function change_visibility($visibility)
+    {
+        $allowed_visibilities = array('everyone', 'friends', 'none');
+        if (!in_array($visibility, $allowed_visibilities))
+            return FALSE;
+
+        $this->visible_to = $visibility;
+        $this->ping_leaving_site();
+        $this->ping_server();
+
+        raise_event('user_changed_visibility', array(
+                                                 'user' => $this,
+                                                 'visibility' => $this->visible_to,
+                                               ));
+
+        return TRUE;
+    }
+
     function logout()
     {
         //delete user id
@@ -193,7 +211,7 @@ class XUser extends XObject
                                      'party_id' => $party->id,
                                      'smile_time' => current_time()->format('Y-m-d H:i:s'),
                                 ));
-        
+
         raise_event('smile_sent', array(
                                        'source' => $party,
                                        'smile' => $smile,
@@ -336,12 +354,12 @@ class XUser extends XObject
     {
         $party = party($party);
         $query = $this->db()->select('smile_matches.id AS id')
-                            ->from('smile_matches')
-                            ->join('smiles', 'second_smile_id = smiles.id')
-                            ->where('smiles.party_id', $party->id)
-                            ->where('first_user_id', $this->id)
-                            ->or_where('smiles.party_id', $party->id)
-                            ->where('second_user_id', $this->id);
+                ->from('smile_matches')
+                ->join('smiles', 'second_smile_id = smiles.id')
+                ->where('smiles.party_id', $party->id)
+                ->where('first_user_id', $this->id)
+                ->or_where('smiles.party_id', $party->id)
+                ->where('second_user_id', $this->id);
         return $this->load_objects('XSmileMatch', $query);
     }
 
@@ -701,6 +719,39 @@ class XUser extends XObject
         return $last_ping > $a_little_while_ago;
     }
 
+    /**
+     * @param  XUser $user
+     * @return bool
+     *      Whether $this user appears online to $user.
+     */
+    function is_online_to($user)
+    {
+        $user = user($user);
+
+        if (!$this->is_online())
+            return FALSE;
+
+        else if ($this->visible_to == 'none')
+            return FALSE;
+
+            // not hiding anything, so your visible state is unaltered
+        else if ($this->visible_to == 'everyone')
+            return $this->is_online();
+
+            // only tell them you're online if you're friends with them
+        else if ($this->visible_to == 'friends')
+            return $this->is_online() && $this->is_friend_of($user);
+    }
+
+    function is_friend_of($user)
+    {
+        $user = user($user);
+        return $this->db()->from('friends')
+                       ->where('user_id', $this->id)
+                       ->where('friend_id', $user->id)
+                       ->count_all_results() > 0;
+    }
+
     function ping_server()
     {
         $was_online = $this->is_online();
@@ -716,7 +767,7 @@ class XUser extends XObject
         }
     }
 
-    function ping_leaving_site()
+    function ping_leaving_site($suspend_save = FALSE)
     {
         if ($this->last_ping == NULL) //already marked as offline so don't do anything
             return;
@@ -737,7 +788,7 @@ class XUser extends XObject
             return json_decode($this->data['chatbar_state']);
     }
 
-    function to_array()
+    function to_array($show_private_fields = FALSE)
     {
         $array = array(
             'id' => $this->id,
@@ -746,10 +797,14 @@ class XUser extends XObject
             'last_name' => $this->last_name,
             'gender' => $this->gender,
             'other_gender' => $this->other_gender,
-            'is_online' => $this->is_online(),
             'is_current_user' => $this->is_current_user(),
             'thumb_url' => $this->thumb_url,
         );
+
+        if ($show_private_fields) {
+            $array['visible_to'] = $this->visible_to;
+        }
+        
         return $array;
     }
 

@@ -76,7 +76,7 @@ function images()
         ci()->config->load('imagerepository');
         $config = ci()->config->item('imagerepository');
         $config = $config[$config['active_group']];
-
+        
         if ($config['source'] == 'filesystem') {
             return new FilesystemImageRepository($config['path']);
         }

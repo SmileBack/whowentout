@@ -54,6 +54,7 @@ class PushEventsPlugin
         serverchannel()->push($channel, $this->ci->event->version());
     }
 
+    //$e->user just came online
     function on_user_came_online($e)
     {
         //notify all other users within the college...
@@ -62,6 +63,10 @@ class PushEventsPlugin
         foreach ($college->get_online_users_ids() as $user_id) {
             //don't alert yourself...
             if ($user_id == $e->user->id)
+                continue;
+
+            // don't alert those who you should be invisible to based on the users visible_to setting
+            if ( ! $e->user->is_online_to($user_id))
                 continue;
 
             $channel = 'user_' . $user_id;
@@ -133,6 +138,17 @@ class PushEventsPlugin
                                                     'party' => $e->match->second_smile->party->to_array(),
                                                     'party_notices_view' => $party_notices_view,
                                                ));
+        serverchannel()->push($channel, $this->ci->event->version());
+    }
+
+    function on_user_changed_visibility($e)
+    {
+        $channel = 'user_' . $e->user->id;
+        $this->ci->event->store('user_changed_visibility', array(
+                                                            'channel' => $channel,
+                                                            'user' => $e->user->to_array(),
+                                                            'visibility' => $e->user->visible_to,
+                                                          ));
         serverchannel()->push($channel, $this->ci->event->version());
     }
 

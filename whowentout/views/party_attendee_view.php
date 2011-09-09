@@ -3,7 +3,7 @@ if (!isset($smiles_left))
     $smiles_left = 0;
 ?>
 
-<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee <?= $attendee->is_online() ? 'online' : '' ?>">
+<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee">
     <?= $attendee->pic; ?>
 
     <div class="caption">
@@ -35,8 +35,10 @@ if (!isset($smiles_left))
                 <?php else: ?>
                 <?=
                 form_open('user/smile', array('class' => 'smile_form'), array('party_id' => $party->id, 'receiver_id' => $attendee->id)) ; ?>
+
                 <input type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>"
                        class="submit_button <?= $smiles_left == 0 ? 'cant' : 'can' ?>"/>
+
                 <?= form_close(); ?>
                 <?php endif ?>
             <?php else: ?>
