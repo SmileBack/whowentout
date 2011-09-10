@@ -77,7 +77,7 @@ class XCollege extends XObject
 
     function get_timezone()
     {
-        return new DateTimeZone('America/Los_Angeles');
+        return new DateTimeZone('America/New_York');
     }
 
     function get_students()
@@ -262,7 +262,7 @@ class XCollege extends XObject
      */
     function get_opening_time($local = FALSE)
     {
-        $opening_time = $this->today(TRUE)->setTime(1, 0, 0);
+        $opening_time = $this->today(TRUE)->setTime(2, 0, 0);
 
         //opening time has already passed to return the next opening time.
         if ($this->current_time(TRUE) >= $opening_time)
@@ -281,7 +281,7 @@ class XCollege extends XObject
      */
     function get_closing_time($local = FALSE)
     {
-        $closing_time = $this->today(TRUE)->setTime(12 + 11, 0, 0);
+        $closing_time = $this->today(TRUE)->setTime(12 + 11, 59, 59);
 
         if ($this->current_time(TRUE) >= $closing_time)
             $closing_time = $closing_time->modify('+1 day');

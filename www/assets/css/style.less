@@ -126,6 +126,7 @@ header {
       text-decoration: none;
       &:hover { text-decoration: underline; .opacity(1); }
     }
+    &.hover .edit { .opacity(1); }
   }
   .profile_info {
     float: right;
@@ -366,19 +367,4 @@ form .hometown {
 
 .party_attendee {
   .caption { text-align: center; }
-}
-
-.help {
-    cursor: help;
-    font-size: 14px;
-    @size: 16px;
-    width: @size;
-    height: @size;
-    .rounded(@size);
-    display: inline-block;
-    text-align: center;
-    line-height: @size;
-    background-color: @bar_color;
-    color: @bar_text_color;
-    font-weight: bold;
 }

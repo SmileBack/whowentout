@@ -22,7 +22,7 @@ $('.recent_attendees').entwine({
         var self = this;
         var n = this.thumbnailCapacity() - 2;
         var oldPics = this.thumbnails().filter(':gt(' + n + ')');
-        $.when( user(user_id) ).then(function(u) {
+        $.when(user(user_id)).then(function(u) {
             var t = self.createThumbnail(u);
             t.bind('imageload', function() {
                 t.css('opacity', 0);
@@ -69,6 +69,15 @@ $('.recent_attendees').entwine({
 $('.recent_attendees li').entwine({
     userID: function() {
         return parseInt(this.attr('data-user-id'));
+    }
+});
+
+$('.profile_pic').entwine({
+    onmouseenter: function() {
+        this.addClass('hover');
+    },
+    onmouseleave: function() {
+        this.removeClass('hover');
     }
 });
 

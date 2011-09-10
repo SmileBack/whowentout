@@ -28,7 +28,7 @@ function current_time() {
     $delta = time_delta_seconds();
     $dt = $dt->modify("+$delta seconds");
   }
-  
+
   return make_gmt($dt);
 }
 
