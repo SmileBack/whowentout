@@ -1,37 +1,55 @@
 <h2>Where Did You Go Out Last Night?</h2>
 
-<?php if ($has_attended_party): ?>
+<?php
+$yesterday = college()->yesterday(TRUE);
+$open_parties = $college->open_parties(current_time());
+?>
 
-You attended <?= anchor("party/$party->id", $party->place->name) ?>. Here are the most recent checkins.
-<ul class="recent_attendees serverevents"
-    channel-id="<?= 'party_' . $party->id ?>"
-    channel-url="<?= serverchannel_url('party', $party->id) ?>"
-    frequency="10"
-    data-party-id="<?= $party->id ?>">
-    <?php foreach ($party->recent_attendees() as $attendee): ?>
-    <li>
-        <a href="<?= "/party/$party->id" ?>">
-            <?= $attendee->thumb ?>
-        </a>
-    </li>
-    <?php endforeach; ?>
-</ul>
+<?=
+form_open('checkin', array(
+                          'id' => 'checkin_form',
+                          'doors_opening_time' => college()->get_opening_time()->getTimestamp(),
+                          'doors_closing_time' => college()->get_closing_time()->getTimestamp(),
+                          'doors_open' => (int)college()->doors_are_open(),
+                     ))
+?>
 
-<?php elseif ($parties_dropdown): ?>
-    <?= form_open('checkin', array('id' => 'checkin_form'))
-    ; ?>
-    <?= $parties_dropdown
-    ; ?>
-<button type="submit">enter</button>
-    <?= form_close()
-    ; ?>
-    <?= $closing_time
-    ; ?>
-<?php  else: ?>
-    <?= form_open('checkin', array('id' => 'checkin_form')) ?>
-        <select style="width: 80px;">
-            <option></option>
-        </select>
-    <?= form_close() ?>
-    <h3 style="display: inline-block; ">There are currently no parties to checkin to.</h3>
-<?php endif; ?>
+<?php if ( college()->within_checkin_periods() ): ?>
+   <?php $checkins_begin_time = college()->checkins_begin_time(TRUE); ?>
+   <?php $first_party_night = clone $checkins_begin_time; $first_party_night->modify('-1 day') ?>
+   Doors will open for <?= $first_party_night->format('l') ?> night checkins on
+    <?= $checkins_begin_time->format('l \a\t g a') ?>
+<?php elseif (college()->doors_are_open()): ?>
+
+    <?php if (current_user()->has_attended_party_on_date($yesterday)): ?>
+        You attended <?= anchor("party/$party->id", $party->place->name) ?>. Here are the most recent checkins.
+            <?= load_view('recent_attendees_view', array('party' => $party)) ?>
+        <?php else: ?>
+            <?= parties_dropdown($open_parties) ?>
+        <button type="submit">enter</button>
+        <?php endif; ?>
+
+    <span class="closing_time doors_open"
+      time="<?= college()->get_closing_time()->getTimestamp() ?>">
+
+        Doors will close for checkin at
+    <?= college()->get_closing_time(TRUE)->format('g a') ?>
+    [ in <span class="remaining_time"></span> ]
+    </span>
+
+<?php elseif (college()->doors_are_closed()): ?>
+
+    <?= parties_dropdown($open_parties) ?>
+    <button type="submit">enter</button>
+    
+    <span class="closing_time doors_closed"
+          time="<?= college()->get_closing_time()->getTimestamp() ?>">
+
+            Doors will open for checkin at
+        <?= college()->get_opening_time(TRUE)->format('g a') ?>
+
+        </span>
+
+    <?php endif; ?>
+
+<?= form_close() ?>

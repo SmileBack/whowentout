@@ -17,7 +17,12 @@ class Welcome extends MY_Controller
         $maggie = user(96);
         $claire = user(82);
         $jenny = user(108);
-        $format = 'Y-m-d H:i:s';
+
+        $checkins_begin_time = college()->checkins_begin_time(TRUE);
+        $checkins_end_time = college()->checkins_end_time(TRUE);
+
+        var_dump($checkins_begin_time->format('Y-m-d H:i:s'));
+        var_dump($checkins_end_time->format('Y-m-d H:i:s'));
     }
 
 }

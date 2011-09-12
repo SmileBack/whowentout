@@ -36,7 +36,7 @@ class XCollege extends XObject
      * Get all of the parties that the user can check into at $time.
      * @param DateTime $time
      * @return array
-     *   An array of iparty objects.
+     *   An array of XParty objects.
      */
     function open_parties($time)
     {
@@ -48,7 +48,7 @@ class XCollege extends XObject
     /**
      * @return DateTime
      */
-    function current_time($local = FALSE)
+    function current_time($local = FALSE, $current_time = NULL)
     {
         $dt = actual_time();
 
@@ -57,6 +57,9 @@ class XCollege extends XObject
             $delta = time_delta_seconds();
             $dt = $dt->modify("+$delta seconds");
         }
+
+        if ($current_time != NULL)
+            $dt = $current_time;
 
         return $local ? $this->make_local($dt) : $this->make_gmt($dt);
     }
@@ -166,9 +169,21 @@ class XCollege extends XObject
         set_fake_time($dt);
     }
 
-    function day($day_offset, $local = FALSE)
+
+    /**
+     * @param  $day_offset
+     * @param bool $local
+     * @param DateTime $current_time
+     *      Pass in this parameter if you want to override what the current time is.
+     * @return DateTime
+     *      The day $day_offset days away from the current time with the time set to 12 am.
+     */
+    function day($day_offset, $local = FALSE, $current_time = NULL)
     {
-        $current_local_time = $this->current_time(TRUE);
+        if ($current_time == NULL)
+            $current_time = $this->current_time();
+
+        $current_local_time = $this->make_local($current_time);
         $current_local_time->setTime(0, 0, 0);
 
         if ($day_offset > 0) {
@@ -182,26 +197,41 @@ class XCollege extends XObject
                 : $this->make_gmt($current_local_time);
     }
 
-    function party_day($party_day_offset, $local = FALSE)
+    function party_day($party_day_offset, $local = FALSE, $current_time = NULL)
     {
-        $party_day_offset = intval($party_day_offset);
-        $current_party_day_offset = 0;
+        return $this->day_of_type('party', $party_day_offset, $local, $current_time);
+    }
+
+    function day_of_type($day_type, $target_offset, $local = FALSE, $current_time = NULL)
+    {
+        $max_limit = 30;
+        $target_offset = intval($target_offset);
+        $filtered_offset = 0;
         $actual_offset = 0;
 
-        //today won't always work since today might not be a party day
-        if ($party_day_offset == 0)
-            return FALSE;
+        $step = $target_offset > 0 ? 1 : -1;
+        $filter = "is_{$day_type}_day";
+        
+        $cur_day = $this->day($actual_offset, $local, $current_time);
 
-        $step = $party_day_offset > 0 ? 1 : -1;
+        //today won't always work since today might satisfy the conditions
+        if ($target_offset == 0)
+            return $this->$filter(clone $cur_day) ? $cur_day : FALSE;
+
         do {
-            $current_party_day = $this->day($actual_offset);
             $actual_offset += $step;
-            if ($this->is_party_day($current_party_day))
-                $current_party_day_offset += $step;
-        } while ($current_party_day_offset != $party_day_offset);
+            $cur_day = $this->day($actual_offset, $local, $current_time);
 
-        return $local ? $this->make_local($current_party_day)
-                : $this->make_gmt($current_party_day);
+            if ($this->$filter(clone $cur_day))
+                $filtered_offset += $step;
+
+            if ($actual_offset > $max_limit)
+                throw new Exception('Exceeded the offset limit.');
+            
+        } while ($filtered_offset != $target_offset);
+
+        return $local ? $this->make_local($cur_day)
+                : $this->make_gmt($cur_day);
     }
 
     function is_party_day(DateTime $day)
@@ -211,24 +241,85 @@ class XCollege extends XObject
         return in_array($day->format('l'), $party_days);
     }
 
+    function is_checkin_day(DateTime $day)
+    {
+        $day = $this->make_local($day);
+
+        $prev_day = clone $day;
+        $prev_day->modify('-1 day');
+
+        return $this->is_party_day($prev_day);
+    }
+
+    function is_initial_checkin_day(DateTime $day)
+    {
+        $day = $this->make_local($day);
+
+        $prev_day = clone $day;
+        $prev_day->modify('-1 day');
+
+        return !$this->is_checkin_day($prev_day)
+            && $this->is_checkin_day($day);
+    }
+
+    function is_final_checkin_day(DateTime $day)
+    {
+        $day = $this->make_local($day);
+
+        $next_day = clone $day;
+        $next_day->modify('+1 day');
+
+        return $this->is_checkin_day($day)
+            && !$this->is_checkin_day($next_day);
+    }
+
+    function is_non_party_day(DateTime $day)
+    {
+        return !$this->is_party_day($day);
+    }
+
+    function checkins_begin_time($local = FALSE, $current_time = NULL)
+    {
+        $begin_day = $this->day_of_type('initial_checkin', 0, $local, $current_time);
+        if (!$begin_day) { // if today isn't a day where the checkins begin
+            $begin_day = $this->day_of_type('initial_checkin', 1, $local, $current_time);
+        }
+        return $this->get_opening_time($local, $begin_day);
+    }
+
+    function checkins_end_time($local = FALSE, $current_time = NULL)
+    {
+        $end_day = $this->day_of_type('final_checkin', 0, $local, $current_time);
+        if (!$end_day) {
+            $end_day = $this->day_of_type('final_checkin', 1, $local, $current_time);
+        }
+        return $this->get_closing_time($local, $end_day);
+    }
+
+    function within_checkin_periods($current_time = NULL)
+    {
+        return $this->checkins_end_time(FALSE, $current_time)->getTimestamp()
+            > $this->checkins_begin_time(FALSE, $current_time)->getTimestamp();
+    }
+
     /**
      * Gives you the date for today at current college (12am).
      * @param bool $local
      * @return DateTime
      */
-    function today($local = FALSE)
+    function today($local = FALSE, $current_time = NULL)
     {
-        return $this->day(0, $local);
+        return $this->day(0, $local, $current_time);
     }
 
-    function yesterday($local = FALSE)
+    function yesterday($local = FALSE, $current_time = NULL)
     {
-        return $this->day(-1, $local);
+        return $this->day(-1, $local, $current_time);
     }
 
-    function tomorrow($local = FALSE)
+    function tomorrow($local = FALSE, $current_time = NULL)
     {
-        return $this->day(+1, $local);
+        return $this->day(+1, $local, $current_time);
     }
 
     /**
@@ -243,14 +334,15 @@ class XCollege extends XObject
         return max($delta, 0);
     }
 
-    function doors_are_closed()
+    function doors_are_closed($current_time = NULL)
     {
-        return !$this->doors_are_open();
+        return !$this->doors_are_open($current_time);
     }
 
-    function doors_are_open()
+    function doors_are_open($current_time = NULL)
     {
-        return $this->get_opening_time()->getTimestamp() > $this->get_closing_time()->getTimestamp();
+        return $this->get_opening_time($current_time)->getTimestamp()
+               > $this->get_closing_time($current_time)->getTimestamp();
     }
 
     /**
@@ -260,12 +352,12 @@ class XCollege extends XObject
      *      If false, the time will be returned in UTC.
      * @return DateTime
      */
-    function get_opening_time($local = FALSE)
+    function get_opening_time($local = FALSE, $current_time = NULL)
     {
-        $opening_time = $this->today(TRUE)->setTime(2, 0, 0);
+        $opening_time = $this->today(TRUE, $current_time)->setTime(2, 0, 0);
 
         //opening time has already passed to return the next opening time.
-        if ($this->current_time(TRUE) >= $opening_time)
+        if ($this->current_time(TRUE, $current_time) >= $opening_time)
             $opening_time = $opening_time->modify('+1 day');
 
         return $local ? $this->make_local($opening_time)
@@ -279,15 +371,20 @@ class XCollege extends XObject
      *      If false, the time will be returned in UTC.
      * @return DateTime
      */
-    function get_closing_time($local = FALSE)
+    function get_closing_time($local = FALSE, $current_time = NULL)
     {
-        $closing_time = $this->today(TRUE)->setTime(12 + 11, 59, 59);
+        $closing_time = $this->tomorrow(TRUE, $current_time)->setTime(0, 0, 0);
 
-        if ($this->current_time(TRUE) >= $closing_time)
+        if ($this->current_time(TRUE, $current_time) >= $closing_time)
             $closing_time = $closing_time->modify('+1 day');
 
         return $local ? $this->make_local($closing_time)
                 : $this->make_gmt($closing_time);
+    }
+
+    function get_party_period()
+    {
+        
     }
 
     function get_places()

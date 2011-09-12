@@ -122,15 +122,17 @@ function get_message()
 
 function parties_dropdown($parties)
 {
-    if (empty($parties))
-        return '';
-
     $options = array();
     foreach ($parties as $party) {
         $options[$party->id] = $party->place->name;
     }
 
-    return form_dropdown('party_id', $options);
+    if (empty($parties))
+        $extra = 'class="empty"';
+    else
+        $extra = '';
+
+    return form_dropdown('party_id', $options, '', $extra);
 }
 
 function places_dropdown($places)

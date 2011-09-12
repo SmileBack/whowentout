@@ -9,5 +9,5 @@
     <?= date_format(college()->get_closing_time(TRUE), 'g a') ?>
     [ in <span class="remaining_time"></span> ]
   <?php endif; ?>
-    
+  
 </span>
