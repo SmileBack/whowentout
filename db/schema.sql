@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-09-08 20:33:52
+# Date/time:                    2011-09-13 02:59:28
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -277,6 +277,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pic_height` int(10) unsigned DEFAULT NULL,
   `pic_version` int(10) unsigned NOT NULL DEFAULT '1',
   `chatbar_state` text,
+  `visible_to` varchar(255) NOT NULL DEFAULT 'everyone',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),

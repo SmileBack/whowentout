@@ -7,7 +7,8 @@ class XCollege extends XObject
 
     static function current()
     {
-        return XCollege::get(1);
+        $ci =& get_instance();
+        return XCollege::get($ci->config->item('selected_college_id'));
     }
 
     function add_party($date, $place_id)
@@ -211,7 +212,7 @@ class XCollege extends XObject
 
         $step = $target_offset > 0 ? 1 : -1;
         $filter = "is_{$day_type}_day";
-        
+
         $cur_day = $this->day($actual_offset, $local, $current_time);
 
         //today won't always work since today might satisfy the conditions
@@ -227,7 +228,7 @@ class XCollege extends XObject
 
             if ($actual_offset > $max_limit)
                 throw new Exception('Exceeded the offset limit.');
-            
+
         } while ($filtered_offset != $target_offset);
 
         return $local ? $this->make_local($cur_day)
@@ -259,7 +260,7 @@ class XCollege extends XObject
         $prev_day->modify('-1 day');
 
         return !$this->is_checkin_day($prev_day)
-            && $this->is_checkin_day($day);
+               && $this->is_checkin_day($day);
     }
 
     function is_final_checkin_day(DateTime $day)
@@ -270,7 +271,7 @@ class XCollege extends XObject
         $next_day->modify('+1 day');
 
         return $this->is_checkin_day($day)
-            && !$this->is_checkin_day($next_day);
+               && !$this->is_checkin_day($next_day);
     }
 
     function is_non_party_day(DateTime $day)
@@ -280,26 +281,50 @@ class XCollege extends XObject
 
     function checkins_begin_time($local = FALSE, $current_time = NULL)
     {
+        if ($current_time == NULL)
+            $current_time = current_time();
+
         $begin_day = $this->day_of_type('initial_checkin', 0, $local, $current_time);
         if (!$begin_day) { // if today isn't a day where the checkins begin
             $begin_day = $this->day_of_type('initial_checkin', 1, $local, $current_time);
         }
-        return $this->get_opening_time($local, $begin_day);
+
+        $begin_time = $this->get_opening_time($local, $begin_day);
+
+        //if time has passed get next begin time
+        if ($current_time->getTimestamp() > $begin_time->getTimestamp()) {
+            $begin_day = $this->day_of_type('initial_checkin', 2, $local, $current_time);
+            $begin_time = $this->get_closing_time($local, $begin_day);
+        }
+
+        return $begin_time;
     }
 
     function checkins_end_time($local = FALSE, $current_time = NULL)
     {
+        if ($current_time == NULL)
+            $current_time = current_time();
+
         $end_day = $this->day_of_type('final_checkin', 0, $local, $current_time);
         if (!$end_day) {
             $end_day = $this->day_of_type('final_checkin', 1, $local, $current_time);
         }
-        return $this->get_closing_time($local, $end_day);
+
+        $end_time = $this->get_closing_time($local, $end_day);
+
+        //if time has passed get next end time
+        if ($current_time->getTimestamp() > $end_time->getTimestamp()) {
+            $end_day = $this->day_of_type('final_checkin', 2, $local, $current_time);
+            $end_time = $this->get_closing_time($local, $end_day);
+        }
+
+        return $end_time;
     }
 
     function within_checkin_periods($current_time = NULL)
     {
         return $this->checkins_end_time(FALSE, $current_time)->getTimestamp()
-            > $this->checkins_begin_time(FALSE, $current_time)->getTimestamp();
+               > $this->checkins_begin_time(FALSE, $current_time)->getTimestamp();
     }
 
     /**
@@ -384,7 +409,7 @@ class XCollege extends XObject
 
     function get_party_period()
     {
-        
+
     }
 
     function get_places()

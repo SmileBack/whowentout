@@ -67,11 +67,3 @@ $.Class.extend('WhoWentOut.Component', {}, {
         event.target = this;
     }
 });
-
-$.
-
-$.Class.extend('WhoWentOut.User', {}, {
-    sayHi: function() {
-        alert('hi');
-    }
-});

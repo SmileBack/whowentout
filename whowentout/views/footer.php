@@ -18,7 +18,9 @@
     <?= js_asset('lib/jquery.position.js') ?>
     <?= js_asset('lib/jquery.jcrop.js') ?>
 
-    <?= js_asset('models/whowentout.user.js') ?>
+    <?= js_asset('whowentout.component.js') ?>
+    <?= js_asset('whowentout.user.js') ?>
+
 
     <?= js_asset('lib/serverevents.js') ?>
 

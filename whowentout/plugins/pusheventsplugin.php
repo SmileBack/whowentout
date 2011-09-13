@@ -9,7 +9,7 @@ class PushEventsPlugin
     {
         $this->ci =& get_instance();
     }
-
+    
     function on_chat_sent($e)
     {
         $channel = 'user_' . $e->sender->id;
@@ -66,7 +66,7 @@ class PushEventsPlugin
                 continue;
 
             // don't alert those who you should be invisible to based on the users visible_to setting
-            if ( ! $e->user->is_online_to($user_id))
+            if (!$e->user->is_online_to($user_id))
                 continue;
 
             $channel = 'user_' . $user_id;
@@ -127,7 +127,6 @@ class PushEventsPlugin
      */
     function on_smile_match($e)
     {
-        var_dump($e);
         $channel = 'user_' . $e->match->second_smile->receiver->id;
         $party_notices_view = load_view('party_notices_view', array(
                                                                    'user' => $e->match->second_smile->receiver,
@@ -145,11 +144,24 @@ class PushEventsPlugin
     {
         $channel = 'user_' . $e->user->id;
         $this->ci->event->store('user_changed_visibility', array(
-                                                            'channel' => $channel,
-                                                            'user' => $e->user->to_array(),
-                                                            'visibility' => $e->user->visible_to,
-                                                          ));
+                                                                'channel' => $channel,
+                                                                'user' => $e->user->to_array(),
+                                                                'visibility' => $e->user->visible_to,
+                                                           ));
         serverchannel()->push($channel, $this->ci->event->version());
+    }
+
+    function on_time_faked($e)
+    {
+        foreach (college()->get_online_users_ids() as $user_id) {
+            $channel = 'user_' . $user_id;
+            $this->ci->event->store('time_faked', array(
+                                                       'channel' => $channel,
+                                                       'fake_time' => $e->fake_time,
+                                                       'real_time' => $e->real_time,
+                                                  ));
+            serverchannel()->push($channel, $this->ci->event->version());
+        }
     }
 
 }

@@ -91,6 +91,29 @@ header {
   }
 }
 
+.about_view {
+  li {
+    list-style: disc none inside;
+    margin:  7px 10px;
+  }
+  .about_message {
+    border-bottom: 1px dotted grey;
+    padding-bottom: 20px;
+  }
+  .about_message > h2 {
+    margin-bottom: 15px;
+  }
+  .about_message > ul {
+    margin:  0 0 15px 10px;
+  }
+  .to_get_started {
+    margin-top: 25px;
+  }
+  #checkin_form {
+    margin-top: 10px;
+  }
+}
+
 .last_night_view {
   width: 60.5%;
   height: 240px;
@@ -165,6 +188,7 @@ header {
 #checkin_form {
   display: inline-block;
   margin-right: 10px;
+  select { margin-right: 10px; }
 }
 
 .closing_time {
@@ -179,6 +203,7 @@ header {
 
 #current_time {
   position: fixed;
+  background-color: white;
   font-weight: bold;
   left: 25px;
   top: 25px;

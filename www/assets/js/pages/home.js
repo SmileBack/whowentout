@@ -6,10 +6,19 @@ $('#checkin_form').entwine({
         };
     },
     doorsOpenTime: function() {
-        return new Date( this.attr('doors_opening_time') * 1000 );
+        return new Date(this.attr('doors_opening_time') * 1000);
     },
     doorsCloseTime: function() {
-        return new Date( this.attr('doors_closing_time') * 1000 );
+        return new Date(this.attr('doors_closing_time') * 1000);
+    }
+});
+
+$('#checkin_form select.empty').entwine({
+    onmouseenter: function(e) {
+        this.notice('Parties to checkin to will be listed here', 'b');
+    },
+    onmouseleave: function(e) {
+        $('#notice').hideNotice();
     }
 });
 

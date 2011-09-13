@@ -12,6 +12,9 @@ $('#current_user')
         .live('smile_match', function(e) {
             var partyID = e.party.id;
             $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
+        })
+        .live('time_faked', function(e) {
+            window.location.reload(true);
         });
 
 $('.gallery').entwine({

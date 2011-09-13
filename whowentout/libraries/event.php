@@ -34,7 +34,7 @@ class CI_Event
 
     private function cast_event($event_name, $data = array())
     {
-        $e = (object)$data;
+        $e = is_object($data) ? $data : (object)$data;
         $e->type = $event_name;
         $e->channel = isset($e->channel) ? $e->channel : 'site';
         return $e;

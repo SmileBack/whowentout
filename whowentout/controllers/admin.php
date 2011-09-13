@@ -44,7 +44,8 @@ class Admin extends MY_Controller
         $fake_time_point = get_option('fake_time_point');
 
         if ($fake_time != NULL) {
-            $fake_dt = DateTime::createFromFormat('Y-m-d H:i:s', $fake_time, college()->timezone);
+            $fake_dt = new DateTime($fake_time, college()->timezone);
+            //$fake_dt = DateTime::createFromFormat('Y-m-d H:i:s', $fake_time, college()->timezone);
             set_fake_time($fake_dt);
         }
 

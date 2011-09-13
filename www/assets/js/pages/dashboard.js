@@ -44,14 +44,14 @@ $('.recent_attendees').entwine({
                             'margin-left': originalMarginLeft + 'px',
                             'margin-right': originalMarginRight + 'px'
                         }, speed)
-                                .animate({opacity: 1}, speed);
+                        .animate({opacity: 1}, speed);
                     });
                 }
                 else {
                     t.animate({
                         'margin-left': originalMarginLeft + 'px'
                     }, speed)
-                            .animate({opacity: 1}, speed);
+                    .animate({opacity: 1}, speed);
                 }
             });
         });
@@ -128,8 +128,8 @@ $('#top_parties').entwine({
 $('.friends.autocomplete_list .autocomplete_list_item').entwine({
     updateHTML: function() {
         this.empty()
-                .append(this.getFacebookImage())
-                .append('<span>' + this.object().title + '</span>');
+        .append(this.getFacebookImage())
+        .append('<span>' + this.object().title + '</span>');
 
         return this;
     },
@@ -164,10 +164,10 @@ $('.invite_friends input.friends').live('objectselected', function(e, object) {
     var miniSubmitButton = submitButton.clone().margin({top: -3});
 
     var message = $('<p class="invite_notice">'
-            + '<span>Click </span>'
-            + '<em>Invite</em>'
-            + '<span> to invite ' + object.title + '.</span>'
-            + '</p>');
+    + '<span>Click </span>'
+    + '<em>Invite</em>'
+    + '<span> to invite ' + object.title + '.</span>'
+    + '</p>');
     message.find('em').empty().append(miniSubmitButton);
 
     miniSubmitButton.bind('click', function() {
@@ -175,4 +175,11 @@ $('.invite_friends input.friends').live('objectselected', function(e, object) {
     });
 
     $(this).closest('form').notice(message, 't', 5);
+});
+
+$('.fake_time_options').entwine({
+    onchange: function() {
+        var value = this.val();
+        this.closest('form').find('input[name="fake_time"]').val(value);
+    }
 });

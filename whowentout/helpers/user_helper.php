@@ -220,7 +220,7 @@ function deny_anonymous() {
 function fb() {
   static $facebook = NULL;
   if ($facebook == NULL) {
-    if (ENVIRONMENT == 'phpfog') {
+    if (FALSE) { //normally used for PHPFOG
       $facebook = new Facebook(array(
         'appId' => ci()->config->item('facebook_app_id'),
         'secret' => ci()->config->item('facebook_secret_key'),

@@ -53,6 +53,9 @@ function other_asset_url($asset_name, $module_name = NULL, $asset_type = NULL)
 
 	$asset_location .= $asset_type.'/'.$asset_name;
 
+    if (ENVIRONMENT == 'development')
+        $asset_location .= '?version=' . time();
+
 	return $asset_location;
 
 }

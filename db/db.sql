@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-09-08 20:34:01
+# Date/time:                    2011-09-13 02:59:01
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,71 +25,15 @@ CREATE TABLE IF NOT EXISTS `chat_messages` (
   KEY `receiver_id` (`receiver_id`),
   CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
   CONSTRAINT `chat_messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.chat_messages: ~55 rows (approximately)
+# Dumping data for table whowentout.chat_messages: ~4 rows (approximately)
 /*!40000 ALTER TABLE `chat_messages` DISABLE KEYS */;
 INSERT INTO `chat_messages` (`id`, `type`, `sent_at`, `sender_id`, `receiver_id`, `message`, `is_read`) VALUES
-	(48, 'normal', 1318120260, 33, 159, 'yeah', 1),
-	(49, 'normal', 1318120263, 33, 159, 'a', 1),
-	(50, 'normal', 1318120264, 33, 159, 'a', 1),
-	(51, 'normal', 1318120266, 33, 159, 'a', 1),
-	(52, 'normal', 1318120266, 33, 159, 'a', 1),
-	(53, 'normal', 1318120271, 33, 159, 'a', 1),
-	(54, 'normal', 1318120271, 33, 159, 'b', 1),
-	(55, 'normal', 1318120272, 33, 159, 'c', 1),
-	(56, 'normal', 1318120274, 33, 159, 'a', 1),
-	(57, 'normal', 1318120275, 33, 159, 'b', 1),
-	(58, 'normal', 1318120275, 33, 159, 'c', 1),
-	(59, 'normal', 1318120276, 33, 159, 'e', 1),
-	(60, 'normal', 1318120276, 33, 159, 'd', 1),
-	(61, 'normal', 1318120284, 33, 159, 'g', 1),
-	(62, 'normal', 1318120284, 33, 159, 'f', 1),
-	(63, 'normal', 1318120289, 33, 159, 'd', 1),
-	(64, 'normal', 1318120290, 33, 159, 'f', 1),
-	(65, 'normal', 1318120291, 33, 159, 'd', 1),
-	(66, 'normal', 1318120291, 33, 159, 's', 1),
-	(67, 'normal', 1318120292, 33, 159, 'a', 1),
-	(68, 'normal', 1318120293, 33, 159, '1', 1),
-	(69, 'normal', 1318120293, 33, 159, '2', 1),
-	(70, 'normal', 1318120294, 33, 159, '3', 1),
-	(71, 'normal', 1318120294, 33, 159, '4', 1),
-	(72, 'normal', 1318120295, 33, 159, '5', 1),
-	(73, 'normal', 1318120296, 33, 159, '6', 1),
-	(74, 'normal', 1318120296, 33, 159, '7', 1),
-	(75, 'normal', 1318120297, 33, 159, '8', 1),
-	(76, 'normal', 1318120297, 33, 159, '9', 1),
-	(77, 'normal', 1318120298, 33, 159, '8', 1),
-	(78, 'normal', 1318120298, 33, 159, '7', 1),
-	(79, 'normal', 1318120299, 33, 159, '7', 1),
-	(80, 'normal', 1318120299, 33, 159, '6', 1),
-	(81, 'normal', 1318120300, 33, 159, '5', 1),
-	(82, 'normal', 1318120300, 33, 159, '4', 1),
-	(83, 'normal', 1318120301, 33, 159, '3', 1),
-	(84, 'normal', 1318120302, 33, 159, '4', 1),
-	(85, 'normal', 1318120308, 33, 159, '2', 1),
-	(86, 'normal', 1318120308, 33, 159, '1', 1),
-	(87, 'normal', 1318120309, 33, 159, '34', 1),
-	(88, 'normal', 1318120310, 33, 159, '4', 1),
-	(89, 'normal', 1318120329, 159, 33, 'yeah', 1),
-	(90, 'normal', 1318120383, 33, 159, 'asdf', 1),
-	(91, 'normal', 1318120386, 33, 159, 'd', 1),
-	(92, 'normal', 1318120387, 33, 159, 'd', 1),
-	(93, 'normal', 1318120390, 33, 159, 'd', 1),
-	(94, 'normal', 1318120390, 33, 159, 'd', 1),
-	(95, 'normal', 1318120401, 33, 159, 'e', 1),
-	(96, 'normal', 1318120401, 33, 159, 'd', 1),
-	(97, 'normal', 1318120406, 33, 159, 'a', 1),
-	(98, 'normal', 1318120407, 33, 159, 'ef', 1),
-	(99, 'normal', 1318120408, 33, 159, 'sdfg', 1),
-	(100, 'normal', 1318120408, 33, 159, 'dfg', 1),
-	(101, 'normal', 1318120408, 33, 159, 'dfg', 1),
-	(102, 'normal', 1318120889, 159, 33, 'a', 0),
-	(103, 'normal', 1318201032, 12, 159, 'hi', 1),
-	(104, 'normal', 1318202006, 159, 12, 'yea', 1),
-	(105, 'normal', 1318204385, 12, 159, 'yea', 1),
-	(106, 'normal', 1318204440, 159, 12, 'yea', 1),
-	(107, 'normal', 1318204444, 12, 159, 'ya', 1);
+	(119, 'normal', 1318030279, 33, 159, 'yes', 1),
+	(120, 'normal', 1318030711, 159, 33, '', 1),
+	(121, 'normal', 1318030714, 159, 33, 'j', 1),
+	(122, 'normal', 1318030716, 159, 33, '', 1);
 /*!40000 ALTER TABLE `chat_messages` ENABLE KEYS */;
 
 
@@ -102,16 +46,15 @@ CREATE TABLE IF NOT EXISTS `colleges` (
   `name` varchar(255) NOT NULL,
   `email_domain` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.colleges: ~52 rows (approximately)
+# Dumping data for table whowentout.colleges: ~140 rows (approximately)
 /*!40000 ALTER TABLE `colleges` DISABLE KEYS */;
 INSERT INTO `colleges` (`id`, `facebook_network_id`, `facebook_school_id`, `enabled`, `name`, `email_domain`) VALUES
-	(1, '16777270', '108727889151725', 1, 'GWU', 'gwu.edu'),
+	(1, '16777270', '108727889151725', 0, 'GWU', 'gwu.edu'),
 	(2, '16777219', '6192688417', 0, 'Stanford', 'stanford.edu'),
 	(3, '16777274', '113889395291269', 0, 'UMD', 'umd.edu'),
 	(5, '16777217', NULL, 0, 'Harvard', '0'),
-	(6, '33580108', NULL, 0, 'Methacton High School', '0'),
 	(7, '16777224', NULL, 0, 'MIT', '0'),
 	(8, '50432424', NULL, 0, 'The Advisory Board Company', '0'),
 	(9, '33569646', NULL, 0, 'Wheaton Warrenville South HS', '0'),
@@ -119,7 +62,6 @@ INSERT INTO `colleges` (`id`, `facebook_network_id`, `facebook_school_id`, `enab
 	(11, '16777568', NULL, 0, 'Duquesne', '0'),
 	(12, '33567389', NULL, 0, 'Kingswood-Oxford', '0'),
 	(13, '16777546', NULL, 0, 'Rollins', '0'),
-	(14, '33575752', NULL, 0, 'Roxbury High School', '0'),
 	(15, '33567391', NULL, 0, 'Kent', '0'),
 	(16, '33567247', NULL, 0, 'Greenwich Academy', '0'),
 	(17, '16777218', NULL, 0, 'Columbia', '0'),
@@ -127,39 +69,128 @@ INSERT INTO `colleges` (`id`, `facebook_network_id`, `facebook_school_id`, `enab
 	(19, '16777419', NULL, 0, 'Denver', '0'),
 	(20, '33579756', NULL, 0, 'Shipley School', '0'),
 	(21, '33576985', NULL, 0, 'Our Lady Of Mercy Academy', '0'),
-	(22, '33576814', NULL, 0, 'Plainview- Old Bethpage/JFK High School', '0'),
 	(23, '33574700', NULL, 0, 'Whitfield School', '0'),
 	(24, '33579875', NULL, 0, 'Germantown Academy', '0'),
-	(25, '33581615', NULL, 0, 'Austin High School', '0'),
 	(26, '33568076', NULL, 0, 'Donna Klein Jewish Academy', '0'),
 	(27, '16777298', NULL, 0, 'Binghamton', '0'),
 	(28, '50434401', NULL, 0, 'United States Congress', '0'),
-	(29, '33572581', NULL, 0, 'New Jewish High School/Gann Academy', '0'),
 	(30, '16777221', NULL, 0, 'Cornell', '0'),
 	(31, '16777381', NULL, 0, 'CUNY Baruch', '0'),
 	(32, '16777318', NULL, 0, 'Arizona', '0'),
 	(33, '16777572', NULL, 0, 'Ursinus', '0'),
-	(34, '33579702', NULL, 0, 'Wissahickon Senior High School', '0'),
 	(35, '33567356', NULL, 0, 'Gunnery', '0'),
-	(36, '33572565', NULL, 0, 'Framingham High School', '0'),
 	(37, '33575443', NULL, 0, 'Chatham High', '0'),
 	(38, '33566538', NULL, 0, 'Viewpoint School', '0'),
 	(39, '16828524', NULL, 0, 'Universidad Latina', '0'),
-	(40, '33571784', NULL, 0, 'Cheverus High School', '0'),
 	(41, '33566550', NULL, 0, 'Harvard-Westlake', '0'),
-	(42, '33575662', NULL, 0, 'Old Bridge High School', '0'),
-	(43, '33582887', NULL, 0, 'Bellaire High School', '0'),
 	(44, '67109026', NULL, 0, 'Northern Indiana, IN', '0'),
-	(45, '33570087', NULL, 0, 'Valparaiso High School', '0'),
 	(46, '33572381', NULL, 0, 'Brooks School', '0'),
 	(47, '33572537', NULL, 0, 'Tabor Academy', '0'),
 	(48, '33575797', NULL, 0, 'Seton Hall Preparatory School', '0'),
 	(49, '33568239', NULL, 0, 'The Lovett School', '0'),
-	(50, '33575800', NULL, 0, 'Westfield Senior High School', '0'),
-	(51, '33572307', NULL, 0, 'Holliston High School', '0'),
 	(52, '33572711', NULL, 0, 'Cranbrook Kingswood', '0'),
 	(53, '33566694', NULL, 0, 'San Diego Jewish Academy', '0'),
-	(54, '33587200', NULL, 0, 'New Community Jewish', '0');
+	(54, '33587200', NULL, 0, 'New Community Jewish', '0'),
+	(55, '16777231', '108002152557044', 1, 'Georgetown', '0'),
+	(56, '33568854', NULL, 0, 'Idaho Falls Senior High School', '0'),
+	(57, '33572060', NULL, 0, 'Urbana High School', '0'),
+	(58, '16827975', NULL, 0, 'The Chinese University of Hong Kong', '0'),
+	(59, '33572538', NULL, 0, 'Deerfield Academy', '0'),
+	(60, '33571859', NULL, 0, 'Friends School', '0'),
+	(61, '33566088', NULL, 0, 'Palo Alto High', '0'),
+	(62, '33571938', NULL, 0, 'Mount Hebron High School', '0'),
+	(63, '33567399', NULL, 0, 'Convent Of The Sacred Heart', '0'),
+	(64, '33572029', NULL, 0, 'Severn School', '0'),
+	(65, '33572182', NULL, 0, 'Phillips Academy', '0'),
+	(66, '33575759', NULL, 0, 'Tenafly High School', '0'),
+	(67, '33576603', NULL, 0, 'Long Beach High School', '0'),
+	(68, '33567243', NULL, 0, 'Miss Porter\'s School', '0'),
+	(69, '33569493', NULL, 0, 'Trinity High School', '0'),
+	(70, '33613858', NULL, 0, 'International School of Paris', '0'),
+	(71, '33579856', NULL, 0, 'Mercyhurst Preparatory School', '0'),
+	(72, '33567168', NULL, 0, 'Cherry Creek High School', '0'),
+	(73, '33576897', NULL, 0, 'School Of The Holy Child', '0'),
+	(74, '33577142', NULL, 0, 'Horace Mann', '0'),
+	(75, '33575754', NULL, 0, 'Oak Knoll School', '0'),
+	(76, '33605223', NULL, 0, 'International School Basel', '0'),
+	(77, '33584773', NULL, 0, 'Godolphin and Latymer', '0'),
+	(78, '16777227', NULL, 0, 'Brown', '0'),
+	(79, '33572366', NULL, 0, 'Milton Academy', '0'),
+	(80, '33583522', NULL, 0, 'The Potomac School', '0'),
+	(81, '33567385', NULL, 0, 'Amity Regional Senior High School', '0'),
+	(82, '33582573', NULL, 0, 'Clements High School', '0'),
+	(83, '33575411', NULL, 0, 'St. Rose High School', '0'),
+	(84, '33566560', NULL, 0, 'Granite Bay High School', '0'),
+	(85, '33567302', NULL, 0, 'New Milford High School', '0'),
+	(86, '33575608', NULL, 0, 'Millburn Senior High School', '0'),
+	(87, '16777358', NULL, 0, 'Conn College', '0'),
+	(88, '33576320', NULL, 0, 'Horace Greeley High School', '0'),
+	(89, '33575598', NULL, 0, 'Shawnee High School', '0'),
+	(90, '33576896', NULL, 0, 'Rye High School', '0'),
+	(91, '33569419', NULL, 0, 'Glenbrook North High School', '0'),
+	(92, '33567365', NULL, 0, 'The Taft School', '0'),
+	(93, '33581350', NULL, 0, 'Hutchison School', '0'),
+	(94, '33575825', NULL, 0, 'The Pingry School', '0'),
+	(95, '33604733', NULL, 0, 'Lincoln School', '0'),
+	(96, '33576713', NULL, 0, 'Marymount School Of New York', '0'),
+	(97, '33571897', NULL, 0, 'Walt Whitman High', '0'),
+	(98, '33576994', NULL, 0, 'North Rockland High School', '0'),
+	(99, '33569426', NULL, 0, 'Fenwick High School', '0'),
+	(100, '33584641', NULL, 0, 'University School of Milwaukee', '0'),
+	(101, '33575478', NULL, 0, 'J.P. Stevens High School', '0'),
+	(102, '16777233', NULL, 0, 'BC', '0'),
+	(103, '33577151', NULL, 0, 'Dominican Academy', '0'),
+	(104, '33575459', NULL, 0, 'Cranford Senior High School', '0'),
+	(105, '33579901', NULL, 0, 'Gwynedd Mercy Academy', '0'),
+	(106, '33575669', NULL, 0, 'Paramus Catholic Regional High School', '0'),
+	(107, '33572535', NULL, 0, 'Groton School', '0'),
+	(108, '33572831', NULL, 0, 'University Of Detroit Jesuit High School', '0'),
+	(109, '33568071', NULL, 0, 'The College Academy at BCC', '0'),
+	(110, '33565903', NULL, 0, 'Los Altos High', '0'),
+	(111, '50453345', NULL, 0, 'Students for Barack Obama', '0'),
+	(112, '50434418', NULL, 0, 'Department of State', '0'),
+	(113, '50431648', NULL, 0, 'Facebook', '0'),
+	(114, '33572490', NULL, 0, 'Wellesley Senior High School', '0'),
+	(115, '33567904', NULL, 0, 'Spruce Creek High School', '0'),
+	(116, '33569619', NULL, 0, 'New Trier High School', '0'),
+	(117, '33575816', NULL, 0, 'The Lawrenceville School', '0'),
+	(118, '33580039', NULL, 0, 'Episcopal Academy', '0'),
+	(119, '33567786', NULL, 0, 'Gulliver Preparatory', '0'),
+	(120, '16831489', NULL, 0, 'Università Cattolica del Sacro Cuore - Sede di Milano', '0'),
+	(121, '33580709', NULL, 0, 'Moses Brown School', '0'),
+	(122, '33567242', NULL, 0, 'Farmington High School', '0'),
+	(123, '33605170', NULL, 0, 'Singapore American School', '0'),
+	(124, '33575405', NULL, 0, 'Ridge High School', '0'),
+	(125, '33575712', NULL, 0, 'St. Augustine Prep', '0'),
+	(126, '33575619', NULL, 0, 'Delbarton School', '0'),
+	(127, '33569874', NULL, 0, 'Goshen High School', '0'),
+	(128, '33572250', NULL, 0, 'Noble And Greenough', '0'),
+	(129, '33580223', NULL, 0, 'Upper Saint Clair High School', '0'),
+	(130, '33581339', NULL, 0, 'Christian Brothers High School', '0'),
+	(131, '33569783', NULL, 0, 'Chesterton Senior High School', '0'),
+	(132, '33566563', NULL, 0, 'Milken Community High School', '0'),
+	(133, '33572313', NULL, 0, 'Hudson High School', '0'),
+	(134, '33576149', NULL, 0, 'Onteora High School', '0'),
+	(135, '33576605', NULL, 0, 'Long Island City High School', '0'),
+	(136, '16777285', NULL, 0, 'Indiana', '0'),
+	(137, '33569776', NULL, 0, 'Carmel High School', '0'),
+	(138, '33565654', NULL, 0, 'San Ramon Valley High', '0'),
+	(139, '16777588', NULL, 0, 'University of St Andrews', '0'),
+	(140, '33575306', NULL, 0, 'Phillips Exeter Academy', '0'),
+	(141, '33565532', NULL, 0, 'Beverly Hills High', '0'),
+	(142, '50434504', NULL, 0, 'Organization of American States', '0'),
+	(143, '33565496', NULL, 0, 'Menlo-Atherton High', '0'),
+	(144, '33577098', NULL, 0, 'Yorktown High School', '0'),
+	(145, '33567521', NULL, 0, 'St. Anselm\'s Abbey School', '0'),
+	(146, '50433161', NULL, 0, 'NBC Universal', '0'),
+	(147, '16936185', NULL, 0, 'DIS - Danish Institute for Study Abroad', '0'),
+	(148, '33566533', NULL, 0, 'Bellarmine College Prep', '0'),
+	(149, '50467706', NULL, 0, 'Students of Georgetown, Inc.', '0'),
+	(150, '50432028', NULL, 0, 'Google', '0'),
+	(151, '16777237', NULL, 0, 'University of Florida ', '0'),
+	(152, '16777247', NULL, 0, 'Rice', '0'),
+	(153, '50431659', NULL, 0, 'Teach For America', '0'),
+	(154, '16777303', NULL, 0, 'Wisconsin', '0');
 /*!40000 ALTER TABLE `colleges` ENABLE KEYS */;
 
 
@@ -177,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `college_students` (
   CONSTRAINT `college_students_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27036 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.college_students: ~27,498 rows (approximately)
+# Dumping data for table whowentout.college_students: ~27,157 rows (approximately)
 /*!40000 ALTER TABLE `college_students` DISABLE KEYS */;
 INSERT INTO `college_students` (`id`, `college_id`, `facebook_id`, `student_full_name`, `student_email`) VALUES
 	(1, 1, '', 'Aanand Shah', 'aanand@gwu.edu'),
@@ -27744,9 +27775,9 @@ CREATE TABLE IF NOT EXISTS `events` (
   `channel` varchar(255) NOT NULL DEFAULT 'site',
   `data` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=526 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1135 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.events: ~287 rows (approximately)
+# Dumping data for table whowentout.events: ~673 rows (approximately)
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 
@@ -27763,7 +27794,7 @@ CREATE TABLE IF NOT EXISTS `friends` (
   KEY `friend_full_name` (`friend_full_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45290 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.friends: ~2,123 rows (approximately)
+# Dumping data for table whowentout.friends: ~2,369 rows (approximately)
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
 INSERT INTO `friends` (`id`, `user_id`, `user_facebook_id`, `friend_id`, `friend_facebook_id`, `friend_full_name`) VALUES
 	(9460, 156, 776200121, NULL, 212696, 'Sean Holbert'),
@@ -29932,7 +29963,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.jobs: ~289 rows (approximately)
+# Dumping data for table whowentout.jobs: ~431 rows (approximately)
 /*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
 INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `error_message`, `error_line`, `error_file`, `error`) VALUES
 	('0018fbf95fd95e1e4452c1b5071a38b28e0e7ed2', 'send_email', 'pending', 1318117991, NULL, 'a:3:{i:1;i:108;i:2;s:37:"A guy from Sig Chi has smiled at you.";i:3;s:192:"<p>\n  Hi Jenny,\n</p>\n<br/>\n<p>\n  A guy from Sig Chi smiled at you on October 8th.\n  To see who it might be <a href="http://localhost/party/11">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
@@ -29942,9 +29973,11 @@ INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `erro
 	('1082520e85848715002df7273fbb68689f14f1f1', 'send_email', 'pending', 1318202022, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('15df3bef168174af0df871d6858c5ae0af645354', 'send_email', 'pending', 1318200846, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('1760d645e9737bb48e8b5377242194dbd20a64e0', 'send_email', 'pending', 1318202939, NULL, 'a:3:{i:1;i:159;i:2;s:51:"You and Pamela Siegelaub have smiled at each other.";i:3;s:199:"\n<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  You and Pamela Siegelaub have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
+	('178ef12c5e0d0322f341bfc0638ca0e2eacb00b7', 'send_email', 'pending', 1318051918, NULL, 'a:3:{i:1;i:159;i:2;s:51:"You and Jenny Soderbergh have smiled at each other.";i:3;s:199:"\n<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  You and Jenny Soderbergh have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('19556bf0d90b2002482495a00acf85af7c7d6669', 'send_email', 'complete', 1318027735, 1315275463, 'a:3:{i:1;i:96;i:2;s:49:"You and Maggie Brennan have smiled at each other.";i:3;s:197:"\n<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  You and Maggie Brennan have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('238719dc453a2fa317c7404a486ba16064207383', 'send_email', 'complete', 1318026398, 1315275463, 'a:3:{i:1;i:159;i:2;s:7:"subject";i:3;s:194:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from Sig Chi smiled at you on October 7th.\n  To see who it might be <a href="http://localhost/party/11">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('23c5969128cc597c37b45ba96d772f6330ea4d6a', 'send_email', 'pending', 1318117965, NULL, 'a:3:{i:1;i:159;i:2;s:51:"You and Jenny Soderbergh have smiled at each other.";i:3;s:199:"\n<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  You and Jenny Soderbergh have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
+	('23e739dd546ea29cba0b9b621f28d7e64e8e49b4', 'send_email', 'pending', 1318051917, NULL, 'a:3:{i:1;i:108;i:2;s:39:"A guy from McFaddens has smiled at you.";i:3;s:194:"<p>\n  Hi Jenny,\n</p>\n<br/>\n<p>\n  A guy from McFaddens smiled at you on October 8th.\n  To see who it might be <a href="http://localhost/party/26">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('24a94168366d2b9270c75c774cc242d6cdf20338', 'send_email', 'pending', 1318025011, NULL, 'a:3:{i:1;i:104;i:2;s:37:"A guy from Sig Chi has smiled at you.";i:3;s:194:"<p>\n  Hi Allison,\n</p>\n<br/>\n<p>\n  A guy from Sig Chi smiled at you on October 7th.\n  To see who it might be <a href="http://localhost/party/11">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('25a08c4ec0f20e7ba7d51758545ffcbc8c16d1ad', 'send_email', 'pending', 1318204540, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('264d1ac56de6f7322e063fff063a74e48a6e3ed8', 'send_email', 'pending', 1318202030, NULL, 'a:3:{i:1;i:12;i:2;s:39:"A guy from McFaddens has smiled at you.";i:3;s:192:"<p>\n  Hi Ava,\n</p>\n<br/>\n<p>\n  A guy from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
@@ -29989,6 +30022,7 @@ INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `erro
 	('8e38f673031bf67cc343998c6fe67830740ce42f', 'send_email', 'pending', 1318202939, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('910022da4bce9a9821a89e81f19cc074a3bdae0d', 'send_email', 'complete', 1318026021, 1315275463, 'a:3:{i:1;i:159;i:2;s:5:"hello";i:3;s:4:"yeah";}', 'Job type send_email doesn\'t exist.', '52', 'C:\\wamp\\site\\whowentout\\helpers\\job_helper.php', 'O:9:"Exception":8:{s:10:"\0*\0message";s:34:"Job type send_email doesn\'t exist.";s:17:"\0Exception\0string";s:0:"";s:7:"\0*\0code";i:0;s:7:"\0*\0file";s:46:"C:\\wamp\\site\\whowentout\\helpers\\job_helper.php";s:7:"\0*\0line";i:52;s:16:"\0Exception\0trace";a:4:{i:0;a:4:{s:4:"file";s:43:"C:\\wamp\\site\\whowentout\\controllers\\job.php";s:4:"line";i:7;s:8:"function";s:7:"job_run";s:4:"args";a:1:{i:0;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}}i:1;a:4:{s:8:"function";s:3:"run";s:5:"class";s:3:"Job";s:4:"type";s:2:"->";s:4:"args";a:1:{i:0;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}}i:2;a:4:{s:4:"file";s:40:"C:\\wamp\\site\\system\\core\\CodeIgniter.php";s:4:"line";i:339;s:8:"function";s:20:"call_user_func_array";s:4:"args";a:2:{i:0;a:2:{i:0;O:3:"Job":17:{s:9:"benchmark";O:12:"CI_Benchmark":1:{s:6:"marker";a:4:{s:26:"total_execution_time_start";s:21:"0.20302300 1315274050";s:32:"loading_time:_base_classes_start";s:21:"0.20310300 1315274050";s:30:"loading_time:_base_classes_end";s:21:"0.24336400 1315274050";s:45:"controller_execution_time_( job / run )_start";s:21:"0.24384400 1315274050";}}s:5:"hooks";O:8:"CI_Hooks":3:{s:7:"enabled";b:0;s:5:"hooks";a:0:{}s:11:"in_progress";b:0;}s:6:"config";O:9:"CI_Config":3:{s:6:"config";a:48:{s:8:"base_url";s:17:"http://localhost/";s:10:"index_page";s:0:"";s:12:"uri_protocol";s:4:"AUTO";s:10:"url_suffix";s:0:"";s:8:"language";s:7:"english";s:7:"charset";s:5:"UTF-8";s:12:"enable_hooks";b:1;s:15:"subclass_prefix";s:3:"MY_";s:19:"permitted_uri_chars";s:14:"a-z 0-9~%.:_\\-";s:15:"allow_get_array";b:1;s:20:"enable_query_strings";b:0;s:18:"controller_trigger";s:1:"c";s:16:"function_trigger";s:1:"m";s:17:"directory_trigger";s:1:"d";s:13:"log_threshold";i:0;s:8:"log_path";s:0:"";s:15:"log_date_format";s:11:"Y-m-d H:i:s";s:10:"cache_path";s:0:"";s:14:"encryption_key";s:32:"EpjbYWAxLuL5vqwE7bsTTpfb4tQ2CG3H";s:16:"sess_cookie_name";s:10:"wwosession";s:15:"sess_expiration";i:0;s:20:"sess_expire_on_close";b:0;s:19:"sess_encrypt_cookie";b:1;s:17:"sess_use_database";b:1;s:15:"sess_table_name";s:8:"sessions";s:13:"sess_match_ip";b:0;s:20:"sess_match_useragent";b:1;s:19:"sess_time_to_update";i:15778463;s:13:"cookie_prefix";s:0:"";s:13:"cookie_domain";s:0:"";s:11:"cookie_path";s:1:"/";s:13:"cookie_secure";b:0;s:20:"global_xss_filtering";b:0;s:15:"csrf_protection";b:0;s:15:"csrf_token_name";s:14:"csrf_test_name";s:16:"csrf_cookie_name";s:16:"csrf_cookie_name";s:11:"csrf_expire";i:7200;s:15:"compress_output";b:0;s:14:"time_reference";s:3:"gmt";s:18:"rewrite_short_tags";b:0;s:9:"proxy_ips";s:0:"";s:15:"facebook_app_id";s:15:"161054327279516";s:19:"facebook_secret_key";s:32:"8b1446580556993a34880a831ee36856";s:17:"amazon_public_key";s:20:"0N83TDC3E416BETER2R2";s:17:"amazon_secret_key";s:40:"sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK";s:4:"blah";s:5:"yeahh";s:7:"reasons";a:13:{i:2;s:14:"NOT IN COLLEGE";i:4;s:12:"NOT IN PARTY";i:8;s:13:"OUT OF SMILES";i:16;s:17:"ALREADY SMILED AT";i:32;s:17:"DOORS HAVE CLOSED";i:64;s:22:"ALREADY ATTENDED PARTY";i:128;s:20:"REASON NOT LOGGED IN";i:256;s:21:"PARTY WASNT YESTERDAY";i:512;s:20:"MISSING PROFILE INFO";i:1024;s:18:"PARTY DOESNT EXIST";i:2048;s:21:"RECEIVER NOT IN PARTY";i:4096;s:17:"USER DOESNT EXIST";i:8192;s:25:"CANT SMILE AT SAME GENDER";}s:18:"admin_facebook_ids";a:2:{i:0;s:9:"776200121";i:1;s:7:"8100231";}}s:9:"is_loaded";a:4:{i:0;s:33:"../whowentout/config/facebook.php";i:1;s:31:"../whowentout/config/amazon.php";i:2;s:31:"../whowentout/config/errors.php";i:3;s:28:"../whowentout/config/wwo.php";}s:13:"_config_paths";a:2:{i:0;s:26:"../whowentout/third_party/";i:1;s:14:"../whowentout/";}}s:4:"utf8";O:7:"CI_Utf8":0:{}s:3:"uri";O:6:"CI_URI":5:{s:6:"keyval";a:0:{}s:10:"uri_string";s:48:"job/run/2712293d49ceccc627c5c96f92cb4f5c3a266898";s:8:"segments";a:3:{i:1;s:3:"job";i:2;s:3:"run";i:3;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}s:9:"rsegments";a:3:{i:1;s:3:"job";i:2;s:3:"run";i:3;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}s:6:"config";R:37;}s:6:"router";O:9:"CI_Router":8:{s:6:"config";R:37;s:6:"routes";a:8:{s:18:"default_controller";s:8:"homepage";s:12:"404_override";s:0:"";s:12:"party/(:num)";s:13:"party/page/$1";s:5:"login";s:10:"user/login";s:6:"logout";s:11:"user/logout";s:7:"checkin";s:12:"user/checkin";s:11:"top_parties";s:26:"dashboard/past_top_parties";s:9:"fakelogin";s:15:"admin/fakelogin";}s:12:"error_routes";a:0:{}s:5:"class";s:3:"job";s:6:"method";s:3:"run";s:9:"directory";s:0:"";s:18:"default_controller";s:8:"homepage";s:3:"uri";R:111;}s:6:"output";O:9:"CI_Output":8:{s:15:"\0*\0final_output";N;s:19:"\0*\0cache_expiration";i:0;s:10:"\0*\0headers";a:0:{}s:13:"\0*\0mime_types";a:91:{s:3:"hqx";s:24:"application/mac-binhex40";s:3:"cpt";s:26:"application/mac-compactpro";s:3:"csv";a:9:{i:0;s:29:"text/x-comma-separated-values";i:1;s:27:"text/comma-separated-values";i:2;s:24:"application/octet-stream";i:3;s:24:"application/vnd.ms-excel";i:4;s:10:"text/x-csv";i:5;s:8:"text/csv";i:6;s:15:"application/csv";i:7;s:17:"application/excel";i:8;s:23:"application/vnd.msexcel";}s:3:"bin";s:21:"application/macbinary";s:3:"dms";s:24:"application/octet-stream";s:3:"lha";s:24:"application/octet-stream";s:3:"lzh";s:24:"application/octet-stream";s:3:"exe";a:2:{i:0;s:24:"application/octet-stream";i:1;s:24:"application/x-msdownload";}s:5:"class";s:24:"application/octet-stream";s:3:"psd";s:23:"application/x-photoshop";s:2:"so";s:24:"application/octet-stream";s:3:"sea";s:24:"application/octet-stream";s:3:"dll";s:24:"application/octet-stream";s:3:"oda";s:15:"application/oda";s:3:"pdf";a:2:{i:0;s:15:"application/pdf";i:1;s:22:"application/x-download";}s:2:"ai";s:22:"application/postscript";s:3:"eps";s:22:"application/postscript";s:2:"ps";s:22:"application/postscript";s:3:"smi";s:16:"application/smil";s:4:"smil";s:16:"application/smil";s:3:"mif";s:19:"application/vnd.mif";s:3:"xls";a:3:{i:0;s:17:"application/excel";i:1;s:24:"application/vnd.ms-excel";i:2;s:19:"application/msexcel";}s:3:"ppt";a:2:{i:0;s:22:"application/powerpoint";i:1;s:29:"application/vnd.ms-powerpoint";}s:5:"wbxml";s:17:"application/wbxml";s:4:"wmlc";s:16:"application/wmlc";s:3:"dcr";s:22:"application/x-director";s:3:"dir";s:22:"application/x-director";s:3:"dxr";s:22:"application/x-director";s:3:"dvi";s:17:"application/x-dvi";s:4:"gtar";s:18:"application/x-gtar";s:2:"gz";s:18:"application/x-gzip";s:3:"php";s:23:"application/x-httpd-php";s:4:"php4";s:23:"application/x-httpd-php";s:4:"php3";s:23:"application/x-httpd-php";s:5:"phtml";s:23:"application/x-httpd-php";s:4:"phps";s:30:"application/x-httpd-php-source";s:2:"js";s:24:"application/x-javascript";s:3:"swf";s:29:"application/x-shockwave-flash";s:3:"sit";s:21:"application/x-stuffit";s:3:"tar";s:17:"application/x-tar";s:3:"tgz";a:2:{i:0;s:17:"application/x-tar";i:1;s:29:"application/x-gzip-compressed";}s:5:"xhtml";s:21:"application/xhtml+xml";s:3:"xht";s:21:"application/xhtml+xml";s:3:"zip";a:3:{i:0;s:17:"application/x-zip";i:1;s:15:"application/zip";i:2;s:28:"application/x-zip-compressed";}s:3:"mid";s:10:"audio/midi";s:4:"midi";s:10:"audio/midi";s:4:"mpga";s:10:"audio/mpeg";s:3:"mp2";s:10:"audio/mpeg";s:3:"mp3";a:4:{i:0;s:10:"audio/mpeg";i:1;s:9:"audio/mpg";i:2;s:11:"audio/mpeg3";i:3;s:9:"audio/mp3";}s:3:"aif";s:12:"audio/x-aiff";s:4:"aiff";s:12:"audio/x-aiff";s:4:"aifc";s:12:"audio/x-aiff";s:3:"ram";s:20:"audio/x-pn-realaudio";s:2:"rm";s:20:"audio/x-pn-realaudio";s:3:"rpm";s:27:"audio/x-pn-realaudio-plugin";s:2:"ra";s:17:"audio/x-realaudio";s:2:"rv";s:22:"video/vnd.rn-realvideo";s:3:"wav";s:11:"audio/x-wav";s:3:"bmp";s:9:"image/bmp";s:3:"gif";s:9:"image/gif";s:4:"jpeg";a:2:{i:0;s:10:"image/jpeg";i:1;s:11:"image/pjpeg";}s:3:"jpg";a:2:{i:0;s:10:"image/jpeg";i:1;s:11:"image/pjpeg";}s:3:"jpe";a:2:{i:0;s:10:"image/jpeg";i:1;s:11:"image/pjpeg";}s:3:"png";a:2:{i:0;s:9:"image/png";i:1;s:11:"image/x-png";}s:4:"tiff";s:10:"image/tiff";s:3:"tif";s:10:"image/tiff";s:3:"css";s:8:"text/css";s:4:"html";s:9:"text/html";s:3:"htm";s:9:"text/html";s:5:"shtml";s:9:"text/html";s:3:"txt";s:10:"text/plain";s:4:"text";s:10:"text/plain";s:3:"log";a:2:{i:0;s:10:"text/plain";i:1;s:10:"text/x-log";}s:3:"rtx";s:13:"text/richtext";s:3:"rtf";s:8:"text/rtf";s:3:"xml";s:8:"text/xml";s:3:"xsl";s:8:"text/xml";s:4:"mpeg";s:10:"video/mpeg";s:3:"mpg";s:10:"video/mpeg";s:3:"mpe";s:10:"video/mpeg";s:2:"qt";s:15:"video/quicktime";s:3:"mov";s:15:"video/quicktime";s:3:"avi";s:15:"video/x-msvideo";s:5:"movie";s:17:"video/x-sgi-movie";s:3:"doc";s:18:"application/msword";s:4:"docx";s:71:"application/vnd.openxmlformats-officedocument.wordprocessingml.document";s:4:"xlsx";s:65:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";s:4:"word";a:2:{i:0;s:18:"application/msword";i:1;s:24:"application/octet-stream";}s:2:"xl";s:17:"application/excel";s:3:"eml";s:14:"message/rfc822";s:4:"json";a:2:{i:0;s:16:"application/json";i:1;s:9:"text/json";}}s:18:"\0*\0enable_profiler";b:0;s:11:"\0*\0_zlib_oc";s:0:"";s:21:"\0*\0_profiler_sections";a:0:{}s:18:"\0*\0parse_exec_vars";b:1;}s:8:"security";O:11:"CI_Security":7:{s:12:"\0*\0_xss_hash";s:0:"";s:13:"\0*\0_csrf_hash";s:32:"deb667a04e8d03cf0115634d52fbea04";s:15:"\0*\0_csrf_expire";i:7200;s:19:"\0*\0_csrf_token_name";s:13:"ci_csrf_token";s:20:"\0*\0_csrf_cookie_name";s:13:"ci_csrf_token";s:21:"\0*\0_never_allowed_str";a:9:{s:15:"document.cookie";s:9:"[removed]";s:14:"document.write";s:9:"[removed]";s:11:".parentNode";s:9:"[removed]";s:10:".innerHTML";s:9:"[removed]";s:15:"window.location";s:9:"[removed]";s:12:"-moz-binding";s:9:"[removed]";s:4:"<!--";s:7:"&lt;!--";s:3:"-->";s:6:"--&gt;";s:9:"<![CDATA[";s:12:"&lt;![CDATA[";}s:23:"\0*\0_never_allowed_regex";a:4:{s:14:"javascript\\s*:";s:9:"[removed]";s:24:"expression\\s*(\\(|&\\#40;)";s:9:"[removed]";s:12:"vbscript\\s*:";s:9:"[removed]";s:14:"Redirect\\s+302";s:9:"[removed]";}}s:5:"input";O:8:"CI_Input":9:{s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";b:0;s:16:"_allow_get_array";b:1;s:21:"_standardize_newlines";b:1;s:11:"_enable_xss";b:0;s:12:"_enable_csrf";b:0;s:10:"\0*\0headers";a:0:{}s:8:"security";R:278;s:3:"uni";R:110;}s:4:"lang";O:7:"CI_Lang":2:{s:8:"language";a:0:{}s:9:"is_loaded";a:0:{}}s:4:"load";O:9:"CI_Loader":12:{s:12:"_ci_ob_level";i:1;s:13:"_ci_view_path";s:20:"../whowentout/views/";s:17:"_ci_library_paths";a:3:{i:0;s:26:"../whowentout/third_party/";i:1;s:14:"../whowentout/";i:2;s:20:"C:/wamp/site/system/";}s:15:"_ci_model_paths";a:2:{i:0;s:26:"../whowentout/third_party/";i:1;s:14:"../whowentout/";}s:16:"_ci_helper_paths";a:3:{i:0;s:26:"../whowentout/third_party/";i:1;s:14:"../whowentout/";i:2;s:20:"C:/wamp/site/system/";}s:13:"_base_classes";a:11:{s:9:"benchmark";s:9:"Benchmark";s:5:"hooks";s:5:"Hooks";s:6:"config";s:6:"Config";s:4:"utf8";s:4:"Utf8";s:3:"uri";s:3:"URI";s:6:"router";s:6:"Router";s:6:"output";s:6:"Output";s:8:"security";s:8:"Security";s:5:"input";s:5:"Input";s:4:"lang";s:4:"Lang";s:6:"loader";s:6:"Loader";}s:15:"_ci_cached_vars";a:0:{}s:11:"_ci_classes";a:5:{s:5:"event";s:5:"event";s:7:"session";s:7:"session";s:7:"encrypt";s:7:"encrypt";s:6:"option";s:6:"option";s:7:"element";s:7:"element";}s:16:"_ci_loaded_files";a:5:{i:0;s:33:"../whowentout/libraries/Event.php";i:1;s:38:"../whowentout/libraries/MY_Session.php";i:2;s:41:"C:/wamp/site/system/libraries/Encrypt.php";i:3;s:34:"../whowentout/libraries/Option.php";i:4;s:35:"../whowentout/libraries/Element.php";}s:10:"_ci_models";a:0:{}s:11:"_ci_helpers";a:13:{s:11:"core_helper";b:1;s:11:"date_helper";b:1;s:11:"time_helper";b:1;s:11:"html_helper";b:1;s:11:"form_helper";b:1;s:10:"url_helper";b:1;s:10:"wwo_helper";b:1;s:11:"user_helper";b:1;s:12:"asset_helper";b:1;s:11:"test_helper";b:1;s:10:"job_helper";b:1;s:12:"event_helper";b:1;s:13:"string_helper";b:1;}s:10:"_ci_varmap";a:2:{s:9:"unit_test";s:4:"unit";s:10:"user_agent";s:5:"agent";}}s:2:"db";O:18:"CI_DB_mysql_driver":70:{s:8:"dbdriver";s:5:"mysql";s:12:"_escape_char";s:1:"`";s:16:"_like_escape_str";s:0:"";s:16:"_like_escape_chr";s:0:"";s:11:"delete_hack";b:1;s:13:"_count_string";s:19:"SELECT COUNT(*) AS ";s:15:"_random_keyword";s:7:" RAND()";s:9:"ar_select";a:0:{}s:11:"ar_distinct";b:0;s:7:"ar_from";a:0:{}s:7:"ar_join";a:0:{}s:8:"ar_where";a:0:{}s:7:"ar_like";a:0:{}s:10:"ar_groupby";a:0:{}s:9:"ar_having";a:0:{}s:7:"ar_keys";a:0:{}s:8:"ar_limit";b:0;s:9:"ar_offset";b:0;s:8:"ar_order";b:0;s:10:"ar_orderby";a:0:{}s:6:"ar_set";a:0:{}s:10:"ar_wherein";a:0:{}s:17:"ar_aliased_tables";a:0:{}s:14:"ar_store_array";a:0:{}s:10:"ar_caching";b:0;s:15:"ar_cache_exists";a:0:{}s:15:"ar_cache_select";a:0:{}s:13:"ar_cache_from";a:0:{}s:13:"ar_cache_join";a:0:{}s:14:"ar_cache_where";a:0:{}s:13:"ar_cache_like";a:0:{}s:16:"ar_cache_groupby";a:0:{}s:15:"ar_cache_having";a:0:{}s:16:"ar_cache_orderby";a:0:{}s:12:"ar_cache_set";a:0:{}s:8:"username";s:4:"root";s:8:"password";s:4:"root";s:8:"hostname";s:9:"localhost";s:8:"database";s:10:"whowentout";s:8:"dbprefix";s:0:"";s:8:"char_set";s:4:"utf8";s:8:"dbcollat";s:15:"utf8_general_ci";s:8:"autoinit";b:1;s:8:"swap_pre";s:0:"";s:4:"port";s:0:"";s:8:"pconnect";b:1;s:7:"conn_id";i:0;s:9:"result_id";i:0;s:8:"db_debug";b:1;s:9:"benchmark";d:0.006499767303466796875;s:11:"query_count";i:3;s:11:"bind_marker";s:1:"?";s:12:"save_queries";b:1;s:7:"queries";a:3:{i:0;s:154:"INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`) VALUES (\'02f9a35d1af287f5f850003504f8dc14\', \'127.0.0.1\', 0, 1315299250)";i:1;s:78:"SELECT *\nFROM (`jobs`)\nWHERE `id` = \'2712293d49ceccc627c5c96f92cb4f5c3a266898\'";i:2;s:116:"SELECT `value`\nFROM (`options`)\nWHERE `id` = \'2712293d49ceccc627c5c96f92cb4f5c3a266898\'\nAND `id` = \'fake_time_point\'";}s:11:"query_times";a:3:{i:0;d:0.0046279430389404296875;i:1;d:0.0010488033294677734375;i:2;d:0.00082302093505859375;}s:10:"data_cache";a:0:{}s:13:"trans_enabled";b:1;s:12:"trans_strict";b:1;s:12:"_trans_depth";i:0;s:13:"_trans_status";b:1;s:8:"cache_on";b:0;s:8:"cachedir";s:0:"";s:13:"cache_autodel";b:0;s:5:"CACHE";N;s:20:"_protect_identifiers";b:1;s:21:"_reserved_identifiers";a:1:{i:0;s:1:"*";}s:7:"stmt_id";N;s:7:"curs_id";N;s:10:"limit_used";N;s:8:"stricton";b:0;}s:5:"event";O:8:"CI_Event":4:{s:12:"\0CI_Event\0ci";R:26;s:12:"\0CI_Event\0db";r:367;s:24:"\0CI_Event\0plugins_loaded";b:0;s:17:"\0CI_Event\0plugins";a:0:{}}s:7:"encrypt";O:10:"CI_Encrypt":6:{s:2:"CI";R:26;s:14:"encryption_key";s:0:"";s:10:"_hash_type";s:4:"sha1";s:14:"_mcrypt_exists";b:1;s:14:"_mcrypt_cipher";s:12:"rijndael-256";s:12:"_mcrypt_mode";s:3:"cbc";}s:7:"session";O:10:"MY_Session":20:{s:19:"sess_encrypt_cookie";b:1;s:17:"sess_use_database";b:1;s:15:"sess_table_name";s:8:"sessions";s:15:"sess_expiration";i:63072000;s:20:"sess_expire_on_close";b:0;s:13:"sess_match_ip";b:0;s:20:"sess_match_useragent";b:1;s:16:"sess_cookie_name";s:10:"wwosession";s:13:"cookie_prefix";s:0:"";s:11:"cookie_path";s:1:"/";s:13:"cookie_domain";s:0:"";s:13:"cookie_secure";b:0;s:19:"sess_time_to_update";i:15778463;s:14:"encryption_key";s:32:"EpjbYWAxLuL5vqwE7bsTTpfb4tQ2CG3H";s:13:"flashdata_key";s:5:"flash";s:14:"time_reference";s:3:"gmt";s:14:"gc_probability";i:5;s:8:"userdata";a:4:{s:10:"session_id";s:32:"02f9a35d1af287f5f850003504f8dc14";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";b:0;s:13:"last_activity";i:1315299250;}s:2:"CI";R:26;s:3:"now";i:1315299250;}s:6:"option";O:9:"CI_Option":3:{s:13:"\0CI_Option\0ci";R:26;s:16:"\0CI_Option\0cache";a:1:{s:15:"fake_time_point";b:0;}s:2:"db";r:367;}s:7:"element";O:7:"Element":1:{s:7:"\0*\0vars";a:0:{}}}i:1;s:3:"run";}i:1;a:1:{i:0;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}}}i:3;a:4:{s:4:"file";s:26:"C:\\wamp\\site\\www\\index.php";s:4:"line";i:217;s:4:"args";a:1:{i:0;s:40:"C:\\wamp\\site\\system\\core\\CodeIgniter.php";}s:8:"function";s:12:"require_once";}}s:19:"\0Exception\0previous";N;s:14:"xdebug_message";s:2141:"<tr><th align=\'left\' bgcolor=\'#f57900\' colspan="5"><span style=\'background-color: #cc0000; color: #fce94f; font-size: x-large;\'>( ! )</span> Exception: Job type send_email doesn\'t exist. in C:\\wamp\\site\\whowentout\\helpers\\job_helper.php on line <i>52</i></th></tr>\n<tr><th align=\'left\' bgcolor=\'#e9b96e\' colspan=\'5\'>Call Stack</th></tr>\n<tr><th align=\'center\' bgcolor=\'#eeeeec\'>#</th><th align=\'left\' bgcolor=\'#eeeeec\'>Time</th><th align=\'left\' bgcolor=\'#eeeeec\'>Memory</th><th align=\'left\' bgcolor=\'#eeeeec\'>Function</th><th align=\'left\' bgcolor=\'#eeeeec\'>Location</th></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>1</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.0024</td><td bgcolor=\'#eeeeec\' align=\'right\'>390104</td><td bgcolor=\'#eeeeec\'>{main}(  )</td><td title=\'C:\\wamp\\site\\www\\index.php\' bgcolor=\'#eeeeec\'>..\\index.php<b>:</b>0</td></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>2</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.0068</td><td bgcolor=\'#eeeeec\' align=\'right\'>458576</td><td bgcolor=\'#eeeeec\'>require_once( <font color=\'#00bb00\'>\'C:\\wamp\\site\\system\\core\\CodeIgniter.php\'</font> )</td><td title=\'C:\\wamp\\site\\www\\index.php\' bgcolor=\'#eeeeec\'>..\\index.php<b>:</b>217</td></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>3</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.2308</td><td bgcolor=\'#eeeeec\' align=\'right\'>5018424</td><td bgcolor=\'#eeeeec\'><a href=\'http://www.php.net/call_user_func_array\' target=\'_new\'>call_user_func_array</a>\n(  )</td><td title=\'C:\\wamp\\site\\system\\core\\CodeIgniter.php\' bgcolor=\'#eeeeec\'>..\\CodeIgniter.php<b>:</b>339</td></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>4</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.2308</td><td bgcolor=\'#eeeeec\' align=\'right\'>5018472</td><td bgcolor=\'#eeeeec\'>Job->run(  )</td><td title=\'C:\\wamp\\site\\system\\core\\CodeIgniter.php\' bgcolor=\'#eeeeec\'>..\\CodeIgniter.php<b>:</b>0</td></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>5</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.2308</td><td bgcolor=\'#eeeeec\' align=\'right\'>5018472</td><td bgcolor=\'#eeeeec\'>job_run(  )</td><td title=\'C:\\wamp\\site\\whowentout\\controllers\\job.php\' bgcolor=\'#eeeeec\'>..\\job.php<b>:</b>7</td></tr>\n";}'),
 	('91268ff4542dd61edc03af7e6facb84fe9dd4849', 'send_email', 'pending', 1318117991, NULL, 'a:3:{i:1;i:108;i:2;s:50:"You and Venkat Dinavahi have smiled at each other.";i:3;s:197:"\n<p>\n  Hi Jenny,\n</p>\n<br/>\n<p>\n  You and Venkat Dinavahi have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
+	('914d32bd832a7a0aad6d38600f7aaef1f0a1c2cf', 'send_email', 'pending', 1318051918, NULL, 'a:3:{i:1;i:108;i:2;s:50:"You and Venkat Dinavahi have smiled at each other.";i:3;s:197:"\n<p>\n  Hi Jenny,\n</p>\n<br/>\n<p>\n  You and Venkat Dinavahi have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('93895ac52ba2991b897c9c229d710ce9a6da70e7', 'send_email', 'complete', 1318025882, 1315275463, 'a:3:{i:1;i:159;i:2;s:5:"hello";i:3;s:4:"yeah";}', 'Job type send_email doesn\'t exist.', '52', 'C:\\wamp\\site\\whowentout\\helpers\\job_helper.php', 'O:9:"Exception":8:{s:10:"\0*\0message";s:34:"Job type send_email doesn\'t exist.";s:17:"\0Exception\0string";s:0:"";s:7:"\0*\0code";i:0;s:7:"\0*\0file";s:46:"C:\\wamp\\site\\whowentout\\helpers\\job_helper.php";s:7:"\0*\0line";i:52;s:16:"\0Exception\0trace";a:4:{i:0;a:4:{s:4:"file";s:43:"C:\\wamp\\site\\whowentout\\controllers\\job.php";s:4:"line";i:7;s:8:"function";s:7:"job_run";s:4:"args";a:1:{i:0;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}}i:1;a:4:{s:8:"function";s:3:"run";s:5:"class";s:3:"Job";s:4:"type";s:2:"->";s:4:"args";a:1:{i:0;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}}i:2;a:4:{s:4:"file";s:40:"C:\\wamp\\site\\system\\core\\CodeIgniter.php";s:4:"line";i:339;s:8:"function";s:20:"call_user_func_array";s:4:"args";a:2:{i:0;a:2:{i:0;O:3:"Job":17:{s:9:"benchmark";O:12:"CI_Benchmark":1:{s:6:"marker";a:4:{s:26:"total_execution_time_start";s:21:"0.20302300 1315274050";s:32:"loading_time:_base_classes_start";s:21:"0.20310300 1315274050";s:30:"loading_time:_base_classes_end";s:21:"0.24336400 1315274050";s:45:"controller_execution_time_( job / run )_start";s:21:"0.24384400 1315274050";}}s:5:"hooks";O:8:"CI_Hooks":3:{s:7:"enabled";b:0;s:5:"hooks";a:0:{}s:11:"in_progress";b:0;}s:6:"config";O:9:"CI_Config":3:{s:6:"config";a:48:{s:8:"base_url";s:17:"http://localhost/";s:10:"index_page";s:0:"";s:12:"uri_protocol";s:4:"AUTO";s:10:"url_suffix";s:0:"";s:8:"language";s:7:"english";s:7:"charset";s:5:"UTF-8";s:12:"enable_hooks";b:1;s:15:"subclass_prefix";s:3:"MY_";s:19:"permitted_uri_chars";s:14:"a-z 0-9~%.:_\\-";s:15:"allow_get_array";b:1;s:20:"enable_query_strings";b:0;s:18:"controller_trigger";s:1:"c";s:16:"function_trigger";s:1:"m";s:17:"directory_trigger";s:1:"d";s:13:"log_threshold";i:0;s:8:"log_path";s:0:"";s:15:"log_date_format";s:11:"Y-m-d H:i:s";s:10:"cache_path";s:0:"";s:14:"encryption_key";s:32:"EpjbYWAxLuL5vqwE7bsTTpfb4tQ2CG3H";s:16:"sess_cookie_name";s:10:"wwosession";s:15:"sess_expiration";i:0;s:20:"sess_expire_on_close";b:0;s:19:"sess_encrypt_cookie";b:1;s:17:"sess_use_database";b:1;s:15:"sess_table_name";s:8:"sessions";s:13:"sess_match_ip";b:0;s:20:"sess_match_useragent";b:1;s:19:"sess_time_to_update";i:15778463;s:13:"cookie_prefix";s:0:"";s:13:"cookie_domain";s:0:"";s:11:"cookie_path";s:1:"/";s:13:"cookie_secure";b:0;s:20:"global_xss_filtering";b:0;s:15:"csrf_protection";b:0;s:15:"csrf_token_name";s:14:"csrf_test_name";s:16:"csrf_cookie_name";s:16:"csrf_cookie_name";s:11:"csrf_expire";i:7200;s:15:"compress_output";b:0;s:14:"time_reference";s:3:"gmt";s:18:"rewrite_short_tags";b:0;s:9:"proxy_ips";s:0:"";s:15:"facebook_app_id";s:15:"161054327279516";s:19:"facebook_secret_key";s:32:"8b1446580556993a34880a831ee36856";s:17:"amazon_public_key";s:20:"0N83TDC3E416BETER2R2";s:17:"amazon_secret_key";s:40:"sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK";s:4:"blah";s:5:"yeahh";s:7:"reasons";a:13:{i:2;s:14:"NOT IN COLLEGE";i:4;s:12:"NOT IN PARTY";i:8;s:13:"OUT OF SMILES";i:16;s:17:"ALREADY SMILED AT";i:32;s:17:"DOORS HAVE CLOSED";i:64;s:22:"ALREADY ATTENDED PARTY";i:128;s:20:"REASON NOT LOGGED IN";i:256;s:21:"PARTY WASNT YESTERDAY";i:512;s:20:"MISSING PROFILE INFO";i:1024;s:18:"PARTY DOESNT EXIST";i:2048;s:21:"RECEIVER NOT IN PARTY";i:4096;s:17:"USER DOESNT EXIST";i:8192;s:25:"CANT SMILE AT SAME GENDER";}s:18:"admin_facebook_ids";a:2:{i:0;s:9:"776200121";i:1;s:7:"8100231";}}s:9:"is_loaded";a:4:{i:0;s:33:"../whowentout/config/facebook.php";i:1;s:31:"../whowentout/config/amazon.php";i:2;s:31:"../whowentout/config/errors.php";i:3;s:28:"../whowentout/config/wwo.php";}s:13:"_config_paths";a:2:{i:0;s:26:"../whowentout/third_party/";i:1;s:14:"../whowentout/";}}s:4:"utf8";O:7:"CI_Utf8":0:{}s:3:"uri";O:6:"CI_URI":5:{s:6:"keyval";a:0:{}s:10:"uri_string";s:48:"job/run/2712293d49ceccc627c5c96f92cb4f5c3a266898";s:8:"segments";a:3:{i:1;s:3:"job";i:2;s:3:"run";i:3;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}s:9:"rsegments";a:3:{i:1;s:3:"job";i:2;s:3:"run";i:3;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}s:6:"config";R:37;}s:6:"router";O:9:"CI_Router":8:{s:6:"config";R:37;s:6:"routes";a:8:{s:18:"default_controller";s:8:"homepage";s:12:"404_override";s:0:"";s:12:"party/(:num)";s:13:"party/page/$1";s:5:"login";s:10:"user/login";s:6:"logout";s:11:"user/logout";s:7:"checkin";s:12:"user/checkin";s:11:"top_parties";s:26:"dashboard/past_top_parties";s:9:"fakelogin";s:15:"admin/fakelogin";}s:12:"error_routes";a:0:{}s:5:"class";s:3:"job";s:6:"method";s:3:"run";s:9:"directory";s:0:"";s:18:"default_controller";s:8:"homepage";s:3:"uri";R:111;}s:6:"output";O:9:"CI_Output":8:{s:15:"\0*\0final_output";N;s:19:"\0*\0cache_expiration";i:0;s:10:"\0*\0headers";a:0:{}s:13:"\0*\0mime_types";a:91:{s:3:"hqx";s:24:"application/mac-binhex40";s:3:"cpt";s:26:"application/mac-compactpro";s:3:"csv";a:9:{i:0;s:29:"text/x-comma-separated-values";i:1;s:27:"text/comma-separated-values";i:2;s:24:"application/octet-stream";i:3;s:24:"application/vnd.ms-excel";i:4;s:10:"text/x-csv";i:5;s:8:"text/csv";i:6;s:15:"application/csv";i:7;s:17:"application/excel";i:8;s:23:"application/vnd.msexcel";}s:3:"bin";s:21:"application/macbinary";s:3:"dms";s:24:"application/octet-stream";s:3:"lha";s:24:"application/octet-stream";s:3:"lzh";s:24:"application/octet-stream";s:3:"exe";a:2:{i:0;s:24:"application/octet-stream";i:1;s:24:"application/x-msdownload";}s:5:"class";s:24:"application/octet-stream";s:3:"psd";s:23:"application/x-photoshop";s:2:"so";s:24:"application/octet-stream";s:3:"sea";s:24:"application/octet-stream";s:3:"dll";s:24:"application/octet-stream";s:3:"oda";s:15:"application/oda";s:3:"pdf";a:2:{i:0;s:15:"application/pdf";i:1;s:22:"application/x-download";}s:2:"ai";s:22:"application/postscript";s:3:"eps";s:22:"application/postscript";s:2:"ps";s:22:"application/postscript";s:3:"smi";s:16:"application/smil";s:4:"smil";s:16:"application/smil";s:3:"mif";s:19:"application/vnd.mif";s:3:"xls";a:3:{i:0;s:17:"application/excel";i:1;s:24:"application/vnd.ms-excel";i:2;s:19:"application/msexcel";}s:3:"ppt";a:2:{i:0;s:22:"application/powerpoint";i:1;s:29:"application/vnd.ms-powerpoint";}s:5:"wbxml";s:17:"application/wbxml";s:4:"wmlc";s:16:"application/wmlc";s:3:"dcr";s:22:"application/x-director";s:3:"dir";s:22:"application/x-director";s:3:"dxr";s:22:"application/x-director";s:3:"dvi";s:17:"application/x-dvi";s:4:"gtar";s:18:"application/x-gtar";s:2:"gz";s:18:"application/x-gzip";s:3:"php";s:23:"application/x-httpd-php";s:4:"php4";s:23:"application/x-httpd-php";s:4:"php3";s:23:"application/x-httpd-php";s:5:"phtml";s:23:"application/x-httpd-php";s:4:"phps";s:30:"application/x-httpd-php-source";s:2:"js";s:24:"application/x-javascript";s:3:"swf";s:29:"application/x-shockwave-flash";s:3:"sit";s:21:"application/x-stuffit";s:3:"tar";s:17:"application/x-tar";s:3:"tgz";a:2:{i:0;s:17:"application/x-tar";i:1;s:29:"application/x-gzip-compressed";}s:5:"xhtml";s:21:"application/xhtml+xml";s:3:"xht";s:21:"application/xhtml+xml";s:3:"zip";a:3:{i:0;s:17:"application/x-zip";i:1;s:15:"application/zip";i:2;s:28:"application/x-zip-compressed";}s:3:"mid";s:10:"audio/midi";s:4:"midi";s:10:"audio/midi";s:4:"mpga";s:10:"audio/mpeg";s:3:"mp2";s:10:"audio/mpeg";s:3:"mp3";a:4:{i:0;s:10:"audio/mpeg";i:1;s:9:"audio/mpg";i:2;s:11:"audio/mpeg3";i:3;s:9:"audio/mp3";}s:3:"aif";s:12:"audio/x-aiff";s:4:"aiff";s:12:"audio/x-aiff";s:4:"aifc";s:12:"audio/x-aiff";s:3:"ram";s:20:"audio/x-pn-realaudio";s:2:"rm";s:20:"audio/x-pn-realaudio";s:3:"rpm";s:27:"audio/x-pn-realaudio-plugin";s:2:"ra";s:17:"audio/x-realaudio";s:2:"rv";s:22:"video/vnd.rn-realvideo";s:3:"wav";s:11:"audio/x-wav";s:3:"bmp";s:9:"image/bmp";s:3:"gif";s:9:"image/gif";s:4:"jpeg";a:2:{i:0;s:10:"image/jpeg";i:1;s:11:"image/pjpeg";}s:3:"jpg";a:2:{i:0;s:10:"image/jpeg";i:1;s:11:"image/pjpeg";}s:3:"jpe";a:2:{i:0;s:10:"image/jpeg";i:1;s:11:"image/pjpeg";}s:3:"png";a:2:{i:0;s:9:"image/png";i:1;s:11:"image/x-png";}s:4:"tiff";s:10:"image/tiff";s:3:"tif";s:10:"image/tiff";s:3:"css";s:8:"text/css";s:4:"html";s:9:"text/html";s:3:"htm";s:9:"text/html";s:5:"shtml";s:9:"text/html";s:3:"txt";s:10:"text/plain";s:4:"text";s:10:"text/plain";s:3:"log";a:2:{i:0;s:10:"text/plain";i:1;s:10:"text/x-log";}s:3:"rtx";s:13:"text/richtext";s:3:"rtf";s:8:"text/rtf";s:3:"xml";s:8:"text/xml";s:3:"xsl";s:8:"text/xml";s:4:"mpeg";s:10:"video/mpeg";s:3:"mpg";s:10:"video/mpeg";s:3:"mpe";s:10:"video/mpeg";s:2:"qt";s:15:"video/quicktime";s:3:"mov";s:15:"video/quicktime";s:3:"avi";s:15:"video/x-msvideo";s:5:"movie";s:17:"video/x-sgi-movie";s:3:"doc";s:18:"application/msword";s:4:"docx";s:71:"application/vnd.openxmlformats-officedocument.wordprocessingml.document";s:4:"xlsx";s:65:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";s:4:"word";a:2:{i:0;s:18:"application/msword";i:1;s:24:"application/octet-stream";}s:2:"xl";s:17:"application/excel";s:3:"eml";s:14:"message/rfc822";s:4:"json";a:2:{i:0;s:16:"application/json";i:1;s:9:"text/json";}}s:18:"\0*\0enable_profiler";b:0;s:11:"\0*\0_zlib_oc";s:0:"";s:21:"\0*\0_profiler_sections";a:0:{}s:18:"\0*\0parse_exec_vars";b:1;}s:8:"security";O:11:"CI_Security":7:{s:12:"\0*\0_xss_hash";s:0:"";s:13:"\0*\0_csrf_hash";s:32:"deb667a04e8d03cf0115634d52fbea04";s:15:"\0*\0_csrf_expire";i:7200;s:19:"\0*\0_csrf_token_name";s:13:"ci_csrf_token";s:20:"\0*\0_csrf_cookie_name";s:13:"ci_csrf_token";s:21:"\0*\0_never_allowed_str";a:9:{s:15:"document.cookie";s:9:"[removed]";s:14:"document.write";s:9:"[removed]";s:11:".parentNode";s:9:"[removed]";s:10:".innerHTML";s:9:"[removed]";s:15:"window.location";s:9:"[removed]";s:12:"-moz-binding";s:9:"[removed]";s:4:"<!--";s:7:"&lt;!--";s:3:"-->";s:6:"--&gt;";s:9:"<![CDATA[";s:12:"&lt;![CDATA[";}s:23:"\0*\0_never_allowed_regex";a:4:{s:14:"javascript\\s*:";s:9:"[removed]";s:24:"expression\\s*(\\(|&\\#40;)";s:9:"[removed]";s:12:"vbscript\\s*:";s:9:"[removed]";s:14:"Redirect\\s+302";s:9:"[removed]";}}s:5:"input";O:8:"CI_Input":9:{s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";b:0;s:16:"_allow_get_array";b:1;s:21:"_standardize_newlines";b:1;s:11:"_enable_xss";b:0;s:12:"_enable_csrf";b:0;s:10:"\0*\0headers";a:0:{}s:8:"security";R:278;s:3:"uni";R:110;}s:4:"lang";O:7:"CI_Lang":2:{s:8:"language";a:0:{}s:9:"is_loaded";a:0:{}}s:4:"load";O:9:"CI_Loader":12:{s:12:"_ci_ob_level";i:1;s:13:"_ci_view_path";s:20:"../whowentout/views/";s:17:"_ci_library_paths";a:3:{i:0;s:26:"../whowentout/third_party/";i:1;s:14:"../whowentout/";i:2;s:20:"C:/wamp/site/system/";}s:15:"_ci_model_paths";a:2:{i:0;s:26:"../whowentout/third_party/";i:1;s:14:"../whowentout/";}s:16:"_ci_helper_paths";a:3:{i:0;s:26:"../whowentout/third_party/";i:1;s:14:"../whowentout/";i:2;s:20:"C:/wamp/site/system/";}s:13:"_base_classes";a:11:{s:9:"benchmark";s:9:"Benchmark";s:5:"hooks";s:5:"Hooks";s:6:"config";s:6:"Config";s:4:"utf8";s:4:"Utf8";s:3:"uri";s:3:"URI";s:6:"router";s:6:"Router";s:6:"output";s:6:"Output";s:8:"security";s:8:"Security";s:5:"input";s:5:"Input";s:4:"lang";s:4:"Lang";s:6:"loader";s:6:"Loader";}s:15:"_ci_cached_vars";a:0:{}s:11:"_ci_classes";a:5:{s:5:"event";s:5:"event";s:7:"session";s:7:"session";s:7:"encrypt";s:7:"encrypt";s:6:"option";s:6:"option";s:7:"element";s:7:"element";}s:16:"_ci_loaded_files";a:5:{i:0;s:33:"../whowentout/libraries/Event.php";i:1;s:38:"../whowentout/libraries/MY_Session.php";i:2;s:41:"C:/wamp/site/system/libraries/Encrypt.php";i:3;s:34:"../whowentout/libraries/Option.php";i:4;s:35:"../whowentout/libraries/Element.php";}s:10:"_ci_models";a:0:{}s:11:"_ci_helpers";a:13:{s:11:"core_helper";b:1;s:11:"date_helper";b:1;s:11:"time_helper";b:1;s:11:"html_helper";b:1;s:11:"form_helper";b:1;s:10:"url_helper";b:1;s:10:"wwo_helper";b:1;s:11:"user_helper";b:1;s:12:"asset_helper";b:1;s:11:"test_helper";b:1;s:10:"job_helper";b:1;s:12:"event_helper";b:1;s:13:"string_helper";b:1;}s:10:"_ci_varmap";a:2:{s:9:"unit_test";s:4:"unit";s:10:"user_agent";s:5:"agent";}}s:2:"db";O:18:"CI_DB_mysql_driver":70:{s:8:"dbdriver";s:5:"mysql";s:12:"_escape_char";s:1:"`";s:16:"_like_escape_str";s:0:"";s:16:"_like_escape_chr";s:0:"";s:11:"delete_hack";b:1;s:13:"_count_string";s:19:"SELECT COUNT(*) AS ";s:15:"_random_keyword";s:7:" RAND()";s:9:"ar_select";a:0:{}s:11:"ar_distinct";b:0;s:7:"ar_from";a:0:{}s:7:"ar_join";a:0:{}s:8:"ar_where";a:0:{}s:7:"ar_like";a:0:{}s:10:"ar_groupby";a:0:{}s:9:"ar_having";a:0:{}s:7:"ar_keys";a:0:{}s:8:"ar_limit";b:0;s:9:"ar_offset";b:0;s:8:"ar_order";b:0;s:10:"ar_orderby";a:0:{}s:6:"ar_set";a:0:{}s:10:"ar_wherein";a:0:{}s:17:"ar_aliased_tables";a:0:{}s:14:"ar_store_array";a:0:{}s:10:"ar_caching";b:0;s:15:"ar_cache_exists";a:0:{}s:15:"ar_cache_select";a:0:{}s:13:"ar_cache_from";a:0:{}s:13:"ar_cache_join";a:0:{}s:14:"ar_cache_where";a:0:{}s:13:"ar_cache_like";a:0:{}s:16:"ar_cache_groupby";a:0:{}s:15:"ar_cache_having";a:0:{}s:16:"ar_cache_orderby";a:0:{}s:12:"ar_cache_set";a:0:{}s:8:"username";s:4:"root";s:8:"password";s:4:"root";s:8:"hostname";s:9:"localhost";s:8:"database";s:10:"whowentout";s:8:"dbprefix";s:0:"";s:8:"char_set";s:4:"utf8";s:8:"dbcollat";s:15:"utf8_general_ci";s:8:"autoinit";b:1;s:8:"swap_pre";s:0:"";s:4:"port";s:0:"";s:8:"pconnect";b:1;s:7:"conn_id";i:0;s:9:"result_id";i:0;s:8:"db_debug";b:1;s:9:"benchmark";d:0.006499767303466796875;s:11:"query_count";i:3;s:11:"bind_marker";s:1:"?";s:12:"save_queries";b:1;s:7:"queries";a:3:{i:0;s:154:"INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`) VALUES (\'02f9a35d1af287f5f850003504f8dc14\', \'127.0.0.1\', 0, 1315299250)";i:1;s:78:"SELECT *\nFROM (`jobs`)\nWHERE `id` = \'2712293d49ceccc627c5c96f92cb4f5c3a266898\'";i:2;s:116:"SELECT `value`\nFROM (`options`)\nWHERE `id` = \'2712293d49ceccc627c5c96f92cb4f5c3a266898\'\nAND `id` = \'fake_time_point\'";}s:11:"query_times";a:3:{i:0;d:0.0046279430389404296875;i:1;d:0.0010488033294677734375;i:2;d:0.00082302093505859375;}s:10:"data_cache";a:0:{}s:13:"trans_enabled";b:1;s:12:"trans_strict";b:1;s:12:"_trans_depth";i:0;s:13:"_trans_status";b:1;s:8:"cache_on";b:0;s:8:"cachedir";s:0:"";s:13:"cache_autodel";b:0;s:5:"CACHE";N;s:20:"_protect_identifiers";b:1;s:21:"_reserved_identifiers";a:1:{i:0;s:1:"*";}s:7:"stmt_id";N;s:7:"curs_id";N;s:10:"limit_used";N;s:8:"stricton";b:0;}s:5:"event";O:8:"CI_Event":4:{s:12:"\0CI_Event\0ci";R:26;s:12:"\0CI_Event\0db";r:367;s:24:"\0CI_Event\0plugins_loaded";b:0;s:17:"\0CI_Event\0plugins";a:0:{}}s:7:"encrypt";O:10:"CI_Encrypt":6:{s:2:"CI";R:26;s:14:"encryption_key";s:0:"";s:10:"_hash_type";s:4:"sha1";s:14:"_mcrypt_exists";b:1;s:14:"_mcrypt_cipher";s:12:"rijndael-256";s:12:"_mcrypt_mode";s:3:"cbc";}s:7:"session";O:10:"MY_Session":20:{s:19:"sess_encrypt_cookie";b:1;s:17:"sess_use_database";b:1;s:15:"sess_table_name";s:8:"sessions";s:15:"sess_expiration";i:63072000;s:20:"sess_expire_on_close";b:0;s:13:"sess_match_ip";b:0;s:20:"sess_match_useragent";b:1;s:16:"sess_cookie_name";s:10:"wwosession";s:13:"cookie_prefix";s:0:"";s:11:"cookie_path";s:1:"/";s:13:"cookie_domain";s:0:"";s:13:"cookie_secure";b:0;s:19:"sess_time_to_update";i:15778463;s:14:"encryption_key";s:32:"EpjbYWAxLuL5vqwE7bsTTpfb4tQ2CG3H";s:13:"flashdata_key";s:5:"flash";s:14:"time_reference";s:3:"gmt";s:14:"gc_probability";i:5;s:8:"userdata";a:4:{s:10:"session_id";s:32:"02f9a35d1af287f5f850003504f8dc14";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";b:0;s:13:"last_activity";i:1315299250;}s:2:"CI";R:26;s:3:"now";i:1315299250;}s:6:"option";O:9:"CI_Option":3:{s:13:"\0CI_Option\0ci";R:26;s:16:"\0CI_Option\0cache";a:1:{s:15:"fake_time_point";b:0;}s:2:"db";r:367;}s:7:"element";O:7:"Element":1:{s:7:"\0*\0vars";a:0:{}}}i:1;s:3:"run";}i:1;a:1:{i:0;s:40:"2712293d49ceccc627c5c96f92cb4f5c3a266898";}}}i:3;a:4:{s:4:"file";s:26:"C:\\wamp\\site\\www\\index.php";s:4:"line";i:217;s:4:"args";a:1:{i:0;s:40:"C:\\wamp\\site\\system\\core\\CodeIgniter.php";}s:8:"function";s:12:"require_once";}}s:19:"\0Exception\0previous";N;s:14:"xdebug_message";s:2141:"<tr><th align=\'left\' bgcolor=\'#f57900\' colspan="5"><span style=\'background-color: #cc0000; color: #fce94f; font-size: x-large;\'>( ! )</span> Exception: Job type send_email doesn\'t exist. in C:\\wamp\\site\\whowentout\\helpers\\job_helper.php on line <i>52</i></th></tr>\n<tr><th align=\'left\' bgcolor=\'#e9b96e\' colspan=\'5\'>Call Stack</th></tr>\n<tr><th align=\'center\' bgcolor=\'#eeeeec\'>#</th><th align=\'left\' bgcolor=\'#eeeeec\'>Time</th><th align=\'left\' bgcolor=\'#eeeeec\'>Memory</th><th align=\'left\' bgcolor=\'#eeeeec\'>Function</th><th align=\'left\' bgcolor=\'#eeeeec\'>Location</th></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>1</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.0024</td><td bgcolor=\'#eeeeec\' align=\'right\'>390104</td><td bgcolor=\'#eeeeec\'>{main}(  )</td><td title=\'C:\\wamp\\site\\www\\index.php\' bgcolor=\'#eeeeec\'>..\\index.php<b>:</b>0</td></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>2</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.0068</td><td bgcolor=\'#eeeeec\' align=\'right\'>458576</td><td bgcolor=\'#eeeeec\'>require_once( <font color=\'#00bb00\'>\'C:\\wamp\\site\\system\\core\\CodeIgniter.php\'</font> )</td><td title=\'C:\\wamp\\site\\www\\index.php\' bgcolor=\'#eeeeec\'>..\\index.php<b>:</b>217</td></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>3</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.2308</td><td bgcolor=\'#eeeeec\' align=\'right\'>5018424</td><td bgcolor=\'#eeeeec\'><a href=\'http://www.php.net/call_user_func_array\' target=\'_new\'>call_user_func_array</a>\n(  )</td><td title=\'C:\\wamp\\site\\system\\core\\CodeIgniter.php\' bgcolor=\'#eeeeec\'>..\\CodeIgniter.php<b>:</b>339</td></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>4</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.2308</td><td bgcolor=\'#eeeeec\' align=\'right\'>5018472</td><td bgcolor=\'#eeeeec\'>Job->run(  )</td><td title=\'C:\\wamp\\site\\system\\core\\CodeIgniter.php\' bgcolor=\'#eeeeec\'>..\\CodeIgniter.php<b>:</b>0</td></tr>\n<tr><td bgcolor=\'#eeeeec\' align=\'center\'>5</td><td bgcolor=\'#eeeeec\' align=\'center\'>0.2308</td><td bgcolor=\'#eeeeec\' align=\'right\'>5018472</td><td bgcolor=\'#eeeeec\'>job_run(  )</td><td title=\'C:\\wamp\\site\\whowentout\\controllers\\job.php\' bgcolor=\'#eeeeec\'>..\\job.php<b>:</b>7</td></tr>\n";}'),
 	('945d54c27450cd6466f1b764ada31efdb608c858', 'send_email', 'pending', 1318117907, NULL, 'a:3:{i:1;i:159;i:2;s:38:"A girl from Sig Chi has smiled at you.";i:3;s:194:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from Sig Chi smiled at you on October 8th.\n  To see who it might be <a href="http://localhost/party/11">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('962e31d2d8459a5ed42967e369fe209e284ef361', 'send_email', 'pending', 1318200918, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
@@ -30020,6 +30054,7 @@ INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `erro
 	('d8feaa19db1d1b7e991cbf362c268a904e166041', 'send_email', 'pending', 1318201932, NULL, 'a:3:{i:1;i:12;i:2;s:39:"A guy from McFaddens has smiled at you.";i:3;s:192:"<p>\n  Hi Ava,\n</p>\n<br/>\n<p>\n  A guy from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('d9907cbb106d4bd5a702fa9e4702d1d2a485920b', 'send_email', 'pending', 1318204840, NULL, 'a:3:{i:1;i:159;i:2;s:44:"You and Ava Rubin have smiled at each other.";i:3;s:192:"\n<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  You and Ava Rubin have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('dca94f9da365e4789686350f48da0bfe3aaebe21', 'send_email', 'pending', 1318201451, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
+	('df1e508258c12d2c19987915a2e45427e23ccdc4', 'send_email', 'pending', 1318051894, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 8th.\n  To see who it might be <a href="http://localhost/party/26">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('df5f748a5766815e07f14cc7974b2c4e297957b1', 'send_email', 'pending', 1318199853, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('e5d244128d7a679ca5916a99492fbb23b0d83c34', 'send_email', 'pending', 1318199730, NULL, 'a:3:{i:1;i:159;i:2;s:40:"A girl from McFaddens has smiled at you.";i:3;s:196:"<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
 	('e60ca169b2648705dcca273e281065f3e2d07ebe', 'send_email', 'pending', 1318117907, NULL, 'a:3:{i:1;N;i:2;s:50:"You and Venkat Dinavahi have smiled at each other.";i:3;s:197:"\n<p>\n  Hi Jenny,\n</p>\n<br/>\n<p>\n  You and Venkat Dinavahi have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
@@ -30040,12 +30075,13 @@ CREATE TABLE IF NOT EXISTS `options` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.options: ~4 rows (approximately)
+# Dumping data for table whowentout.options: ~5 rows (approximately)
 /*!40000 ALTER TABLE `options` DISABLE KEYS */;
 INSERT INTO `options` (`id`, `value`) VALUES
 	('admin_facebook_access_token', 's:80:"161054327279516|9fa9b03352a60587e7c04f29.1-776200121|_7ZNMzYiaJs3vEGn2taGcRenApM";'),
-	('fake_time_point', 'a:2:{s:9:"fake_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-10-09 22:01:00";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:9:"real_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-09-08 22:31:13";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}}'),
-	('last_updated_offline_users', 'i:1318205021;'),
+	('fake_time_delta', 'i:6459;'),
+	('fake_time_point', 'a:2:{s:9:"fake_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-09-16 06:30:00";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:9:"real_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-09-13 06:52:09";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}}'),
+	('last_updated_offline_users', 'i:1318300282;'),
 	('past_top_parties_html', 's:28:"<ul>\r\n<li>yeafef</li>\r\n</ul>";');
 /*!40000 ALTER TABLE `options` ENABLE KEYS */;
 
@@ -30062,9 +30098,9 @@ CREATE TABLE IF NOT EXISTS `parties` (
   KEY `admin` (`admin_id`),
   CONSTRAINT `parties_admin_id` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`),
   CONSTRAINT `parties_place_id` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.parties: ~7 rows (approximately)
+# Dumping data for table whowentout.parties: ~11 rows (approximately)
 /*!40000 ALTER TABLE `parties` DISABLE KEYS */;
 INSERT INTO `parties` (`id`, `version`, `date`, `place_id`, `admin_id`) VALUES
 	(11, 693, '2011-10-06', 2, NULL),
@@ -30073,7 +30109,11 @@ INSERT INTO `parties` (`id`, `version`, `date`, `place_id`, `admin_id`) VALUES
 	(22, 0, '2011-08-10', 3, NULL),
 	(23, 146, '2011-10-08', 3, NULL),
 	(24, 0, '2011-10-08', 1, NULL),
-	(26, 0, '2011-10-06', 1, NULL);
+	(26, 0, '2011-10-06', 1, NULL),
+	(27, 0, '2011-10-07', 3, NULL),
+	(28, 0, '2011-10-07', 1, NULL),
+	(29, 0, '2011-09-15', 4, NULL),
+	(31, 0, '2011-09-15', 5, NULL);
 /*!40000 ALTER TABLE `parties` ENABLE KEYS */;
 
 
@@ -30089,48 +30129,54 @@ CREATE TABLE IF NOT EXISTS `party_attendees` (
   KEY `party_id_key` (`party_id`),
   CONSTRAINT `party_attendee_party` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `party_attendee_user` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=308 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.party_attendees: ~23 rows (approximately)
+# Dumping data for table whowentout.party_attendees: ~43 rows (approximately)
 /*!40000 ALTER TABLE `party_attendees` DISABLE KEYS */;
 INSERT INTO `party_attendees` (`id`, `user_id`, `party_id`, `checkin_time`) VALUES
-	(217, 159, 11, '2011-08-31 05:10:39'),
-	(271, 116, 11, '2011-10-08 00:38:53'),
-	(272, 136, 11, '2011-10-08 00:40:02'),
-	(273, 3, 11, '2011-10-08 00:42:12'),
-	(274, 130, 11, '2011-10-08 00:42:18'),
-	(275, 86, 11, '2011-10-08 00:42:27'),
-	(276, 128, 11, '2011-10-08 00:42:35'),
-	(277, 142, 11, '2011-10-08 00:52:50'),
-	(278, 117, 11, '2011-10-08 00:53:23'),
-	(279, 7, 11, '2011-10-08 00:54:35'),
-	(280, 89, 11, '2011-10-08 00:55:50'),
-	(281, 102, 11, '2011-10-08 00:56:15'),
-	(282, 124, 11, '2011-10-08 00:58:38'),
-	(283, 122, 11, '2011-10-08 01:02:06'),
-	(284, 33, 11, '2011-10-08 01:04:23'),
-	(285, 137, 11, '2011-10-08 01:17:11'),
-	(286, 108, 11, '2011-10-08 01:17:30'),
-	(287, 115, 11, '2011-10-08 01:18:11'),
-	(288, 4, 11, '2011-10-08 03:01:47'),
-	(289, 135, 11, '2011-10-08 03:02:44'),
-	(290, 110, 11, '2011-10-08 03:03:21'),
-	(292, 123, 11, '2011-10-08 03:05:06'),
-	(293, 90, 11, '2011-10-08 03:05:12'),
-	(294, 133, 11, '2011-10-07 22:01:31'),
-	(295, 87, 11, '2011-10-07 22:01:41'),
-	(296, 104, 11, '2011-10-07 22:03:23'),
-	(297, 146, 11, '2011-10-07 22:03:40'),
-	(298, 106, 11, '2011-10-07 22:03:47'),
-	(299, 159, 24, '2011-10-09 22:02:02'),
-	(300, 78, 24, '2011-10-09 22:03:48'),
-	(301, 104, 24, '2011-10-09 22:15:38'),
-	(302, 140, 24, '2011-10-09 22:55:53'),
-	(303, 129, 24, '2011-10-09 22:56:00'),
-	(304, 157, 24, '2011-10-09 22:56:05'),
-	(305, 130, 24, '2011-10-09 22:56:11'),
-	(306, 133, 24, '2011-10-09 22:56:17'),
-	(307, 12, 24, '2011-10-09 22:56:23');
+	(1, 223, 29, '2011-09-16 19:00:09'),
+	(2, 258, 29, '2011-09-16 19:00:13'),
+	(3, 231, 29, '2011-09-16 19:00:15'),
+	(4, 205, 29, '2011-09-16 19:00:17'),
+	(5, 219, 29, '2011-09-16 19:00:19'),
+	(6, 265, 29, '2011-09-16 19:00:21'),
+	(7, 253, 29, '2011-09-16 19:00:23'),
+	(8, 177, 29, '2011-09-16 19:00:26'),
+	(9, 220, 29, '2011-09-16 19:00:27'),
+	(10, 212, 29, '2011-09-16 19:00:29'),
+	(11, 174, 29, '2011-09-16 19:00:31'),
+	(12, 236, 29, '2011-09-16 19:00:33'),
+	(13, 250, 29, '2011-09-16 19:00:39'),
+	(14, 172, 29, '2011-09-16 19:00:41'),
+	(15, 254, 29, '2011-09-16 19:00:43'),
+	(16, 263, 29, '2011-09-16 19:00:46'),
+	(17, 228, 29, '2011-09-16 19:00:48'),
+	(18, 257, 29, '2011-09-16 19:00:50'),
+	(19, 160, 29, '2011-09-16 19:00:52'),
+	(20, 227, 29, '2011-09-16 19:00:54'),
+	(21, 180, 29, '2011-09-16 19:00:57'),
+	(23, 269, 31, '2011-09-16 06:33:32'),
+	(24, 209, 31, '2011-09-16 06:33:34'),
+	(25, 248, 31, '2011-09-16 06:33:36'),
+	(26, 207, 31, '2011-09-16 06:33:41'),
+	(27, 201, 31, '2011-09-16 06:33:44'),
+	(28, 194, 31, '2011-09-16 06:33:49'),
+	(29, 211, 31, '2011-09-16 06:33:51'),
+	(30, 171, 31, '2011-09-16 06:33:54'),
+	(31, 278, 31, '2011-09-16 06:33:58'),
+	(32, 196, 31, '2011-09-16 06:34:01'),
+	(33, 256, 31, '2011-09-16 06:34:04'),
+	(34, 268, 31, '2011-09-16 06:34:09'),
+	(35, 163, 31, '2011-09-16 06:34:11'),
+	(36, 273, 31, '2011-09-16 06:34:14'),
+	(37, 262, 31, '2011-09-16 06:34:16'),
+	(38, 161, 31, '2011-09-16 06:34:19'),
+	(39, 245, 31, '2011-09-16 06:34:22'),
+	(40, 198, 31, '2011-09-16 06:34:25'),
+	(41, 234, 31, '2011-09-16 06:34:44'),
+	(42, 210, 31, '2011-09-16 06:34:50'),
+	(43, 266, 31, '2011-09-16 06:34:59'),
+	(44, 272, 31, '2011-09-16 06:35:09');
 /*!40000 ALTER TABLE `party_attendees` ENABLE KEYS */;
 
 
@@ -30146,14 +30192,16 @@ CREATE TABLE IF NOT EXISTS `places` (
   KEY `admin` (`admin_id`),
   CONSTRAINT `places_admin_id` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`),
   CONSTRAINT `places_college_id` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.places: ~3 rows (approximately)
+# Dumping data for table whowentout.places: ~5 rows (approximately)
 /*!40000 ALTER TABLE `places` DISABLE KEYS */;
 INSERT INTO `places` (`id`, `name`, `college_id`, `admin_id`, `created_at`) VALUES
 	(1, 'McFaddens', 1, 7, NULL),
 	(2, 'Sig Chi', 1, 8, NULL),
-	(3, 'Lambda Chi', 1, 9, NULL);
+	(3, 'Lambda Chi', 1, 9, NULL),
+	(4, 'Sig Chi', 55, NULL, NULL),
+	(5, 'Teatro', 55, NULL, NULL);
 /*!40000 ALTER TABLE `places` ENABLE KEYS */;
 
 
@@ -30165,7 +30213,7 @@ CREATE TABLE IF NOT EXISTS `schema_version` (
 # Dumping data for table whowentout.schema_version: ~1 rows (approximately)
 /*!40000 ALTER TABLE `schema_version` DISABLE KEYS */;
 INSERT INTO `schema_version` (`version`) VALUES
-	(17);
+	(18);
 /*!40000 ALTER TABLE `schema_version` ENABLE KEYS */;
 
 
@@ -30176,9 +30224,9 @@ CREATE TABLE IF NOT EXISTS `sent_emails` (
   `subject` text,
   `body` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.sent_emails: ~0 rows (approximately)
+# Dumping data for table whowentout.sent_emails: ~55 rows (approximately)
 /*!40000 ALTER TABLE `sent_emails` DISABLE KEYS */;
 INSERT INTO `sent_emails` (`id`, `recipient_email`, `subject`, `body`) VALUES
 	(1, 'vendiddy@gmail.com', 'A girl from Sig Chi has smiled at you.', '<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from Sig Chi smiled at you on October 9th.\n  To see who it might be <a href="http://localhost/party/11">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>'),
@@ -30234,7 +30282,9 @@ INSERT INTO `sent_emails` (`id`, `recipient_email`, `subject`, `body`) VALUES
 	(51, 'vendiddy@gmail.com', 'A girl from McFaddens has smiled at you.', '<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 10th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>'),
 	(52, 'ava@gwu.edu', 'A guy from McFaddens has smiled at you.', '<p>\n  Hi Ava,\n</p>\n<br/>\n<p>\n  A guy from McFaddens smiled at you on October 10th.\n  To see who it might be <a href="http://localhost/party/24">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>'),
 	(53, 'ava@gwu.edu', 'You and Venkat Dinavahi have smiled at each other.', '\n<p>\n  Hi Ava,\n</p>\n<br/>\n<p>\n  You and Venkat Dinavahi have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>'),
-	(54, 'vendiddy@gmail.com', 'You and Ava Rubin have smiled at each other.', '\n<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  You and Ava Rubin have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>');
+	(54, 'vendiddy@gmail.com', 'You and Ava Rubin have smiled at each other.', '\n<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  You and Ava Rubin have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>'),
+	(55, 'vendiddy@gmail.com', 'A girl from McFaddens has smiled at you.', '<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  A girl from McFaddens smiled at you on October 8th.\n  To see who it might be <a href="http://localhost/party/26">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>'),
+	(56, 'vendiddy@gmail.com', 'You and Jenny Soderbergh have smiled at each other.', '\n<p>\n  Hi Venkat,\n</p>\n<br/>\n<p>\n  You and Jenny Soderbergh have smiled at each other!\n  <a href="http://localhost/dashboard">click here</a> to go to your dashboard.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>');
 /*!40000 ALTER TABLE `sent_emails` ENABLE KEYS */;
 
 
@@ -30249,7 +30299,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.sessions: ~27 rows (approximately)
+# Dumping data for table whowentout.sessions: ~96 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`, `debug`) VALUES
 	('0205f288b22942faf35c84ccfe98a5c8', '127.0.0.1', '0', 1315552982, '', NULL),
@@ -30257,12 +30307,13 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('05189233fabc83db101f211426f897c5', '127.0.0.1', '0', 1315549681, '', NULL),
 	('066cc3cdcfccf5233c58afe24486f8ed', '127.0.0.1', '0', 1315546138, '', NULL),
 	('06a86b8bf6e14e654ef82e734d918139', '127.0.0.1', '0', 1315551552, '', NULL),
-	('0cad9ad14320b9898543abe46552af85', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1315275390, 'a:4:{s:23:"fb_161054327279516_code";s:195:"AQAjZsTBUFeIZuukUQX4Y5qzEamBRkww0zW30uYs6dE__1gB1PrB03MLDBwcyNgQF5lybb9yakWFU0YTrwTjqDyvAL5glIA8eKnODVN2ZilrVgx100SI3AcjTUitquJ-WVMDtecDym8OL_77BiyGqhjVgEh1kja2SxRa-_4URxbAn5iO9zV8ISL6QnikdeWJ8lA";s:31:"fb_161054327279516_access_token";s:80:"161054327279516|9fa9b03352a60587e7c04f29.1-776200121|_7ZNMzYiaJs3vEGn2taGcRenApM";s:26:"fb_161054327279516_user_id";s:9:"776200121";s:7:"user_id";i:159;}', NULL),
+	('0cad9ad14320b9898543abe46552af85', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/53', 1315275390, 'a:4:{s:7:"user_id";i:159;s:23:"fb_161054327279516_code";s:195:"AQACGkUvEacDp94RiIBNkW5x8n-3CRfMRY-jgFaGXiV_pXnhf4qqArtu1oI6hSj_xhqWx997DeKRlgoaK95pmUiKKQiRvNAkRA8uKpAx2S9rpiMLH76N6OJrGzv9sO0CGLXhg16t-L3NecU5uTFl6HMFWfGTIIpCyJf8attmk7CoStQVv1dvO1gtN5tf8GNA6xk";s:31:"fb_161054327279516_access_token";s:80:"161054327279516|9fa9b03352a60587e7c04f29.1-776200121|_7ZNMzYiaJs3vEGn2taGcRenApM";s:26:"fb_161054327279516_user_id";s:9:"776200121";}', NULL),
 	('10e923e0402ae0a33e421dd940372774', '127.0.0.1', '0', 1315540545, '', NULL),
 	('15064f5e4adb00b5f75f142ccb1c3f15', '127.0.0.1', '0', 1315549839, '', NULL),
 	('1bba10e1ce418b2aefb65c5e7fcdf762', '127.0.0.1', '0', 1315550064, '', NULL),
 	('1e933672154089433c5dc363eb5cc432', '127.0.0.1', '0', 1315548500, '', NULL),
 	('22d9891bdbb687c9b7056655ebc514f5', '127.0.0.1', '0', 1315553153, '', NULL),
+	('247a382268da2097c5c622d24fa81b82', '127.0.0.1', '0', 1315635282, '', NULL),
 	('27fd86728a98fa0ecf8803efdc3091da', '127.0.0.1', '0', 1315540630, '', NULL),
 	('2a1be206e6487c5524aede6a95850c76', '127.0.0.1', '0', 1315553453, '', NULL),
 	('2a725a9fce378f3ffa1ddeb273e4b3d0', '127.0.0.1', '0', 1315549198, '', NULL),
@@ -30275,7 +30326,8 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('36c52a49d818c8832841017ad33e56cd', '127.0.0.1', '0', 1315551307, '', NULL),
 	('398389c8c7464b85c6e520541900465a', '127.0.0.1', '0', 1315552582, '', NULL),
 	('3a9b2a6715cd433d2ddae83502f1cc55', '127.0.0.1', '0', 1315550546, '', NULL),
-	('3b894abf163db8f2033cc78badd17164', '127.0.0.1', 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1;', 1314963162, 'a:1:{s:7:"user_id";i:115;}', NULL),
+	('3b894abf163db8f2033cc78badd17164', '127.0.0.1', 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1;', 1314963162, 'a:1:{s:7:"user_id";i:108;}', NULL),
+	('3d1d10b38fd19a3369319cdbfccf3f29', '221.212.30.160', 'Mozilla/5.0 (compatible; MSIE 5.01; Win2000)', 1315619568, '', NULL),
 	('40c7f946961c3d09761584e4fcae8a36', '127.0.0.1', '0', 1315548104, '', NULL),
 	('41b5dc9ecf237d0cda8ef8aaf140f073', '127.0.0.1', '0', 1315540629, '', NULL),
 	('44e8db6fb927db2a8cfbbd1a1090bcfe', '127.0.0.1', '0', 1315550644, '', NULL),
@@ -30285,12 +30337,15 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('4be6133422812c9a5e975827c7189bdb', '127.0.0.1', '0', 1315549532, '', NULL),
 	('4ec6522e29144f847bb8aae10f7347ea', '127.0.0.1', '0', 1315551552, '', NULL),
 	('4f87cd4e7e1eb526701fa1d228aa00f1', '127.0.0.1', '0', 1315551552, '', NULL),
+	('50a2cf6a43fda4eb9cfeef0b561af776', '127.0.0.1', '0', 1315635259, '', NULL),
 	('53fd75ca1cec54ffb738490dda818441', '127.0.0.1', '0', 1315551333, '', NULL),
 	('5b8ff08b71a5ac3332d258d077eddd8e', '127.0.0.1', '0', 1315552229, '', NULL),
 	('5d77d7080832dd9b83a51e0c900e67c2', '127.0.0.1', '0', 1315552613, '', NULL),
 	('5f10afd4bbefba2bfadb21dc6030e4c5', '127.0.0.1', '0', 1315553453, '', NULL),
 	('61970ae9243d0f77e3e0c9c9b71b0956', '127.0.0.1', '0', 1315548276, '', NULL),
 	('6b08662fbd58ffeeb091fb8813f1d1e6', '127.0.0.1', '0', 1315549681, '', NULL),
+	('6b865c13758e455ed724988958aff632', '127.0.0.1', '0', 1315635282, '', NULL),
+	('6be926b8c95eec05f5bbe4f7199e1b9b', '127.0.0.1', '0', 1315635282, '', NULL),
 	('6ce9cf16d1add0428ae83b911302d298', '127.0.0.1', '0', 1315547168, '', NULL),
 	('71a0d5d8507b6bb221604c7ef2dbd936', '127.0.0.1', '0', 1315540630, '', NULL),
 	('74a0d1c70686cdac664bf51c68a585e9', '127.0.0.1', '0', 1315540546, '', NULL),
@@ -30325,7 +30380,7 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('cb562a22048ab8e93f266848dca58ed5', '127.0.0.1', '0', 1315547168, '', NULL),
 	('cfed3bc13326fd1aa8ec13495ad2937b', '117.43.18.7', 'Mozilla/4.0 (compatible; MSIE 4.01; Windows 98)', 1315469518, '', NULL),
 	('d0ca22947f9efaf93ff89dca30eba6a4', '127.0.0.1', '0', 1315549665, '', NULL),
-	('d212f92e60664ac3f66406ba0509c2e6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/', 1314957338, 'a:4:{s:7:"user_id";i:12;s:23:"fb_161054327279516_code";s:195:"AQD7jWN9jwh21xnxyUunAt1flTvbDh5JaaB-bRqoH7yTK1mBW0RXgJT27IsqLKFOJCOMph6mmznhoMFwLxr3ZlWa115KmsmxOgyTtL0wSX-izhIyJZGOlbWhsFM-OH9Ed-8VHA5mBo1brjhySd4SGyka9sqQm2xvGIoDAn6O7Tsc0Km9i_c_3UdqHRtQA0_k2Jc";s:31:"fb_161054327279516_access_token";s:80:"161054327279516|9fa9b03352a60587e7c04f29.1-776200121|_7ZNMzYiaJs3vEGn2taGcRenApM";s:26:"fb_161054327279516_user_id";s:9:"776200121";}', NULL),
+	('d212f92e60664ac3f66406ba0509c2e6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/', 1314957338, 'a:4:{s:7:"user_id";i:33;s:23:"fb_161054327279516_code";s:195:"AQD7jWN9jwh21xnxyUunAt1flTvbDh5JaaB-bRqoH7yTK1mBW0RXgJT27IsqLKFOJCOMph6mmznhoMFwLxr3ZlWa115KmsmxOgyTtL0wSX-izhIyJZGOlbWhsFM-OH9Ed-8VHA5mBo1brjhySd4SGyka9sqQm2xvGIoDAn6O7Tsc0Km9i_c_3UdqHRtQA0_k2Jc";s:31:"fb_161054327279516_access_token";s:80:"161054327279516|9fa9b03352a60587e7c04f29.1-776200121|_7ZNMzYiaJs3vEGn2taGcRenApM";s:26:"fb_161054327279516_user_id";s:9:"776200121";}', NULL),
 	('d6314fdb5769792f8999e57cc50c49f6', '127.0.0.1', '0', 1315549997, '', NULL),
 	('d6d410143ff2f5bd56f8094655066b26', '127.0.0.1', '0', 1315552229, '', NULL),
 	('d8cb7c0e19a26854f5b517725d71e09b', '127.0.0.1', '0', 1315548232, '', NULL),
@@ -30416,92 +30471,205 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pic_height` int(10) unsigned DEFAULT NULL,
   `pic_version` int(10) unsigned NOT NULL DEFAULT '1',
   `chatbar_state` text,
+  `visible_to` varchar(255) NOT NULL DEFAULT 'everyone',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=280 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.users: ~77 rows (approximately)
+# Dumping data for table whowentout.users: ~237 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `version`, `facebook_id`, `first_name`, `last_name`, `hometown_city`, `hometown_state`, `college_id`, `grad_year`, `email`, `gender`, `registration_time`, `last_ping`, `last_updated_friends`, `last_edit`, `date_of_birth`, `pic_x`, `pic_y`, `pic_width`, `pic_height`, `pic_version`, `chatbar_state`) VALUES
-	(3, 0, '100001150127674', 'Robert', 'Roose', 'Topeka', 'KS', 1, 2011, 'robert@gwu.edu', 'M', NULL, NULL, NULL, NULL, '1990-10-24', 38, 20, 105, 140, 7, NULL),
-	(4, 0, '1243620029', 'Clara', 'Scheinmann', 'Topeka', 'KS', 1, 2013, 'clara@gwu.edu', 'F', NULL, NULL, NULL, '2011-10-07 22:23:35', '1991-01-31', 20, 20, 140, 187, 13, NULL),
-	(5, 0, '1479330106', 'Natalie', 'Epelman', 'Topeka', 'KS', 1, 2012, 'natalie@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1990-05-16', 17, 20, 147, 196, 13, '{"159":"hidden"}'),
-	(6, 0, '1067760090', 'Marissa', 'Ostroff', 'Topeka', 'KS', 1, 2013, 'marissa@gwu.edu', 'F', NULL, NULL, NULL, '2011-10-07 22:12:13', '1990-12-09', 20, 20, 140, 187, 15, NULL),
-	(7, 0, '569012997', 'Alex', 'Webb', 'Topeka', 'KS', 1, 2012, 'alex@gwu.edu', 'M', NULL, NULL, NULL, '2011-10-07 22:24:21', '0000-00-00', 33, 20, 114, 152, 13, NULL),
-	(8, 0, '704222664', 'Leon', 'Harari', 'Topeka', 'KS', 1, 2012, 'leon@gwu.edu', 'M', NULL, NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL),
-	(9, 0, '760370505', 'Jonny', 'Cohen', 'Topeka', 'KS', 1, 2012, 'johnny@gwu.edu', 'M', NULL, NULL, NULL, '2011-10-07 22:57:45', '0000-00-00', 46, 20, 88, 117, 15, NULL),
-	(10, 0, '719185695', 'Cassie', 'Scheinmann', 'Topeka', 'KS', 1, 2013, 'cassie@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1991-03-05', 20, 20, 140, 186, 13, NULL),
-	(11, 0, '1099920067', 'Erica ', 'Obersi', 'Topeka', 'KS', 1, 2013, 'erica@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1990-04-30', 17, 20, 146, 195, 13, NULL),
-	(12, 0, '1682940070', 'Ava', 'Rubin', 'Topeka', 'KS', 1, 2013, 'ava@gwu.edu', 'F', NULL, '2011-10-10 00:03:46', NULL, '2011-10-09 22:56:51', '1991-01-09', 54, 20, 73, 97, 15, '{"159":"collapsed"}'),
-	(13, 0, '1067760099', 'Anna ', 'Lepkoski', 'Topeka', 'KS', 1, 2013, 'anna@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1991-03-02', 20, 20, 140, 187, 13, NULL),
-	(14, 0, '1120470019', 'Sara', 'Sopher', 'Topeka', 'KS', 1, 2012, 'sara@gwu.edu', 'F', NULL, NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(33, 0, '8100231', 'Dan', 'Berenholtz', 'Topeka', 'KS', 1, 2014, 'db349@cornell.edu', 'M', '2011-07-06 07:48:07', NULL, '2011-10-12 15:22:14', '2011-10-07 22:11:30', '1986-09-10', 33, 20, 113, 151, 25, '{"159":"expanded"}'),
-	(50, 0, '5300477', 'Briana', 'Ashley', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 02:27:09', NULL, NULL, NULL, '0000-00-00', 45, 20, 91, 121, 13, NULL),
-	(78, 0, '5311798', 'Pamela', 'Siegelaub', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:14:02', NULL, NULL, '2011-10-09 22:29:16', '0000-00-00', 20, 20, 140, 187, 15, 'false'),
-	(80, 0, '5312146', 'Emily', 'Aden', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:21:24', NULL, NULL, '2011-10-07 23:22:33', '0000-00-00', 28, 20, 125, 166, 15, NULL),
-	(81, 0, '634575073', 'Casey', 'James', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, NULL, '2011-10-07 22:59:10', '0000-00-00', 50, 20, 80, 106, 15, NULL),
-	(82, 0, '1346882983', 'Claire', 'Bennett', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(83, 0, '539471945', 'Senya', 'Merchant', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(85, 0, '1091460106', 'Jillian', 'Leviton', 'Topeka', 'KS', 1, 2012, '', 'F', '2011-07-10 03:25:40', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(86, 0, '527961219', 'Riley', 'Schamburg', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:40', NULL, NULL, '2011-10-08 00:04:48', '0000-00-00', 54, 20, 71, 95, 21, NULL),
-	(87, 0, '1088610196', 'Jess', 'Sardella', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:41', NULL, NULL, '2011-10-07 23:15:53', '0000-00-00', 39, 20, 103, 137, 17, NULL),
-	(88, 0, '1339500103', 'Melissa', 'Peters', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:41', NULL, NULL, '2011-10-07 22:38:18', '0000-00-00', 38, 20, 104, 138, 13, NULL),
-	(89, 0, '1088670513', 'Jackie', 'Galoma', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:42', NULL, NULL, '2011-10-07 23:09:49', '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(90, 0, '1084350150', 'Nicole', 'Pozzi', 'Topeka', 'KS', NULL, 0, '', 'F', '2011-07-10 03:25:42', NULL, NULL, '2011-10-08 20:49:47', '0000-00-00', 38, 20, 104, 139, 15, 'false'),
-	(91, 0, '106631', 'Alisa', 'Brem', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:43', NULL, NULL, '2011-10-07 22:56:54', '0000-00-00', 53, 20, 75, 100, 13, NULL),
-	(93, 0, '1229670021', 'Nicole', 'White', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(94, 0, '7306880', 'Monica', 'Dreyer', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(95, 0, '5304695', 'Swati', 'Venugopal', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 13, NULL),
-	(96, 0, '5312769', 'Maggie', 'Brennan', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, NULL, '2011-10-07 22:20:18', '0000-00-00', 20, 20, 140, 187, 13, 'false'),
-	(97, 0, '1459620102', 'Remi', 'Rosenfeldt', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:45', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL),
-	(98, 0, '1364970126', 'Rebecca', 'Parker', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:45', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(99, 0, '5312816', 'Chelsea', 'Bridge', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:46', NULL, NULL, NULL, '0000-00-00', 29, 20, 122, 163, 13, NULL),
-	(100, 0, '504327686', 'Beth', 'Argaman', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:46', NULL, NULL, '2011-10-08 08:01:01', '0000-00-00', 20, 20, 140, 187, 17, NULL),
-	(101, 0, '730755083', 'Alex', 'Caines', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:46', NULL, NULL, NULL, '0000-00-00', 48, 20, 84, 112, 13, NULL),
-	(102, 0, '5312044', 'Alyssa', 'Cooper', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, NULL, '2011-10-08 01:12:45', '0000-00-00', 59, 20, 62, 82, 7, NULL),
-	(103, 0, '1223850680', 'Betsy', 'Fortune', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, NULL, '2011-10-08 00:39:19', '0000-00-00', 54, 20, 71, 95, 15, NULL),
-	(104, 0, '507233007', 'Allison', 'Markowitz', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, NULL, '2011-10-09 22:04:49', '0000-00-00', 56, 20, 69, 92, 15, 'false'),
-	(105, 0, '1307940055', 'Carsen', 'Zarin', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(106, 0, '1463190167', 'Jana', 'Teichman', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(107, 0, '1515390516', 'Rebekah', 'Yurco', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, NULL, '2011-10-08 01:32:26', '0000-00-00', 60, 20, 60, 80, 13, NULL),
-	(108, 0, '1555110345', 'Jenny', 'Soderbergh', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, NULL, '2011-10-07 22:43:07', '0000-00-00', 20, 20, 140, 187, 13, 'false'),
-	(110, 0, '531310504', 'Alexander', 'Zafran', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:47', NULL, NULL, NULL, '0000-00-00', 53, 20, 74, 99, 13, NULL),
-	(111, 0, '8112397', 'Mike', 'Allian', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:48', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(112, 0, '1100520174', 'Sean', 'Burstyn', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:49', NULL, NULL, NULL, '0000-00-00', 38, 20, 105, 140, 13, NULL),
-	(113, 0, '1244370118', 'Ari', 'Hoffman', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:50', NULL, NULL, NULL, '0000-00-00', 66, 20, 48, 64, 13, NULL),
-	(114, 0, '5304934', 'Jonathan', 'Kudary', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:51', NULL, NULL, NULL, '0000-00-00', 59, 20, 83, 110, 13, NULL),
-	(115, 0, '6314330', 'Jonathan', 'Yashari', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:52', NULL, NULL, '2011-10-07 22:01:19', '0000-00-00', 20, 20, 140, 187, 7, '{"123":"hidden","33":"expanded"}'),
-	(116, 0, '16400099', 'Mourad', 'Shehebar', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:53', NULL, NULL, NULL, '0000-00-00', 38, 20, 104, 139, 13, NULL),
-	(117, 0, '10105934', 'Noah', 'Lerman', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:54', NULL, NULL, NULL, '0000-00-00', 20, 20, 62, 83, 13, NULL),
-	(118, 0, '5318741', 'Steve', 'Noghrey', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:55', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 14, NULL),
-	(121, 0, '1458000225', 'Jeff', 'Becker', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:23:00', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(122, 0, '1087620202', 'Adam', 'Katzenberg', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:23:01', NULL, NULL, '2011-10-07 22:14:38', '0000-00-00', 20, 20, 140, 187, 7, NULL),
-	(123, 0, '1243890775', 'Andrew', 'Chester', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:23:03', NULL, NULL, '2011-10-07 22:57:51', '0000-00-00', 54, 20, 71, 95, 15, '{"159":"expanded","115":"expanded"}'),
-	(124, 0, '1135539275', 'Peter', 'Cook', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:23:04', NULL, NULL, NULL, '0000-00-00', 33, 20, 115, 153, 13, NULL),
-	(127, 0, '746605354', 'Hunter', 'Pritchard', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:23', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 12, NULL),
-	(128, 0, '899965359', 'Brock', 'Treworgy', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:30', NULL, NULL, '2011-10-09 00:42:11', '0000-00-00', 54, 20, 71, 95, 13, NULL),
-	(129, 0, '504949778', 'Ryan', 'Ashley', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:38', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(130, 0, '1488840082', 'Victor', 'Bogachev', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:46', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(131, 0, '591065975', 'Hursh', 'Vasant', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:53', NULL, NULL, '2011-10-09 00:42:43', '0000-00-00', 38, 20, 104, 138, 13, NULL),
-	(132, 0, '575037558', 'Andrew', 'Schumacher', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:51:01', NULL, NULL, '2011-10-07 22:48:24', '0000-00-00', 45, 20, 89, 119, 15, NULL),
-	(133, 0, '667836533', 'Nathan', 'Felton', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:23', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL),
-	(134, 0, '1103820248', 'Nick', 'Mejia', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:29', NULL, NULL, '2011-10-07 23:28:31', '0000-00-00', 54, 20, 71, 95, 15, NULL),
-	(135, 0, '525900942', 'Clement', 'Kristensen', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:35', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL),
-	(136, 0, '501474887', 'Steven', 'Chen', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:43', NULL, NULL, NULL, '0000-00-00', 36, 20, 107, 143, 13, NULL),
-	(137, 0, '1243050303', 'Luke', 'Stone', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:51', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(138, 0, '1340850473', 'Chas', 'Pressner', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:58', NULL, NULL, '2011-10-09 00:43:00', '0000-00-00', 19, 20, 143, 190, 13, NULL),
-	(139, 0, '1114110458', 'Trey', 'O\'Callaghan', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:04', NULL, NULL, NULL, '0000-00-00', 67, 20, 46, 61, 13, NULL),
-	(140, 0, '1063440857', 'Pete', 'Chattrabhuti', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:12', NULL, NULL, '2011-10-09 23:41:20', '0000-00-00', 56, 20, 68, 91, 15, 'false'),
-	(141, 0, '677726556', 'Jake', 'Shiffman', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:19', NULL, NULL, NULL, '0000-00-00', 16, 20, 148, 197, 13, NULL),
-	(142, 0, '1511370180', 'Ryan', 'Thornton', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:27', NULL, NULL, NULL, '0000-00-00', 37, 20, 106, 141, 13, NULL),
-	(143, 0, '1463220074', 'Ian', 'Braun', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:34', NULL, NULL, '2011-10-07 23:00:12', '0000-00-00', 20, 20, 140, 187, 15, NULL),
-	(144, 0, '1236150489', 'Ben', 'Gillman', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:44', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL),
-	(145, 0, '1248270638', 'Bradley', 'Schlafer', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:52', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL),
-	(146, 0, '1372767357', 'Harry', 'Meng', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:58', NULL, NULL, NULL, '0000-00-00', 17, 20, 166, 221, 13, NULL),
-	(157, 0, '100001981675908', 'Bobby', 'Dole', 'Seoul', 'Korea', 1, 2012, 'bobbydolly1@hotmail.com', 'M', '2011-10-08 21:30:03', NULL, NULL, '2011-10-08 21:47:39', '1994-12-18', 20, 20, 150, 200, 19, NULL),
-	(159, 0, '776200121', 'Venkat', 'Dinavahi', 'Severna Park', 'MD', 1, 2014, 'vendiddy@gmail.com', 'M', '2011-10-09 21:24:17', '2011-10-10 00:03:48', '2011-10-14 05:52:26', '2011-10-12 05:40:18', '1988-10-06', 20, 20, 104, 139, 33, '{"12":"hidden","33":"hidden"}');
+INSERT INTO `users` (`id`, `version`, `facebook_id`, `first_name`, `last_name`, `hometown_city`, `hometown_state`, `college_id`, `grad_year`, `email`, `gender`, `registration_time`, `last_ping`, `last_updated_friends`, `last_edit`, `date_of_birth`, `pic_x`, `pic_y`, `pic_width`, `pic_height`, `pic_version`, `chatbar_state`, `visible_to`) VALUES
+	(3, 0, '100001150127674', 'Robert', 'Roose', 'Topeka', 'KS', 1, 2011, 'robert@gwu.edu', 'M', NULL, NULL, NULL, NULL, '1990-10-24', 38, 20, 105, 140, 7, NULL, 'everyone'),
+	(4, 0, '1243620029', 'Clara', 'Scheinmann', 'Topeka', 'KS', 1, 2013, 'clara@gwu.edu', 'F', NULL, NULL, NULL, '2011-10-07 22:23:35', '1991-01-31', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(5, 0, '1479330106', 'Natalie', 'Epelman', 'Topeka', 'KS', 1, 2012, 'natalie@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1990-05-16', 17, 20, 147, 196, 13, '{"159":"hidden"}', 'everyone'),
+	(6, 0, '1067760090', 'Marissa', 'Ostroff', 'Topeka', 'KS', 1, 2013, 'marissa@gwu.edu', 'F', NULL, NULL, NULL, '2011-10-07 22:12:13', '1990-12-09', 20, 20, 140, 187, 15, NULL, 'everyone'),
+	(7, 0, '569012997', 'Alex', 'Webb', 'Topeka', 'KS', 1, 2012, 'alex@gwu.edu', 'M', NULL, NULL, NULL, '2011-10-07 22:24:21', '0000-00-00', 33, 20, 114, 152, 13, NULL, 'everyone'),
+	(8, 0, '704222664', 'Leon', 'Harari', 'Topeka', 'KS', 1, 2012, 'leon@gwu.edu', 'M', NULL, NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL, 'everyone'),
+	(9, 0, '760370505', 'Jonny', 'Cohen', 'Topeka', 'KS', 1, 2012, 'johnny@gwu.edu', 'M', NULL, NULL, NULL, '2011-10-07 22:57:45', '0000-00-00', 46, 20, 88, 117, 15, NULL, 'everyone'),
+	(10, 0, '719185695', 'Cassie', 'Scheinmann', 'Topeka', 'KS', 1, 2013, 'cassie@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1991-03-05', 20, 20, 140, 186, 13, NULL, 'everyone'),
+	(11, 0, '1099920067', 'Erica ', 'Obersi', 'Topeka', 'KS', 1, 2013, 'erica@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1990-04-30', 17, 20, 146, 195, 13, NULL, 'everyone'),
+	(12, 0, '1682940070', 'Ava', 'Rubin', 'Topeka', 'KS', 1, 2013, 'ava@gwu.edu', 'F', NULL, NULL, NULL, '2011-10-09 22:56:51', '1991-01-09', 54, 20, 73, 97, 15, 'false', 'everyone'),
+	(13, 0, '1067760099', 'Anna ', 'Lepkoski', 'Topeka', 'KS', 1, 2013, 'anna@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1991-03-02', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(14, 0, '1120470019', 'Sara', 'Sopher', 'Topeka', 'KS', 1, 2012, 'sara@gwu.edu', 'F', NULL, NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(33, 0, '8100231', 'Dan', 'Berenholtz', 'Topeka', 'KS', 55, 2014, 'db349@cornell.edu', 'M', '2011-07-06 07:48:07', '2011-09-16 06:33:13', '2011-10-12 15:22:14', '2011-10-07 22:11:30', '1986-09-10', 33, 20, 113, 151, 27, '{"159":"hidden"}', 'everyone'),
+	(50, 0, '5300477', 'Briana', 'Ashley', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 02:27:09', NULL, NULL, NULL, '0000-00-00', 45, 20, 91, 121, 13, NULL, 'everyone'),
+	(78, 0, '5311798', 'Pamela', 'Siegelaub', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:14:02', NULL, NULL, '2011-10-09 22:29:16', '0000-00-00', 20, 20, 140, 187, 15, 'false', 'everyone'),
+	(80, 0, '5312146', 'Emily', 'Aden', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:21:24', NULL, NULL, '2011-10-07 23:22:33', '0000-00-00', 28, 20, 125, 166, 15, NULL, 'everyone'),
+	(81, 0, '634575073', 'Casey', 'James', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, NULL, '2011-10-07 22:59:10', '0000-00-00', 50, 20, 80, 106, 15, NULL, 'everyone'),
+	(82, 0, '1346882983', 'Claire', 'Bennett', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(83, 0, '539471945', 'Senya', 'Merchant', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:23:53', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(85, 0, '1091460106', 'Jillian', 'Leviton', 'Topeka', 'KS', 1, 2012, '', 'F', '2011-07-10 03:25:40', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(86, 0, '527961219', 'Riley', 'Schamburg', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:40', NULL, NULL, '2011-10-08 00:04:48', '0000-00-00', 54, 20, 71, 95, 21, NULL, 'everyone'),
+	(87, 0, '1088610196', 'Jess', 'Sardella', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:41', NULL, NULL, '2011-10-07 23:15:53', '0000-00-00', 39, 20, 103, 137, 17, NULL, 'everyone'),
+	(88, 0, '1339500103', 'Melissa', 'Peters', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:41', NULL, NULL, '2011-10-07 22:38:18', '0000-00-00', 38, 20, 104, 138, 13, NULL, 'everyone'),
+	(89, 0, '1088670513', 'Jackie', 'Galoma', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:42', NULL, NULL, '2011-10-07 23:09:49', '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(90, 0, '1084350150', 'Nicole', 'Pozzi', 'Topeka', 'KS', NULL, 2013, '', 'F', '2011-07-10 03:25:42', NULL, NULL, '2011-10-08 20:49:47', '0000-00-00', 38, 20, 104, 139, 15, 'false', 'everyone'),
+	(91, 0, '106631', 'Alisa', 'Brem', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:43', NULL, NULL, '2011-10-07 22:56:54', '0000-00-00', 53, 20, 75, 100, 13, NULL, 'everyone'),
+	(93, 0, '1229670021', 'Nicole', 'White', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(94, 0, '7306880', 'Monica', 'Dreyer', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(95, 0, '5304695', 'Swati', 'Venugopal', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 13, NULL, 'everyone'),
+	(96, 0, '5312769', 'Maggie', 'Brennan', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:44', NULL, NULL, '2011-10-07 22:20:18', '0000-00-00', 20, 20, 140, 187, 13, 'false', 'everyone'),
+	(97, 0, '1459620102', 'Remi', 'Rosenfeldt', 'Topeka', 'KS', NULL, 2013, '', 'F', '2011-07-10 03:25:45', NULL, NULL, '2011-10-08 02:06:37', '0000-00-00', 54, 20, 71, 95, 15, 'false', 'everyone'),
+	(98, 0, '1364970126', 'Rebecca', 'Parker', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:45', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(99, 0, '5312816', 'Chelsea', 'Bridge', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:46', NULL, NULL, NULL, '0000-00-00', 29, 20, 122, 163, 13, NULL, 'everyone'),
+	(100, 0, '504327686', 'Beth', 'Argaman', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:46', NULL, NULL, '2011-10-08 08:01:01', '0000-00-00', 20, 20, 140, 187, 17, '{"159":"collapsed"}', 'everyone'),
+	(101, 0, '730755083', 'Alex', 'Caines', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:46', NULL, NULL, NULL, '0000-00-00', 48, 20, 84, 112, 13, NULL, 'everyone'),
+	(102, 0, '5312044', 'Alyssa', 'Cooper', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, NULL, '2011-10-08 01:12:45', '0000-00-00', 59, 20, 62, 82, 7, NULL, 'everyone'),
+	(103, 0, '1223850680', 'Betsy', 'Fortune', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, NULL, '2011-10-08 00:39:19', '0000-00-00', 54, 20, 71, 95, 15, NULL, 'everyone'),
+	(104, 0, '507233007', 'Allison', 'Markowitz', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, NULL, '2011-10-09 22:04:49', '0000-00-00', 56, 20, 69, 92, 15, 'false', 'everyone'),
+	(105, 0, '1307940055', 'Carsen', 'Zarin', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:47', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(106, 0, '1463190167', 'Jana', 'Teichman', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(107, 0, '1515390516', 'Rebekah', 'Yurco', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, NULL, '2011-10-08 01:32:26', '0000-00-00', 60, 20, 60, 80, 13, NULL, 'everyone'),
+	(108, 0, '1555110345', 'Jenny', 'Soderbergh', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:25:48', NULL, NULL, '2011-10-07 22:43:07', '0000-00-00', 20, 20, 140, 187, 13, 'false', 'everyone'),
+	(110, 0, '531310504', 'Alexander', 'Zafran', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:47', NULL, NULL, NULL, '0000-00-00', 53, 20, 74, 99, 13, NULL, 'everyone'),
+	(111, 0, '8112397', 'Mike', 'Allian', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:48', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(112, 0, '1100520174', 'Sean', 'Burstyn', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:49', NULL, NULL, NULL, '0000-00-00', 38, 20, 105, 140, 13, NULL, 'everyone'),
+	(113, 0, '1244370118', 'Ari', 'Hoffman', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:50', NULL, NULL, NULL, '0000-00-00', 66, 20, 48, 64, 13, NULL, 'everyone'),
+	(114, 0, '5304934', 'Jonathan', 'Kudary', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:51', NULL, NULL, NULL, '0000-00-00', 59, 20, 83, 110, 13, NULL, 'everyone'),
+	(115, 0, '6314330', 'Jonathan', 'Yashari', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:52', NULL, NULL, '2011-10-07 22:01:19', '0000-00-00', 20, 20, 140, 187, 7, '{"123":"hidden","33":"expanded"}', 'everyone'),
+	(116, 0, '16400099', 'Mourad', 'Shehebar', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:53', NULL, NULL, NULL, '0000-00-00', 38, 20, 104, 139, 13, NULL, 'everyone'),
+	(117, 0, '10105934', 'Noah', 'Lerman', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:54', NULL, NULL, NULL, '0000-00-00', 20, 20, 62, 83, 13, NULL, 'everyone'),
+	(118, 0, '5318741', 'Steve', 'Noghrey', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:22:55', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 14, NULL, 'everyone'),
+	(121, 0, '1458000225', 'Jeff', 'Becker', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:23:00', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(122, 0, '1087620202', 'Adam', 'Katzenberg', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:23:01', NULL, NULL, '2011-10-07 22:14:38', '0000-00-00', 20, 20, 140, 187, 7, NULL, 'everyone'),
+	(123, 0, '1243890775', 'Andrew', 'Chester', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:23:03', NULL, NULL, '2011-10-07 22:57:51', '0000-00-00', 54, 20, 71, 95, 15, '{"159":"expanded","115":"expanded"}', 'everyone'),
+	(124, 0, '1135539275', 'Peter', 'Cook', 'Topeka', 'KS', 1, 2012, '', 'M', '2011-10-08 05:23:04', NULL, NULL, NULL, '0000-00-00', 33, 20, 115, 153, 13, NULL, 'everyone'),
+	(127, 0, '746605354', 'Hunter', 'Pritchard', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:23', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 12, NULL, 'everyone'),
+	(128, 0, '899965359', 'Brock', 'Treworgy', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:30', NULL, NULL, '2011-10-09 00:42:11', '0000-00-00', 54, 20, 71, 95, 13, NULL, 'everyone'),
+	(129, 0, '504949778', 'Ryan', 'Ashley', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:38', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(130, 0, '1488840082', 'Victor', 'Bogachev', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:46', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(131, 0, '591065975', 'Hursh', 'Vasant', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:50:53', NULL, NULL, '2011-10-09 00:42:43', '0000-00-00', 38, 20, 104, 138, 13, NULL, 'everyone'),
+	(132, 0, '575037558', 'Andrew', 'Schumacher', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:51:01', NULL, NULL, '2011-10-07 22:48:24', '0000-00-00', 45, 20, 89, 119, 15, NULL, 'everyone'),
+	(133, 0, '667836533', 'Nathan', 'Felton', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:23', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL, 'everyone'),
+	(134, 0, '1103820248', 'Nick', 'Mejia', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:29', NULL, NULL, '2011-10-07 23:28:31', '0000-00-00', 54, 20, 71, 95, 15, NULL, 'everyone'),
+	(135, 0, '525900942', 'Clement', 'Kristensen', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:35', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL, 'everyone'),
+	(136, 0, '501474887', 'Steven', 'Chen', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:43', NULL, NULL, NULL, '0000-00-00', 36, 20, 107, 143, 13, NULL, 'everyone'),
+	(137, 0, '1243050303', 'Luke', 'Stone', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:51', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(138, 0, '1340850473', 'Chas', 'Pressner', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:52:58', NULL, NULL, '2011-10-09 00:43:00', '0000-00-00', 19, 20, 143, 190, 13, NULL, 'everyone'),
+	(139, 0, '1114110458', 'Trey', 'O\'Callaghan', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:04', NULL, NULL, NULL, '0000-00-00', 67, 20, 46, 61, 13, NULL, 'everyone'),
+	(140, 0, '1063440857', 'Pete', 'Chattrabhuti', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:12', NULL, NULL, '2011-10-09 23:41:20', '0000-00-00', 56, 20, 68, 91, 15, 'false', 'everyone'),
+	(141, 0, '677726556', 'Jake', 'Shiffman', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:19', NULL, NULL, NULL, '0000-00-00', 16, 20, 148, 197, 13, NULL, 'everyone'),
+	(142, 0, '1511370180', 'Ryan', 'Thornton', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:27', NULL, NULL, NULL, '0000-00-00', 37, 20, 106, 141, 13, NULL, 'everyone'),
+	(143, 0, '1463220074', 'Ian', 'Braun', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:34', NULL, NULL, '2011-10-07 23:00:12', '0000-00-00', 20, 20, 140, 187, 15, NULL, 'everyone'),
+	(144, 0, '1236150489', 'Ben', 'Gillman', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:44', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 13, NULL, 'everyone'),
+	(145, 0, '1248270638', 'Bradley', 'Schlafer', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:52', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
+	(146, 0, '1372767357', 'Harry', 'Meng', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:58', NULL, NULL, NULL, '0000-00-00', 17, 20, 166, 221, 13, NULL, 'everyone'),
+	(157, 0, '100001981675908', 'Bobby', 'Dole', 'Seoul', 'Korea', 1, 2012, 'bobbydolly1@hotmail.com', 'M', '2011-10-08 21:30:03', NULL, NULL, '2011-10-08 21:47:39', '1994-12-18', 20, 20, 150, 200, 19, NULL, 'everyone'),
+	(159, 0, '776200121', 'Venkat', 'Dinavahi', 'Severna Park', 'MD', 55, 2014, 'ven@stanford.edu', 'M', '2011-10-09 21:24:17', NULL, '2011-10-14 05:52:26', '2011-10-12 05:40:18', '1988-10-06', 18, 19, 104, 137, 37, '{"33":"hidden"}', 'everyone'),
+	(160, 0, '609225452', 'Jess', 'Rempe', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:28', NULL, NULL, NULL, '0000-00-00', 56, 20, 68, 90, 5, NULL, 'everyone'),
+	(161, 0, '1381470024', 'Kate', 'Finnerty', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:31', NULL, NULL, NULL, '0000-00-00', 42, 20, 95, 127, 5, NULL, 'everyone'),
+	(162, 0, '1228740326', 'Beth', 'DiSciullo', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:36', NULL, NULL, NULL, '0000-00-00', 60, 20, 60, 80, 5, NULL, 'everyone'),
+	(163, 0, '1194720713', 'Elise', 'McKenna', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:39', NULL, NULL, NULL, '0000-00-00', 15, 20, 149, 199, 5, NULL, 'everyone'),
+	(164, 0, '1084382787', 'Hannah', 'Broadhurst', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:43', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(165, 0, '794860176', 'Kylie', 'Davis', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:46', NULL, NULL, NULL, '0000-00-00', 32, 20, 117, 156, 5, NULL, 'everyone'),
+	(166, 0, '534237782', 'Chloe', 'Chen', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:50', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(167, 0, '552280989', 'Liz', 'Tawa', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:54', NULL, NULL, NULL, '0000-00-00', 30, 20, 119, 159, 5, NULL, 'everyone'),
+	(168, 0, '570321317', 'Lacey', 'Henry', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:57', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(169, 0, '850679419', 'Madeline', 'Outland', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:00', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(170, 0, '611736142', 'Teresita', 'Perez', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:05', NULL, NULL, NULL, '0000-00-00', 42, 20, 116, 154, 5, NULL, 'everyone'),
+	(171, 0, '1232401385', 'Maggie', 'Law', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:08', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(172, 0, '1339710827', 'Madeline', 'Steinberg', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:12', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(173, 0, '1243080198', 'Anne', 'Jamison', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:17', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(174, 0, '698836250', 'Kim', 'Koff', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:20', NULL, NULL, NULL, '0000-00-00', 34, 20, 113, 150, 5, NULL, 'everyone'),
+	(175, 0, '1084230357', 'Alexandra', 'Pietraszkiewicz', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:23', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 5, NULL, 'everyone'),
+	(176, 0, '1227990120', 'Liz', 'Kane', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:26', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(177, 0, '1151730161', 'Molly', 'Mitchell', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:31', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(178, 0, '503644308', 'Sara', 'Ainsworth', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:35', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(179, 0, '598637873', 'Maria', 'Brzozowski', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:38', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(180, 0, '100001239924506', 'Nicole', 'Robertson', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:41', NULL, NULL, NULL, '0000-00-00', 28, 20, 124, 165, 5, NULL, 'everyone'),
+	(181, 0, '699295300', 'Hyunjin', 'Choi', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:45', NULL, NULL, NULL, '0000-00-00', 38, 20, 104, 138, 5, NULL, 'everyone'),
+	(182, 0, '870460592', 'Hillary', 'Oneslager', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:50', NULL, NULL, NULL, '0000-00-00', 22, 20, 136, 181, 5, NULL, 'everyone'),
+	(183, 0, '1426911200', 'Nell', 'Davis', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:53', NULL, NULL, NULL, '0000-00-00', 24, 20, 153, 204, 5, NULL, 'everyone'),
+	(184, 0, '1381200482', 'Allie', 'Blitzz', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:55', NULL, NULL, NULL, '0000-00-00', 43, 20, 95, 126, 5, NULL, 'everyone'),
+	(185, 0, '500689972', 'Elise', 'Rubino', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:58', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(186, 0, '1341690452', 'Rachel', 'James', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:01', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(187, 0, '561715123', 'Kate', 'Marano', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:04', NULL, NULL, NULL, '0000-00-00', 60, 20, 61, 81, 5, NULL, 'everyone'),
+	(188, 0, '1498682858', 'Santhia', 'Varatharajah', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:07', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(189, 0, '1237920718', 'Aneesha', 'Mehta', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:11', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(190, 0, '1824681655', 'Elle', 'Leonsis', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:14', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(191, 0, '1088490413', 'Shayna', 'Benjamin', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:18', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 5, NULL, 'everyone'),
+	(192, 0, '636285801', 'Natasha', 'Bhatia', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:21', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(193, 0, '1329270089', 'Victoria', 'Glock-Molloy', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:24', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(194, 0, '1459620017', 'Jenny', 'Colgan', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:28', NULL, NULL, NULL, '0000-00-00', 20, 20, 145, 193, 5, NULL, 'everyone'),
+	(195, 0, '1084350374', 'Suzanne', 'Beinfield', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:31', NULL, NULL, NULL, '0000-00-00', 52, 20, 76, 101, 5, NULL, 'everyone'),
+	(196, 0, '506493763', 'Christy', 'Johnson', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:33', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(197, 0, '824918635', 'Mariele', 'Marki', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:41', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(198, 0, '1335180553', 'Samantha', 'Kubek', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:44', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(199, 0, '508069950', 'Sara', 'Cott', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:48', NULL, NULL, NULL, '0000-00-00', 48, 20, 85, 113, 5, NULL, 'everyone'),
+	(200, 0, '1152333117', 'Larissa', 'Chiappetta', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:51', NULL, NULL, NULL, '0000-00-00', 20, 20, 139, 185, 5, NULL, 'everyone'),
+	(201, 0, '1373820205', 'Rachel', 'Munsie', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:46:55', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(202, 0, '1149510174', 'Lucy', 'Zhu', 'Topeka', 'Kansas', 55, 2013, '', '', '2011-10-10 21:47:02', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(203, 0, '1087890304', 'Alexis', 'Cronin', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:05', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(204, 0, '1507440277', 'Emily', 'Woodbury', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:09', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(205, 0, '1341690118', 'Toland', 'Lawrence', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:12', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(206, 0, '1606170030', 'Alex', 'Tynz', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:17', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(207, 0, '506241352', 'Marialuisa', 'Mendiola', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:21', NULL, NULL, NULL, '0000-00-00', 48, 20, 84, 112, 5, NULL, 'everyone'),
+	(208, 0, '1368330136', 'Egan', 'Frawley', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:23', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(209, 0, '627515938', 'Jacqueline', 'Fritz', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:28', NULL, NULL, NULL, '0000-00-00', 17, 20, 146, 194, 5, NULL, 'everyone'),
+	(210, 0, '547100861', 'Mariel', 'Schwartz', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:31', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(211, 0, '688803851', 'Dara', 'Morano', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:34', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(212, 0, '1149721028', 'Megan', 'Hickey', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:47:38', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(218, 0, '1606170314', 'Monica', 'Scheid', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:51:48', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(219, 0, '715965622', 'Sara', 'Goodman', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:51:52', NULL, NULL, NULL, '0000-00-00', 20, 20, 121, 161, 5, NULL, 'everyone'),
+	(220, 0, '514992234', 'Alexis', 'Hollar', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:51:55', NULL, NULL, NULL, '0000-00-00', 20, 20, 154, 205, 5, NULL, 'everyone'),
+	(221, 0, '1331280011', 'Julie', 'Green', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:51:58', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(222, 0, '1105230060', 'Sarah', 'Beck', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:52:02', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(223, 0, '1381470010', 'María', 'Baquerizo', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:52:06', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(224, 0, '1420860012', 'Kaitlyn', 'Fredrick', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:52:09', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(225, 0, '1330710061', 'Bridget', 'Dooley', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:52:13', NULL, NULL, NULL, '0000-00-00', 29, 20, 123, 164, 5, NULL, 'everyone'),
+	(226, 0, '796143513', 'Kristen', 'Ridgway', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:52:18', NULL, NULL, NULL, '0000-00-00', 16, 20, 149, 198, 5, NULL, 'everyone'),
+	(227, 0, '1529490287', 'Leah', 'Robbins', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:52:21', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(228, 0, '1463970098', 'Christy', 'Losier', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:52:24', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(230, 0, '574067790', 'David', 'Weis', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:52:54', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(231, 0, '1242990127', 'Henry', 'Hoffstot', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:52:57', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(232, 0, '1475490041', 'Ryan', 'Zimmerman', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:53:00', NULL, NULL, NULL, '0000-00-00', 21, 20, 138, 184, 5, NULL, 'everyone'),
+	(233, 0, '572634387', 'Alan', 'Tadian', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:53:04', NULL, NULL, NULL, '0000-00-00', 60, 20, 61, 81, 5, NULL, 'everyone'),
+	(234, 0, '721291776', 'Christian', 'Chung', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:53:08', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(235, 0, '510334292', 'Jamil', 'Poonja', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:53:12', NULL, NULL, NULL, '0000-00-00', 20, 20, 121, 161, 5, NULL, 'everyone'),
+	(236, 0, '619034414', 'Daniel', 'Dylewsky', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:53:16', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(237, 0, '658639045', 'Kyle', 'Gaines', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:53:20', NULL, NULL, NULL, '0000-00-00', 55, 20, 70, 93, 5, NULL, 'everyone'),
+	(238, 0, '895285715', 'Matthew', 'Gorey', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:53:23', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(239, 0, '1241640447', 'Peter', 'Sharpe', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:53:27', NULL, NULL, NULL, '0000-00-00', 36, 20, 109, 145, 5, NULL, 'everyone'),
+	(240, 0, '1146150133', 'Trebor', 'Wellington', 'Topeka', 'Kansas', 55, 2013, '', '', '2011-10-10 21:55:17', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 5, NULL, 'everyone'),
+	(241, 0, '1109637574', 'Evan', 'Tarte', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:20', NULL, NULL, NULL, '0000-00-00', 39, 20, 123, 164, 5, NULL, 'everyone'),
+	(242, 0, '1100520143', 'Peter', 'Roth', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:24', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(243, 0, '1414871', 'Marissa', 'Siefkes', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:55:28', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(244, 0, '696437323', 'Dan', 'Eichler', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:31', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(245, 0, '803670135', 'Jason', 'Fraprie', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:34', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(246, 0, '1206744855', 'Russell', 'Kreutter', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:37', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(247, 0, '717181227', 'Doug', 'Badini', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:43', NULL, NULL, NULL, '0000-00-00', 38, 20, 105, 140, 5, NULL, 'everyone'),
+	(248, 0, '1329090962', 'Danny', 'Pocus', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:47', NULL, NULL, NULL, '0000-00-00', 15, 20, 149, 199, 5, NULL, 'everyone'),
+	(249, 0, '577847882', 'Sam', 'Gerstle', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:51', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(250, 0, '641746613', 'Stephen', 'Stepka', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:55', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(251, 0, '610874477', 'James', 'Gorman', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:55:59', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(252, 0, '1335510307', 'Rob', 'Zo', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:02', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(253, 0, '600980951', 'John', 'Michael', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:06', NULL, NULL, NULL, '0000-00-00', 54, 20, 71, 95, 5, NULL, 'everyone'),
+	(254, 0, '1381200618', 'Ben', 'Kirschenbaum', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:09', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 5, NULL, 'everyone'),
+	(255, 0, '1234440184', 'Simon', 'Reale', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:12', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(256, 0, '1473630146', 'Omar', 'Rahman', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:16', NULL, NULL, NULL, '0000-00-00', 17, 20, 146, 195, 5, NULL, 'everyone'),
+	(257, 0, '1507110004', 'Matthew', 'Weglicki', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:20', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 5, NULL, 'everyone'),
+	(258, 0, '1160430089', 'Riley', 'Golden', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:23', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(259, 0, '1479240100', 'Oscar', 'Neubauer', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:26', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(260, 0, '1063830355', 'Kevin', 'Senet', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:30', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(261, 0, '1373820226', 'Luke', 'Byrnes', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:33', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(262, 0, '1236330110', 'Stephen', 'Delaney', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:36', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 5, NULL, 'everyone'),
+	(263, 0, '713675525', 'Nick', 'Alba', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:40', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 5, NULL, 'everyone'),
+	(264, 0, '575295107', 'CJ', 'Polihronakis', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:45', NULL, NULL, NULL, '0000-00-00', 24, 20, 133, 177, 5, NULL, 'everyone'),
+	(265, 0, '1160220437', 'Andrew', 'Glaser', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:49', NULL, NULL, NULL, '0000-00-00', 20, 20, 142, 189, 5, NULL, 'everyone'),
+	(266, 0, '596655279', 'Mike', 'Dvorak', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:56:53', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(267, 0, '1326121023', 'Cody', 'Ling', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:02', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 5, NULL, 'everyone'),
+	(268, 0, '1032900879', 'Max', 'Cascante', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:06', NULL, NULL, NULL, '0000-00-00', 20, 20, 160, 213, 5, NULL, 'everyone'),
+	(269, 0, '1031820143', 'Zack', 'Schwab', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:10', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(270, 0, '1379880040', 'Martin', 'Mata', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:15', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(271, 0, '1373790486', 'Joe', 'Brown', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:18', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(272, 0, '1092570020', 'Kyle', 'McAndrews', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:21', NULL, NULL, NULL, '0000-00-00', 38, 20, 105, 140, 5, NULL, 'everyone'),
+	(273, 0, '596591671', 'Karl', 'Godlewski', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:24', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(274, 0, '609205633', 'Justin', 'Kirschner', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:31', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(275, 0, '1062930020', 'Patrick', 'Go', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:35', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
+	(276, 0, '2043974', 'Cain', 'Norris', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:40', NULL, NULL, NULL, '0000-00-00', 20, 20, 124, 165, 5, NULL, 'everyone'),
+	(278, 0, '8647758', 'Scott', 'Allen', 'Topeka', 'Kansas', 55, 2013, '', 'M', '2011-10-10 21:57:48', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
