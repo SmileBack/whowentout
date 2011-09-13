@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-09-13 02:59:01
+# Date/time:                    2011-09-13 15:21:33
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `college_students` (
   CONSTRAINT `college_students_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27036 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.college_students: ~27,157 rows (approximately)
+# Dumping data for table whowentout.college_students: ~27,105 rows (approximately)
 /*!40000 ALTER TABLE `college_students` DISABLE KEYS */;
 INSERT INTO `college_students` (`id`, `college_id`, `facebook_id`, `student_full_name`, `student_email`) VALUES
 	(1, 1, '', 'Aanand Shah', 'aanand@gwu.edu'),
@@ -27775,10 +27775,59 @@ CREATE TABLE IF NOT EXISTS `events` (
   `channel` varchar(255) NOT NULL DEFAULT 'site',
   `data` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1135 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.events: ~673 rows (approximately)
+# Dumping data for table whowentout.events: ~35 rows (approximately)
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` (`id`, `type`, `channel`, `data`) VALUES
+	(1, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(2, 'checkin', 'party_29', '{"channel":"party_29","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"insert_positions":{"checkin_time":"first","gender":258,"name":205},"party_attendee_view":"\\n<div id=\\"party_attendee_159\\" class=\\"party_attendee\\">\\n    <img src=\\"http:\\/\\/localhost\\/pics\\/normal\\/159.jpg?version=37\\" alt=\\"\\"\\/>\\n    <div class=\\"caption\\">\\n\\n        <div class=\\"full_name\\" to=\\"159\\">\\n            <div>Venkat Dinavahi<\\/div>\\n            <div class=\\"online_badge\\"><\\/div>\\n        <\\/div>\\n\\n                <p>Georgetown 2014<\\/p>\\n        \\n        \\n        <p>&nbsp;Severna Park, MD&nbsp;<\\/p>\\n\\n        <p>\\n            <a href=\\"http:\\/\\/localhost\\/user\\/mutual_friends\\/159\\" class=\\"show_mutual_friends\\">Mutual Friends<\\/a>        <\\/p>\\n\\n        <p>\\n                        &nbsp;\\n                    <\\/p>\\n\\n    <\\/div>\\n\\n<\\/div>\\n\\n","type":"checkin"}'),
+	(3, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(4, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(5, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(6, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(7, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(8, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(9, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(10, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(11, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(12, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(13, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(14, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(15, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(16, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(17, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(18, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(19, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(20, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(21, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(22, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(23, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(24, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(25, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(26, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(27, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(28, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(29, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(30, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(31, 'user_went_offline', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_went_offline"}'),
+	(32, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":159,"facebook_id":"776200121","first_name":"Venkat","last_name":"Dinavahi","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/159.jpg?version=37"},"type":"user_came_online"}'),
+	(33, 'user_came_online', 'user_159', '{"channel":"user_159","user":{"id":33,"facebook_id":"8100231","first_name":"Dan","last_name":"Berenholtz","gender":"M","other_gender":"F","is_current_user":true,"thumb_url":"pics\\/thumb\\/33.jpg?version=27"},"type":"user_came_online"}'),
+	(34, 'user_came_online', 'user_33', '{"channel":"user_33","user":{"id":180,"facebook_id":"100001239924506","first_name":"Nicole","last_name":"Robertson","gender":"F","other_gender":"M","is_current_user":true,"thumb_url":"pics\\/thumb\\/180.jpg?version=5"},"type":"user_came_online"}'),
+	(35, 'user_came_online', 'user_159', '{"channel":"user_159","user":{"id":180,"facebook_id":"100001239924506","first_name":"Nicole","last_name":"Robertson","gender":"F","other_gender":"M","is_current_user":true,"thumb_url":"pics\\/thumb\\/180.jpg?version=5"},"type":"user_came_online"}'),
+	(36, 'user_went_offline', 'user_159', '{"channel":"user_159","user":{"id":33,"facebook_id":"8100231","first_name":"Dan","last_name":"Berenholtz","gender":"M","other_gender":"F","is_current_user":false,"thumb_url":"pics\\/thumb\\/33.jpg?version=27"},"type":"user_went_offline"}'),
+	(37, 'user_went_offline', 'user_180', '{"channel":"user_180","user":{"id":33,"facebook_id":"8100231","first_name":"Dan","last_name":"Berenholtz","gender":"M","other_gender":"F","is_current_user":false,"thumb_url":"pics\\/thumb\\/33.jpg?version=27"},"type":"user_went_offline"}'),
+	(38, 'user_went_offline', 'user_159', '{"channel":"user_159","user":{"id":180,"facebook_id":"100001239924506","first_name":"Nicole","last_name":"Robertson","gender":"F","other_gender":"M","is_current_user":false,"thumb_url":"pics\\/thumb\\/180.jpg?version=5"},"type":"user_went_offline"}'),
+	(39, 'user_came_online', 'user_159', '{"channel":"user_159","user":{"id":180,"facebook_id":"100001239924506","first_name":"Nicole","last_name":"Robertson","gender":"F","other_gender":"M","is_current_user":true,"thumb_url":"pics\\/thumb\\/180.jpg?version=5"},"type":"user_came_online"}'),
+	(40, 'user_went_offline', 'user_159', '{"channel":"user_159","user":{"id":180,"facebook_id":"100001239924506","first_name":"Nicole","last_name":"Robertson","gender":"F","other_gender":"M","is_current_user":false,"thumb_url":"pics\\/thumb\\/180.jpg?version=5"},"type":"user_went_offline"}'),
+	(41, 'user_came_online', 'user_159', '{"channel":"user_159","user":{"id":180,"facebook_id":"100001239924506","first_name":"Nicole","last_name":"Robertson","gender":"F","other_gender":"M","is_current_user":true,"thumb_url":"pics\\/thumb\\/180.jpg?version=5"},"type":"user_came_online"}'),
+	(42, 'user_went_offline', 'user_159', '{"channel":"user_159","user":{"id":180,"facebook_id":"100001239924506","first_name":"Nicole","last_name":"Robertson","gender":"F","other_gender":"M","is_current_user":true,"thumb_url":"pics\\/thumb\\/180.jpg?version=5"},"type":"user_went_offline"}'),
+	(43, 'user_came_online', 'user_159', '{"channel":"user_159","user":{"id":227,"facebook_id":"1529490287","first_name":"Leah","last_name":"Robbins","gender":"F","other_gender":"M","is_current_user":true,"thumb_url":"pics\\/thumb\\/227.jpg?version=5"},"type":"user_came_online"}'),
+	(44, 'user_went_offline', 'user_159', '{"channel":"user_159","user":{"id":227,"facebook_id":"1529490287","first_name":"Leah","last_name":"Robbins","gender":"F","other_gender":"M","is_current_user":false,"thumb_url":"pics\\/thumb\\/227.jpg?version=5"},"type":"user_went_offline"}'),
+	(45, 'checkin', 'party_29', '{"channel":"party_29","user":{"id":181,"facebook_id":"699295300","first_name":"Hyunjin","last_name":"Choi","gender":"F","other_gender":"M","is_current_user":false,"thumb_url":"pics\\/thumb\\/181.jpg?version=5"},"insert_positions":{"checkin_time":"first","gender":223,"name":231},"party_attendee_view":"\\n<div id=\\"party_attendee_181\\" class=\\"party_attendee\\">\\n    <img src=\\"http:\\/\\/localhost\\/pics\\/normal\\/181.jpg?version=5\\" alt=\\"\\"\\/>\\n    <div class=\\"caption\\">\\n\\n        <div class=\\"full_name\\" to=\\"181\\">\\n            <div>Hyunjin Choi<\\/div>\\n            <div class=\\"online_badge\\"><\\/div>\\n        <\\/div>\\n\\n                <p>Georgetown 2013<\\/p>\\n        \\n        \\n        <p>&nbsp;Topeka, Kansas&nbsp;<\\/p>\\n\\n        <p>\\n            <a href=\\"http:\\/\\/localhost\\/user\\/mutual_friends\\/181\\" class=\\"show_mutual_friends\\">Mutual Friends<\\/a>        <\\/p>\\n\\n        <p>\\n                                        <form action=\\"http:\\/\\/localhost\\/user\\/smile\\" method=\\"post\\" accept-charset=\\"utf-8\\" class=\\"smile_form\\">\\n<div class=\\"hidden\\">\\n<input type=\\"hidden\\" name=\\"party_id\\" value=\\"29\\" \\/>\\n<input type=\\"hidden\\" name=\\"receiver_id\\" value=\\"181\\" \\/>\\n<\\/div>\\n                <input type=\\"submit\\" value=\\"Smile at Hyunjin\\"\\n                       class=\\"submit_button cant\\"\\/>\\n                <\\/form>                                    <\\/p>\\n\\n    <\\/div>\\n\\n<\\/div>\\n\\n<div id=\\"user_json_181\\" class=\\"user_json\\"\\n     style=\\"display: none;\\">{\\"id\\":181,\\"facebook_id\\":\\"699295300\\",\\"first_name\\":\\"Hyunjin\\",\\"last_name\\":\\"Choi\\",\\"gender\\":\\"F\\",\\"other_gender\\":\\"M\\",\\"is_current_user\\":false,\\"thumb_url\\":\\"pics\\\\\\/thumb\\\\\\/181.jpg?version=5\\"}<\\/div>\\n","type":"checkin"}'),
+	(46, 'checkin', 'party_29', '{"channel":"party_29","user":{"id":249,"facebook_id":"577847882","first_name":"Sam","last_name":"Gerstle","gender":"M","other_gender":"F","is_current_user":false,"thumb_url":"pics\\/thumb\\/249.jpg?version=5"},"insert_positions":{"checkin_time":"first","gender":258,"name":258},"party_attendee_view":"\\n<div id=\\"party_attendee_249\\" class=\\"party_attendee\\">\\n    <img src=\\"http:\\/\\/localhost\\/pics\\/normal\\/249.jpg?version=5\\" alt=\\"\\"\\/>\\n    <div class=\\"caption\\">\\n\\n        <div class=\\"full_name\\" to=\\"249\\">\\n            <div>Sam Gerstle<\\/div>\\n            <div class=\\"online_badge\\"><\\/div>\\n        <\\/div>\\n\\n                <p>Georgetown 2013<\\/p>\\n        \\n        \\n        <p>&nbsp;Topeka, Kansas&nbsp;<\\/p>\\n\\n        <p>\\n            <a href=\\"http:\\/\\/localhost\\/user\\/mutual_friends\\/249\\" class=\\"show_mutual_friends\\">Mutual Friends<\\/a>        <\\/p>\\n\\n        <p>\\n                        &nbsp;\\n                    <\\/p>\\n\\n    <\\/div>\\n\\n<\\/div>\\n\\n<div id=\\"user_json_249\\" class=\\"user_json\\"\\n     style=\\"display: none;\\">{\\"id\\":249,\\"facebook_id\\":\\"577847882\\",\\"first_name\\":\\"Sam\\",\\"last_name\\":\\"Gerstle\\",\\"gender\\":\\"M\\",\\"other_gender\\":\\"F\\",\\"is_current_user\\":false,\\"thumb_url\\":\\"pics\\\\\\/thumb\\\\\\/249.jpg?version=5\\"}<\\/div>\\n","type":"checkin"}'),
+	(47, 'checkin', 'party_29', '{"channel":"party_29","user":{"id":221,"facebook_id":"1331280011","first_name":"Julie","last_name":"Green","gender":"F","other_gender":"M","is_current_user":false,"thumb_url":"pics\\/thumb\\/221.jpg?version=5"},"insert_positions":{"checkin_time":"first","gender":223,"name":253},"party_attendee_view":"\\n<div id=\\"party_attendee_221\\" class=\\"party_attendee\\">\\n    <img src=\\"http:\\/\\/localhost\\/pics\\/normal\\/221.jpg?version=5\\" alt=\\"\\"\\/>\\n    <div class=\\"caption\\">\\n\\n        <div class=\\"full_name\\" to=\\"221\\">\\n            <div>Julie Green<\\/div>\\n            <div class=\\"online_badge\\"><\\/div>\\n        <\\/div>\\n\\n                <p>Georgetown 2013<\\/p>\\n        \\n        \\n        <p>&nbsp;Topeka, Kansas&nbsp;<\\/p>\\n\\n        <p>\\n            <a href=\\"http:\\/\\/localhost\\/user\\/mutual_friends\\/221\\" class=\\"show_mutual_friends\\">Mutual Friends<\\/a>        <\\/p>\\n\\n        <p>\\n                                        <form action=\\"http:\\/\\/localhost\\/user\\/smile\\" method=\\"post\\" accept-charset=\\"utf-8\\" class=\\"smile_form\\">\\n<div class=\\"hidden\\">\\n<input type=\\"hidden\\" name=\\"party_id\\" value=\\"29\\" \\/>\\n<input type=\\"hidden\\" name=\\"receiver_id\\" value=\\"221\\" \\/>\\n<\\/div>\\n                <input type=\\"submit\\" value=\\"Smile at Julie\\"\\n                       class=\\"submit_button cant\\"\\/>\\n                <\\/form>                                    <\\/p>\\n\\n    <\\/div>\\n\\n<\\/div>\\n\\n<div id=\\"user_json_221\\" class=\\"user_json\\"\\n     style=\\"display: none;\\">{\\"id\\":221,\\"facebook_id\\":\\"1331280011\\",\\"first_name\\":\\"Julie\\",\\"last_name\\":\\"Green\\",\\"gender\\":\\"F\\",\\"other_gender\\":\\"M\\",\\"is_current_user\\":false,\\"thumb_url\\":\\"pics\\\\\\/thumb\\\\\\/221.jpg?version=5\\"}<\\/div>\\n","type":"checkin"}'),
+	(48, 'checkin', 'party_29', '{"channel":"party_29","user":{"id":246,"facebook_id":"1206744855","first_name":"Russell","last_name":"Kreutter","gender":"M","other_gender":"F","is_current_user":false,"thumb_url":"pics\\/thumb\\/246.jpg?version=5"},"insert_positions":{"checkin_time":"first","gender":258,"name":258},"party_attendee_view":"\\n<div id=\\"party_attendee_246\\" class=\\"party_attendee\\">\\n    <img src=\\"http:\\/\\/localhost\\/pics\\/normal\\/246.jpg?version=5\\" alt=\\"\\"\\/>\\n    <div class=\\"caption\\">\\n\\n        <div class=\\"full_name\\" to=\\"246\\">\\n            <div>Russell Kreutter<\\/div>\\n            <div class=\\"online_badge\\"><\\/div>\\n        <\\/div>\\n\\n                <p>Georgetown 2013<\\/p>\\n        \\n        \\n        <p>&nbsp;Topeka, Kansas&nbsp;<\\/p>\\n\\n        <p>\\n            <a href=\\"http:\\/\\/localhost\\/user\\/mutual_friends\\/246\\" class=\\"show_mutual_friends\\">Mutual Friends<\\/a>        <\\/p>\\n\\n        <p>\\n                        &nbsp;\\n                    <\\/p>\\n\\n    <\\/div>\\n\\n<\\/div>\\n\\n<div id=\\"user_json_246\\" class=\\"user_json\\"\\n     style=\\"display: none;\\">{\\"id\\":246,\\"facebook_id\\":\\"1206744855\\",\\"first_name\\":\\"Russell\\",\\"last_name\\":\\"Kreutter\\",\\"gender\\":\\"M\\",\\"other_gender\\":\\"F\\",\\"is_current_user\\":false,\\"thumb_url\\":\\"pics\\\\\\/thumb\\\\\\/246.jpg?version=5\\"}<\\/div>\\n","type":"checkin"}');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 
 
@@ -27794,7 +27843,7 @@ CREATE TABLE IF NOT EXISTS `friends` (
   KEY `friend_full_name` (`friend_full_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45290 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.friends: ~2,369 rows (approximately)
+# Dumping data for table whowentout.friends: ~2,266 rows (approximately)
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
 INSERT INTO `friends` (`id`, `user_id`, `user_facebook_id`, `friend_id`, `friend_facebook_id`, `friend_full_name`) VALUES
 	(9460, 156, 776200121, NULL, 212696, 'Sean Holbert'),
@@ -29963,7 +30012,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.jobs: ~431 rows (approximately)
+# Dumping data for table whowentout.jobs: ~561 rows (approximately)
 /*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
 INSERT INTO `jobs` (`id`, `type`, `status`, `created`, `executed`, `args`, `error_message`, `error_line`, `error_file`, `error`) VALUES
 	('0018fbf95fd95e1e4452c1b5071a38b28e0e7ed2', 'send_email', 'pending', 1318117991, NULL, 'a:3:{i:1;i:108;i:2;s:37:"A guy from Sig Chi has smiled at you.";i:3;s:192:"<p>\n  Hi Jenny,\n</p>\n<br/>\n<p>\n  A guy from Sig Chi smiled at you on October 8th.\n  To see who it might be <a href="http://localhost/party/11">click here</a>.\n</p>\n<br/>\n<p>\n  -WhoWentOut\n</p>";}', NULL, NULL, NULL, NULL),
@@ -30081,7 +30130,7 @@ INSERT INTO `options` (`id`, `value`) VALUES
 	('admin_facebook_access_token', 's:80:"161054327279516|9fa9b03352a60587e7c04f29.1-776200121|_7ZNMzYiaJs3vEGn2taGcRenApM";'),
 	('fake_time_delta', 'i:6459;'),
 	('fake_time_point', 'a:2:{s:9:"fake_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-09-16 06:30:00";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:9:"real_time";O:8:"DateTime":3:{s:4:"date";s:19:"2011-09-13 06:52:09";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}}'),
-	('last_updated_offline_users', 'i:1318300282;'),
+	('last_updated_offline_users', 'i:1315941693;'),
 	('past_top_parties_html', 's:28:"<ul>\r\n<li>yeafef</li>\r\n</ul>";');
 /*!40000 ALTER TABLE `options` ENABLE KEYS */;
 
@@ -30098,7 +30147,7 @@ CREATE TABLE IF NOT EXISTS `parties` (
   KEY `admin` (`admin_id`),
   CONSTRAINT `parties_admin_id` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`),
   CONSTRAINT `parties_place_id` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.parties: ~11 rows (approximately)
 /*!40000 ALTER TABLE `parties` DISABLE KEYS */;
@@ -30129,9 +30178,9 @@ CREATE TABLE IF NOT EXISTS `party_attendees` (
   KEY `party_id_key` (`party_id`),
   CONSTRAINT `party_attendee_party` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `party_attendee_user` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
-# Dumping data for table whowentout.party_attendees: ~43 rows (approximately)
+# Dumping data for table whowentout.party_attendees: ~44 rows (approximately)
 /*!40000 ALTER TABLE `party_attendees` DISABLE KEYS */;
 INSERT INTO `party_attendees` (`id`, `user_id`, `party_id`, `checkin_time`) VALUES
 	(1, 223, 29, '2011-09-16 19:00:09'),
@@ -30152,9 +30201,7 @@ INSERT INTO `party_attendees` (`id`, `user_id`, `party_id`, `checkin_time`) VALU
 	(16, 263, 29, '2011-09-16 19:00:46'),
 	(17, 228, 29, '2011-09-16 19:00:48'),
 	(18, 257, 29, '2011-09-16 19:00:50'),
-	(19, 160, 29, '2011-09-16 19:00:52'),
 	(20, 227, 29, '2011-09-16 19:00:54'),
-	(21, 180, 29, '2011-09-16 19:00:57'),
 	(23, 269, 31, '2011-09-16 06:33:32'),
 	(24, 209, 31, '2011-09-16 06:33:34'),
 	(25, 248, 31, '2011-09-16 06:33:36'),
@@ -30176,7 +30223,12 @@ INSERT INTO `party_attendees` (`id`, `user_id`, `party_id`, `checkin_time`) VALU
 	(41, 234, 31, '2011-09-16 06:34:44'),
 	(42, 210, 31, '2011-09-16 06:34:50'),
 	(43, 266, 31, '2011-09-16 06:34:59'),
-	(44, 272, 31, '2011-09-16 06:35:09');
+	(44, 272, 31, '2011-09-16 06:35:09'),
+	(45, 159, 29, '2011-09-16 15:11:01'),
+	(46, 181, 29, '2011-09-16 18:47:07'),
+	(47, 249, 29, '2011-09-16 18:47:10'),
+	(48, 221, 29, '2011-09-16 18:51:44'),
+	(49, 246, 29, '2011-09-16 18:57:28');
 /*!40000 ALTER TABLE `party_attendees` ENABLE KEYS */;
 
 
@@ -30380,7 +30432,7 @@ INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity
 	('cb562a22048ab8e93f266848dca58ed5', '127.0.0.1', '0', 1315547168, '', NULL),
 	('cfed3bc13326fd1aa8ec13495ad2937b', '117.43.18.7', 'Mozilla/4.0 (compatible; MSIE 4.01; Windows 98)', 1315469518, '', NULL),
 	('d0ca22947f9efaf93ff89dca30eba6a4', '127.0.0.1', '0', 1315549665, '', NULL),
-	('d212f92e60664ac3f66406ba0509c2e6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/', 1314957338, 'a:4:{s:7:"user_id";i:33;s:23:"fb_161054327279516_code";s:195:"AQD7jWN9jwh21xnxyUunAt1flTvbDh5JaaB-bRqoH7yTK1mBW0RXgJT27IsqLKFOJCOMph6mmznhoMFwLxr3ZlWa115KmsmxOgyTtL0wSX-izhIyJZGOlbWhsFM-OH9Ed-8VHA5mBo1brjhySd4SGyka9sqQm2xvGIoDAn6O7Tsc0Km9i_c_3UdqHRtQA0_k2Jc";s:31:"fb_161054327279516_access_token";s:80:"161054327279516|9fa9b03352a60587e7c04f29.1-776200121|_7ZNMzYiaJs3vEGn2taGcRenApM";s:26:"fb_161054327279516_user_id";s:9:"776200121";}', NULL),
+	('d212f92e60664ac3f66406ba0509c2e6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/', 1314957338, 'a:1:{s:7:"user_id";i:227;}', NULL),
 	('d6314fdb5769792f8999e57cc50c49f6', '127.0.0.1', '0', 1315549997, '', NULL),
 	('d6d410143ff2f5bd56f8094655066b26', '127.0.0.1', '0', 1315552229, '', NULL),
 	('d8cb7c0e19a26854f5b517725d71e09b', '127.0.0.1', '0', 1315548232, '', NULL),
@@ -30476,7 +30528,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=280 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=279 DEFAULT CHARSET=latin1;
 
 # Dumping data for table whowentout.users: ~237 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
@@ -30493,7 +30545,7 @@ INSERT INTO `users` (`id`, `version`, `facebook_id`, `first_name`, `last_name`, 
 	(12, 0, '1682940070', 'Ava', 'Rubin', 'Topeka', 'KS', 1, 2013, 'ava@gwu.edu', 'F', NULL, NULL, NULL, '2011-10-09 22:56:51', '1991-01-09', 54, 20, 73, 97, 15, 'false', 'everyone'),
 	(13, 0, '1067760099', 'Anna ', 'Lepkoski', 'Topeka', 'KS', 1, 2013, 'anna@gwu.edu', 'F', NULL, NULL, NULL, NULL, '1991-03-02', 20, 20, 140, 187, 13, NULL, 'everyone'),
 	(14, 0, '1120470019', 'Sara', 'Sopher', 'Topeka', 'KS', 1, 2012, 'sara@gwu.edu', 'F', NULL, NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
-	(33, 0, '8100231', 'Dan', 'Berenholtz', 'Topeka', 'KS', 55, 2014, 'db349@cornell.edu', 'M', '2011-07-06 07:48:07', '2011-09-16 06:33:13', '2011-10-12 15:22:14', '2011-10-07 22:11:30', '1986-09-10', 33, 20, 113, 151, 27, '{"159":"hidden"}', 'everyone'),
+	(33, 0, '8100231', 'Dan', 'Berenholtz', 'Topeka', 'KS', 55, 2014, 'db349@cornell.edu', 'M', '2011-07-06 07:48:07', NULL, '2011-10-12 15:22:14', '2011-10-07 22:11:30', '1986-09-10', 33, 20, 113, 151, 27, '{"159":"hidden"}', 'everyone'),
 	(50, 0, '5300477', 'Briana', 'Ashley', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 02:27:09', NULL, NULL, NULL, '0000-00-00', 45, 20, 91, 121, 13, NULL, 'everyone'),
 	(78, 0, '5311798', 'Pamela', 'Siegelaub', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:14:02', NULL, NULL, '2011-10-09 22:29:16', '0000-00-00', 20, 20, 140, 187, 15, 'false', 'everyone'),
 	(80, 0, '5312146', 'Emily', 'Aden', 'Topeka', 'KS', 1, 2013, '', 'F', '2011-07-10 03:21:24', NULL, NULL, '2011-10-07 23:22:33', '0000-00-00', 28, 20, 125, 166, 15, NULL, 'everyone'),
@@ -30557,8 +30609,7 @@ INSERT INTO `users` (`id`, `version`, `facebook_id`, `first_name`, `last_name`, 
 	(145, 0, '1248270638', 'Bradley', 'Schlafer', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:52', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 13, NULL, 'everyone'),
 	(146, 0, '1372767357', 'Harry', 'Meng', 'Topeka', 'KS', 1, 2013, '', 'M', '2011-10-07 22:53:58', NULL, NULL, NULL, '0000-00-00', 17, 20, 166, 221, 13, NULL, 'everyone'),
 	(157, 0, '100001981675908', 'Bobby', 'Dole', 'Seoul', 'Korea', 1, 2012, 'bobbydolly1@hotmail.com', 'M', '2011-10-08 21:30:03', NULL, NULL, '2011-10-08 21:47:39', '1994-12-18', 20, 20, 150, 200, 19, NULL, 'everyone'),
-	(159, 0, '776200121', 'Venkat', 'Dinavahi', 'Severna Park', 'MD', 55, 2014, 'ven@stanford.edu', 'M', '2011-10-09 21:24:17', NULL, '2011-10-14 05:52:26', '2011-10-12 05:40:18', '1988-10-06', 18, 19, 104, 137, 37, '{"33":"hidden"}', 'everyone'),
-	(160, 0, '609225452', 'Jess', 'Rempe', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:28', NULL, NULL, NULL, '0000-00-00', 56, 20, 68, 90, 5, NULL, 'everyone'),
+	(159, 0, '776200121', 'Venkat', 'Dinavahi', 'Severna Park', 'MD', 55, 2014, 'ven@stanford.edu', 'M', '2011-10-09 21:24:17', '2011-09-16 18:59:26', '2011-10-14 05:52:26', '2011-10-12 05:40:18', '1988-10-06', 18, 19, 104, 137, 37, '{"33":"hidden"}', 'everyone'),
 	(161, 0, '1381470024', 'Kate', 'Finnerty', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:31', NULL, NULL, NULL, '0000-00-00', 42, 20, 95, 127, 5, NULL, 'everyone'),
 	(162, 0, '1228740326', 'Beth', 'DiSciullo', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:36', NULL, NULL, NULL, '0000-00-00', 60, 20, 60, 80, 5, NULL, 'everyone'),
 	(163, 0, '1194720713', 'Elise', 'McKenna', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:44:39', NULL, NULL, NULL, '0000-00-00', 15, 20, 149, 199, 5, NULL, 'everyone'),
@@ -30578,7 +30629,6 @@ INSERT INTO `users` (`id`, `version`, `facebook_id`, `first_name`, `last_name`, 
 	(177, 0, '1151730161', 'Molly', 'Mitchell', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:31', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
 	(178, 0, '503644308', 'Sara', 'Ainsworth', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:35', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
 	(179, 0, '598637873', 'Maria', 'Brzozowski', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:38', NULL, NULL, NULL, '0000-00-00', 20, 20, 140, 187, 5, NULL, 'everyone'),
-	(180, 0, '100001239924506', 'Nicole', 'Robertson', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:41', NULL, NULL, NULL, '0000-00-00', 28, 20, 124, 165, 5, NULL, 'everyone'),
 	(181, 0, '699295300', 'Hyunjin', 'Choi', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:45', NULL, NULL, NULL, '0000-00-00', 38, 20, 104, 138, 5, NULL, 'everyone'),
 	(182, 0, '870460592', 'Hillary', 'Oneslager', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:50', NULL, NULL, NULL, '0000-00-00', 22, 20, 136, 181, 5, NULL, 'everyone'),
 	(183, 0, '1426911200', 'Nell', 'Davis', 'Topeka', 'Kansas', 55, 2013, '', 'F', '2011-10-10 21:45:53', NULL, NULL, NULL, '0000-00-00', 24, 20, 153, 204, 5, NULL, 'everyone'),

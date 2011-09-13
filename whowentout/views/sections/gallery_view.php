@@ -20,7 +20,7 @@
 </div>
 
 <div class="visibilitybar">
-    <h2>You can be seen by:</h2>
+    <h2>Chat visibility:</h2>
     <a href="everyone">Everyone</a>
     <a href="friends">Friends</a>
     <a href="none">Nobody</a>

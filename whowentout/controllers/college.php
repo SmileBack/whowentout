@@ -24,12 +24,14 @@ class College extends MY_Controller
     function update_offline_users()
     {
         $last_updated = $this->option->get('last_updated_offline_users', 0);
-        $sometime_ago = current_time()->modify('-10 seconds')->getTimestamp();
+        $time = time();
+        $sometime_ago = time() - 10;
+
         $throttle = $last_updated > $sometime_ago; //updated recently
         
         if (!$throttle) {
             college()->update_offline_users();
-            $this->option->set('last_updated_offline_users', current_time()->getTimestamp());
+            $this->option->set('last_updated_offline_users', $time);
         }
         
         $this->json(array('success' => TRUE, 'throttled' => $throttle));

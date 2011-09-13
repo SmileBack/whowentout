@@ -159,8 +159,9 @@ $('.party_attendee.online').entwine({
 
 $('.smile.help').entwine({
     onmouseenter: function() {
-        var message = '<p>The person you smile at will know that someone has smiled at them,</p>'
-                    + '<p>but they will <strong>not</strong> know it was you unless they smile at you as well.</p>'
+        var message = '<p style="width: 400px;">You have 3 smiles to give at each party. '
+                    + ' The people you smile at will know that someone has smiled at them,'
+                    + ' but they will <strong>not</strong> know it was you unless they smile at you as well.</p>'
         this.notice(message, 'r');
     },
     onmouseleave: function() {

@@ -119,8 +119,13 @@ header {
   height: 240px;
   float: left;
   h2 { font-size: 150%; }
+  #checkin_form { margin: 0; }
   .recent_attendees {
     .horizontal_gallery;
+    > li {
+        margin: 8px;
+        padding: 0;
+    }
     a {
         display: inline-block;
         img { width: 90px; }
@@ -338,6 +343,7 @@ table td, table th {
 
 .visibilitybar {
     margin-left: 20px;
+    h2 { display: inline-block; }
     .selected {
         font-weight: bold;
         color: green;
@@ -345,6 +351,12 @@ table td, table th {
 }
 
 .gallery_view {
+  position: relative;
+  .visibilitybar {
+    position: absolute;
+    top: 60px;
+    right: 38px;
+  }
   .party_notices { font-size: 14px; }
   .sortbar {
     float: right;
