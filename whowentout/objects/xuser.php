@@ -390,7 +390,14 @@ class XUser extends XObject
             $mutual_friends[] = (object)$friend;
         }
 
+        usort($mutual_friends, array($this, 'mutual_friends_sort'));
+
         return $mutual_friends;
+    }
+
+    private function mutual_friends_sort($a, $b)
+    {
+        return strcmp($a->full_name, $b->full_name);
     }
 
     function get_hometown()
