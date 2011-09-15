@@ -18,6 +18,10 @@ class Welcome extends MY_Controller
         $maggie = user(96);
         $claire = user(82);
         $jenny = user(108);
+
+        $channel = 'user_221';
+        $ev = $this->event->fetch($channel, 65);
+        var_dump($ev);
     }
 
 }

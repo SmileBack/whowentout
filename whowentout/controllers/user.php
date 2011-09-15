@@ -235,7 +235,7 @@ class User extends MY_Controller
     function change_visibility($visibility)
     {
         $success = current_user()->change_visibility($visibility);
-        $this->json(array('success' => $success));
+        $this->json(array('success' => $success, 'visibility' => current_user()->visible_to));
     }
 
     function info($user_id) {

@@ -196,7 +196,7 @@ $('.autocomplete_list').entwine({
         return false;
       }
     });
-    this.input().bind( 'keyup', $.debounce(250, on_keyup) );
+    this.input().bind( 'keyup', _.debounce(on_keyup, 250) );
     this.input().bind( 'keydown', on_keydown);
     
     function hide_list() {

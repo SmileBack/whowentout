@@ -807,6 +807,7 @@ class XUser extends XObject
 
         if ($show_private_fields) {
             $array['visible_to'] = $this->visible_to;
+            $array['is_online'] = $this->is_online();
         }
         
         return $array;

@@ -19,6 +19,9 @@ $.fn.attrEq = function(attr, val) {
 }
 
 $('a').live('click', function() {
+    if ($(this).hasClass('js'))
+        return;
+    
     $(window).data('isFormOrLink', true);
 });
 $('form').live('submit', function() {
@@ -137,6 +140,7 @@ $('#wwo').entwine({
             type: 'get',
             async: false,
             success: function(response) {
+                alert('pinged leaving server');
                 //console.log('pinged leaving!');
             }
         });

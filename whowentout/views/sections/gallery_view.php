@@ -21,9 +21,9 @@
 
 <div class="visibilitybar">
     <h2>Chat visibility:</h2>
-    <a href="everyone">Everyone</a>
-    <a href="friends">Friends</a>
-    <a href="none">Nobody</a>
+    <a href="everyone" class="js">Everyone</a>
+    <a href="friends" class="js">Friends</a>
+    <a href="none" class="js">Nobody</a>
 </div>
 
 <div class="gallery serverevents"

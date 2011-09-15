@@ -4,9 +4,9 @@ jQuery(function($) {
 
     WWO.dialog.anchor('viewport', 'c'); //keeps the dialog box in the center
     $(window).bind('scroll resize',
-            $.debounce(250, function() {
+            _.debounce(function() {
                 WWO.dialog.refreshPosition();
-            })
+            }, 250)
     );
 
 });
@@ -31,7 +31,7 @@ $('a.confirm').entwine({
 });
 
 $('#current_user').live('user_changed_visibility', function(e) {
-    $('.visibilitybar').selectOption(e.visibility);
+    $('.visibilitybar').markSelectedOption(e.visibility);
 });
 
 $('.visibilitybar').entwine({
@@ -39,14 +39,26 @@ $('.visibilitybar').entwine({
         var self = this;
         this.data('isLoaded', false);
         $.when( user('current') ).then(function(u) {
-            self.selectOption(u.visible_to);
+            self.markSelectedOption(u.visible_to);
             self.data('isLoaded', true);
         });
     },
     selectOption: function(k) {
+        console.log('set option ' + k);
+        
+        var self = this;
+        if (!this.isLoaded())
+            return this;
+
+        $.getJSON('/user/change_visibility/' + k, function(response) {
+            self.markSelectedOption(response.visibility);
+        });
+
+        return this;
+    },
+    markSelectedOption: function(k) {
         this.find('.selected').removeClass('selected');
         this.getOption(k).addClass('selected');
-        return this;
     },
     getOption: function(k) {
         return this.find('a').attrEq('href', k);
@@ -56,7 +68,7 @@ $('.visibilitybar').entwine({
             return this.find('.selected').attr('href');
         }
         else {
-            this.selectOption(k);
+            this.selectOption(v);
         }
     },
     onunmatch: function() {
@@ -69,9 +81,6 @@ $('.visibilitybar').entwine({
 $('.visibilitybar a').entwine({
     onclick: function(e) {
         e.preventDefault();
-        if (this.closest('.visibilitybar').isLoaded()) {
-            $.getJSON('/user/change_visibility/' + this.attr('href'), function() {
-            });
-        }
+        this.closest('.visibilitybar').selectOption(this.attr('href'));
     }
 });

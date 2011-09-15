@@ -8,10 +8,9 @@
     <?= js_asset('lib/json.js') ?>
 
     <?= js_asset('lib/jquery.js') ?>
-    <?= js_asset('lib/jquery.jstorage.js') ?>
-    <?= js_asset('lib/jquery.throttle-debounce.js') ?>
-    <?= js_asset('lib/jquery.entwine.js') ?>
     <?= js_asset('lib/underscore.js') ?>
+    <?= js_asset('lib/jquery.jstorage.js') ?>
+    <?= js_asset('lib/jquery.entwine.js') ?>
     <?= js_asset('lib/jquery.class.js') ?>
 
     <?= js_asset('lib/jquery.body.js') ?>
