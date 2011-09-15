@@ -140,8 +140,6 @@ $('#wwo').entwine({
             type: 'get',
             async: false,
             success: function(response) {
-                alert('pinged leaving server');
-                //console.log('pinged leaving!');
             }
         });
     },
