@@ -135,7 +135,7 @@ class User extends MY_Controller
 
         if ($user->can_checkin($party)) {
             $user->checkin($party);
-            redirect("party/$party->id");
+            redirect("/");
         }
         elseif ($user->reason() == REASON_ALREADY_ATTENDED_PARTY) {
             $other_party = $user->get_attended_party($party_date);
@@ -145,7 +145,7 @@ class User extends MY_Controller
             else
                 set_message("You have already checked into {$other_party->place->name}, so you can't checkin to {$party->place->name}.");
 
-            redirect("party/$other_party->id");
+            redirect("/");
         }
         else {
             set_message(get_reason_message($user->reason()));
