@@ -46,7 +46,19 @@ WhoWentOut.User = WhoWentOut.Model.extend({
     }
 });
 
-WhoWentOut.Party = WhoWentOut.Model.extend({}, {
+WhoWentOut.Party = WhoWentOut.Model.extend({
+    properties: {
+        
+    }
+}, {
+    init: function(attrs) {
+        this._super(attrs);
+    }
+});
+
+WhoWentOut.Place = WhoWentOut.Model.extend({
+    
+}, {
     init: function(attrs) {
         this._super(attrs);
     }

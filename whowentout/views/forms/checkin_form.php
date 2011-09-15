@@ -26,14 +26,13 @@ form_open('checkin', array(
     <?php else: ?>
         <?= parties_dropdown($open_parties) ?>
         <button type="submit">enter</button>
+        <span class="closing_time doors_open" time="<?= college()->get_closing_time()->getTimestamp() ?>">
+
+            Doors will close for checkin at
+            <?= college()->get_closing_time(TRUE)->format('g a') ?>
+            [ in <span class="remaining_time"></span> ]
+        </span>
     <?php endif; ?>
-
-    <span class="closing_time doors_open" time="<?= college()->get_closing_time()->getTimestamp() ?>">
-
-        Doors will close for checkin at
-        <?= college()->get_closing_time(TRUE)->format('g a') ?>
-        [ in <span class="remaining_time"></span> ]
-    </span>
 
 <?php elseif (college()->doors_are_closed()): ?>
 

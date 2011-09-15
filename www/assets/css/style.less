@@ -1,27 +1,32 @@
-@bar_color: #104e8c;
+@bar_color: #000033;
 @bar_text_color: white;
+@border_color: @light_border_color;
+@light_border_color: #cdcdcd;
+@red_color: #CD5B45;
 @page_width: 1000px;
 
+@import 'reset.less';
 @import 'elements.less';
 @import 'profile.less';
 @import 'chat.less';
 @import 'dialog.less';
 
 .heading_bar {
-  background-color: @bar_color;
-  color: white;
-  -webkit-box-shadow: 0px 1px 2px 2px #dedede;
-  -moz-box-shadow: 0px 1px 2px 2px #dedede;
-  box-shadow: 0px 1px 2px 2px #dedede;
+    background-color: #FAFAFA;
 }
 
 section {
-  .shadow;
-  border: 1px solid;
-  margin: 15px 10px 15px 10px;
+  float: left;
+  width: 100%;
   padding-bottom: 10px;
   overflow: hidden;
-  > h1 { .heading_bar; }
+  margin: 0 0 20px 0;
+  > h1 {
+    .heading_bar;
+    border: 1px solid @border_color;
+    border-left:  none;
+    border-right: none;
+  }
   .section_body {
     margin: 25px 25px 15px 25px;
     overflow: hidden;
@@ -29,11 +34,13 @@ section {
 }
 
 .dialog {
+  @dialog_color: @bar_color;
+  @dialog_text_color: @bar_text_color;
   padding: 0;
   width: 400px;
   > h1 {
-      background-color: @bar_color;
-      color: white;
+      background-color: @dialog_color;
+      color: @dialog_text_color;
   }
   .dialog_body {
     margin: 20px;
@@ -41,9 +48,9 @@ section {
   }
   .dialog_buttons a {
     font-size: 13px;
-    background-color: lighten(@bar_color, 5%);
+    background-color: @dialog_color;
     border-color: #29447E #29447E #1A356E;
-    color: white;
+    color: @dialog_text_color;
     padding: 5px 10px;
     -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
   }
@@ -57,12 +64,16 @@ section {
 }
 
 body {
-  font-family: "Lucida Grande", Arial, sans-serif;
+  background-color: #F2F2F2;
 }
 
-#container {
+#page {
   margin: 10px auto;
+  padding:  20px;
+  overflow: hidden;
   width: @page_width;
+  background-color: white;
+  .shadow(0, 0, 3px, 3px, #dedede);
 }
 
 input[type=text][disabled] {
@@ -70,12 +81,9 @@ input[type=text][disabled] {
 }
 
 header {
-  .shadow;
   overflow: hidden;
-  margin: 0px 11px;
-  padding: 20px 20px 15px 20px;
-  background-color: @bar_color;
-  color: @bar_text_color;
+  padding: 20px 20px 10px 20px;
+  margin: 0;
   #logo {
     margin: 0;
     float: left;
@@ -84,9 +92,13 @@ header {
   a, a:active, a:visited { color: @bar_text_color; }
   nav {
     float: right;
+    font-size: 19px;
     a {
       display: inline-block;
       margin: 10px;
+      text-decoration: none;
+      line-height: 45px;
+      &:hover { color: @red_color; }
     }
   }
 }
@@ -115,9 +127,8 @@ header {
 }
 
 .last_night_view {
-  width: 60.5%;
+  width: 60%;
   height: 240px;
-  float: left;
   h2 { font-size: 150%; }
   #checkin_form { margin: 0; }
   .recent_attendees {
@@ -134,9 +145,13 @@ header {
 }
 
 .my_info_view {
-  width: 35%;
+  width: 30%;
   height: 240px;
-  float: left;
+  
+  border-left:  1px solid @border_color;
+  padding-left: 45px;
+
+  float: right;
   clear: none;
   .profile_pic {
     position: relative;
@@ -169,24 +184,48 @@ header {
   ol { margin: 10px 45px; }
 }
 
+.horizontal_sections {
+    overflow:  hidden;
+    > div {
+      float: left;
+      width: 33%;
+      border-right:  1px solid @light_border_color;
+      &:last-child { border-right: none; }
+      > h2 {
+          margin: 0 0 0 25px;
+          > * { display: inline-block; }
+      }
+      > .body {
+         margin:  10px 0 0 50px;
+      }
+    }
+
+}
+
 .parties_attended_view {
-  .date, .divider, .place {
-    display: inline-block;
-  }
-  .place { font-weight: bold; }
-  .parties_attended > li:first-child { padding-top: 0; }
-  .parties_attended > li {
-    padding: 20px 0 10px 0;
-    border-bottom: 1px dotted grey;
+  float: left;
+  clear: both;
+  .parties_attended {
+      .horizontal_sections;
+      .party_summary > .body {
+        height: 150px;
+      }
+      .place {
+           border:  1px solid @light_border_color;
+           padding: 4px 8px;
+           width: 85%;
+      }
   }
   .party_notices {
-    margin-top: 10px;
+    margin: 0;
     .smiles_left {
-        display: inline-block; width: 200px;
-        .smile.help { display: none; }
+      width: 200px;
+      .smile.help { display: none; }
     }
-    .smiles_received { display: inline-block; width: 200px; }
-    .smile_matches { display: inline-block; }
+    .smiles_received { width: 200px; }
+    .smile_matches {
+            
+    }
   }
 }
 
@@ -309,19 +348,18 @@ table td, table th {
   }
 }
 
-.upcoming_parties_view {
-  .party_list {
-    float: left;
-    width: 33%;
-    border-right: 1px dotted grey;
-    &:last-child { border-right: none; }
-    h2 { margin: 0 0 0 25px; }
-    ul { height: 125px; margin: 0 0 0 70px; }
-  }
+.parties_this_week {
+    .horizontal_sections;
+    .party_list > .body {
+        font-size: 16px;
+        font-weight: bold;
+        height: 100px;
+        > div { margin: 10px 0; }
+    }
 }
 
 .bullet {
-  background-image: url(../images/bullet.png);
+  background-image: url(../images/bullet_red.png);
   padding-left: 20px;
   line-height: 20px;
   background-repeat: no-repeat;
@@ -345,8 +383,8 @@ table td, table th {
     margin-left: 20px;
     h2 { display: inline-block; }
     .selected {
-        font-weight: bold;
-        color: green;
+      font-weight: bold;
+      color: green;
     }
 }
 

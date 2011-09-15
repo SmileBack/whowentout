@@ -4,11 +4,8 @@
 class Welcome extends MY_Controller
 {
 
-    function index()
-    {
-    }
 
-    function index2()
+    function index()
     {
         $this->load->library('chat');
 
@@ -21,15 +18,6 @@ class Welcome extends MY_Controller
         $maggie = user(96);
         $claire = user(82);
         $jenny = user(108);
-        
-        $response = fb()->api(array(
-                                   'method' => 'fql.query',
-                                   'query' => "SELECT affiliations FROM user WHERE uid = 776200121",
-                              ));
-
-        print '<pre>';
-        print_r($response);
-        print '</pre>';
     }
 
 }

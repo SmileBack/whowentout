@@ -203,13 +203,25 @@ class XCollege extends XObject
         return $this->day_of_type('party', $party_day_offset, $local, $current_time);
     }
 
+    function this_week_party_day($party_day_offset, $local = FALSE, $current_time = NULL)
+    {
+        $checkins_begin_time = $this->checkins_begin_time($local, $current_time);
+        
+        $party_day = clone $checkins_begin_time;
+        //first party day
+        $party_day = $party_day->modify('-1 day')->modify('last Thursday');
+        //add offset to first party day
+        $party_day->modify("+$party_day_offset days");
+        return $party_day;
+    }
+
     function day_of_type($day_type, $target_offset, $local = FALSE, $current_time = NULL)
     {
         $max_limit = 30;
         $target_offset = intval($target_offset);
         $filtered_offset = 0;
         $actual_offset = 0;
-
+        
         $step = $target_offset > 0 ? 1 : -1;
         $filter = "is_{$day_type}_day";
 
@@ -232,7 +244,7 @@ class XCollege extends XObject
         } while ($filtered_offset != $target_offset);
 
         return $local ? $this->make_local($cur_day)
-                : $this->make_gmt($cur_day);
+                      : $this->make_gmt($cur_day);
     }
 
     function is_party_day(DateTime $day)
@@ -285,16 +297,16 @@ class XCollege extends XObject
             $current_time = current_time();
 
         $begin_day = $this->day_of_type('initial_checkin', 0, $local, $current_time);
+        
         if (!$begin_day) { // if today isn't a day where the checkins begin
             $begin_day = $this->day_of_type('initial_checkin', 1, $local, $current_time);
         }
 
         $begin_time = $this->get_opening_time($local, $begin_day);
-
         //if time has passed get next begin time
         if ($current_time->getTimestamp() > $begin_time->getTimestamp()) {
-            $begin_day = $this->day_of_type('initial_checkin', 2, $local, $current_time);
-            $begin_time = $this->get_closing_time($local, $begin_day);
+            $begin_day = $this->day_of_type('initial_checkin', 1, $local, $current_time);
+            $begin_time = $this->get_opening_time($local, $begin_day);
         }
 
         return $begin_time;
@@ -405,11 +417,6 @@ class XCollege extends XObject
 
         return $local ? $this->make_local($closing_time)
                 : $this->make_gmt($closing_time);
-    }
-
-    function get_party_period()
-    {
-
     }
 
     function get_places()
