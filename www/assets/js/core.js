@@ -157,6 +157,8 @@ $('#wwo').entwine({
                 .setButtons('close').showDialog('friends_popup');
         WWO.dialog.refreshPosition();
         WWO.dialog.find('.dialog_body').load(path, function() {
+            var count = WWO.dialog.find('.mutual_friends').attr('count');
+            WWO.dialog.title(WWO.dialog.title() + ' (' + count + ')');
             WWO.dialog.refreshPosition();
         });
     },

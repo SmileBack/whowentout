@@ -11,7 +11,7 @@
   </div>
   <?php endif; ?>
 
-  <ul class="mutual_friends">
+  <ul class="mutual_friends" count="<?= count($mutual_friends) ?>">
     <?php foreach ($mutual_friends as $friend): ?>
       <li>
         <div class="thumb">
