@@ -10,6 +10,7 @@
     <?= js_asset('lib/jquery.js') ?>
     <?= js_asset('lib/underscore.js') ?>
     <?= js_asset('lib/jquery.jstorage.js') ?>
+    <?= js_asset('lib/jquery.form.js') ?>
     <?= js_asset('lib/jquery.entwine.js') ?>
     <?= js_asset('lib/jquery.class.js') ?>
 
@@ -19,7 +20,7 @@
 
     <?= js_asset('whowentout.component.js') ?>
     <?= js_asset('whowentout.user.js') ?>
-
+    <?= js_asset('whowentout.application.js') ?>
 
     <?= js_asset('lib/serverevents.js') ?>
 

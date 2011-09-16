@@ -27,9 +27,13 @@ class MY_Controller extends CI_Controller
         $this->load->view('footer', $data);
     }
 
-    protected function json($response)
+    protected function json($response, $file_uploads = FALSE)
     {
-        print json_encode($response);exit;
+        $json_response = json_encode($response);
+        if ($file_uploads)
+            $json_response = "<textarea>$json_response</textarea>";
+        
+        print $json_response;exit;
     }
 
     protected function json_success()

@@ -101,6 +101,7 @@ form {
 }
 
 .submit_button {
+  cursor: pointer;
   -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
   -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
   box-shadow: inset 0px 1px 0px 0px #ffffff;
@@ -134,10 +135,7 @@ form {
   }
 }
 
-#notice {
-  display: none;
-  position: absolute;
-  
+.notice_style {
   padding: 6px 10px;
   color: #333;
   font-weight: bold;
@@ -148,6 +146,20 @@ form {
   .shadow(1px, 1px, 3px, 0px, #dedede);
   margin: 10px;
   text-align: center;
+}
+
+.load_message {
+  .notice_style;
+  background-image: url(../images/loading_icon.gif);
+  background-repeat: no-repeat;
+  background-position: 7px 50%;
+  padding-left: 28px;
+}
+
+#notice {
+  display: none;
+  position: absolute;
+  .notice_style;
 }
 
 .online_badge {
@@ -183,3 +195,24 @@ form {
 }
 
 .serverinbox { display: none; }
+
+.file_wrapper {
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
+
+.file_wrapper * {
+    z-index: 1;
+}
+
+.file_wrapper input {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    .opacity(0);
+    font-size: 100px;
+    z-index: 2;
+}

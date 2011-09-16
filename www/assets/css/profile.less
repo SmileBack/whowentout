@@ -1,27 +1,31 @@
-#my_info_edit_view .section_body {
-  margin: 0;
-}
-
-#edit_form {
-  margin: 20px 20px;
-  overflow: hidden;
-}
-
-#edit_form .my_info {
-  float: left;
-  border-right: 1px dotted grey;
-  padding-right: 30px;
-}
-
-#edit_form .my_pic {
-  float: right;
-  border-left: 1px dotted grey;
-  border-left: 30px;
-}
-
-#edit_form .form_buttons {
-  float: right;
-  clear: both;
+.my_info_edit_view {
+    .my_info {
+        float: left;
+    }
+    .my_pic {
+        float: right;
+        border-left: 1px solid @border_color;
+        padding-left: 35px;
+    }
+    #pic_options {
+        overflow: hidden;
+        margin:  15px 0;
+    }
+    #pic_options > div {
+        float: left;
+        margin-right: 15px;
+        #pic_use_facebook_input { cursor: auto; }
+    }
+    .form_buttons {
+        width: 100%;
+        float: right;
+        clear: both;
+    }
+    .form_buttons .submit_button {
+        clear: both;
+        padding: 10px;
+        font-size: 16px;
+    }
 }
 
 #crop {
@@ -37,4 +41,11 @@
 
 #crop_preview_frame {
   margin-left: 30px;
+}
+
+.form_buttons {
+    text-align: right;
+    border-top: 1px solid @border_color;
+    margin-top: 15px;
+    padding-top: 15px;
 }

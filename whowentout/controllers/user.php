@@ -6,6 +6,36 @@ define('LOGIN_LINK_STATE', 2);
 class User extends MY_Controller
 {
 
+    function upload_pic()
+    {
+        if (!logged_in())
+            show_404();
+
+        $user = current_user();
+        $user->upload_pic();
+
+        $this->json(array(
+                         'success' => TRUE,
+                         'raw_pic' => $user->raw_pic,
+                         'crop_box' => $user->pic_crop_box,
+                    ), TRUE);
+    }
+
+    function use_facebook_pic()
+    {
+        if (!logged_in())
+            show_404();
+
+        $user = current_user();
+        $user->use_facebook_pic();
+
+        $this->json(array(
+                         'success' => TRUE,
+                         'raw_pic' => $user->raw_pic,
+                         'crop_box' => $user->pic_crop_box,
+                    ), TRUE);
+    }
+
     function edit_save()
     {
         if (!logged_in())
@@ -13,16 +43,7 @@ class User extends MY_Controller
 
         $user = current_user();
 
-        if (post('op') == 'Upload') {
-            $user->upload_pic();
-            redirect('user/edit');
-        }
-        elseif (post('op') == 'Use Your Facebook Pic') {
-            $user->use_facebook_pic();
-            set_message('Now using your profile pic from Facebook.');
-            redirect('user/edit');
-        }
-        elseif (post('op') == 'Save') {
+        if (post('op') == 'Save') {
             if (post('width') && post('height')) {
                 $user->crop_pic(post('x'), post('y'), post('width'), post('height'));
                 $user->hometown_city = post('hometown_city');
@@ -238,21 +259,22 @@ class User extends MY_Controller
         $this->json(array('success' => $success, 'visibility' => current_user()->visible_to));
     }
 
-    function info($user_id) {
+    function info($user_id)
+    {
         //@TODO: enforce permissions for whether the user can view the info of the user
         $user = user($user_id);
 
         if (!$user) {
             $this->json(array(
-                            'success' => FALSE,
-                            'error' => "User doesn't exist.",
+                             'success' => FALSE,
+                             'error' => "User doesn't exist.",
                         ));
         }
         else {
-            $user_data = $user->to_array( $user->is_current_user() );
+            $user_data = $user->to_array($user->is_current_user());
             $this->json(array(
-                            'success' => TRUE,
-                            'user' => $user_data,
+                             'success' => TRUE,
+                             'user' => $user_data,
                         ));
         }
     }

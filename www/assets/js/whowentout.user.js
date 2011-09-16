@@ -16,9 +16,6 @@ WhoWentOut.Model = WhoWentOut.Component.extend({
             }
         }, this);
     },
-    stuff: function() {
-        return 'yeaa';
-    },
     get: function(k) {
         return this.attributes[k];
     },

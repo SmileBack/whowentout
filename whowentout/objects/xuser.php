@@ -647,6 +647,16 @@ class XUser extends XObject
         $this->refresh_image('thumb');
     }
 
+    function get_pic_crop_box()
+    {
+        return (object)array(
+            'x' => $this->pic_x,
+            'y' => $this->pic_y,
+            'width' => $this->pic_width,
+            'height' => $this->pic_height
+        );
+    }
+
     function anchor_facebook_message()
     {
         return anchor("http://www.facebook.com/messages/$this->facebook_id", 'send message', array('target' => '_blank'));

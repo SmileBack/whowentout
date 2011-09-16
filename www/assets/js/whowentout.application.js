@@ -1,0 +1,5 @@
+$.Class.extend('WhoWentOut.Application', {
+
+    
+
+}, {});

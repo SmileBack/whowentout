@@ -1,6 +1,6 @@
 
 <?= form_open_multipart('user/edit_save', array('id' => 'edit_form')) ?>
-  
+
   <fieldset class="my_info">
     <ul>
       <li class="name">
@@ -35,28 +35,31 @@
   </fieldset>
   
   <fieldset class="my_pic">
-    
+
+    <div id="crop_raw_image" style="display: none;"><?= $user->raw_pic ?></div>
+
     <div id="crop" class="frame">
-      <?= $user->raw_pic ?>
     </div>
 
     <div id="crop_preview_frame" class="frame">
-      <div id="crop_preview"> 
-        <?= $user->raw_pic ?>
+      <div id="crop_preview">
       </div>
     </div>
-    
+
     <div id="pic_options">
       <div>
-        <input type="submit" name="op" value="Use Your Facebook Pic" />
+        <input type="submit" name="op" value="Use Facebook Pic" id="pic_use_facebook_input" class="submit_button" />
       </div>
       <div>
-        <label>Or upload your own pic</label>
-        <?= form_upload('upload_pic') ?>
-        <input type="submit" name="op" value="Upload" />
+          
+        <span class="file_wrapper">
+            <input type="file" name="upload_pic" id="pic_upload_input" />
+            <span class="submit_button">Upload Your Own Pic</span>
+        </span>
+          
       </div>
     </div>
-    
+
     <input type="hidden" id="x" name="x" value="<?= $user->pic_x ?>"/>
     <input type="hidden" id="y" name="y" value="<?= $user->pic_y ?>"/>
     <input type="hidden" id="width" name="width" value="<?= $user->pic_width ?>" />
@@ -66,7 +69,7 @@
 
 
   <fieldset class="form_buttons">
-    <input type="submit" name="op" value="Save" />
+    <input type="submit" name="op" value="Save" class="submit_button" />
   </fieldset>
-  
+
 <?= form_close() ?>
