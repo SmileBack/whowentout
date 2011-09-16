@@ -332,6 +332,8 @@ class XUser extends XObject
         $row = $this->db()->from('smiles')
                 ->where('sender_id', $user->id)
                 ->where('receiver_id', $this->id)
+                ->order_by('id', 'desc')
+                ->limit(1)
                 ->get()->row();
         return empty($row) ? FALSE : smile($row->id);
     }
@@ -346,6 +348,8 @@ class XUser extends XObject
         $row = $this->db()->from('smiles')
                 ->where('sender_id', $this->id)
                 ->where('receiver_id', $user->id)
+                ->order_by('id', 'desc')
+                ->limit(1)
                 ->get()->row();
         return empty($row) ? FALSE : smile($row->id);
     }

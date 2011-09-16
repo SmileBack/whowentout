@@ -3,6 +3,12 @@
 class SmilePlugin
 {
 
+    function __construct()
+    {
+        $this->ci =& get_instance();
+        $this->db = $this->ci->db;
+    }
+
     /**
      * Occurs when a $e->sender smiles at $e->receiver.
      * @param XUser $e->sender
@@ -18,6 +24,12 @@ class SmilePlugin
             // a match occured
             $second_smile = $e->smile;
 
+            if ($this->smiles_in_previous_match(array($first_smile->id, $second_smile->id)))
+            {
+                return;
+            }
+
+
             $match = XSmileMatch::create(array(
                                               'first_smile_id' => $first_smile->id,
                                               'second_smile_id' => $second_smile->id,
@@ -31,5 +43,21 @@ class SmilePlugin
                                        ));
         }
     }
-    
+
+    /**
+     * @param array $smile_ids
+     *   An array of ids.
+     * @return bool
+     *   Whether a match already occured with any of the provided smiles.
+     */
+    private function smiles_in_previous_match(array $smile_ids)
+    {
+        $query = $this->db->from('smile_matches');
+        foreach ($smile_ids as $id) {
+            $query->or_where('first_smile_id', $id)
+                    ->or_where('second_smile_id', $id);
+        }
+        return $query->count_all_results() > 0;
+    }
+
 }
