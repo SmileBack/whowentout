@@ -19,9 +19,10 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $channel = 'user_221';
-        $ev = $this->event->fetch($channel, 65);
-        var_dump($ev);
+        $smile_a_id = 7;
+        $smile_b_id = 8;
+
+        var_dump( $this->smiles_in_previous_match(array(6, 8)) );
     }
 
 }

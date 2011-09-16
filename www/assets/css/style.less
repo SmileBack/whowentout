@@ -1,9 +1,14 @@
-@bar_color: #000033;
-@bar_text_color: white;
+@primary_color: #7d1729;//#9F1D35;
+@primary_text_color: white;
+
+@bar_color: @primary_color;
+@bar_text_color: @primary_text_color;
+
 @border_color: @light_border_color;
 @light_border_color: #cdcdcd;
 @red_color: #CD5B45;
 @page_width: 1000px;
+@logo_height: 43px;
 
 @import 'reset.less';
 @import 'elements.less';
@@ -12,7 +17,8 @@
 @import 'dialog.less';
 
 .heading_bar {
-    background-color: #FAFAFA;
+    background-color: @bar_color;
+    color: @bar_text_color;
 }
 
 section {
@@ -69,11 +75,13 @@ body {
 
 #page {
   margin: 10px auto;
-  padding:  20px;
   overflow: hidden;
   width: @page_width;
   background-color: white;
   .shadow(0, 0, 3px, 3px, #dedede);
+  #page_content {
+    margin: 25px;
+  }
 }
 
 input[type=text][disabled] {
@@ -81,24 +89,26 @@ input[type=text][disabled] {
 }
 
 header {
+  background-color: @primary_color;
+  color: @primary_text_color;
+  padding: 20px 25px 15px 25px;
   overflow: hidden;
-  padding: 20px 20px 10px 20px;
   margin: 0;
   #logo {
     margin: 0;
     float: left;
     a { text-decoration: none; }
   }
-  a, a:active, a:visited { color: #444; }
+  a, a:active, a:visited { color: @primary_text_color; }
+  a:hover { color: #FFF68F; }
   nav {
     float: right;
+    margin-top: 16px;
     font-size: 19px;
     a {
       display: inline-block;
-      margin: 10px;
       text-decoration: none;
-      line-height: 45px;
-      &:hover { color: @red_color; }
+      margin-left: 15px;
     }
   }
 }
@@ -109,7 +119,7 @@ header {
     margin:  7px 10px;
   }
   .about_message {
-    border-bottom: 1px dotted grey;
+    border-bottom: 1px solid @border_color;
     padding-bottom: 20px;
   }
   .about_message > h2 {
@@ -127,7 +137,7 @@ header {
 }
 
 .last_night_view {
-  width: 60%;
+  width: 63%;
   height: 240px;
   h2 { font-size: 150%; }
   #checkin_form { margin: 0; }
@@ -145,12 +155,9 @@ header {
 }
 
 .my_info_view {
-  width: 30%;
+  width: 32%;
   height: 240px;
   
-  border-left:  1px solid @border_color;
-  padding-left: 45px;
-
   float: right;
   clear: none;
   .profile_pic {
@@ -406,7 +413,7 @@ table td, table th {
       .horizontal_gallery;
       clear: both;
       margin: 0 auto;
-      > li { margin: 16px; }
+      > li { margin: 13px; }
       .party_attendee {
         .full_name {
           > * { display: inline-block; }

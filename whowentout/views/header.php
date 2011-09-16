@@ -75,8 +75,9 @@
 
     </header>
 
-    <?php if (get_message()): ?>
-    <section class="message">
-        <?= pull_message() ?>
-    </section>
-    <?php endif; ?>
+    <div id="page_content">
+        <?php if (get_message()): ?>
+            <section class="message">
+                <?= pull_message() ?>
+            </section>
+        <?php endif; ?>

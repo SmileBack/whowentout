@@ -18,7 +18,6 @@ class Party extends MY_Controller
         raise_event('page_load', array(
                                       'url' => uri_string(),
                                  ));
-
         $data = array(
             'title' => 'Party',
             'party' => $party,

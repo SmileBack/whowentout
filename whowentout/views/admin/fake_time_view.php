@@ -14,7 +14,7 @@
             <option value="Friday 3:00pm">Friday 3:00pm</option>
             <option value="Friday 10:00pm">Friday 10:00pm</option>
             <option value="Friday 11:59:30pm">Friday 11:59:30pm</option>
-            <option value="Saturday 1:59:30pm">Saturday 1:59:30am</option>
+            <option value="Saturday 1:59:30am">Saturday 1:59:30am</option>
         </select>
         
       </fieldset>

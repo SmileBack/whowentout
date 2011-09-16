@@ -1,6 +1,6 @@
+    </div> <!-- page_content end -->
 
-
-</div>
+</div> <!-- page end -->
 
 <?php if (TRUE): ?>
     <?= js_asset('lib/date.format.js') ?>
