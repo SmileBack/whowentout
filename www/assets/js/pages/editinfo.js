@@ -84,7 +84,7 @@ $.fn.hideLoadMask = function() {
     return this;
 }
 
-$.fn.showLoadMask = function() {
+$.fn.showLoadMask = function(message) {
     var mask = $('<div class="mask"/>').css({
         position: 'absolute',
         top: '0px',
@@ -100,7 +100,7 @@ $.fn.showLoadMask = function() {
         top: '0px',
         left: '0px',
         'z-index': 9100
-    }).text('Loading');
+    }).text(message || 'Loading');
 
     $(this).css('position', 'relative').append(mask).append(loadingMessage);
     var offsetTop = $(this).innerHeight() / 2 - loadingMessage.outerHeight(true) / 2;
@@ -127,7 +127,7 @@ jQuery(function($) {
 
 $('#pic_upload_input').entwine({
     onchange: function(e) {
-        $('.my_pic').showLoadMask();
+        $('.my_pic').showLoadMask('Uploading');
         this.closest('form').ajaxSubmit({
            url: '/user/upload_pic',
            dataType: 'json',
