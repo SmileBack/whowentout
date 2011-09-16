@@ -288,7 +288,7 @@ class FilesystemImageRepository extends BaseImageRepository
   
   function delete($id, $preset) {
     $filename = $this->filename($id, $preset);
-    unlink($filename);
+    @unlink($filename);
   }
   
   protected function filename($id, $preset) {
