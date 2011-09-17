@@ -1,3 +1,3 @@
 [ ] [bug] in ie, fileinputs don't trigger a change event unless you blur
-[ ] [feature] if user A is invisible to user B, user B should also be invisible to user A
+[x] [feature] if user A is invisible to user B, user B should also be invisible to user A
 [ ] [feature] the chat links should disappear from a party after wed.

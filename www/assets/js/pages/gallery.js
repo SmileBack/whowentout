@@ -1,21 +1,21 @@
 $('#current_user')
-        .live('user_came_online', function(e) {
-            $('#party_attendee_' + e.user.id).addClass('online');
-        })
-        .live('user_went_offline', function(e) {
-            $('#party_attendee_' + e.user.id).removeClass('online');
-        })
-        .live('smile_received', function(e) {
-            var partyID = e.party.id;
-            $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
-        })
-        .live('smile_match', function(e) {
-            var partyID = e.party.id;
-            $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
-        })
-        .live('time_faked', function(e) {
-            window.location.reload(true);
-        });
+.live('user_came_online', function(e) {
+    $('#party_attendee_' + e.user.id).addClass('online');
+})
+.live('user_went_offline', function(e) {
+    $('#party_attendee_' + e.user.id).removeClass('online');
+})
+.live('smile_received', function(e) {
+    var partyID = e.party.id;
+    $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
+})
+.live('smile_match', function(e) {
+    var partyID = e.party.id;
+    $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
+})
+.live('time_faked', function(e) {
+    window.location.reload(true);
+});
 
 $('.gallery').entwine({
     onmatch: function() {
@@ -89,25 +89,25 @@ $('.smile_form :submit').live('click', function(e) {
     if (canSmile) {
         var senderGender = current_user().other_gender;
         var message = senderGender == 'M'
-                ? '<p>You are about to ' + action + '.</p>'
-                + '<p>He will know that someone has smiled at him, but he will <strong>not</strong> know it was you unless he smiles at you as well.</p>'
+        ? '<p>You are about to ' + action + '.</p>'
+        + '<p>He will know that someone has smiled at him, but he will <strong>not</strong> know it was you unless he smiles at you as well.</p>'
 
-                : '<p>You are about to ' + action + '.</p>'
-                + '<p>She will know that someone has smiled at her, but she will <strong>not</strong> know it was you unless she smiles at you as well.</p>';
+        : '<p>You are about to ' + action + '.</p>'
+        + '<p>She will know that someone has smiled at her, but she will <strong>not</strong> know it was you unless she smiles at you as well.</p>';
 
         WWO.dialog.title('Confirm Smile')
-                .message(message)
-                .setButtons('yesno')
-                .refreshPosition()
-                .showDialog('confirm_smile', form);
+        .message(message)
+        .setButtons('yesno')
+        .refreshPosition()
+        .showDialog('confirm_smile', form);
     }
     else {
         action = action.substring(0, 1).toLowerCase() + action.substring(1);
         WWO.dialog.title("Can't Smile")
-                .message("You can't " + action + " because you have already used up your smiles.")
-                .setButtons('ok')
-                .refreshPosition()
-                .showDialog('cant_smile');
+        .message("You can't " + action + " because you have already used up your smiles.")
+        .setButtons('ok')
+        .refreshPosition()
+        .showDialog('cant_smile');
     }
 
 });
@@ -160,8 +160,8 @@ $('.party_attendee.online').entwine({
 $('.smile.help').entwine({
     onmouseenter: function() {
         var message = '<p style="width: 400px;">You have 3 smiles to give at each party. '
-                    + ' The people you smile at will know that someone has smiled at them,'
-                    + ' but they will <strong>not</strong> know it was you unless they smile at you as well.</p>'
+        + ' The people you smile at will know that someone has smiled at them,'
+        + ' but they will <strong>not</strong> know it was you unless they smile at you as well.</p>'
         this.notice(message, 'r');
     },
     onmouseleave: function() {

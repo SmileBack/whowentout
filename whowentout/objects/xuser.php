@@ -745,6 +745,19 @@ class XUser extends XObject
     function is_online_to($user)
     {
         $user = user($user);
+        return $this->is_online_to_one_way($user)
+            && $user->is_online_to_one_way($this);
+    }
+
+    /**
+     * @param  XUser $user
+     * @return bool
+     *      Whether $this user appears online to $user.
+     *      (In one direction.)
+     */
+    private function is_online_to_one_way($user)
+    {
+        $user = user($user);
 
         if (!$this->is_online())
             return FALSE;
@@ -752,11 +765,11 @@ class XUser extends XObject
         else if ($this->visible_to == 'none')
             return FALSE;
 
-            // not hiding anything, so your visible state is unaltered
+        // not hiding anything, so your visible state is unaltered
         else if ($this->visible_to == 'everyone')
             return $this->is_online();
 
-            // only tell them you're online if you're friends with them
+        // only tell them you're online if you're friends with them
         else if ($this->visible_to == 'friends')
             return $this->is_online() && $this->is_friend_of($user);
     }
@@ -784,7 +797,7 @@ class XUser extends XObject
                                             ));
         }
     }
-
+    
     function ping_leaving_site($suspend_save = FALSE)
     {
         if ($this->last_ping == NULL) //already marked as offline so don't do anything

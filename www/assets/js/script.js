@@ -51,7 +51,8 @@ $('.visibilitybar').entwine({
             return this;
 
         $.getJSON('/user/change_visibility/' + k, function(response) {
-            self.markSelectedOption(response.visibility);
+            window.location.reload(true);
+            //self.markSelectedOption(response.visibility);
         });
 
         return this;
