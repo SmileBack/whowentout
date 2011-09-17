@@ -17,6 +17,9 @@
   -khtml-opacity: @opacity;
   /* Good browsers */
   opacity: @opacity;
+  /* Satanic browsers */
+  -ms-filter: %('alpha(opacity=%s)', @opacity * 100); // some IE versions
+  filter: e(%("alpha(opacity=%s)", @opacity * 100));  // most other IE versions
 }
 
 .box-sizing(@value) {

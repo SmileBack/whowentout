@@ -85,6 +85,7 @@ $.fn.hideLoadMask = function() {
 }
 
 $.fn.showLoadMask = function(message) {
+    $(this).hideLoadMask();
     var mask = $('<div class="mask"/>').css({
         position: 'absolute',
         top: '0px',
@@ -141,7 +142,7 @@ $('#pic_upload_input').entwine({
 $('#pic_use_facebook_input').entwine({
     onclick: function(e) {
         e.preventDefault();
-
+        e.stopPropagation();
         $('.my_pic').showLoadMask();
         this.closest('form').ajaxSubmit({
            url: '/user/use_facebook_pic',
