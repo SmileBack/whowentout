@@ -22,6 +22,10 @@
     <?= js_asset('whowentout.user.js') ?>
     <?= js_asset('whowentout.application.js') ?>
 
+    <!--[if IE]>
+    <?= js_asset('ie.js') ?>
+    <![endif]-->
+
     <?= js_asset('lib/serverevents.js') ?>
 
     <?= js_asset('widgets/jquery.autocomplete.js') ?>

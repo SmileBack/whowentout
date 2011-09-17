@@ -20,10 +20,14 @@
 </div>
 
 <div class="visibilitybar">
+<?php if ($party->chat_is_open()): ?>
     <h2>Chat visibility:</h2>
     <a href="everyone" class="js">Everyone</a>
     <a href="friends" class="js">Friends</a>
     <a href="none" class="js">Nobody</a>
+<?php else: ?>
+    <p>Chat has closed.</p>
+<?php endif; ?>
 </div>
 
 <div class="gallery serverevents"
@@ -31,7 +35,9 @@
      channel-url="<?= serverchannel_url('party', $party->id) ?>"
      frequency="10"
      data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>"
-     data-smiles-left="<?= $smiles_left ?>">
+     data-smiles-left="<?= $smiles_left ?>"
+     party-chat-is-open="<?= $party->chat_is_open() ? 'y' : 'n' ?>"
+     party-chat-close-time="<?= $party->chat_close_time()->getTimestamp() ?>">
   <ul>
     <?php foreach ($party_attendees as $key => $attendee): ?>
       <li>

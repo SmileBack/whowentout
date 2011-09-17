@@ -142,6 +142,24 @@ class XParty extends XObject
         return $this->load_objects('XUser', $query);
     }
 
+    function chat_is_closed()
+    {
+        return !$this->chat_is_open();
+    }
+
+    function chat_is_open()
+    {
+        return current_time()->getTimestamp() < $this->chat_close_time()->getTimestamp();
+    }
+
+    function chat_close_time($local = FALSE)
+    {
+        $dt = DateTime::createFromFormat('Y-m-d H:i:s', $this->date . '00:00:00', $this->college->timezone);
+        $dt->modify('next Wednesday');
+        $dt->setTime(11, 59, 0);
+        return $local ? $this->college->make_local($dt) : make_gmt($dt);
+    }
+
     function to_array()
     {
         return array(

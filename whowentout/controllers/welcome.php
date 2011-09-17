@@ -9,7 +9,7 @@ class Welcome extends MY_Controller
     {
         $this->load->library('chat');
 
-        $party = party(11);
+        $party = party(32);
 
         $ven = user(array('first_name' => 'Venkat'));
         $dan = user(array('last_name' => 'Berenholtz'));
@@ -19,10 +19,7 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $smile_a_id = 7;
-        $smile_b_id = 8;
-
-        var_dump( $this->smiles_in_previous_match(array(6, 8)) );
+        var_dump($party->chat_close_time(TRUE));
     }
 
 }

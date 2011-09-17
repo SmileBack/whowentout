@@ -76,6 +76,15 @@ $('.gallery').entwine({
     partyID: function() {
         return parseInt(this.attr('data-party-id'));
     },
+    chatIsOpen: function() {
+        return this.attr('party-chat-is-open') == 'y';
+    },
+    chatIsClosed: function() {
+        return !this.chatIsOpen();
+    },
+    chatCloseTime: function() {
+        return new Date( parseInt(this.attr('party-chat-close-time')) * 1000 );
+    },
     count: function() {
         return parseInt(this.attr('data-count'));
     }
@@ -148,11 +157,12 @@ $('.gallery .party_attendee').entwine({
 
 $('.party_attendee.online').entwine({
     onmatch: function() {
-        this._super()
-        this.find('.full_name').addClass('open_chat');
+        this._super();
+        if (this.closest('.gallery').chatIsOpen())
+            this.find('.full_name').addClass('open_chat');
     },
     onunmatch: function() {
-        this._super()
+        this._super();
         this.find('.full_name').removeClass('open_chat');
     }
 });
