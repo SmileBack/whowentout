@@ -21,7 +21,7 @@ $.fn.attrEq = function(attr, val) {
 $('a').live('click', function() {
     if ($(this).hasClass('js'))
         return;
-    
+
     $(window).data('isFormOrLink', true);
 });
 $('form').live('submit', function() {
@@ -83,26 +83,26 @@ $('#wwo').entwine({
             return;
         else if (id == 'current')
             id = this.currentUserID();
-        
+
         if (id == this.currentUserID()) {
             jsonElID = '#current_user';
         }
         else {
             jsonElID = '#user_json_' + id;
         }
-        
+
         if (this.data('users') == null)
             this.data('users', {});
 
         if (object === undefined) { //get
             var u = null;
-            
+
             if (this.data('users')[id] != null) { //already present in user cache
                 return this.data('users')[id];
             }
             else if (this.data('users')[id] == null && $(jsonElID).length > 0) { //user data is present in html dom
                 console.log('getting from json');
-                u = $.parseJSON( $(jsonElID).text() );
+                u = $.parseJSON($(jsonElID).text());
                 this.user(id, u);
                 return u;
             }
@@ -156,7 +156,7 @@ $('#wwo').entwine({
     },
     showMutualFriendsDialog: function(path) {
         WWO.dialog.title('Mutual Friends').message('loading...')
-                .setButtons('close').showDialog('friends_popup');
+        .setButtons('close').showDialog('friends_popup');
         WWO.dialog.refreshPosition();
         WWO.dialog.find('.dialog_body').load(path, function() {
             var count = WWO.dialog.find('.mutual_friends').attr('count');
@@ -235,33 +235,46 @@ function tomorrow_time() {
     return new Date(unixTs * 1000);
 }
 
-jQuery.event.special.imageload = {
-    setup: function(data, namespaces) {
-        var self = $(this);
-        var images = $(this).is('img') ? $(this) : $(this).find('img');
-        var numImages = images.length;
-        var numLoaded = 0;
+(function ($) {
+    
+    function img_has_loaded(imgEl) {
+        var dfd = $.Deferred();
 
-        images.each(function() {
-            var src = $(this).attr('src');
-            var img = new Image();
-            img.onload = function() {
-                numLoaded++;
-                if (numLoaded >= numImages)
-                    self.trigger('imageload');
-            };
-            img.src = src;
-        });
-    },
-    teardown: function(namespaces) {
-    },
-    handler: function(event) {
+        var img = new Image();
+        img.onload = function() {
+            if (!dfd.isResolved())
+                dfd.resolve();
+        }
+        img.src = $(imgEl).attr('src');
+
+        if (img.complete && !dfd.isResolved()) {
+            dfd.resolve();
+        }
+
+        return dfd.promise();
     }
-};
+
+    $.event.special.imageload = {
+        add: function(details) {
+            var self = $(this);
+            var images = $(this).is('img') ? $(this) : $(this).find('img');
+            var dfds = [];
+            images.each(function() {
+                dfds.push( img_has_loaded( this ) );
+            });
+            $.when.apply(this, dfds).then(function() {
+                details.handler.call(this, {type: 'imageload'});
+            });
+        },
+        remove: function(details) {
+        }
+    };
+    
+})(jQuery);
 
 $.fn.whenShown = function(fn) {
     var props = { position: 'absolute', visibility: 'hidden', display: 'block' },
-            hiddenParents = this.parents().andSelf().not(':visible');
+    hiddenParents = this.parents().andSelf().not(':visible');
 
     //set style for hidden elements that allows computing
     var oldProps = [];
@@ -308,6 +321,6 @@ $.fn.hiddenDimensions = function(includeMargin) {
 
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)')
-            .exec(window.location.search);
+    .exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
