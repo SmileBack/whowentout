@@ -205,14 +205,17 @@ class XCollege extends XObject
 
     function this_week_party_day($party_day_offset, $local = FALSE, $current_time = NULL)
     {
-        $checkins_begin_time = $this->checkins_begin_time($local, $current_time);
+        if ($current_time == NULL)
+            $current_time = current_time();
+
+        $today = $this->day(0, TRUE, $current_time);
+
+        $party_day = clone $today;
         
-        $party_day = clone $checkins_begin_time;
-        //first party day
-        $party_day = $party_day->modify('-1 day')->modify('last Thursday');
-        //add offset to first party day
-        $party_day->modify("+$party_day_offset days");
-        return $party_day;
+        if ( ! ($today->format('l') == 'Thursday') )
+            $party_day->modify('last Thursday');
+
+        return $this->day($party_day_offset, $local, $party_day);
     }
 
     function day_of_type($day_type, $target_offset, $local = FALSE, $current_time = NULL)
@@ -221,7 +224,7 @@ class XCollege extends XObject
         $target_offset = intval($target_offset);
         $filtered_offset = 0;
         $actual_offset = 0;
-        
+
         $step = $target_offset > 0 ? 1 : -1;
         $filter = "is_{$day_type}_day";
 
@@ -244,7 +247,7 @@ class XCollege extends XObject
         } while ($filtered_offset != $target_offset);
 
         return $local ? $this->make_local($cur_day)
-                      : $this->make_gmt($cur_day);
+                : $this->make_gmt($cur_day);
     }
 
     function is_party_day(DateTime $day)
@@ -297,7 +300,7 @@ class XCollege extends XObject
             $current_time = current_time();
 
         $begin_day = $this->day_of_type('initial_checkin', 0, $local, $current_time);
-        
+
         if (!$begin_day) { // if today isn't a day where the checkins begin
             $begin_day = $this->day_of_type('initial_checkin', 1, $local, $current_time);
         }
@@ -534,6 +537,19 @@ class XCollege extends XObject
                              'date' => date_format($time, 'Y-m-d'),
                         ))
                 ->join('places', 'parties.place_id = places.id');
+    }
+
+    function to_array()
+    {
+        $college = array();
+        $college['id'] = $this->id;
+        $college['currentTime'] = current_time()->getTimestamp();
+        $college['doorsClosingTime'] = $this->get_closing_time()->getTimestamp();
+        $college['doorsOpeningTime'] = $this->get_opening_time()->getTimestamp();
+        $college['yesterdayTime'] = $this->yesterday()->getTimestamp();
+        $college['tomorrowTime'] = $this->tomorrow()->getTimestamp();
+        $college['doorsOpen'] = $this->doors_are_open();
+        return $college;
     }
 
 }

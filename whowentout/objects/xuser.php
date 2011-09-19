@@ -88,7 +88,8 @@ class XUser extends XObject
     function needs_to_edit_profile()
     {
         return $this->never_edited_profile()
-               || $this->is_missing_info();
+               || $this->is_missing_info()
+               || $this->gender == '';
     }
 
     function never_edited_profile()
@@ -835,6 +836,7 @@ class XUser extends XObject
         if ($show_private_fields) {
             $array['visible_to'] = $this->visible_to;
             $array['is_online'] = $this->is_online();
+            $array['chatbar_state'] = $this->chatbar_state;
         }
         
         return $array;
@@ -877,7 +879,9 @@ class XUser extends XObject
     private function _update_gender_from_facebook($fbdata)
     {
         $genders = array('male' => 'M', 'female' => 'F');
-        $this->gender = $genders[$fbdata['gender']];
+        
+        if (isset($fbdata['gender']))
+            $this->gender = $genders[$fbdata['gender']];
     }
 
     private function _update_email_from_facebook($fbdata)

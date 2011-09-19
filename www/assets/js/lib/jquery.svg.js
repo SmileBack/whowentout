@@ -255,11 +255,11 @@ $.extend(SVGWrapper.prototype, {
 			node = this._svg;
 		}
 		if (clear) {
-			for (var i = node.attributes.length - 1; i >= 0; i--) {
-				var attr = node.attributes.item(i);
+			for (var i = node.properties.length - 1; i >= 0; i--) {
+				var attr = node.properties.item(i);
 				if (!(attr.nodeName == 'onload' || attr.nodeName == 'version' || 
 						attr.nodeName.substring(0, 5) == 'xmlns')) {
-					node.attributes.removeNamedItem(attr.nodeName);
+					node.properties.removeNamedItem(attr.nodeName);
 				}
 			}
 		}
@@ -883,8 +883,8 @@ $.extend(SVGWrapper.prototype, {
 		if (node.nodeType == 1) { // element
 			newNode = this._svg.ownerDocument.createElementNS(
 				$.svg.svgNS, this._checkName(node.nodeName));
-			for (var i = 0; i < node.attributes.length; i++) {
-				var attr = node.attributes.item(i);
+			for (var i = 0; i < node.properties.length; i++) {
+				var attr = node.properties.item(i);
 				if (attr.nodeName != 'xmlns' && attr.nodeValue) {
 					if (attr.prefix == 'xlink') {
 						newNode.setAttributeNS($.svg.xlinkNS,
@@ -994,8 +994,8 @@ $.extend(SVGWrapper.prototype, {
 			}
 			var parent = (settings.parent ? $(settings.parent)[0] : wrapper._svg);
 			var attrs = {};
-			for (var i = 0; i < data.documentElement.attributes.length; i++) {
-				var attr = data.documentElement.attributes.item(i);
+			for (var i = 0; i < data.documentElement.properties.length; i++) {
+				var attr = data.documentElement.properties.item(i);
 				if (!(attr.nodeName == 'version' || attr.nodeName.substring(0, 5) == 'xmlns')) {
 					attrs[attr.nodeName] = attr.nodeValue;
 				}
@@ -1084,9 +1084,9 @@ $.extend(SVGWrapper.prototype, {
 		}
 		else { // Element
 			svgDoc = '<' + node.nodeName;
-			if (node.attributes) {
-				for (var i = 0; i < node.attributes.length; i++) {
-					var attr = node.attributes.item(i);
+			if (node.properties) {
+				for (var i = 0; i < node.properties.length; i++) {
+					var attr = node.properties.item(i);
 					if (!($.trim(attr.nodeValue) == '' || attr.nodeValue.match(/^\[object/) ||
 							attr.nodeValue.match(/^function/))) {
 						svgDoc += ' ' + (attr.namespaceURI == $.svg.xlinkNS ? 'xlink:' : '') + 

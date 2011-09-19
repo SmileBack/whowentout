@@ -75,56 +75,6 @@ $('#wwo').entwine({
     doorsClosed: function() {
         return ! this.doorsOpen();
     },
-    user: function(id, object) {
-        var self = this;
-        var jsonElID;
-
-        if (id == null)
-            return;
-        else if (id == 'current')
-            id = this.currentUserID();
-
-        if (id == this.currentUserID()) {
-            jsonElID = '#current_user';
-        }
-        else {
-            jsonElID = '#user_json_' + id;
-        }
-
-        if (this.data('users') == null)
-            this.data('users', {});
-
-        if (object === undefined) { //get
-            var u = null;
-
-            if (this.data('users')[id] != null) { //already present in user cache
-                return this.data('users')[id];
-            }
-            else if (this.data('users')[id] == null && $(jsonElID).length > 0) { //user data is present in html dom
-                console.log('getting from json');
-                u = $.parseJSON($(jsonElID).text());
-                this.user(id, u);
-                return u;
-            }
-            else {
-                // Last resort: send an ajax request.
-                // Returns a deferred object so you have to use $.when(..).then(fn)
-                var dfd = $.Deferred();
-                $.getJSON('/user/info/' + id, function(response) {
-                    if (response.success) {
-                        self.user(id, response.user);
-                        dfd.resolve(response.user);
-                    }
-                });
-                return dfd.promise();
-            }
-        }
-        else { //set
-            var users = this.data('users') || {};
-            users[id] = object;
-            this.data('users', users);
-        }
-    },
     pingServer: function() {
         $.ajax({
             url: '/user/ping',
@@ -164,12 +114,6 @@ $('#wwo').entwine({
             WWO.dialog.refreshPosition();
         });
     },
-    currentUser: function() {
-        return this.user('current');
-    },
-    currentUserID: function() {
-        return this.data('currentUserID');
-    },
     _calculateTimeDelta: function() {
         var serverUnixTs = parseInt($('#wwo').data('currentTime'));
         //Unix timestamp uses seconds while JS Date uses milliseconds
@@ -194,14 +138,6 @@ function cancelAfter(id) {
 
 function after(seconds, fn) {
     return setTimeout(fn, seconds * 1000);
-}
-
-function current_user() {
-    return $('#wwo').currentUser();
-}
-
-function user(id, object) {
-    return $('#wwo').user(id, object);
 }
 
 function current_time() {

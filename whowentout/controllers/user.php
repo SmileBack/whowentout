@@ -92,6 +92,10 @@ class User extends MY_Controller
             $message[] = '<p>You are missing information</p>';
         }
 
+        if (current_user()->gender == '') {
+            $message[] = '<p>To use WhoWentOut, please <a href="http://www.facebook.com/editprofile.php">enter your gender</a> in your Facebook profile.</p>';
+        }
+
         if (!empty($message))
             set_message(implode('', $message));
 
@@ -257,26 +261,6 @@ class User extends MY_Controller
     {
         $success = current_user()->change_visibility($visibility);
         $this->json(array('success' => $success, 'visibility' => current_user()->visible_to));
-    }
-
-    function info($user_id)
-    {
-        //@TODO: enforce permissions for whether the user can view the info of the user
-        $user = user($user_id);
-
-        if (!$user) {
-            $this->json(array(
-                             'success' => FALSE,
-                             'error' => "User doesn't exist.",
-                        ));
-        }
-        else {
-            $user_data = $user->to_array($user->is_current_user());
-            $this->json(array(
-                             'success' => TRUE,
-                             'user' => $user_data,
-                        ));
-        }
     }
 
     function friends()

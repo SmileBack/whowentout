@@ -1,62 +1,100 @@
-WhoWentOut.Model = WhoWentOut.Component.extend({
-    properties: {}
-}, {
-    init: function(attrs) {
-        this.attributes = {};
-        _.each(attrs, function(v, k) {
-            this.set(k, v);
-        }, this);
-        this.initProperties();
-    },
-    initProperties: function() {
+WhoWentOut.Model.extend('WhoWentOut.User', {
+    get: function(id) {
+
+        if (id === undefined) {
+            alert('aaaa');
+        }
+
         var self = this;
-        _.each(this.Class.properties, function(options, prop) {
-            this[prop] = function(v) {
-                return this.val.call(self, prop, v);
+
+        if (!this._users)
+            this._users = new WhoWentOut.Hash();
+
+        if (!this._users.contains(id)) {
+            this._users.set(id, this.fetchFromServer(id));
+        }
+
+        return this._users.get(id);
+    },
+    all: function() {
+        if (!this._users)
+            this._users = new WhoWentOut.Hash();
+
+        return this._users;
+    },
+    fetchFromServer: function(id) {
+        if (this._users.get(id))
+            return this._users.get(id);
+
+        console.log('--fetching ' + id + ' from server--');
+
+        var self = this;
+        var dfd = $.Deferred();
+        $.ajax({
+            url: '/js/user/' + id,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    self.add(response.user);
+                    dfd.resolve(self.get(id));
+                }
+                else {
+                    dfd.reject();
+                }
             }
-        }, this);
+        });
+        return dfd.promise();
     },
-    get: function(k) {
-        return this.attributes[k];
-    },
-    set: function(k, v) {
-        this.attributes[k] = v;
-    },
-    val: function(k, v) {
-        if (v === undefined) {
-            return this.get(k);
-        }
-        else {
-            return this.set(k, v);
-        }
-    }
-});
+    add: function(userJson) {
+        if (!this._users)
+            this._users = new WhoWentOut.Hash();
 
-WhoWentOut.User = WhoWentOut.Model.extend({
-    properties: {
-        first_name: true,
-        last_name: true
+        var user = new WhoWentOut.User(userJson);
+
+        this._users.set(user.get('id'), user);
     }
 }, {
     init: function(attrs) {
         this._super(attrs);
+    },
+    firstName: function() {
+        return this.get('first_name');
+    },
+    lastName: function() {
+        return this.get('last_name');
+    },
+    fullName: function() {
+        return this.firstName() + ' ' + this.lastName();
+    },
+    isOnline: function(v) {
+        return this.val.call(this, 'is_online', v);
+    },
+    visibleTo: function() {
+        return this.get('visible_to');
     }
 });
 
-WhoWentOut.Party = WhoWentOut.Model.extend({
-    properties: {
-        
-    }
-}, {
-    init: function(attrs) {
-        this._super(attrs);
+$('.user').entwine({
+    onmatch: function() {
+        this._super();
+
+        var self = this;
+        $.when(app.load()).then(function() {
+            $.when(WhoWentOut.User.get( self.userID() )).then(function(u) {
+                if (u.isOnline()) {
+                    self.addClass('online');
+                }
+            });
+        });
+    },
+    onunmatch: function() {
+        this._super();
+    },
+    userID: function() {
+        return parseInt(this.attr('data-user-id'));
     }
 });
 
-WhoWentOut.Place = WhoWentOut.Model.extend({
-    
-}, {
-    init: function(attrs) {
-        this._super(attrs);
-    }
-});
+function user(id) {
+    return WhoWentOut.User.get(id);
+}

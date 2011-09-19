@@ -70,7 +70,7 @@ $('.dialog').entwine({
 
     this.removeAllButtons();
     $.each(buttons, function(k, button) {
-      self.addButton(button.key, button.title, button.attributes);
+      self.addButton(button.key, button.title, button.properties);
     });
     
     return this;

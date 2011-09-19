@@ -1,9 +1,11 @@
 $('#current_user')
 .live('user_came_online', function(e) {
-    $('#party_attendee_' + e.user.id).addClass('online');
+    console.log('user came online ' + e.user.id);
+    WhoWentOut.User.get(e.user.id).isOnline(true);
 })
 .live('user_went_offline', function(e) {
-    $('#party_attendee_' + e.user.id).removeClass('online');
+    console.log('user went offline ' + e.user.id);
+    WhoWentOut.User.get(e.user.id).isOnline(false);
 })
 .live('smile_received', function(e) {
     var partyID = e.party.id;
@@ -17,10 +19,20 @@ $('#current_user')
     window.location.reload(true);
 });
 
+WhoWentOut.User.all().bind('itemchange', function(e) {
+   if (e.key == 'is_online') {
+       if (e.value == true) {
+           $('.user_' + e.item.id()).addClass('online');
+       }
+       else {
+           $('.user_' + e.item.id()).removeClass('online');
+       }
+   }
+});
+
 $('.gallery').entwine({
     onmatch: function() {
         this._super();
-        this.initOnlineUsers();
     },
     onunmatch: function() {
         this._super();
@@ -30,26 +42,6 @@ $('.gallery').entwine({
     },
     smilesLeft: function() {
         return parseInt(this.attr('data-smiles-left'));
-    },
-    initOnlineUsers: function() {
-        var self = this;
-        $.when(this.fetchOnlineUsers()).then(function(onlineUserIDs) {
-            for (var k = 0; k < onlineUserIDs.length; k++) {
-                $('#party_attendee_' + onlineUserIDs[k]).addClass('online');
-            }
-        });
-        return this;
-    },
-    fetchOnlineUsers: function() {
-        var dfd = $.Deferred();
-        $.ajax({
-            url: '/party/online_user_ids/' + this.partyID(),
-            dataType: 'json',
-            success: function(response) {
-                dfd.resolve(response.online_user_ids);
-            }
-        });
-        return dfd.promise();
     },
     oncheckin: function(e) { //server generated event
         this.insertAttendee(e.party_attendee_view, e.insert_positions);
@@ -96,7 +88,7 @@ $('.smile_form :submit').live('click', function(e) {
     var form = $(this).closest('form');
     var canSmile = $(this).hasClass('can');
     if (canSmile) {
-        var senderGender = current_user().other_gender;
+        var senderGender = app.currentUser().other_gender;
         var message = senderGender == 'M'
         ? '<p>You are about to ' + action + '.</p>'
         + '<p>He will know that someone has smiled at him, but he will <strong>not</strong> know it was you unless he smiles at you as well.</p>'

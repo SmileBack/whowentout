@@ -3,7 +3,7 @@ if (!isset($smiles_left))
     $smiles_left = 0;
 ?>
 
-<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee">
+<div id="party_attendee_<?= $attendee->id ?>" class="party_attendee user <?= 'user_' . $attendee->id ?>" data-user-id="<?= $attendee->id ?>">
     <?= $attendee->pic; ?>
 
     <div class="caption">
@@ -48,8 +48,3 @@ if (!isset($smiles_left))
     </div>
 
 </div>
-
-<?php if (!$attendee->is_current_user()): ?>
-<div id="user_json_<?= $attendee->id ?>" class="user_json"
-     style="display: none;"><?= json_encode($attendee->to_array()) ?></div>
-<?php endif; ?>

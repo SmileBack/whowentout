@@ -273,7 +273,7 @@ normal[list]=normal[list]||{};
 normal[list][ch]="&"+entity+";";
 reverse[list]=reverse[list]||{};
 reverse[list]["&"+entity+";"]=ch
-}}var e=addEntityMapToList,white="whitespace",text="text",attr="attributes",css="css",editor="editor";
+}}var e=addEntityMapToList,white="whitespace",text="text",attr="properties",css="css",editor="editor";
 e(34,"quot",attr,css);
 e(38,"amp",attr,text,css);
 e(39,"apos",css);
@@ -357,7 +357,7 @@ break
 }return results.join("")||""
 }var escapeForTextNode=this.escapeForTextNode=createSimpleEscape("text","normal");
 var escapeForHtmlEditor=this.escapeForHtmlEditor=createSimpleEscape("editor","normal");
-var escapeForElementAttribute=this.escapeForElementAttribute=createSimpleEscape("attributes","normal");
+var escapeForElementAttribute=this.escapeForElementAttribute=createSimpleEscape("properties","normal");
 var escapeForCss=this.escapeForCss=createSimpleEscape("css","normal");
 var escapeForSourceLine=this.escapeForSourceLine=createSimpleEscape("text","normal");
 var unescapeWhitespace=createSimpleEscape("whitespace","reverse");
@@ -687,8 +687,8 @@ this.getElementHTML=function(element){var self=this;
 function toHTML(elt){if(elt.nodeType==Node.ELEMENT_NODE){if(unwrapObject(elt).firebugIgnore){return
 }html.push("<",elt.nodeName.toLowerCase());
 for(var i=0;
-i<elt.attributes.length;
-++i){var attr=elt.attributes[i];
+i<elt.properties.length;
+++i){var attr=elt.properties[i];
 if(attr.localName.indexOf("firebug-")==0){continue
 }if(attr.localName.indexOf("-moz-math")==0){continue
 }html.push(" ",attr.nodeName,'="',escapeForElementAttribute(attr.nodeValue),'"')
@@ -715,8 +715,8 @@ return html.join("")
 this.getElementXML=function(element){function toXML(elt){if(elt.nodeType==Node.ELEMENT_NODE){if(unwrapObject(elt).firebugIgnore){return
 }xml.push("<",elt.nodeName.toLowerCase());
 for(var i=0;
-i<elt.attributes.length;
-++i){var attr=elt.attributes[i];
+i<elt.properties.length;
+++i){var attr=elt.properties[i];
 if(attr.localName.indexOf("firebug-")==0){continue
 }if(attr.localName.indexOf("-moz-math")==0){continue
 }xml.push(" ",attr.nodeName,'="',escapeForElementAttribute(attr.nodeValue),'"')
@@ -1308,7 +1308,7 @@ var domMemberCache=null;
 var domMemberMap={};
 domMemberMap.Window=["document","frameElement","innerWidth","innerHeight","outerWidth","outerHeight","screenX","screenY","pageXOffset","pageYOffset","scrollX","scrollY","scrollMaxX","scrollMaxY","status","defaultStatus","parent","opener","top","window","content","self","location","history","frames","navigator","screen","menubar","toolbar","locationbar","personalbar","statusbar","directories","scrollbars","fullScreen","netscape","java","console","Components","controllers","closed","crypto","pkcs11","name","property","length","sessionStorage","globalStorage","setTimeout","setInterval","clearTimeout","clearInterval","addEventListener","removeEventListener","dispatchEvent","getComputedStyle","captureEvents","releaseEvents","routeEvent","enableExternalCapture","disableExternalCapture","moveTo","moveBy","resizeTo","resizeBy","scroll","scrollTo","scrollBy","scrollByLines","scrollByPages","sizeToContent","setResizable","getSelection","open","openDialog","close","alert","confirm","prompt","dump","focus","blur","find","back","forward","home","stop","print","atob","btoa","updateCommands","XPCNativeWrapper","GeckoActiveXObject","applicationCache"];
 domMemberMap.Location=["href","protocol","host","hostname","port","pathname","search","hash","assign","reload","replace"];
-domMemberMap.Node=["id","className","nodeType","tagName","nodeName","localName","prefix","namespaceURI","nodeValue","ownerDocument","parentNode","offsetParent","nextSibling","previousSibling","firstChild","lastChild","childNodes","attributes","dir","baseURI","textContent","innerHTML","addEventListener","removeEventListener","dispatchEvent","cloneNode","appendChild","insertBefore","replaceChild","removeChild","compareDocumentPosition","hasAttributes","hasChildNodes","lookupNamespaceURI","lookupPrefix","normalize","isDefaultNamespace","isEqualNode","isSameNode","isSupported","getFeature","getUserData","setUserData"];
+domMemberMap.Node=["id","className","nodeType","tagName","nodeName","localName","prefix","namespaceURI","nodeValue","ownerDocument","parentNode","offsetParent","nextSibling","previousSibling","firstChild","lastChild","childNodes","properties","dir","baseURI","textContent","innerHTML","addEventListener","removeEventListener","dispatchEvent","cloneNode","appendChild","insertBefore","replaceChild","removeChild","compareDocumentPosition","hasAttributes","hasChildNodes","lookupNamespaceURI","lookupPrefix","normalize","isDefaultNamespace","isEqualNode","isSameNode","isSupported","getFeature","getUserData","setUserData"];
 domMemberMap.Document=extendArray(domMemberMap.Node,["documentElement","body","title","location","referrer","cookie","contentType","lastModified","characterSet","inputEncoding","xmlEncoding","xmlStandalone","xmlVersion","strictErrorChecking","documentURI","URL","defaultView","doctype","implementation","styleSheets","images","links","forms","anchors","embeds","plugins","applets","width","height","designMode","compatMode","async","preferredStylesheetSet","alinkColor","linkColor","vlinkColor","bgColor","fgColor","domain","addEventListener","removeEventListener","dispatchEvent","captureEvents","releaseEvents","routeEvent","clear","open","close","execCommand","execCommandShowHelp","getElementsByName","getSelection","queryCommandEnabled","queryCommandIndeterm","queryCommandState","queryCommandSupported","queryCommandText","queryCommandValue","write","writeln","adoptNode","appendChild","removeChild","renameNode","cloneNode","compareDocumentPosition","createAttribute","createAttributeNS","createCDATASection","createComment","createDocumentFragment","createElement","createElementNS","createEntityReference","createEvent","createExpression","createNSResolver","createNodeIterator","createProcessingInstruction","createRange","createTextNode","createTreeWalker","domConfig","evaluate","evaluateFIXptr","evaluateXPointer","getAnonymousElementByAttribute","getAnonymousNodes","addBinding","removeBinding","getBindingParent","getBoxObjectFor","setBoxObjectFor","getElementById","getElementsByTagName","getElementsByTagNameNS","hasAttributes","hasChildNodes","importNode","insertBefore","isDefaultNamespace","isEqualNode","isSameNode","isSupported","load","loadBindingDocument","lookupNamespaceURI","lookupPrefix","normalize","normalizeDocument","getFeature","getUserData","setUserData"]);
 domMemberMap.Element=extendArray(domMemberMap.Node,["clientWidth","clientHeight","offsetLeft","offsetTop","offsetWidth","offsetHeight","scrollLeft","scrollTop","scrollWidth","scrollHeight","style","tabIndex","title","lang","align","spellcheck","addEventListener","removeEventListener","dispatchEvent","focus","blur","cloneNode","appendChild","insertBefore","replaceChild","removeChild","compareDocumentPosition","getElementsByTagName","getElementsByTagNameNS","getAttribute","getAttributeNS","getAttributeNode","getAttributeNodeNS","setAttribute","setAttributeNS","setAttributeNode","setAttributeNodeNS","removeAttribute","removeAttributeNS","removeAttributeNode","hasAttribute","hasAttributeNS","hasAttributes","hasChildNodes","lookupNamespaceURI","lookupPrefix","normalize","isDefaultNamespace","isEqualNode","isSameNode","isSupported","getFeature","getUserData","setUserData"]);
 domMemberMap.SVGElement=extendArray(domMemberMap.Element,["x","y","width","height","rx","ry","transform","href","ownerSVGElement","viewportElement","farthestViewportElement","nearestViewportElement","getBBox","getCTM","getScreenCTM","getTransformToElement","getPresentationAttribute","preserveAspectRatio"]);
@@ -3893,9 +3893,9 @@ if(elt instanceof HTMLImageElement){value=getFileName(elt.src)
 }}}}}return value?" "+cropString(value,20):""
 },attrIterator:function(elt){var attrs=[];
 var idAttr,classAttr;
-if(elt.attributes){for(var i=0;
-i<elt.attributes.length;
-++i){var attr=elt.attributes[i];
+if(elt.properties){for(var i=0;
+i<elt.properties.length;
+++i){var attr=elt.properties[i];
 if(attr.nodeName&&attr.nodeName.indexOf("firebug-")!=-1){continue
 }else{if(attr.nodeName=="id"){idAttr=attr
 }else{if(attr.nodeName=="class"){classAttr=attr
@@ -3904,9 +3904,9 @@ if(attr.nodeName&&attr.nodeName.indexOf("firebug-")!=-1){continue
 }if(idAttr){attrs.splice(0,0,idAttr)
 }return attrs
 },shortAttrIterator:function(elt){var attrs=[];
-if(elt.attributes){for(var i=0;
-i<elt.attributes.length;
-++i){var attr=elt.attributes[i];
+if(elt.properties){for(var i=0;
+i<elt.properties.length;
+++i){var attr=elt.properties[i];
 if(attr.nodeName=="id"||attr.nodeName=="class"){attrs.push(attr)
 }}}return attrs
 },getHidden:function(elt){return isVisible(elt)?"":"nodeHidden"
@@ -6179,8 +6179,8 @@ if(isIE&&nodeControl){html.push(nodeControl)
 }if(typeof uid!="undefined"){html.push('<div class="objectBox-element" ','id="',uid,'">',!isIE&&nodeControl?nodeControl:"","<span ",cacheID,'="',uid,'"  class="nodeBox',nodeVisible?"":" nodeHidden",'">&lt;<span class="nodeTag">',nodeName,"</span>")
 }else{html.push('<div class="objectBox-element"><span class="nodeBox',nodeVisible?"":" nodeHidden",'">&lt;<span class="nodeTag">',nodeName,"</span>")
 }for(var i=0;
-i<node.attributes.length;
-++i){var attr=node.attributes[i];
+i<node.properties.length;
+++i){var attr=node.properties[i];
 if(!attr.specified||Firebug.ignoreFirebugElements&&ignoreHTMLProps.hasOwnProperty(attr.nodeName)){continue
 }var name=attr.nodeName.toLowerCase();
 var value=name=="style"?formatStyles(node.style.cssText):attr.nodeValue;
@@ -6337,8 +6337,8 @@ while(targ&&!found){if(!/\snodeBox\s|\sobjectBox-selector\s/.test(" "+targ.class
 }}if(!targ){FBL.Firebug.Inspector.hideBoxModel();
 hoverElement=null;
 return
-}if(typeof targ.attributes[cacheID]=="undefined"){return
-}var uid=targ.attributes[cacheID];
+}if(typeof targ.properties[cacheID]=="undefined"){return
+}var uid=targ.properties[cacheID];
 if(!uid){return
 }var el=ElementCache.get(uid.value);
 var nodeName=el.nodeName.toLowerCase();
@@ -6385,8 +6385,8 @@ if(object.id){html.push('<span class="selectorId">#',escapeHTML(object.id),"</sp
 var uidString=uid?[cacheID,'="',uid,'"'].join(""):"";
 html.push('<div class="objectBox-element"',uidString,'">',"<span ",cacheID,'="',uid,'" class="nodeBox">','&lt;<span class="nodeTag">',node.nodeName.toLowerCase(),"</span>");
 for(var i=0;
-i<node.attributes.length;
-++i){var attr=node.attributes[i];
+i<node.properties.length;
+++i){var attr=node.properties[i];
 if(!attr.specified||attr.nodeName==cacheID){continue
 }var name=attr.nodeName.toLowerCase();
 var value=name=="style"?node.style.cssText:attr.nodeValue;

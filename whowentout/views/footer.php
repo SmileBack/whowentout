@@ -19,9 +19,14 @@
     <?= js_asset('lib/jquery.jcrop.js') ?>
 
     <?= js_asset('whowentout.component.js') ?>
+    <?= js_asset('whowentout.hash.js') ?>
+    <?= js_asset('whowentout.model.js') ?>
+    <?= js_asset('whowentout.college.js') ?>
+    <?= js_asset('whowentout.place.js') ?>
+    <?= js_asset('whowentout.party.js') ?>
     <?= js_asset('whowentout.user.js') ?>
     <?= js_asset('whowentout.application.js') ?>
-
+    
     <!--[if IE]>
     <?= js_asset('ie.js') ?>
     <![endif]-->

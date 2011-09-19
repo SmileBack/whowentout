@@ -1603,7 +1603,7 @@ jQuery.fn.extend({
 				data = jQuery.data( this[0] );
 
 				if ( this[0].nodeType === 1 ) {
-			    var attr = this[0].attributes, name;
+			    var attr = this[0].properties, name;
 					for ( var i = 0, l = attr.length; i < l; i++ ) {
 						name = attr[i].name;
 
@@ -2089,7 +2089,7 @@ jQuery.extend({
 			get: function( elem ) {
 				// attributes.value is undefined in Blackberry 4.7 but
 				// uses .value. See #6932
-				var val = elem.attributes.value;
+				var val = elem.properties.value;
 				return !val || val.specified ? elem.value : elem.text;
 			}
 		},
