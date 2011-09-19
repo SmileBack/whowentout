@@ -1,35 +1,35 @@
+<?=
+load_view('party_notices_view', array(
+                                     'user' => $user,
+                                     'party' => $party,
+                                )) ?>
+    <div class="visibilitybar">
+        <?php if ($party->chat_is_open()): ?>
+        <h3>Who Can Chat With You?</h3>
+        <div class="links">
+            <a href="everyone" class="js">Everyone</a>
+            <a href="friends" class="js">Facebook Friends</a>
+            <a href="none" class="js">Nobody</a>
+        </div>
+        <?php else: ?>
+        <p>Chat has closed.</p>
+        <?php endif; ?>
+    </div>
 
-<?= load_view('party_notices_view', array(
-                                      'user' => $user,
-                                      'party' => $party,
-                                    )) ?>
-
-<div class="visibilitybar">
-<?php if ($party->chat_is_open()): ?>
-    <h3>Who Can Chat With You?</h3>
-    <a href="everyone" class="js">Everyone</a>
-    <a href="friends" class="js">Facebook Friends</a>
-    <a href="none" class="js">Nobody</a>
-<?php else: ?>
-    <p>Chat has closed.</p>
-<?php endif; ?>
-</div>
-
-
-<div class="sortbar">
-  <h3>Sort by:</h3>
-  <ul>
-    <li class="sort_checkin_time <?= $sort == 'checkin_time' ? 'selected' : '' ?>">
-      <?= anchor("party/$party->id?sort=checkin_time", "Most Recent") ?>
-    </li>
-    <li class="sort_first_name <?= $sort == 'name' ? 'selected' : '' ?>">
-      <?= anchor("party/$party->id?sort=name", "Name") ?>
-    </li>
-    <li class="sort_gender <?= $sort == 'gender' ? 'selected' : '' ?>">
-      <?= anchor("party/$party->id?sort=gender", "Gender") ?>
-    </li>
-  </ul>
-</div>
+    <div class="sortbar">
+        <h3>Sort by:</h3>
+        <ul>
+            <li class="sort_checkin_time <?= $sort == 'checkin_time' ? 'selected' : '' ?>">
+                <?= anchor("party/$party->id?sort=checkin_time", "Most Recent") ?>
+            </li>
+            <li class="sort_first_name <?= $sort == 'name' ? 'selected' : '' ?>">
+                <?= anchor("party/$party->id?sort=name", "Name") ?>
+            </li>
+            <li class="sort_gender <?= $sort == 'gender' ? 'selected' : '' ?>">
+                <?= anchor("party/$party->id?sort=gender", "Gender") ?>
+            </li>
+        </ul>
+    </div>
 
 <h2 class="gallery_header"><?= $party->place->name ?> Attendees</h2>
 
@@ -41,22 +41,22 @@
      data-smiles-left="<?= $smiles_left ?>"
      party-chat-is-open="<?= $party->chat_is_open() ? 'y' : 'n' ?>"
      party-chat-close-time="<?= $party->chat_close_time()->getTimestamp() ?>">
-  <ul>
-    <?php foreach ($party_attendees as $key => $attendee): ?>
-      <li>
-        <?= 
-          load_view('party_attendee_view', array(
-            'party' => $party,
-            'attendee' => $attendee,
-            'smiles_left' => $smiles_left,
-          ))
-        ?>
-      </li>
-    <?php endforeach; ?>
-  </ul>
-  
+    <ul>
+        <?php foreach ($party_attendees as $key => $attendee): ?>
+        <li>
+            <?=
+            load_view('party_attendee_view', array(
+                                                  'party' => $party,
+                                                  'attendee' => $attendee,
+                                                  'smiles_left' => $smiles_left,
+                                             ))
+            ?>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+
 </div>
 
 <?php if ($party->admin): ?>
-  <p id="party_admin">Hosted by: <?= $party->admin->first_name; ?> <?= $party->admin->last_name; ?></p>
-<?php endif;?>
+<p id="party_admin">Hosted by: <?= $party->admin->first_name; ?> <?= $party->admin->last_name; ?></p>
+<?php endif; ?>

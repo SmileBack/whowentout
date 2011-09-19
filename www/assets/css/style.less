@@ -6,6 +6,7 @@
 
 @border_color: @light_border_color;
 @light_border_color: #cdcdcd;
+@light_background_color: #f7f7f7;
 @red_color: #CD5B45;
 @page_width: 1000px;
 @logo_height: 43px;
@@ -397,10 +398,17 @@ table td, table th {
 }
 
 .visibilitybar {
+    padding: 9px;
     overflow: hidden;
-    > * { float: left; }
-    h3 { margin-right: 15px; }
-    a { margin: 0 8px; }
+    background-color: #f7f7f7;
+    h3 {
+        margin: 0 0 4px 8px;
+    }
+    .links {
+        overflow: hidden;
+        > * { float: left; }
+    }
+    a { margin: 0 8px; text-decoration: none; }
     .selected {
       font-weight: bold;
       text-decoration: underline;
@@ -415,15 +423,23 @@ table td, table th {
     right: 38px;
   }
   .party_notices {
+      float: left;
       margin-bottom: 25px;
+      margin-left: -10px;
       font-size: 14px;
+      padding: 16px;
+      background-color: #f7f7f7;
+      > * {
+      }
   }
   .sortbar {
-    float: right;
-    > * { display: inline-block; }
+      float: right;
+      clear: left;
+      > * { display: inline-block; }
   }
   .gallery_header {
       float: left;
+      clear: left;
       margin: 10px;
   }
   .gallery {
