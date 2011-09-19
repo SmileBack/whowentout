@@ -529,7 +529,7 @@ class XUser extends XObject
         if ($count != 1)
             $smiles .= 's'; //pluralize
 
-        return "$count $smiles received";
+        return "$count $smiles received at this party";
     }
 
     function smiles_left_message($party)
@@ -542,7 +542,7 @@ class XUser extends XObject
         if ($smiles_left != 1)
             $smiles = $smiles . 's';
 
-        return "$smiles_left $smiles left to give";
+        return "$smiles_left $smiles left to give at this party";
     }
 
     /**

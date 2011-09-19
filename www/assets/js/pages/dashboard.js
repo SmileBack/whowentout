@@ -81,7 +81,7 @@ $('.profile_pic').entwine({
     }
 });
 
-$('#parties_attended_view .notices > *').entwine({
+$('.parties_attended_view .party_notices > *').entwine({
     onmatch: function() {
         this.css('cursor', 'pointer');
     },

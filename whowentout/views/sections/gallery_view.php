@@ -8,7 +8,7 @@
   <h2>Sort by:</h2>
   <ul>
     <li class="sort_checkin_time <?= $sort == 'checkin_time' ? 'selected' : '' ?>">
-      <?= anchor("party/$party->id?sort=checkin_time", "Checkin Time") ?>
+      <?= anchor("party/$party->id?sort=checkin_time", "Most Recent") ?>
     </li>
     <li class="sort_first_name <?= $sort == 'name' ? 'selected' : '' ?>">
       <?= anchor("party/$party->id?sort=name", "Name") ?>
@@ -21,14 +21,16 @@
 
 <div class="visibilitybar">
 <?php if ($party->chat_is_open()): ?>
-    <h2>Chat visibility:</h2>
+    <h2>Who Can Chat With You?</h2>
     <a href="everyone" class="js">Everyone</a>
-    <a href="friends" class="js">Friends</a>
+    <a href="friends" class="js">Facebook Friends</a>
     <a href="none" class="js">Nobody</a>
 <?php else: ?>
     <p>Chat has closed.</p>
 <?php endif; ?>
 </div>
+
+<h2><?= $party->place->name ?> Attendees</h2>
 
 <div class="gallery serverevents"
      channel-id="<?= 'party_' . $party->id ?>"

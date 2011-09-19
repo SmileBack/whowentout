@@ -27,11 +27,17 @@ section {
   padding-bottom: 10px;
   overflow: hidden;
   margin: 0 0 20px 0;
+  outline: 1px solid @primary_color;
   > h1 {
     .heading_bar;
-    border: 1px solid @border_color;
-    border-left:  none;
-    border-right: none;
+    margin: 0;
+  }
+  > h3 {
+      width: 100%;
+      background-color: #f0f0f0;
+      color: #444;
+      padding: 3px 10px;
+      font-weight: normal;
   }
   .section_body {
     margin: 25px 25px 15px 25px;
@@ -304,7 +310,12 @@ table td, table th {
     font-size: 15px;
     margin: 10px;
   }
-  .selected { font-weight: bold; }
+  a {
+    text-decoration: none;
+  }
+  .selected {
+      font-weight: bold; text-decoration: underline;
+  }
 }
 
 .friends_view {
@@ -409,6 +420,8 @@ table td, table th {
     > * { display: inline-block; }
   }
   .gallery {
+    border-top: 1px solid @border_color;
+    clear: both;
     > ul {
       .horizontal_gallery;
       clear: both;
