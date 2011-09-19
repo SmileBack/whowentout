@@ -307,7 +307,6 @@ table td, table th {
 .sortbar {
   li {
     display: inline-block;
-    font-size: 15px;
     margin: 10px;
   }
   a {
@@ -398,11 +397,13 @@ table td, table th {
 }
 
 .visibilitybar {
-    margin-left: 20px;
-    h2 { display: inline-block; }
+    overflow: hidden;
+    > * { float: left; }
+    h3 { margin-right: 15px; }
+    a { margin: 0 8px; }
     .selected {
       font-weight: bold;
-      color: green;
+      text-decoration: underline;
     }
 }
 
@@ -413,11 +414,17 @@ table td, table th {
     top: 60px;
     right: 38px;
   }
-  .party_notices { font-size: 14px; }
+  .party_notices {
+      margin-bottom: 25px;
+      font-size: 14px;
+  }
   .sortbar {
     float: right;
-    margin-right: 15px;
     > * { display: inline-block; }
+  }
+  .gallery_header {
+      float: left;
+      margin: 10px;
   }
   .gallery {
     border-top: 1px solid @border_color;

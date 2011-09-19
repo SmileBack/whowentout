@@ -3,9 +3,21 @@
                                       'user' => $user,
                                       'party' => $party,
                                     )) ?>
-    
+
+<div class="visibilitybar">
+<?php if ($party->chat_is_open()): ?>
+    <h3>Who Can Chat With You?</h3>
+    <a href="everyone" class="js">Everyone</a>
+    <a href="friends" class="js">Facebook Friends</a>
+    <a href="none" class="js">Nobody</a>
+<?php else: ?>
+    <p>Chat has closed.</p>
+<?php endif; ?>
+</div>
+
+
 <div class="sortbar">
-  <h2>Sort by:</h2>
+  <h3>Sort by:</h3>
   <ul>
     <li class="sort_checkin_time <?= $sort == 'checkin_time' ? 'selected' : '' ?>">
       <?= anchor("party/$party->id?sort=checkin_time", "Most Recent") ?>
@@ -19,18 +31,7 @@
   </ul>
 </div>
 
-<div class="visibilitybar">
-<?php if ($party->chat_is_open()): ?>
-    <h2>Who Can Chat With You?</h2>
-    <a href="everyone" class="js">Everyone</a>
-    <a href="friends" class="js">Facebook Friends</a>
-    <a href="none" class="js">Nobody</a>
-<?php else: ?>
-    <p>Chat has closed.</p>
-<?php endif; ?>
-</div>
-
-<h2><?= $party->place->name ?> Attendees</h2>
+<h2 class="gallery_header"><?= $party->place->name ?> Attendees</h2>
 
 <div class="gallery serverevents"
      channel-id="<?= 'party_' . $party->id ?>"
