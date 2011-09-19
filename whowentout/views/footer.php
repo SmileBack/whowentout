@@ -3,6 +3,8 @@
 </div> <!-- page end -->
 
 <?php if (TRUE): ?>
+    <script src="http://js.pusherapp.com/1.9/pusher.min.js" type="text/javascript"></script>
+     
     <?= js_asset('lib/date.format.js') ?>
     <?= js_asset('lib/timeinterval.js') ?>
     <?= js_asset('lib/json.js') ?>

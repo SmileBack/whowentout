@@ -55,7 +55,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
             this._channels = {};
             var curChannel = null;
             _.each(channels, function(channelConfig, k) {
-                curChannel = new WhoWentOut.Channel(channelConfig);
+                curChannel = WhoWentOut.Channel.Create(channelConfig);
                 this._channels[ k ] = curChannel;
             }, this);
         }

@@ -1,15 +1,19 @@
-WhoWentOut.Component.extend('WhoWentOut.Channel', {}, {
+WhoWentOut.Component.extend('WhoWentOut.Channel', {
+    Create: function(options) {
+        var className = options.type;
+        var cls = WhoWentOut[className];
+        return new cls(options);
+    }
+}, {
     init: function(options) {
         this._super();
 
-        this._options = _.defaults(options, {
-            frequency: 1,
-            id: null,
-            url: null
-        });
+        this._options = _.defaults(options, {});
 
         var self = this;
         this._isFetchingNewEvents = false;
+
+        this.bind('eventsversionchanged', this.callback('oneventsversionchanged'));
 
         $.ajax({
             url: '/events/version/' + this.id(),
@@ -17,17 +21,16 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {}, {
             dataType: 'json',
             success: function(response) {
                 self._eventsVersion = response.version;
-                self.startChecking();
+                self.openChannel();
             }
         });
     },
-    onunmatch: function() {
+    oneventsversionchanged: function(e) {
+        console.log('oneventsversionchanged');
+        this.fetchNewEvents();
     },
     id: function() {
         return this._options.id;
-    },
-    url: function() {
-        return this._options.url;
     },
     eventsVersion: function(v) {
         if (v === undefined) {
@@ -38,22 +41,56 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {}, {
             return this;
         }
     },
-    frequency: function() {
-        return this._options.frequency;
+    isFetchingNewEvents: function() {
+        return this._isFetchingNewEvents;
     },
-    startChecking: function() {
+    fetchNewEvents: function() {
+        if (this.isFetchingNewEvents()) {
+            return this;
+        }
+
+        var self = this;
+        this._isFetchingNewEvents = true;
+
+        $.ajax({
+            url: '/events/fetch/' + this.id() + '/' + this.eventsVersion(),
+            type: 'get',
+            dataType: 'json',
+            success: function(response) {
+                self.eventsVersion(response.version);
+                self.triggerServerEvents(response.events);
+                self._isFetchingNewEvents = false;
+            }
+        });
+        return this;
+    },
+    triggerServerEvents: function(events) {
+        var self = this;
+        var e;
+        $.each(events, function(k, event) {
+            self.trigger(event.type, event);
+        });
+    },
+    openChannel: function() {
+    }
+});
+
+WhoWentOut.Channel.extend('WhoWentOut.PollingChannel', {}, {
+    init: function(options) {
+        this._super(options);
+
+        this._options = _.defaults(this._options, {
+            frequency: 1,
+            id: null,
+            url: null
+        });
+    },
+    openChannel: function() {
         var self = this;
         var id = this._every(this.frequency(), function() {
             self.checkIfEventsVersionChanged();
         });
         this._pollVersionId = id;
-
-        return this;
-    },
-    stopChecking: function() {
-        var id = this._pollVersionId;
-        if (id)
-            this._cancelEvery(id);
 
         return this;
     },
@@ -74,48 +111,54 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {}, {
             success: function(newVersion) {
                 var currentVersion = self.eventsVersion();
                 if (newVersion != currentVersion) {
-                    self.fetchNewEvents();
+                    self.trigger('eventsversionchanged');
                 }
             }
         });
     },
-    isFetchingNewEvents: function() {
-        return this._isFetchingNewEvents;
-    },
-    fetchNewEvents: function() {
-        if (this.isFetchingNewEvents()) {
-            return this;
-        }
-
-        var self = this;
-        this._isFetchingNewEvents = true;
-        
-        $.ajax({
-            url: '/events/fetch/' + this.id() + '/' + this.eventsVersion(),
-            type: 'get',
-            dataType: 'json',
-            success: function(response) {
-                self.eventsVersion(response.version);
-                self.triggerServerEvents(response.events);
-                self._isFetchingNewEvents = false;
-            }
-        });
-        return this;
-    },
-    triggerServerEvents: function(events) {
-        console.log('--trigger--');
-        console.log(events);
-        
-        var self = this;
-        var e;
-        $.each(events, function(k, event) {
-            self.trigger(event.type, event);
-        });
+    url: function() {
+        return this._options.url;
     },
     _every: function(seconds, fn) {
         return setInterval(fn, seconds * 1000);
     },
     _cancelEvery: function(id) {
         clearInterval(id);
+    },
+    frequency: function() {
+        return this._options.frequency;
+    },
+    stopChecking: function() {
+        var id = this._pollVersionId;
+        if (id)
+            this._cancelEvery(id);
+
+        return this;
+    }
+});
+
+WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
+    Pusher: function() {
+        if (!this._pusher) {
+            this._pusher = new Pusher('23a32666914116c9b891');
+        }
+        return this._pusher;
+    }
+}, {
+    init: function(options) {
+        this._super(options);
+        this._options = _.defaults(this._options, {
+        });
+    },
+    openChannel: function() {
+        if (!this._channel) {
+            this._channel = this.Class.Pusher().subscribe(this.id());
+        }
+        this._channel.bind('datareceived', this.callback('ondatareceived'));
+    },
+    ondatareceived: function(version) {
+        if (version != this.eventsVersion()) {
+            this.trigger('eventsversionchanged');
+        }
     }
 });

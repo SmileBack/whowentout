@@ -12,6 +12,10 @@ class ServerChannel
         $this->ci->load->helper('serverchannel');
     }
 
+    function type() {
+        return $this->driver->channel_type();
+    }
+
     public function push($channel, $data)
     {
         return $this->driver->push($channel, $data);
@@ -25,6 +29,10 @@ class ServerChannel
     public function url($channel)
     {
         return $this->driver->url($channel);
+    }
+
+    function driver_config() {
+        return $this->driver_config();
     }
 
     function load_config()

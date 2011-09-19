@@ -11,45 +11,13 @@ class Js extends MY_Controller
             $this->json(array('success' => FALSE, 'error' => 'Not logged in.'));
 
         $response['application']['currentUserID'] = current_user()->id;
-        
         if (current_user()->college) {
             $user = current_user();
             $response['college'] = $user->college->to_array();
         }
 
-        if (is_array(post('user_ids'))) {
-            $user_ids = post('user_ids');
-    
-            foreach ($user_ids as $user_id) {
-                $user = user($user_id);
-                $response['users'][$user_id] = $user->to_array();
-                $response['users'][$user_id]['is_online'] = $user->is_online_to(current_user());
-            }
-        }
-        
-        $response['users'][ current_user()->id ] = current_user()->to_array(TRUE);
-        $response['users'][ current_user()->id ]['is_online'] = current_user()->is_online_to( current_user() );
-
-        $response['channels'] = array(
-            'current_user' => array(
-                'id' => 'user_159',
-                'url' => serverchannel()->url('user_159'),
-            ),
-        );
-        if ( is_array(post('party_ids')) ) {
-            $party_ids = post('party_ids');
-            foreach ($party_ids as $party_id) {
-                $party = party($party_id);
-                if ($party) {
-                    $channel_id = 'party_' . $party->id;
-                    $response['channels'][$channel_id] = array(
-                        'id' => $channel_id,
-                        'url' => serverchannel()->url($channel_id),
-                        'frequency' => 10,
-                    );
-                }
-            }
-        }
+        $this->load_users($response);
+        $this->load_channels($response);
 
         $response['request'] = post();
         $response['success'] = TRUE;
@@ -74,6 +42,48 @@ class Js extends MY_Controller
                              'success' => TRUE,
                              'user' => $user_data,
                         ));
+        }
+    }
+
+    private function load_users(&$response)
+    {
+        if (is_array(post('user_ids'))) {
+            $user_ids = post('user_ids');
+
+            foreach ($user_ids as $user_id) {
+                $user = user($user_id);
+                $response['users'][$user_id] = $user->to_array();
+                $response['users'][$user_id]['is_online'] = $user->is_online_to(current_user());
+            }
+        }
+
+        $response['users'][current_user()->id] = current_user()->to_array(TRUE);
+        $response['users'][current_user()->id]['is_online'] = current_user()->is_online_to(current_user());
+    }
+
+    private function load_channels(&$response)
+    {
+        $response['channels'] = array(
+            'current_user' => array(
+                'type' => serverchannel()->type(),
+                'id' => 'user_159',
+                'url' => serverchannel()->url('user_159'),
+            ),
+        );
+        if (is_array(post('party_ids'))) {
+            $party_ids = post('party_ids');
+            foreach ($party_ids as $party_id) {
+                $party = party($party_id);
+                if ($party) {
+                    $channel_id = 'party_' . $party->id;
+                    $response['channels'][$channel_id] = array(
+                        'type' => serverchannel()->type(),
+                        'id' => $channel_id,
+                        'url' => serverchannel()->url($channel_id),
+                        'frequency' => 10,
+                    );
+                }
+            }
         }
     }
 

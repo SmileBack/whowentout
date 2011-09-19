@@ -3,6 +3,10 @@
 class FilesystemServerChannelDriver extends ServerChannelDriver
 {
 
+    public function channel_type() {
+        return 'PollingChannel';
+    }
+
     public function push($id, $data)
     {
         $config = (object)$this->config;

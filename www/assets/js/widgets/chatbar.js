@@ -20,7 +20,7 @@ $.when(window.app.load()).then(function() {
         if ($('#chatbar').alreadyRestoredSavedState())
             $('#chatbar').saveState();
     });
-    
+
     $('#chatbar').entwine({
         loadMessages: function() {
             var self = this;
@@ -353,6 +353,16 @@ $.when(window.app.load()).then(function() {
                     }
                 }
             });
+        }
+    });
+
+    $('.chatbox.online').entwine({
+        onmatch: function() {
+            this._super();
+            this.notice('');
+        },
+        onunmatch: function() {
+            this._super();
         }
     });
 

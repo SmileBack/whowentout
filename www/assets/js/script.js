@@ -1,9 +1,17 @@
 $.when(app.load()).then(function() {
 
+    /*
+    var pusher = new Pusher('23a32666914116c9b891', {});
+    var channel = pusher.subscribe('user_159');
+    channel.bind('datareceived', function(data) {
+        console.log(data);
+    });
+    */
+
     app.channel('current_user').bind('user_changed_visibility', function(e) {
         $('.visibilitybar').markSelectedOption(e.visibility);
     });
-    
+
     $('.visibilitybar').entwine({
         onmatch: function() {
             var self = this;

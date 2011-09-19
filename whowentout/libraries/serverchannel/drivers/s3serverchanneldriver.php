@@ -5,6 +5,10 @@ class S3ServerChannelDriver extends ServerChannelDriver
 
     private $s3;
 
+    public function channel_type() {
+        return 'PollingChannel';
+    }
+
     public function push($channel, $data)
     {
         $config = (object)$this->config;

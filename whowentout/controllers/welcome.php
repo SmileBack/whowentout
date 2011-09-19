@@ -19,7 +19,6 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        var_dump(college()->checkins_begin_time(TRUE));
     }
 
 }
