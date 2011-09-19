@@ -192,14 +192,14 @@ function tomorrow_time() {
 
     $.event.special.imageload = {
         add: function(details) {
-            var self = $(this);
+            var self = this;
             var images = $(this).is('img') ? $(this) : $(this).find('img');
             var dfds = [];
             images.each(function() {
                 dfds.push( img_has_loaded( this ) );
             });
             $.when.apply(this, dfds).then(function() {
-                details.handler.call(this, {type: 'imageload'});
+                details.handler.call(self, {type: 'imageload'});
             });
         },
         remove: function(details) {

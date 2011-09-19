@@ -1,14 +1,14 @@
 $.when(window.app.load()).then(function() {
 
-    $('#current_user')
-    .live('chat_received', function(e) {
+    app.channel('current_user')
+    .bind('chat_received', function(e) {
         $.when($('#chatbar').loadMessages())
         .then(function() {
             $('#chatbar').addNewMessage(e.message);
             $('#chatbar').chatboxForMessage(e.message).show().scrollToBottom();
         });
     })
-    .live('chat_sent', function(e) {
+    .bind('chat_sent', function(e) {
         $.when($('#chatbar').loadMessages())
         .then(function() {
             $('#chatbar').addNewMessage(e.message);
@@ -237,7 +237,6 @@ $.when(window.app.load()).then(function() {
             return this.find('.chat_message.normal.unread').length;
         },
         markAsRead: function() {
-            console.log('markAsRead');
             $.ajax({
                 url: '/chat/mark_read',
                 type: 'post',
@@ -251,7 +250,6 @@ $.when(window.app.load()).then(function() {
             return this;
         },
         refreshUnreadCount: function() {
-            console.log('refreshUnreadCount');
             var count = this.unreadCount();
             var badge = this.find('.unread_count');
             badge.text(count);

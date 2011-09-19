@@ -71,6 +71,9 @@ WhoWentOut.Model.extend('WhoWentOut.User', {
     },
     visibleTo: function() {
         return this.get('visible_to');
+    },
+    thumbUrl: function() {
+        return this.get('thumb_url');
     }
 });
 

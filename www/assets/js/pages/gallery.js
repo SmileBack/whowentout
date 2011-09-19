@@ -1,26 +1,26 @@
 $.when(app.load()).then(function() {
 
-    $('#current_user')
-    .live('user_came_online', function(e) {
-        console.log('user came online ' + e.user.id);
+    app.channel('current_user')
+    .bind('user_came_online', function(e) {
+        console.log('channel user came online ' + e.user.id);
         WhoWentOut.User.get(e.user.id).isOnline(true);
     })
-    .live('user_went_offline', function(e) {
-        console.log('user went offline ' + e.user.id);
+    .bind('user_went_offline', function(e) {
+        console.log('channel user went offline ' + e.user.id);
         WhoWentOut.User.get(e.user.id).isOnline(false);
     })
-    .live('smile_received', function(e) {
+    .bind('smile_received', function(e) {
         var partyID = e.party.id;
         $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
     })
-    .live('smile_match', function(e) {
+    .bind('smile_match', function(e) {
         var partyID = e.party.id;
         $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
     })
-    .live('time_faked', function(e) {
+    .bind('time_faked', function(e) {
         window.location.reload(true);
     });
-
+    
     WhoWentOut.User.all().bind('itemchange', function(e) {
         if (e.key == 'is_online') {
             if (e.value == true) {
@@ -35,6 +35,11 @@ $.when(app.load()).then(function() {
     $('.gallery').entwine({
         onmatch: function() {
             this._super();
+
+            var self = this;
+            app.channel('party_' + this.partyID()).bind('checkin', function(e) {
+                self.insertAttendee(e.party_attendee_view, e.insert_positions);
+            });
         },
         onunmatch: function() {
             this._super();

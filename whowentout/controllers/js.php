@@ -30,6 +30,27 @@ class Js extends MY_Controller
         $response['users'][ current_user()->id ] = current_user()->to_array(TRUE);
         $response['users'][ current_user()->id ]['is_online'] = current_user()->is_online_to( current_user() );
 
+        $response['channels'] = array(
+            'current_user' => array(
+                'id' => 'user_159',
+                'url' => serverchannel()->url('user_159'),
+            ),
+        );
+        if ( is_array(post('party_ids')) ) {
+            $party_ids = post('party_ids');
+            foreach ($party_ids as $party_id) {
+                $party = party($party_id);
+                if ($party) {
+                    $channel_id = 'party_' . $party->id;
+                    $response['channels'][$channel_id] = array(
+                        'id' => $channel_id,
+                        'url' => serverchannel()->url($channel_id),
+                        'frequency' => 10,
+                    );
+                }
+            }
+        }
+
         $response['request'] = post();
         $response['success'] = TRUE;
         $this->json($response);

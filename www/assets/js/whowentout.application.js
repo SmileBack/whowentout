@@ -3,15 +3,13 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
         this._super();
 
         if (!window.console)
-            window.console = { log: function(){} };
+            window.console = { log: function() {} };
 
-        this.bind('load', this.callback('onload'));
         this.load();
-        
         $.when(this.load()).then(this.callback('onload'));
     },
     onload: function() {
-        $('body').append('<div id="chatbar" />');
+        this.initChatbar();
     },
     load: function() {
         var self = this;
@@ -25,7 +23,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
             url: '/js/app',
             type: 'post',
             dataType: 'json',
-            data: { user_ids: this.userIdsOnPage() },
+            data: { user_ids: this.userIdsOnPage(), party_ids: this.partyIdsOnPage() },
             success: function(response) {
                 console.log(response);
 
@@ -33,25 +31,50 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
                     self.set(k, v);
                 });
 
-                self._college = WhoWentOut.College.FromJson(response.college);
-
-                if (response.users) {
-                    _.each(response.users, function(userJson) {
-                        WhoWentOut.User.add( userJson  );
-                    });
-                }
+                self.loadCollege(response.college);
+                self.loadUsers(response.users);
+                self.loadChannels(response.channels);
 
                 self._loadDfd.resolve();
             }
         });
         return this._loadDfd.promise();
     },
+    loadCollege: function(collegeJson) {
+        this._college = WhoWentOut.College.FromJson(collegeJson);
+    },
+    loadUsers: function(users) {
+        if (users) {
+            _.each(users, function(userJson) {
+                WhoWentOut.User.add(userJson);
+            });
+        }
+    },
+    loadChannels: function(channels) {
+        if (channels) {
+            this._channels = {};
+            var curChannel = null;
+            _.each(channels, function(channelConfig, k) {
+                curChannel = new WhoWentOut.Channel(channelConfig);
+                this._channels[ k ] = curChannel;
+            }, this);
+        }
+    },
+    channel: function(id) {
+        return this._channels[id];
+    },
     userIdsOnPage: function() {
         var ids = [];
         $('.user').each(function() {
-            ids.push( $(this).attr('data-user-id') );
+            ids.push($(this).attr('data-user-id'));
         });
-        console.log('ids');console.log(ids);
+        return _.uniq(ids);
+    },
+    partyIdsOnPage: function() {
+        var ids = [];
+        $('.party').each(function() {
+            ids.push($(this).attr('data-party-id'));
+        });
         return _.uniq(ids);
     },
     college: function() {
@@ -61,7 +84,10 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
         return this.get('currentUserID');
     },
     currentUser: function() {
-        return WhoWentOut.User.get( this.currentUserID() );
+        return WhoWentOut.User.get(this.currentUserID());
+    },
+    initChatbar: function() {
+        $('body').append('<div id="chatbar" />');
     }
 });
 

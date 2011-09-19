@@ -1,4 +1,9 @@
 $.when(app.load()).then(function() {
+
+    app.channel('current_user').bind('user_changed_visibility', function(e) {
+        $('.visibilitybar').markSelectedOption(e.visibility);
+    });
+    
     $('.visibilitybar').entwine({
         onmatch: function() {
             var self = this;
@@ -79,8 +84,4 @@ $('a.confirm').entwine({
             e.preventDefault();
         }
     }
-});
-
-$('#current_user').live('user_changed_visibility', function(e) {
-    $('.visibilitybar').markSelectedOption(e.visibility);
 });

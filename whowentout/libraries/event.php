@@ -64,9 +64,11 @@ class CI_Event
         return $events;
     }
 
-    function version()
+    function version($channel)
     {
-        $row = $this->db->select_max('id')->from('events')->get()->row();
+        $row = $this->db->select_max('id')->from('events')
+                        ->where('channel', $channel)
+                        ->get()->row();
         return $row->id ? $row->id : 0;
     }
 

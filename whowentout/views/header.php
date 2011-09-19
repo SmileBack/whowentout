@@ -23,7 +23,6 @@
 <body id="<?= body_id() ?>">
 
 <?= load_view('js/wwo_view') ?>
-<?= load_view('js/current_user_view') ?>
 
 <div id="notice"></div>
 

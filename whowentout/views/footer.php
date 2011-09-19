@@ -21,6 +21,7 @@
     <?= js_asset('whowentout.component.js') ?>
     <?= js_asset('whowentout.hash.js') ?>
     <?= js_asset('whowentout.model.js') ?>
+    <?= js_asset('whowentout.channel.js') ?>
     <?= js_asset('whowentout.college.js') ?>
     <?= js_asset('whowentout.place.js') ?>
     <?= js_asset('whowentout.party.js') ?>
@@ -30,8 +31,6 @@
     <!--[if IE]>
     <?= js_asset('ie.js') ?>
     <![endif]-->
-
-    <?= js_asset('lib/serverevents.js') ?>
 
     <?= js_asset('widgets/jquery.autocomplete.js') ?>
     <?= js_asset('widgets/jquery.dialog.js') ?>

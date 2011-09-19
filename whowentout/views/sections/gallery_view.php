@@ -3,6 +3,7 @@ load_view('party_notices_view', array(
                                      'user' => $user,
                                      'party' => $party,
                                 )) ?>
+
     <div class="visibilitybar">
         <?php if ($party->chat_is_open()): ?>
         <h3>Who Can Chat With You?</h3>
@@ -33,10 +34,7 @@ load_view('party_notices_view', array(
 
 <h2 class="gallery_header"><?= $party->place->name ?> Attendees</h2>
 
-<div class="gallery serverevents"
-     channel-id="<?= 'party_' . $party->id ?>"
-     channel-url="<?= serverchannel_url('party', $party->id) ?>"
-     frequency="10"
+<div class="gallery party"
      data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>"
      data-smiles-left="<?= $smiles_left ?>"
      party-chat-is-open="<?= $party->chat_is_open() ? 'y' : 'n' ?>"
@@ -58,5 +56,8 @@ load_view('party_notices_view', array(
 </div>
 
 <?php if ($party->admin): ?>
-<p id="party_admin">Hosted by: <?= $party->admin->first_name; ?> <?= $party->admin->last_name; ?></p>
+    <p id="party_admin">
+        <span>Hosted by:</span>
+        <?= $party->admin->first_name; ?> <?= $party->admin->last_name; ?>
+    </p>
 <?php endif; ?>

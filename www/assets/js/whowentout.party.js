@@ -3,3 +3,9 @@ WhoWentOut.Model.extend('WhoWentOut.Party', {}, {
         this._super(attrs);
     }
 });
+
+$('.party').entwine({
+   partyID: function() {
+       return parseInt( this.attr('data-party-id') );
+   }
+});
