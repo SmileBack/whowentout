@@ -6,7 +6,10 @@ load_view('party_notices_view', array(
 
     <div class="visibilitybar">
         <?php if ($party->chat_is_open()): ?>
-        <h3>Who Can Chat With You?</h3>
+        <h3>
+            <span>Who Can Chat With You?</span>
+            <a class="who_can_chat help">?</a>
+        </h3>
         <div class="links">
             <a href="everyone" class="js">Everyone</a>
             <a href="friends" class="js">Facebook Friends</a>
@@ -15,6 +18,11 @@ load_view('party_notices_view', array(
         <?php else: ?>
         <p>Chat has closed.</p>
         <?php endif; ?>
+    </div>
+
+    <div class="invite_box">
+        <span>Send an anonymous invite!</span>
+        <a href="#invite_to_party" class="scroll">Click here</a>
     </div>
 
     <div class="sortbar">
@@ -32,7 +40,10 @@ load_view('party_notices_view', array(
         </ul>
     </div>
 
-<h2 class="gallery_header"><?= $party->place->name ?> Attendees</h2>
+<h2 class="gallery_header">
+    <span><?= $party->place->name ?> Attendees</span>
+    <span>(<?= date("l, M. jS", strtotime($party->date)) ?>)</span>
+</h2>
 
 <div class="gallery party"
      data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>"
@@ -40,6 +51,20 @@ load_view('party_notices_view', array(
      party-chat-is-open="<?= $party->chat_is_open() ? 'y' : 'n' ?>"
      party-chat-close-time="<?= $party->chat_close_time()->getTimestamp() ?>">
     <ul>
+        <li>
+            <div class="invite_picture">
+            </div>
+            <div class="invite_caption">
+                <?= form_open('party/invite') ?>
+
+                  <a id="invite_to_party"></a>
+                  <label class="inlined">Type name here</label>
+                  <input class="name autocomplete" value="Type name here" type="text" name="name" source="/college/students" extra_class="name" />
+                  <input class="submit_button" type="submit" value="Send Invite" />
+
+                <?= form_close() ?>
+            </div>
+        </li>
         <?php foreach ($party_attendees as $key => $attendee): ?>
         <li>
             <?=

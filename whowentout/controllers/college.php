@@ -7,6 +7,7 @@ class College extends MY_Controller
     {
         $q = $this->input->get('q');
         $college_id = college()->id;
+        $college_id = 1;
         $results = ci()->db->from('college_students')
                            ->where('college_id', $college_id)
                            ->like('student_full_name', $q, 'both')

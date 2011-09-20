@@ -75,15 +75,6 @@ jQuery(function($) {
 
 });
 
-$('a.help').entwine({
-    onmouseenter: function(e) {
-        this.notice('Smile is something you can do', ['bl', 'tr']);
-    },
-    onmouseleave: function(e) {
-        $('#notice').hide();
-    }
-});
-
 $('a.confirm').entwine({
     onclick: function(e) {
         var action = this.attr('action') || 'do this';
@@ -92,4 +83,10 @@ $('a.confirm').entwine({
             e.preventDefault();
         }
     }
+});
+
+$('#main_color').live('change', function() {
+    var color = $(this).val();
+    $('section h1, header').css('background-color', color);
+    $('section').css('border-color', color);
 });

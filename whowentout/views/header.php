@@ -30,6 +30,11 @@
     <?= current_time(TRUE)->format('D, M j g:i a') ?>
 </div>
 
+<div id="colors" style="position: fixed; top: 100px;">
+    <label>Main color</label>
+    <div><input id="main_color" /></div>
+</div>
+
 <div id="page">
 
     <header class="main">
@@ -52,12 +57,11 @@
         <nav>
 
             <?php if (logged_in()): ?>
-            <?= anchor('dashboard', 'My Dashboard')
-            ; ?>
+            <?= anchor('dashboard', 'My Dashboard', array('class' => 'dashboard_link')) ?>
             <?php endif; ?>
 
             <?php if (logged_in() && current_user()->is_admin()): ?>
-            <?= anchor('admin', 'Admin') ?>
+            <?= anchor('admin', 'Admin', array('class' => 'admin_link')) ?>
             <?php endif; ?>
 
             <?php if (logged_in()): ?>
@@ -70,9 +74,10 @@
 
     </header>
 
+    <?php if (get_message()): ?>
+        <div class="message">
+            <?= pull_message() ?>
+        </div>
+    <?php endif; ?>
+
     <div id="page_content">
-        <?php if (get_message()): ?>
-            <section class="message">
-                <?= pull_message() ?>
-            </section>
-        <?php endif; ?>

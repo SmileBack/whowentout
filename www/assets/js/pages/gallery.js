@@ -20,7 +20,7 @@ $.when(app.load()).then(function() {
     .bind('time_faked', function(e) {
         window.location.reload(true);
     });
-    
+
     WhoWentOut.User.all().bind('itemchange', function(e) {
         if (e.key == 'is_online') {
             if (e.value == true) {
@@ -166,41 +166,45 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.smile_help.help').entwine({
+    $('.help').entwine({
         onmouseenter: function() {
-            var message = '<p style="width: 400px;">You have 3 smiles to give at each party. '
-            + ' The people you smile at will know that someone has smiled at them,'
-            + ' but they will <strong>not</strong> know it was you unless they smile at you as well.</p>'
-            this.notice(message, 'r');
+            this.notice(this.helpMessage(), 'r');
         },
         onmouseleave: function() {
             $('#notice').hideNotice();
+        },
+        helpMessage: function() {
+            return '<p>Here is a placeholder help message.</p>';
+        }
+    });
+
+    $('.smile_help.help').entwine({
+        helpMessage: function() {
+            return '<p style="width: 400px;">You have 3 smiles to give at each party. '
+            + ' The people you smile at will know that someone has smiled at them,'
+            + ' but they will <strong>not</strong> know it was you unless they smile at you as well.</p>';
         }
     });
 
     $('.smiles_received_help.help').entwine({
-        onmouseenter: function() {
+        helpMessage: function() {
             var otherGender = app.currentUser().get('other_gender');
             var fullGenders = {M: 'guys', F: 'girls'};
 
-            var message = '<p style="width: 400px;">Here you will see the number of ' + fullGenders[otherGender] + ' who have smiled at you. However, you will not be informed of their identity unless you have smiled at them as well</p>';
-            this.notice(message, 'r');
-        },
-        onmouseleave: function() {
-            $('#notice').hideNotice();
+            return '<p style="width: 400px;">Here you will see the number of '
+            + fullGenders[otherGender]
+            + ' who have smiled at you. However, you will not be informed of their identity unless you have smiled at them as well</p>';
         }
     });
-
+    
     $('.mutual_smiles_help.help').entwine({
-        onmouseenter: function() {
+        helpMessage: function() {
             var otherGender = app.currentUser().get('other_gender');
             var fullGenders = {M: 'guy', F: 'girl'};
 
-            var message = '<p style="width: 400px;">If you and a ' + fullGenders[otherGender] + ' happen to smile at each other, you will be informed of their identity here</p>';
-            this.notice(message, 'r');
-        },
-        onmouseleave: function() {
-            $('#notice').hideNotice();
+            return '<p style="width: 400px;">If you and a '
+            + fullGenders[otherGender]
+            + ' happen to smile at each other, you will be informed of their identity here</p>';
         }
     });
 

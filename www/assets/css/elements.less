@@ -52,6 +52,7 @@ button {
 label {
   font-weight: bold;
   margin: 0 10px 0 0;
+  z-index: 1;
 }
 
 input {
@@ -92,6 +93,8 @@ strong { text-decoration: underline; }
   .shadow(1px, 1px, 3px, 0px, #dedede);
   font-weight: bold;
   text-align: center;
+  margin: 20px auto 0 auto;
+  width: 95%;
 }
 
 .missing input, .missing select {
@@ -194,7 +197,7 @@ form {
     display: inline-block;
     text-indent: -9999px;
     line-height: @size;
-    background: url(../images/question_mark_dark.png) no-repeat center;
+    background: url(../images/question_mark.png) no-repeat center;
 }
 
 .serverinbox { display: none; }
@@ -217,5 +220,23 @@ form {
     top: 0;
     .opacity(0);
     font-size: 100px;
+    z-index: 2;
+}
+
+label.inlined {
+    text-align: left;
+    display: block;
+    margin: 0;
+    position: relative;
+    padding-left: 10px;
+    z-index: 1;
+    color: #444;
+}
+
+label.inlined + input {
+    position: relative;
+    margin-top: -31px;
+    background-color: transparent;
+    position: relative;
     z-index: 2;
 }

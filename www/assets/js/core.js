@@ -255,6 +255,19 @@ $.fn.hiddenDimensions = function(includeMargin) {
     });
 }
 
+$.fn.scrollTo = function() {
+    $('html,body').animate({
+        scrollTop: $(this).offset().top}, 'slow');
+    return this;
+}
+
+$('a.scroll').entwine({
+   onclick: function(e) {
+       e.preventDefault();
+       $( this.attr('href') ).scrollTo();
+   }
+});
+
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)')
     .exec(window.location.search);
