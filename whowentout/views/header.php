@@ -29,6 +29,9 @@
 
 <div id="notice"></div>
 
+<ul id="notifications">
+</ul>
+
 <div id="current_time" class="current_time">
     <?= current_time(TRUE)->format('D, M j g:i a') ?>
 </div>

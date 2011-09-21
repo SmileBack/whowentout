@@ -19,7 +19,7 @@ class PushEventsPlugin
                                                   'receiver' => $e->receiver->to_array(),
                                                   'message' => $e->message,
                                              ));
-        serverchannel()->push($channel, $this->ci->event->version($channel));
+        $this->alert_channel($channel);
     }
 
     function on_chat_received($e)
@@ -31,7 +31,7 @@ class PushEventsPlugin
                                                       'receiver' => $e->receiver->to_array(),
                                                       'message' => $e->message,
                                                  ));
-        serverchannel()->push($channel, $this->ci->event->version($channel));
+        $this->alert_channel($channel);
     }
 
     /**
@@ -51,7 +51,7 @@ class PushEventsPlugin
                                                                                                                'attendee' => $e->user,
                                                                                                           )),
                                            ));
-        serverchannel()->push($channel, $this->ci->event->version($channel));
+        $this->alert_channel($channel);
     }
 
     //$e->user just came online
@@ -74,7 +74,7 @@ class PushEventsPlugin
                                                              'channel' => $channel,
                                                              'user' => $user,
                                                         ));
-            serverchannel()->push($channel, $this->ci->event->version($channel));
+            $this->alert_channel($channel);
         }
     }
 
@@ -93,7 +93,7 @@ class PushEventsPlugin
                                                               'channel' => $channel,
                                                               'user' => $user,
                                                          ));
-            serverchannel()->push($channel, $this->ci->event->version($channel));
+            $this->alert_channel($channel);
         }
     }
 
@@ -117,7 +117,7 @@ class PushEventsPlugin
                                                        'party' => $e->smile->party->to_array(),
                                                        'party_notices_view' => $party_notices_view,
                                                   ));
-        serverchannel()->push($channel, $this->ci->event->version($channel));
+        $this->alert_channel($channel);
     }
 
     /**
@@ -137,7 +137,7 @@ class PushEventsPlugin
                                                     'party' => $e->match->second_smile->party->to_array(),
                                                     'party_notices_view' => $party_notices_view,
                                                ));
-        serverchannel()->push($channel, $this->ci->event->version($channel));
+        $this->alert_channel($channel);
     }
 
     function on_user_changed_visibility($e)
@@ -148,7 +148,7 @@ class PushEventsPlugin
                                                                 'user' => $e->user->to_array(),
                                                                 'visibility' => $e->user->visible_to,
                                                            ));
-        serverchannel()->push($channel, $this->ci->event->version($channel));
+        $this->alert_channel($channel);
     }
 
     function on_time_faked($e)
@@ -160,8 +160,23 @@ class PushEventsPlugin
                                                        'fake_time' => $e->fake_time,
                                                        'real_time' => $e->real_time,
                                                   ));
-            serverchannel()->push($channel, $this->ci->event->version($channel));
+            $this->alert_channel($channel);
         }
+    }
+
+    function on_notification_sent($e)
+    {
+        $channel = 'user_' . $e->user->id;
+        $this->ci->event->store('notification', array(
+                                                  'channel' => $channel,
+                                                  'notification' => $e->notification,
+                                                ));
+        $this->alert_channel($channel);
+    }
+
+    private function alert_channel($channel)
+    {
+        serverchannel()->push($channel, $this->ci->event->version($channel));
     }
 
 }

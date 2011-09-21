@@ -194,6 +194,7 @@ class User extends MY_Controller
 
         $user->smile_at($receiver_id, $party_id);
         set_message("Smiled at $receiver->full_name");
+        $this->jsaction->HighlightSmilesLeft(3000);
 
         redirect("party/$party_id");
     }

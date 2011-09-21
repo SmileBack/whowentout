@@ -1,10 +1,10 @@
-    </div> <!-- page_content end -->
+</div> <!-- page_content end -->
 
 </div> <!-- page end -->
 
 <?php if (TRUE): ?>
     <script src="http://js.pusherapp.com/1.9/pusher.min.js" type="text/javascript"></script>
-     
+
     <?= js_asset('lib/date.format.js') ?>
     <?= js_asset('lib/timeinterval.js') ?>
     <?= js_asset('lib/json.js') ?>
@@ -32,13 +32,14 @@
     <?= js_asset('whowentout.party.js') ?>
     <?= js_asset('whowentout.user.js') ?>
     <?= js_asset('whowentout.application.js') ?>
-    
-    <!--[if IE]>
+
+<!--[if IE]>
     <?= js_asset('ie.js') ?>
-    <![endif]-->
+<![endif]-->
 
     <?= js_asset('widgets/jquery.autocomplete.js') ?>
     <?= js_asset('widgets/jquery.dialog.js') ?>
+    <?= js_asset('widgets/jquery.notifications.js') ?>
     <?= js_asset('widgets/chatbar.js') ?>
 
     <?= js_asset('core.js') ?>
@@ -50,6 +51,13 @@
     <?= js_asset('pages/editinfo.js') ?>
 
     <?= js_asset('script.js') ?>
+
+    <?= js_asset('lib/jsaction.js') ?>
+    <?= js_asset('actions.js') ?>
+    <?php if (isset($this->jsaction)): ?>
+        <?= $this->jsaction->run() ?>
+    <?php endif; ?>
+    
 <?php endif; ?>
 
 </body>

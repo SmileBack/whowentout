@@ -19,7 +19,7 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        update_facebook_friends(current_user(), TRUE);
+        $this->notification->send($ven, 'wassup');
     }
-
+    
 }

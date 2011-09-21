@@ -36,9 +36,14 @@ class MY_Controller extends CI_Controller
         print $json_response;exit;
     }
 
-    protected function json_success()
+    protected function json_success($message = '')
     {
-        $this->json(array('success' => TRUE));
+        $this->json(array('success' => TRUE, 'message' => $message));
+    }
+
+    protected function json_failure($error = '')
+    {
+        $this->json(array('success' => FALSE, 'error' => $error));
     }
 
 }
