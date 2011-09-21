@@ -1,4 +1,4 @@
-<?php
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Js extends MY_Controller
 {
@@ -63,13 +63,17 @@ class Js extends MY_Controller
 
     private function load_channels(&$response)
     {
-        $response['channels'] = array(
-            'current_user' => array(
+        $response['channels'] = array();
+
+        if (logged_in()) {
+            $current_user_channel = 'user_' . current_user()->id;
+            $response['channels']['current_user'] = array(
                 'type' => serverchannel()->type(),
-                'id' => 'user_159',
-                'url' => serverchannel()->url('user_159'),
-            ),
-        );
+                'id' => $current_user_channel,
+                'url' => serverchannel()->url($current_user_channel),
+            );
+        }
+
         if (is_array(post('party_ids'))) {
             $party_ids = post('party_ids');
             foreach ($party_ids as $party_id) {

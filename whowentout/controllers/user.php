@@ -1,4 +1,4 @@
-<?php
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 define('ANONYMOUS_CHECKIN_STATE', 1);
 define('LOGIN_LINK_STATE', 2);

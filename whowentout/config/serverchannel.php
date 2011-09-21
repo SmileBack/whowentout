@@ -1,6 +1,9 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['serverchannel']['active_group'] = 'phpfog';
+$config['serverchannel']['active_group'] = 'pusher';
+
+if (getenv('serverchannel_active_group') != NULL)
+    $config['serverchannel']['active_group'] = getenv('serverchannel_active_group');
 
 $config['serverchannel']['pusher'] = array(
     'driver' => 'pusher',

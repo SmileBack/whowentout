@@ -20,6 +20,7 @@ class PusherServerChannelDriver extends ServerChannelDriver
 
     public function url($id)
     {
+        return '';
     }
 
     /**
