@@ -1,4 +1,4 @@
-@primary_color: #7d1729;//#9F1D35;
+@primary_color: #011322;//#9F1D35;
 @primary_text_color: white;
 
 @bar_color: @primary_color;
@@ -57,7 +57,7 @@ section {
       font-weight: normal;
   }
   .section_body {
-    margin: 25px 25px 15px 25px;
+    margin: 15px 25px;
     overflow: hidden;
   }
 }
@@ -129,7 +129,7 @@ header {
   nav {
     float: right;
     margin-top: 16px;
-    font-size: 19px;
+    font-size: 16px;
     a {
       display: inline-block;
       text-decoration: none;
@@ -165,6 +165,10 @@ header {
   width: 65%;
   height: 260px;
   h2 { font-size: 150%; }
+  h3 .remaining_time {
+    float: right;
+    margin-right: 20px;
+  }
   #checkin_form { margin: 0; }
   .recent_attendees {
     .horizontal_gallery;
@@ -218,7 +222,7 @@ header {
 
 .horizontal_sections {
     overflow:  hidden;
-    > div {
+    > * {
       float: left;
       width: 33%;
       border-right:  1px solid @light_border_color;
@@ -238,24 +242,31 @@ header {
   float: left;
   clear: both;
   .help { display: none; }
-  .parties_attended {
-      .horizontal_sections;
-      .party_summary > .body {
-        height: 150px;
-      }
-      .place {
-           border:  1px solid @light_border_color;
-           padding: 4px 8px;
-           width: 85%;
-      }
-  }
+   .party_summary {
+       margin-bottom: 20px;
+       padding-bottom: 20px;
+       border-bottom: 1px solid @border_color;
+       &:last-child {
+           margin-bottom: 0;
+           padding-bottom: 0;
+           border-bottom: none;
+       }
+       h2 > * {
+         display: inline-block;
+       }
+   }
   .party_notices {
+    overflow: hidden;
+    > * {
+        float: left;
+    }
     margin: 0;
     .smiles_left {
-      width: 200px;
+      margin-left: 15px;
+      width: 210px;
       .smile.help { display: none; }
     }
-    .smiles_received { width: 200px; }
+    .smiles_received { width: 210px; }
     .smile_matches {
             
     }
@@ -265,7 +276,6 @@ header {
 #checkin_form {
   display: inline-block;
   margin-right: 10px;
-  select { margin-right: 10px; }
 }
 
 .closing_time {
@@ -397,7 +407,7 @@ table td, table th {
 
 .bullet {
   background-image: url(../images/bullet_red.png);
-  padding-left: 20px;
+  padding-left: 25px;
   line-height: 20px;
   background-repeat: no-repeat;
   background-position: 0 50%;
@@ -408,14 +418,20 @@ table td, table th {
   .smiles_received {
     .bullet;
     background-image: url(../images/smiley_icon.png);
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
   .smiles_left {
     .bullet;
     background-image: url(../images/smiley_icon.png);
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
   .smile_matches > li {
     .bullet;
     background-image: url(../images/smiley_icon.png);
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 }
 
@@ -455,12 +471,12 @@ table td, table th {
       }
       > :first-child { margin-top: 0px; }
   }
-  .invite_box {
+  .invite_to_party_box {
     .infobox;
     float: right;
     clear: right;
-    padding: 10px;
-    margin: 10px 0 10px 10px;
+    margin: 10px;
+    padding:  10px;
   }
   .sortbar {
       float: right;
@@ -480,16 +496,6 @@ table td, table th {
       clear: both;
       margin: 0 auto;
       overflow: hidden;
-      .invite_picture {
-        width: 148px;
-        height: 200px;
-        background: url(../images/person.png) no-repeat center;
-        .infobox;
-      }
-      .invite_caption {
-        text-align: center;
-        input { width: 146px; }
-      }
       > li { margin: 13px; height: 310px; width: 150px; overflow: hidden; float: left; }
       .party_attendee {
         .full_name {
@@ -529,4 +535,20 @@ form .hometown {
 
 .party_attendee {
   .caption { text-align: center; }
+}
+
+#party_invite_form {
+  input {
+    float: left;
+  }
+  .name.autocomplete {
+    border: 3px solid;
+  }
+  .name.autocomplete_selection {
+    float: left;
+  }
+  .submit_button {
+    float: left;
+    padding: 3px;
+  }
 }

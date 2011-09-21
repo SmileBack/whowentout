@@ -1,6 +1,12 @@
-<?=
-load_section_view('last_night_view', 'Where Did You Go Out Last Night?', array(
-                                                                              'description' => 'This section allows you to check in to the party you attended the night before.',
+<?php
+if (college()->doors_are_open()) {
+    $timer = '<span class="remaining_time"></span>';
+}
+?>
+
+<?= load_section_view('last_night_view', 'Where Did You Go Out Last Night?', array(
+                                                                              'description' => 'This section allows you to check in to the party you attended the night before.'
+                                                                              . $timer,
                                                                          ))
 ; ?>
 
@@ -10,8 +16,8 @@ load_section_view('my_info_view', 'My Info', array(
                                              ))
 ; ?>
 
-<?= load_section_view('parties_attended_view', "Parties I've Attended This Week", array(
-                                                 'description' => 'This section displays all the parties you have checked in to.',
+<?= load_section_view('parties_attended_view', "Parties I've Recently Attended", array(
+                                                 'description' => 'This section parties you have recently checked into.',
                                                                                   ))
 ; ?>
 

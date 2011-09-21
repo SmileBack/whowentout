@@ -40,6 +40,10 @@ class Party extends MY_Controller
                     ));
     }
 
+    function invite() {
+        var_dump(post());
+    }
+
     function _get_sort()
     {
         $possible_sorts = array('checkin_time', 'name', 'gender');

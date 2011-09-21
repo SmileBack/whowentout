@@ -4,7 +4,9 @@
     <h1><?= $title ?></h1>
 
     <?php if (isset($vars['description'])): ?>
-    <h3><?= $vars['description'] ?></h3>
+    <h3>
+        <?= $vars['description'] ?>
+    </h3>
     <?php endif; ?>
         
   <?php endif; ?>

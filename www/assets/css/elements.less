@@ -34,7 +34,7 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: normal;
   margin: 0 0 10px 0;
   padding: 6px 0px 6px 10px ;
@@ -223,20 +223,40 @@ form {
     z-index: 2;
 }
 
+
 label.inlined {
-    text-align: left;
     display: block;
     margin: 0;
     position: relative;
-    padding-left: 10px;
     z-index: 1;
     color: #444;
 }
 
 label.inlined + input {
     position: relative;
-    margin-top: -31px;
     background-color: transparent;
-    position: relative;
+    margin-top: -33px;
     z-index: 2;
+}
+
+label.inlined {
+    .opacity(0);
+}
+
+label.inlined.empty {
+    .opacity(1);
+}
+
+label.inlined.focused {
+    .opacity(0);
+}
+
+label.inlined.focused.empty {
+    .opacity(0.4);
+}
+
+h3 .remaining_time, .doors_message {
+  background: url(../images/clock.png) no-repeat 2px 50%;
+  padding-left: 22px;
+  line-height: 16px;
 }

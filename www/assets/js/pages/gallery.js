@@ -143,14 +143,21 @@ $.when(app.load()).then(function() {
         }
     });
 
+
     $('.gallery .party_attendee').entwine({
         onmatch: function() {
             this._super()
             var smileButtonClass = this.closest('.gallery').smilesLeft() > 0 ? 'can' : 'cant';
             this.find('.smile_form .submit_button').addClass(smileButtonClass);
+            this.fixLongName();
         },
         onunmatch: function() {
             this._super()
+        },
+        fixLongName: function() {
+            if (this.find('.full_name').is(':wraps')) {
+                this.find('.full_name').truncateText(120);
+            }
         }
     });
 
@@ -191,12 +198,12 @@ $.when(app.load()).then(function() {
             var otherGender = app.currentUser().get('other_gender');
             var fullGenders = {M: 'guys', F: 'girls'};
 
-            return '<p style="width: 400px;">Here you will see the number of '
+            return '<p style="width: 400px;">You will see the number of '
             + fullGenders[otherGender]
             + ' who have smiled at you. However, you will not be informed of their identity unless you have smiled at them as well</p>';
         }
     });
-    
+
     $('.mutual_smiles_help.help').entwine({
         helpMessage: function() {
             var otherGender = app.currentUser().get('other_gender');
@@ -208,4 +215,11 @@ $.when(app.load()).then(function() {
         }
     });
 
+    $('.who_can_chat.help').entwine({
+        helpMessage: function() {
+            return '<p>Select who can send you chat messages!</p>'
+            + '<p>Users who are online will have a green circle to the right of their name.</p>';
+        }
+    });
+    
 });

@@ -21,16 +21,21 @@ form_open('checkin', array(
 <?php elseif (college()->doors_are_open()): ?>
 
     <?php if (logged_in() && current_user()->has_attended_party_on_date($yesterday)): ?>
+
         You attended <?= anchor("party/$party->id", $party->place->name) ?>. Here are the most recent check-ins.
         <?= load_view('recent_attendees_view', array('party' => $party)) ?>
+            
     <?php else: ?>
         <?= parties_dropdown($open_parties) ?>
         <button type="submit">check in</button>
         <span class="closing_time doors_open" time="<?= college()->get_closing_time()->getTimestamp() ?>">
 
-            Doors will close for check-in at
+            <span class="doors_message">Doors will close for check-in at
             <?= college()->get_closing_time(TRUE)->format('g a') ?>
-            [ in <span class="remaining_time"></span> ]
+            </span>
+
+            ( in <span class="remaining_time"></span> )
+            
         </span>
     <?php endif; ?>
 
@@ -42,8 +47,10 @@ form_open('checkin', array(
     <span class="closing_time doors_closed"
           time="<?= college()->get_closing_time()->getTimestamp() ?>">
 
+        <span class="doors_message">
             Doors will open for check-in at
-        <?= college()->get_opening_time(TRUE)->format('g a') ?>
+            <?= college()->get_opening_time(TRUE)->format('g a') ?>
+        </span>
 
     </span>
 

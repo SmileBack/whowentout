@@ -14,6 +14,9 @@
     <?= css_asset('jquery.jcrop') ?>
 
     <?= less_asset('style') ?>
+    <!--[if IE]>
+    <?= less_asset('ie') ?>
+    <![endif]-->
 
     <?= js_asset('lib/less.js') ?>
     <?= js_asset('lib/modernizr.js') ?>
@@ -41,7 +44,7 @@
 
         <div id="logo">
             <a href="/">
-                <img src="/assets/images/logo_small.png"/>
+                <img src="/assets/images/logo_small.png?version=5"/>
             </a>
             <?php if (FALSE): ?>
             (

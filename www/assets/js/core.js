@@ -109,7 +109,7 @@ $('#wwo').entwine({
         .setButtons('close').showDialog('friends_popup');
         WWO.dialog.refreshPosition();
         WWO.dialog.find('.dialog_body').load(path, function() {
-            var count = WWO.dialog.find('.mutual_friends').attr('count');
+            var count = WWO.dialog.find('.mutual_friends').attr('count') || 0;
             WWO.dialog.title(WWO.dialog.title() + ' (' + count + ')');
             WWO.dialog.refreshPosition();
         });
@@ -172,7 +172,7 @@ function tomorrow_time() {
 }
 
 (function ($) {
-    
+
     function img_has_loaded(imgEl) {
         var dfd = $.Deferred();
 
@@ -196,7 +196,7 @@ function tomorrow_time() {
             var images = $(this).is('img') ? $(this) : $(this).find('img');
             var dfds = [];
             images.each(function() {
-                dfds.push( img_has_loaded( this ) );
+                dfds.push(img_has_loaded(this));
             });
             $.when.apply(this, dfds).then(function() {
                 details.handler.call(self, {type: 'imageload'});
@@ -205,12 +205,12 @@ function tomorrow_time() {
         remove: function(details) {
         }
     };
-    
+
 })(jQuery);
 
 $.fn.whenShown = function(fn) {
     var props = { position: 'absolute', visibility: 'hidden', display: 'block' },
-    hiddenParents = this.parents().andSelf().not(':visible');
+    hiddenParents = $(this).parents().andSelf().not(':visible');
 
     //set style for hidden elements that allows computing
     var oldProps = [];
@@ -238,6 +238,73 @@ $.fn.whenShown = function(fn) {
     return result;
 }
 
+$.fn.textWidth = function(text) {
+    return $(this).textSize(text).width;
+}
+
+$.fn.textHeight = function(text) {
+    return $(this).textSize(text).height;
+}
+
+$.fn.textSize = function(text) {
+    var el = $(this);
+    var h = 0, w = 0;
+
+    var div = document.createElement('div');
+    document.body.appendChild(div);
+    $(div).css({
+        position: 'absolute',
+        left: -1000,
+        top: -1000,
+        margin: 0,
+        padding: 0,
+        display: 'none'
+    });
+
+    $(div).html(text);
+    var styles = ['font-size','font-style', 'font-weight', 'font-family','line-height', 'text-transform', 'letter-spacing'];
+    for (var k = 0; k < styles.length; k++)
+        $(div).css(styles[k], el.css(styles[k]));
+
+    h = $(div).outerHeight();
+    w = $(div).outerWidth();
+
+    $(div).remove();
+
+    return {height: h, width: w};
+}
+
+$.fn.truncateText = function(maxWidth) {
+    var text = $.trim( $(this).text() );
+    var truncatedText = text;
+    var truncatedTextWidth;
+    
+    for (var i = text.length - 1; i > 3; i--) {
+        truncatedText = text.substring(0, i);
+        truncatedTextWidth = $(this).textWidth(truncatedText);
+        if (truncatedTextWidth < maxWidth)
+            break;
+    }
+    truncatedText += '&hellip;';
+    this.html(truncatedText);
+}
+
+$.expr[':'].wraps = function(obj, index, meta, stack) {
+
+    // dummy element to calculate height
+    var el = $(obj).clone();
+    el.css({
+        position: 'absolute',
+        left: '-1000px' // position far off-screen
+    });
+    el.text('A');
+    $('body').append(el);
+
+    var height = el.height();
+    el.remove();
+    return $(obj).height() > height;
+};
+
 //Optional parameter includeMargin is used when calculating outer dimensions
 $.fn.hiddenDimensions = function(includeMargin) {
     return this.whenShown(function() {
@@ -262,10 +329,41 @@ $.fn.scrollTo = function() {
 }
 
 $('a.scroll').entwine({
-   onclick: function(e) {
-       e.preventDefault();
-       $( this.attr('href') ).scrollTo();
-   }
+    onclick: function(e) {
+        e.preventDefault();
+        $(this.attr('href')).scrollTo();
+    }
+});
+
+$('label.inlined + input').entwine({
+    onmatch: function() {
+        this._super();
+        this.updateEmpty();
+    },
+    onunmatch: function() {
+        this._super();
+    },
+    onkeyup: function() {
+        this.updateEmpty();
+    },
+    onfocusin: function() {
+        this.prev().addClass('focused');
+        this.addClass('focused');
+    },
+    onfocusout: function() {
+        this.prev().removeClass('focused');
+        this.removeClass('focused');
+    },
+    updateEmpty: function() {
+        if (this.val() == '') {
+            this.prev().addClass('empty');
+            this.addClass('empty');
+        }
+        else {
+            this.prev().removeClass('empty');
+            this.removeClass('empty');
+        }
+    }
 });
 
 function getParameterByName(name) {

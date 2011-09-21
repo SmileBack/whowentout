@@ -13,13 +13,13 @@
     <ul class="smile_matches <?= empty($matches) ? 'empty' : '' ?>">
         <?php if (empty($matches)): ?>
             <li>
-                <span>Any mutual smiles will appear here.</span>
+                <span>Any mutual smiles will appear here</span>
                 <a class="mutual_smiles_help help">?</a>
             </li>
         <?php else: ?>
             <? foreach ($user->matches($party) as $match): ?>
             <li>
-                You and <?= $match->other_user($user)->full_name ?> have smiled at each other!
+                You and <?= $match->other_user($user)->abbreviated_name ?> smiled at each other!
                 <?= $match->other_user($user)->anchor_facebook_message() ?>
             </li>
             <? endforeach; ?>

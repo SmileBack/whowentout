@@ -20,11 +20,11 @@ load_view('party_notices_view', array(
         <?php endif; ?>
     </div>
 
-    <div class="invite_box">
-        <span>Send an anonymous invite!</span>
-        <a href="#invite_to_party" class="scroll">Click here</a>
+    <div class="invite_to_party_box">
+        <span>Invite to party.</span>
+        <a href="#invite_to_party" class="scroll">Click Here</a>
     </div>
-
+    
     <div class="sortbar">
         <h3>Sort by:</h3>
         <ul>
@@ -51,20 +51,6 @@ load_view('party_notices_view', array(
      party-chat-is-open="<?= $party->chat_is_open() ? 'y' : 'n' ?>"
      party-chat-close-time="<?= $party->chat_close_time()->getTimestamp() ?>">
     <ul>
-        <li>
-            <div class="invite_picture">
-            </div>
-            <div class="invite_caption">
-                <?= form_open('party/invite') ?>
-
-                  <a id="invite_to_party"></a>
-                  <label class="inlined">Type name here</label>
-                  <input class="name autocomplete" value="Type name here" type="text" name="name" source="/college/students" extra_class="name" />
-                  <input class="submit_button" type="submit" value="Send Invite" />
-
-                <?= form_close() ?>
-            </div>
-        </li>
         <?php foreach ($party_attendees as $key => $attendee): ?>
         <li>
             <?=

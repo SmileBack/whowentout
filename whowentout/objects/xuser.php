@@ -85,6 +85,10 @@ class XUser extends XObject
         return "$this->first_name $this->last_name";
     }
 
+    function get_abbreviated_name() {
+        return $this->first_name . ' ' . ucfirst(substr($this->last_name, 0, 1)) . '.';
+    }
+
     function needs_to_edit_profile()
     {
         return $this->never_edited_profile()
@@ -507,15 +511,16 @@ class XUser extends XObject
         return party($row->id);
     }
 
-    function get_recently_attended_parties()
+    function recently_attended_parties()
     {
         $cutoff = $this->college->day(-7, TRUE);
         $rows = $this->db()
                 ->select('party_id AS id')
                 ->from('party_attendees')
                 ->join('parties', 'party_attendees.party_id = parties.id')
+                ->order_by('date', 'desc')
                 ->where('user_id', $this->id)
-                ->where('date >', date_format($cutoff, 'Y-m-d'));
+                ->where('date >', $cutoff->format('Y-m-d') );
         return $this->load_objects('XParty', $rows);
     }
 
@@ -529,7 +534,7 @@ class XUser extends XObject
         if ($count != 1)
             $smiles .= 's'; //pluralize
 
-        return "$count $smiles received at this party";
+        return "$count $smiles received (at this party)";
     }
 
     function smiles_left_message($party)
@@ -542,7 +547,7 @@ class XUser extends XObject
         if ($smiles_left != 1)
             $smiles = $smiles . 's';
 
-        return "$smiles_left $smiles left to give at this party";
+        return "$smiles_left $smiles left to give (at this party)";
     }
 
     /**
