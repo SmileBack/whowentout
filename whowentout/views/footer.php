@@ -9,6 +9,9 @@
     <?= js_asset('lib/timeinterval.js') ?>
     <?= js_asset('lib/json.js') ?>
 
+    <?= js_asset('lib/soundmanager2-nodebug.js') ?>
+    <?= js_asset('lib/soundmanager2.config.js') ?>
+
     <?= js_asset('lib/jquery.js') ?>
     <?= js_asset('lib/underscore.js') ?>
     <?= js_asset('lib/jquery.jstorage.js') ?>

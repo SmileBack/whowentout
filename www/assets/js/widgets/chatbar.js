@@ -15,6 +15,11 @@ $.when(window.app.load()).then(function() {
         });
     });
 
+    app.channel('current_user')
+    .bind('chat_received', function(e) {
+        app.playSound();
+    });
+
     $(window).bind('beforeunload', function() {
         // if the chatbar hasn't restored a state yet it might be too early to do anything
         if ($('#chatbar').alreadyRestoredSavedState())

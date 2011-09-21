@@ -3,7 +3,8 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
         this._super();
 
         if (!window.console)
-            window.console = { log: function() {} };
+            window.console = { log: function() {
+            } };
 
         this.load();
         $.when(this.load()).then(this.callback('onload'));
@@ -38,6 +39,9 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
                 self._loadDfd.resolve();
             }
         });
+
+        this.loadSounds();
+
         return this._loadDfd.promise();
     },
     loadCollege: function(collegeJson) {
@@ -59,6 +63,18 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
                 this._channels[ k ] = curChannel;
             }, this);
         }
+    },
+    loadSounds: function() {
+        var self = this;
+        soundManager.onready(function() {
+            self._dingSound = soundManager.createSound({
+                id: 'dingSound',
+                url: '/assets/sounds/ding.mp3',
+                autoLoad: true,
+                autoPlay: false,
+                volume: 50
+            });
+        });
     },
     channel: function(id) {
         return this._channels[id];
@@ -88,6 +104,9 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
     },
     initChatbar: function() {
         $('body').append('<div id="chatbar" />');
+    },
+    playSound: function() {
+        this._dingSound.play();
     }
 });
 

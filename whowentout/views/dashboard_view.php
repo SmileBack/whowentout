@@ -1,7 +1,5 @@
 <?php
-if (college()->doors_are_open()) {
-    $timer = '<span class="remaining_time"></span>';
-}
+$timer = college()->doors_are_open() ? '<span class="remaining_time"></span>' : '';
 ?>
 
 <?= load_section_view('last_night_view', 'Where Did You Go Out Last Night?', array(
