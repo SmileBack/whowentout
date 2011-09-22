@@ -160,6 +160,38 @@ class XParty extends XObject
         return $local ? $this->college->make_local($dt) : make_gmt($dt);
     }
 
+    function send_invitation($from, $student_id)
+    {
+        $from = user($from);
+
+        $student = $this->db()->from('college_students')
+                              ->where('id', $student_id)
+                              ->get()->row();
+
+        if (!$from || !$student)
+            return FALSE;
+
+        $receiver = array(
+          'full_name' => $student->student_full_name,
+          'email' => $student->student_email,
+        );
+
+        $this->db()->insert('party_invitations', array(
+                                                 'created_at' => current_time()->format('Y-m-d H:i:s'),
+                                                 'party_id' => $this->id,
+                                                 'sender_id' => $from->id,
+                                                 'college_student_id' => $student->id,
+                                               ));
+
+        raise_event('party_invite_sent', array(
+                                         'party' => $this,
+                                         'sender' => $from,
+                                         'receiver' => (object)$receiver,
+                                       ));
+
+        return TRUE;
+    }
+
     function to_array()
     {
         return array(

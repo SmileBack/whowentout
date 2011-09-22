@@ -287,4 +287,10 @@ function curl_file_get_contents($url)
         return FALSE;
 }
 
+function first_name($full_name)
+{
+    $parts = preg_split('/\s+/', $full_name);
+    return $parts[0];
+}
+
 

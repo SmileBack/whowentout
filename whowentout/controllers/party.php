@@ -41,7 +41,23 @@ class Party extends MY_Controller
     }
 
     function invite() {
-        var_dump(post());
+        if (!logged_in())
+            show_error('You must be logged in.');
+        
+        $college_student_id = post('name');
+        $party_id = post('party_id');
+
+        $party = party($party_id);
+
+        if (!$party) {
+            set_message("Party with id $party_id doesn't exist.");
+            redirect('/');
+        }
+
+        $party->send_invitation(current_user(), $college_student_id);
+        set_message('Sent invitation');
+        
+        redirect("party/$party->id");
     }
 
     function _get_sort()
@@ -52,5 +68,5 @@ class Party extends MY_Controller
                 ? $sort
                 : $possible_sorts[0];
     }
-
+    
 }

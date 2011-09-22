@@ -7,10 +7,22 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
             } };
 
         this.load();
+        
         $.when(this.load()).then(this.callback('onload'));
+        $.when(this.load()).then(this.callback('initIdleEvents'));
     },
     onload: function() {
         this.initChatbar();
+    },
+    initIdleEvents: function() {
+        var self = this;
+        $(document.body).idleTimer(10000);
+        $(document.body).bind("idle.idleTimer", function() {
+            self.trigger('becameidle');
+        });
+        $(document.body).bind("active.idleTimer", function() {
+            self.trigger('becameactive');
+        });
     },
     load: function() {
         var self = this;

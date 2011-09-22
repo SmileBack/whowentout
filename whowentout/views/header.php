@@ -46,18 +46,19 @@
     <header class="main">
 
         <div id="logo">
+            
             <a href="/">
-                <img src="/assets/images/logo_small.png?version=5"/>
+                <img src="/assets/images/logo.png?version=6" />
             </a>
+
             <?php if (FALSE): ?>
             (
-            <?= current_time(TRUE)->format('Y-m-d H:i:s')
-            ; ?>,
+            <?= current_time(TRUE)->format('Y-m-d H:i:s') ?>,
             <?= current_user()->first_name ?>,
-            <?= fb()->getUser()
-            ; ?>
+            <?= fb()->getUser() ?>
             )
             <?php endif; ?>
+            
         </div>
 
         <nav>

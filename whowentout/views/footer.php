@@ -15,6 +15,7 @@
     <?= js_asset('lib/jquery.js') ?>
     <?= js_asset('lib/underscore.js') ?>
     <?= js_asset('lib/jquery.jstorage.js') ?>
+    <?= js_asset('lib/jquery.idle-timer.js') ?>
     <?= js_asset('lib/jquery.form.js') ?>
     <?= js_asset('lib/jquery.entwine.js') ?>
     <?= js_asset('lib/jquery.class.js') ?>

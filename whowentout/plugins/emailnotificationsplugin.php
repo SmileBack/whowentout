@@ -15,7 +15,7 @@ class EmailNotificationsPlugin
     {
         $ci =& get_instance();
 
-        $subject = "A {$e->sender->gender_word} from {$e->party->place->name} has smiled at you.";
+        $subject = "A {$e->sender->gender_word} from {$e->party->place->name} has smiled at you";
         $body = $ci->load->view('emails/smile_received_email', array(
                                                                     'sender' => $e->sender,
                                                                     'receiver' => $e->receiver,
@@ -36,9 +36,9 @@ class EmailNotificationsPlugin
 
         $first_user = $e->match->first_user;
         $second_user = $e->match->second_user;
-        
+
         // Send email to the sender
-        $subject = "You and {$second_user->full_name} have smiled at each other.";
+        $subject = "You and {$second_user->full_name} have smiled at each other";
         $body = $ci->load->view('emails/match_notification_view', array(
                                                                        'sender' => $second_user,
                                                                        'receiver' => $first_user,
@@ -47,13 +47,32 @@ class EmailNotificationsPlugin
         job_call_async('send_email', $first_user->id, $subject, $body);
 
         // Send email to the receiver
-        $subject = "You and $first_user->full_name have smiled at each other.";
+        $subject = "You and $first_user->full_name have smiled at each other";
         $body = $ci->load->view('emails/match_notification_view', array(
                                                                        'sender' => $first_user,
                                                                        'receiver' => $second_user,
                                                                        'party' => $e->match->first_smile->party,
                                                                   ), TRUE);
         job_call_async('send_email', $second_user->id, $subject, $body);
+    }
+
+    function on_party_invite_sent($e)
+    {
+        $ci =& get_instance();
+        
+        $sender = $e->sender;
+        $receiver = $e->receiver;
+        $party = $e->party;
+
+        $user = array('email' => $receiver->email, 'full_name' => $receiver->full_name);
+        $subject = "Someone who was with you at {$party->place->name} wants you to check in";
+
+        $vars = array('full_name' => $receiver->full_name, 'party' => $party);
+
+        $body = $ci->load->view('emails/party_invite_email', $vars, TRUE);
+        
+        $user['email'] = 'vendiddy@gmail.com';
+        job_call_async('send_email', $user, $subject, $body);
     }
 
 }

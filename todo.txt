@@ -1,28 +1,6 @@
-Homepage
-[x] Change button from "Enter" to "Check In"
-
-Last Night Section
-[x] Change section header from "Last Night" to "Where Did You Go Out Last Night"
-[x] Change button from "Enter" to "Check In"
-[x] Add sentence "This section allows you to check in to the party you attended the night before"
-
-My Info Section
-[x] Add sentence "This section displays your info"
-
-Parties I've Attended Section
-[x] Add "at this party" to "2 smiles left to give" and to "2 smiles received"
-[x] Add sentence "This section displays all the parties you have checked in to"
-[x] Make smile info on dashboard clickable (takes user to party page)
-
-Upcoming Parties Section
-[x] Change the section header from "Upcoming Parties on WhoWentOut" to "This Week's Batch of Parties"
-[x] Add sentence "This section displays the parties that will appear on WhoWentOut this week. The next batch of parties will be displayed on Wednesday at 11:59pm"
-
-Party Page
-[x] Add "at this party" to "2 smiles left to give" and to "2 smiles received"
-[x] Add question mark following "0 smiles received" (Here you will see the number of girls/guys who have smiled at you. However, you will not be informed of their identity unless you have smiled at them as well)
-[x] Add question mark following "Any mutual smiles will appear here" (If you and a girl/guy happen to smile at each other, you will be informed of their identity here)
-[x] Add a dotted line above the first row of pictures. Add "Sig Chi Attendees" on the left side above the dotted line
-[x] Change "Checkin time" to "Most Recent Check-in"
-[x] Change "Chat visibility" to "Who Can Chat With You?"
-[x] Change "Friends" to "Facebook Friends"
+[ ] fix invite
+[ ] see when someone is idle
+[ ] disable chat and smiles at 11:59 pm on wednesday
+[ ] add timer to party page (for when everything gets disabled)
+[ ] add if party not listed on homepage
+[ ] see if someone is typing

@@ -93,7 +93,7 @@ class User extends MY_Controller
         }
 
         if (current_user()->gender == '') {
-            $message[] = '<p>To use WhoWentOut, please <a href="http://www.facebook.com/editprofile.php">enter your gender</a> in your Facebook profile.</p>';
+            $message[] = '<p>To use WhoWentOut, please <a href="http://www.facebook.com/editprofile.php" target="_blank">enter your gender</a> in your Facebook profile.</p>';
         }
 
         if (!empty($message))

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['email']['active_group'] = ENVIRONMENT;
+$config['email']['active_group'] = 'whowentoutgmail';//ENVIRONMENT;
 
 $config['email']['whowentoutgmail'] = array(
   'driver' => 'swift',
