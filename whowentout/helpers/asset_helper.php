@@ -1,62 +1,71 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
-* Code Igniter
-*
-* An open source application development framework for PHP 4.3.2 or newer
-*
-* @package		CodeIgniter
-* @author		Rick Ellis
-* @copyright	Copyright (c) 2006, pMachine, Inc.
-* @license		http://www.codeignitor.com/user_guide/license.html
-* @link			http://www.codeigniter.com
-* @since        Version 1.0
-* @filesource
-*/
+ * Code Igniter
+ *
+ * An open source application development framework for PHP 4.3.2 or newer
+ *
+ * @package        CodeIgniter
+ * @author        Rick Ellis
+ * @copyright    Copyright (c) 2006, pMachine, Inc.
+ * @license        http://www.codeignitor.com/user_guide/license.html
+ * @link            http://www.codeigniter.com
+ * @since        Version 1.0
+ * @filesource
+ */
 
 // ------------------------------------------------------------------------
 
 /**
-* Code Igniter Asset Helpers
-*
-* @package		CodeIgniter
-* @subpackage	Helpers
-* @category		Helpers
-* @author       Philip Sturgeon < phil.sturgeon@styledna.net >
-*/
+ * Code Igniter Asset Helpers
+ *
+ * @package        CodeIgniter
+ * @subpackage    Helpers
+ * @category        Helpers
+ * @author       Philip Sturgeon < phil.sturgeon@styledna.net >
+ */
 
 // ------------------------------------------------------------------------
 
 
 /**
-  * General Asset Helper
-  *
-  * Helps generate links to asset files of any sort. Asset type should be the
-  * name of the folder they are stored in.
-  *
-  * @access		public
-  * @param		string    the name of the file or asset
-  * @param		string    the asset type (name of folder)
-  * @param		string    optional, module name
-  * @return		string    full url to asset
-  */
+ * General Asset Helper
+ *
+ * Helps generate links to asset files of any sort. Asset type should be the
+ * name of the folder they are stored in.
+ *
+ * @access        public
+ * @param        string    the name of the file or asset
+ * @param        string    the asset type (name of folder)
+ * @param        string    optional, module name
+ * @return        string    full url to asset
+ */
 
 function other_asset_url($asset_name, $module_name = NULL, $asset_type = NULL)
 {
-	$obj =& get_instance();
-	$base_url = $obj->config->item('base_url');
+    $obj =& get_instance();
+    $base_url = $obj->config->item('base_url');
 
-	$asset_location = $base_url.'assets/';
+    $asset_location = $base_url . 'assets/';
 
-	if(!empty($module_name)):
-		$asset_location .= 'modules/'.$module_name.'/';
-	endif;
+    if (!empty($module_name)):
+        $asset_location .= 'modules/' . $module_name . '/';
+    endif;
 
-	$asset_location .= $asset_type.'/'.$asset_name;
+    $asset_location .= $asset_type . '/' . $asset_name;
 
-    if (ENVIRONMENT == 'development')
-        $asset_location .= '?version=' . time();
+    if ($asset_type == 'js') {
+        $version = site_version('js');
+    }
+    else {
+        $version = site_version('css');
+    }
 
-	return $asset_location;
+    if ($version == 'refresh')
+        $version = time();
+
+    $asset_location .= "?version=$version";
+    
+    return $asset_location;
 
 }
 
@@ -64,151 +73,151 @@ function other_asset_url($asset_name, $module_name = NULL, $asset_type = NULL)
 // ------------------------------------------------------------------------
 
 /**
-  * Parse HTML Attributes
-  *
-  * Turns an array of attributes into a string
-  *
-  * @access		public
-  * @param		array		attributes to be parsed
-  * @return		string 		string of html attributes
-  */
+ * Parse HTML Attributes
+ *
+ * Turns an array of attributes into a string
+ *
+ * @access        public
+ * @param        array        attributes to be parsed
+ * @return        string         string of html attributes
+ */
 
 function _parse_asset_html($attributes = NULL)
 {
 
-	if(is_array($attributes)):
-		$attribute_str = '';
+    if (is_array($attributes)):
+        $attribute_str = '';
 
-		foreach($attributes as $key => $value):
-			$attribute_str .= ' '.$key.'="'.$value.'"';
-		endforeach;
+        foreach ($attributes as $key => $value):
+            $attribute_str .= ' ' . $key . '="' . $value . '"';
+        endforeach;
 
-		return $attribute_str;
-	endif;
+        return $attribute_str;
+    endif;
 
-	return '';
+    return '';
 }
 
 // ------------------------------------------------------------------------
 
 /**
-  * CSS Asset Helper
-  *
-  * Helps generate CSS asset locations.
-  *
-  * @access		public
-  * @param		string    the name of the file or asset
-  * @param		string    optional, module name
-  * @return		string    full url to css asset
-  */
+ * CSS Asset Helper
+ *
+ * Helps generate CSS asset locations.
+ *
+ * @access        public
+ * @param        string    the name of the file or asset
+ * @param        string    optional, module name
+ * @return        string    full url to css asset
+ */
 
 function css_asset_url($asset_name, $module_name = NULL)
 {
-	return other_asset_url($asset_name, $module_name, 'css');
+    return other_asset_url($asset_name, $module_name, 'css');
 }
 
 
 // ------------------------------------------------------------------------
 
 /**
-  * CSS Asset HTML Helper
-  *
-  * Helps generate JavaScript asset locations.
-  *
-  * @access		public
-  * @param		string    the name of the file or asset
-  * @param		string    optional, module name
-  * @param		string    optional, extra attributes
-  * @return		string    HTML code for JavaScript asset
-  */
+ * CSS Asset HTML Helper
+ *
+ * Helps generate JavaScript asset locations.
+ *
+ * @access        public
+ * @param        string    the name of the file or asset
+ * @param        string    optional, module name
+ * @param        string    optional, extra attributes
+ * @return        string    HTML code for JavaScript asset
+ */
 
 function css_asset($asset_name, $module_name = NULL, $attributes = array())
 {
-	$attribute_str = _parse_asset_html($attributes);
+    $attribute_str = _parse_asset_html($attributes);
 
-	return '<link href="'.css_asset_url($asset_name.'.css', $module_name).'" rel="stylesheet" type="text/css"'.$attribute_str.' />';
+    return '<link href="' . css_asset_url($asset_name . '.css', $module_name) . '" rel="stylesheet" type="text/css"' . $attribute_str . ' />';
 }
 
 function less_asset($asset_name, $module_name = NULL, $attributes = array())
 {
-  $attribute_str = _parse_asset_html($attributes);
-  return '<link href="'.css_asset_url($asset_name.'.less', $module_name).'" rel="stylesheet/less" type="text/css"'.$attribute_str.' />';
+    $attribute_str = _parse_asset_html($attributes);
+    return '<link href="' . css_asset_url($asset_name . '.less', $module_name) . '" rel="stylesheet/less" type="text/css"' . $attribute_str . ' />';
 }
 
 // ------------------------------------------------------------------------
 
 /**
-  * Image Asset Helper
-  *
-  * Helps generate CSS asset locations.
-  *
-  * @access		public
-  * @param		string    the name of the file or asset
-  * @param		string    optional, module name
-  * @return		string    full url to image asset
-  */
+ * Image Asset Helper
+ *
+ * Helps generate CSS asset locations.
+ *
+ * @access        public
+ * @param        string    the name of the file or asset
+ * @param        string    optional, module name
+ * @return        string    full url to image asset
+ */
 
 function image_asset_url($asset_name, $module_name = NULL)
 {
-	return other_asset_url($asset_name, $module_name, 'image');
+    return other_asset_url($asset_name, $module_name, 'image');
 }
 
 
 // ------------------------------------------------------------------------
 
 /**
-  * Image Asset HTML Helper
-  *
-  * Helps generate image HTML.
-  *
-  * @access		public
-  * @param		string    the name of the file or asset
-  * @param		string    optional, module name
-  * @param		string    optional, extra attributes
-  * @return		string    HTML code for image asset
-  */
+ * Image Asset HTML Helper
+ *
+ * Helps generate image HTML.
+ *
+ * @access        public
+ * @param        string    the name of the file or asset
+ * @param        string    optional, module name
+ * @param        string    optional, extra attributes
+ * @return        string    HTML code for image asset
+ */
 
 function image_asset($asset_name, $module_name = '', $attributes = array())
 {
-	$attribute_str = _parse_asset_html($attributes);
+    $attribute_str = _parse_asset_html($attributes);
 
-	return '<img src="'.image_asset_url($asset_name, $module_name).'"'.$attribute_str.' />';
+    return '<img src="' . image_asset_url($asset_name, $module_name) . '"' . $attribute_str . ' />';
 }
 
 
 // ------------------------------------------------------------------------
 
 /**
-  * JavaScript Asset URL Helper
-  *
-  * Helps generate JavaScript asset locations.
-  *
-  * @access		public
-  * @param		string    the name of the file or asset
-  * @param		string    optional, module name
-  * @return		string    full url to JavaScript asset
-  */
+ * JavaScript Asset URL Helper
+ *
+ * Helps generate JavaScript asset locations.
+ *
+ * @access        public
+ * @param        string    the name of the file or asset
+ * @param        string    optional, module name
+ * @return        string    full url to JavaScript asset
+ */
 
 function js_asset_url($asset_name, $module_name = NULL)
 {
-	return other_asset_url($asset_name, $module_name, 'js');
+    return other_asset_url($asset_name, $module_name, 'js');
 }
 
 
 // ------------------------------------------------------------------------
 
 /**
-  * JavaScript Asset HTML Helper
-  *
-  * Helps generate JavaScript asset locations.
-  *
-  * @access		public
-  * @param		string    the name of the file or asset
-  * @param		string    optional, module name
-  * @return		string    HTML code for JavaScript asset
-  */
+ * JavaScript Asset HTML Helper
+ *
+ * Helps generate JavaScript asset locations.
+ *
+ * @access        public
+ * @param        string    the name of the file or asset
+ * @param        string    optional, module name
+ * @return        string    HTML code for JavaScript asset
+ */
 
 function js_asset($asset_name, $module_name = NULL)
 {
-	return '<script type="text/javascript" src="'.js_asset_url($asset_name, $module_name).'"></script>';
+    return '<script type="text/javascript" src="' . js_asset_url($asset_name, $module_name) . '"></script>';
 }

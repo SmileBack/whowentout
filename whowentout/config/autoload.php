@@ -83,7 +83,7 @@ if (ENVIRONMENT == 'test')
 |
 */
 
-$autoload['config'] = array('facebook', 'amazon', 'errors', 'wwo');
+$autoload['config'] = array('asset', 'facebook', 'amazon', 'errors', 'wwo');
 
 
 /*

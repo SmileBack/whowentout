@@ -293,4 +293,12 @@ function first_name($full_name)
     return $parts[0];
 }
 
+function site_version($type = 'site')
+{
+    $ci =& get_instance();
 
+    if ($type == 'site')
+        return $ci->config->item('css_version') + $ci->config->item('js_version');
+    else
+        return $ci->config->item("{$type}_version");
+}
