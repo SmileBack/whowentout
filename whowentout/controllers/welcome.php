@@ -18,8 +18,7 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $student_id = 16;
-
+        $ven->ping_idle();
     }
 
 }

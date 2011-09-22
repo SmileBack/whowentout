@@ -248,8 +248,19 @@ class User extends MY_Controller
     function ping()
     {
         current_user()->ping_server();
-        print json_encode(array('success' => TRUE));
-        exit;
+        $this->json_success();
+    }
+
+    function ping_idle()
+    {
+        current_user()->ping_idle();
+        $this->json_success();
+    }
+
+    function ping_active()
+    {
+        current_user()->ping_active();
+        $this->json_success();
     }
 
     function ping_leaving()

@@ -7,22 +7,81 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
             } };
 
         this.load();
-        
+
         $.when(this.load()).then(this.callback('onload'));
         $.when(this.load()).then(this.callback('initIdleEvents'));
     },
     onload: function() {
+        var self = this;
+
         this.initChatbar();
+
+        this.startPingingServer();
+
+        this._every(10, function() {
+            self.updateOfflineUsers();
+        });
+
+        $(window).bind('leave', function() {
+            self.pingLeavingServer();
+        });
+    },
+    updateOfflineUsers: function() {
+        return $.getJSON('/college/update_offline_users');
+    },
+    startPingingServer: function() {
+        if (this._pingingId) //already pinging
+            return;
+
+        this.pingServer();
+        this._pingingId = this._every(5, this.callback('pingServer'));
+    },
+    stopPingingServer: function() {
+        this._cancelEvery(this._pingingId);
+        this._pingingId = null;
+    },
+    pingServer: function() {
+        $.ajax({
+            url: '/user/ping',
+            type: 'get',
+            data: { isIdle: this.isIdle() },
+            success: function(response) {
+                console.log('pinged server!');
+            }
+        });
+    },
+    pingIdle: function() {
+        return $.getJSON('/user/ping_idle');
+    },
+    pingActive: function() {
+        return $.getJSON('/user/ping_active');
+    },
+    pingLeavingServer: function() {
+        $.ajax({
+            url: '/user/ping_leaving',
+            type: 'get',
+            async: false,
+            success: function(response) {
+            }
+        });
     },
     initIdleEvents: function() {
         var self = this;
         $(document.body).idleTimer(10000);
         $(document.body).bind("idle.idleTimer", function() {
+            self.pingIdle();
             self.trigger('becameidle');
         });
         $(document.body).bind("active.idleTimer", function() {
+            self.pingActive();
             self.trigger('becameactive');
         });
+    },
+    idleFor: function() {
+        return this.isIdle() ? $(document.body).idleTimer('getElapsedTime') : 0;
+    },
+    isIdle: function() {
+        return $.data(document.body, 'idleTimer') == 'idle';
     },
     load: function() {
         var self = this;
@@ -119,7 +178,14 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
     },
     playSound: function() {
         this._dingSound.play();
+    },
+    _cancelEvery: function(id) {
+        clearInterval(id);
+    },
+    _every: function(seconds, fn) {
+        return setInterval(fn, seconds * 1000);
     }
-});
+})
+;
 
 window.app = new WhoWentOut.Application();

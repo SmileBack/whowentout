@@ -9,7 +9,7 @@ class PushEventsPlugin
     {
         $this->ci =& get_instance();
     }
-    
+
     function on_chat_sent($e)
     {
         $channel = 'user_' . $e->sender->id;
@@ -97,6 +97,45 @@ class PushEventsPlugin
         }
     }
 
+    //$e->user just came online
+    function on_user_became_idle($e)
+    {
+        //notify all other users within the college...
+        $college = $e->user->college;
+        $user = $e->user->to_array();
+        foreach ($college->get_online_users_ids() as $user_id) {
+            // don't alert those who you should be invisible to based on the users visible_to setting
+            if (!$e->user->is_online_to($user_id))
+                continue;
+
+            $channel = 'user_' . $user_id;
+            $this->ci->event->store('user_became_idle', array(
+                                                             'channel' => $channel,
+                                                             'user' => $user,
+                                                        ));
+            $this->alert_channel($channel);
+        }
+    }
+
+    function on_user_became_active($e)
+    {
+        //notify all other users within the college...
+        $college = $e->user->college;
+        $user = $e->user->to_array();
+        foreach ($college->get_online_users_ids() as $user_id) {
+            // don't alert those who you should be invisible to based on the users visible_to setting
+            if (!$e->user->is_online_to($user_id))
+                continue;
+
+            $channel = 'user_' . $user_id;
+            $this->ci->event->store('user_became_active', array(
+                                                               'channel' => $channel,
+                                                               'user' => $user,
+                                                          ));
+            $this->alert_channel($channel);
+        }
+    }
+
     /**
      * Occurs when a $e->sender smiles at $e->receiver.
      *
@@ -168,8 +207,8 @@ class PushEventsPlugin
     {
         $channel = 'user_' . $e->user->id;
         $this->ci->event->store('notification', array(
-                                                  'channel' => $channel,
-                                                  'notification' => $e->notification,
+                                                     'channel' => $channel,
+                                                     'notification' => $e->notification,
                                                 ));
         $this->alert_channel($channel);
     }

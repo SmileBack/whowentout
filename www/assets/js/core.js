@@ -41,21 +41,6 @@ jQuery(function() {
     WWO = $('#wwo');
 });
 
-jQuery(function() {
-    every(5, function() {
-        $('#wwo').pingServer();
-    });
-    $('#wwo').pingServer();
-
-    every(10, function() {
-        $('#wwo').updateOfflineUsers();
-    });
-
-    $(window).bind('leave', function() {
-        $('#wwo').pingLeavingServer();
-    });
-});
-
 $('#wwo').entwine({
     onmatch: function() {
         var data = $.parseJSON(this.text());
@@ -74,35 +59,6 @@ $('#wwo').entwine({
     },
     doorsClosed: function() {
         return ! this.doorsOpen();
-    },
-    pingServer: function() {
-        $.ajax({
-            url: '/user/ping',
-            type: 'get',
-            success: function(response) {
-                //console.log('pinged server!');
-            }
-        });
-    },
-    pingLeavingServer: function() {
-        $.ajax({
-            url: '/user/ping_leaving',
-            type: 'get',
-            async: false,
-            success: function(response) {
-            }
-        });
-    },
-    updateOfflineUsers: function() {
-        $.ajax({
-            url: '/college/update_offline_users',
-            type: 'get',
-            dataType: 'json',
-            success: function(response) {
-                //console.log('updated offline users');
-                //console.log(response);
-            }
-        });
     },
     showMutualFriendsDialog: function(path) {
         WWO.dialog.title('Mutual Friends').message('loading...')

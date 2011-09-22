@@ -69,6 +69,9 @@ WhoWentOut.Model.extend('WhoWentOut.User', {
     isOnline: function(v) {
         return this.val.call(this, 'is_online', v);
     },
+    isIdle: function(v) {
+        return this.val.call(this, 'is_idle', v);
+    },
     visibleTo: function() {
         return this.get('visible_to');
     },
@@ -86,6 +89,9 @@ $('.user').entwine({
             $.when(WhoWentOut.User.get( self.userID() )).then(function(u) {
                 if (u.isOnline()) {
                     self.addClass('online');
+                }
+                if (u.isIdle()) {
+                    self.addClass('idle');
                 }
             });
         });

@@ -39,7 +39,7 @@ class EmailNotificationsPlugin
 
         // Send email to the sender
         $subject = "You and {$second_user->full_name} have smiled at each other";
-        $body = $ci->load->view('emails/match_notification_view', array(
+        $body = $ci->load->view('emails/match_notification_email', array(
                                                                        'sender' => $second_user,
                                                                        'receiver' => $first_user,
                                                                        'party' => $e->match->second_smile->party,
@@ -48,7 +48,7 @@ class EmailNotificationsPlugin
 
         // Send email to the receiver
         $subject = "You and $first_user->full_name have smiled at each other";
-        $body = $ci->load->view('emails/match_notification_view', array(
+        $body = $ci->load->view('emails/match_notification_email', array(
                                                                        'sender' => $first_user,
                                                                        'receiver' => $second_user,
                                                                        'party' => $e->match->first_smile->party,

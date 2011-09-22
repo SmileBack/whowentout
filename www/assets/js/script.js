@@ -76,10 +76,3 @@ $('a.confirm').entwine({
         }
     }
 });
-
-$('#main_color').live('change', function() {
-    var color = $(this).val();
-    $('section h1, header').css('background-color', color);
-    $('section').css('border-color', color);
-    app.playSound();
-});

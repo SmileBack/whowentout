@@ -36,11 +36,6 @@
     <?= current_time(TRUE)->format('D, M j g:i a') ?>
 </div>
 
-<div id="colors" style="position: fixed; top: 100px;">
-    <label>Main color</label>
-    <div><input id="main_color" /></div>
-</div>
-
 <div id="page">
 
     <header class="main">

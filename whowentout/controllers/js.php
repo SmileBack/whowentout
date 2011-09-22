@@ -38,6 +38,7 @@ class Js extends MY_Controller
         else {
             $user_data = $user->to_array($user->is_current_user());
             $user_data['is_online'] = $user->is_online_to(current_user());
+            $user_data['is_idle'] = $user->is_idle_to(current_user());
             $this->json(array(
                              'success' => TRUE,
                              'user' => $user_data,
@@ -54,11 +55,13 @@ class Js extends MY_Controller
                 $user = user($user_id);
                 $response['users'][$user_id] = $user->to_array();
                 $response['users'][$user_id]['is_online'] = $user->is_online_to(current_user());
+                $response['users'][$user_id]['is_idle'] = $user->is_idle_to(current_user());
             }
         }
 
         $response['users'][current_user()->id] = current_user()->to_array(TRUE);
         $response['users'][current_user()->id]['is_online'] = current_user()->is_online_to(current_user());
+        $response['users'][current_user()->id]['is_idle'] = current_user()->is_idle_to(current_user());
     }
 
     private function load_channels(&$response)

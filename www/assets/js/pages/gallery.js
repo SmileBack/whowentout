@@ -9,6 +9,13 @@ $.when(app.load()).then(function() {
         console.log('channel user went offline ' + e.user.id);
         WhoWentOut.User.get(e.user.id).isOnline(false);
     })
+    .bind('user_became_idle', function(e) {
+        console.log('channel user became idle ' + e.user.id);
+        WhoWentOut.User.get(e.user.id).isIdle(true);
+    })
+    .bind('user_became_active', function(e) {
+        WhoWentOut.User.get(e.user.id).isIdle(false);
+    })
     .bind('smile_received', function(e) {
         var partyID = e.party.id;
         $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
@@ -28,6 +35,14 @@ $.when(app.load()).then(function() {
             }
             else {
                 $('.user_' + e.item.id()).removeClass('online');
+            }
+        }
+        else if (e.key == 'is_idle') {
+            if (e.value == true) {
+                $('.user_' + e.item.id()).addClass('idle');
+            }
+            else {
+                $('.user_' + e.item.id()).removeClass('idle');
             }
         }
     });

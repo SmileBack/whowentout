@@ -755,6 +755,17 @@ class XUser extends XObject
             && $user->is_online_to_one_way($this);
     }
 
+    function is_idle()
+    {
+        return $this->idle_since != NULL;
+    }
+
+    function is_idle_to($user)
+    {
+        $user = user($user);
+        return $this->is_online_to($user) && $this->is_idle();
+    }
+
     /**
      * @param  XUser $user
      * @return bool
@@ -798,9 +809,41 @@ class XUser extends XObject
 
         $just_came_online = !$was_online;
         if ($just_came_online) {
+            
+            $this->idle_since = NULL;
+            $this->save();
+
             raise_event('user_came_online', array(
                                                  'user' => $this,
                                             ));
+        }
+    }
+
+    function ping_idle()
+    {
+        $was_idle = $this->is_idle();
+        $this->idle_since = current_time()->format('Y-m-d H:i:s');
+        $this->save();
+
+        $just_became_idle = !$was_idle;
+        if ($just_became_idle) {
+            raise_event('user_became_idle', array(
+                                              'user' => $this,
+                                            ));
+        }
+    }
+
+    function ping_active()
+    {
+        $was_active = !$this->is_idle();
+        $this->idle_since = NULL;
+        $this->save();
+
+        $just_became_active = !$was_active;
+        if ($just_became_active) {
+            raise_event('user_became_active', array(
+                                                'user' => $this,
+                                              ));
         }
     }
     
@@ -810,6 +853,7 @@ class XUser extends XObject
             return;
 
         $this->last_ping = NULL;
+        $this->idle_for = NULL;
         $this->save();
 
         raise_event('user_went_offline', array(
