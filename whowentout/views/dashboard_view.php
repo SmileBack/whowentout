@@ -14,8 +14,8 @@ load_section_view('my_info_view', 'My Info', array(
                                              ))
 ; ?>
 
-<?= load_section_view('parties_attended_view', "Parties I've Recently Attended", array(
-                                                 'description' => 'This section parties you have recently checked into.',
+<?= load_section_view('parties_attended_view', "Parties I've Attended", array(
+                                                 'description' => 'This section allows you to enter the parties you checked into.',
                                                                                   ))
 ; ?>
 

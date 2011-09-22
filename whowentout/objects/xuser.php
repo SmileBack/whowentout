@@ -853,7 +853,7 @@ class XUser extends XObject
             return;
 
         $this->last_ping = NULL;
-        $this->idle_for = NULL;
+        $this->idle_since = NULL;
         $this->save();
 
         raise_event('user_went_offline', array(

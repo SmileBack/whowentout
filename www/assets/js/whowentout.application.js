@@ -135,6 +135,16 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
             }, this);
         }
     },
+    refreshOnlineStatuses: function(users) {
+        var self = this;
+        $.when( this._fetchUsers(this.userIdsOnPage()) ).then(function(users) {
+            _.each(users, function(u, userId) {
+                var user = WhoWentOut.User.get(u.id);
+                user.isOnline(u.is_online);
+                user.isIdle(u.id_idle);
+            });
+        });
+    },
     loadSounds: function() {
         var self = this;
         soundManager.onready(function() {
@@ -179,13 +189,25 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
     playSound: function() {
         this._dingSound.play();
     },
+    _fetchUsers: function(userIds) {
+        var dfd = $.Deferred();
+        $.ajax({
+           type: 'post',
+           dataType: 'json',
+           url: '/js/users',
+           data: {user_ids: userIds},
+           success: function(response) {
+               dfd.resolve(response.users);
+           }
+        });
+        return dfd.promise();
+    },
     _cancelEvery: function(id) {
         clearInterval(id);
     },
     _every: function(seconds, fn) {
         return setInterval(fn, seconds * 1000);
     }
-})
-;
+});
 
 window.app = new WhoWentOut.Application();

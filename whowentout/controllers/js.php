@@ -46,6 +46,15 @@ class Js extends MY_Controller
         }
     }
 
+    function users()
+    {
+        $response = array();
+        $this->load_users($response);
+
+        $response['success'] = TRUE;
+        $this->json($response);
+    }
+
     private function load_users(&$response)
     {
         if (is_array(post('user_ids'))) {

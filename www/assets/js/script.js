@@ -19,7 +19,8 @@ $.when(app.load()).then(function() {
                 return this;
 
             $.getJSON('/user/change_visibility/' + k, function(response) {
-                window.location.reload(true);
+                app.refreshOnlineStatuses();
+                //window.location.reload(true);
                 //self.markSelectedOption(response.visibility);
             });
 
