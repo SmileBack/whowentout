@@ -59,7 +59,11 @@
         <nav>
 
             <?php if (logged_in()): ?>
-            <?= anchor('dashboard', 'My Dashboard', array('class' => 'dashboard_link')) ?>
+                <?= anchor('#my_info', current_user()->full_name, array('class' => 'my_info_toggle')) ?>
+            <?php endif; ?>
+
+            <?php if (logged_in()): ?>
+            <?= anchor('dashboard', 'My Parties', array('class' => 'dashboard_link')) ?>
             <?php endif; ?>
 
             <?php if (logged_in() && current_user()->is_admin()): ?>

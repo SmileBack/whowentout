@@ -77,3 +77,10 @@ $('a.confirm').entwine({
         }
     }
 });
+
+$('.my_info_toggle').entwine({
+   onclick: function(e) {
+       e.preventDefault();
+       $('.my_info_view').toggle();
+   }
+});

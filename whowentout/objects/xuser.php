@@ -665,7 +665,7 @@ class XUser extends XObject
 
     function anchor_facebook_message()
     {
-        return anchor("http://www.facebook.com/messages/$this->facebook_id", 'send message', array('target' => '_blank'));
+        return anchor("http://www.facebook.com/messages/$this->facebook_id", 'send message', array('target' => '_blank', 'class' => 'send_fb_message'));
     }
 
     function get_gender_word()

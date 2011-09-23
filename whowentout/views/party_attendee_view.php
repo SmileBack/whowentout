@@ -32,19 +32,21 @@ if (!isset($smiles_left))
             <?php if ($attendee->was_smiled_at(current_user()->id, $party->id)): ?>
                 <input type="submit" class="smiled_at submit_button" disabled="disabled"
                        value="Smiled at <?= $attendee->first_name ?>"></button>
-                <?php else: ?>
-                <?=
-                form_open('user/smile', array('class' => 'smile_form'), array('party_id' => $party->id, 'receiver_id' => $attendee->id)) ; ?>
+                <?php elseif ($party->smiling_is_open()): ?>
+
+                <?= form_open('user/smile', array('class' => 'smile_form'), array('party_id' => $party->id, 'receiver_id' => $attendee->id)) ; ?>
 
                 <input type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>"
                        class="submit_button <?= $smiles_left == 0 ? 'cant' : 'can' ?>"/>
+
                 <?= form_close(); ?>
                 <?php endif ?>
             <?php else: ?>
-            &nbsp;
+                &nbsp;
             <?php endif; ?>
         </p>
 
     </div>
 
 </div>
+    

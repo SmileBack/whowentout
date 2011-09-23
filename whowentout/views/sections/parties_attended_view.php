@@ -1,27 +1,45 @@
+<?php
+ $yesterday = college()->yesterday(TRUE)
+?>
+
 <?php if (empty($parties_attended)): ?>
 <h2>The parties you checkin to will appear here</h2>
 <?php else: ?>
 <div class="parties_attended">
+    
+    <?php if (!current_user()->has_attended_party_on_date($yesterday)): ?>
+    <div class="party_summary">
+        <h2>
+            <?= $yesterday->format('l, M. jS') ?>
+            |
+            <?= load_view('forms/checkin_form') ?>
+        </h2>
+    </div>
+    <?php endif; ?>
+
     <?php foreach ( current_user()->recently_attended_parties() as $party ): ?>
     <?php $date = new DateTime($party->date, $party->college->timezone); ?>
     <div class="party_summary">
         <h2>
-            <p class="date"><?= $date->format("l, M. jS"); ?></p>
-            <?php if ($party): ?>
-                <div class="divider">|</div>
-                <div class="place"><?= anchor("party/{$party->id}", $party->place->name); ?></div>
-            <?php endif; ?>
+            <a href="<?= "party/$party->id" ?>">
+                <?= $date->format("l, M. jS") ?> &nbsp; | &nbsp;  <?= $party->place->name ?> Attendees
+            </a>
         </h2>
         <div class="body">
-            <?php if ($party): ?>
-                <?=
-                    load_view('party_notices_view', array(
-                                                         'user' => $user,
-                                                         'party' => $party,
-                                                    )); ?>
-            <?php else: ?>
-                <h2 class="place">&nbsp;</h2>
-            <?php endif; ?>
+            <div class="left">
+                <?= load_view('recent_attendees_view', array('party' => $party, 'count' => 5)) ?>
+            </div>
+            <div class="right">
+                <?php if ($party): ?>
+                    <?=
+                        load_view('party_notices_view', array(
+                                                             'user' => $user,
+                                                             'party' => $party,
+                                                        )); ?>
+                <?php else: ?>
+                    <h2 class="place">&nbsp;</h2>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 

@@ -12,7 +12,7 @@ $.when(app.load()).then(function() {
             this._super();
         },
         thumbnailCapacity: function() {
-            return 5;
+            return parseInt( this.attr('data-thumbnail-capacity') );
         },
         oncheckin: function(e) {
             this.insertThumbnail(e.user.id);
@@ -30,7 +30,7 @@ $.when(app.load()).then(function() {
                 t.bind('imageload', function() {
                     t.css('opacity', 0);
                     t.css('position', 'fixed');
-                    $('.recent_attendees').prepend(t);
+                    self.prepend(t);
 
                     var dim = $(this).hiddenDimensions();
                     var originalWidth = dim.innerWidth;

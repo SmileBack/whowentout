@@ -2,24 +2,14 @@
 $timer = college()->doors_are_open() ? '<span class="remaining_time"></span>' : '';
 ?>
 
-<?= load_section_view('last_night_view', 'Where Did You Go Out Last Night?', array(
-                                                                              'description' => 'This section allows you to check in to the party you attended the night before.'
-                                                                              . $timer,
-                                                                         ))
-; ?>
+<?php if (FALSE): ?>
+<?= load_section_view('last_night_view', 'Where Did You Go Out Last Night?') ?>
 
-<?=
-load_section_view('my_info_view', 'My Info', array(
-                                                  'description' => 'This section displays your info.'
-                                             ))
-; ?>
+<?php endif; ?>
+<?= load_section_view('my_info_view', 'My Info', array(
+                                             )) ?>
 
-<?= load_section_view('parties_attended_view', "Parties I've Attended", array(
-                                                 'description' => 'This section allows you to enter the parties you checked into.',
-                                                                                  ))
-; ?>
 
-<?= load_section_view('parties_this_week_view', "This Week's Batch of Parties", array(
-                                                  'description' => 'This section displays the parties that will appear on WhoWentOut this week. The next batch of parties will be displayed on Wednesday at 11:59pm.',
-                                                                                ))
-; ?>
+<?= load_section_view('parties_attended_view', "Parties I've Attended") ?>
+
+<?= load_section_view('parties_this_week_view', "This Week's Batch of Parties") ?>

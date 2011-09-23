@@ -171,7 +171,9 @@ header {
     margin-right: 20px;
   }
   #checkin_form { margin: 0; }
-  .recent_attendees {
+}
+
+.recent_attendees {
     .horizontal_gallery;
     > li {
         margin: 8px;
@@ -182,18 +184,17 @@ header {
         img { width: 90px; }
     }
   }
-}
 
 .my_info_view {
-  width: 32%;
-  height: 260px;
+  width: 270px;
+  height: 175px;
   
   float: right;
   clear: none;
   .profile_pic {
     position: relative;
     float: left;
-    img { width: 130px; }
+    img { width: 90px; }
     .edit {
       position: absolute;
       background-color: black;
@@ -255,23 +256,13 @@ header {
        h2 > * {
          display: inline-block;
        }
+       .body { overflow: hidden; }
+       .body > .left { width: 62%; float: left;  }
+       .body > .right { width: 34%; float: right;}
+       .party_notices .send_fb_message { display: none; }
+       .closing_time { font-size: 12px; }
+       .submit_button { font-size: 16px; }
    }
-  .party_notices {
-    overflow: hidden;
-    > * {
-        float: left;
-    }
-    margin: 0;
-    .smiles_left {
-      margin-left: 15px;
-      width: 210px;
-      .smile.help { display: none; }
-    }
-    .smiles_received { width: 210px; }
-    .smile_matches {
-            
-    }
-  }
 }
 
 #checkin_form {
@@ -476,7 +467,7 @@ table td, table th {
     .infobox;
     float: right;
     clear: right;
-    margin: 10px;
+    margin: 10px 0 10px 10px;
     padding:  10px;
   }
   .sortbar {

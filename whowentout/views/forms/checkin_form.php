@@ -13,6 +13,7 @@ form_open('checkin', array(
 ?>
 
 <?php if ( college()->within_checkin_periods() ): ?>
+        
    <?php $checkins_begin_time = college()->checkins_begin_time(TRUE); ?>
    <?php $first_party_night = clone $checkins_begin_time; $first_party_night->modify('-1 day') ?>
    Doors will open for <?= $first_party_night->format('l') ?> night check-ins on
@@ -27,7 +28,7 @@ form_open('checkin', array(
             
     <?php else: ?>
         <?= parties_dropdown($open_parties) ?>
-        <button type="submit">check in</button>
+        <button type="submit" class="submit_button">check in</button>
         <span class="closing_time doors_open" time="<?= college()->get_closing_time()->getTimestamp() ?>">
 
             <span class="doors_message">Doors will close for check-in at
@@ -42,7 +43,7 @@ form_open('checkin', array(
 <?php elseif (college()->doors_are_closed()): ?>
 
     <?= parties_dropdown($open_parties) ?>
-    <button type="submit">check in</button>
+    <button type="submit" class="submit_button">check in</button>
 
     <span class="closing_time doors_closed"
           time="<?= college()->get_closing_time()->getTimestamp() ?>">

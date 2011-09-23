@@ -1,5 +1,5 @@
 [x] fix invite
-[ ] see when someone is idle
+[x] see when someone is idle
 [ ] disable chat and smiles at 11:59 pm on wednesday
 [ ] add timer to party page (for when everything gets disabled)
 [ ] add if party not listed on homepage

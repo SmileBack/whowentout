@@ -1,6 +1,8 @@
+<?php if (!isset($count)) $count = 5; ?>
 <ul class="recent_attendees party"
-    data-party-id="<?= $party->id ?>">
-    <?php foreach ($party->recent_attendees() as $attendee): ?>
+    data-party-id="<?= $party->id ?>"
+    data-thumbnail-capacity="<?= $count ?>">
+    <?php foreach ($party->recent_attendees($count) as $attendee): ?>
     <li>
         <a href="<?= "/party/$party->id" ?>">
             <?= $attendee->thumb ?>

@@ -135,10 +135,10 @@ class XParty extends XObject
         return $ids;
     }
 
-    function recent_attendees()
+    function recent_attendees($count = 5)
     {
         $attendees = array();
-        $query = $this->attendees_query('checkin_time')->limit(5);
+        $query = $this->attendees_query('checkin_time')->limit($count);
         return $this->load_objects('XUser', $query);
     }
 
@@ -158,6 +158,21 @@ class XParty extends XObject
         $dt->modify('next Wednesday');
         $dt->setTime(11, 59, 0);
         return $local ? $this->college->make_local($dt) : make_gmt($dt);
+    }
+
+    function smiling_is_closed()
+    {
+        return !$this->smiling_is_open();
+    }
+
+    function smiling_is_open()
+    {
+        return current_time()->getTimestamp() < $this->smiling_close_time()->getTimestamp();
+    }
+
+    function smiling_close_time($local = FALSE)
+    {
+        return $this->chat_close_time($local);
     }
 
     function send_invitation($from, $student_id)
