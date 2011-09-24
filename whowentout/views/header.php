@@ -29,9 +29,6 @@
 
 <div id="notice"></div>
 
-<ul id="notifications">
-</ul>
-
 <div id="current_time" class="current_time">
     <?= current_time(TRUE)->format('D, M j g:i a') ?>
 </div>
@@ -59,7 +56,7 @@
         <nav>
 
             <?php if (logged_in()): ?>
-                <?= anchor('#my_info', current_user()->full_name, array('class' => 'my_info_toggle')) ?>
+                <?= anchor('user/edit', current_user()->full_name, array('class' => 'my_info_link')) ?>
             <?php endif; ?>
 
             <?php if (logged_in()): ?>
@@ -78,6 +75,7 @@
 
         </nav>
 
+        <div class="clearboth" style="clear: both;" />
     </header>
 
     <?php if (get_message()): ?>

@@ -14,11 +14,14 @@ form_open('checkin', array(
 
 <?php if ( college()->within_checkin_periods() ): ?>
         
-   <?php $checkins_begin_time = college()->checkins_begin_time(TRUE); ?>
-   <?php $first_party_night = clone $checkins_begin_time; $first_party_night->modify('-1 day') ?>
-   Doors will open for <?= $first_party_night->format('l') ?> night check-ins on
-   <?= $checkins_begin_time->format('l \a\t g a') ?>
 
+   <div class="doors_message">
+       <?php $checkins_begin_time = college()->checkins_begin_time(TRUE); ?>
+       <?php $first_party_night = clone $checkins_begin_time; $first_party_night->modify('-1 day') ?>
+       Doors will open for <?= $first_party_night->format('l') ?> night check-ins on
+       <?= $checkins_begin_time->format('l \a\t g a') ?>
+   </div>
+    
 <?php elseif (college()->doors_are_open()): ?>
 
     <?php if (logged_in() && current_user()->has_attended_party_on_date($yesterday)): ?>
@@ -33,10 +36,9 @@ form_open('checkin', array(
 
             <span class="doors_message">Doors will close for check-in at
             <?= college()->get_closing_time(TRUE)->format('g a') ?>
+            ( in <span class="remaining_time"></span> )
             </span>
 
-            ( in <span class="remaining_time"></span> )
-            
         </span>
     <?php endif; ?>
 

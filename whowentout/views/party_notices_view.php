@@ -1,12 +1,10 @@
 <div class="party_notices" for="<?= $party->id ?>">
     <p class="smiles_left">
         <span><?= $user->smiles_left_message($party->id) ?></span>
-        <a class="smile_help help">?</a>
     </p>
 
     <p class="smiles_received">
         <span><?= $user->smiles_received_message($party->id) ?></span>
-        <a class="smiles_received_help help">?</a>
     </p>
 
     <?php $matches = $user->matches($party); ?>
@@ -25,5 +23,9 @@
             <? endforeach; ?>
         <?php endif; ?>
     </ul>
+
+    <p class="whats_a_smile">
+        <a href="/smilehelp">What is a smile?</a>
+    </p>
 </div>
     

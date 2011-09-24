@@ -21,7 +21,7 @@ load_view('party_notices_view', array(
     </div>
 
     <div class="invite_to_party_box">
-        <span>Invite to party.</span>
+        <span>Invite someone to check in.</span>
         <a href="#invite_to_party" class="scroll">Click Here</a>
     </div>
     

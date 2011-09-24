@@ -10,10 +10,13 @@
     <?php if (!current_user()->has_attended_party_on_date($yesterday)): ?>
     <div class="party_summary">
         <h2>
-            <?= $yesterday->format('l, M. jS') ?>
+            <?= college()->format_time($yesterday) ?>
             |
             <?= load_view('forms/checkin_form') ?>
         </h2>
+        <div class="body">
+            <?= load_view('recent_attendees_view', array('count' => 4)) ?>
+        </div>
     </div>
     <?php endif; ?>
 
@@ -22,12 +25,12 @@
     <div class="party_summary">
         <h2>
             <a href="<?= "party/$party->id" ?>">
-                <?= $date->format("l, M. jS") ?> &nbsp; | &nbsp;  <?= $party->place->name ?> Attendees
+                <?= college()->format_time($date) ?> &nbsp; | &nbsp;  <?= $party->place->name ?> Attendees
             </a>
         </h2>
         <div class="body">
             <div class="left">
-                <?= load_view('recent_attendees_view', array('party' => $party, 'count' => 5)) ?>
+                <?= load_view('recent_attendees_view', array('party' => $party, 'count' => 4)) ?>
             </div>
             <div class="right">
                 <?php if ($party): ?>

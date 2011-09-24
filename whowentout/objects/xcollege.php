@@ -539,6 +539,18 @@ class XCollege extends XObject
                 ->join('places', 'parties.place_id = places.id');
     }
 
+
+    function format_time(DateTime $dt)
+    {
+        $dt = $this->make_local($dt);
+        $dt->setTime(0, 0, 0);
+        
+        if ($dt == $this->day(-1, TRUE))
+            return 'Last night';
+        else
+            return $dt->format('l, M. jS');
+    }
+
     function to_array()
     {
         $college = array();

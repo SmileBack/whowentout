@@ -29,6 +29,10 @@
   -ms-box-sizing: @value;
 }
 
+.clearboth {
+    clear: both;
+}
+
 h1, h2, h3, h4, h5 {
   font-family: "Lucida Grande", Arial, sans-serif;
 }
@@ -229,7 +233,9 @@ h3 .remaining_time, .doors_message {
   line-height: 16px;
 }
 
+@attention_color: #cd3333;
+
 .attention {
-  color: #cd3333;
+  color: @attention_color;
   font-weight: bold;
 }

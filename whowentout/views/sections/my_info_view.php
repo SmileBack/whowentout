@@ -1,3 +1,4 @@
+<?php if (!isset($user)) $user = current_user(); ?>
 
 <div class="profile_pic">
   <?= $user->pic ?>
