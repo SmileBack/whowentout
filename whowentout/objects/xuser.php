@@ -511,6 +511,14 @@ class XUser extends XObject
         return party($row->id);
     }
 
+    function get_checked_in_party($date)
+    {
+        $date = $this->college->make_local($date);
+        $date->setTime(0, 0, 0);
+        $date->modify('-1 day');
+        return $this->get_attended_party($date);
+    }
+
     function recently_attended_parties()
     {
         $cutoff = $this->college->day(-7, TRUE);
@@ -559,6 +567,11 @@ class XUser extends XObject
     function has_attended_party_on_date($date)
     {
         return $this->get_attended_party($date) != NULL;
+    }
+
+    function has_checked_in_on_date($date)
+    {
+        return $this->get_checked_in_party($date) != NULL;
     }
 
     /**

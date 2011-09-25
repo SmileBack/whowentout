@@ -138,6 +138,8 @@ class User extends MY_Controller
         $party_id = post('party_id');
         $user = current_user();
 
+        $response = array();
+
         require_login(array(
                            'name' => 'checkin', //action name
                            'party_id' => $party_id,
@@ -153,27 +155,53 @@ class User extends MY_Controller
 
         $party = party($party_id);
 
-        if ($party == NULL)
-            show_error("Party with id = $party_id doesn't exist.");
+        if ($party == NULL) {
+            if ($this->is_ajax())
+                $this->json_failure("Party with id = $party_id doesn't exist.");
+            else
+                show_error("Party with id = $party_id doesn't exist.");
+        }
 
         $party_date = new DateTime($party->date, college()->timezone);
-
         if ($user->can_checkin($party)) {
             $user->checkin($party);
-            redirect("/");
+
+            if ($this->is_ajax()) {
+                $response['party_summary_view'] = load_view('party_summary_view', array(
+                                                                                       'user' => $user,
+                                                                                       'party' => $party,
+                                                                                 ));
+                $response['checkin_form'] = load_view('forms/checkin_form');
+                $response['party'] = $party->to_array();
+
+                $channel_id = 'party_' . $party->id;
+                $response['channels'][$channel_id] = array(
+                    'type' => serverchannel()->type(),
+                    'id' => $channel_id,
+                    'url' => serverchannel()->url($channel_id),
+                    'frequency' => 10,
+                );
+            }
+
         }
         elseif ($user->reason() == REASON_ALREADY_ATTENDED_PARTY) {
             $other_party = $user->get_attended_party($party_date);
 
             if ($other_party->id == $party->id)
-                set_message("You have already checked into {$party->place->name}.");
+                $message = "You have already checked into {$party->place->name}.";
             else
-                set_message("You have already checked into {$other_party->place->name}, so you can't checkin to {$party->place->name}.");
-
-            redirect("/");
+                $message = "You have already checked into {$other_party->place->name}, so you can't checkin to {$party->place->name}.";
         }
         else {
-            set_message(get_reason_message($user->reason()));
+            $message = get_reason_message($user->reason());
+        }
+
+        if ($this->is_ajax()) {
+            $response['message'] = isset($message) ? $message : '';
+            $this->json($response);
+        }
+        else {
+            set_message($message);
             redirect('/');
         }
 

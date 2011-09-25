@@ -1,6 +1,5 @@
-$.dialog = {
-  mask: function() {
-    if ( $('#mask').length == 0) {
+jQuery(function($) {
+   if ( $('#mask').length == 0) {
       var mask = $('<div id="mask"/>').css({
         display: 'none',
         position: 'fixed',
@@ -14,9 +13,15 @@ $.dialog = {
       });
       $('body').append(mask);
     }
-    $('#mask').bind('click', function() {
+
+    $('#mask').click(function() {
       $('.dialog:visible').hideDialog();
     });
+
+});
+
+$.dialog = {
+  mask: function() {
     return $('#mask');
   },
   create: function() {

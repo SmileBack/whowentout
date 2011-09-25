@@ -212,6 +212,7 @@ class XParty extends XObject
         return array(
             'id' => $this->id,
             'place_name' => $this->place->name,
+            'date' => $this->date,
         );
     }
 

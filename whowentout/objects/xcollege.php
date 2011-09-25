@@ -338,8 +338,8 @@ class XCollege extends XObject
 
     function within_checkin_periods($current_time = NULL)
     {
-        return $this->checkins_end_time(FALSE, $current_time)->getTimestamp()
-               > $this->checkins_begin_time(FALSE, $current_time)->getTimestamp();
+        return !($this->checkins_end_time(FALSE, $current_time)->getTimestamp()
+               > $this->checkins_begin_time(FALSE, $current_time)->getTimestamp());
     }
 
     /**
@@ -543,12 +543,8 @@ class XCollege extends XObject
     function format_time(DateTime $dt)
     {
         $dt = $this->make_local($dt);
-        $dt->setTime(0, 0, 0);
         
-        if ($dt == $this->day(-1, TRUE))
-            return 'Last night';
-        else
-            return $dt->format('l, M. jS');
+        return $dt->format('l, M. jS');
     }
 
     function to_array()

@@ -45,4 +45,9 @@ class MY_Controller extends CI_Controller
         $this->json(array('success' => FALSE, 'error' => $error));
     }
 
+    function is_ajax()
+    {
+        return $this->input->is_ajax_request();
+    }
+
 }

@@ -65,7 +65,7 @@ jQuery(function($) {
     $(window).bind('scroll resize', _.debounce(function() {
         WWO.dialog.refreshPosition();
     }, 250));
-
+    
 });
 
 $('a.confirm').entwine({
@@ -77,3 +77,4 @@ $('a.confirm').entwine({
         }
     }
 });
+

@@ -1,4 +1,11 @@
-WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
+WhoWentOut.Model.extend('WhoWentOut.Application', {
+    Mask: function() {
+        if ($('#mask').length == 0) {
+            $('body').append('<div id="#mask" />"');
+        }
+        return $('#mask');
+    }
+}, {
     init: function() {
         this._super();
 
@@ -130,14 +137,16 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
             this._channels = {};
             var curChannel = null;
             _.each(channels, function(channelConfig, k) {
-                curChannel = WhoWentOut.Channel.Create(channelConfig);
-                this._channels[ k ] = curChannel;
+                if (!this._channels[ k ]) {
+                    curChannel = WhoWentOut.Channel.Create(channelConfig);
+                    this._channels[ k ] = curChannel;
+                }
             }, this);
         }
     },
     refreshOnlineStatuses: function(users) {
         var self = this;
-        $.when( this._fetchUsers(this.userIdsOnPage()) ).then(function(users) {
+        $.when(this._fetchUsers(this.userIdsOnPage())).then(function(users) {
             _.each(users, function(u, userId) {
                 var user = WhoWentOut.User.get(u.id);
                 user.isOnline(u.is_online);
@@ -192,13 +201,13 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {}, {
     _fetchUsers: function(userIds) {
         var dfd = $.Deferred();
         $.ajax({
-           type: 'post',
-           dataType: 'json',
-           url: '/js/users',
-           data: {user_ids: userIds},
-           success: function(response) {
-               dfd.resolve(response.users);
-           }
+            type: 'post',
+            dataType: 'json',
+            url: '/js/users',
+            data: {user_ids: userIds},
+            success: function(response) {
+                dfd.resolve(response.users);
+            }
         });
         return dfd.promise();
     },

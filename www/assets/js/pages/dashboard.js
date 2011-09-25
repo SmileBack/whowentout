@@ -1,6 +1,6 @@
 $.when(app.load()).then(function() {
-    
-    $('.recent_attendees').entwine({
+
+    $('.recent_attendees.party').entwine({
         onmatch: function() {
             this._super();
             var self = this;
@@ -69,7 +69,7 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.recent_attendees li').entwine({
+    $('.recent_attendees.party li').entwine({
         userID: function() {
             return parseInt(this.attr('data-user-id'));
         }

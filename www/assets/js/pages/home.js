@@ -29,7 +29,7 @@ $('#checkin_form :submit').entwine({
     onclick: function(e) {
         e.preventDefault();
 
-        var doorsOpen = $('#wwo').doorsOpen();
+        var doorsOpen = (this.closest('form').attr('doors_open') == 1);
         var place = this.form().selectedPlace();
         var doorsOpenTime = this.closest('form').doorsOpenTime().format('h tt');
 
@@ -57,7 +57,33 @@ $('#checkin_form :submit').entwine({
 
 $('.confirm_checkin.dialog').live('button_click', function(e, button) {
     if (button.hasClass('y')) {
-        $('#checkin_form').submit();
+        $('#dashboard_page #checkin_form').ajaxSubmit({
+            type: 'post',
+            dataType: 'json',
+            success: function(response) {
+                console.log('--checkin--');
+                console.log(response);
+                app.loadChannels(response.channels);
+                var party = response.party;
+                var partySummary = $('.party_summary[data-party-date=' + party.date + ']');
+                var newPartySummary = $(response.party_summary_view).hide();
+                partySummary.fadeOut(400, function() {
+                    partySummary.replaceWith(newPartySummary);
+                    newPartySummary.fadeIn(400, function() {
+
+                        var checkinForm = $(response.checkin_form);
+                        checkinForm.hide();
+                        $('.parties_attended').prepend(checkinForm);
+                        var height = checkinForm.whenShown(function() {
+                            return this.outerHeight(true);
+                        });
+                        checkinForm.css('margin-top', '-' + height + 'px').show()
+                        .delay(1000).animate({'margin-top': '0px'});
+
+                    });
+                });
+            }
+        });
     }
 });
 
