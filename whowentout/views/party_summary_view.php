@@ -1,6 +1,7 @@
 <?php $date = new DateTime($party->date, $party->college->timezone); ?>
 
 <div class="party_summary"
+     id="<?= 'party_summary_' . $party->id ?>"
      data-party-date="<?= $party->date ?>">
     
     <h2>

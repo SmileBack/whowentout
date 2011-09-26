@@ -66,7 +66,14 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
         <?php elseif ($doors_open && $checked_in): ?>
             <div class="body">
                 <div class="doors_message large">
-                    <p>You have already checked into <a href="/party/<?= $party->id ?>"><?= $party_day->format('l') ?>'s party</a></p>
+                    <p>You have already checked into
+                        <a href="/party/<?= $party->id ?>"
+                           class="show_spotlight"
+                           data-target="<?= '#party_summary_' . $party->id ?>"
+                           data-delay="1000">
+                            <?= $party_day->format('l') ?>'s party
+                        </a>
+                    </p>
                     <p>
                         Planning on going out <em><?= $college->format_relative_night($next_party_day) ?></em>?
                         Checkin in at <?= $next_doors_opening_time->format('g a') ?> <em>after</em> the party.
