@@ -12,7 +12,6 @@
         <?php if (empty($matches)): ?>
             <li>
                 <span>Any mutual smiles will appear here</span>
-                <a class="mutual_smiles_help help">?</a>
             </li>
         <?php else: ?>
             <? foreach ($user->matches($party) as $match): ?>

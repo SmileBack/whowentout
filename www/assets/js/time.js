@@ -41,12 +41,7 @@ function time_passed(time, fn) {
         if (duration.isNegative())
             return '';
 
-        if ( duration.total('m') < 1 ) {
-            duration = duration.round('s');
-        }
-        else {
-            duration = duration.roundUp('m');
-        }
+        duration = duration.round('s');
         
         return duration.format();
     }

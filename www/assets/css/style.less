@@ -177,7 +177,7 @@ header {
   .to_get_started {
     margin-top: 25px;
   }
-  #checkin_form {
+  .checkin_form {
     margin-top: 10px;
   }
 }
@@ -190,7 +190,7 @@ header {
     float: right;
     margin-right: 20px;
   }
-  #checkin_form { margin: 0; }
+  .checkin_form { margin: 0; }
 }
 
 .recent_attendees {
@@ -264,29 +264,88 @@ header {
 .parties_attended_view {
   float: left;
   clear: both;
+  position: relative;
+  @party_summary_height: 160px;
+  //.section_body { margin-top: 45px; }
   .help { display: none; }
    .party_summary {
+       height: @party_summary_height;
        margin-bottom: 20px;
        padding-bottom: 20px;
        border-bottom: 1px solid @border_color;
+       position: relative;
+       z-index: 10;
+       background-color: white;
        &:last-child {
            margin-bottom: 0;
            padding-bottom: 0;
            border-bottom: none;
        }
+       h2 {
+         float: left;
+       }
        h2 > * {
          display: inline-block;
        }
-       .body { overflow: hidden; }
+       .badge {
+         float: right;
+         text-transform: uppercase;
+         font-weight: bold;
+         font-size: 12px;
+       }
+       .recent_attendees {
+         float: left;
+       }
+       .countdown {
+         float: right;
+         width: 260px;
+         .infobox;
+         padding: 10px;
+         margin-top: 10px;
+       }
+       .remaining_time {
+           font-size: 18px;
+           line-height: 45px;
+           padding-left: 45px;
+           background-image: url(../images/clock_large.png);
+           background-position: 6px 50%;
+           background-repeat: no-repeat;
+       }
+       .body { overflow: hidden; width: 100%; }
        .body > .left { width: 62%; float: left;  }
        .body > .right { width: 36%; float: right;}
        .party_notices .send_fb_message { display: none; }
-       .doors_message { font-size: 12px; }
+       .doors_message {
+           font-size: 12px;
+           &.large {
+               display: table;
+               font-size: 20px;
+               line-height: 30px;
+               margin: 12px auto;
+               background-image: none;
+               padding-left: 0px;
+               .remaining_time { .infobox; margin: auto; display: table; padding: 10px 10px 10px 45px; }
+           }
+           em { font-weight: bold; font-style: normal; }
+       }
        .submit_button { font-size: 16px; }
+   }
+   .party_summary.upcoming {
+     > h2 { .opacity(0.5); }
+     .recent_attendees { .opacity(0.2); }
+   }
+   .checkin_box {
+       width: 766px;
+       height: 0px;
+       position: absolute;
+       z-index: 30;
+       top: 219px;
+       left: 1px;
+       border: 6px solid #444;
    }
 }
 
-#checkin_form {
+.checkin_form {
   display: inline-block;
   margin-right: 10px;
 }
@@ -579,3 +638,5 @@ form .hometown {
         .attention; font-weight: normal;
     }
 }
+
+

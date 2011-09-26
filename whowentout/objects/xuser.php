@@ -521,7 +521,7 @@ class XUser extends XObject
 
     function recently_attended_parties()
     {
-        $cutoff = $this->college->day(-7, TRUE);
+        $cutoff = $this->college->day(-14, TRUE);
         $rows = $this->db()
                 ->select('party_id AS id')
                 ->from('party_attendees')

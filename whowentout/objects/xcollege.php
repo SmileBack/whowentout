@@ -547,6 +547,19 @@ class XCollege extends XObject
         return $dt->format('l, M. jS');
     }
 
+    function format_relative_night(DateTime $dt)
+    {
+        $dt = $this->make_local($dt);
+        $dt->setTime(0, 0, 0);
+
+        $today = $this->today();
+
+        if ($dt->getTimestamp() == $today->getTimestamp())
+            return 'tonight';
+        else
+            return $dt->format('l') . ' night';
+    }
+
     function to_array()
     {
         $college = array();

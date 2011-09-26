@@ -86,12 +86,14 @@
 
     </div> <!-- page_content end -->
 
-    <div id="sidebar">
-        <div class="my_info_view">
-            <?= load_view('sections/my_info_view') ?>
+    <?php if (logged_in()): ?>
+        <div id="sidebar">
+            <div class="my_info_view">
+                <?= load_view('sections/my_info_view') ?>
+            </div>
+            <ul id="notifications"></ul>
         </div>
-        <ul id="notifications"></ul>
-    </div>
+    <?php endif; ?>
 
 </div> <!-- page end -->
 

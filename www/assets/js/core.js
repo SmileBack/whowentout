@@ -222,8 +222,8 @@ $.fn.textSize = function(text) {
     for (var k = 0; k < styles.length; k++)
         $(div).css(styles[k], el.css(styles[k]));
 
-    h = $(div).outerHeight();
-    w = $(div).outerWidth();
+    h = $(div).outerHeight(false);
+    w = $(div).outerWidth(false);
 
     $(div).remove();
 

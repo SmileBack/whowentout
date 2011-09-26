@@ -3,6 +3,7 @@ function TimeInterval(totalMs) {
 }
 TimeInterval.units = ['ms', 's', 'm', 'h', 'd'];
 TimeInterval.factors = {ms: 1, s: 1000, m: 1000 * 60, h: 1000 * 60 * 60, d: 1000 * 60 * 60 * 24};
+
 TimeInterval.prototype.convert = function(value, from, to) {
   return value * TimeInterval.factors[from] / TimeInterval.factors[to];
 }
@@ -43,7 +44,7 @@ TimeInterval.prototype.toString = function() {
   return str.join(', ');
 }
 TimeInterval.prototype.format = function() {
-  var str = this.toString().replace('h', 'hr').replace('m', 'min').replace(/,/g, '');
+  var str = this.toString().replace('h', 'h').replace('m', 'm');//.replace(/,/g, '');
   if (str == '')
     return '0 s';
   else

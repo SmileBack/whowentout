@@ -1,4 +1,4 @@
-$('#checkin_form').entwine({
+$('.checkin_form').entwine({
     selectedPlace: function() {
         return {
             id: this.find('option:selected').attr('value'),
@@ -13,7 +13,7 @@ $('#checkin_form').entwine({
     }
 });
 
-$('#checkin_form select.empty').entwine({
+$('.checkin_form select.empty').entwine({
     onmouseenter: function(e) {
         this.notice('Parties to checkin to will be listed here', 'b');
     },
@@ -22,7 +22,7 @@ $('#checkin_form select.empty').entwine({
     }
 });
 
-$('#checkin_form :submit').entwine({
+$('.checkin_form :submit').entwine({
     form: function() {
         return this.closest('form');
     },
@@ -57,7 +57,7 @@ $('#checkin_form :submit').entwine({
 
 $('.confirm_checkin.dialog').live('button_click', function(e, button) {
     if (button.hasClass('y')) {
-        $('#dashboard_page #checkin_form').ajaxSubmit({
+        $('#dashboard_page .checkin_form').ajaxSubmit({
             type: 'post',
             dataType: 'json',
             success: function(response) {
@@ -77,9 +77,13 @@ $('.confirm_checkin.dialog').live('button_click', function(e, button) {
                         var height = checkinForm.whenShown(function() {
                             return this.outerHeight(true);
                         });
-                        checkinForm.css('margin-top', '-' + height + 'px').show()
-                        .delay(1000).animate({'margin-top': '0px'});
-
+                        checkinForm.css({
+                           'margin-top': '-' + height + 'px',
+                           'z-index': 5
+                        })
+                        .show().delay(1000).animate({'margin-top': '0px'}, function() {
+                            $(this).css('z-index', '');
+                        });
                     });
                 });
             }
