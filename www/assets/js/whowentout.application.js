@@ -198,6 +198,12 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
     playSound: function() {
         this._dingSound.play();
     },
+    showSmileHelp: function() {
+        var path = '/dashboard/smile_help';
+        
+        WWO.dialog.title('Help').setButtons('close').showDialog('smile_help');
+        WWO.dialog.loadContent('/dashboard/smile_help');
+    },
     _fetchUsers: function(userIds) {
         var dfd = $.Deferred();
         $.ajax({

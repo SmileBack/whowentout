@@ -1,14 +1,14 @@
 <div class="party_notices" for="<?= $party->id ?>">
-    <p class="smiles_left">
+    <p class="smiles_left link_to_party">
         <span><?= $user->smiles_left_message($party->id) ?></span>
     </p>
 
-    <p class="smiles_received">
+    <p class="smiles_received link_to_party">
         <span><?= $user->smiles_received_message($party->id) ?></span>
     </p>
 
     <?php $matches = $user->matches($party); ?>
-    <ul class="smile_matches <?= empty($matches) ? 'empty' : '' ?>">
+    <ul class="smile_matches <?= empty($matches) ? 'empty' : '' ?> link_to_party">
         <?php if (empty($matches)): ?>
             <li>
                 <span>Any mutual smiles will appear here</span>
@@ -24,7 +24,7 @@
     </ul>
 
     <p class="whats_a_smile">
-        <a href="/smilehelp">What is a smile?</a>
+        <a href="/smilehelp" class="smile_help_link">What is a smile?</a>
     </p>
 </div>
     

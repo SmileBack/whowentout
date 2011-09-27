@@ -73,4 +73,9 @@ class Dashboard extends MY_Controller
         $this->json($response);
     }
 
+    function smile_help()
+    {
+        print $this->load->view('smile_help_view');
+    }
+    
 }

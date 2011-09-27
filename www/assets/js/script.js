@@ -65,8 +65,27 @@ jQuery(function($) {
     $(window).bind('scroll resize', _.debounce(function() {
         WWO.dialog.refreshPosition();
     }, 250));
-    
+
 });
+
+//smile help dialog behavior
+(function($) {
+    $('.smile_help_container .nav_button').entwine({
+        onclick: function(e) {
+            this._super();
+            e.preventDefault();
+            var href = this.attr('href');
+            var dialog = this.closest('.dialog');
+            this.closest('.help_container').find('> *').animate({opacity: 0}, function() {
+                $(this).hide();
+                $(href).css('opacity', 0).show().animate({opacity: 1}, function() {
+                    dialog.refreshPosition();
+                });
+            });
+        }
+    });
+})(jQuery);
+
 
 $('a.confirm').entwine({
     onclick: function(e) {

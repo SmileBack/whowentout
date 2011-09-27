@@ -107,3 +107,4 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
     <?php endif; ?>
 
 </div>
+    

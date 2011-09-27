@@ -84,7 +84,7 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.parties_attended_view .party_notices > *').entwine({
+    $('.party_summary .link_to_party').entwine({
         onmatch: function() {
             this.css('cursor', 'pointer');
         },
@@ -245,6 +245,14 @@ $('.checkin_form :submit').entwine({
             .showDialog('cant_checkin');
         }
     }
+});
+
+$('.smile_help_link').entwine({
+   onclick: function(e) {
+       this._super();
+       e.preventDefault();
+       app.showSmileHelp();
+   }
 });
 
 $('.confirm_checkin.dialog').live('button_click', function(e, button) {
