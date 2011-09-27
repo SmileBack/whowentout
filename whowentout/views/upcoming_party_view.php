@@ -6,15 +6,15 @@ $college = college();
 $doors_open = FALSE;
 $within_checkin_periods = $college->within_checkin_periods();
 
-$doors_opening_time = $college->get_opening_time(TRUE);
-$doors_closing_time = $college->get_closing_time(TRUE);
-$open_parties = $college->open_parties($doors_opening_time);
-
-$checkin_day = clone $doors_opening_time;
-$checkin_day = $checkin_day->setTime(0, 0, 0);
+$checkin_day = $college->day_of_type('checkin', 1, TRUE);
 
 $party_day = clone $checkin_day;
 $party_day->modify('-1 day');
+
+$doors_opening_time = $college->get_opening_time(TRUE, $checkin_day);
+$doors_closing_time = $college->get_closing_time(TRUE, $checkin_day);
+
+$open_parties = $college->open_parties($doors_opening_time);
 
 ?>
 

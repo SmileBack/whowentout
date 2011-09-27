@@ -18,6 +18,9 @@
     <?= less_asset('ie') ?>
     <![endif]-->
 
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
     <?= js_asset('lib/less.js') ?>
     <?= js_asset('lib/modernizr.js') ?>
 
@@ -38,9 +41,9 @@
     <header class="main">
 
         <div id="logo">
-            
+
             <a href="/">
-                <img src="/assets/images/logo.png?version=6" />
+                <img src="/assets/images/logo.png?version=6"/>
             </a>
 
             <?php if (FALSE): ?>
@@ -50,7 +53,7 @@
             <?= fb()->getUser() ?>
             )
             <?php endif; ?>
-            
+
         </div>
 
         <nav>
@@ -71,31 +74,33 @@
 
         </nav>
 
-        <div class="clearboth" style="clear: both;" />
+        <div class="clearboth" style="clear: both;"/>
     </header>
 
     <?php if (get_message()): ?>
-        <div class="message">
-            <?= pull_message() ?>
-        </div>
+    <div class="message">
+        <?= pull_message() ?>
+    </div>
     <?php endif; ?>
 
     <div id="page_content">
 
         <?= $page_content ?>
 
-    </div> <!-- page_content end -->
+    </div>
+    <!-- page_content end -->
 
     <?php if (logged_in()): ?>
-        <div id="sidebar">
-            <div class="my_info_view">
-                <?= load_view('sections/my_info_view') ?>
-            </div>
-            <ul id="notifications"></ul>
+    <div id="sidebar">
+        <div class="my_info_view">
+            <?= load_view('sections/my_info_view') ?>
         </div>
+        <ul id="notifications"></ul>
+    </div>
     <?php endif; ?>
 
-</div> <!-- page end -->
+</div>
+<!-- page end -->
 
 <?= load_view('js_view') ?>
 

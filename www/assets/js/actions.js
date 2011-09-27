@@ -13,5 +13,9 @@ Actions = {
     },
     Alert: function(message) {
         alert(message);
+    },
+    ShowSpotlight: function(element, duration) {
+        duration = duration || 2000;
+        $(element).flashSpotlight();
     }
 };

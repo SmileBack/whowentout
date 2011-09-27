@@ -7,6 +7,9 @@
 <?= js_asset('lib/soundmanager2-nodebug.js') ?>
 <?= js_asset('lib/soundmanager2.config.js') ?>
 
+<?= js_asset('lib/google.jsapi.js') ?>
+<?= js_asset('lib/google.corechart.js') ?>
+
 <?= js_asset('lib/jquery.js') ?>
 <?= js_asset('lib/underscore.js') ?>
 <?= js_asset('lib/jquery.jstorage.js') ?>
@@ -47,6 +50,7 @@
 <?= js_asset('pages/dashboard.js') ?>
 <?= js_asset('pages/gallery.js') ?>
 <?= js_asset('pages/editinfo.js') ?>
+<?= js_asset('pages/friends.js') ?>
 
 <?= js_asset('script.js') ?>
 

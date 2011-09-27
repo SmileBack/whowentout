@@ -534,12 +534,11 @@ class XCollege extends XObject
                 ->from('parties')
                 ->where(array(
                              'college_id' => $this->id,
-                             'date' => date_format($time, 'Y-m-d'),
+                             'date' => $time->format('Y-m-d'),
                         ))
                 ->join('places', 'parties.place_id = places.id');
     }
-
-
+    
     function format_time(DateTime $dt)
     {
         $dt = $this->make_local($dt);
@@ -556,6 +555,8 @@ class XCollege extends XObject
 
         if ($dt->getTimestamp() == $today->getTimestamp())
             return 'tonight';
+        else if ($dt->getTimestamp() == $this->yesterday()->getTimestamp())
+            return 'last night';
         else
             return $dt->format('l') . ' night';
     }

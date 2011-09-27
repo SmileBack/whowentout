@@ -17,6 +17,8 @@ class Welcome extends MY_Controller
         $maggie = user(96);
         $claire = user(82);
         $jenny = user(108);
+
+        $this->load_view('sections/friends_view');
     }
 
 }

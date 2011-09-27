@@ -55,14 +55,22 @@ class Dashboard extends MY_Controller
 
     function where_friends_went()
     {
-        $this->load_view('where_friends_went_past_view');
+        $this->load_view('where_friends_went_view');
     }
 
     function where_friends_went_data()
     {
-        $date = new DateTime(post('date'), college()->timezone);
-        $response = where_friends_went_pie_chart_data($date);
-        print json_encode($response);
+        if (!logged_in())
+            $this->json_failure('You must be logged in');
+
+        $user = current_user();
+        $date = new DateTime(post('date'), $user->college->timezone);
+        $response = array();
+        
+        $response['breakdown'] = where_friends_went_pie_chart_data($date);
+        $response['friend_galleries_view'] = load_view('friend_galleries_view', array('user' => $user, 'date' => $date));
+        
+        $this->json($response);
     }
 
 }

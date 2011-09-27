@@ -596,7 +596,12 @@ class XUser extends XObject
             return array();
 
         $party_ids = $this->_party_ids($date);
+        
         $friend_ids = $this->_friend_ids();
+
+        //foreach ($this->db()->select('id')->from('users')->where('college_id', $this->college->id)->get()->result() as $row) {
+        //    $friend_ids[] = $row->id;
+        //}
 
         if (empty($party_ids) || empty($friend_ids)) {
             return array();
@@ -607,18 +612,22 @@ class XUser extends XObject
 
         $query = "SELECT user_id, party_id from users
               INNER JOIN party_attendees
-              ON users.id = party_attendees.user_id AND party_id IN ($party_ids) AND users.id IN ($friend_ids)";
+              ON users.id = party_attendees.user_id AND party_id IN ($party_ids) AND users.id IN ($friend_ids)
+              ORDER BY first_name, last_name ASC";
         $rows = $this->db()->query($query)->result();
         foreach ($rows as $row) {
             $breakdown[$row->party_id][] = $row->user_id;
         }
+        
         return $breakdown;
     }
 
     private function _party_ids(DateTime $date)
     {
+        $date = $this->college->make_local($date);
+        
         $ids = array();
-        foreach ($this->college->open_parties($date) as $party) {
+        foreach ($this->college->parties_on($date) as $party) {
             $ids[] = $party->id;
         }
         return $ids;

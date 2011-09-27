@@ -97,8 +97,9 @@ section {
 }
 
 .horizontal_gallery {
+  overflow: hidden;
   > li {
-    display: inline-block;
+    float: left;
     margin: 8px;
   }
 }
@@ -421,54 +422,6 @@ table td, table th {
   }
 }
 
-.friends_view {
-  .section_body {
-    position: relative; margin-left: 0;
-    h3, .where_friends_went_past { margin-left: 34px; }
-  }
-  .invite_friends {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    > * { float: left; }
-    label { clear: left; }
-    .friends.autocomplete { clear: left; width: 300px; height: 23px; }
-    .autocomplete_selection { clear: left; }
-    .autocomplete_list_item { padding: 0 12px; }
-    .submit_button { height: 29px; }
-  }
-  .tabs {
-    float: right;
-    margin: 50px 0 30px 0;
-    > li { overflow: hidden; }
-  }
-  .people {
-    visibility: hidden;
-    float: right;
-    text-align: center;
-    width: 525px;
-    height: 185px;
-    overflow: hidden;
-    overflow-x: scroll;
-    img { width: 90px; }
-    > ul {
-      .horizontal_gallery;
-      overflow: hidden;
-      width: 10000px;
-      li { float: left; }
-    }
-    .full_name > * { display: block; }
-  }
-  .friendschart {
-    overflow: hidden;
-    
-    height: 275px;
-    iframe, .empty.chart { 
-      margin-left: -50px;
-    }
-  }
-}
-
 .parties_this_week {
     .horizontal_sections;
     .party_list > .body {
@@ -641,4 +594,48 @@ form .hometown {
     }
 }
 
+.user_list {
+  .horizontal_gallery;
+  text-align: center;
+  overflow-y: scroll;
+  height: 200px;
+  .user { width: 90px; height: 175px; overflow: hidden; }
+  .user_thumb img {  }
+}
 
+.friends_view {
+    .friends_breakdown { border-bottom: 1px solid @border_color; }
+    .friends_breakdown:last-child {
+        border-bottom:  none;
+    }
+}
+
+.friends_breakdown {
+  overflow: hidden;
+  height: 300px;
+  h1 { margin: 0; padding: 15px 0 0 15px; }
+  .loading_message {
+    font-size: 20px;
+    display: table;
+    margin: 110px auto 0 auto;
+    padding-left: 20px;
+    background: url(../images/loading_icon.gif) no-repeat 0 50%;
+  }
+  .friend_galleries {
+    float: left;
+    overflow: hidden;
+    width: 350px;
+    margin-top: -20px;
+  }
+  .friends_at_party {
+    display: none;
+    float: left;
+    width: 350px;
+  }
+  .piechart {
+    float: left;
+    width: 450px;
+    height: 300px;
+    margin:  -35px -30px 0 -70px;
+  }
+}
