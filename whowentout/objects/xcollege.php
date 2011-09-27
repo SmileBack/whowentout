@@ -539,11 +539,12 @@ class XCollege extends XObject
                 ->join('places', 'parties.place_id = places.id');
     }
     
-    function format_time(DateTime $dt)
+    function format_time(DateTime $dt, $format = 'default')
     {
+        $formats = array('default' => 'l, M. jS', 'short' => 'D, M. jS');
+
         $dt = $this->make_local($dt);
-        
-        return $dt->format('l, M. jS');
+        return $dt->format($formats[$format]);
     }
 
     function format_relative_night(DateTime $dt)

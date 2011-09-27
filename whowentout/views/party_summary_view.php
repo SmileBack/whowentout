@@ -19,15 +19,15 @@
         </div>
 
         <div class="right">
-            <?php if ($party): ?>
-                <?=
-                    load_view('party_notices_view', array(
-                                                         'user' => $user,
-                                                         'party' => $party,
-                                                    )) ?>
-            <?php else: ?>
-                <h2 class="place">&nbsp;</h2>
-            <?php endif; ?>
+            <?=
+                load_view('party_notices_view', array(
+                                                     'user' => $user,
+                                                     'party' => $party,
+                                                )) ?>
+
+            <?= form_open("party/$party->id", array('class' => 'see_party_gallery')) ?>
+            <input type="submit" class="submit_button" value="See Party Gallery" />
+            <?= form_close() ?>
         </div>
 
     </div>

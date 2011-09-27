@@ -1,10 +1,6 @@
-<?= load_section_view('parties_attended_view', "Parties", array(
+<?= load_section_view('parties_attended_view', "My Parties", array(
                                                  'description' => '<p class="user_command_notice"></p>',
                                                           )) ?>
 
-<section>
-    <div class="section_body">
-        <?= load_view('upcoming_party_view') ?>
-    </div>
-</section>
-    
+<h1>Upcoming Parties</h1>
+<?= load_view('upcoming_parties_view') ?>

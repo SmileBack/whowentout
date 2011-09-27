@@ -93,12 +93,7 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
     <?php  elseif (!$doors_open): ?>
 
     <div class="user_command">
-        <?php if ($college->is_checkin_day($college->tomorrow())): ?>
-        Come back at <?= $next_doors_opening_time->format('g a') ?> to check in
-        to <?= $next_party_day->format('l') ?>'s parties
-        <?php else: ?>
-            come back thursdayyyyy
-        <?php endif; ?>
+        Come back after <?= $next_party_day->format('l') ?> night's party to check in!
     </div>
 
     <div class="body">

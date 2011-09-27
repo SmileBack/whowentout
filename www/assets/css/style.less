@@ -274,11 +274,11 @@ header {
   ol { margin: 10px 45px; }
 }
 
-.horizontal_sections {
+.horizontal_sections(@count: 3) {
     overflow:  hidden;
     > * {
       float: left;
-      width: 33%;
+      width: (100% / @count) - 1;
       border-right:  1px solid @light_border_color;
       &:last-child { border-right: none; }
       > h2 {
@@ -361,6 +361,7 @@ header {
    .body > .left { width: 62%; float: left;  }
    .body > .right { width: 36%; float: right;}
    .party_notices .send_fb_message { display: none; }
+   .whats_a_smile { display: none; }
    .doors_message {
        font-size: 12px;
        &.large {
@@ -375,10 +376,39 @@ header {
        em { font-weight: bold; font-style: normal; }
    }
    .submit_button { font-size: 16px; }
+   .see_party_gallery {
+      text-align: center;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+   }
+   .see_party_gallery .submit_button {
+      font-weight: bold;
+      margin: 2px;
+   }
 }
 
-.party_summary.upcoming {
-    
+.upcoming_parties {
+    overflow: hidden;
+    .day_summary {
+        float: left;
+        height: 200px;
+        width: 19.2%;
+        .shadow(1px, 1px, 3px, 0px, #dedede);
+        background-color: #FEF9ED;
+        margin: 3px;
+        h3 {
+            background-color: @primary_color;
+            color: @primary_text_color;
+            padding: 5px;
+        }
+        > .inner {
+          margin: 10px;
+        }
+    }
+    .party_list {
+        margin-top: 10px;
+    }
 }
 
 .checkin_form {
@@ -453,16 +483,6 @@ table td, table th {
   .selected {
       font-weight: bold; text-decoration: underline;
   }
-}
-
-.parties_this_week {
-    .horizontal_sections;
-    .party_list > .body {
-        font-size: 16px;
-        font-weight: bold;
-        height: 100px;
-        > div { margin: 10px 0; }
-    }
 }
 
 .bullet {
