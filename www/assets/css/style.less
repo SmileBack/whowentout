@@ -54,11 +54,11 @@ section {
     margin: 0;
   }
   > h3 {
-      width: 100%;
-      background-color: #f0f0f0;
-      color: #444;
-      padding: 3px 10px;
-      font-weight: normal;
+    .notice_style;
+    margin: 0;
+    font-size: 16px;
+    .user_command_notice { height: 19px; }
+    //background-color: #ffcc66;
   }
   .section_body {
     margin: 15px 25px;
@@ -314,10 +314,14 @@ header {
       height: 0px;
       position: absolute;
       z-index: 30;
-      top: 219px;
+      top: 264px;
       left: 1px;
       border: 6px solid #444;
   }
+}
+
+.user_command {
+    display: none;
 }
 
 .party_summary {
@@ -347,10 +351,9 @@ header {
      margin-top: 10px;
    }
    .remaining_time {
-       font-size: 18px;
-       line-height: 45px;
-       padding-left: 45px;
-       background-image: url(../images/clock_large.png);
+       font-size: 14px;
+       padding-left: 30px;
+       background-image: url(../images/clock.png);
        background-position: 6px 50%;
        background-repeat: no-repeat;
    }
@@ -362,12 +365,12 @@ header {
        font-size: 12px;
        &.large {
            display: table;
-           font-size: 20px;
+           font-size: 14px;
            line-height: 30px;
            margin: 12px auto;
            background-image: none;
            padding-left: 0px;
-           .remaining_time { .infobox; margin: auto; display: table; padding: 10px 10px 10px 45px; }
+           .remaining_time { .infobox; margin: auto; display: table; padding: 10px 10px 10px 30px; }
        }
        em { font-weight: bold; font-style: normal; }
    }

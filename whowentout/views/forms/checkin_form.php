@@ -50,6 +50,8 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
         <?= form_close() ?>
     </h2>
 
+    <div class="user_command">Check in to the party you attended last night (<?= $party_day->format('l') ?>)!</div>
+
     <div class="badge">open for checkin</div>
 
     <div class="body">
@@ -65,19 +67,17 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
     </div>
 
     <?php elseif ($doors_open && $checked_in): ?>
+
+    <div class="user_command">
+        You have checked into <?= $party->place->name ?>.
+        <a href="/party/<?= $party->id ?>"
+           class="show_spotlight"
+           data-target="<?= '#party_summary_' . $party->id ?>"
+           data-delay="1000">See below</a> to go to the party gallery!
+    </div>
+
     <div class="body">
         <div class="doors_message large">
-            <p>You have already checked into
-                <em><?= $college->format_relative_night($party_day) ?>'s party</em>.
-                
-                <a href="/party/<?= $party->id ?>"
-                   class="show_spotlight"
-                   data-target="<?= '#party_summary_' . $party->id ?>"
-                   data-delay="1000">
-                    see below
-                </a>
-            </p>
-
             <p>
                 Planning on going out <em><?= $college->format_relative_night($next_party_day) ?></em>?
                 Check in at <?= $next_doors_opening_time->format('g a') ?> <em>after</em> the party.
@@ -91,6 +91,16 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
     </div>
 
     <?php  elseif (!$doors_open): ?>
+
+    <div class="user_command">
+        <?php if ($college->is_checkin_day($college->tomorrow())): ?>
+        Come back at <?= $next_doors_opening_time->format('g a') ?> to check in
+        to <?= $next_party_day->format('l') ?>'s parties
+        <?php else: ?>
+            come back thursdayyyyy
+        <?php endif; ?>
+    </div>
+
     <div class="body">
         <div class="doors_message large">
             <p>

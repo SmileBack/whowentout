@@ -550,15 +550,7 @@ class XCollege extends XObject
     {
         $dt = $this->make_local($dt);
         $dt->setTime(0, 0, 0);
-
-        $today = $this->today();
-
-        if ($dt->getTimestamp() == $today->getTimestamp())
-            return 'tonight';
-        else if ($dt->getTimestamp() == $this->yesterday()->getTimestamp())
-            return 'last night';
-        else
-            return $dt->format('l') . ' night';
+        return $dt->format('l') . ' night';
     }
 
     function to_array()

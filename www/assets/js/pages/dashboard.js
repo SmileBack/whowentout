@@ -12,7 +12,7 @@ $.when(app.load()).then(function() {
             this._super();
         },
         thumbnailCapacity: function() {
-            return parseInt( this.attr('data-thumbnail-capacity') );
+            return parseInt(this.attr('data-thumbnail-capacity'));
         },
         oncheckin: function(e) {
             this.insertThumbnail(e.user.id);
@@ -84,11 +84,22 @@ $.when(app.load()).then(function() {
         }
     });
 
+    $('.party_summary.checkin').entwine({
+        onmatch: function() {
+            var notice = this.find('.user_command').html();
+            $('.user_command_notice').html(notice);
+        },
+        onunmatch: function() {
+        }
+    });
+
     $('.party_summary .link_to_party').entwine({
         onmatch: function() {
+            this._super();
             this.css('cursor', 'pointer');
         },
         onunmatch: function() {
+            this._super();
         },
         onclick: function(e) {
             e.preventDefault();
@@ -248,11 +259,11 @@ $('.checkin_form :submit').entwine({
 });
 
 $('.smile_help_link').entwine({
-   onclick: function(e) {
-       this._super();
-       e.preventDefault();
-       app.showSmileHelp();
-   }
+    onclick: function(e) {
+        this._super();
+        e.preventDefault();
+        app.showSmileHelp();
+    }
 });
 
 $('.confirm_checkin.dialog').live('button_click', function(e, button) {
@@ -278,8 +289,8 @@ $('.confirm_checkin.dialog').live('button_click', function(e, button) {
                             return this.outerHeight(true);
                         });
                         checkinForm.css({
-                           'margin-top': '-' + height + 'px',
-                           'z-index': 5
+                            'margin-top': '-' + height + 'px',
+                            'z-index': 5
                         })
                         .show().delay(1000).animate({'margin-top': '0px'}, function() {
                             $(this).css('z-index', '');
