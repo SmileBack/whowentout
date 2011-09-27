@@ -1,0 +1,33 @@
+body {
+  background-color: #7d1729;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+#homepage_message {
+  display: table;
+  margin: 0 auto;
+}
+
+#enter_button {
+  display: block;
+  text-indent: -9999px;
+  width: 204px;
+  height: 62px;
+  margin: 15px auto 0 auto;
+  background: url(../images/enter_button.png) no-repeat 0 0;
+  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+    background-position: 0 -62px;
+  }
+  &.hover {
+    cursor: pointer;
+    background-position: 0 -62px;
+  }
+  &.down {
+    cursor: pointer;
+    margin-top: 17px;
+  }
+}
