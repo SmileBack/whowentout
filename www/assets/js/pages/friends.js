@@ -1,5 +1,20 @@
 (function($) {
 
+    
+    function loadGoogleChartsApi() {
+        if (this._dfd)
+            return this._dfd;
+        
+        var dfd = this._dfd = $.Deferred();
+        $.getScript('/assets/js/lib/google.jsapi.js', function() {
+            $.getScript('/assets/js/lib/google.corechart.js', function() {
+                dfd.resolve();
+            });
+        })
+        
+        dfd.promise();
+    }
+
     $('.friends_breakdown').entwine({
         onmatch: function() {
             this.loadGalleries();
@@ -61,7 +76,8 @@
     $('.friends_breakdown .piechart').entwine({
         onmatch: function() {
             var self = this;
-            $.when(this.closest('.friends_breakdown').loadData()).then(function(data) {
+            $.when(this.closest('.friends_breakdown').loadData(), loadGoogleChartsApi())
+            .then(function(data) {
                 self.displayChart(data.breakdown);
             });
         },
@@ -76,8 +92,6 @@
         displayChart: function(breakdown) {
             var self = this;
             this.data('breakdown', breakdown);
-
-            
 
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Party');
@@ -125,7 +139,5 @@
     $('.friends_breakdown .piechart').live('select', function(e) {
         $(this).friendsBreakdown().selectParty(e.party.id);
     });
-
-    
 
 })(jQuery);

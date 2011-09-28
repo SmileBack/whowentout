@@ -222,6 +222,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
             .animate({left: '-=10px'}, 250);
         }
         var id = setInterval(bounce, 3000);
+        bounce();
     },
     _fetchUsers: function(userIds) {
         var dfd = $.Deferred();
