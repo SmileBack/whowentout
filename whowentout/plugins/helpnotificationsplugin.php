@@ -18,10 +18,9 @@ class HelpNotificationsPlugin
      */
     function on_checkin($e)
     {
+        
         if ($this->is_first_checkin($e->user)) {
-            $this->ci->notification->send($e->user, "Welcome to WhoWentOut!");
-            $this->ci->notification->send($e->user, "You can chat.");
-            $this->ci->notification->send($e->user, "You can smile.");
+            
         }
     }
 

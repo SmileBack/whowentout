@@ -22,6 +22,7 @@
 <?= js_asset('lib/jquery.position.js') ?>
 <?= js_asset('lib/jquery.jcrop.js') ?>
 
+<?= js_asset('lib/jquery.tip.js') ?>
 <?= js_asset('lib/jquery.spotlight.js') ?>
 
 <?= js_asset('whowentout.component.js') ?>

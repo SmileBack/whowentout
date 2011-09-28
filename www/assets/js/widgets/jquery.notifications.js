@@ -38,8 +38,9 @@ $('#notifications').entwine({
         var self = this;
         $.when(app.load()).then(function() {
             app.channel('current_user').bind('notification', function(e) {
-                self.addNotification(e.notification);
-                app.playSound('ding');
+                if (e.notification.type == 'normal')
+                    self.addNotification(e.notification);
+                    app.playSound('ding');
             });
         });
     }

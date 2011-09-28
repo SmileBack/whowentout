@@ -213,6 +213,9 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         WWO.dialog.title('Help').setButtons('close').showDialog('smile_help');
         WWO.dialog.loadContent('/dashboard/smile_help');
     },
+    showPartyGalleryTip: function() {
+        $('.see_party_gallery:first').showTip({position: 'right', content: 'Click Here!'});
+    },
     _fetchUsers: function(userIds) {
         var dfd = $.Deferred();
         $.ajax({
