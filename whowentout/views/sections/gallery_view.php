@@ -12,7 +12,7 @@ load_view('party_notices_view', array(
         </h3>
         <div class="links">
             <a href="everyone" class="js">Everyone</a>
-            <a href="friends" class="js">Facebook Friends</a>
+            <a href="friends" class="js">My Facebook Friends</a>
             <a href="none" class="js">Nobody</a>
         </div>
         <?php else: ?>

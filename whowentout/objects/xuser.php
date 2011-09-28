@@ -449,7 +449,7 @@ class XUser extends XObject
                 'friend_full_name' => $result['name'],
             );
         }
-
+        
         //delete old friends data
         $this->db()->trans_start();
         $this->db()->delete('friends', array('user_id' => $this->id));
@@ -458,6 +458,12 @@ class XUser extends XObject
         $this->db()->query("UPDATE friends
                         SET friend_id = (SELECT users.id FROM users WHERE users.facebook_id = friend_facebook_id)
                         WHERE user_id = ?", array($this->id));
+        
+        //update reverse relationship
+        $this->db()->query("UPDATE friends
+                            SET friend_id = ?
+                            WHERE friend_facebook_id = ?", $this->id, $this->facebook_id);
+
         $this->db()->trans_complete();
         $this->last_updated_friends = current_time()->format('Y-m-d H:i:s');
         $this->save();

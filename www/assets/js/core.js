@@ -280,13 +280,18 @@ $.fn.hiddenDimensions = function(includeMargin) {
 
 $.fn.scrollTo = function(flashSpotlight) {
     var self = this;
+    var onCompleteFired = false;
     function onComplete() {
+        if (onCompleteFired)
+            return;
+
+        onCompleteFired = true;
         if (flashSpotlight) {
             self.flashSpotlight();
         }
     }
 
-    $('body').animate({scrollTop: $(this).offset().top}, 'slow', 'swing', onComplete);
+    $('html, body').animate({scrollTop: $(this).offset().top}, 'slow', 'swing', onComplete);
     
     return this;
 }
@@ -310,37 +315,6 @@ $('a.scroll').entwine({
         e.preventDefault();
         var flashSpotlight = parseInt(this.attr('data-flash-spotlight'));
         $(this.attr('href')).scrollTo(flashSpotlight);
-    }
-});
-
-$('label.inlined + input').entwine({
-    onmatch: function() {
-        this._super();
-        this.updateEmpty();
-    },
-    onunmatch: function() {
-        this._super();
-    },
-    onkeyup: function() {
-        this.updateEmpty();
-    },
-    onfocusin: function() {
-        this.prev().addClass('focused');
-        this.addClass('focused');
-    },
-    onfocusout: function() {
-        this.prev().removeClass('focused');
-        this.removeClass('focused');
-    },
-    updateEmpty: function() {
-        if (this.val() == '') {
-            this.prev().addClass('empty');
-            this.addClass('empty');
-        }
-        else {
-            this.prev().removeClass('empty');
-            this.removeClass('empty');
-        }
     }
 });
 
