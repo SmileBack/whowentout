@@ -357,9 +357,9 @@ header {
        background-position: 6px 50%;
        background-repeat: no-repeat;
    }
-   .body { overflow: hidden; width: 100%; }
+   .body { overflow: hidden; width: 100%; position: relative; }
    .body > .left { width: 62%; float: left;  }
-   .body > .right { width: 36%; float: right;}
+   .body > .right { width: 37%; float: right;}
    .party_notices .send_fb_message { display: none; }
    .whats_a_smile { display: none; }
    .doors_message {
@@ -383,13 +383,24 @@ header {
       right: 0;
    }
    .see_party_gallery .submit_button {
-      font-weight: bold;
-      margin: 2px;
+     font-weight: bold;
+     font-size: 14px;
+     margin: 2px;
    }
 }
 
+.upcoming_parties_section {
+    border: 1px solid @primary_color;
+    legend {
+        margin: 0 25px;
+        h1 { padding-right: 10px; }
+    }
+}
+
+
 .upcoming_parties {
     overflow: hidden;
+    padding: 15px;
     .day_summary {
         float: left;
         height: 200px;
@@ -494,7 +505,6 @@ table td, table th {
 }
 
 .party_notices {
-  margin-left: 15px;
   .smiles_received {
     .bullet;
     background-image: url(../images/smiley_icon.png);
@@ -556,7 +566,10 @@ table td, table th {
     float: right;
     clear: right;
     margin: 10px 0 10px 10px;
-    padding:  10px;
+    padding: 10px 10px 10px 36px;
+    background-image: url(../images/email_icon.png);
+    background-position: 10px;
+    background-repeat: no-repeat;
   }
   .sortbar {
       float: right;

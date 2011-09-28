@@ -2,6 +2,8 @@
 
 <section>
     <div class="section_body">
+        <h1>Invite someone to check in!</h1>
+        
         <?= form_open('party/invite', array('id' => 'party_invite_form')) ?>
 
         <p>Did you see someone at the party last night who isn't here? We can send them an email reminding them to check in!</p>

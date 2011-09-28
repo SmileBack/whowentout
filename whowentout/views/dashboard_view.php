@@ -2,5 +2,9 @@
                                                  'description' => '<p class="user_command_notice"></p>',
                                                           )) ?>
 
-<h1>Upcoming Parties</h1>
-<?= load_view('upcoming_parties_view') ?>
+<fieldset class="upcoming_parties_section">
+    <legend>
+        <h1>Upcoming Parties</h1>
+    </legend>
+    <?= load_view('upcoming_parties_view') ?>
+</fieldset>

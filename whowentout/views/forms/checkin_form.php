@@ -69,7 +69,7 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
     <?php elseif ($doors_open && $checked_in): ?>
 
     <div class="user_command">
-        You have checked into <?= $party->place->name ?>.
+        You have checked in to <?= $party->place->name ?>.
         <a href="/party/<?= $party->id ?>"
            class="show_spotlight"
            data-target="<?= '#party_summary_' . $party->id ?>"
