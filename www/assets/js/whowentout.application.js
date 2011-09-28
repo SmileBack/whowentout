@@ -214,7 +214,14 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         WWO.dialog.loadContent('/dashboard/smile_help');
     },
     showPartyGalleryTip: function() {
-        $('.see_party_gallery:first').showTip({position: 'right', content: 'Click Here!'});
+        $('.see_party_gallery:first').showTip({position: 'right', content: 'Click Here!', cls: 'see_party_gallery_tip'});
+
+        function bounce() {
+            $('.see_party_gallery_tip')
+            .animate({left: '+=10px'}, 250)
+            .animate({left: '-=10px'}, 250);
+        }
+        var id = setInterval(bounce, 3000);
     },
     _fetchUsers: function(userIds) {
         var dfd = $.Deferred();

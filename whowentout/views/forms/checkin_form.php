@@ -59,10 +59,8 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
         <div class="countdown">
             <h2>You have until <?= $doors_closing_time->format('g a') ?> to check in</h2>
 
-            <div class="body">
                 <div class="remaining_time time_until"
                      data-time="<?= $doors_closing_time->getTimestamp() ?>"></div>
-            </div>
         </div>
     </div>
 

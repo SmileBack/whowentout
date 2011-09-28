@@ -47,6 +47,7 @@ function create_user($facebook_id, $data = array())
  */
 function destroy_user($user)
 {
+    $ci =& get_instance();
     $user = user($user);
 
     if ($user == NULL)
@@ -55,9 +56,13 @@ function destroy_user($user)
     if (current_user() == $user)
         logout();
 
-    ci()->db->delete('party_attendees', array('user_id' => $user->id));
-    ci()->db->delete('smiles', array('sender_id' => $user->id));
-    ci()->db->delete('smiles', array('receiver_id' => $user->id));
+    $ci->db->delete('party_attendees', array('user_id' => $user->id));
+    
+    $ci->db->delete('smile_matches', array('first_user_id' => $user->id));
+    $ci->db->delete('smile_matches', array('second_user_id' => $user->id));
+
+    $ci->db->delete('smiles', array('sender_id' => $user->id));
+    $ci->db->delete('smiles', array('receiver_id' => $user->id));
 
     $user->delete();
 }

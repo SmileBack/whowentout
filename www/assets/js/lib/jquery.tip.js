@@ -7,6 +7,7 @@
             fadeIn: 0,
             fadeOut: 0,
             css: {},
+            cls: false,
             content: false // HTML or String to fill TipTIp with
         };
         return defaults;
