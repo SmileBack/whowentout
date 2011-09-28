@@ -231,10 +231,10 @@ $.fn.textSize = function(text) {
 }
 
 $.fn.truncateText = function(maxWidth) {
-    var text = $.trim( $(this).text() );
+    var text = $.trim($(this).text());
     var truncatedText = text;
     var truncatedTextWidth;
-    
+
     for (var i = text.length - 1; i > 3; i--) {
         truncatedText = text.substring(0, i);
         truncatedTextWidth = $(this).textWidth(truncatedText);
@@ -278,16 +278,38 @@ $.fn.hiddenDimensions = function(includeMargin) {
     });
 }
 
-$.fn.scrollTo = function() {
-    $('html,body').animate({
-        scrollTop: $(this).offset().top}, 'slow');
+$.fn.scrollTo = function(flashSpotlight) {
+    var self = this;
+    function onComplete() {
+        if (flashSpotlight) {
+            self.flashSpotlight();
+        }
+    }
+
+    $('body').animate({scrollTop: $(this).offset().top}, 'slow', 'swing', onComplete);
+    
+    return this;
+}
+
+$.fn.flash = function(count, speed) {
+    var onAnimateComplete = function() {}
+    var n = count || 2;
+    speed = speed || 250;
+    
+    for (var i = 0; i < n - 1; i++) {
+        $(this).animate({opacity: 0.5}, speed, 'swing').animate({opacity: 1}, speed, 'swing');
+    }
+    $(this).animate({opacity: 0.5}, speed, 'swing').animate({opacity: 1}, speed, 'swing', function() {
+        onAnimateComplete.call(this);
+    });
     return this;
 }
 
 $('a.scroll').entwine({
     onclick: function(e) {
         e.preventDefault();
-        $(this.attr('href')).scrollTo();
+        var flashSpotlight = parseInt(this.attr('data-flash-spotlight'));
+        $(this.attr('href')).scrollTo(flashSpotlight);
     }
 });
 

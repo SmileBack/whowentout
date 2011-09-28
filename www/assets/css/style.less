@@ -369,22 +369,19 @@ header {
        background-position: 6px 50%;
        background-repeat: no-repeat;
    }
-   .body { overflow: hidden; width: 100%; position: relative; }
+   .body { overflow: hidden; width: 100%; height: 140px; position: relative; }
    .body > .left { width: 62%; float: left;  }
    .body > .right { width: 37%; float: right;}
    .party_notices .send_fb_message { display: none; }
    .doors_message {
-       font-size: 12px;
-       &.large {
-           display: table;
-           font-size: 14px;
-           line-height: 30px;
-           margin: 12px auto;
-           background-image: none;
-           padding-left: 0px;
-           .remaining_time { .infobox; margin: auto; display: table; padding: 10px 10px 10px 30px; }
-       }
+       position: absolute;
+       width: 600px;
+       right: 0;
+       bottom: 0;
+       background-image: none;
        em { font-weight: bold; font-style: normal; }
+       > * { float: right; clear: right; }
+       .checkins_begin_message > * { float: right; margin-left: 10px;  }
    }
    .submit_button { font-size: 16px; }
    .see_party_gallery {
@@ -397,6 +394,7 @@ header {
      font-weight: bold;
      font-size: 14px;
      margin: 2px;
+     display: block;
    }
 }
 

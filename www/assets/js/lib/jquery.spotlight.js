@@ -96,7 +96,7 @@
                 $(this).css('z-index', '99990');
             }
         });
-        
+
         spotlight.data('element', elements);
 
         spotlight.animate({opacity: settings.opacity}, settings.speed, settings.easing, function() {

@@ -17,7 +17,9 @@
             var self = this;
             $.when(this.loadData()).then(function(data) {
                 self.find('.friend_galleries').html(data.friend_galleries_view);
-                self.largestGallery().show();
+                var largestGallery = self.largestGallery();
+                if (largestGallery)
+                    largestGallery.show();
             });
         },
         hideLoadingMessage: function() {

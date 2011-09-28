@@ -4,7 +4,7 @@
     $day = college()->day($offset, TRUE);
     $is_party_day = college()->is_party_day($day);
     ?>
-    <div class="day_summary">
+    <div class="day_summary" data-day="<?= $day->format('Y-m-d') ?>">
         <h3><?= $college->format_time($day, 'short') ?></h3>
         <div class="inner">
             <div class="party_list">

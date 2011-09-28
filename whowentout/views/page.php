@@ -17,9 +17,6 @@
     <!--[if IE]>
     <?= less_asset('ie') ?>
     <![endif]-->
-
-    <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     
     <?= js_asset('lib/less.js') ?>
     <?= js_asset('lib/modernizr.js') ?>

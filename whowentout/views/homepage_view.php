@@ -22,7 +22,7 @@
 <body id="<?= body_id() ?>">
 
 <div id="homepage_message">
-    <img src="/assets/images/homepage.png" />
+    <img src="/assets/images/homepage.png?version=3" />
     <a id="enter_button" href="/login">Enter</a>
 </div>
 
