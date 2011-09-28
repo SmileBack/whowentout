@@ -39,7 +39,7 @@ $('#notifications').entwine({
         $.when(app.load()).then(function() {
             app.channel('current_user').bind('notification', function(e) {
                 self.addNotification(e.notification);
-                app.playSound();
+                app.playSound('ding');
             });
         });
     }

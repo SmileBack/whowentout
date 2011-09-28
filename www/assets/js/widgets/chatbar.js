@@ -17,7 +17,7 @@ $.when(window.app.load()).then(function() {
 
     app.channel('current_user')
     .bind('chat_received', function(e) {
-        app.playSound();
+        app.playSound('bloop');
     });
 
     $(window).bind('beforeunload', function() {

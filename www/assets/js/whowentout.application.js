@@ -156,13 +156,21 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
     },
     loadSounds: function() {
         var self = this;
+        self._sounds = {};
         soundManager.onready(function() {
-            self._dingSound = soundManager.createSound({
+            self._sounds['ding'] = soundManager.createSound({
                 id: 'dingSound',
                 url: '/assets/sounds/ding.mp3',
                 autoLoad: true,
                 autoPlay: false,
                 volume: 50
+            });
+            self._sounds['boop'] = soundManager.createSound({
+                id: 'boopSound',
+                url: '/assets/sounds/boop.mp3',
+                autoLoad: true,
+                autoPlay: false,
+                volume: 100
             });
         });
     },
@@ -195,8 +203,9 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
     initChatbar: function() {
         $('body').append('<div id="chatbar" />');
     },
-    playSound: function() {
-        this._dingSound.play();
+    playSound: function(name) {
+        name = name || 'ding';
+        this._sounds[name].play();
     },
     showSmileHelp: function() {
         var path = '/dashboard/smile_help';
