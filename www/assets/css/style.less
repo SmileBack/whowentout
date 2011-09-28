@@ -28,11 +28,24 @@
     color: #444;
 }
 
+.secondary_section {
+    border: 1px solid @primary_color;
+    padding: 15px;
+    legend {
+        margin: 0 25px;
+        h1 { padding-right: 10px; }
+    }
+}
+
 .active_link {
   color: #fff68f;
 }
 
 #dashboard_page .dashboard_link {
+    .active_link;
+}
+
+#friends_page .friends_link {
     .active_link;
 }
 
@@ -93,13 +106,12 @@ section {
 .smile_help.dialog {
   width: auto;
   .help_container {
-    padding: 0 150px 0 150px;
+    padding: 0;
     position: relative;
-    height: 410px;
   }
   .next_button, .prev_button {
     position: absolute;
-    top: 50%;
+    bottom: 0;
     margin-top: -25px;
     .opacity(0.7);
     display: block;
@@ -242,8 +254,8 @@ header {
   overflow: hidden;
   float: right;
   border-color: #bfbfbf;
+  text-align: center;
   .profile_pic {
-    float: left;
     position: relative;
     img { width: 90px; }
     .edit {
@@ -254,7 +266,7 @@ header {
       background-position: 9px 50%;
       color: white;
       height: 20px;
-      .opacity(0.5);
+      .opacity(0);
       padding: 4px 6px 0 26px;
       bottom: 3px;
       right: 1px;
@@ -264,10 +276,10 @@ header {
     &.hover .edit { .opacity(1); }
   }
   .profile_info {
-    float: left;
     clear: left;
     max-width: 125px;
   }
+  .edit_link { display: block; text-align: center; }
 }
 
 .top_parties_view {
@@ -389,18 +401,18 @@ header {
    }
 }
 
+
+
 .upcoming_parties_section {
-    border: 1px solid @primary_color;
-    legend {
-        margin: 0 25px;
-        h1 { padding-right: 10px; }
-    }
+    .secondary_section;
 }
 
+.party_invite_section {
+    .secondary_section;
+}
 
 .upcoming_parties {
     overflow: hidden;
-    padding: 15px;
     .day_summary {
         float: left;
         height: 200px;

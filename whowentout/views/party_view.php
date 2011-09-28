@@ -1,25 +1,26 @@
 <?= load_section_view('gallery_view', date("l, M. jS", strtotime($party->date)) . ' | ' . $party->place->name) ?>
 
-<section>
-    <div class="section_body">
+<fieldset class="party_invite_section">
+
+    <legend>
         <h1>Invite someone to check in!</h1>
-        
-        <?= form_open('party/invite', array('id' => 'party_invite_form')) ?>
+    </legend>
 
-        <p>Did you see someone at the party last night who isn't here? We can send them an email reminding them to check in!</p>
-        <p>(Your identity will not show up in the email)</p>
+    <?= form_open('party/invite', array('id' => 'party_invite_form')) ?>
 
-        <a id="invite_to_party"></a>
+    <p>Did you see someone at the party last night who isn't here? We can send them an email reminding them to check in!</p>
+    <p>(Your identity will not show up in the email)</p>
 
-        <label>Type their name here:</label>
+    <a id="invite_to_party"></a>
 
-        <div>
-            <input class="name autocomplete" type="text" name="name" source="/college/students" extra_class="name"/>
-            <input type="hidden" name="party_id" value="<?= $party->id ?>" />
-            <input class="submit_button" type="Submit"/>
-        </div>
+    <label>Type their name here:</label>
 
-        <?= form_close() ?>
+    <div>
+        <input class="name autocomplete" type="text" name="name" source="/college/students" extra_class="name"/>
+        <input type="hidden" name="party_id" value="<?= $party->id ?>" />
+        <input class="submit_button" type="Submit"/>
     </div>
-</section>
+
+    <?= form_close() ?>
     
+</fieldset>

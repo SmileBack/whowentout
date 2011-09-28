@@ -11,3 +11,5 @@
   <p class="hometown"><?= $user->hometown ?></p>
   <p class="college"><?= $user->college->name ?> <?= $user->grad_year ? $user->grad_year : '' ?></p>
 </div>
+
+<?= anchor('user/edit', 'edit', array('class' => 'edit_link')) ?>
