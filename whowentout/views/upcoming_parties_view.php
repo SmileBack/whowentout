@@ -1,5 +1,5 @@
 <div class="upcoming_parties">
-    <?php for ($offset = 0; $offset <= 4; $offset++): ?>
+    <?php for ($offset = -1; $offset <= 4; $offset++): ?>
     <?php
     $day = college()->day($offset, TRUE);
     $is_party_day = college()->is_party_day($day);

@@ -381,8 +381,12 @@ class XCollege extends XObject
 
     function doors_are_open($current_time = NULL)
     {
+        if (!$current_time)
+            $current_time = $this->current_time();
+
         return $this->get_opening_time($current_time)->getTimestamp()
-               > $this->get_closing_time($current_time)->getTimestamp();
+               > $this->get_closing_time($current_time)->getTimestamp()
+               && $this->is_checkin_day($current_time);
     }
 
     /**
