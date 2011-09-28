@@ -20,8 +20,13 @@ class NotificationsPlugin
      */
     function on_smile_sent($e)
     {
-        $message = "A {$e->sender->gender_word} from {$e->party->place->name} has smiled at you.";
-        $this->ci->notification->send($e->smile->receiver, $message);
+        //send notification to sender
+        $sender_message = "You smiled at {$e->receiver->full_name} at {$e->party->place->name}";
+        $this->ci->notification->send($e->smile->sender, $sender_message);
+
+        //send notification to receiver
+        $receiver_message = "A {$e->sender->gender_word} from {$e->party->place->name} has smiled at you.";
+        $this->ci->notification->send($e->smile->receiver, $receiver_message);
     }
 
     /**
@@ -45,4 +50,15 @@ class NotificationsPlugin
         $this->ci->notification->send($second_user, $second_message);
     }
 
+    /**
+     * Occurs when a $e->user checks into a $e->party.
+     * @param XUser $e->user
+     * @param XParty $e->party
+     */
+    function on_checkin($e)
+    {
+        $message = "You checked into {$e->party->place->name}.";
+        $this->ci->notification->send($e->user, $message);
+    }
+    
 }
