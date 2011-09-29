@@ -52,14 +52,11 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
 
         var self = this;
         this._isFetchingNewEvents = true;
-        //console.log('---fetching new events---');
         $.ajax({
             url: '/events/fetch/' + this.id() + '/' + this.eventsVersion(),
             type: 'get',
             dataType: 'json',
             success: function(response) {
-                console.log('--fetched new events--');
-                console.log(response);
                 self.eventsVersion(response.version);
                 self.triggerServerEvents(response.events);
                 self._isFetchingNewEvents = false;
