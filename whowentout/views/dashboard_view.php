@@ -4,7 +4,7 @@
 
 <fieldset class="upcoming_parties_section">
     <legend>
-        <h1>Upcoming Parties</h1>
+        <h1>Upcoming Parties on WhoWentOut</h1>
     </legend>
     <?= load_view('upcoming_parties_view') ?>
 </fieldset>

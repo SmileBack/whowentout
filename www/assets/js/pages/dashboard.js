@@ -272,7 +272,7 @@ $('.confirm_checkin.dialog').live('button_click', function(e, button) {
             type: 'post',
             dataType: 'json',
             success: function(response) {
-                console.log('--checkin--');
+                //console.log('--checkin--');
                 console.log(response);
                 app.loadChannels(response.channels);
                 var party = response.party;

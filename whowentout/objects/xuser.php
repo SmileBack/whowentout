@@ -454,6 +454,7 @@ class XUser extends XObject
         $this->db()->trans_start();
         $this->db()->delete('friends', array('user_id' => $this->id));
         $this->db()->insert_batch('friends', $rows);
+        
         //update friends
         $this->db()->query("UPDATE friends
                         SET friend_id = (SELECT users.id FROM users WHERE users.facebook_id = friend_facebook_id)

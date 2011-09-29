@@ -2,15 +2,15 @@ $.when(app.load()).then(function() {
 
     app.channel('current_user')
     .bind('user_came_online', function(e) {
-        console.log('channel user came online ' + e.user.id);
+        //console.log('channel user came online ' + e.user.id);
         WhoWentOut.User.get(e.user.id).isOnline(true);
     })
     .bind('user_went_offline', function(e) {
-        console.log('channel user went offline ' + e.user.id);
+        //console.log('channel user went offline ' + e.user.id);
         WhoWentOut.User.get(e.user.id).isOnline(false);
     })
     .bind('user_became_idle', function(e) {
-        console.log('channel user became idle ' + e.user.id);
+        //console.log('channel user became idle ' + e.user.id);
         WhoWentOut.User.get(e.user.id).isIdle(true);
     })
     .bind('user_became_active', function(e) {

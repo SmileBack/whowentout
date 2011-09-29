@@ -1,1 +1,1 @@
-<?= load_section_view('friends_view', 'Where My Friends Went Out') ?>
+<?= load_section_view('friends_view', 'My Friends') ?>

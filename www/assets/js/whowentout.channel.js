@@ -12,6 +12,7 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
 
         var self = this;
         this._isFetchingNewEvents = false;
+        this._queue = new WhoWentOut.Queue();
 
         this.bind('eventsversionchanged', this.callback('oneventsversionchanged'));
 
@@ -26,7 +27,7 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
         });
     },
     oneventsversionchanged: function(e) {
-        console.log('oneventsversionchanged');
+        //console.log('oneventsversionchanged');
         this.fetchNewEvents();
     },
     id: function() {
@@ -51,7 +52,7 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
 
         var self = this;
         this._isFetchingNewEvents = true;
-        console.log('---fetching new events---');
+        //console.log('---fetching new events---');
         $.ajax({
             url: '/events/fetch/' + this.id() + '/' + this.eventsVersion(),
             type: 'get',
@@ -70,6 +71,8 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
         var self = this;
         var e;
         $.each(events, function(k, event) {
+            console.log('event :: ' + event.type);
+            console.log(event);
             self.trigger(event.type, event);
         });
     },

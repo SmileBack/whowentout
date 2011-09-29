@@ -6,7 +6,7 @@
     
     <h2>
         <a href="<?= "party/$party->id" ?>">
-            <?= $party->college->format_time($date) ?> &nbsp; | &nbsp;  <?= $party->place->name ?> Attendees
+            <?= $party->college->format_time($date) ?> &nbsp;|&nbsp;  <?= $party->place->name ?> Gallery
         </a>
     </h2>
 
@@ -26,7 +26,7 @@
                                                 )) ?>
 
             <?= form_open("party/$party->id", array('class' => 'see_party_gallery')) ?>
-            <input type="submit" class="submit_button" value="See Party Gallery" />
+            <input type="submit" class="submit_button" value="Go To Party Gallery" />
             <?= form_close() ?>
         </div>
 

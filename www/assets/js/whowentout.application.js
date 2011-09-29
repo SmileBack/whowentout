@@ -53,7 +53,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
             type: 'get',
             data: { isIdle: this.isIdle() },
             success: function(response) {
-                console.log('pinged server!');
+                //console.log('pinged server!');
             }
         });
     },
@@ -104,7 +104,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
             dataType: 'json',
             data: { user_ids: this.userIdsOnPage(), party_ids: this.partyIdsOnPage() },
             success: function(response) {
-                console.log(response);
+                //console.log(response);
 
                 _.each(response.application, function(v, k) {
                     self.set(k, v);
