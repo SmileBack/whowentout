@@ -21,7 +21,7 @@ class Dashboard extends MY_Controller
         $parties = $college->open_parties($time);
 
         $data = array(
-            'title' => 'Dashboard',
+            'title' => 'My Parties',
             'user' => $user,
             'college' => $college,
             'closing_time' => load_view('closing_time_view'),

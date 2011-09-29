@@ -29,8 +29,8 @@ class XUser extends XObject
         $this->ping_server();
 
         raise_event('user_changed_visibility', array(
-                                                 'user' => $this,
-                                                 'visibility' => $this->visible_to,
+                                                    'user' => $this,
+                                                    'visibility' => $this->visible_to,
                                                ));
 
         return TRUE;
@@ -85,7 +85,8 @@ class XUser extends XObject
         return "$this->first_name $this->last_name";
     }
 
-    function get_abbreviated_name() {
+    function get_abbreviated_name()
+    {
         return $this->first_name . ' ' . ucfirst(substr($this->last_name, 0, 1)) . '.';
     }
 
@@ -449,17 +450,17 @@ class XUser extends XObject
                 'friend_full_name' => $result['name'],
             );
         }
-        
+
         //delete old friends data
         $this->db()->trans_start();
         $this->db()->delete('friends', array('user_id' => $this->id));
         $this->db()->insert_batch('friends', $rows);
-        
+
         //update friends
         $this->db()->query("UPDATE friends
                         SET friend_id = (SELECT users.id FROM users WHERE users.facebook_id = friend_facebook_id)
                         WHERE user_id = ?", array($this->id));
-        
+
         //update reverse relationship
         $this->db()->query("UPDATE friends
                             SET friend_id = ?
@@ -518,12 +519,20 @@ class XUser extends XObject
         return party($row->id);
     }
 
-    function get_checked_in_party($date)
+    function get_checked_in_party($date = NULL)
     {
+        if (!$date)
+            $date = $this->college->today();
+        
         $date = $this->college->make_local($date);
         $date->setTime(0, 0, 0);
         $date->modify('-1 day');
         return $this->get_attended_party($date);
+    }
+
+    function has_checked_in()
+    {
+        return $this->has_checked_in_on_date($this->college->today());
     }
 
     function recently_attended_parties()
@@ -535,7 +544,7 @@ class XUser extends XObject
                 ->join('parties', 'party_attendees.party_id = parties.id')
                 ->order_by('date', 'desc')
                 ->where('user_id', $this->id)
-                ->where('date >', $cutoff->format('Y-m-d') );
+                ->where('date >', $cutoff->format('Y-m-d'));
         return $this->load_objects('XParty', $rows);
     }
 
@@ -603,7 +612,7 @@ class XUser extends XObject
             return array();
 
         $party_ids = $this->_party_ids($date);
-        
+
         $friend_ids = $this->_friend_ids();
 
         //foreach ($this->db()->select('id')->from('users')->where('college_id', $this->college->id)->get()->result() as $row) {
@@ -625,14 +634,14 @@ class XUser extends XObject
         foreach ($rows as $row) {
             $breakdown[$row->party_id][] = $row->user_id;
         }
-        
+
         return $breakdown;
     }
 
     private function _party_ids(DateTime $date)
     {
         $date = $this->college->make_local($date);
-        
+
         $ids = array();
         foreach ($this->college->parties_on($date) as $party) {
             $ids[] = $party->id;
@@ -781,7 +790,7 @@ class XUser extends XObject
     {
         $user = user($user);
         return $this->is_online_to_one_way($user)
-            && $user->is_online_to_one_way($this);
+               && $user->is_online_to_one_way($this);
     }
 
     function is_idle()
@@ -811,11 +820,11 @@ class XUser extends XObject
         else if ($this->visible_to == 'none')
             return FALSE;
 
-        // not hiding anything, so your visible state is unaltered
+            // not hiding anything, so your visible state is unaltered
         else if ($this->visible_to == 'everyone')
             return $this->is_online();
 
-        // only tell them you're online if you're friends with them
+            // only tell them you're online if you're friends with them
         else if ($this->visible_to == 'friends')
             return $this->is_online() && $this->is_friend_of($user);
     }
@@ -829,7 +838,7 @@ class XUser extends XObject
                        ->count_all_results() > 0;
     }
 
-    function ping_server()
+    function ping_server($clear_idle = FALSE)
     {
         $was_online = $this->is_online();
 
@@ -837,14 +846,19 @@ class XUser extends XObject
         $this->save();
 
         $just_came_online = !$was_online;
+
+
         if ($just_came_online) {
-            
+
             $this->idle_since = NULL;
             $this->save();
 
             raise_event('user_came_online', array(
                                                  'user' => $this,
                                             ));
+        }
+        elseif ($clear_idle) {
+            $this->ping_active();
         }
     }
 
@@ -857,7 +871,7 @@ class XUser extends XObject
         $just_became_idle = !$was_idle;
         if ($just_became_idle) {
             raise_event('user_became_idle', array(
-                                              'user' => $this,
+                                                 'user' => $this,
                                             ));
         }
     }
@@ -871,11 +885,11 @@ class XUser extends XObject
         $just_became_active = !$was_active;
         if ($just_became_active) {
             raise_event('user_became_active', array(
-                                                'user' => $this,
+                                                   'user' => $this,
                                               ));
         }
     }
-    
+
     function ping_leaving_site($suspend_save = FALSE)
     {
         if ($this->last_ping == NULL) //already marked as offline so don't do anything
@@ -916,7 +930,7 @@ class XUser extends XObject
             $array['is_online'] = $this->is_online();
             $array['chatbar_state'] = $this->chatbar_state;
         }
-        
+
         return $array;
     }
 
@@ -957,7 +971,7 @@ class XUser extends XObject
     private function _update_gender_from_facebook($fbdata)
     {
         $genders = array('male' => 'M', 'female' => 'F');
-        
+
         if (isset($fbdata['gender']))
             $this->gender = $genders[$fbdata['gender']];
     }

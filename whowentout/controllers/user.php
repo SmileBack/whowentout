@@ -170,7 +170,10 @@ class User extends MY_Controller
                 $response['party_summary_view'] = load_view('party_summary_view', array(
                                                                                        'user' => $user,
                                                                                        'party' => $party,
-                                                                                 ));
+                                                                                  ));
+                $response['user_command_notice'] = load_view('user_command_notice', array(
+                                                                                         'user' => $user,
+                                                                                    ));
                 $response['checkin_form'] = load_view('forms/checkin_form');
                 $response['party'] = $party->to_array();
 
@@ -275,7 +278,9 @@ class User extends MY_Controller
 
     function ping()
     {
-        current_user()->ping_server();
+        $is_idle = intval(post('isIdle'));
+        $clear_idle = !$is_idle;
+        current_user()->ping_server($clear_idle);
         $this->json_success();
     }
 

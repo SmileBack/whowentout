@@ -15,11 +15,16 @@ class Party extends MY_Controller
             show_404();
         }
 
+        if ($this->input->get('src') == 'smiles') {
+            $this->jsaction->ShowSpotlight('.party_notices', 1000);
+            redirect("party/$party_id");
+        }
+
         raise_event('page_load', array(
                                       'url' => uri_string(),
                                  ));
         $data = array(
-            'title' => 'Party',
+            'title' => "{$party->place->name} Gallery",
             'party' => $party,
             'user' => $user,
             'sort' => $sort,

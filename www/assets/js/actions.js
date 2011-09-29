@@ -16,6 +16,6 @@ Actions = {
     },
     ShowSpotlight: function(element, duration) {
         duration = duration || 2000;
-        $(element).flashSpotlight();
+        $(element).flashSpotlight(duration);
     }
 };

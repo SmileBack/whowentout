@@ -50,7 +50,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
     pingServer: function() {
         $.ajax({
             url: '/user/ping',
-            type: 'get',
+            type: 'post',
             data: { isIdle: this.isIdle() },
             success: function(response) {
                 //console.log('pinged server!');

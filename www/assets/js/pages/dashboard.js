@@ -83,16 +83,7 @@ $.when(app.load()).then(function() {
             this.removeClass('hover');
         }
     });
-
-    $('.party_summary.checkin').entwine({
-        onmatch: function() {
-            var notice = this.find('.user_command').html();
-            $('.user_command_notice').html(notice);
-        },
-        onunmatch: function() {
-        }
-    });
-
+    
     $('.party_summary .link_to_party').entwine({
         onmatch: function() {
             this._super();
@@ -104,7 +95,7 @@ $.when(app.load()).then(function() {
         onclick: function(e) {
             e.preventDefault();
             var link = this.closest('.party_summary').find('a');
-            window.location.href = link.attr('href');
+            window.location.href = link.attr('href') + '?src=smiles';
         }
     });
 
@@ -278,6 +269,7 @@ $('.confirm_checkin.dialog').live('button_click', function(e, button) {
                 var party = response.party;
                 var partySummary = $('.party_summary[data-party-date=' + party.date + ']');
                 var newPartySummary = $(response.party_summary_view).hide();
+                $('.user_command_notice').replaceWith(response.user_command_notice);
                 partySummary.fadeOut(400, function() {
                     partySummary.replaceWith(newPartySummary);
                     newPartySummary.fadeIn(400, function() {

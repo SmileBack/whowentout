@@ -36,8 +36,9 @@ $.when(window.app.load()).then(function() {
             var dfd = $.Deferred();
             $.ajax({
                 url: '/chat/messages',
-                type: 'get',
+                type: 'post',
                 dataType: 'json',
+                data: {state: this.state()},
                 success: function(response) {
                     $.each(response.messages, function(key, msg) {
                         self.addNewMessage(msg);

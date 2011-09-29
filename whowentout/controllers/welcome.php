@@ -18,7 +18,8 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $this->load_view('sections/friends_view');
+        $state = $ven->chatbar_state;
+        var_dump($state);
     }
 
 }

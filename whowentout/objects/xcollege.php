@@ -211,8 +211,8 @@ class XCollege extends XObject
         $today = $this->day(0, TRUE, $current_time);
 
         $party_day = clone $today;
-        
-        if ( ! ($today->format('l') == 'Thursday') )
+
+        if (!($today->format('l') == 'Thursday'))
             $party_day->modify('last Thursday');
 
         return $this->day($party_day_offset, $local, $party_day);
@@ -339,7 +339,7 @@ class XCollege extends XObject
     function within_checkin_periods($current_time = NULL)
     {
         return !($this->checkins_end_time(FALSE, $current_time)->getTimestamp()
-               > $this->checkins_begin_time(FALSE, $current_time)->getTimestamp());
+                 > $this->checkins_begin_time(FALSE, $current_time)->getTimestamp());
     }
 
     /**
@@ -542,7 +542,7 @@ class XCollege extends XObject
                         ))
                 ->join('places', 'parties.place_id = places.id');
     }
-    
+
     function format_time(DateTime $dt, $format = 'default')
     {
         $formats = array('default' => 'l, M. jS', 'short' => 'D, M. jS');
@@ -556,6 +556,25 @@ class XCollege extends XObject
         $dt = $this->make_local($dt);
         $dt->setTime(0, 0, 0);
         return $dt->format('l') . ' night';
+    }
+
+    function next_checkin_day_for(XUser $user)
+    {
+        $party = $user->get_checked_in_party($this->today());
+        $checked_in = $party != NULL;
+        
+        $next_checkin_day = $this->day_of_type('checkin', 0, TRUE);
+        if (!$next_checkin_day || $checked_in)
+            $next_checkin_day = $this->day_of_type('checkin', 1, TRUE);
+
+        return $next_checkin_day;
+    }
+
+    function next_party_day_for(XUser $user)
+    {
+        $checkin_day = $this->next_checkin_day_for($user);
+        $checkin_day->modify('-1 day');
+        return $checkin_day;
     }
 
     function to_array()
