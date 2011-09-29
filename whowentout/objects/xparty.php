@@ -43,12 +43,12 @@ class XParty extends XObject
     function apply_attendee_sort($query, $sort)
     {
         if ($sort == 'checkin_time') {
-            $query->order_by('party_attendees.id', 'desc');
+            $query->order_by('checkin_time.id', 'desc');
         }
         elseif ($sort == 'gender') {
             $order = $this->attendees_query_gender_sort_order();
             $query->order_by('gender', $order)
-                    ->order_by('checkin_time', 'desc');
+                  ->order_by('checkin_time', 'desc');
         }
         elseif ($sort == 'name') {
             $query->order_by('first_name', 'asc')
