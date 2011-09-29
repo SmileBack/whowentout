@@ -66,7 +66,7 @@ function destroy_user($user)
     $ci->db->delete('smiles', array('sender_id' => $user->id));
     $ci->db->delete('smiles', array('receiver_id' => $user->id));
 
-    $ci->db->delete('party_invitations', array('sender_id', $user->id));
+    $ci->db->delete('party_invitations', array('sender_id' => $user->id));
 
     $user->delete();
 }
