@@ -462,7 +462,7 @@ class XUser extends XObject
         //update reverse relationship
         $this->db()->query("UPDATE friends
                             SET friend_id = ?
-                            WHERE friend_facebook_id = ?", $this->id, $this->facebook_id);
+                            WHERE friend_facebook_id = ?", array($this->id, $this->facebook_id));
 
         $this->db()->trans_complete();
         $this->last_updated_friends = current_time()->format('Y-m-d H:i:s');

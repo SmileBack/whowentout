@@ -40,7 +40,7 @@
         <div id="logo">
 
             <a href="/">
-                <img src="/assets/images/logo.png?version=6"/>
+                <img src="/assets/images/logo.png?version=8"/>
             </a>
 
             <?php if (FALSE): ?>
