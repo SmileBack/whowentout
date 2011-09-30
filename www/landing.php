@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="/landing.css?version=6" rel="stylesheet" type="text/css"/>
+    <link href="/landing.css?version=<?= time() ?>" rel="stylesheet" type="text/css"/>
 
 
     <?php if (getenv('countdown_target')): ?>

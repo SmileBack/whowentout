@@ -12,11 +12,13 @@ body {
 
 #countdown {
   position: absolute;
+  overflow: hidden;
   top: 375px;
   left: 50%;
   margin-left: -292px;
   width: 584px;
   display: none;
+  text-align: center;
 }
 
 .time_counter {
@@ -24,13 +26,19 @@ body {
 }
 
 .wrap {
+  overflow: hidden;
   float: left;
   margin: 0 20px;
 }
 
-.counter .digit {
+.wrap > h3, .wrap > .digit {
   float: left;
+  clear: both;
+  width: 100%;
+  margin:  0;
 }
 
-.digit {
+.counter .digit {
+  overflow: hidden;
+  float: left;
 }

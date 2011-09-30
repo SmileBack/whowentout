@@ -95,6 +95,9 @@
 
             var task = _.bind(animateTask, {}, this, endDigit);
             this.queue().add(task);
+            
+            while (this.queue().count() > 2)
+                this.queue().drop();
         },
         getDigit: function() {
             return this.data('val') || 0;
@@ -190,10 +193,4 @@ jQuery(function($) {
 
     $('#countdown').delay(1200).fadeIn(500);
 
-    window.addEventListener('focus', function() {
-        $('.digits').each(function() {
-           $(this).queue().clear();
-        });
-    }, false);
-    
 });

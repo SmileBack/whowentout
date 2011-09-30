@@ -23,6 +23,10 @@
             this._isRunning = true;
             this._runNextTask();
         },
+        drop: function() {
+            if (this.count() > 0)
+                this._tasks.pop();
+        },
         isRunning: function() {
             return this._isRunning;
         },
