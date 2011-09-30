@@ -16,3 +16,4 @@ $config['email']['development'] = array(
 );
 
 $config['email']['phpfog'] = $config['email']['whowentoutgmail'];
+$config['email']['whowasout'] = $config['email']['whowentoutgmail'];

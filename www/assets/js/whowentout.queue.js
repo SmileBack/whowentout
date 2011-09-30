@@ -1,10 +1,9 @@
 (function() {
 
-    WhoWentOut.Component.extend('WhoWentOut.Queue', {}, {
+    $.Class.extend('WhoWentOut.Queue', {}, {
         _tasks: [],
         _isRunning: false,
         init: function() {
-            this._super();
         },
         count: function() {
             return this._tasks.length;

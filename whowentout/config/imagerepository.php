@@ -12,6 +12,11 @@ $config['imagerepository']['phpfog'] = array(
   'bucket' => 'whowentoutdev',
 );
 
+$config['imagerepository']['whowasout'] = array(
+  'source' => 's3',
+  'bucket' => 'whowasoutpics',
+);
+
 $config['imagerepository']['default'] = array(
   'source' => 'filesystem',
   'path' => 'pics',

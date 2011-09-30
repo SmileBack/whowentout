@@ -2,17 +2,30 @@ body {
   overflow: hidden;
   text-align: center;
   background: #7d1729;
+  font-family: Arial, sans-serif;
+  color: white;
 }
 
 #countdown {
   position: absolute;
-  bottom: 100px;
-  width: 511px;
-  margin: auto;
+  top: 500px;
+  left: 50%;
+  margin-left: -292px;
+  width: 584px;
 }
 
-.cntSeparator {
-  font-size: 54px;
-  margin: 10px 7px;
-  color: #000;
+.time_counter {
+  overflow: hidden;
+}
+
+.wrap {
+  float: left;
+  margin: 0 20px;
+}
+
+.counter .digit {
+  float: left;
+}
+
+.digit {
 }

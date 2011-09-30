@@ -89,5 +89,21 @@ $db['phpfog']['swap_pre'] = '';
 $db['phpfog']['autoinit'] = TRUE;
 $db['phpfog']['stricton'] = FALSE;
 
+$db['whowasout']['hostname'] = 'db01-share';
+$db['whowasout']['username'] = 'CodeIgnite-13568';
+$db['whowasout']['password'] = 'MySQL4668';
+$db['whowasout']['database'] = 'whowentout-com';
+$db['whowasout']['dbdriver'] = 'mysql';
+$db['whowasout']['dbprefix'] = '';
+$db['whowasout']['pconnect'] = TRUE;
+$db['whowasout']['db_debug'] = TRUE;
+$db['whowasout']['cache_on'] = FALSE;
+$db['whowasout']['cachedir'] = '';
+$db['whowasout']['char_set'] = 'utf8';
+$db['whowasout']['dbcollat'] = 'utf8_general_ci';
+$db['whowasout']['swap_pre'] = '';
+$db['whowasout']['autoinit'] = TRUE;
+$db['whowasout']['stricton'] = FALSE;
+
 /* End of file database.php */
 /* Location: ./application/config/database.php */

@@ -4,7 +4,7 @@ jQuery(function($) {
            $(this).addClass('hover');
        },
        mouseleave: function() {
-           $(this).removeClass('hover');
+           $(this).removeClass('hover').removeClass('down');
        },
        mouseup: function() {
            $(this).removeClass('down');
