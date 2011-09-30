@@ -8,6 +8,9 @@
         count: function() {
             return this._tasks.length;
         },
+        clear: function() {
+            this._tasks = [];
+        },
         add: function(task) {
             this._tasks.unshift(task);
             this.run();

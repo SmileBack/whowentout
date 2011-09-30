@@ -1,24 +1,5 @@
 (function($) {
 
-    $(window).data('isFocused', true);
-
-    window.addEventListener('focus', function() {
-        console.log('focus');
-        $(window).data('isFocused', true);
-    }, false);
-
-    window.addEventListener('blur', function() {
-        $(window).data('isFocused', false);
-    }, false);
-
-    window.isFocused = function() {
-        return $(window).data('isFocused');
-    }
-
-})(jQuery);
-
-(function($) {
-
     function pad(number, length) {
 
         var str = '' + number;
@@ -200,14 +181,19 @@ jQuery(function($) {
     var target = new Date("October 6, 2011 22:13:00");
 
     function updateCounter() {
-        if (window.isFocused()) {
-            var currentTime = new Date();
-            var timeLeft = currentTime.timeUntil(target);
-            $('.time_counter').flipTo(timeLeft);
-        }
+        var currentTime = new Date();
+        var timeLeft = currentTime.timeUntil(target);
+        $('.time_counter').flipTo(timeLeft);
     }
 
     setInterval(updateCounter, 1000);
 
     $('#countdown').delay(1200).fadeIn(500);
+
+    window.addEventListener('focus', function() {
+        $('.digits').each(function() {
+           $(this).queue().clear();
+        });
+    }, false);
+    
 });
