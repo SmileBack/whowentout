@@ -8,7 +8,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="/landing.css?version=3" rel="stylesheet" type="text/css"/>
+    <link href="/landing.css?version=6" rel="stylesheet" type="text/css"/>
+
+
+    <?php if (getenv('countdown_target')): ?>
+    <script type="text/javascript">
+        window.countdown_target = <?= '"' . getenv('countdown_target') . '"' ?>;
+    </script>
+    <?php endif; ?>
 
     <script type="text/javascript" src="/assets/js/lib/jquery.js"></script>
     <script type="text/javascript" src="/assets/js/lib/jquery.entwine.js"></script>
@@ -17,11 +24,12 @@
 
     <script type="text/javascript" src="/assets/js/lib/jquery.class.js"></script>
     <script type="text/javascript" src="/assets/js/whowentout.queue.js?version=2"></script>
-    <script type="text/javascript" src="landing.js?version=8"></script>
+    <script type="text/javascript" src="landing.js?version=9"></script>
 </head>
 
 <body>
-<img src="/landing.png?version=2"/>
+
+<img id="landing" src="/landing.png?version=3"/>
 
 <div id="countdown" class="time_counter">
     <div class="wrap">

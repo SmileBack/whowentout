@@ -18,8 +18,7 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $state = $ven->chatbar_state;
-        var_dump($state);
+        var_dump( getenv('countdown_target') );
     }
 
 }

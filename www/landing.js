@@ -186,4 +186,6 @@ jQuery(function($) {
         $('.time_counter').flipTo(timeLeft);
     }
     setInterval(updateCounter, 1000);
+
+    $('#countdown').delay(1200).fadeIn(500);
 });

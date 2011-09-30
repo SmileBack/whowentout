@@ -6,12 +6,17 @@ body {
   color: white;
 }
 
+#landing {
+  margin-top: 50px;
+}
+
 #countdown {
   position: absolute;
-  top: 500px;
+  top: 375px;
   left: 50%;
   margin-left: -292px;
   width: 584px;
+  display: none;
 }
 
 .time_counter {
