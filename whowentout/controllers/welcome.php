@@ -17,8 +17,6 @@ class Welcome extends MY_Controller
         $maggie = user(96);
         $claire = user(82);
         $jenny = user(108);
-
-        var_dump( getenv('countdown_target') );
     }
 
 }
