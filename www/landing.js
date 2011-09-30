@@ -1,5 +1,24 @@
 (function($) {
 
+    $(window).data('isFocused', true);
+
+    window.addEventListener('focus', function() {
+        console.log('focus');
+        $(window).data('isFocused', true);
+    }, false);
+
+    window.addEventListener('blur', function() {
+        $(window).data('isFocused', false);
+    }, false);
+
+    window.isFocused = function() {
+        return $(window).data('isFocused');
+    }
+
+})(jQuery);
+
+(function($) {
+
     function pad(number, length) {
 
         var str = '' + number;
@@ -10,7 +29,6 @@
         return str;
 
     }
-
 
     var frameWidth = 53;
     var topFrameHeight = 39;
@@ -41,7 +59,7 @@
             var digit;
             for (var i = 0; i < this.numDigits(); i++) {
                 var digitEl = this.find('.digit:eq(' + i + ')');
-                digit = parseInt( number.substring(i, i + 1) );
+                digit = parseInt(number.substring(i, i + 1));
                 digitEl.flipTo(digit);
             }
         },
@@ -180,11 +198,15 @@
 
 jQuery(function($) {
     var target = new Date("October 6, 2011 22:13:00");
+
     function updateCounter() {
-        var currentTime = new Date();
-        var timeLeft = currentTime.timeUntil(target);
-        $('.time_counter').flipTo(timeLeft);
+        if (window.isFocused()) {
+            var currentTime = new Date();
+            var timeLeft = currentTime.timeUntil(target);
+            $('.time_counter').flipTo(timeLeft);
+        }
     }
+
     setInterval(updateCounter, 1000);
 
     $('#countdown').delay(1200).fadeIn(500);

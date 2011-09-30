@@ -24,7 +24,7 @@
 
     <script type="text/javascript" src="/assets/js/lib/jquery.class.js"></script>
     <script type="text/javascript" src="/assets/js/whowentout.queue.js?version=2"></script>
-    <script type="text/javascript" src="landing.js?version=9"></script>
+    <script type="text/javascript" src="landing.js?version=10"></script>
 </head>
 
 <body>
