@@ -1,4 +1,23 @@
-<?= load_section_view('gallery_view', date("l, M. jS", strtotime($party->date)) . ' | ' . $party->place->name . ' Gallery') ?>
+<?php
+if ($party->chat_is_open() && $party->smiling_is_open()) {
+    $description = 'Check out the WhoWentOut smile concept, and chat with users who are online!';
+}
+elseif ($party->chat_is_open()) {
+    $description = 'Chat with users who are online! Smiles have closed for this party.';
+}
+elseif ($party->smiling_is_open()) {
+    $description = 'Check out the WhoWentOut smile concept. Chat has closed for this party.';
+}
+else {
+    $description = 'Chat and smiles have closed for this party';
+}
+?>
+
+<?= load_section_view('gallery_view',
+                      date("l, M. jS", strtotime($party->date)) . ' | ' . $party->place->name . ' Gallery',
+                      array(
+                          'description' => $description,
+                      ))?>
 
 <fieldset class="party_invite_section">
 

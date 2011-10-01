@@ -69,6 +69,8 @@ section {
   }
   > h3 {
     .notice_style;
+    border: none;
+    border-bottom: 1px solid #F0C36D;
     margin: 0;
     font-size: 16px;
     .user_command_notice { height: 19px; }
@@ -121,7 +123,7 @@ section {
     text-indent: -9999px;
     &:hover { .opacity(1); }
   }
-  #smile_help_2 { display: none;}
+  #smile_help_2 { display: none; }
   .next_button {
     right: 0;
     background: url(../images/next_button.png) no-repeat 0 0;
@@ -134,7 +136,6 @@ section {
 
 #notifications {
     float: right;
-    width: 100%;
     height: 600px;
     overflow: hidden;
 }
@@ -313,12 +314,11 @@ header {
   position: relative;
   .party_summary {
     margin-bottom: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
     border-bottom:  1px solid @border_color;
     z-index: 10;
     &:last-child {
       margin-bottom: 0;
-      padding-bottom: 0;
       border-bottom: none;
     }
   }
@@ -327,7 +327,7 @@ header {
       height: 0px;
       position: absolute;
       z-index: 30;
-      top: 264px;
+      top: 275px;
       left: 1px;
       border: 6px solid #444;
   }
@@ -359,6 +359,13 @@ header {
      padding: 10px;
      margin-top: 10px;
    }
+   .doors_message {
+       display: table;
+       margin: 30px auto;
+       font-size: 18px;
+       p { text-align: center; }
+       .remaining_time { display: table; margin: auto; .infobox; padding: 10px 10px 10px 30px; }
+   }
    .remaining_time {
        font-size: 14px;
        padding-left: 30px;
@@ -366,20 +373,10 @@ header {
        background-position: 6px 50%;
        background-repeat: no-repeat;
    }
-   .body { overflow: hidden; width: 100%; height: 140px; position: relative; clear: both; }
+   .body { overflow: hidden; width: 100%; height: 150px; position: relative; clear: both; }
    .body > .left { width: 62%; float: left;  }
    .body > .right { width: 37%; float: right;}
    .party_notices .send_fb_message { display: none; }
-   .doors_message {
-       position: absolute;
-       width: 600px;
-       right: 0;
-       bottom: 0;
-       background-image: none;
-       em { font-weight: bold; font-style: normal; }
-       > * { float: right; clear: right; }
-       .checkins_begin_message > * { float: right; margin-left: 10px;  }
-   }
    .submit_button { font-size: 16px; }
    .see_party_gallery {
       text-align: center;
@@ -511,6 +508,12 @@ table td, table th {
 }
 
 .party_notices {
+  .count {
+    font-weight: bold;
+    background-color: blue;
+    color: white;
+    padding: 2px;
+  }
   .smiles_received {
     .bullet;
     background-image: url(../images/smiley_icon.png);
@@ -563,6 +566,7 @@ table td, table th {
       margin:  0 0 25px 0;
       font-size: 14px;
       padding: 12px 16px;
+      width: 300px;
       > * {
       }
       > :first-child { margin-top: 0px; }
@@ -580,6 +584,7 @@ table td, table th {
   .sortbar {
       float: right;
       clear: left;
+      margin-top: 6px;
       > * { display: inline-block; }
   }
   .gallery_header {
@@ -611,6 +616,15 @@ table td, table th {
          .online_badge { display: inline-block; }
       }
     }
+    &.chat_closed .online_badge {
+      display: none !important;
+    }
+  }
+  .smiled_at {
+    background-color: #7D1729;
+    color: white;
+    text-shadow: none;
+    .opacity(0.8);
   }
 }
 

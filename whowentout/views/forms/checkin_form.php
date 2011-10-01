@@ -61,49 +61,27 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
                      data-time="<?= $doors_closing_time->getTimestamp() ?>"></div>
         </div>
     </div>
-
-    <?php elseif ($doors_open && $checked_in): ?>
-
-    <div class="body">
-        <div class="doors_message">
-            <div>
-                Next set of parties you'll be able to check in to:
-
-                <a href=".day_summary[data-day=<?= $next_party_day->format('Y-m-d') ?>]"
-                   class="party_summary_link scroll"
-                   data-flash-spotlight="1">click here</a>
-
-            </div>
-
-            <div class="checkins_begin_message">
-                <div class="remaining_time time_until"
-                     data-time="<?= $next_doors_opening_time->getTimestamp() ?>"></div>
-                <div>Checkins will begin at <?= $next_doors_opening_time->format('g a') ?> <em>after</em> the party:
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <?php  elseif (!$doors_open): ?>
+    <?php  elseif (($doors_open && $checked_in) || !$doors_open): ?>
 
     <div class="body">
 
         <div class="doors_message">
-            <div>
-                Next set of parties you'll be able to check in to:
+            
+            <p>
+                Planning on going out <?= $next_party_day->format('l') ?> night?
+                Check in at <?= $next_doors_opening_time->format('g a') ?> after party!
+            </p>
+            
+            <div class="remaining_time time_until"
+                     data-time="<?= $next_doors_opening_time->getTimestamp() ?>"></div>
 
+            <p>
+                Parties you'll be able to check in to:
                 <a href=".day_summary[data-day=<?= $next_party_day->format('Y-m-d') ?>]"
                    class="party_summary_link scroll"
                    data-flash-spotlight="1">click here</a>
+            </p>
 
-            </div>
-
-            <div class="checkins_begin_message">
-                <div class="remaining_time time_until"
-                     data-time="<?= $next_doors_opening_time->getTimestamp() ?>"></div>
-                <div>Checkins will begin at <?= $next_doors_opening_time->format('g a') ?> <em>after</em> the party:
-                </div>
-            </div>
         </div>
 
     </div>

@@ -236,5 +236,10 @@ $.when(app.load()).then(function() {
             + '<p>Users who are online will have a green circle to the right of their name.</p>';
         }
     });
-    
+
+    $('.chat_has_closed.help').entwine({
+        helpMessage: function() {
+            return '<p>chat has closed help</p>';
+        }
+    });
 });

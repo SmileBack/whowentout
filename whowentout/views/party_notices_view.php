@@ -1,10 +1,12 @@
 <div class="party_notices" for="<?= $party->id ?>">
     <p class="smiles_left link_to_party">
-        <span><?= $user->smiles_left_message($party->id) ?></span>
+        <span>Smiles left to give (at this party): </span>
+        <span class="count"><?= $user->smiles_left($party) ?></span>
     </p>
 
     <p class="smiles_received link_to_party">
-        <span><?= $user->smiles_received_message($party->id) ?></span>
+        <span>Smiles received (at this party): </span>
+        <span class="count"><?= $user->smiles_received($party) ?></span>
     </p>
 
     <?php $matches = $user->matches($party); ?>

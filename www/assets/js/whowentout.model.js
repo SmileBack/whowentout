@@ -1,3 +1,4 @@
+
 WhoWentOut.Component.extend('WhoWentOut.Model', {
     properties: {}
 }, {

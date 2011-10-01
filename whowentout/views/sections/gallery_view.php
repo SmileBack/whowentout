@@ -16,7 +16,10 @@ load_view('party_notices_view', array(
             <a href="none" class="js">Nobody</a>
         </div>
         <?php else: ?>
-        <p>Chat has closed.</p>
+        <h3>
+            <span>Chat has closed for this party</span>
+            <a class="chat_has_closed help">?</a>
+        </h3>
         <?php endif; ?>
     </div>
 
@@ -40,12 +43,12 @@ load_view('party_notices_view', array(
         </ul>
     </div>
 
-<h2 class="gallery_header">
-    <span><?= $party->place->name ?> Attendees</span>
-    <span>(<?= date("l, M. jS", strtotime($party->date)) ?>)</span>
-</h2>
+    <h2 class="gallery_header">
+        <span><?= $party->place->name ?> Attendees</span>
+        <span>(<?= date("l, M. jS", strtotime($party->date)) ?>)</span>
+    </h2>
 
-<div class="gallery party"
+<div class="gallery party <?= $party->chat_is_open() ? 'chat_open' : 'chat_closed' ?>"
      data-sort="<?= $sort ?>" data-party-id="<?= $party->id ?>" data-count="<?= $party->count ?>"
      data-smiles-left="<?= $smiles_left ?>"
      party-chat-is-open="<?= $party->chat_is_open() ? 'y' : 'n' ?>"

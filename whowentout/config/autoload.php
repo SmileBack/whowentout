@@ -67,9 +67,6 @@ $autoload['libraries'] = array('event', 'database', 'session', 'option',
 $autoload['helper'] = array('core', 'date', 'time', 'html', 'form', 'url',
                             'wwo', 'user', 'asset', 'test', 'job');
 
-if (ENVIRONMENT == 'test')
-  $autoload['helper'][] = 'test';
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Config files

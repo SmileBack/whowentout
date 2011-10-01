@@ -1,3 +1,7 @@
+//= require lib/jquery.js
+//= require lib/jquery.entwine.js
+//= require whowentout.model.js
+
 WhoWentOut.Model.extend('WhoWentOut.Application', {
     Mask: function() {
         if ($('#mask').length == 0) {

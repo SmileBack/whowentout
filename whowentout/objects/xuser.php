@@ -1078,7 +1078,6 @@ class XUser extends XObject
         return '';
     }
 
-
 }
 
 class XAnonymousUser extends XObject

@@ -54,7 +54,6 @@ class User extends MY_Controller
             if ($user->changed()) {
                 $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
                 $user->save();
-                set_message('Saved your info');
             }
 
             // The first time no-changes edit still counts as a save.

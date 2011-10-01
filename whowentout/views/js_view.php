@@ -14,6 +14,7 @@
 <?= js_asset('lib/jquery.form.js') ?>
 <?= js_asset('lib/jquery.entwine.js') ?>
 <?= js_asset('lib/jquery.class.js') ?>
+<?= js_asset('lib/jquery.ext.js'); ?>
 
 <?= js_asset('lib/jquery.body.js') ?>
 <?= js_asset('lib/jquery.position.js') ?>

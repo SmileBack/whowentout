@@ -21,6 +21,8 @@
     <?= js_asset('lib/less.js') ?>
     <?= js_asset('lib/modernizr.js') ?>
 
+    <?= js_asset('asset.js') ?>
+
 </head>
 
 <body id="<?= body_id() ?>">
