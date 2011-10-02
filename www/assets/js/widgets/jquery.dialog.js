@@ -43,6 +43,9 @@ $.dialog = {
         ],
         close: [
             {key: 'close', title: 'Close'}
+        ],
+        'continue': [
+            {key: 'continue', title: 'Continue'}
         ]
     }
 };

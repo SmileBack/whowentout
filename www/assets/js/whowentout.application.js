@@ -214,7 +214,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
     },
     showSmileHelp: function() {
         var path = '/dashboard/smile_help';
-        
+
         WWO.dialog.title('Help').setButtons('close').showDialog('smile_help');
         WWO.dialog.loadContent('/dashboard/smile_help', function() {
             $('.see_smile_help_tip').remove();

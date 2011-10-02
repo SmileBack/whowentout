@@ -36,6 +36,10 @@ class Dashboard extends MY_Controller
             $data['party'] = $user->get_attended_party($yesterday);
         }
 
+        if ($this->flag->missing('user', $user->id, 'has_seen_site_help')) {
+            $this->jsaction->ShowSiteHelp();
+        }
+
         $this->load_view('dashboard_view', $data);
     }
 
@@ -71,6 +75,12 @@ class Dashboard extends MY_Controller
         $response['friend_galleries_view'] = load_view('friend_galleries_view', array('user' => $user, 'date' => $date));
         
         $this->json($response);
+    }
+
+    function site_help()
+    {
+        $this->flag->set('user', current_user()->id, 'has_seen_site_help');
+        print $this->load->view('site_help_view');
     }
 
     function smile_help()

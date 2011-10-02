@@ -41,5 +41,12 @@ Actions = {
 
         var id = setInterval(bounce, 3000);
         bounce();
+    },
+    ShowSiteHelp: function() {
+        $.when(app.load()).then(function() {
+            var path = '/dashboard/site_help';
+            WWO.dialog.title('Help').setButtons('continue').showDialog('site_help');
+            WWO.dialog.loadContent('/dashboard/site_help');
+        });
     }
 };
