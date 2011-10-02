@@ -19,7 +19,7 @@ if (getenv('server') == 'phpfog') {
     $config['base_url'] = 'http://www.whowentout.com/';
 }
 elseif (getenv('server') == 'whowasout') {
-    $config['base_url'] == 'http://www.whowasout.com/';
+    $config['base_url'] = 'http://www.whowasout.com/';
 }
 else {
     $config['base_url'] = 'http://localhost/';
@@ -365,10 +365,6 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
-
-print '<pre>';
-var_dump($config);
-print '</pre>';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
