@@ -24,15 +24,15 @@
 
     <script type="text/javascript" src="/assets/js/lib/jquery.class.js"></script>
     <script type="text/javascript" src="/assets/js/whowentout.queue.js?version=2"></script>
-    <script type="text/javascript" src="/assets/js/widgets/jquery.countdowntimer.js"></script>
-    <script type="text/javascript" src="landing.js?version=10"></script>
+    <script type="text/javascript" src="/assets/js/widgets/jquery.countdowntimer.js?version=2"></script>
+    <script type="text/javascript" src="landing.js?version=11"></script>
 </head>
 
 <body>
 
 <img id="landing" src="/landing.png?version=3"/>
 
-<div id="countdown" class="time_counter">
+<div id="countdown" class="time_counter" data-target="<?= getenv('countdown_target') ?>">
     <div class="wrap">
         <div class="days counter" data-length="2"></div>
         <h3>days</h3>

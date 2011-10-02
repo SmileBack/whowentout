@@ -31,12 +31,19 @@
         onunmatch: function() {
         },
         targetTime: function() {
-            return new Date("October 6, 2011 22:13:00");
+            var target = this.attr('data-target');
+            if (target == null || target == '')
+                return null;
+            
+            return new Date( parseInt(target) * 1000 );
         },
         currentTime: function() {
             return new Date();
         },
         updateTimer: function() {
+            if (this.targetTime() == null)
+                return;
+            
             var timeLeft = this.currentTime().timeUntil(this.targetTime());
             $('.time_counter').flipTo(timeLeft);
         },

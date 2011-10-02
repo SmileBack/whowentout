@@ -1,3 +1,4 @@
 jQuery(function($) {
-    $('#countdown').delay(1200).fadeIn(500);
+    if ($('#countdown').targetTime() != null)
+        $('#countdown').delay(1200).fadeIn(500);
 });
