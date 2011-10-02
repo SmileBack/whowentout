@@ -32,7 +32,7 @@
 
 <img id="landing" src="/landing.png?version=3"/>
 
-<div id="countdown" class="time_counter" data-target="<?= getenv('countdown_target') ?>">
+<div id="countdown" class="time_counter" data-target="<?= getenv('countdown_target') ? strtotime(getenv('countdown_target')) : '' ?>">
     <div class="wrap">
         <div class="days counter" data-length="2"></div>
         <h3>days</h3>
