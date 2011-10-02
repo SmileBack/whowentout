@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
-class Tester
+class CI_Tester
 {
 
   private $report = array();

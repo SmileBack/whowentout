@@ -31,6 +31,7 @@ elseif (getenv('server') == 'whowasout') {
     define('ENVIRONMENT', 'whowasout');
 }
 else {
+//    define('ENVIRONMENT', 'test');
     define('ENVIRONMENT', 'development');
 }
 
