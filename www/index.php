@@ -49,6 +49,7 @@ if (defined('ENVIRONMENT')) {
         case 'development':
         case 'hostgator':
         case 'phpfog':
+        case 'whowasout':
             error_reporting(E_ALL);
             break;
 
