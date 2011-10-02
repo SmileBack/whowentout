@@ -24,8 +24,8 @@ if (getenv('show_landing') == 'true') {
  *
  */
 
-if (getenv('server') == 'phpfog') {
-    define('ENVIRONMENT', 'phpfog');
+if (getenv('server') == 'whowentout') {
+    define('ENVIRONMENT', 'whowentout');
 }
 elseif (getenv('server') == 'whowasout') {
     define('ENVIRONMENT', 'whowasout');
