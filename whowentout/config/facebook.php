@@ -11,8 +11,8 @@ elseif (ENVIRONMENT == 'phpfog') {
     $config['facebook_secret_key'] = '95a57df105552da2861b6f988bff82e0';
 }
 else if (ENVIRONMENT == 'whowasout') {
-    $config['facebook_app_id'] = '238686466151268';
-    $config['facebook_secret_key'] = '95a57df105552da2861b6f988bff82e0';
+    $config['facebook_app_id'] = '183435348401103';
+    $config['facebook_secret_key'] = '2a9ecc98d06840a80c21646cc185eca4';
 }
 
 $config['facebook_permissions'] = array(
