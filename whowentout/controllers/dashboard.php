@@ -75,6 +75,7 @@ class Dashboard extends MY_Controller
 
     function smile_help()
     {
+        $this->flag->set('user', current_user()->id, 'has_seen_smile_help');
         print $this->load->view('smile_help_view');
     }
     

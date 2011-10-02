@@ -1,6 +1,6 @@
 <?php
 
-class UpdateFacebookFriendsPlugin
+class UpdateFacebookFriendsPlugin extends CI_Plugin
 {
   
   function on_page_load($e) {

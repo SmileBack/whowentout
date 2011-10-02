@@ -114,3 +114,8 @@ class CI_Event
     }
 
 }
+
+class CI_Plugin
+{
+    
+}

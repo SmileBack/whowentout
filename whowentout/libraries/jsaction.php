@@ -39,6 +39,9 @@ class CI_JsAction
 
     function set_actions($actions) {
         $this->ci->session->set_userdata('_JsActionList', $actions);
+        
+        if ($this->ci->response)
+            $this->ci->response->set('jsactionlist', $actions);
     }
 
     function run($clear_actions = TRUE) {
@@ -49,7 +52,7 @@ class CI_JsAction
 
         return '<script type="text/javascript">'
                  . 'window._JsActionList = ' . json_encode($actions) . ';'
-                 . 'window.JsAction.RunActions();'
+                 . 'window.JsAction.RunActions(window._JsActionList);'
              . '</script>';
     }
 

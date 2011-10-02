@@ -120,10 +120,11 @@ function tomorrow_time() {
 }
 
 $.fn.flash = function(count, speed) {
-    var onAnimateComplete = function() {}
+    var onAnimateComplete = function() {
+    }
     var n = count || 2;
     speed = speed || 250;
-    
+
     for (var i = 0; i < n - 1; i++) {
         $(this).animate({opacity: 0.5}, speed, 'swing').animate({opacity: 1}, speed, 'swing');
     }

@@ -33,6 +33,9 @@ class Party extends MY_Controller
             'smiles_left' => $user->smiles_left($party->id),
         );
 
+        if ($this->flag->missing('user', $user->id, 'has_seen_smile_help'))
+            $this->jsaction->ShowSmileHelpTip();
+
         $this->load_view('party_view', $data);
     }
 

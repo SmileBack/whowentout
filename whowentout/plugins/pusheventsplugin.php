@@ -1,6 +1,6 @@
 <?php
 
-class PushEventsPlugin
+class PushEventsPlugin extends CI_Plugin
 {
 
     private $ci;

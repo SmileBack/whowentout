@@ -28,11 +28,7 @@ class MY_Controller extends CI_Controller
 
     protected function json($response, $file_uploads = FALSE)
     {
-        $json_response = json_encode($response);
-        if ($file_uploads)
-            $json_response = "<textarea>$json_response</textarea>";
-        
-        print $json_response;exit;
+        $this->response->json($response, $file_uploads);
     }
 
     protected function json_success($message = '')

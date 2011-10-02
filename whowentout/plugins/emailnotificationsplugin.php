@@ -1,6 +1,6 @@
 <?php
 
-class EmailNotificationsPlugin
+class EmailNotificationsPlugin extends CI_Plugin
 {
 
     /**

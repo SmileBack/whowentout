@@ -1,6 +1,6 @@
 <?php
 
-class NotificationsPlugin
+class NotificationsPlugin extends CI_Plugin
 {
 
     private $ci;

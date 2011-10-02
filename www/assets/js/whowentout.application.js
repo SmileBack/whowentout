@@ -55,6 +55,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         $.ajax({
             url: '/user/ping',
             type: 'post',
+            dataType: 'json',
             data: { isIdle: this.isIdle() },
             success: function(response) {
                 //console.log('pinged server!');
@@ -215,18 +216,9 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         var path = '/dashboard/smile_help';
         
         WWO.dialog.title('Help').setButtons('close').showDialog('smile_help');
-        WWO.dialog.loadContent('/dashboard/smile_help');
-    },
-    showPartyGalleryTip: function() {
-        $('.see_party_gallery:first').showTip({position: 'right', content: 'Click Here!', cls: 'see_party_gallery_tip'});
-
-        function bounce() {
-            $('.see_party_gallery_tip')
-            .animate({left: '+=10px'}, 250)
-            .animate({left: '-=10px'}, 250);
-        }
-        var id = setInterval(bounce, 3000);
-        bounce();
+        WWO.dialog.loadContent('/dashboard/smile_help', function() {
+            $('.see_smile_help_tip').remove();
+        });
     },
     _fetchUsers: function(userIds) {
         var dfd = $.Deferred();

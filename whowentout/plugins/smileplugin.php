@@ -1,6 +1,6 @@
 <?php
 
-class SmilePlugin
+class SmilePlugin extends CI_Plugin
 {
 
     function __construct()

@@ -11,17 +11,24 @@ class CI_Flag
 
     function set($key1 = NULL, $key2 = NULL)
     {
-        if ( ! call_user_func_array(array($this, 'exists'), func_get_args()) ) {
-            $this->db->insert('flags', array('id' => $this->key(func_get_args())));
+        if ( call_user_func_array(array($this, 'missing'), func_get_args()) ) {
+            $this->db->insert('flags', array(
+                                            'id' => $this->key(func_get_args())
+                                       ));
         }
     }
-
+    
     function exists($key1 = NULL, $key2 = NULL)
     {
         $k = $this->key(func_get_args());
         return $this->db->from('flags')
                         ->where('id', $k)
                         ->count_all_results() > 0;
+    }
+
+    function missing($key1 = NULL, $key2 = NULL)
+    {
+        return ! call_user_func_array(array($this, 'exists'), func_get_args());
     }
 
     function remove($key1 = NULL, $key2 = NULL)

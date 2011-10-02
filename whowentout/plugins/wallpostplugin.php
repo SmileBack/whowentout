@@ -1,6 +1,6 @@
 <?php
 
-class WallPostPlugin
+class WallPostPlugin extends CI_Plugin
 {
 
     /**

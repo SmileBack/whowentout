@@ -1,6 +1,6 @@
 <?php
 
-class HelpNotificationsPlugin
+class HelpNotificationsPlugin extends CI_Plugin
 {
 
     private $ci;
@@ -8,7 +8,7 @@ class HelpNotificationsPlugin
     function __construct()
     {
         $this->ci =& get_instance();
-        $this->db = $this->ci->db;
+        $this->ci->load->library('flag');
     }
 
     /**
@@ -18,18 +18,6 @@ class HelpNotificationsPlugin
      */
     function on_checkin($e)
     {
-        
-        if ($this->is_first_checkin($e->user)) {
-            
-        }
     }
 
-    function is_first_checkin(XUser $user)
-    {
-        $count = $this->db->from('party_attendees')
-                ->where('user_id', $user->id)
-                ->count_all_results();
-        return $count == 1;
-    }
-    
 }
