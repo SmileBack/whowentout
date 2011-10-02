@@ -15,5 +15,5 @@ $config['email']['development'] = array(
   'driver' => 'empty',
 );
 
-$config['email']['phpfog'] = $config['email']['whowentoutgmail'];
+$config['email']['whowentout'] = $config['email']['whowentoutgmail'];
 $config['email']['whowasout'] = $config['email']['whowentoutgmail'];

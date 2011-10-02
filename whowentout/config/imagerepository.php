@@ -7,7 +7,7 @@ $config['imagerepository']['development'] = array(
   'path' => 'pics',
 );
 
-$config['imagerepository']['phpfog'] = array(
+$config['imagerepository']['whowasout'] = array(
   'source' => 's3',
   'bucket' => 'whowentoutdev',
 );

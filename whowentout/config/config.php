@@ -15,7 +15,7 @@
 |
 */
 
-if (getenv('server') == 'phpfog') {
+if (getenv('server') == 'whowentout') {
     $config['base_url'] = 'http://www.whowentout.com/';
 }
 elseif (getenv('server') == 'whowasout') {

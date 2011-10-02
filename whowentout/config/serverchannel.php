@@ -17,7 +17,7 @@ $config['serverchannel']['development'] = array(
     'folder' => 'events',
 );
 
-$config['serverchannel']['phpfog'] = array(
+$config['serverchannel']['whowentout'] = array(
     'driver' => 's3',
     'bucket' => 'whowentoutevents',
     'amazon_public_key' => '0N83TDC3E416BETER2R2',
