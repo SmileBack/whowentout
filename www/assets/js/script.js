@@ -84,7 +84,6 @@ jQuery(function($) {
     });
 })(jQuery);
 
-
 $('a.confirm').entwine({
     onclick: function(e) {
         var action = this.attr('action') || 'do this';
@@ -94,4 +93,3 @@ $('a.confirm').entwine({
         }
     }
 });
-

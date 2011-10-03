@@ -110,7 +110,7 @@ $.when(app.load()).then(function() {
         var form = $(this).closest('form');
         var canSmile = $(this).hasClass('can');
         if (canSmile) {
-            var senderGender = app.currentUser().other_gender;
+            var senderGender = app.currentUser().otherGender();
             var message = senderGender == 'M'
             ? '<p>You are about to ' + action + '.</p>'
             + '<p>He will know that someone has smiled at him, but he will <strong>not</strong> know it was you unless he smiles at you as well.</p>'

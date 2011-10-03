@@ -77,6 +77,9 @@ WhoWentOut.Model.extend('WhoWentOut.User', {
     },
     thumbUrl: function() {
         return this.get('thumb_url');
+    },
+    otherGender: function() {
+        return this.get('other_gender');
     }
 });
 
