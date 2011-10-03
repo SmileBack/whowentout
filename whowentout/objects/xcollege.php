@@ -170,6 +170,12 @@ class XCollege extends XObject
         set_fake_time($dt);
     }
 
+    function modify_local_time($string)
+    {
+        $new_fake_time = $this->current_time(TRUE);
+        $new_fake_time->modify($string);
+        set_fake_time($new_fake_time);
+    }
 
     /**
      * @param  $day_offset

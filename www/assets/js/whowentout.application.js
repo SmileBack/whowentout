@@ -1,6 +1,7 @@
 //= require lib/jquery.js
 //= require lib/jquery.entwine.js
 //= require whowentout.model.js
+//= jquery.idle-timer.js
 
 WhoWentOut.Model.extend('WhoWentOut.Application', {
     Mask: function() {
@@ -14,8 +15,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         this._super();
 
         if (!window.console)
-            window.console = { log: function() {
-            } };
+            window.console = { log: function() {} };
 
         this.load();
 
@@ -26,13 +26,12 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         var self = this;
 
         this.initChatbar();
-
         this.startPingingServer();
-
+        
         this._every(10, function() {
             self.updateOfflineUsers();
         });
-
+        
         $(window).bind('leave', function() {
             self.pingLeavingServer();
         });
@@ -52,21 +51,17 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         this._pingingId = null;
     },
     pingServer: function() {
+        console.log('--pinging server--');
+        console.log('isActive = ' + this.isActive());
         $.ajax({
             url: '/user/ping',
             type: 'post',
             dataType: 'json',
-            data: { isIdle: this.isIdle() },
+            data: { isActive: this.isActive() ? 1 : 0 },
             success: function(response) {
                 //console.log('pinged server!');
             }
         });
-    },
-    pingIdle: function() {
-        return $.getJSON('/user/ping_idle');
-    },
-    pingActive: function() {
-        return $.getJSON('/user/ping_active');
     },
     pingLeavingServer: function() {
         $.ajax({
@@ -81,16 +76,17 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         var self = this;
         $(document.body).idleTimer(10000);
         $(document.body).bind("idle.idleTimer", function() {
-            self.pingIdle();
             self.trigger('becameidle');
         });
         $(document.body).bind("active.idleTimer", function() {
-            self.pingActive();
             self.trigger('becameactive');
         });
     },
     idleFor: function() {
         return this.isIdle() ? $(document.body).idleTimer('getElapsedTime') : 0;
+    },
+    isActive: function() {
+        return !this.isIdle();
     },
     isIdle: function() {
         return $.data(document.body, 'idleTimer') == 'idle';

@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-10-02 16:27:04
+# Date/time:                    2011-10-03 01:29:14
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -320,6 +320,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `gender` enum('M','F') NOT NULL,
   `registration_time` datetime DEFAULT NULL,
   `last_ping` datetime DEFAULT NULL,
+  `last_active` datetime DEFAULT NULL,
   `last_updated_friends` datetime DEFAULT NULL,
   `last_edit` datetime DEFAULT NULL,
   `date_of_birth` date NOT NULL,
@@ -330,7 +331,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pic_version` int(10) unsigned NOT NULL DEFAULT '1',
   `chatbar_state` text,
   `visible_to` varchar(255) NOT NULL DEFAULT 'everyone',
-  `idle_since` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),

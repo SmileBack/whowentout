@@ -26,16 +26,11 @@ class Welcome extends MY_Controller
                     'lib/jquery.entwine.js',
                     'lib/jquery.class.js',
                     'lib/jquery.ext.js');
-//        $this->load->library('asset');
-        //$this->asset->compress($js);
-//        $this->asset->compress('lib/jquery.js', 'jquery.min.js');
 
-        $this->load->library('flag');
-        //$this->flag->set('user', 159, 'has_checked_in');
-        $this->flag->remove('user', '159', 'has_checked_in');
-        var_dump($this->flag->exists('user', 159, 'has_checked_in'));
-        var_dump($this->flag->exists('user', 159, 'has_seen_smile'));
-//        print 'yea';
+
+        $was_active = true;
+        $is_active = 0;
+        var_dump( !$is_active && $was_active);
     }
 
 }

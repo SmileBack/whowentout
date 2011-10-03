@@ -277,30 +277,20 @@ class User extends MY_Controller
 
     function ping()
     {
-        $is_idle = intval(post('isIdle'));
-        $clear_idle = !$is_idle;
-        current_user()->ping_server($clear_idle);
-        $this->json_success();
-    }
-
-    function ping_idle()
-    {
-        current_user()->ping_idle();
-        $this->json_success();
-    }
-
-    function ping_active()
-    {
-        current_user()->ping_active();
-        $this->json_success();
+        $is_active = intval(post('isActive'));
+        current_user()->ping_online($is_active);
+        $this->json(array(
+                        'success' => TRUE,
+                        'is_active' => $is_active,
+                        'post' => post(),
+                    ));
     }
 
     function ping_leaving()
     {
-        current_user()->ping_leaving_site();
-        $this->json_success();
+        current_user()->ping_offline();
     }
-
+    
     function change_visibility($visibility)
     {
         $success = current_user()->change_visibility($visibility);

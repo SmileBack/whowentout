@@ -37,13 +37,15 @@ function current_time()
 
 function set_fake_time(DateTime $fake_time)
 {
+    $ci =& get_instance();
+
     $fake_time = make_gmt($fake_time);
     $real_time = actual_time();
     $fake_time_point = array(
         'fake_time' => $fake_time,
         'real_time' => $real_time,
     );
-    ci()->option->set('fake_time_point', $fake_time_point);
+    $ci->option->set('fake_time_point', $fake_time_point);
     
     raise_event('time_faked', array(
                                 'fake_time' => $fake_time,

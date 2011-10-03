@@ -25,8 +25,8 @@ class XUser extends XObject
             return FALSE;
 
         $this->visible_to = $visibility;
-        $this->ping_leaving_site();
-        $this->ping_server();
+        $this->ping_offline();
+        $this->ping_online();
 
         raise_event('user_changed_visibility', array(
                                                     'user' => $this,
@@ -523,7 +523,7 @@ class XUser extends XObject
     {
         if (!$date)
             $date = $this->college->today();
-        
+
         $date = $this->college->make_local($date);
         $date->setTime(0, 0, 0);
         $date->modify('-1 day');
@@ -774,11 +774,21 @@ class XUser extends XObject
         if ($this->last_ping == NULL)
             return FALSE;
 
-        $a_little_while_ago = current_time()->modify('-10 seconds')->getTimestamp();
         $last_ping = new DateTime($this->last_ping, new DateTimeZone('UTC'));
-        $last_ping = $last_ping->getTimestamp();
+        $a_little_while_ago = current_time()->modify('-10 seconds');
 
-        return $last_ping > $a_little_while_ago;
+        return $last_ping->getTimestamp() > $a_little_while_ago->getTimestamp();
+    }
+
+    function is_active()
+    {
+        if ( ! $this->is_online())
+            return FALSE;
+
+        $last_active = new DateTime($this->last_active, new DateTimeZone('UTC'));
+        $a_little_while_ago = $this->college->current_time()->modify('-10 seconds');
+
+        return $last_active->getTimestamp() > $a_little_while_ago->getTimestamp();
     }
 
     /**
@@ -795,7 +805,7 @@ class XUser extends XObject
 
     function is_idle()
     {
-        return $this->idle_since != NULL;
+        return !$this->is_active();
     }
 
     function is_idle_to($user)
@@ -838,65 +848,56 @@ class XUser extends XObject
                        ->count_all_results() > 0;
     }
 
-    function ping_server($clear_idle = FALSE)
+    function ping_online($is_active = TRUE)
     {
+        $ci =& get_instance();
+
         $was_online = $this->is_online();
+        $was_active = $this->is_active();
+
+        $ci->response->set('was_online', $was_online);
+        $ci->response->set('was_active', $was_active);
 
         $this->last_ping = current_time()->format('Y-m-d H:i:s');
+        if ($is_active)
+            $this->last_active = $this->last_ping;
+
         $this->save();
 
         $just_came_online = !$was_online;
 
+        $ci->response->set('is_online', $this->is_online());
+        $ci->response->set('is_active', $this->is_active());
+
+        $ci->response->set('last_condition',  ! $this->is_active() && $was_active);
 
         if ($just_came_online) {
-
-            $this->idle_since = NULL;
-            $this->save();
-
+            $ci->response->set('raised_just_came_online_event', TRUE);
             raise_event('user_came_online', array(
                                                  'user' => $this,
                                             ));
         }
-        elseif ($clear_idle) {
-            $this->ping_active();
+        elseif ($this->is_active() && !$was_active) { // became active
+            $ci->response->set('raised_active_event', TRUE);
+            raise_event('user_became_active', array(
+                                                   'user' => $this,
+                                              ));
         }
-    }
-
-    function ping_idle()
-    {
-        $was_idle = $this->is_idle();
-        $this->idle_since = current_time()->format('Y-m-d H:i:s');
-        $this->save();
-
-        $just_became_idle = !$was_idle;
-        if ($just_became_idle) {
+        elseif ( ! $this->is_active() && $was_active) { // became idle
+            $ci->response->set('raised_idle_event', TRUE);
             raise_event('user_became_idle', array(
                                                  'user' => $this,
                                             ));
         }
     }
 
-    function ping_active()
-    {
-        $was_active = !$this->is_idle();
-        $this->idle_since = NULL;
-        $this->save();
-
-        $just_became_active = !$was_active;
-        if ($just_became_active) {
-            raise_event('user_became_active', array(
-                                                   'user' => $this,
-                                              ));
-        }
-    }
-
-    function ping_leaving_site($suspend_save = FALSE)
+    function ping_offline()
     {
         if ($this->last_ping == NULL) //already marked as offline so don't do anything
             return;
 
         $this->last_ping = NULL;
-        $this->idle_since = NULL;
+        $this->last_active = NULL;
         $this->save();
 
         raise_event('user_went_offline', array(
