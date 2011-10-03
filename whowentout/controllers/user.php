@@ -281,7 +281,6 @@ class User extends MY_Controller
         current_user()->ping_online($is_active);
         $this->json(array(
                         'success' => TRUE,
-                        'is_active' => $is_active,
                         'post' => post(),
                     ));
     }

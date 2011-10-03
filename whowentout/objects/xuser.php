@@ -769,24 +769,34 @@ class XUser extends XObject
         return images()->exists($this->id, $preset);
     }
 
-    function is_online()
+    function is_online($current_time = NULL)
     {
         if ($this->last_ping == NULL)
             return FALSE;
 
+        if ($current_time == NULL)
+            $current_time = current_time();
+
         $last_ping = new DateTime($this->last_ping, new DateTimeZone('UTC'));
-        $a_little_while_ago = current_time()->modify('-10 seconds');
+
+        $a_little_while_ago = clone $current_time;
+        $a_little_while_ago->modify('-10 seconds');
 
         return $last_ping->getTimestamp() > $a_little_while_ago->getTimestamp();
     }
 
-    function is_active()
+    function is_active($current_time = NULL)
     {
-        if ( ! $this->is_online())
+        if (!$this->is_online())
             return FALSE;
 
+
+        if ($current_time == NULL)
+            $current_time = current_time();
+
         $last_active = new DateTime($this->last_active, new DateTimeZone('UTC'));
-        $a_little_while_ago = $this->college->current_time()->modify('-10 seconds');
+        $current_time = clone $current_time;
+        $a_little_while_ago = $current_time->modify('-10 seconds');
 
         return $last_active->getTimestamp() > $a_little_while_ago->getTimestamp();
     }
@@ -803,9 +813,9 @@ class XUser extends XObject
                && $user->is_online_to_one_way($this);
     }
 
-    function is_idle()
+    function is_idle($current_time = NULL)
     {
-        return !$this->is_active();
+        return !$this->is_active($current_time);
     }
 
     function is_idle_to($user)
@@ -848,28 +858,28 @@ class XUser extends XObject
                        ->count_all_results() > 0;
     }
 
-    function ping_online($is_active = TRUE)
+    function ping_online($set_active = TRUE)
     {
         $ci =& get_instance();
 
-        $was_online = $this->is_online();
-        $was_active = $this->is_active();
-
-        $ci->response->set('was_online', $was_online);
-        $ci->response->set('was_active', $was_active);
-
-        $this->last_ping = current_time()->format('Y-m-d H:i:s');
-        if ($is_active)
+        $current_time = current_time();
+        $last_ping = new DateTime($this->last_ping, new DateTimeZone('UTC'));
+        
+        $was_online = $this->is_online($last_ping);
+        $was_active = $this->is_active($last_ping);
+        
+        $this->last_ping = $current_time->format('Y-m-d H:i:s');
+        if ($set_active)
             $this->last_active = $this->last_ping;
 
         $this->save();
+        
+        $is_online = $this->is_online($current_time);
+        $is_active = $this->is_active($current_time);
 
-        $just_came_online = !$was_online;
-
-        $ci->response->set('is_online', $this->is_online());
-        $ci->response->set('is_active', $this->is_active());
-
-        $ci->response->set('last_condition',  ! $this->is_active() && $was_active);
+        $just_came_online = $is_online && !$was_online;
+        $just_became_active = $is_active && !$was_active;
+        $just_became_idle = !$is_active && $was_active;
 
         if ($just_came_online) {
             $ci->response->set('raised_just_came_online_event', TRUE);
@@ -877,13 +887,13 @@ class XUser extends XObject
                                                  'user' => $this,
                                             ));
         }
-        elseif ($this->is_active() && !$was_active) { // became active
+        elseif ($just_became_active) {
             $ci->response->set('raised_active_event', TRUE);
             raise_event('user_became_active', array(
                                                    'user' => $this,
                                               ));
         }
-        elseif ( ! $this->is_active() && $was_active) { // became idle
+        elseif ($just_became_idle) {
             $ci->response->set('raised_idle_event', TRUE);
             raise_event('user_became_idle', array(
                                                  'user' => $this,

@@ -27,10 +27,8 @@ class Welcome extends MY_Controller
                     'lib/jquery.class.js',
                     'lib/jquery.ext.js');
 
-
-        $was_active = true;
-        $is_active = 0;
-        var_dump( !$is_active && $was_active);
+        $dt = new DateTime(NULL, new DateTimeZone('UTC'));
+        var_dump($dt);
     }
 
 }

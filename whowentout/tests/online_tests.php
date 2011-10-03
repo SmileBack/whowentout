@@ -43,12 +43,13 @@ class Online_Tests extends TestGroup
     function test_online()
     {
         $this->assert_true(!$this->user->is_online());
+        
         $this->user->ping_online();
         $this->assert_true($this->user->is_online(), 'online right after pings');
         $this->assert_true($this->user->is_active(), 'active right after ping');
 
-        $this->college->modify_local_time('+20 minutes');
-        $this->assert_true(!$this->user->is_online(), 'offline after no ping');
+        $this->college->modify_local_time('+30 seconds');
+        $this->assert_true(!$this->user->is_online(), 'offline after no ping for a while');
     }
 
     function test_idle()
