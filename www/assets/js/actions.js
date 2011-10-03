@@ -19,28 +19,54 @@ Actions = {
         $(element).flashSpotlight(duration);
     },
     ShowPartyGalleryTip: function() {
-        $('.see_party_gallery:first').showTip({position: 'right', content: 'Click Here!', cls: 'see_party_gallery_tip'});
+        jQuery(function($) {
+            $('.see_party_gallery:first').showTip({position: 'right', content: 'Click Here!', cls: 'see_party_gallery_tip'});
 
-        function bounce() {
-            $('.see_party_gallery_tip')
-            .animate({left: '+=10px'}, 250)
-            .animate({left: '-=10px'}, 250);
-        }
+            $(window).bind('resize', _.debounce(function() {
+                $('.see_party_gallery_tip').stop(true, true).refreshPosition();
+            }, 250));
 
-        var id = setInterval(bounce, 3000);
-        bounce();
+            function bounce() {
+                var position = $('.see_party_gallery_tip').anchorPosition();
+                
+                var finalLeft = (position.left + 10) + 'px';
+                var initialLeft = position.left + 'px';
+
+                if ($('.see_party_gallery_tip').queue('fx').length < 2) {
+                    $('.see_party_gallery_tip')
+                    .animate({left: finalLeft}, 250)
+                    .animate({left: initialLeft}, 250);
+                }
+            }
+
+            var id = setInterval(bounce, 3000);
+            bounce();
+        });
     },
     ShowSmileHelpTip: function() {
-        $('.whats_a_smile a').showTip({position: 'right', content: 'Click Here!', cls: 'see_smile_help_tip'});
+        jQuery(function($) {
+            $('.whats_a_smile a').showTip({position: 'right', content: 'Click Here!', cls: 'see_smile_help_tip'});
 
-        function bounce() {
-            $('.see_smile_help_tip')
-            .animate({left: '+=10px'}, 250)
-            .animate({left: '-=10px'}, 250);
-        }
+            $(window).bind('resize', _.debounce(function() {
+                $('.see_smile_help_tip').stop(true, true).refreshPosition();
+            }, 250));
 
-        var id = setInterval(bounce, 3000);
-        bounce();
+            function bounce() {
+                var position = $('.see_smile_help_tip').anchorPosition();
+                
+                var finalLeft = (position.left + 10) + 'px';
+                var initialLeft = position.left + 'px';
+
+                if ($('.see_smile_help_tip').queue('fx').length < 2) {
+                    $('.see_smile_help_tip')
+                    .animate({left: finalLeft}, 250)
+                    .animate({left: initialLeft}, 250);
+                }
+            }
+
+            var id = setInterval(bounce, 3000);
+            bounce();
+        });
     },
     ShowSiteHelp: function() {
         $.when(app.load()).then(function() {

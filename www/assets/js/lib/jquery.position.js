@@ -193,3 +193,8 @@ $.fn.refreshPosition = function() {
   this.applyPosition(options.target, options);
   return this;
 }
+
+$.fn.anchorPosition = function() {
+    var options = this.anchor();
+    return this.getPosition(options.target, options);
+}

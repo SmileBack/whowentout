@@ -81,6 +81,11 @@ function user_exists($user_id)
 
 function enforce_restrictions()
 {
+    if (logged_in() && current_user() == NULL) {
+        XUser::destroy_session();
+        exit;
+    }
+
     if (!current_user()->can_use_website())
         redirect('user/edit');
 }

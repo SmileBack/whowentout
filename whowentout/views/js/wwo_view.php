@@ -9,6 +9,7 @@ $wwo['doorsOpen'] = college()->doors_are_open();
 
 if (logged_in()) {
     $wwo['currentUserID'] = current_user()->id;
+    var_dump(logged_in());
     $wwo['chatbar_state'] = current_user()->chatbar_state;
 }
 ?>

@@ -2,7 +2,7 @@
 
 if (ENVIRONMENT == 'development') {
     $config['css_version'] = 'refresh';//13;
-    $config['js_version'] = 'refresh';//27;
+    $config['js_version'] = 'refresh';//29;
 }
 else {
     $config['css_version'] = 1;

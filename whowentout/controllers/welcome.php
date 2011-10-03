@@ -26,9 +26,6 @@ class Welcome extends MY_Controller
                     'lib/jquery.entwine.js',
                     'lib/jquery.class.js',
                     'lib/jquery.ext.js');
-
-        $dt = new DateTime(NULL, new DateTimeZone('UTC'));
-        var_dump($dt);
     }
 
 }

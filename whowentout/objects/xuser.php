@@ -11,10 +11,23 @@ class XUser extends XObject
     static function current()
     {
         if (logged_in()) {
-            return self::get(get_user_id());
+            $current_user = self::get(get_user_id());
+            return $current_user;
         }
         else {
             return new XAnonymousUser();
+        }
+    }
+
+    static function destroy_session()
+    { //delete user id
+        set_user_id(0);
+
+        //destroy facebook session data
+        $app_id = fb()->getAppId();
+        $session_vars = array('code', 'access_token', 'user_id', 'state');
+        foreach ($session_vars as $var) {
+            ci()->session->unset_userdata("fb_{$app_id}_{$var}");
         }
     }
 
@@ -38,15 +51,7 @@ class XUser extends XObject
 
     function logout()
     {
-        //delete user id
-        set_user_id(0);
-
-        //destroy facebook session data
-        $app_id = fb()->getAppId();
-        $session_vars = array('code', 'access_token', 'user_id', 'state');
-        foreach ($session_vars as $var) {
-            ci()->session->unset_userdata("fb_{$app_id}_{$var}");
-        }
+        self::destroy_session();
     }
 
     function reason()
@@ -864,16 +869,16 @@ class XUser extends XObject
 
         $current_time = current_time();
         $last_ping = new DateTime($this->last_ping, new DateTimeZone('UTC'));
-        
+
         $was_online = $this->is_online($last_ping);
         $was_active = $this->is_active($last_ping);
-        
+
         $this->last_ping = $current_time->format('Y-m-d H:i:s');
         if ($set_active)
             $this->last_active = $this->last_ping;
 
         $this->save();
-        
+
         $is_online = $this->is_online($current_time);
         $is_active = $this->is_active($current_time);
 

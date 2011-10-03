@@ -81,10 +81,7 @@
         }
 
         tip.css('visibility', '').css('display', 'none');
-
-        tip.applyPosition(target, {
-            anchor: anchor
-        });
+        tip.anchor(target, anchor);
     }
 
     function has_tip(el) {

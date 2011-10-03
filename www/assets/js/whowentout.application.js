@@ -51,8 +51,6 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         this._pingingId = null;
     },
     pingServer: function() {
-        console.log('--pinging server--');
-        console.log('isActive = ' + this.isActive());
         $.ajax({
             url: '/user/ping',
             type: 'post',
