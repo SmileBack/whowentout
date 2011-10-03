@@ -3,7 +3,7 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-09-20 22:06:31
+# Date/time:                    2011-10-02 16:27:04
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -77,6 +77,16 @@ CREATE TABLE IF NOT EXISTS `events` (
   `type` varchar(255) NOT NULL,
   `channel` varchar(255) NOT NULL DEFAULT 'site',
   `data` text,
+  PRIMARY KEY (`id`),
+  KEY `channel` (`channel`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.flags
+CREATE TABLE IF NOT EXISTS `flags` (
+  `id` varchar(512) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -92,7 +102,11 @@ CREATE TABLE IF NOT EXISTS `friends` (
   `friend_facebook_id` bigint(20) unsigned NOT NULL,
   `friend_full_name` varchar(256) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `friend_full_name` (`friend_full_name`)
+  KEY `friend_full_name` (`friend_full_name`),
+  KEY `user_id` (`user_id`),
+  KEY `user_facebook_id` (`user_facebook_id`),
+  KEY `friend_id` (`friend_id`),
+  KEY `friend_facebook_id` (`friend_facebook_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.
@@ -111,6 +125,22 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   `error_file` text,
   `error` text,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.notifications
+CREATE TABLE IF NOT EXISTS `notifications` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL DEFAULT 'normal',
+  `sent_at` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `message` text NOT NULL,
+  `is_read` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.
@@ -155,6 +185,28 @@ CREATE TABLE IF NOT EXISTS `party_attendees` (
   KEY `party_id_key` (`party_id`),
   CONSTRAINT `party_attendee_party` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `party_attendee_user` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.party_invitations
+CREATE TABLE IF NOT EXISTS `party_invitations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` datetime DEFAULT NULL,
+  `party_id` int(10) unsigned NOT NULL,
+  `sender_id` int(10) unsigned NOT NULL,
+  `receiver_id` int(10) unsigned DEFAULT NULL,
+  `college_student_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `party_id_fk` (`party_id`),
+  KEY `sender_id_fk` (`sender_id`),
+  KEY `receiver_id_fk` (`receiver_id`),
+  KEY `college_student_id_fk` (`college_student_id`),
+  CONSTRAINT `college_student_id_fk` FOREIGN KEY (`college_student_id`) REFERENCES `college_students` (`id`),
+  CONSTRAINT `party_id_fk` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`),
+  CONSTRAINT `receiver_id_fk` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `sender_id_fk` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.
@@ -278,6 +330,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pic_version` int(10) unsigned NOT NULL DEFAULT '1',
   `chatbar_state` text,
   `visible_to` varchar(255) NOT NULL DEFAULT 'everyone',
+  `idle_since` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),

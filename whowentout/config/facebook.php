@@ -23,7 +23,6 @@ $config['facebook_permissions'] = array(
     'email',
     'offline_access',
     'publish_stream',
-    'user_location',
     'friends_events',
     'friends_education_history',
 );
