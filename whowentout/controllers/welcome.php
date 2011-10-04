@@ -27,8 +27,10 @@ class Welcome extends MY_Controller
                     'lib/jquery.class.js',
                     'lib/jquery.ext.js');
 
+        $force = $this->input->get('force') == 'true' ? TRUE : FALSE;
+
         print 'updating';
-        $result = current_user()->update_friends_from_facebook();
+        $result = current_user()->update_friends_from_facebook($force);
         var_dump($result);
         print 'done!';
     }
