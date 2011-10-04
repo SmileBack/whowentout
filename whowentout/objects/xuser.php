@@ -502,7 +502,7 @@ class XUser extends XObject
 
         $last_updated = new DateTime($this->last_updated_friends, new DateTimeZone('UTC'));
 
-        return current_time()->getTimestamp() - $last_updated->getTimestamp() > 600;
+        return current_time()->getTimestamp() - $last_updated->getTimestamp() > 3600;
     }
 
     /**
