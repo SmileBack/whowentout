@@ -259,5 +259,5 @@ class XObject
     protected function before_save()
     {
     }
-    
+
 }

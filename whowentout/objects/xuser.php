@@ -435,16 +435,16 @@ class XUser extends XObject
         if (!$this->friends_need_update($force_update))
             return FALSE;
 
-        try {
+//        try {
             $results = fb()->api(array(
                                       'method' => 'fql.query',
                                       'query' => "SELECT uid, name, is_app_user FROM user
                     WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $this->facebook_id)" // AND is_app_user = 1
                                  ));
-        }
-        catch (Exception $e) {
-            return FALSE;
-        }
+//        }
+//        catch (Exception $e) {
+//            return FALSE;
+//        }
 
         $rows = array();
         foreach ($results as $result) {
@@ -495,7 +495,7 @@ class XUser extends XObject
 
         $last_updated = new DateTime($this->last_updated_friends, new DateTimeZone('UTC'));
 
-        return actual_time()->getTimestamp() - $last_updated->getTimestamp() > 600;
+        return current_time()->getTimestamp() - $last_updated->getTimestamp() > 600;
     }
 
     /**

@@ -33,4 +33,11 @@ class Welcome extends MY_Controller
         print 'done!';
     }
 
+    function async_update()
+    {
+
+        job_call_async('update_facebook_friends', current_user()->id);
+        print 'updating async.';
+    }
+
 }
