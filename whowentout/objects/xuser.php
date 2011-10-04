@@ -433,7 +433,7 @@ class XUser extends XObject
     function update_friends_from_facebook($force_update = FALSE)
     {
         if (!$this->friends_need_update($force_update))
-            return;
+            return FALSE;
 
         try {
             $results = fb()->api(array(

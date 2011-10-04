@@ -11,15 +11,22 @@
 }
 
 .opacity(@opacity: 1) {
+  /* Sensible browsers */
+  opacity: @opacity;
   /* Netscape */
   -moz-opacity: @opacity;
   /* Safari 1.x */
   -khtml-opacity: @opacity;
-  /* Good browsers */
-  opacity: @opacity;
   /* Satanic browsers */
   -ms-filter: %('alpha(opacity=%s)', @opacity * 100); // some IE versions
-  filter: e(%("alpha(opacity=%s)", @opacity * 100));  // most other IE versions
+  filter: e(%('alpha(opacity=%s)', @opacity * 100));  // most other IE versions
+}
+
+.background-size(@method) {
+  -webkit-background-size: @method;
+  -moz-background-size: @method;
+  -o-background-size: @method;
+  background-size: @method;
 }
 
 .box-sizing(@value) {

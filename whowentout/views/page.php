@@ -35,6 +35,10 @@
     <?= current_time(TRUE)->format('D, M j g:i a') ?>
 </div>
 
+<div id="background">
+    <img src="/assets/images/bg.jpg" />
+</div>
+
 <div id="page">
 
     <header class="main">

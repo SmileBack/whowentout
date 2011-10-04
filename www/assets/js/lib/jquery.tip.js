@@ -37,12 +37,9 @@
     }
 
     function position_tip(el) {
-        target = get_target(el);
-        tip = get_tip(el);
-        cfg = get_config(tip);
-
-        var tip = get_tip(el),
-        cfg = get_config(el),
+        var target = get_target(el),
+        tip = get_tip(el),
+        cfg = get_config(tip),
         content = tip.find('.tiptip_content'),
         arrow = tip.find('.tiptip_arrow');
 

@@ -26,6 +26,11 @@ class Welcome extends MY_Controller
                     'lib/jquery.entwine.js',
                     'lib/jquery.class.js',
                     'lib/jquery.ext.js');
+
+        print 'updating';
+        $result = current_user()->update_friends_from_facebook();
+        var_dump($result);
+        print 'done!';
     }
 
 }
