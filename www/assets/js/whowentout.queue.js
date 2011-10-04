@@ -1,5 +1,5 @@
 (function() {
-
+    
     $.Class.extend('WhoWentOut.Queue', {}, {
         _tasks: [],
         _isRunning: false,
@@ -38,16 +38,20 @@
             else {
                 var nextTask = this._tasks.pop();
                 var result = nextTask();
+                console.log('--running task--');
                 if (result && result.done && result.fail) {
                     result
                     .done(function() {
+                        console.log('done!');
                         setTimeout(self.callback('_runNextTask'), 0);
                     })
                     .fail(function() {
+                        console.log('fail!');
                         setTimeout(self.callback('_runNextTask'), 0);
                     });
                 }
                 else {
+                    console.log('non deferred function');
                     setTimeout(self.callback('_runNextTask'), 0);
                 }
             }
