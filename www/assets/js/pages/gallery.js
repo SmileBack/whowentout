@@ -141,14 +141,6 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.show_mutual_friends').entwine({
-        onclick: function(e) {
-            e.preventDefault();
-            var path = $(this).attr('href');
-            $('#wwo').showMutualFriendsDialog(path);
-        }
-    });
-
     $('.gallery .open_chat').entwine({
         onmouseenter: function(e) {
             this.notice('Click to chat', 't');
@@ -243,3 +235,15 @@ $.when(app.load()).then(function() {
         }
     });
 });
+
+(function($) {
+
+    $('.show_mutual_friends').entwine({
+        onclick: function(e) {
+            e.preventDefault();
+            var path = $(this).attr('href');
+            $('#wwo').showMutualFriendsDialog(path);
+        }
+    });
+
+})(jQuery);

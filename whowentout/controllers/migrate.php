@@ -79,8 +79,8 @@ class Migrate extends MY_Controller
         if (!logged_in())
             show_404();
 
-        if (!current_user()->is_admin())
-            show_404();
+        //if (!current_user()->is_admin())
+        //    show_404();
     }
 
     // ------------------------------------------------------------------------
