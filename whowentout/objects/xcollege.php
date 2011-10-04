@@ -514,7 +514,7 @@ class XCollege extends XObject
 
         $uids = array();
         foreach ($users as $user) {
-            $user->ping_leaving_site();
+            $user->ping_offline();
             $uids[] = $user->id;
         }
         return $uids;
