@@ -230,11 +230,9 @@ function get_reason_message($reason)
 
 function update_facebook_friends($user, $force_update = FALSE)
 {
-    $access_token = get_option('admin_facebook_access_token');
-    fb()->setAccessToken($access_token);
-
     $user = user($user);
-    $user->update_friends_from_facebook($force_update);
+    if ($user)
+        $user->update_friends_from_facebook($force_update);
 }
 
 

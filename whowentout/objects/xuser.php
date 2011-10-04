@@ -432,20 +432,26 @@ class XUser extends XObject
 
     function update_friends_from_facebook($force_update = FALSE)
     {
+        $prev_access_token = fb()->getAccessToken();
+        
         if (!$this->friends_need_update($force_update))
             return FALSE;
 
         try {
+            fb()->setAccessToken($this->facebook_access_token);
             $results = fb()->api(array(
                                       'method' => 'fql.query',
                                       'query' => "SELECT uid, name, is_app_user FROM user
-                    WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $this->facebook_id)" // AND is_app_user = 1
+                                WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $this->facebook_id)" // AND is_app_user = 1
                                  ));
         }
         catch (Exception $e) {
-            var_dump($e->getMessage());
+            print '<h1>' . $e->getMessage() . '</h1>';
+            fb()->setAccessToken($prev_access_token);
             return FALSE;
         }
+        
+        fb()->setAccessToken($prev_access_token);
 
         $rows = array();
         foreach ($results as $result) {

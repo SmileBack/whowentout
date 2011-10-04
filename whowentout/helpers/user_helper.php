@@ -196,10 +196,9 @@ function login()
 
         set_user_id($current_user->id);
 
-        if (current_user()->facebook_id == VENKAT_FACEBOOK_ID) {
-            set_option('admin_facebook_access_token', fb()->getAccessToken());
-        }
-
+        current_user()->facebook_access_token = fb()->getAccessToken();
+        current_user()->save();
+        
         return current_user();
     }
     else {
