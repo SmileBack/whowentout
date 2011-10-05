@@ -37,7 +37,15 @@
             }
             else {
                 var nextTask = this._tasks.pop();
-                var result = nextTask();
+                
+                try {
+                    var result = nextTask();
+                }
+                catch (err) {
+                    console.log('--error when running task--');
+                    console.log(err);
+                }
+                
                 console.log('--running task--');
                 if (result && result.then) {
                     result.then(

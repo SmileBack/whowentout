@@ -89,7 +89,15 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
         $.each(events, function(k, event) {
             console.log('event :: ' + event.type);
             console.log(event);
-            self.trigger(event.type, event);
+
+            try {
+                self.trigger(event.type, event);
+            }
+            catch (err) {
+                console.log('--error when triggering event--');
+                console.log(err);
+            }
+            
         });
     },
     openChannel: function() {
