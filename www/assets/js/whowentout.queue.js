@@ -1,5 +1,5 @@
 (function() {
-    
+
     $.Class.extend('WhoWentOut.Queue', {}, {
         _tasks: [],
         _isRunning: false,
@@ -39,23 +39,19 @@
                 var nextTask = this._tasks.pop();
                 var result = nextTask();
                 console.log('--running task--');
-                if (result && result.done && result.fail) {
-                    result
-                    .done(function() {
-                        console.log('done!');
-                        setTimeout(self.callback('_runNextTask'), 0);
-                    })
-                    .fail(function() {
-                        console.log('fail!');
-                        setTimeout(self.callback('_runNextTask'), 0);
-                    });
+                if (result && result.then) {
+                    result.then(
+                        function() { console.log('-- done: finished running task --'); setTimeout(self.callback('_runNextTask'), 0); },
+                        function() { console.log('-- fail: finished running task --'); setTimeout(self.callback('_runNextTask'), 0); }
+                    );
                 }
                 else {
-                    console.log('non deferred function');
+                    console.log('-- done: non-deferred function --');
                     setTimeout(self.callback('_runNextTask'), 0);
                 }
             }
         }
     });
+    
 
 })(jQuery);
