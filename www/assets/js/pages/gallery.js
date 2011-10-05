@@ -2,19 +2,28 @@ $.when(app.load()).then(function() {
 
     app.channel('current_user')
     .bind('user_came_online', function(e) {
-        //console.log('channel user came online ' + e.user.id);
-        WhoWentOut.User.get(e.user.id).isOnline(true);
+        $.when(WhoWentOut.User.get(e.user.id))
+        .then(function (u) {
+            u.isOnline(true);
+        });
     })
     .bind('user_went_offline', function(e) {
-        //console.log('channel user went offline ' + e.user.id);
-        WhoWentOut.User.get(e.user.id).isOnline(false);
+        $.when(WhoWentOut.User.get(e.user.id))
+        .then(function(u) {
+            u.isOnline(false);
+        });
     })
     .bind('user_became_idle', function(e) {
-        //console.log('channel user became idle ' + e.user.id);
-        WhoWentOut.User.get(e.user.id).isIdle(true);
+        $.when(WhoWentOut.User.get(e.user.id))
+        .then(function(u) {
+            u.isIdle(true);
+        });
     })
     .bind('user_became_active', function(e) {
-        WhoWentOut.User.get(e.user.id).isIdle(false);
+        $.when(WhoWentOut.User.get(e.user.id))
+        .then(function(u) {
+            u.isIdle(false);
+        });
     })
     .bind('smile_received', function(e) {
         var partyID = e.party.id;
