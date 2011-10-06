@@ -14,7 +14,9 @@ class TestFacebookNetworkPlugin extends CI_Plugin
                     $e->response = $this->get_100001981675908_affiliations();
                 }
 
-                if (string_starts_with('SELECT affiliations FROM user WHERE uid = ', $e->options['query'])) {
+                if (ENVIRONMENT != 'whowentout'
+                    && string_starts_with('SELECT affiliations FROM user WHERE uid = ', $e->options['query'])) {
+                    
                     $e->response = $e->default_response;
                     $e->response[0]['affiliations'][] = array(
                         'nid' => '16777231',
