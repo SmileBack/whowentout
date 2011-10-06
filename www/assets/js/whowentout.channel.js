@@ -12,7 +12,11 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
         this._options = _.defaults(options, {});
 
         this._isFetchingNewEvents = false;
-        this._queue = new WhoWentOut.Queue();
+        this._queue = new WhoWentOut.Queue({
+            taskTimeout: 4000
+        });
+        this._queue.bind('tasktimedout', this.callback('ontasktimedout'));
+
         this.bind('eventsversionchanged', this.callback('oneventsversionchanged'));
 
         this._queue.add(this.callback('initSourceEventsVersion'));
@@ -31,6 +35,10 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
         });
     },
     oneventsversionchanged: function(e) {
+        this._queue.add( this.callback('fetchNewEvents') );
+    },
+    ontasktimedout: function(e) {
+        alert('declogged');
         this._queue.add( this.callback('fetchNewEvents') );
     },
     id: function() {
@@ -91,10 +99,10 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
             console.log(event);
 
             try {
-                self.trigger(event.type, event);
+                self.trigger(event);
             }
             catch (err) {
-                console.log('--error when triggering event--');
+                console.log('--error when triggering event ' + event.type + ' --');
                 console.log(err);
             }
             

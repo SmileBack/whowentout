@@ -1,3 +1,5 @@
+//= require lib/jquery.js
+
 (function( $ ) {
 	// Several of the methods in this plugin use code adapated from Prototype
 	//  Prototype JavaScript framework, version 1.6.0.1

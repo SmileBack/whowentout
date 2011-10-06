@@ -16,7 +16,7 @@ $.Class.extend('WhoWentOut.Component', {}, {
         // interceptor yet. Since event handlers are triggered
         // in the order in which they were bound, we can be sure
         // that our preTrigger goes first.
-        if (!this.eventBeacon.data("_preTrigger")[ eventType ]) {
+        if ( ! this.eventBeacon.data("_preTrigger")[ eventType ] ) {
 
             // We need to bind the pre-trigger first so it can
             // change the target appropriatly before any other
@@ -49,17 +49,12 @@ $.Class.extend('WhoWentOut.Component', {}, {
     },
     unbind: function( eventType, callback ) {
         // Pass the unbind() request onto the event beacon.
-        this.eventBeacon.unbind( eventType, callback );
-
-        // Return this object reference for method chaining.
+        jQuery.fn.unbind.apply(this.eventBeacon, arguments);
         return this;
     },
     trigger: function( eventType, data ) {
-        var event = $.Event(eventType, data);
         // Pass the trigger() request onto the event beacon.
-        this.eventBeacon.trigger( event );
-
-        // Return this object reference for method chaining.
+        jQuery.fn.trigger.apply(this.eventBeacon, arguments);
         return this;
     },
     _preTrigger: function(event) {

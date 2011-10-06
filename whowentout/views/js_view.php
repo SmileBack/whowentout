@@ -26,6 +26,7 @@
 <?= js_asset('whowentout.component.js') ?>
 <?= js_asset('whowentout.hash.js') ?>
 <?= js_asset('whowentout.model.js') ?>
+<?= js_asset('whowentout.timer.js') ?>
 <?= js_asset('whowentout.queue.js') ?>
 <?= js_asset('whowentout.channel.js') ?>
 <?= js_asset('whowentout.college.js') ?>
