@@ -12,10 +12,7 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
         this._options = _.defaults(options, {});
 
         this._isFetchingNewEvents = false;
-        this._queue = new WhoWentOut.Queue({
-            taskTimeout: 4000
-        });
-        this._queue.bind('tasktimedout', this.callback('ontasktimedout'));
+        this._queue = new WhoWentOut.Queue();
 
         this.bind('eventsversionchanged', this.callback('oneventsversionchanged'));
 
@@ -153,7 +150,10 @@ WhoWentOut.Channel.extend('WhoWentOut.PollingChannel', {}, {
                 console.log('this.localEventsVersion() = ' + this.localEventsVersion());
                 if (sourceEventsVersion != this.sourceEventsVersion()) {
                     self.sourceEventsVersion(sourceEventsVersion);
-                    self.trigger('eventsversionchanged', {version: sourceEventsVersion});
+                    self.trigger({
+                        type: 'eventsversionchanged',
+                        version: sourceEventsVersion
+                    });
                 }
             }
         });
@@ -199,6 +199,9 @@ WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
     },
     ondatareceived: function(sourceEventsVersion) {
         this.sourceEventsVersion(sourceEventsVersion);
-        this.trigger('eventsversionchanged', {version: sourceEventsVersion});
+        this.trigger({
+            type: 'eventsversionchanged',
+            version: sourceEventsVersion
+        });
     }
 });

@@ -26,7 +26,7 @@ WhoWentOut.Model.extend('WhoWentOut.User', {
         if (this._users.get(id))
             return this._users.get(id);
 
-        //console.log('--fetching ' + id + ' from server--');
+        console.log('--fetching ' + id + ' from server--');
 
         var self = this;
         var dfd = $.Deferred();

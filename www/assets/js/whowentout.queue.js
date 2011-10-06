@@ -3,22 +3,12 @@
     WhoWentOut.Component.extend('WhoWentOut.Queue', {}, {
         _tasks: [],
         _currentTask: null,
-        _taskStartTime: null,
-        _options: {
-            taskTimeout: null
-        },
+        _options: {taskTimeout: null},
         init: function(options) {
             var self = this;
             this._super();
 
             this._options = $.extend(this._options, options);
-
-            if (this._options.taskTimeout) {
-                //create timer to check if a task in the queue is taking too long
-                this._timer = new WhoWentOut.Timer(500);
-                this._timer.tick(this.callback('_checkIfTaskIsTakingTooLong'));
-                this._timer.start();
-            }
         },
         count: function() {
             return this._tasks.length;
@@ -47,13 +37,6 @@
         isRunning: function() {
             return this._currentTask != null;
         },
-        taskElapsedTime: function() {
-            if (!this.isRunning() || this._taskStartTime == null)
-                return null;
-
-            var currentTime = new Date();
-            return currentTime.getTime() - this._taskStartTime.getTime();
-        },
         _processQueue: function() {
             var self = this;
             if (this.count() == 0) {
@@ -63,7 +46,6 @@
                 this._currentTask = this._tasks.pop();
 
                 try {
-                    this._taskStartTime = new Date();
                     var result = this._currentTask();
                 }
                 catch (err) {
@@ -91,17 +73,6 @@
                     self._currentTask = null;
                     setTimeout(self.callback('_processQueue'), 0);
                 }
-            }
-        },
-        _checkIfTaskIsTakingTooLong: function() {
-            if (this.isRunning() && this.taskElapsedTime() > this._options.taskTimeout) {
-                this.trigger({
-                    type: 'tasktimedout',
-                    task: this._currentTask
-                });
-
-                this._currentTask = null;
-                setTimeout(this.callback('_processQueue'), 0);
             }
         }
     });

@@ -13,8 +13,12 @@ WhoWentOut.Component.extend('WhoWentOut.Hash', {}, {
         this._hash[ k ] = obj;
 
         this._attachItemEvents(obj);
-        
-        this.trigger('add', {key: k, item: obj});
+
+        this.trigger({
+            type: 'add',
+            key: k,
+            item: obj
+        });
     },
     remove: function(k) {
         var obj = this._hash[k];
@@ -22,7 +26,7 @@ WhoWentOut.Component.extend('WhoWentOut.Hash', {}, {
 
         this._detachItemEvents(obj);
 
-        this.trigger('remove', {item: obj});
+        this.trigger({type: 'remove', item: obj});
     },
     contains: function(k) {
         return this._hash[ k ] !== undefined;
@@ -47,6 +51,6 @@ WhoWentOut.Component.extend('WhoWentOut.Hash', {}, {
         obj.unbind('change', this.callback('onitemchange'));
     },
     onitemchange: function(e) {
-        this.trigger('itemchange', {item: e.target, key: e.key, value: e.value, prevValue: e.prevValue});
+        this.trigger({type: 'itemchange', item: e.target, key: e.key, value: e.value, prevValue: e.prevValue});
     }
 });
