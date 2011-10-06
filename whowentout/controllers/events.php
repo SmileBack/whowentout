@@ -12,7 +12,6 @@ class Events extends MY_Controller
 
     function fetch($channel, $version)
     {
-        sleep(random(1, 10));
         //TODO: check for channel permissions
         $this->json(array(
                         'version' => $this->event->version($channel),
