@@ -1,3 +1,4 @@
+//= require lib/jquery.js
 /*!
  * jQuery Form Plugin
  * version: 2.84 (12-AUG-2011)

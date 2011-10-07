@@ -1,3 +1,4 @@
+//= require WhoWentOut.Component.js
 
 WhoWentOut.Component.extend('WhoWentOut.Model', {
     properties: {}

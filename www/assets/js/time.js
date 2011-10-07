@@ -1,3 +1,7 @@
+//= require lib/jquery.js
+//= require lib/date.format.js
+//= require lib/timeinterval.js
+
 $('#dashboard_page #wwo, #home_page #wwo').live('doorsclose doorsopen nextday', function() {
     window.location.reload(true);
 });
@@ -67,27 +71,7 @@ function time_passed(time, fn) {
 
 })();
 
-
 jQuery(function($) {
-
-    /*
-     if ( $('#wwo').doorsOpen() ) {
-     $('body').live('timechanged', function(e, time) {
-     var duration = time.timeUntil( doors_closing_time() );
-
-     if (duration.isNegative())
-     return;
-
-     if ( duration.total('m') < 1 ) {
-     duration = duration.round('s');
-     }
-     else {
-     duration = duration.roundUp('m');
-     }
-     $('.remaining_time').text(duration.format());
-     });
-     }*/
-
     time_passed(doors_closing_time(), function() {
         $('#wwo').trigger('doorsclose');
     });

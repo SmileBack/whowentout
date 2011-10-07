@@ -1,3 +1,5 @@
+//= require lib/jquery.js
+
 (function($) {
     window.Actions = {};
     window.JsAction = {

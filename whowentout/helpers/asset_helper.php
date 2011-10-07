@@ -221,3 +221,9 @@ function js_asset($asset_name, $module_name = NULL)
 {
     return '<script type="text/javascript" src="' . js_asset_url($asset_name, $module_name) . '"></script>';
 }
+
+function js($name)
+{
+    $ci =& get_instance();
+    return call_user_func_array(array($ci->asset, 'js'), func_get_args());
+}

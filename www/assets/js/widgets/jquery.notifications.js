@@ -1,3 +1,6 @@
+//= require lib/jquery.js
+//= require lib/jquery.entwine.js
+
 $('#notifications').entwine({
     onmatch: function() {
         this._super();

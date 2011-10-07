@@ -1,3 +1,5 @@
+//= require lib/jquery.js
+
 (function($) {
     
     $.fn.attrEq = function(attr, val) {

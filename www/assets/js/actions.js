@@ -1,3 +1,7 @@
+//= require lib/underscore.js
+//= require lib/jsaction.js
+//= require lib/jquery.spotlight.js
+
 Actions = {
     AddTempClass: function(target, cls, duration) {
         $(target).addClass(cls);

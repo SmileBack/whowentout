@@ -1,3 +1,5 @@
+//= require lib/jquery.js
+
 /* jQuery.Entwine - Copyright 2009-2011 Hamish Friedlander and SilverStripe. Version . */
 
 /* vendor/jquery.selector/jquery.class.js */

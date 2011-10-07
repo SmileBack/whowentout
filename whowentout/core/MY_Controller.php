@@ -8,6 +8,7 @@ class MY_Controller extends CI_Controller
         parent::__construct();
 
         require_once APPPATH . 'libraries/aws/sdk.class.php';
+        require_once APPPATH . 'libraries/component.php';
         require_once APPPATH . 'libraries/imagerepository.php';
         require_once APPPATH . 'libraries/fb/testfacebook.php';
 

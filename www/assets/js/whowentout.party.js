@@ -1,3 +1,6 @@
+//= require lib/jquery.entwine.js
+//= require WhoWentOut.Model.js
+
 WhoWentOut.Model.extend('WhoWentOut.Party', {}, {
     init: function(attrs) {
         this._super(attrs);

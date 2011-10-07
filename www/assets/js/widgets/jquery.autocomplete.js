@@ -1,3 +1,7 @@
+//= require lib/jquery.js
+//= require lib/jquery.entwine.js
+//= require time.js
+
 $('input.autocomplete').entwine({
     onmatch: function() {
         this._super();

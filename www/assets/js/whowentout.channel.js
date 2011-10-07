@@ -1,3 +1,6 @@
+//= require WhoWentOut.Component.js
+//= require WhoWentOut.Queue.js
+
 WhoWentOut.Component.extend('WhoWentOut.Channel', {
     Create: function(options) {
         var className = options.type;

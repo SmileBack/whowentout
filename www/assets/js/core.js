@@ -1,3 +1,6 @@
+//= require lib/jquery.js
+//= require lib/jquery.entwine.js
+
 if (window.console === undefined) {
     window.console = {
         log: function() {

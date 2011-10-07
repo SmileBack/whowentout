@@ -1,3 +1,6 @@
+//= require lib/jquery.js
+//= require lib/jquery.body.js
+
 /*!
  * JSizes - JQuery plugin v0.33
  *

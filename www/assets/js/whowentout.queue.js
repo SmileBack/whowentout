@@ -1,3 +1,5 @@
+//= require WhoWentOut.Component.js
+
 (function() {
 
     WhoWentOut.Component.extend('WhoWentOut.Queue', {}, {

@@ -1,3 +1,6 @@
+//= require lib/jquery.js
+//= require lib/json.js
+
 /*
  * ----------------------------- JSTORAGE -------------------------------------
  * Simple local storage wrapper to save data on the browser side, supporting

@@ -1,3 +1,6 @@
+//= require lib/jquery.js
+//= require lib/jquery.position.js
+
 (function($) {
 
     function get_defaults() {

@@ -8,11 +8,12 @@ class ServerChannel
         $this->ci =& get_instance();
         $this->load_config();
         $this->load_driver();
-        
+
         $this->ci->load->helper('serverchannel');
     }
 
-    function type() {
+    function type()
+    {
         return $this->driver->channel_type();
     }
 
@@ -31,8 +32,9 @@ class ServerChannel
         return $this->driver->url($channel);
     }
 
-    function driver_config() {
-        return $this->driver_config();
+    function driver_config()
+    {
+        return $this->driver_config;
     }
 
     function load_config()

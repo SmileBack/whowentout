@@ -1,3 +1,5 @@
+//= require lib/jquery.js
+
 /*!
  * jQuery idleTimer plugin
  * version 0.9.100511

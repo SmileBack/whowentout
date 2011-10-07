@@ -1,3 +1,5 @@
+//= require lib/jquery.js
+
 /**
  * jquery.Jcrop.js v0.9.9
  * jQuery Image Cropping Plugin

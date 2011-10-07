@@ -1,3 +1,6 @@
+//= require lib/jquery.js
+//= require lib/jquery.class.js
+
 $.Class.extend('WhoWentOut.Component', {}, {
     init: function() {
         

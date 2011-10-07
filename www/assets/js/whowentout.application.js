@@ -1,7 +1,16 @@
 //= require lib/jquery.js
 //= require lib/jquery.entwine.js
-//= require whowentout.model.js
-//= jquery.idle-timer.js
+//= require lib/underscore.js
+
+//= require WhoWentOut.Model.js
+//= require WhoWentOut.Channel.js
+//= require Whowentout.College.js
+//= require WhoWentOut.Place.js
+//= require WhoWentOut.Party.js
+//= require WhoWentOut.User.js
+
+//= require lib/jquery.idle-timer.js
+//= require lib/soundmanager2.config.js
 
 WhoWentOut.Model.extend('WhoWentOut.Application', {
     Mask: function() {

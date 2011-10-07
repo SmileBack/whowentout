@@ -1,3 +1,5 @@
+//= require lib/jquery.js
+
 (function() {
   
   var sb_windowTools = {

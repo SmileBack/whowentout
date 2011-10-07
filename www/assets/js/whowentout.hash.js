@@ -1,3 +1,5 @@
+//= require WhoWentOut.Component.js
+
 WhoWentOut.Component.extend('WhoWentOut.Hash', {}, {
     init: function() {
         this._super();

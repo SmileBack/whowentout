@@ -20,7 +20,8 @@ class XUser extends XObject
     }
 
     static function destroy_session()
-    { //delete user id
+    {
+        //delete user id
         set_user_id(0);
 
         //destroy facebook session data

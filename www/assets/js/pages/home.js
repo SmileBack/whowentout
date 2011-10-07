@@ -1,3 +1,5 @@
+//= require lib/jquery.js
+
 jQuery(function($) {
     $('#enter_button').bind({
        mouseenter: function() {

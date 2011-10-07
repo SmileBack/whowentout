@@ -1,3 +1,8 @@
+//= require lib/jquery.js
+//= require lib/jquery.entwine.js
+//= require widgets/jquery.notice.js
+//= require WhoWentOut.Application.js
+
 $.when(app.load()).then(function() {
 
     $('.recent_attendees.party').entwine({

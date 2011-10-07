@@ -1,3 +1,5 @@
+//= require WhoWentOut.Model.js
+
 WhoWentOut.Model.extend('WhoWentOut.College', {
     FromJson: function(attrs) {
         return new WhoWentOut.College({

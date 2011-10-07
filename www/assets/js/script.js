@@ -1,3 +1,6 @@
+//= require lib/jquery.js
+//= require WhoWentOut.Application.js
+
 $.when(app.load()).then(function() {
 
     app.channel('current_user').bind('user_changed_visibility', function(e) {

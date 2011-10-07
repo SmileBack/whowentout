@@ -1,3 +1,8 @@
+//= require lib/jquery.js
+//= require lib/jquery.entwine.js
+//= require lib/jquery.ext.js
+//= require core.js
+
 (function($) {
 
     function initialize_crop_ui() {
@@ -117,13 +122,14 @@
 
     jQuery(function($) {
         $('.my_pic').showLoadMask();
-
-        $('#crop_raw_image').bind('imageload', function() {
-            reinitialize_crop_ui($('#crop_raw_image').html(), {
-                x: $('#x').val(),
-                y: $('#y').val(),
-                width: $('#width').val(),
-                height: $('#height').val()
+        $.getScript('/assets/js/lib/jquery.jcrop.js', function() {
+            $('#crop_raw_image').bind('imageload', function() {
+                reinitialize_crop_ui($('#crop_raw_image').html(), {
+                    x: $('#x').val(),
+                    y: $('#y').val(),
+                    width: $('#width').val(),
+                    height: $('#height').val()
+                });
             });
         });
     });

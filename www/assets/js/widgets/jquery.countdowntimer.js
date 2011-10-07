@@ -1,3 +1,7 @@
+//= require lib/jquery.js
+//= require lib/jquery.entwine.js
+//= require lib/underscore.jss
+
 (function($) {
 
     function pad(number, length) {

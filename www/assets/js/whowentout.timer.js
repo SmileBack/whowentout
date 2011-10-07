@@ -1,4 +1,4 @@
-//= require lib/jquery.class.js
+//= require WhoWentOut.Component.js
 
 WhoWentOut.Component.extend('WhoWentOut.Timer', {
     _interval: 1000,

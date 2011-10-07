@@ -1,3 +1,8 @@
+//= require lib/jquery.js
+//= require lib/jquery.entwine.js
+//= require lib/jquery.jstorage.js
+//= require WhoWentOut.Application.js
+
 $.when(window.app.load()).then(function() {
 
     app.channel('current_user')
