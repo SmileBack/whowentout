@@ -13,14 +13,19 @@ class FilesystemStorageDriver extends StorageDriver
         copy($sourceFilepath, $this->filepath($destFilename));
     }
 
+    function getText($filename)
+    {
+        return file_get_contents($this->filepath($filename));
+    }
+
     function saveText($destFilename, $text)
     {
-        file_put_contents($this->filepath($destFilename), $text);
+        file_put_contents($this->filepath($destFilename), $text, LOCK_EX);
     }
 
     function delete($filename)
     {
-        unlink($this->filepath($filename));
+        @unlink($this->filepath($filename));
     }
 
     function exists($filename)

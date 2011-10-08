@@ -1,21 +1,11 @@
 <?php
 
-abstract class StorageDriver
+abstract class StorageDriver extends Driver
 {
-
-    protected $config;
-
-    function __construct($config)
-    {
-        $this->config = $config;
-    }
-
-    function name()
-    {
-        return str_replace('storagedriver', '', strtolower(get_class($this)));
-    }
-
+    
     abstract function save($destFilename, $sourceFilepath);
+
+    abstract function getText($filename);
 
     abstract function saveText($destFilename, $text);
 

@@ -9,3 +9,8 @@ $config['storage']['images'] = array(
     'driver' => 's3',
     'bucket' => 'whowentouttemp',
 );
+
+$config['storage']['js'] = array(
+    'driver' => 's3',
+    'bucket' => 'whowentout_development_js',
+);

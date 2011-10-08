@@ -8,15 +8,25 @@ class Component
     protected $drivers = array();
     protected $mounted_preset;
 
+    private $name;
+
     function __construct()
     {
         $this->ci =& get_instance();
         $this->mount();
     }
 
+    function name()
+    {
+        if (!$this->name) {
+            $this->name = strtolower(get_class($this));
+        }
+        return $this->name;
+    }
+
     /**
      * @param string $preset
-     * @return StorageDriver
+     * @return Driver
      */
     function driver($preset = NULL)
     {
@@ -33,6 +43,8 @@ class Component
 
         if (!isset($this->drivers[$this->mounted_preset])) {
             $config = $this->load_config($preset);
+            $config['preset'] = $preset;
+            
             $driver_name = $config['driver'];
             $component_name = strtolower(get_class($this));
 
@@ -46,9 +58,21 @@ class Component
         }
     }
 
+    function add_preset($preset_name, $preset_config)
+    {
+        $config = $this->ci->config->item( $this->name() );
+
+        if (isset($config[$preset_name]))
+            throw new Exception("Preset $preset_name already exists.");
+
+        $config[$preset_name] = $preset_config;
+
+        $this->ci->config->set_item($this->name(), $config);
+    }
+
     private function load_config($preset = 'default')
     {
-        $component_name = strtolower(get_class($this));
+        $component_name = $this->name();
         $this->ci->load->config($component_name);
         $config = $this->ci->config->item($component_name);
 
@@ -56,3 +80,26 @@ class Component
     }
 
 }
+
+abstract class Driver
+{
+
+    private $name;
+    protected $config;
+
+    function __construct($config)
+    {
+        $this->config = $config;
+    }
+
+    function name()
+    {
+        if (!$this->name) {
+            $parent_class = strtolower(get_parent_class($this));
+            $this_class = strtolower(get_class($this));
+            return preg_replace("/$parent_class$/", '', $this_class);
+        }
+    }
+
+}
+

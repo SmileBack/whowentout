@@ -18,8 +18,9 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $this->load->library('storage');
-        print $this->storage->driver()->name();
+        $this->load->library('cache');
+        $this->cache->delete('name');
+        $this->cache->delete('value');
     }
 
 }

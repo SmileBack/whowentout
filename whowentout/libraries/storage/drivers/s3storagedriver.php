@@ -22,6 +22,11 @@ class S3StorageDriver extends StorageDriver
                                                                                        ));
     }
 
+    function getText($filename)
+    {
+        return file_get_contents($this->url($filename));
+    }
+
     function saveText($destFilename, $text)
     {
         $this->s3()->create_object($this->config['bucket'], $destFilename, array(

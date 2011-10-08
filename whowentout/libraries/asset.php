@@ -136,7 +136,7 @@ class CI_Asset
     private function pack_js($contents)
     {
         return $contents;
-        return JSMinPlus::minify($contents);
+        //return JSMinPlus::minify($contents);
     }
 
     private function tag_open($tag, $attributes = array())
