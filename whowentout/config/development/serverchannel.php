@@ -6,3 +6,19 @@ $config['serverchannel']['default'] = array(
     'app_key' => '23a32666914116c9b891',
     'app_secret' => '746d66aa6309ef7768ef'
 );
+
+$config['serverchannel']['s3polling'] = array(
+    'driver' => 'polling',
+    'storage' => array(
+        'driver' => 's3',
+        'bucket' => 'whowentout_development_events',
+    ),
+);
+
+$config['serverchannel']['localpolling'] = array(
+    'driver' => 'polling',
+    'storage' => array(
+        'driver' => 'filesystem',
+        'bucket' => 'events',
+    ),
+);

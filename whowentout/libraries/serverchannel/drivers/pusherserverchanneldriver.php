@@ -5,6 +5,11 @@ class PusherServerChannelDriver extends ServerChannelDriver
 
     private $pusher;
 
+    function channel_type()
+    {
+        return 'PusherChannel';
+    }
+
     public function push($channel, $data)
     {
         $this->pusher()->trigger($channel, 'datareceived', $data);

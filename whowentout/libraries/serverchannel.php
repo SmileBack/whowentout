@@ -11,8 +11,7 @@ class ServerChannel extends Component
 
     function type()
     {
-        $driver_class = get_class($this->driver());
-        return preg_replace('/ServerChannelDriver$/', 'Channel', $driver_class);
+        return $this->driver()->channel_type();
     }
 
     public function push($channel, $data)
