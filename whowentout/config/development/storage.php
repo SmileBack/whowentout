@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 $config['storage']['default'] = array(
     'driver' => 'filesystem',
@@ -6,10 +6,10 @@ $config['storage']['default'] = array(
 );
 
 $config['storage']['pics'] = array(
-//    'driver' => 'filesystem',
-//    'bucket' => 'pics',
-    'driver' => 's3',
-    'bucket' => 'whowentout_development_pics',
+    'driver' => 'filesystem',
+    'bucket' => 'pics',
+//    'driver' => 's3',
+//    'bucket' => 'whowentout_development_pics',
 );
 
 $config['storage']['js'] = array(

@@ -6,18 +6,6 @@ class MY_Controller extends CI_Controller
     function __construct()
     {
         parent::__construct();
-
-        require_once APPPATH . 'libraries/component.php';
-        require_once APPPATH . 'libraries/imagerepository.php';
-        require_once APPPATH . 'libraries/fb/testfacebook.php';
-
-        require_once APPPATH . 'objects/xobject.php';
-        require_once APPPATH . 'objects/xuser.php';
-        require_once APPPATH . 'objects/xcollege.php';
-        require_once APPPATH . 'objects/xparty.php';
-        require_once APPPATH . 'objects/xplace.php';
-        require_once APPPATH . 'objects/xsmile.php';
-        require_once APPPATH . 'objects/xsmilematch.php';
     }
 
     protected function load_view($name, $data = array())

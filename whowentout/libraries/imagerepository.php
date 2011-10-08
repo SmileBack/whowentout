@@ -37,8 +37,7 @@ class ImageRepository
         if (!$this->exists($id, $preset))
             return NULL;
 
-        $url = $this->url($id, $preset);
-        return WideImage::load($url);
+        return WideImage::load( $this->url($id, $preset) );
     }
     
     function url($id, $preset)

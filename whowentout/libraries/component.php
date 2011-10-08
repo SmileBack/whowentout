@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Component
+abstract class Component
 {
 
     protected $ci;
@@ -87,7 +87,7 @@ abstract class Driver
     private $name;
     protected $config;
 
-    function __construct($config)
+    function __construct($config = array())
     {
         $this->config = $config;
     }
