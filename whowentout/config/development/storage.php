@@ -2,12 +2,14 @@
 
 $config['storage']['default'] = array(
     'driver' => 'filesystem',
-    'bucket' => 'events',
+    'bucket' => '../tmp',
 );
 
-$config['storage']['images'] = array(
+$config['storage']['pics'] = array(
+//    'driver' => 'filesystem',
+//    'bucket' => 'pics',
     'driver' => 's3',
-    'bucket' => 'whowentouttemp',
+    'bucket' => 'whowentout_development_pics',
 );
 
 $config['storage']['js'] = array(

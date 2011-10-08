@@ -70,23 +70,11 @@ function set_option($name, $value)
  */
 function images()
 {
-    static $images = NULL;
+    $ci =& get_instance();
+    if ( ! isset($ci->imagerepository) )
+        $ci->load->library('imagerepository');
 
-    if (!$images) {
-        ci()->config->load('imagerepository');
-        $config = ci()->config->item('imagerepository');
-        $config = $config[$config['active_group']];
-        
-        if ($config['source'] == 'filesystem') {
-            return new FilesystemImageRepository($config['path']);
-        }
-        elseif ($config['source'] == 's3') {
-            return new S3ImageRepository($config['bucket']);
-        }
-
-    }
-
-    return $images;
+    return $ci->imagerepository;
 }
 
 function post($key = NULL)

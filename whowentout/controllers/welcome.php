@@ -19,8 +19,6 @@ class Welcome extends MY_Controller
         $jenny = user(108);
 
         $this->load->library('cache');
-        $this->cache->delete('name');
-        $this->cache->delete('value');
     }
 
 }

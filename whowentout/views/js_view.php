@@ -23,7 +23,7 @@ js(array(
 
         'lib/jsaction.js',
         'actions.js',
-   ), TRUE)
+   ))
 ?>
 
 <!--[if IE]>

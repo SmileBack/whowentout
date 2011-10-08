@@ -1,26 +1,13 @@
 <?php
 
-abstract class BaseImageRepository
+class ImageRepository
 {
 
-    /**
-     * @return WideImage
-     */
-    abstract function get($id, $preset);
-
-    /**
-     * @return string
-     */
-    abstract function path($id, $preset);
-
-    abstract function url($id, $preset);
-
-    /**
-     * @return bool
-     */
-    abstract function exists($id, $preset);
-
-    abstract function delete($id, $preset);
+    function __construct()
+    {
+        $this->ci =& get_instance();
+        $this->ci->load->library('storage');
+    }
 
     /**
      *
@@ -28,7 +15,59 @@ abstract class BaseImageRepository
      * @param int $id
      * @param string $preset
      */
-    abstract function saveImage($img, $id, $preset);
+    function saveImage($img, $id, $preset)
+    {
+        $temp_image_path = tempnam(sys_get_temp_dir(), 'img') . '.jpg';
+        $img->saveToFile($temp_image_path);
+        $filename = $this->filename($id, $preset);
+        $this->ci->storage->save('pics', $filename, $temp_image_path);
+        
+        $user = user($id);
+        $user->pic_version++;
+        $user->save();
+    }
+
+    /**
+     * @return WideImage
+     */
+    function get($id, $preset)
+    {
+        $this->load_wide_image();
+
+        if (!$this->exists($id, $preset))
+            return NULL;
+
+        $url = $this->url($id, $preset);
+        return WideImage::load($url);
+    }
+    
+    function url($id, $preset)
+    {
+        if ( ! $this->exists($id, $preset)) {
+            $this->refresh($id, $preset);
+        }
+        $user = user($id);
+
+        $filename = $this->filename($id, $preset);
+        return $this->ci->storage->url('pics', $filename) . "?version=$user->pic_version";
+    }
+
+    function exists($id, $preset)
+    {
+        $filename = $this->filename($id, $preset);
+        return $this->ci->storage->exists('pics', $filename);
+    }
+
+    function delete($id, $preset)
+    {
+        $filename = $this->filename($id, $preset);
+        $this->ci->storage->delete('pics', $filename);
+    }
+
+    function filename($id, $preset)
+    {
+        return "$id.$preset.jpg";
+    }
 
     function refresh($id, $preset)
     {
@@ -101,8 +140,8 @@ abstract class BaseImageRepository
         $this->load_wide_image();
 
         $user = user($id);
-        $image_path = $this->path($id, 'source');
-        $img = WideImage::load($image_path)
+        $url = $this->url($id, 'source');
+        $img = WideImage::load($url)
                 ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
                 ->resize(150, 200);
         $this->saveImage($img, $id, 'normal');
@@ -112,8 +151,8 @@ abstract class BaseImageRepository
     {
         $this->load_wide_image();
         $user = user($id);
-        $image_path = $this->path($id, 'source');
-        $img = WideImage::load($image_path)
+        $url = $this->url($id, 'source');
+        $img = WideImage::load($url)
                 ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
                 ->resize(105, 140);
         $this->saveImage($img, $id, 'thumb');
@@ -150,183 +189,6 @@ abstract class BaseImageRepository
     private function is_valid_image($filepath)
     {
         return getimagesize($filepath) !== FALSE;
-    }
-
-}
-
-class S3ImageRepository extends BaseImageRepository
-{
-
-    private $bucket;
-    private $amazon_public_key;
-    private $amazon_secret_key;
-    private $s3;
-
-    function __construct($bucket)
-    {
-        $this->bucket = $bucket;
-        $this->amazon_public_key = ci()->config->item('amazon_public_key');
-        $this->amazon_secret_key = ci()->config->item('amazon_secret_key');
-    }
-
-    /**
-     *
-     * @param WideImage $img
-     * @param int $id
-     * @param string $preset
-     */
-    function saveImage($img, $id, $preset)
-    {
-        $temp_image_path = tempnam(sys_get_temp_dir(), 'img') . '.jpg';
-        $img->saveToFile($temp_image_path);
-        $filename = $this->filename($id, $preset);
-        $response = $this->s3()->create_object($this->bucket, $filename, array(
-                                                                              'fileUpload' => $temp_image_path,
-                                                                              'acl' => AmazonS3::ACL_PUBLIC,
-                                                                         ));
-
-        $user = user($id);
-        $user->pic_version++;
-        $user->save();
-    }
-
-    /**
-     * @return WideImage
-     */
-    function get($id, $preset)
-    {
-        $this->load_wide_image();
-
-        if (!$this->exists($id, $preset))
-            return NULL;
-
-        $image_path = $this->path($id, $preset);
-        return WideImage::loadFromFile($image_path);
-    }
-
-    function path($id, $preset)
-    {
-        if (!$this->exists($id, $preset)) {
-            $this->refresh($id, $preset);
-        }
-        $filename = $this->filename($id, $preset);
-        return $this->s3()->get_object_url($this->bucket, $filename);
-    }
-
-    function url($id, $preset)
-    {
-        $user = user($id);
-        return $this->path($id, $preset) . "?version=$user->pic_version";
-    }
-
-    function exists($id, $preset)
-    {
-        $filename = $this->filename($id, $preset);
-        return $this->s3()->if_object_exists($this->bucket, $filename);
-    }
-
-    function delete($id, $preset)
-    {
-        $filename = $this->filename($id, $preset);
-        $this->s3()->delete_object($this->bucket, $filename);
-    }
-
-    function filename($id, $preset)
-    {
-        return "$id.$preset.jpg";
-    }
-
-    /**
-     * @return AmazonS3
-     */
-    function s3()
-    {
-        if ($this->s3 == NULL) {
-            $this->s3 = new AmazonS3($this->amazon_public_key, $this->amazon_secret_key);
-            $this->s3()->use_ssl = false;
-        }
-        return $this->s3;
-    }
-
-}
-
-class FilesystemImageRepository extends BaseImageRepository
-{
-
-    private $path;
-
-    function __construct($path)
-    {
-        $this->path = $path;
-        $this->check_path();
-    }
-
-    function saveImage($img, $id, $preset)
-    {
-        $this->create_preset($preset);
-        $img->saveToFile($this->filename($id, $preset));
-
-        $user = user($id);
-        $user->pic_version++;
-        $user->save();
-    }
-
-    protected function create_preset($preset)
-    {
-        if (!file_exists("$this->path/$preset")) {
-            mkdir("$this->path/$preset");
-        }
-    }
-
-    /**
-     * @return WideImage
-     */
-    function get($id, $preset)
-    {
-        $image_path = $this->path($id, $preset);
-
-        if ($image_path == NULL)
-            return NULL;
-
-        $this->load_wide_image();
-        return WideImage::load($image_path);
-
-    }
-
-    function path($id, $preset)
-    {
-        if (!$this->exists($id, $preset)) {
-            $this->refresh($id, $preset);
-        }
-        return $this->filename($id, $preset);
-    }
-
-    function url($id, $preset)
-    {
-        $user = user($id);
-        return $this->path($id, $preset) . "?version=$user->pic_version";
-    }
-
-    function exists($id, $preset)
-    {
-        return file_exists($this->filename($id, $preset));
-    }
-
-    function delete($id, $preset)
-    {
-        $filename = $this->filename($id, $preset);
-        @unlink($filename);
-    }
-
-    protected function filename($id, $preset)
-    {
-        return "$this->path/$preset/$id.jpg";
-    }
-
-    protected function check_path()
-    {
-        if (!file_exists($this->path))
-            throw new Exception("The path $this->path doesn't exist");
     }
 
 }

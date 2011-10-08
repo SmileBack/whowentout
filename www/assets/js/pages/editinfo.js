@@ -1,6 +1,7 @@
 //= require lib/jquery.js
 //= require lib/jquery.entwine.js
 //= require lib/jquery.ext.js
+//= require lib/jquery.form.js
 //= require core.js
 
 (function($) {

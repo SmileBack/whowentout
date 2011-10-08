@@ -56,6 +56,7 @@ class S3StorageDriver extends StorageDriver
     function s3()
     {
         if ($this->s3 == NULL) {
+            require_once APPPATH . 'third_party/aws/sdk.class.php';
             $this->s3 = new AmazonS3($this->amazon_public_key, $this->amazon_secret_key);
             $this->s3()->use_ssl = false;
         }
