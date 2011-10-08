@@ -3,6 +3,8 @@
 class Cache extends Component
 {
 
+    private $cache = array();
+
     function get($key)
     {
         return $this->driver()->get($key);
