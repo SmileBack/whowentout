@@ -3,14 +3,16 @@
 class CI_Asset
 {
 
+    private $ci;
+
     function __construct()
     {
-        
+        $this->ci =& get_instance();
     }
 
     function dependencies($name)
     {
-        $tree = $this->dependency_tree($name);
+        $tree = $this->grouped_dependency_tree($name);
 
         $dependencies = array();
 
@@ -28,11 +30,63 @@ class CI_Asset
                 }
             }
 
-            if (!$has_asset_with_no_dependencies)
+            if (!$has_asset_with_no_dependencies) {
+                var_dump($dependencies);
+                var_dump($tree);
+            }
+
+            if (!$has_asset_with_no_dependencies) //every remaining asset has 1+ dependencies
                 throw new Exception("Circular dependency.");
         }
 
+        // remove dependencies that are covered by the groups
+        $config = $this->ci->config->item('asset');
+        $groups = $config['js'];
+        $unused_dependencies = array();
+        foreach ($groups as $group_name => $items) {
+            if (in_array($group_name, $dependencies))
+                $unused_dependencies = array_merge($unused_dependencies, $items);
+        }
+        
+        $dependencies = array_diff($dependencies, $unused_dependencies);
+
         return $dependencies;
+    }
+
+    function grouped_dependency_tree($name)
+    {
+        $tree = $this->dependency_tree($name);
+
+        $config = $this->ci->config->item('asset');
+        $groups = $config['js'];
+        
+        //replace individual dependencies with group dependencies
+        foreach ($groups as $group_name => $items) {
+            foreach ($tree as $js => $deps) {
+                $count_before = count($tree[$js]);
+                $tree[$js] = array_values( array_diff($tree[$js], $items) );
+                $count_after = count($tree[$js]);
+
+                //the the dependencies can be replaced 
+                if ($count_after < $count_before)
+                    $tree[$js][] = $group_name;
+            }
+        }
+
+        //add groups to tree
+        foreach ($groups as $group_name => $items) {
+            $tree[$group_name] = $items;
+        }
+
+        //add empty dependencies
+        foreach ($groups as $group_name => $items) {
+            foreach ($items as $item) {
+                if ( ! isset($tree[$item]))
+                    $tree[$item] = array();
+            }
+        }
+
+        return $tree;
     }
 
     function dependency_tree($name)
@@ -51,7 +105,6 @@ class CI_Asset
                 continue;
 
             $tree[$cur] = $this->direct_dependencies($cur);
-            ;
             $unprocessed = array_merge($unprocessed, $tree[$cur]);
         }
 

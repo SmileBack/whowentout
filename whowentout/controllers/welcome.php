@@ -18,14 +18,11 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $this->load->library('cache');
-        $this->cache->add_preset('test', array(
-                                           'driver' => 'database',
-                                         ));
-        $this->cache->mount('test');
-        $this->cache->set('ven', 234);
-        $this->cache->delete('ven');
-        var_dump($this->cache->get('ven'));
+        $this->load->library('asset');
+//        $tree = $this->asset->grouped_dependency_tree('WhoWentOut.Application.js');
+//        var_dump($tree);
+        $tree = $this->asset->dependencies('WhoWentOut.Application.js');
+        var_dump($tree);
     }
 
 }

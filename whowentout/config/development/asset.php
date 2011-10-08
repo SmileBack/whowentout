@@ -4,17 +4,15 @@ $config['css_version'] = 'refresh';
 $config['js_version'] = 41;
 
 $config['asset']['js'] = array(
-    'version' => 41,
     'jquery' => array('lib/jquery.js'),
     'jquery.ext' => array(
         'lib/jquery.entwine.js',
         'lib/underscore.js',
         'lib/jquery.position.js',
+        'lib/jquery.class.js',
         'lib/jquery.ext.js',
     ),
     'application' => array(
-        'pack' => TRUE,
-        
         'WhoWentOut.Application.js',
         'widgets/jquery.autocomplete.js',
         'widgets/jquery.dialog.js',
