@@ -15,19 +15,20 @@ class CI_Asset
         $dependencies = array();
 
         while (count($tree) > 0) {
-            $independent_item = FALSE;
+            $has_asset_with_no_dependencies = FALSE;
             foreach ($tree as $item => $item_dependencies) {
                 if (empty($item_dependencies)) {
+                    $has_asset_with_no_dependencies = TRUE;
+                    
                     $dependencies[] = $item;
                     unset($tree[$item]);
                     foreach ($tree as $k => $v) {
                         $tree[$k] = array_diff($v, array($item));
                     }
-                    $independent_item = TRUE;
                 }
             }
 
-            if (!$independent_item)
+            if (!$has_asset_with_no_dependencies)
                 throw new Exception("Circular dependency.");
         }
 
