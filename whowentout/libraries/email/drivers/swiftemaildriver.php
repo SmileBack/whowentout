@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/swift/swift_required.php';
+require_once APPPATH . 'third_party/swift/swift_required.php';
 
 class SwiftEmailDriver extends EmailDriver
 {
@@ -17,7 +17,7 @@ class SwiftEmailDriver extends EmailDriver
 
         $message = Swift_Message::newInstance($subject)
                 ->setBody($body, 'text/html')
-                ->setFrom($config->username, 'WhoWentOut')
+                ->setFrom($config->username, $config->from)
                 ->setTo(array($to->email => $to->full_name));
 
         $result = $mailer->send($message);

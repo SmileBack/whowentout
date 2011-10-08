@@ -18,7 +18,8 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
 
-        $this->load->library('cache');
+        $this->load->library('email');
+        $this->email->send($ven, 'hello', 'there');
     }
 
 }

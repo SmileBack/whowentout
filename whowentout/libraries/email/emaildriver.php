@@ -1,14 +1,6 @@
 <?php
 
-abstract class EmailDriver
+abstract class EmailDriver extends Driver
 {
-  
-  protected $config;
-  
-  function __construct($config) {
-    $this->config = $config;
-  }
-  
   abstract function send_email($to, $subject, $body);
-  
 }
