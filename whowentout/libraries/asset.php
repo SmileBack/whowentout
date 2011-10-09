@@ -5,24 +5,73 @@ class CI_Asset
 
     private $ci;
 
+    private $config = array();
+    private $source_js_version = 1;
+
+    private $index = array();
+
+    private $loaded = array();
+
     function __construct()
     {
         $this->ci =& get_instance();
+
+        $this->ci->load->library('cache');
+        $this->cache =& $this->ci->cache;
+
         $this->config = $this->ci->config->item('asset');
+        $this->source_js_version = intval(file_get_contents('assets/js/version.txt'));
     }
 
-    function names()
+    function load($names)
     {
-        $files = $this->files('assets/js', TRUE);
-        foreach ($files as &$file) {
-            $file = $this->string_after_first('assets/js/', $file);
+        if (is_string($names))
+            $names = array($names);
+
+        foreach ($names as $name) {
+            $this->loaded[$name] = TRUE;
         }
-        return $files;
     }
 
-    function dependencies()
+    function js()
     {
-        $tree = $this->grouped_dependency_tree($this->names());
+        $loaded = $this->loaded;
+
+        $require_order = $this->compute_require_order();
+        $direct_dependency_tree = $this->compute_direct_dependency_tree();
+        
+        $js = array();
+
+        foreach ($loaded as $name => $cur_is_loaded) {
+            if ($this->string_ends_with('.js', $name)) {
+                $js[] = $name;
+            }
+        }
+
+        $unprocessed = $js;
+        while (count($unprocessed) > 0) {
+            $cur = array_pop($unprocessed);
+            foreach ($direct_dependency_tree[$cur] as $dependency) {
+                $loaded[$dependency] = TRUE;
+                $unprocessed[] = $dependency;
+            }
+        }
+
+        $names = array_values( array_intersect($require_order, array_keys($loaded)) );
+        $tags = array();
+        foreach ($names as $name) {
+            $this->tags[] = $this->tag('script', array(
+                                                   'type' => 'text/javascript',
+                                                   'src' => $this->source_path($name),
+                                                 ));
+        }
+        return implode("\n\n", $this->tags);
+    }
+    
+    private function compute_require_order()
+    {
+        $tree = $this->compute_direct_dependency_tree();
+
         $dependencies = array();
 
         while (count($tree) > 0) {
@@ -40,85 +89,26 @@ class CI_Asset
             }
 
             if (!$has_asset_with_no_dependencies) { //every remaining asset has 1+ dependencies
-                var_dump($dependencies);
-                var_dump($tree);
                 throw new Exception("Circular dependency.");
             }
         }
 
-        // remove dependencies that are covered by the groups
-        $groups = $this->config['js'];
-        $unused_dependencies = array();
-        foreach ($groups as $group_name => $items) {
-            if (in_array($group_name, $dependencies))
-                $unused_dependencies = array_merge($unused_dependencies, $items);
-        }
-
-        $dependencies = array_diff($dependencies, $unused_dependencies);
-
-
-        /*
-        foreach ($dependencies as $dependency) {
-            if ( ! $this->exists($dependency) && ! isset($groups[$dependency]) )
-                throw new Exception("$dependency doesn't exist");
-        }
-        */
-
-        return array_values($dependencies);
+        return $dependencies;
     }
 
-    /**
-     * Basic algorithm for adding groups to a dependency tree:
-     *  - Let's assume group G has assets A, B, and C
-     *  - Make any assets that depend on A, B, or C depend on G INSTEAD
-     *      - This means replace A|B|C with G in any dependency list
-     *  - Add G to the dependency list with G depending on A, B, C
-     * @param  $name
-     * @return array
-     */
-    function grouped_dependency_tree($name)
+    private function names()
     {
-        $tree = $this->dependency_tree($name);
-
-        //replace individual dependencies with group dependencies
-        foreach ($this->config['js'] as $group_name => $items) {
-            foreach ($tree as $js => $deps) {
-                $count_before = count($tree[$js]);
-                $tree[$js] = array_values(array_diff($tree[$js], $items));
-                $count_after = count($tree[$js]);
-
-                //the the dependencies can be replaced 
-                if ($count_after < $count_before)
-                    $tree[$js][] = $group_name;
-            }
+        $files = $this->files('assets/js', TRUE);
+        foreach ($files as &$file) {
+            $file = $this->string_after_first('assets/js/', $file);
         }
-
-        //add groups to tree
-        foreach ($this->config['js'] as $group_name => $items) {
-            $tree[$group_name] = $items;
-        }
-
-        //add empty dependencies
-        foreach ($this->config['js'] as $group_name => $items) {
-            foreach ($items as $item) {
-                if (!isset($tree[$item]))
-                    $tree[$item] = array();
-            }
-        }
-
-        var_dump($tree);
-
-        return $tree;
+        return $files;
     }
 
-    function dependency_tree($name)
+    private function compute_direct_dependency_tree()
     {
         $tree = array();
-
-        if (is_string($name))
-            $unprocessed = array($name);
-        else
-            $unprocessed = $name;
+        $unprocessed = $this->names();
 
         while (count($unprocessed) > 0) {
             $cur = array_pop($unprocessed);
@@ -133,14 +123,14 @@ class CI_Asset
         return $tree;
     }
 
-    function direct_dependencies($name)
+    private function direct_dependencies($name)
     {
         $dependencies = array();
 
         if (!$this->exists($name))
             return array();
 
-        $contents = file_get_contents($this->path($name));
+        $contents = file_get_contents($this->source_path($name));
 
         $lines = explode("\n", $contents);
         foreach ($lines as $line) {
@@ -157,35 +147,14 @@ class CI_Asset
         return 'js/' . $name;
     }
 
-    function path($name)
+    function source_path($name)
     {
         return 'assets/js/' . $name;
     }
 
     function exists($name)
     {
-        return file_exists($this->path($name));
-    }
-
-    function js($filenames, $pack = FALSE)
-    {
-        $tags = array();
-        $names = $this->dependencies($filenames);
-
-        if ($pack) {
-            $this->pack($names, 'app.js');
-            $names = array('app.js');
-        }
-
-        foreach ($names as $name) {
-            $path = $this->path($name);
-            $tags[] = $this->tag('script', array(
-                                                'type' => 'text/javascript',
-                                                'src' => site_url($path),
-                                           ));
-        }
-
-        return implode("\n", $tags);
+        return file_exists($this->source_path($name));
     }
 
     function pack($names, $destination, $overwrite = FALSE)
@@ -204,7 +173,7 @@ class CI_Asset
         $min_js = array();
 
         foreach ($names as $name) {
-            $path = $this->path($name);
+            $path = $this->source_path($name);
             $contents = file_get_contents($path);
             $js[] = $contents;
             $min_js[] = "// $name\n" . $this->pack_js($contents) . "\n";

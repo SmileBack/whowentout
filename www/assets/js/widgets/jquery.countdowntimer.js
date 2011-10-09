@@ -1,6 +1,6 @@
 //= require lib/jquery.js
 //= require lib/jquery.entwine.js
-//= require lib/underscore.jss
+//= require lib/underscore.js
 
 (function($) {
 

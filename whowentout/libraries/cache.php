@@ -27,6 +27,11 @@ class Cache extends Component
         return $this->driver()->exists($key);
     }
 
+    function missing($key)
+    {
+        return !$this->exists($key);
+    }
+
     function delete($key)
     {
         unset($this->cache[$key]);

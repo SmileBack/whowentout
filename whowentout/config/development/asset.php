@@ -1,43 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['css_version'] = 'refresh';
-$config['js_version'] = 41;
+$config['asset']['js'] = array();
 
-$config['asset']['js'] = array(
-    'jquery' => array('lib/jquery.js'),
-    'jquery.ext' => array(
-        'lib/jquery.entwine.js',
-        'lib/underscore.js',
-        'lib/jquery.position.js',
-        'lib/jquery.class.js',
-        'lib/jquery.ext.js',
-    ),
-    'application' => array(
-        'WhoWentOut.Application.js',
-        'widgets/jquery.autocomplete.js',
-        'widgets/jquery.dialog.js',
-        'widgets/jquery.notifications.js',
-        'widgets/chatbar.js',
-        'core.js',
-        'time.js',
-
-        'pages',
-
-        'script.js',
-
-        'lib/jsaction.js',
-        'actions.js',
-    ),
-    'pages' => array(
-        'pages/editinfo.js',
-        'pages/home.js',
-        'pages/dashboard.js',
-        'pages/gallery.js',
-        'pages/editinfo.js',
-        'pages/friends.js',
-    ),
-);
-
-$config['asset']['css'] = array(
-    'version' => 'refresh',
-);
+$config['asset']['css'] = array();

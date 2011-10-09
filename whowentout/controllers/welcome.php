@@ -19,10 +19,31 @@ class Welcome extends MY_Controller
         $jenny = user(108);
 
         $this->load->library('asset');
-//        $tree = $this->asset->grouped_dependency_tree('WhoWentOut.Application.js');
-//        var_dump($tree);
-        $tree = $this->asset->dependencies('WhoWentOut.Application.js');
-        var_dump( $this->asset->names() );
+
+        $this->asset->load(array(
+                                'whowentout.application.js',
+                                'widgets/jquery.autocomplete.js',
+                                'widgets/jquery.dialog.js',
+                                'widgets/jquery.notifications.js',
+                                'widgets/chatbar.js',
+
+                                'core.js',
+                                'time.js',
+
+                                'pages/editinfo.js',
+                                'pages/home.js',
+                                'pages/dashboard.js',
+                                'pages/gallery.js',
+                                'pages/editinfo.js',
+                                'pages/friends.js',
+
+                                'script.js',
+
+                                'lib/jsaction.js',
+                                'actions.js',
+                           ));
+
+        print $this->asset->js();
     }
 
 }
