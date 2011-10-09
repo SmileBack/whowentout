@@ -37,11 +37,10 @@ class CI_Asset
     {
         $loaded = $this->loaded;
 
-        $require_order = $this->compute_require_order();
-        $direct_dependency_tree = $this->compute_direct_dependency_tree();
+        $require_order = $this->require_order();
+        $direct_dependency_tree = $this->direct_dependency_tree();
         
         $js = array();
-
         foreach ($loaded as $name => $cur_is_loaded) {
             if ($this->string_ends_with('.js', $name)) {
                 $js[] = $name;
@@ -67,7 +66,39 @@ class CI_Asset
         }
         return implode("\n\n", $this->tags);
     }
-    
+
+    private function require_order()
+    {
+        $this->update_index();
+        return $this->index['require_order'];
+    }
+
+    private function direct_dependency_tree()
+    {
+        $this->update_index();
+        return $this->index['direct_dependency_tree'];
+    }
+
+    private function index_is_outdated()
+    {
+        $index = $this->cache->get('asset_js_index');
+        return !$index
+                || $index['version'] != $this->source_js_version
+                || $this->source_js_version == 'refresh';
+    }
+
+    private function update_index()
+    {
+        if ($this->index_is_outdated()) {
+            $this->cache->set('asset_js_index', array(
+                                                  'version' => $this->source_js_version,
+                                                  'require_order' => $this->compute_require_order(),
+                                                  'direct_dependency_tree' => $this->compute_direct_dependency_tree(),
+                                                ));
+        }
+        $this->index = $this->cache->get('asset_js_index');
+    }
+
     private function compute_require_order()
     {
         $tree = $this->compute_direct_dependency_tree();
