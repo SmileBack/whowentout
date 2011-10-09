@@ -8,11 +8,9 @@ $config['storage']['default'] = array(
 $config['storage']['pics'] = array(
     'driver' => 'filesystem',
     'bucket' => 'pics',
-//    'driver' => 's3',
-//    'bucket' => 'whowentout_development_pics',
 );
 
 $config['storage']['js'] = array(
     'driver' => 's3',
-    'bucket' => 'whowentout_development_js',
+    'bucket' => 'js',
 );

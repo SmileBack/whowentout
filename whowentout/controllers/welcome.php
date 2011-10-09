@@ -22,7 +22,7 @@ class Welcome extends MY_Controller
 //        $tree = $this->asset->grouped_dependency_tree('WhoWentOut.Application.js');
 //        var_dump($tree);
         $tree = $this->asset->dependencies('WhoWentOut.Application.js');
-        var_dump($tree);
+        var_dump( $this->asset->names() );
     }
 
 }

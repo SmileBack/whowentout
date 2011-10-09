@@ -8,12 +8,21 @@ class CI_Asset
     function __construct()
     {
         $this->ci =& get_instance();
+        $this->config = $this->ci->config->item('asset');
     }
 
-    function dependencies($name)
+    function names()
     {
-        $tree = $this->grouped_dependency_tree($name);
+        $files = $this->files('assets/js', TRUE);
+        foreach ($files as &$file) {
+            $file = $this->string_after_first('assets/js/', $file);
+        }
+        return $files;
+    }
 
+    function dependencies()
+    {
+        $tree = $this->grouped_dependency_tree($this->names());
         $dependencies = array();
 
         while (count($tree) > 0) {
@@ -21,7 +30,7 @@ class CI_Asset
             foreach ($tree as $item => $item_dependencies) {
                 if (empty($item_dependencies)) {
                     $has_asset_with_no_dependencies = TRUE;
-                    
+
                     $dependencies[] = $item;
                     unset($tree[$item]);
                     foreach ($tree as $k => $v) {
@@ -30,41 +39,52 @@ class CI_Asset
                 }
             }
 
-            if (!$has_asset_with_no_dependencies) {
+            if (!$has_asset_with_no_dependencies) { //every remaining asset has 1+ dependencies
                 var_dump($dependencies);
                 var_dump($tree);
-            }
-
-            if (!$has_asset_with_no_dependencies) //every remaining asset has 1+ dependencies
                 throw new Exception("Circular dependency.");
+            }
         }
 
         // remove dependencies that are covered by the groups
-        $config = $this->ci->config->item('asset');
-        $groups = $config['js'];
+        $groups = $this->config['js'];
         $unused_dependencies = array();
         foreach ($groups as $group_name => $items) {
             if (in_array($group_name, $dependencies))
                 $unused_dependencies = array_merge($unused_dependencies, $items);
         }
-        
+
         $dependencies = array_diff($dependencies, $unused_dependencies);
 
-        return $dependencies;
+
+        /*
+        foreach ($dependencies as $dependency) {
+            if ( ! $this->exists($dependency) && ! isset($groups[$dependency]) )
+                throw new Exception("$dependency doesn't exist");
+        }
+        */
+
+        return array_values($dependencies);
     }
 
+    /**
+     * Basic algorithm for adding groups to a dependency tree:
+     *  - Let's assume group G has assets A, B, and C
+     *  - Make any assets that depend on A, B, or C depend on G INSTEAD
+     *      - This means replace A|B|C with G in any dependency list
+     *  - Add G to the dependency list with G depending on A, B, C
+     * @param  $name
+     * @return array
+     */
     function grouped_dependency_tree($name)
     {
         $tree = $this->dependency_tree($name);
 
-        $config = $this->ci->config->item('asset');
-        $groups = $config['js'];
-        
         //replace individual dependencies with group dependencies
-        foreach ($groups as $group_name => $items) {
+        foreach ($this->config['js'] as $group_name => $items) {
             foreach ($tree as $js => $deps) {
                 $count_before = count($tree[$js]);
-                $tree[$js] = array_values( array_diff($tree[$js], $items) );
+                $tree[$js] = array_values(array_diff($tree[$js], $items));
                 $count_after = count($tree[$js]);
 
                 //the the dependencies can be replaced 
@@ -74,17 +94,19 @@ class CI_Asset
         }
 
         //add groups to tree
-        foreach ($groups as $group_name => $items) {
+        foreach ($this->config['js'] as $group_name => $items) {
             $tree[$group_name] = $items;
         }
 
         //add empty dependencies
-        foreach ($groups as $group_name => $items) {
+        foreach ($this->config['js'] as $group_name => $items) {
             foreach ($items as $item) {
-                if ( ! isset($tree[$item]))
+                if (!isset($tree[$item]))
                     $tree[$item] = array();
             }
         }
+
+        var_dump($tree);
 
         return $tree;
     }
@@ -128,6 +150,11 @@ class CI_Asset
         }
 
         return $dependencies;
+    }
+
+    function output_path($name)
+    {
+        return 'js/' . $name;
     }
 
     function path($name)
@@ -227,6 +254,11 @@ class CI_Asset
         return strncmp($source, $start_of_string, strlen($start_of_string)) == 0;
     }
 
+    private function string_ends_with($end_of_string, $string)
+    {
+        return substr($string, -strlen($end_of_string)) === $end_of_string;
+    }
+
     private function string_after_first($needle, $haystack)
     {
         $pos = strpos($haystack, $needle);
@@ -235,6 +267,29 @@ class CI_Asset
         } else {
             return substr($haystack, $pos + strlen($needle));
         }
+    }
+
+    private function files($path, $include_subdirectories = FALSE)
+    {
+        if (!is_dir($path))
+            return FALSE;
+
+        $files = array();
+
+        $iterator = $include_subdirectories
+                ? new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path))
+                : new DirectoryIterator($path);
+
+        foreach ($iterator as $file) {
+            // isDot method is only available in DirectoryIterator items
+            // isDot check skips '.' and '..'
+            if ($include_subdirectories == FALSE && $file->isDot())
+                continue;
+            // Standardize to forward slashes
+            $files[] = str_replace('\\', '/', $file->getPathName());
+        }
+
+        return $files;
     }
 
 }

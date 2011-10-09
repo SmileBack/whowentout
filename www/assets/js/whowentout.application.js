@@ -2,12 +2,12 @@
 //= require lib/jquery.entwine.js
 //= require lib/underscore.js
 
-//= require WhoWentOut.Model.js
-//= require WhoWentOut.Channel.js
-//= require Whowentout.College.js
-//= require WhoWentOut.Place.js
-//= require WhoWentOut.Party.js
-//= require WhoWentOut.User.js
+//= require whowentout.model.js
+//= require whowentout.channel.js
+//= require whowentout.college.js
+//= require whowentout.place.js
+//= require whowentout.party.js
+//= require whowentout.user.js
 
 //= require lib/jquery.idle-timer.js
 //= require lib/soundmanager2.config.js

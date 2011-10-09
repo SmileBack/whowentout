@@ -1,6 +1,6 @@
 //= require lib/jquery.js
-//= require WhoWentOut.Model.js
-//= require WhoWentOut.Hash.js
+//= require whowentout.model.js
+//= require whowentout.hash.js
 
 WhoWentOut.Model.extend('WhoWentOut.User', {
     get: function(id) {

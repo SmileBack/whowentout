@@ -1,4 +1,4 @@
-//= require WhoWentOut.Component.js
+//= require whowentout.component.js
 
 (function() {
 

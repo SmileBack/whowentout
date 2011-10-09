@@ -1,5 +1,5 @@
 //= require lib/jquery.entwine.js
-//= require WhoWentOut.Model.js
+//= require whowentout.model.js
 
 WhoWentOut.Model.extend('WhoWentOut.Party', {}, {
     init: function(attrs) {

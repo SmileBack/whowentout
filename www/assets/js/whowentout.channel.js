@@ -1,5 +1,5 @@
-//= require WhoWentOut.Component.js
-//= require WhoWentOut.Queue.js
+//= require whowentout.component.js
+//= require whowentout.queue.js
 
 WhoWentOut.Component.extend('WhoWentOut.Channel', {
     Create: function(options) {

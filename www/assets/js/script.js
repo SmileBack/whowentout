@@ -1,5 +1,5 @@
 //= require lib/jquery.js
-//= require WhoWentOut.Application.js
+//= require whowentout.application.js
 
 $.when(app.load()).then(function() {
 

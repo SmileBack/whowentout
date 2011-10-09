@@ -1,7 +1,7 @@
 //= require lib/jquery.js
 //= require lib/jquery.entwine.js
 //= require lib/jquery.jstorage.js
-//= require WhoWentOut.Application.js
+//= require whowentout.application.js
 
 $.when(window.app.load()).then(function() {
 
