@@ -3,13 +3,23 @@
 # Server version:               5.5.8-log
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-10-03 01:29:14
+# Date/time:                    2011-10-11 22:47:58
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+# Dumping structure for table whowentout.cache
+CREATE TABLE IF NOT EXISTS `cache` (
+  `id` varchar(512) NOT NULL,
+  `data` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
 
 # Dumping structure for table whowentout.chat_messages
 CREATE TABLE IF NOT EXISTS `chat_messages` (
@@ -87,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `events` (
 # Dumping structure for table whowentout.flags
 CREATE TABLE IF NOT EXISTS `flags` (
   `id` varchar(512) NOT NULL,
+  `data` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -310,6 +321,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `version` int(10) unsigned NOT NULL DEFAULT '0',
   `facebook_id` varchar(255) NOT NULL,
+  `facebook_access_token` varchar(512) DEFAULT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `hometown_city` varchar(255) NOT NULL,
@@ -335,6 +347,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `user_facebook_id` (`facebook_id`),
   KEY `college_id` (`college_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`college_id`) REFERENCES `colleges` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Data exporting was unselected.
+
+
+# Dumping structure for table whowentout.windows
+CREATE TABLE IF NOT EXISTS `windows` (
+  `id` varchar(64) NOT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `online_since` datetime DEFAULT NULL,
+  `offline_since` datetime DEFAULT NULL,
+  `active_since` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `windows_user_id_fk` (`user_id`),
+  CONSTRAINT `windows_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 # Data exporting was unselected.
