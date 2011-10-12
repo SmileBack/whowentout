@@ -215,7 +215,8 @@ function fake_login($user_id)
 function logout()
 {
     if (logged_in()) {
-        current_user()->ping_offline();
+        $ci =& get_instance();
+        //@TODO: ping offline
         return XUser::logout();
     }
 }

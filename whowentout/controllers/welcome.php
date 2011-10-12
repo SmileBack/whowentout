@@ -6,8 +6,6 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $this->load->library('chat');
-
         $party = party(32);
 
         $ven = user(array('first_name' => 'Venkat'));
@@ -17,33 +15,11 @@ class Welcome extends MY_Controller
         $maggie = user(96);
         $claire = user(82);
         $jenny = user(108);
+        $allie = user(184);
 
-        $this->load->library('asset');
-
-        $this->asset->load(array(
-                                'whowentout.application.js',
-                                'widgets/jquery.autocomplete.js',
-                                'widgets/jquery.dialog.js',
-                                'widgets/jquery.notifications.js',
-                                'widgets/chatbar.js',
-
-                                'core.js',
-                                'time.js',
-
-                                'pages/editinfo.js',
-                                'pages/home.js',
-                                'pages/dashboard.js',
-                                'pages/gallery.js',
-                                'pages/editinfo.js',
-                                'pages/friends.js',
-
-                                'script.js',
-
-                                'lib/jsaction.js',
-                                'actions.js',
-                           ));
-
-        print $this->asset->js();
+        $this->load->library('presence');
+        var_dump( $this->presence->is_online($ven->id) );
+        var_dump( $ven->is_online_to($allie) );
     }
 
 }

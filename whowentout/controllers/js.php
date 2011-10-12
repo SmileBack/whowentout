@@ -5,6 +5,8 @@ class Js extends MY_Controller
 
     function app()
     {
+        $this->load->library('presence');
+        
         $response = array();
 
         if (!logged_in())
@@ -16,10 +18,12 @@ class Js extends MY_Controller
             $response['college'] = $user->college->to_array();
         }
 
+        $response['request'] = post();
+        $response['presence_token'] = $this->presence->ping_online(current_user()->id);
+
         $this->load_users($response);
         $this->load_channels($response);
 
-        $response['request'] = post();
         $response['success'] = TRUE;
         $this->json($response);
     }
@@ -38,6 +42,7 @@ class Js extends MY_Controller
         else {
             $user_data = $user->to_array($user->is_current_user());
             $user_data['is_online'] = $user->is_online_to(current_user());
+            $user_data['is_actually_online'] = $user->is_online();
             $user_data['is_idle'] = $user->is_idle_to(current_user());
             $this->json(array(
                              'success' => TRUE,
@@ -65,11 +70,13 @@ class Js extends MY_Controller
                 $response['users'][$user_id] = $user->to_array();
                 $response['users'][$user_id]['is_online'] = $user->is_online_to(current_user());
                 $response['users'][$user_id]['is_idle'] = $user->is_idle_to(current_user());
+                $response['users'][$user_id]['is_actually_online'] = $user->is_online();
             }
         }
 
         $response['users'][current_user()->id] = current_user()->to_array(TRUE);
         $response['users'][current_user()->id]['is_online'] = current_user()->is_online_to(current_user());
+        $response['users'][current_user()->id]['is_actually_online'] = current_user()->is_online();
         $response['users'][current_user()->id]['is_idle'] = current_user()->is_idle_to(current_user());
     }
 
@@ -102,7 +109,5 @@ class Js extends MY_Controller
             }
         }
     }
-
-    
 
 }

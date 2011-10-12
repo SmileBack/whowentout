@@ -5,3 +5,8 @@ www/events
 nbproject
 mrgw/data
 .idea
+
+tmp/*
+!tmp/.htaccess
+cache/*
+!cache/.htaccess

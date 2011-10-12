@@ -61,9 +61,10 @@ class CI_Asset
         foreach ($names as $name) {
             $this->tags[] = $this->tag('script', array(
                                                    'type' => 'text/javascript',
-                                                   'src' => $this->source_path($name),
+                                                   'src' => '/' . $this->source_path($name) . '?version=' . $this->source_js_version,
                                                  ));
         }
+        
         return implode("\n\n", $this->tags);
     }
 

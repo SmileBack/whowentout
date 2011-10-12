@@ -502,34 +502,15 @@ class XCollege extends XObject
         return $this->load_objects('XParty', $query);
     }
 
-    function update_offline_users()
-    {
-        $a_little_while_ago = current_time()->modify('-10 seconds')->format('Y-m-d H:i:s');
-        //users that should be offline based on last ping but aren't marked as offline
-        $rows = $this->db()->select('id')
-                ->from('users')
-                ->where('college_id', $this->id)
-                ->where('last_ping <', $a_little_while_ago);
-        $users = $this->load_objects('XUser', $rows);
-
-        $uids = array();
-        foreach ($users as $user) {
-            $user->ping_offline();
-            $uids[] = $user->id;
-        }
-        return $uids;
-    }
-
     function get_online_users_ids()
     {
-        $query = $this->db()->select('id')
-                ->from('users')
-                ->where('college_id', $this->id)
-                ->where('last_ping IS NOT NULL');
+        $query = $this->db()->select('user_id')
+                            ->from('windows')
+                            ->distinct();
 
         $ids = array();
         foreach ($query->get()->result() as $row) {
-            $ids[] = $row->id;
+            $ids[] = $row->user_id;
         }
         return $ids;
     }

@@ -274,21 +274,6 @@ class User extends MY_Controller
         set_message("Here we would send an invite to $friend->friend_full_name (facebook id = $friend->friend_facebook_id)");
         redirect('dashboard');
     }
-
-    function ping()
-    {
-        $is_active = intval(post('isActive'));
-        current_user()->ping_online($is_active);
-        $this->json(array(
-                        'success' => TRUE,
-                        'post' => post(),
-                    ));
-    }
-
-    function ping_leaving()
-    {
-        current_user()->ping_offline();
-    }
     
     function change_visibility($visibility)
     {

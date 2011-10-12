@@ -782,27 +782,16 @@ class XUser extends XObject
         return images()->exists($this->id, $preset);
     }
 
-    function is_online($current_time = NULL)
+    function is_online()
     {
-        if ($this->last_ping == NULL)
-            return FALSE;
-
-        if ($current_time == NULL)
-            $current_time = current_time();
-
-        $last_ping = new DateTime($this->last_ping, new DateTimeZone('UTC'));
-
-        $a_little_while_ago = clone $current_time;
-        $a_little_while_ago->modify('-10 seconds');
-
-        return $last_ping->getTimestamp() > $a_little_while_ago->getTimestamp();
+        $ci =& get_instance();
+        return $ci->presence->is_online($this->id);
     }
 
     function is_active($current_time = NULL)
     {
         if (!$this->is_online())
             return FALSE;
-
 
         if ($current_time == NULL)
             $current_time = current_time();
@@ -828,7 +817,7 @@ class XUser extends XObject
 
     function is_idle($current_time = NULL)
     {
-        return !$this->is_active($current_time);
+        return FALSE; //@TODO: make this actually work
     }
 
     function is_idle_to($user)
@@ -869,63 +858,6 @@ class XUser extends XObject
                        ->where('user_id', $this->id)
                        ->where('friend_id', $user->id)
                        ->count_all_results() > 0;
-    }
-
-    function ping_online($set_active = TRUE)
-    {
-        $ci =& get_instance();
-
-        $current_time = current_time();
-        $last_ping = new DateTime($this->last_ping, new DateTimeZone('UTC'));
-
-        $was_online = $this->is_online($last_ping);
-        $was_active = $this->is_active($last_ping);
-
-        $this->last_ping = $current_time->format('Y-m-d H:i:s');
-        if ($set_active)
-            $this->last_active = $this->last_ping;
-
-        $this->save();
-
-        $is_online = $this->is_online($current_time);
-        $is_active = $this->is_active($current_time);
-
-        $just_came_online = $is_online && !$was_online;
-        $just_became_active = $is_active && !$was_active;
-        $just_became_idle = !$is_active && $was_active;
-
-        if ($just_came_online) {
-            $ci->response->set('raised_just_came_online_event', TRUE);
-            raise_event('user_came_online', array(
-                                                 'user' => $this,
-                                            ));
-        }
-        elseif ($just_became_active) {
-            $ci->response->set('raised_active_event', TRUE);
-            raise_event('user_became_active', array(
-                                                   'user' => $this,
-                                              ));
-        }
-        elseif ($just_became_idle) {
-            $ci->response->set('raised_idle_event', TRUE);
-            raise_event('user_became_idle', array(
-                                                 'user' => $this,
-                                            ));
-        }
-    }
-
-    function ping_offline()
-    {
-        if ($this->last_ping == NULL) //already marked as offline so don't do anything
-            return;
-
-        $this->last_ping = NULL;
-        $this->last_active = NULL;
-        $this->save();
-
-        raise_event('user_went_offline', array(
-                                              'user' => $this,
-                                         ));
     }
 
     function get_chatbar_state()

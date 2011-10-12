@@ -1,6 +1,7 @@
 //= require lib/underscore.js
 //= require lib/jsaction.js
 //= require lib/jquery.spotlight.js
+//= require lib/jquery.tip.js
 
 Actions = {
     AddTempClass: function(target, cls, duration) {

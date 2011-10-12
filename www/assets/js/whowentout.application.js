@@ -36,13 +36,9 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
 
         this.initChatbar();
         this.startPingingServer();
-        
-        this._every(10, function() {
-            self.updateOfflineUsers();
-        });
-        
-        $(window).bind('leave', function() {
-            self.pingLeavingServer();
+
+        $(window).bind('unload', function() {
+            self.pingOffline();
         });
     },
     updateOfflineUsers: function() {
@@ -53,13 +49,14 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
             return;
 
         this.pingServer();
-        this._pingingId = this._every(5, this.callback('pingServer'));
+        this._pingingId = this._every(5 * 60, this.callback('pingServer'));
     },
     stopPingingServer: function() {
         this._cancelEvery(this._pingingId);
         this._pingingId = null;
     },
     pingServer: function() {
+        /*
         $.ajax({
             url: '/user/ping',
             type: 'post',
@@ -69,11 +66,13 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
                 //console.log('pinged server!');
             }
         });
+        */
     },
-    pingLeavingServer: function() {
+    pingOffline: function() {
         $.ajax({
-            url: '/user/ping_leaving',
-            type: 'get',
+            url: '/ping/offline',
+            type: 'post',
+            data: {presence_token: this._presenceToken},
             async: false,
             success: function(response) {
             }
@@ -112,7 +111,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
             dataType: 'json',
             data: { user_ids: this.userIdsOnPage(), party_ids: this.partyIdsOnPage() },
             success: function(response) {
-                //console.log(response);
+                console.log(response);
 
                 _.each(response.application, function(v, k) {
                     self.set(k, v);
@@ -121,6 +120,8 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
                 self.loadCollege(response.college);
                 self.loadUsers(response.users);
                 self.loadChannels(response.channels);
+                
+                self._presenceToken = response.presence_token;
 
                 self._loadDfd.resolve();
             }
