@@ -37,12 +37,11 @@ class Facebook extends BaseFacebook
      */
     public function __construct($config)
     {
+        $this->ci =& get_instance();
         if (!session_id()) {
             session_start();
         }
         parent::__construct($config);
-
-        $this->ci =& get_instance();
     }
 
     public function request($url, $params)
