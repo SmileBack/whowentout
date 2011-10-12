@@ -6,7 +6,7 @@
         RunActions: function(actions) {
             var action;
             for (var i = 0; i < actions.length; i++) {
-                this.RunAction( actions[i] );
+                this.RunAction(actions[i]);
             }
         },
         RunAction: function(action) {
@@ -21,11 +21,13 @@
 
     if ($) {
         $('body').ajaxSuccess(function(e, xhr, settings) {
-            xhr.success(function(response) {
-                if (response.jsactionlist) {
-                    JsAction.RunActions(response.jsactionlist);
-                }
-            });
+            if ($.isFunction(xhr.success)) {
+                xhr.success(function(response) {
+                    if (response.jsactionlist) {
+                        JsAction.RunActions(response.jsactionlist);
+                    }
+                });
+            }
         });
     }
 
