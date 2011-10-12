@@ -14,11 +14,11 @@ class User extends MY_Controller
         $user = current_user();
         $user->upload_pic();
 
-        $this->json(array(
+        $this->json_for_ajax_file_upload(array(
                          'success' => TRUE,
                          'raw_pic' => $user->raw_pic,
                          'crop_box' => $user->pic_crop_box,
-                    ), TRUE);
+                    ));
     }
 
     function use_facebook_pic()
@@ -29,11 +29,11 @@ class User extends MY_Controller
         $user = current_user();
         $user->use_facebook_pic();
 
-        $this->json(array(
+        $this->json_for_ajax_file_upload(array(
                          'success' => TRUE,
                          'raw_pic' => $user->raw_pic,
                          'crop_box' => $user->pic_crop_box,
-                    ), TRUE);
+                    ));
     }
 
     function edit_save()
