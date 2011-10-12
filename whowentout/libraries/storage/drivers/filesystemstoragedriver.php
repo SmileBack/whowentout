@@ -3,6 +3,20 @@
 class FilesystemStorageDriver extends StorageDriver
 {
 
+    function __construct($config)
+    {
+        parent::__construct($config);
+
+        $this->checkPath();
+    }
+
+    private function checkPath()
+    {
+        if ( ! is_writable( $this->bucket() )) {
+            throw new Exception("The path " . $this->bucket() . " doesn't exist or is not writeable.");
+        }
+    }
+
     function bucket()
     {
         return $this->config['bucket'];
