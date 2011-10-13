@@ -21,6 +21,10 @@ date_default_timezone_set('America/New_York');
  */
 
 define('ENVIRONMENT', 'test');
+if (getenv('server') == 'whowentout') {
+    print "<h1>Tests can't be run on the production server.</h1>";
+    exit;
+}
 
 /*
  *---------------------------------------------------------------
