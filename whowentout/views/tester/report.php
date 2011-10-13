@@ -10,6 +10,7 @@
         <th>Expected</th>
         <th>Actual</th>
         <th>Line</th>
+        <th>Message</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
         <td><?= isset($test['expected']) ? $test['expected'] : '' ?></td>
         <td><?= isset($test['actual']) ? $test['actual'] : '' ?></td>
         <td><?= isset($test['line']) ? $test['line'] : '' ?></td>
+        <td><?= isset($test['message']) ? $test['message'] : '' ?></td>
       </tr>
       <?php endforeach; ?>
     </tbody>
