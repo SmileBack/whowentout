@@ -17,9 +17,14 @@ class MY_Controller extends CI_Controller
         $this->load->view('page', $data);
     }
 
-    protected function json($response, $file_uploads = FALSE)
+    protected function json($response)
     {
-        $this->response->json($response, $file_uploads);
+        $this->response->json($response);
+    }
+
+    protected function json_for_ajax_file_upload($response)
+    {
+        $this->response->json_for_ajax_file_upload($response);
     }
 
     protected function json_success($message = '')

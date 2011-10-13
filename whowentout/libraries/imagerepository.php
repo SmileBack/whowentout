@@ -76,7 +76,7 @@ class ImageRepository
 
     protected function load_wide_image()
     {
-        require_once APPPATH . 'libraries/wideimage/WideImage.php';
+        require_once APPPATH . 'third_party/wideimage/WideImage.php';
     }
 
     protected function refresh_facebook($id)
