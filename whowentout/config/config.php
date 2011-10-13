@@ -15,13 +15,16 @@
 |
 */
 
-if (getenv('server') == 'whowentout') {
+if (ENVIRONMENT == 'whowentout') {
     $config['base_url'] = 'http://www.whowentout.com/';
 }
-elseif (getenv('server') == 'whowasout') {
+elseif (ENVIRONMENT == 'whowasout') {
     $config['base_url'] = 'http://www.whowasout.com/';
 }
-else {
+elseif (ENVIRONMENT == 'development') {
+    $config['base_url'] = 'http://localhost/';
+}
+elseif (ENVIRONMENT == 'test') {
     $config['base_url'] = 'http://localhost/';
 }
 
@@ -36,6 +39,9 @@ else {
 |
 */
 $config['index_page'] = '';
+
+if (ENVIRONMENT == 'test')
+    $config['index_page'] = 'test.php';
 
 /*
 |--------------------------------------------------------------------------

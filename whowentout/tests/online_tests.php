@@ -18,6 +18,12 @@ class Online_Tests extends TestGroup
         parent::setup();
 
         $this->clear_database();
+        $this->ci =& get_instance();
+        $this->ci->load->library('presence');
+        $this->presence = $this->ci->presence;
+
+        //disable events for side effects
+        $this->ci->event->disable();
 
         $this->college = XCollege::create(array(
                                                'name' => 'GWU',
@@ -42,29 +48,37 @@ class Online_Tests extends TestGroup
 
     function test_online()
     {
-        $this->assert_true(!$this->user->is_online());
-        
-        $this->user->ping_online();
-        $this->assert_true($this->user->is_online(), 'online right after pings');
-        $this->assert_true($this->user->is_active(), 'active right after ping');
+        $presence = $this->presence;
+        $user = $this->user;
+        $this->assert_true(!$presence->is_online($user->id), 'user is initially offline');
 
-        $this->college->modify_local_time('+30 seconds');
-        $this->assert_true(!$this->user->is_online(), 'offline after no ping for a while');
+        $token = $presence->ping_online($user->id);
+        $this->assert_true($presence->is_online($user->id), 'user opens one tab is online');
+
+        $presence->ping_offline($user->id, 'a bogus token');
+        $this->assert_true($presence->is_online($user->id), 'user pings offline with a bogus token, so he is still online');
+
+        $presence->ping_offline($user->id, $token);
+        $this->assert_true(!$presence->is_online($user->id), 'user closes only one tab, and is therefore offline');
     }
 
-    function test_idle()
+    function test_online_multiple_browsers()
     {
-        $this->user->ping_online();
-        $this->assert_true(!$this->user->is_idle());
+        $presence = $this->presence;
+        $user = $this->user;
+        $this->assert_true(!$presence->is_online($user->id));
 
-        $this->user->ping_online(FALSE);
-        //isn't idle because user just became inactive
-        $this->assert_true(!$this->user->is_idle());
+        $browser_token_1 = $presence->ping_online($user->id);
+        $this->assert_true($presence->is_online($user->id), 'user opened first tab so he is online');
 
-        $this->college->modify_local_time('+10 minutes');
-        $this->user->ping_online(FALSE);
-        $this->assert_true($this->user->is_online());
-        $this->assert_true($this->user->is_idle());
+        $browser_token_2 = $presence->ping_online($user->id);
+        $this->assert_true($presence->is_online($user->id), 'user opened one more tab so still online');
+
+        $presence->ping_offline($user->id, $browser_token_1);
+        $this->assert_true($presence->is_online($user->id), 'still online since user only closed one of his tabs');
+
+        $presence->ping_offline($user->id, $browser_token_2);
+        $this->assert_true(!$presence->is_online($user->id), 'user closed both tabs, so user is offline');
     }
 
 }

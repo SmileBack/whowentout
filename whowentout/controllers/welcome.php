@@ -16,10 +16,6 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
         $allie = user(184);
-
-        $this->load->library('presence');
-        var_dump( $this->presence->is_online($ven->id) );
-        var_dump( $ven->is_online_to($allie) );
     }
 
 }

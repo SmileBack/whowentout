@@ -8,6 +8,7 @@ class CI_Event
 
     private $plugins_loaded = FALSE;
     private $plugins = array();
+    private $is_enabled = TRUE;
 
     /**
      * @var The event that was most recently stored.
@@ -21,8 +22,26 @@ class CI_Event
         $this->db = $this->ci->db;
     }
 
+    function is_enabled()
+    {
+        return $this->is_enabled;
+    }
+
+    function enable()
+    {
+        $this->is_enabled = TRUE;
+    }
+
+    function disable()
+    {
+        $this->is_enabled = FALSE;
+    }
+
     function raise($event_name, $event_data = array())
     {
+        if ( ! $this->is_enabled() )
+            return;
+        
         $e = $this->cast_event($event_name, $event_data);
         foreach ($this->plugins() as $plugin_name => $plugin) {
             $handler = "on_$event_name";

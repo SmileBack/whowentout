@@ -7,9 +7,8 @@ class Test extends MY_Controller
     {
         if (ENVIRONMENT != 'test')
             show_error('ENVIRONMENT must be test.');
-
+        
         $this->load->library('tester');
-
         $groups = $this->tester->groups();
 
         $this->load->view('tester/tests', array('groups' => $groups));

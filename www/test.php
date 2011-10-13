@@ -1,9 +1,5 @@
 <?php
 date_default_timezone_set('America/New_York');
-if (getenv('show_landing') == 'true') {
-    include('landing.php');
-    exit;
-}
 
 /*
  *---------------------------------------------------------------
@@ -24,46 +20,7 @@ if (getenv('show_landing') == 'true') {
  *
  */
 
-if (getenv('server') == 'whowentout') {
-    define('ENVIRONMENT', 'whowentout');
-}
-elseif (getenv('server') == 'whowasout') {
-    define('ENVIRONMENT', 'whowasout');
-}
-else {
-    define('ENVIRONMENT', 'development');
-}
-
-/*
- *---------------------------------------------------------------
- * ERROR REPORTING
- *---------------------------------------------------------------
- *
- * Different environments will require different levels of error reporting.
- * By default development will show errors but testing and live will hide them.
- */
-
-if (defined('ENVIRONMENT')) {
-    switch (ENVIRONMENT)
-    {
-        case 'development':
-        case 'hostgator':
-        case 'whowentout':
-        case 'whowasout':
-            error_reporting(E_ALL);
-            break;
-
-        case 'test':
-            break;
-
-        case 'production':
-            error_reporting(0);
-            break;
-
-        default:
-            exit('The application environment is not set correctly.');
-    }
-}
+define('ENVIRONMENT', 'test');
 
 /*
  *---------------------------------------------------------------
@@ -212,6 +169,3 @@ else
  *
  */
 require_once BASEPATH . 'core/CodeIgniter' . EXT;
-
-/* End of file index.php */
-/* Location: ./index.php */
