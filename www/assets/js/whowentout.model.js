@@ -19,7 +19,7 @@ WhoWentOut.Component.extend('WhoWentOut.Model', {
     set: function(key, value) {
         var prevValue = this.get(key);
         this.properties[key] = value;
-        this.trigger({type: 'change', key: key, value: value, prevValue: prevValue});
+        this.trigger({type: 'itemchange', key: key, value: value, prevValue: prevValue});
     },
     val: function(k, v) {
         if (v === undefined) {
