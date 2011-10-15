@@ -2,19 +2,22 @@
 //= require lib/jquery.entwine.js
 //= require lib/jquery.jstorage.js
 //= require whowentout.application.js
+//= require whowentout.api.chat.js
 
 $.when(window.app.load()).then(function() {
 
     app.channel('current_user')
     .bind('chat_received', function(e) {
-        $.when($('#chatbar').loadMessages())
+        var api = WhoWentOut.API.Chat.get();
+        $.when(api.loadMessages())
         .then(function() {
             $('#chatbar').addNewMessage(e.message);
             $('#chatbar').chatboxForMessage(e.message).show().scrollToBottom();
         });
     })
     .bind('chat_sent', function(e) {
-        $.when($('#chatbar').loadMessages())
+        var api = WhoWentOut.API.Chat.get();
+        $.when(api.loadMessages())
         .then(function() {
             $('#chatbar').addNewMessage(e.message);
         });
@@ -32,36 +35,30 @@ $.when(window.app.load()).then(function() {
     });
 
     $('#chatbar').entwine({
-        loadMessages: function() {
-            var self = this;
-
-            if (this.alreadyLoadedMessages()) //already loaded messages
-                return null;
-
-            var dfd = $.Deferred();
-            $.ajax({
-                url: '/chat/messages',
-                type: 'post',
-                dataType: 'json',
-                data: {state: this.state()},
-                success: function(response) {
-                    $.each(response.messages, function(key, msg) {
-                        self.addNewMessage(msg);
-                    });
-
-                    self.restoreSavedState();
-                    self.data('alreadyLoadedMessages', true);
-                    dfd.resolve(response.messages);
-                }
-            });
-            return dfd.promise();
-        },
         onmatch: function() {
             this._super();
             this.loadMessages();
         },
         onunmatch: function() {
             this._super();
+        },
+        loadMessages: function() {
+            var self = this;
+            var api = WhoWentOut.API.Chat.get();
+            var request = api.loadMessages({
+                chatbar_state: this.state()
+            });
+            request.done(function(messages) {
+                self.addMultipleNewMessages(messages);
+                self.restoreSavedState();
+            });
+            return request;
+        },
+        addMultipleNewMessages: function(messages) {
+            var self = this;
+            $.each(messages, function(key, msg) {
+                self.addNewMessage(msg);
+            });
         },
         state: function(state) {
             if (state === undefined) {
@@ -248,15 +245,17 @@ $.when(window.app.load()).then(function() {
             return this.find('.chat_message.normal.unread').length;
         },
         markAsRead: function() {
-            $.ajax({
-                url: '/chat/mark_read',
-                type: 'post',
-                data: {from: this.attr('to')},
-                success: function(response) {
-                }
+            var self = this;
+            
+            var api = WhoWentOut.API.Chat.get();
+            var request = api.markAsRead({
+                chatbox_user_id: this.toUserID()
             });
-            this.find('.chat_message.unread').removeClass('unread');
-            this.refreshUnreadCount();
+            
+            request.done(function() {
+                self.find('.chat_message.unread').removeClass('unread');
+                self.refreshUnreadCount();
+            });
 
             return this;
         },
@@ -356,18 +355,10 @@ $.when(window.app.load()).then(function() {
             }
         },
         sendMessage: function(message) {
-            var self = this;
-            $.ajax({
-                url: '/chat/send',
-                type: 'post',
-                dataType: 'json',
-                data: {to: this.toUserID(), message: message},
-                success: function(response) {
-                    //If the message failed to send, we will get back an error message
-                    if (response.success == false) {
-                        self.notice(response.message);
-                    }
-                }
+            var api = WhoWentOut.API.Chat.get();
+            return api.sendMessage({
+                to_user_id: this.toUserID(),
+                message: message
             });
         }
     });

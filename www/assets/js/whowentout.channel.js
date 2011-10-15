@@ -98,13 +98,13 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
             console.log('event :: ' + event.type);
             console.log(event);
 
-            try {
+//            try {
                 self.trigger(event);
-            }
-            catch (err) {
-                console.log('--error when triggering event ' + event.type + ' --');
-                console.log(err);
-            }
+//            }
+//            catch (err) {
+//                console.log('--error when triggering event ' + event.type + ' --');
+//                console.log(err);
+//            }
             
         });
     },
