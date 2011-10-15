@@ -352,7 +352,7 @@ $.when(window.app.load()).then(function() {
                 this.clearTypedMessage();
             }
             else {
-                alert('user is not online');
+                this.notice("Message can't be sent. User is offline.");
             }
         },
         sendMessage: function(message) {
@@ -376,6 +376,7 @@ $.when(window.app.load()).then(function() {
         onmatch: function() {
             this._super();
             this.notice('');
+            this.refreshTitle();
         },
         onunmatch: function() {
             this._super();
