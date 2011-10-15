@@ -9,6 +9,8 @@
 //= require whowentout.party.js
 //= require whowentout.user.js
 
+//= require whowentout.presencebeacon.js
+
 //= require lib/jquery.idle-timer.js
 //= require lib/soundmanager2.config.js
 
@@ -31,41 +33,29 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         this.load();
 
         $.when(this.load()).then(this.callback('onload'));
-        $.when(this.load()).then(this.callback('initIdleEvents'));
-
-        var pusher = WhoWentOut.PusherChannel.Pusher();
-        this._onlineUsers = {};
-        this._presenceChannel = pusher.subscribe('presence-whowentout_development');
-        this._presenceChannel.bind('pusher:subscription_succeeded', function(members) {
-            console.log('--subscribed--');
-            members.each(function(member) {
-                console.log(member);
-                self._onlineUsers[member.id] = true;
-                $('.user_' + member.id).addClass('online');
-            });
-        });
-
-        this._presenceChannel.bind('pusher:member_added', function(member) {
-            console.log('--member added--');
-            console.log(member);
-            self._onlineUsers[member.id] = true;
-            $('.user_' + member.id).addClass('online');
-        });
-
-        this._presenceChannel.bind('pusher:member_removed', function(member) {
-            console.log('--member removed--');
-            console.log(member);
-            delete self._onlineUsers[member.id];
-            $('.user_' + member.id).removeClass('online');
-        });
-
+        $.when(this.load()).then(this.callback('initPresenceBeacon'));
     },
     onload: function() {
         var self = this;
         this.initChatbar();
     },
-    updateOfflineUsers: function() {
-        return $.getJSON('/college/update_offline_users');
+    getPresenceBeacon: function() {
+        return this._presenceBeacon;
+    },
+    initPresenceBeacon: function() {
+        this._presenceBeacon = new WhoWentOut.PresenceBeacon();
+        this._presenceBeacon.bind('load', function() {
+            var onlineUserIDs = this.getOnlineUserIDs();
+            for (var i = 0; i < onlineUserIDs.length; i++) {
+                $('.user_' + onlineUserIDs[i]).addClass('online');
+            }
+        });
+        this._presenceBeacon.bind('user_came_online', function(e) {
+            $('.user_' + e.user_id).addClass('online');
+        });
+        this._presenceBeacon.bind('user_went_offline', function(e) {
+            $('.user_' + e.user_id).removeClass('online');
+        });
     },
     initIdleEvents: function() {
         var self = this;

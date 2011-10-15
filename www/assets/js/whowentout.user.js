@@ -80,9 +80,9 @@ $('.user').entwine({
     onmatch: function() {
         this._super();
         var self = this;
-        
+
         $.when(app.load()).then(function() {
-            if ( app._onlineUsers[ self.userID() ] ) {
+            if (app.getPresenceBeacon().userIsOnline( self.userID() )) {
                 self.addClass('online');
             }
         });
