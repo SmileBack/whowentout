@@ -1,11 +1,35 @@
 <?php
 
+define('PRESENCE_STATUS_OFFLINE', 0);
+define('PRESENCE_STATUS_ONLINE', 1);
+define('PRESENCE_STATUS_IDLE', 1);
+
 class Presence
 {
 
     private $ci;
-
     private $status_changed = FALSE;
+    private $event_handlers = array();
+
+    function when($event_type, $event_handler)
+    {
+        $this->event_handlers[$event_type][] = $event_handler;
+    }
+
+    function raise_event($event_type, $event_data)
+    {
+        $event = $this->cast_event($event_data);
+        if (isset($this->event_handlers[$event_type])) {
+            foreach ($this->event_handlers[$event_type] as $event_handler) {
+                $event_handler($event);
+            }
+        }
+    }
+
+    private function cast_event($event_data)
+    {
+        return (object)$event_data;
+    }
 
     function __construct()
     {
@@ -13,93 +37,77 @@ class Presence
         $this->db = $this->ci->db;
     }
 
-    function status_changed()
-    {
-        return $this->status_changed;
-    }
-    
     function is_online($user_id)
     {
-        $recent_window = $this->db->from('windows')
+        $status = $this->get_user_status($user_id);
+        return $status->value == PRESENCE_STATUS_ONLINE;
+    }
+
+    function mark_online($user_id)
+    {
+        $this->set_user_status($user_id, PRESENCE_STATUS_ONLINE);
+
+        if ($this->status_changed) {
+            $this->raise_event('user_came_online', array(
+                                                        'user_id' => $user_id,
+                                                   ));
+        }
+    }
+
+    function mark_offline($user_id)
+    {
+        $this->set_user_status($user_id, PRESENCE_STATUS_OFFLINE);
+
+        if ($this->status_changed) {
+            $this->raise_event('user_went_offline', array(
+                                                         'user_id' => $user_id,
+                                                    ));
+        }
+    }
+
+    function get_online_user_ids()
+    {
+        $rows = $this->db->select('user_id')
+                         ->from('user_statuses')
+                         ->where('value', PRESENCE_STATUS_ONLINE)
+                         ->get()->result();
+
+        $online_user_ids = array();
+        foreach ($rows as $row) {
+            $online_user_ids[] = $row->user_id;
+        }
+        return $online_user_ids;
+    }
+
+    private function get_user_status($user_id)
+    {
+        $rows = $this->db->from('user_statuses')
                 ->where('user_id', $user_id)
-                ->order_by('online_since', 'desc')
-                ->limit(1)
-                ->get()->row();
+                ->get()->result();
 
-        return !empty($recent_window);
-    }
+        if (empty($rows)) {
+            $this->db->insert('user_statuses', array(
+                                                    'user_id' => $user_id,
+                                                    'value' => PRESENCE_STATUS_OFFLINE,
+                                               ));
 
-    function ping_online($user_id)
-    {
-        $was_online = $this->is_online($user_id);
-
-        $token = $this->token();
-        $this->db->insert('windows', array(
-                                          'id' => $token,
-                                          'user_id' => $user_id,
-                                          'online_since' => current_time()->format('Y-m-d H:i:s'),
-                                     ));
-
-        $is_online = $this->is_online($user_id);
-
-        $this->status_changed = ($is_online != $was_online);
-
-        if ($this->status_changed) {
-            raise_event('user_came_online', array(
-                                                 'user' => user($user_id),
-                                            ));
+            $rows = $this->db->from('user_statuses')
+                    ->where('user_id', $user_id)
+                    ->get()->result();
         }
 
-        return $token;
+        return $rows[0];
     }
 
-    function ping_offline($user_id, $token)
+    private function set_user_status($user_id, $user_status)
     {
-        $was_online = $this->is_online($user_id);
-        $this->db->delete('windows', array('user_id' => $user_id, 'id' => $token));
-        $is_online = $this->is_online($user_id);
+        $initial_status_value = $this->get_user_status($user_id)->value;
 
-        $this->status_changed = ($is_online != $was_online);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('user_statuses', array('value' => $user_status));
 
-        if ($this->status_changed) {
-            raise_event('user_went_offline', array(
-                                                 'user' => user($user_id),
-                                            ));
-        }
-    }
-
-    function ping_active($user_id, $token)
-    {
-        $this->db->where('id', $token);
-        $this->db->update('windows', array(
-                                          'active_since' => current_time()->format('Y-m-d H:i:s'),
-                                     ));
-    }
-
-    function token()
-    {
-        return hash('sha256', uniqid(mt_rand(), true));
-    }
-
-    function __install()
-    {
-        $ci =& get_instance();
-        $ci->db->query("CREATE TABLE `windows` (
-                          `id` varchar(64) NOT NULL,
-                          `user_id` int(10) unsigned DEFAULT NULL,
-                          `online_since` datetime DEFAULT NULL,
-                          `offline_since` datetime DEFAULT NULL,
-                          `active_since` datetime DEFAULT NULL,
-                          PRIMARY KEY (`id`),
-                          KEY `windows_user_id_fk` (`user_id`),
-                          CONSTRAINT `windows_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
-    }
-
-    function __uninstall()
-    {
-        $ci =& get_instance();
-        $ci->db->query("DROP TABLE `windows`");
+        $final_status_value = $this->get_user_status($user_id)->value;
+        $this->status_changed = ($final_status_value != $initial_status_value);
     }
 
 }

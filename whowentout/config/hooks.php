@@ -16,5 +16,11 @@ $hook['pre_system'][] = array(
     'filepath' => 'hooks',
 );
 
+$hook['post_controller_constructor'][] = array(
+    'function' => 'init_presence_events',
+    'filename' => 'presence.php',
+    'filepath' => 'hooks',
+);
+
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

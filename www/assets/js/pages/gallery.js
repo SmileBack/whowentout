@@ -6,30 +6,6 @@
 $.when(app.load()).then(function() {
 
     app.channel('current_user')
-    .bind('user_came_online', function(e) {
-        $.when(WhoWentOut.User.get(e.user.id))
-        .then(function (u) {
-            u.isOnline(true);
-        });
-    })
-    .bind('user_went_offline', function(e) {
-        $.when(WhoWentOut.User.get(e.user.id))
-        .then(function(u) {
-            u.isOnline(false);
-        });
-    })
-    .bind('user_became_idle', function(e) {
-        $.when(WhoWentOut.User.get(e.user.id))
-        .then(function(u) {
-            u.isIdle(true);
-        });
-    })
-    .bind('user_became_active', function(e) {
-        $.when(WhoWentOut.User.get(e.user.id))
-        .then(function(u) {
-            u.isIdle(false);
-        });
-    })
     .bind('smile_received', function(e) {
         var partyID = e.party.id;
         $('.party_notices').attrEq('for', partyID).replaceWith(e.party_notices_view);
@@ -40,25 +16,6 @@ $.when(app.load()).then(function() {
     })
     .bind('time_faked', function(e) {
         window.location.reload(true);
-    });
-
-    WhoWentOut.User.all().bind('itemchange', function(e) {
-        if (e.key == 'is_online') {
-            if (e.value == true) {
-                $('.user_' + e.item.id()).addClass('online');
-            }
-            else {
-                $('.user_' + e.item.id()).removeClass('online');
-            }
-        }
-        else if (e.key == 'is_idle') {
-            if (e.value == true) {
-                $('.user_' + e.item.id()).addClass('idle');
-            }
-            else {
-                $('.user_' + e.item.id()).removeClass('idle');
-            }
-        }
     });
 
     $('.gallery').entwine({

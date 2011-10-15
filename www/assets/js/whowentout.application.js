@@ -22,61 +22,50 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
 }, {
     init: function() {
         this._super();
+        var self = this;
 
         if (!window.console)
-            window.console = { log: function() {} };
+            window.console = { log: function() {
+            } };
 
         this.load();
 
         $.when(this.load()).then(this.callback('onload'));
         $.when(this.load()).then(this.callback('initIdleEvents'));
+
+        var pusher = WhoWentOut.PusherChannel.Pusher();
+        this._onlineUsers = {};
+        this._presenceChannel = pusher.subscribe('presence-whowentout_development');
+        this._presenceChannel.bind('pusher:subscription_succeeded', function(members) {
+            console.log('--subscribed--');
+            members.each(function(member) {
+                console.log(member);
+                self._onlineUsers[member.id] = true;
+                $('.user_' + member.id).addClass('online');
+            });
+        });
+
+        this._presenceChannel.bind('pusher:member_added', function(member) {
+            console.log('--member added--');
+            console.log(member);
+            self._onlineUsers[member.id] = true;
+            $('.user_' + member.id).addClass('online');
+        });
+
+        this._presenceChannel.bind('pusher:member_removed', function(member) {
+            console.log('--member removed--');
+            console.log(member);
+            delete self._onlineUsers[member.id];
+            $('.user_' + member.id).removeClass('online');
+        });
+
     },
     onload: function() {
         var self = this;
-
         this.initChatbar();
-        this.startPingingServer();
-
-        $(window).bind('unload', function() {
-            self.pingOffline();
-        });
     },
     updateOfflineUsers: function() {
         return $.getJSON('/college/update_offline_users');
-    },
-    startPingingServer: function() {
-        if (this._pingingId) //already pinging
-            return;
-
-        this.pingServer();
-        this._pingingId = this._every(5 * 60, this.callback('pingServer'));
-    },
-    stopPingingServer: function() {
-        this._cancelEvery(this._pingingId);
-        this._pingingId = null;
-    },
-    pingServer: function() {
-        /*
-        $.ajax({
-            url: '/user/ping',
-            type: 'post',
-            dataType: 'json',
-            data: { isActive: this.isActive() ? 1 : 0 },
-            success: function(response) {
-                //console.log('pinged server!');
-            }
-        });
-        */
-    },
-    pingOffline: function() {
-        $.ajax({
-            url: '/ping/offline',
-            type: 'post',
-            data: {presence_token: this._presenceToken},
-            async: false,
-            success: function(response) {
-            }
-        });
     },
     initIdleEvents: function() {
         var self = this;
@@ -120,7 +109,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
                 self.loadCollege(response.college);
                 self.loadUsers(response.users);
                 self.loadChannels(response.channels);
-                
+
                 self._presenceToken = response.presence_token;
 
                 self._loadDfd.resolve();
@@ -152,16 +141,6 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
                 }
             }, this);
         }
-    },
-    refreshOnlineStatuses: function(users) {
-        var self = this;
-        $.when(this._fetchUsers(this.userIdsOnPage())).then(function(users) {
-            _.each(users, function(u, userId) {
-                var user = WhoWentOut.User.get(u.id);
-                user.isOnline(u.is_online);
-                user.isIdle(u.id_idle);
-            });
-        });
     },
     loadSounds: function() {
         var self = this;

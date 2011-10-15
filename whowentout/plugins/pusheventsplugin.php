@@ -67,7 +67,7 @@ class PushEventsPlugin extends CI_Plugin
         //notify all other users within the college...
         $college = $e->user->college;
         $user = $e->user->to_array();
-        foreach ($college->get_online_users_ids() as $user_id) {
+        foreach ($this->ci->presence->get_online_users_ids() as $user_id) {
             $channel = 'user_' . $user_id;
             $this->broadcast_event($channel, 'user_went_offline', array(
                                                                        'user' => $user,
@@ -154,7 +154,7 @@ class PushEventsPlugin extends CI_Plugin
 
     function on_time_faked($e)
     {
-        foreach (college()->get_online_users_ids() as $user_id) {
+        foreach ($this->ci->presence->get_online_user_ids() as $user_id) {
             $channel = 'user_' . $user_id;
             $this->broadcast_event($channel, 'time_faked', array(
                                                                 'fake_time' => $e->fake_time,
@@ -174,7 +174,7 @@ class PushEventsPlugin extends CI_Plugin
     private function user_ids_online_to($user)
     {
         $ids = array();
-        foreach (college()->get_online_users_ids() as $id) {
+        foreach ($this->ci->presence->get_online_user_ids() as $id) {
             if ($user->is_online_to($id))
                 $ids[] = $id;
         }

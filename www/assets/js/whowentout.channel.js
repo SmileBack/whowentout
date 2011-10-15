@@ -186,6 +186,10 @@ WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
     Pusher: function() {
         if (!this._pusher) {
             this._pusher = new Pusher('23a32666914116c9b891');
+            Pusher.channel_auth_endpoint = '/user/pusherauth';
+            //Pusher.log = function(msg) {
+            //    window.console.log(msg);
+            //}
         }
         return this._pusher;
     }

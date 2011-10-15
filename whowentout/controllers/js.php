@@ -19,7 +19,6 @@ class Js extends MY_Controller
         }
 
         $response['request'] = post();
-        $response['presence_token'] = $this->presence->ping_online(current_user()->id);
 
         $this->load_users($response);
         $this->load_channels($response);
@@ -41,9 +40,6 @@ class Js extends MY_Controller
         }
         else {
             $user_data = $user->to_array($user->is_current_user());
-            $user_data['is_online'] = $user->is_online_to(current_user());
-            $user_data['is_actually_online'] = $user->is_online();
-            $user_data['is_idle'] = $user->is_idle_to(current_user());
             $this->json(array(
                              'success' => TRUE,
                              'user' => $user_data,
@@ -68,16 +64,10 @@ class Js extends MY_Controller
             foreach ($user_ids as $user_id) {
                 $user = user($user_id);
                 $response['users'][$user_id] = $user->to_array();
-                $response['users'][$user_id]['is_online'] = $user->is_online_to(current_user());
-                $response['users'][$user_id]['is_idle'] = $user->is_idle_to(current_user());
-                $response['users'][$user_id]['is_actually_online'] = $user->is_online();
             }
         }
 
         $response['users'][current_user()->id] = current_user()->to_array(TRUE);
-        $response['users'][current_user()->id]['is_online'] = current_user()->is_online_to(current_user());
-        $response['users'][current_user()->id]['is_actually_online'] = current_user()->is_online();
-        $response['users'][current_user()->id]['is_idle'] = current_user()->is_idle_to(current_user());
     }
 
     private function load_channels(&$response)

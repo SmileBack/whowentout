@@ -15,10 +15,10 @@ class User extends MY_Controller
         $user->upload_pic();
 
         $this->json_for_ajax_file_upload(array(
-                         'success' => TRUE,
-                         'raw_pic' => $user->raw_pic,
-                         'crop_box' => $user->pic_crop_box,
-                    ));
+                                              'success' => TRUE,
+                                              'raw_pic' => $user->raw_pic,
+                                              'crop_box' => $user->pic_crop_box,
+                                         ));
     }
 
     function use_facebook_pic()
@@ -30,10 +30,10 @@ class User extends MY_Controller
         $user->use_facebook_pic();
 
         $this->json_for_ajax_file_upload(array(
-                         'success' => TRUE,
-                         'raw_pic' => $user->raw_pic,
-                         'crop_box' => $user->pic_crop_box,
-                    ));
+                                              'success' => TRUE,
+                                              'raw_pic' => $user->raw_pic,
+                                              'crop_box' => $user->pic_crop_box,
+                                         ));
     }
 
     function edit_save()
@@ -274,7 +274,7 @@ class User extends MY_Controller
         set_message("Here we would send an invite to $friend->friend_full_name (facebook id = $friend->friend_facebook_id)");
         redirect('dashboard');
     }
-    
+
     function change_visibility($visibility)
     {
         $success = current_user()->change_visibility($visibility);
@@ -300,6 +300,25 @@ class User extends MY_Controller
         }
         print json_encode($matches);
         exit;
+    }
+
+    function pusherauth()
+    {
+        require_once APPPATH . 'third_party/pusher.php';
+        $this->load->config('pusher');
+
+        $channel_name = post('channel_name');
+        $socket_id = post('socket_id');
+        $user_id = current_user()->id;
+        $custom_data = array(
+            'user_id' => $user_id,
+        );
+        
+        $pusher = new Pusher($this->config->item('pusher_app_key'),
+            $this->config->item('pusher_app_secret'),
+            $this->config->item('pusher_app_id'));
+
+        print $pusher->socket_auth($channel_name, $socket_id, json_encode($custom_data));
     }
 
 }

@@ -347,8 +347,13 @@ $.when(window.app.load()).then(function() {
             this.find('textarea').focus();
         },
         sendTypedMessage: function() {
-            this.sendMessage(this.getTypedMessage());
-            this.clearTypedMessage();
+            if (this.hasClass('online')) {
+                this.sendMessage(this.getTypedMessage());
+                this.clearTypedMessage();
+            }
+            else {
+                alert('user is not online');
+            }
         },
         sendMessage: function(message) {
             var self = this;

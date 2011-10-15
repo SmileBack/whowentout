@@ -4,11 +4,6 @@
 
 WhoWentOut.Model.extend('WhoWentOut.User', {
     get: function(id) {
-
-        if (id === undefined) {
-            alert('aaaa');
-        }
-
         var self = this;
 
         if (!this._users)
@@ -70,12 +65,6 @@ WhoWentOut.Model.extend('WhoWentOut.User', {
     fullName: function() {
         return this.firstName() + ' ' + this.lastName();
     },
-    isOnline: function(v) {
-        return this.val.call(this, 'is_online', v);
-    },
-    isIdle: function(v) {
-        return this.val.call(this, 'is_idle', v);
-    },
     visibleTo: function() {
         return this.get('visible_to');
     },
@@ -90,17 +79,12 @@ WhoWentOut.Model.extend('WhoWentOut.User', {
 $('.user').entwine({
     onmatch: function() {
         this._super();
-
         var self = this;
+        
         $.when(app.load()).then(function() {
-            $.when(WhoWentOut.User.get( self.userID() )).then(function(u) {
-                if (u.isOnline()) {
-                    self.addClass('online');
-                }
-                if (u.isIdle()) {
-                    self.addClass('idle');
-                }
-            });
+            if ( app._onlineUsers[ self.userID() ] ) {
+                self.addClass('online');
+            }
         });
     },
     onunmatch: function() {

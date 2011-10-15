@@ -1,4 +1,4 @@
-<script src="http://js.pusherapp.com/1.9/pusher.min.js" type="text/javascript"></script>
+<script src="http://js.pusherapp.com/1.9/pusher.js" type="text/javascript"></script>
 
 <?php
 $this->asset->load(array(

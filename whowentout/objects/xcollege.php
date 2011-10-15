@@ -502,19 +502,6 @@ class XCollege extends XObject
         return $this->load_objects('XParty', $query);
     }
 
-    function get_online_users_ids()
-    {
-        $query = $this->db()->select('user_id')
-                            ->from('windows')
-                            ->distinct();
-
-        $ids = array();
-        foreach ($query->get()->result() as $row) {
-            $ids[] = $row->user_id;
-        }
-        return $ids;
-    }
-
     private function _get_open_parties_query($time)
     {
         //open parties today means parties that occured yesterday

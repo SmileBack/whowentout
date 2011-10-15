@@ -13,6 +13,17 @@ class Online_Tests extends TestGroup
      */
     private $user;
 
+
+    /**
+     * @var XUser
+     */
+    private $second_user;
+
+    /**
+     * @var Presence
+     */
+    private $presence;
+
     protected function setup()
     {
         parent::setup();
@@ -32,10 +43,21 @@ class Online_Tests extends TestGroup
                                           ));
 
         $this->user = XUser::create(array(
-                                         'first_name' => 'Bob',
-                                         'last_name' => 'Jones',
+                                         'facebook_id' => '704222664',
+                                         'first_name' => 'Leon',
+                                         'last_name' => 'Harari',
+                                         'gender' => 'M',
                                          'college_id' => $this->college->id,
                                     ));
+
+        $this->second_user = XUser::create(array(
+                                         'facebook_id' => '5312146',
+                                         'first_name' => 'Emily',
+                                         'last_name' => 'Aden',
+                                         'gender' => 'F',
+                                         'college_id' => $this->college->id,
+                                    ));
+
 
         $ci =& get_instance();
         $ci->config->set_item('selected_college_id', $this->college->id);
@@ -46,39 +68,43 @@ class Online_Tests extends TestGroup
         parent::teardown();
     }
 
-    function test_online()
+    function test_mark_online()
     {
-        $presence = $this->presence;
         $user = $this->user;
+        $presence = $this->presence;
+
         $this->assert_true(!$presence->is_online($user->id), 'user is initially offline');
 
-        $token = $presence->ping_online($user->id);
-        $this->assert_true($presence->is_online($user->id), 'user opens one tab is online');
+        $presence->mark_online($user->id);
+        $this->assert_true($presence->is_online($user->id), 'user is online after being marked online');
 
-        $presence->ping_offline($user->id, 'a bogus token');
-        $this->assert_true($presence->is_online($user->id), 'user pings offline with a bogus token, so he is still online');
+        $presence->mark_offline($user->id);
+        $this->assert_true(!$presence->is_online($user->id), 'user is offline after being online and being marked offline');
 
-        $presence->ping_offline($user->id, $token);
-        $this->assert_true(!$presence->is_online($user->id), 'user closes only one tab, and is therefore offline');
+        $presence->mark_offline($user->id);
+        $this->assert_true(!$presence->is_online($user->id), 'is still offline after being marked offline twice');
     }
 
-    function test_online_multiple_browsers()
+    function test_online_user_ids()
     {
         $presence = $this->presence;
-        $user = $this->user;
-        $this->assert_true(!$presence->is_online($user->id));
+        $first_user = $this->user;
+        $second_user = $this->second_user;
 
-        $browser_token_1 = $presence->ping_online($user->id);
-        $this->assert_true($presence->is_online($user->id), 'user opened first tab so he is online');
+        $this->assert_equal( count($presence->get_online_user_ids()), 0, 'initially no users are online' );
 
-        $browser_token_2 = $presence->ping_online($user->id);
-        $this->assert_true($presence->is_online($user->id), 'user opened one more tab so still online');
+        $presence->mark_online($first_user->id);
+        $this->assert_true( in_array($first_user->id, $presence->get_online_user_ids()), 'first user is in array' );
 
-        $presence->ping_offline($user->id, $browser_token_1);
-        $this->assert_true($presence->is_online($user->id), 'still online since user only closed one of his tabs');
+        $presence->mark_online($second_user->id);
+        $this->assert_true( in_array($first_user->id, $presence->get_online_user_ids()), 'first user is online' );
+        $this->assert_true( in_array($second_user->id, $presence->get_online_user_ids()), 'second user is online' );
 
-        $presence->ping_offline($user->id, $browser_token_2);
-        $this->assert_true(!$presence->is_online($user->id), 'user closed both tabs, so user is offline');
+        $presence->mark_offline($first_user->id);
+        $this->assert_true( ! in_array($first_user->id, $presence->get_online_user_ids()), 'second user is not in list after going offline');
+
+        $presence->mark_offline($second_user->id);
+        $this->assert_equal( count($presence->get_online_user_ids()), 0, 'no users are online after everyone signs off' );
     }
 
 }

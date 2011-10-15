@@ -51,27 +51,27 @@
                     var result = this._currentTask();
                 }
                 catch (err) {
-                    console.log('--error when running task--');
+//                    console.log('--error when running task--');
                     console.log(err);
                 }
 
-                console.log('--running task--');
+//                console.log('--running task--');
                 if (result && result.then) {
                     result.then(
                     function() {
-                        console.log('-- done: finished running task --');
+//                        console.log('-- done: finished running task --');
                         self._currentTask = null;
                         setTimeout(self.callback('_processQueue'), 0);
                     },
                     function() {
-                        console.log('-- fail: finished running task --');
+//                        console.log('-- fail: finished running task --');
                         self._currentTask = null;
                         setTimeout(self.callback('_processQueue'), 0);
                     }
                     );
                 }
                 else {
-                    console.log('-- done: non-deferred function --');
+//                    console.log('-- done: non-deferred function --');
                     self._currentTask = null;
                     setTimeout(self.callback('_processQueue'), 0);
                 }

@@ -39,8 +39,6 @@ class XUser extends XObject
             return FALSE;
 
         $this->visible_to = $visibility;
-        $this->ping_offline();
-        $this->ping_online();
 
         raise_event('user_changed_visibility', array(
                                                     'user' => $this,
