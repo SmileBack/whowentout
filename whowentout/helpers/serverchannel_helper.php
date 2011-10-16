@@ -14,10 +14,3 @@ function serverchannel()
     
     return $serverchannel;
 }
-
-function serverchannel_url($channel)
-{
-    $channel = implode('_', func_get_args());
-    return serverchannel()->url($channel);
-}
-

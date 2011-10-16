@@ -39,9 +39,9 @@ class CI_Event
 
     function raise($event_name, $event_data = array())
     {
-        if ( ! $this->is_enabled() )
+        if (!$this->is_enabled())
             return;
-        
+
         $e = $this->cast_event($event_name, $event_data);
         foreach ($this->plugins() as $plugin_name => $plugin) {
             $handler = "on_$event_name";
@@ -72,9 +72,9 @@ class CI_Event
     function fetch($channel, $version)
     {
         $rows = $this->db->from('events')
-                         ->where('channel', $channel)
-                         ->where('id >', $version)
-                         ->get()->result();
+                ->where('channel', $channel)
+                ->where('id >', $version)
+                ->get()->result();
 
         $events = array();
         foreach ($rows as $row) {
@@ -86,11 +86,18 @@ class CI_Event
     function version($channel)
     {
         $row = $this->db->select_max('id')->from('events')
-                        ->where('channel', $channel)
-                        ->get()->row();
+                ->where('channel', $channel)
+                ->get()->row();
         return $row->id ? $row->id : 0;
     }
 
+    function broadcast($channel, $event_name, $event_data = array())
+    {
+        $event_data['channel'] = $channel;
+        $this->store($event_name, $event_data);
+        serverchannel()->trigger($channel, $event_name, $event_data);
+    }
+    
     function plugins()
     {
         $this->load_plugins();
@@ -136,5 +143,5 @@ class CI_Event
 
 class CI_Plugin
 {
-    
+
 }

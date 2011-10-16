@@ -12,9 +12,12 @@ class PusherServerChannelDriver extends ServerChannelDriver
         return 'PusherChannel';
     }
 
-    public function push($channel, $data)
+    public function trigger($channel, $event_name, $event_data)
     {
-        $this->pusher()->trigger($channel, 'datareceived', $data);
+        $event_data['type'] = $event_name;
+        var_dump('triggering');
+        var_dump(array($channel, 'eventreceived', $event_data));
+        $this->pusher()->trigger($channel, 'eventreceived', $event_data);
     }
 
     public function delete($id)

@@ -14,9 +14,9 @@ class ServerChannel extends Component
         return $this->driver()->channel_type();
     }
 
-    public function push($channel, $data)
+    public function trigger($channel, $event_name, $event_data)
     {
-        return $this->driver()->push($channel, $data);
+        return $this->driver()->trigger($channel, $event_name, $event_data);
     }
 
     public function delete($channel)
