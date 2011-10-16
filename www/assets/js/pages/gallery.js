@@ -23,7 +23,7 @@ $.when(app.load()).then(function() {
             this._super();
 
             var self = this;
-            app.channel('party_' + this.partyID()).bind('checkin', function(e) {
+            app.channel('private-party_' + this.partyID()).bind('checkin', function(e) {
                 self.insertAttendee(e.party_attendee_view, e.insert_positions);
             });
         },

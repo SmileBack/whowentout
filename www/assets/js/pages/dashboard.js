@@ -9,7 +9,7 @@ $.when(app.load()).then(function() {
         onmatch: function() {
             this._super();
             var self = this;
-            app.channel('party_' + this.partyID()).bind('checkin', function(e) {
+            app.channel('private-party_' + this.partyID()).bind('checkin', function(e) {
                 self.insertThumbnail(e.user.id);
             });
         },
