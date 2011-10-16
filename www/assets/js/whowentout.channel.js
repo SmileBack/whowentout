@@ -14,9 +14,6 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
     },
     id: function() {
         return this._options.id;
-    },
-    openChannel: function() {
-        //this should be overridden
     }
 });
 
@@ -25,9 +22,7 @@ WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
         if (!this._pusher) {
             this._pusher = new Pusher('23a32666914116c9b891');
             Pusher.channel_auth_endpoint = '/user/pusherauth';
-            //Pusher.log = function(msg) {
-            //    window.console.log(msg);
-            //}
+            //Pusher.log = function(msg) { window.console.log(msg); }
         }
         return this._pusher;
     }
@@ -42,9 +37,21 @@ WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
             this._channel = this.Class.Pusher().subscribe(this.id());
         }
         this._channel.bind('eventreceived', this.callback('oneventreceived'));
+        this._channel.bind('client-eventreceived', this.callback('onclienteventreceived'));
+    },
+    triggerClientEvent: function(event_name, event_data) {
+        event_data.type = event_name;
+        this._channel.trigger('client-eventreceived', event_data);
     },
     oneventreceived: function(event) {
+        event.source  = 'server';
         console.log('event :: ' + event.type);
+        console.log(event);
+        this.trigger(event);
+    },
+    onclienteventreceived: function(event) {
+        event.source = 'client';
+        console.log('client event :: ' + event.type);
         console.log(event);
         this.trigger(event);
     }

@@ -6,6 +6,8 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
     _onlineUsers: {},
     init: function() {
         this._super();
+        
+        this._isOnline = false;
     },
     userIsOnline: function(user_id) {
         return this._onlineUsers[user_id] == true;
@@ -15,6 +17,9 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
     },
     goOnline: function() {
         var self = this;
+
+        if ( this._isOnline) //already online
+            return;
 
         this._onlineUsers = {};
         this._presenceChannel = this.pusher().subscribe(this.channelName());
@@ -40,8 +45,13 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
             delete self._onlineUsers[member.id];
             self.trigger({type: 'user_went_offline', user_id: member.id});
         });
+
+        this._isOnline = true;
     },
     goOffline: function() {
+        if ( ! this._isOnline) //already offline
+            return;
+
         var onlineUserIDs = this.getOnlineUserIDs();
         this._onlineUsers = {};
         
@@ -52,6 +62,8 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
             this.trigger({ type: 'user_went_offline', user_id: onlineUserIDs[i] });
         }
         this.pusher().unsubscribe(this.channelName());
+
+        this._isOnline = false;
     },
     pusher: function() {
         return WhoWentOut.PusherChannel.Pusher();

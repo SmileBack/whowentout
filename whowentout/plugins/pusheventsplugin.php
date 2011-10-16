@@ -14,20 +14,20 @@ class PushEventsPlugin extends CI_Plugin
     {
         $channel = $this->user_channel($e->sender->id);
         $this->ci->event->broadcast($channel, 'chat_sent', array(
-                                                           'sender' => $e->sender->to_array(),
-                                                           'receiver' => $e->receiver->to_array(),
-                                                           'message' => $e->message,
-                                                      ));
+                                                                'sender' => $e->sender->to_array(),
+                                                                'receiver' => $e->receiver->to_array(),
+                                                                'message' => $e->message,
+                                                           ));
     }
 
     function on_chat_received($e)
     {
         $channel = $this->user_channel($e->receiver->id);
         $this->ci->event->broadcast($channel, 'chat_received', array(
-                                                               'sender' => $e->sender->to_array(),
-                                                               'receiver' => $e->receiver->to_array(),
-                                                               'message' => $e->message,
-                                                          ));
+                                                                    'sender' => $e->sender->to_array(),
+                                                                    'receiver' => $e->receiver->to_array(),
+                                                                    'message' => $e->message,
+                                                               ));
     }
 
     /**
@@ -39,13 +39,13 @@ class PushEventsPlugin extends CI_Plugin
     {
         $channel = $this->party_channel($e->party->id);
         $this->ci->event->broadcast($channel, 'checkin', array(
-                                                         'user' => $e->user->to_array(),
-                                                         'insert_positions' => $e->party->attendee_insert_positions($e->user),
-                                                         'party_attendee_view' => load_view('party_attendee_view', array(
-                                                                                                                        'party' => $e->party,
-                                                                                                                        'attendee' => $e->user,
-                                                                                                                   )),
-                                                    ));
+                                                              'user' => $e->user->to_array(),
+                                                              'insert_positions' => $e->party->attendee_insert_positions($e->user),
+                                                              'party_attendee_view' => load_view('party_attendee_view', array(
+                                                                                                                             'party' => $e->party,
+                                                                                                                             'attendee' => $e->user,
+                                                                                                                        )),
+                                                         ));
     }
 
     //$e->user just came online
@@ -57,8 +57,8 @@ class PushEventsPlugin extends CI_Plugin
         foreach ($this->user_ids_online_to($e->user) as $user_id) {
             $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'user_came_online', array(
-                                                                      'user' => $user,
-                                                                 ));
+                                                                           'user' => $user,
+                                                                      ));
         }
     }
 
@@ -70,8 +70,8 @@ class PushEventsPlugin extends CI_Plugin
         foreach ($this->ci->presence->get_online_users_ids() as $user_id) {
             $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'user_went_offline', array(
-                                                                       'user' => $user,
-                                                                  ));
+                                                                            'user' => $user,
+                                                                       ));
         }
     }
 
@@ -84,8 +84,8 @@ class PushEventsPlugin extends CI_Plugin
         foreach ($this->user_ids_online_to($e->user) as $user_id) {
             $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'user_became_idle', array(
-                                                                      'user' => $user,
-                                                                 ));
+                                                                           'user' => $user,
+                                                                      ));
         }
     }
 
@@ -97,8 +97,8 @@ class PushEventsPlugin extends CI_Plugin
         foreach ($this->user_ids_online_to($e->user) as $user_id) {
             $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'user_became_active', array(
-                                                                        'user' => $user,
-                                                                   ));
+                                                                             'user' => $user,
+                                                                        ));
         }
     }
 
@@ -120,9 +120,9 @@ class PushEventsPlugin extends CI_Plugin
                                                               ));
 
         $this->ci->event->broadcast($channel, 'smile_received', array(
-                                                                'party' => $e->smile->party->to_array(),
-                                                                'party_notices_view' => $party_notices_view,
-                                                           ));
+                                                                     'party' => $e->smile->party->to_array(),
+                                                                     'party_notices_view' => $party_notices_view,
+                                                                ));
     }
 
     /**
@@ -133,15 +133,15 @@ class PushEventsPlugin extends CI_Plugin
     function on_smile_match($e)
     {
         $channel = $this->user_channel($e->match->second_smile->receiver->id);
-        
+
         $party_notices_view = load_view('party_notices_view', array(
                                                                    'user' => $e->match->second_smile->receiver,
                                                                    'party' => $e->match->second_smile->party,
                                                               ));
         $this->ci->event->broadcast($channel, 'smile_match', array(
-                                                             'party' => $e->match->second_smile->party->to_array(),
-                                                             'party_notices_view' => $party_notices_view,
-                                                        ));
+                                                                  'party' => $e->match->second_smile->party->to_array(),
+                                                                  'party_notices_view' => $party_notices_view,
+                                                             ));
     }
 
     function on_time_faked($e)
@@ -149,9 +149,9 @@ class PushEventsPlugin extends CI_Plugin
         foreach ($this->ci->presence->get_online_user_ids() as $user_id) {
             $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'time_faked', array(
-                                                                'fake_time' => $e->fake_time,
-                                                                'real_time' => $e->real_time,
-                                                           ));
+                                                                     'fake_time' => $e->fake_time,
+                                                                     'real_time' => $e->real_time,
+                                                                ));
         }
     }
 
@@ -161,6 +161,16 @@ class PushEventsPlugin extends CI_Plugin
         $this->ci->event->broadcast($channel, 'notification', array(
                                                                    'notification' => $e->notification,
                                                               ));
+    }
+
+    // $e->user
+    // $e->visibility
+    function on_user_changed_visibility($e)
+    {
+        $channel = $this->user_channel($e->user->id);
+        $this->ci->event->broadcast($channel, 'user_changed_visibility', array(
+                                                                              'visibility' => $e->visibility,
+                                                                         ));
     }
 
     private function user_channel($user_id)

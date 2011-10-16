@@ -6,28 +6,33 @@ $.when(app.load()).then(function() {
     $('.visibilitybar').entwine({
         onmatch: function() {
             var self = this;
-            this.data('isLoaded', false);
-            $.when(app.currentUser()).then(function(u) {
-                self.markSelectedOption(u.visibleTo());
-                self.data('isLoaded', true);
+
+            self.markSelectedOption(app.currentUser().visibleTo());
+            
+            app.channel('current_user').bind('user_changed_visibility', function(e) {
+                app.currentUser().visibleTo(e.visibility);
+                var api = app.getPresenceBeacon();
+                if (app.currentUser().visibleTo() == 'online') {
+                    api.goOnline();
+                }
+                else if (app.currentUser().visibleTo() == 'offline') {
+                    api.goOffline();
+                }
+                self.markSelectedOption(app.currentUser().visibleTo());
             });
+            
         },
         selectOption: function(k) {
             var self = this;
-            
-            if (!this.isLoaded())
-                return this;
 
             $.getJSON('/user/change_visibility/' + k, function(response) {
-                var api = app.getPresenceBeacon()
+                var api = app.getPresenceBeacon();
                 if (response.visibility == 'offline') {
                     api.goOffline();
                 }
                 else {
                     api.goOnline();
                 }
-                
-                self.markSelectedOption(response.visibility);
             });
 
             return this;
@@ -48,9 +53,6 @@ $.when(app.load()).then(function() {
             }
         },
         onunmatch: function() {
-        },
-        isLoaded: function() {
-            return this.data('isLoaded');
         }
     });
 
