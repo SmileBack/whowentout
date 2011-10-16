@@ -142,16 +142,7 @@ class PushEventsPlugin extends CI_Plugin
                                                              'party_notices_view' => $party_notices_view,
                                                         ));
     }
-
-    function on_user_changed_visibility($e)
-    {
-        $channel = 'user_' . $e->user->id;
-        $this->broadcast_event($channel, 'user_changed_visibility', array(
-                                                                         'user' => $e->user->to_array(),
-                                                                         'visibility' => $e->user->visible_to,
-                                                                    ));
-    }
-
+    
     function on_time_faked($e)
     {
         foreach ($this->ci->presence->get_online_user_ids() as $user_id) {

@@ -17,6 +17,8 @@ class Welcome extends MY_Controller
         $jenny = user(108);
         $allie = user(184);
 
+        $result = $ven->change_visibility('online');
+        var_dump($result);
     }
 
 }

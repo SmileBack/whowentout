@@ -3,14 +3,21 @@
 //= require whowentout.channel.js
 
 WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
+    _onlineUsers: {},
     init: function() {
         this._super();
+    },
+    userIsOnline: function(user_id) {
+        return this._onlineUsers[user_id] == true;
+    },
+    getOnlineUserIDs: function() {
+        return _.keys(this._onlineUsers);
+    },
+    goOnline: function() {
         var self = this;
-        
-        var pusher = WhoWentOut.PusherChannel.Pusher();
-        
+
         this._onlineUsers = {};
-        this._presenceChannel = pusher.subscribe('presence-whowentout_development');
+        this._presenceChannel = this.pusher().subscribe(this.channelName());
         this._presenceChannel.bind('pusher:subscription_succeeded', function(members) {
             console.log('--subscribed--');
             members.each(function(member) {
@@ -19,7 +26,7 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
             });
             self.trigger('load');
         });
-        
+
         this._presenceChannel.bind('pusher:member_added', function(member) {
             console.log('--member added--');
             console.log(member);
@@ -34,10 +41,22 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
             self.trigger({type: 'user_went_offline', user_id: member.id});
         });
     },
-    userIsOnline: function(user_id) {
-        return this._onlineUsers[user_id] == true;
+    goOffline: function() {
+        var onlineUserIDs = this.getOnlineUserIDs();
+        this._onlineUsers = {};
+        
+        console.log('--online user ids--');
+        console.log(onlineUserIDs);
+        
+        for (var i = 0; i < onlineUserIDs.length; i++) {
+            this.trigger({ type: 'user_went_offline', user_id: onlineUserIDs[i] });
+        }
+        this.pusher().unsubscribe(this.channelName());
     },
-    getOnlineUserIDs: function() {
-        return _.keys(this._onlineUsers);
+    pusher: function() {
+        return WhoWentOut.PusherChannel.Pusher();
+    },
+    channelName: function() {
+        return 'presence-whowentout_development';
     }
 });

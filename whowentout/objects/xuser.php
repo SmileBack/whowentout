@@ -34,12 +34,13 @@ class XUser extends XObject
 
     function change_visibility($visibility)
     {
-        $allowed_visibilities = array('everyone', 'friends', 'none');
+        $allowed_visibilities = array('online', 'offline');
         if (!in_array($visibility, $allowed_visibilities))
             return FALSE;
 
         $this->visible_to = $visibility;
-
+        $this->save();
+        
         raise_event('user_changed_visibility', array(
                                                     'user' => $this,
                                                     'visibility' => $this->visible_to,

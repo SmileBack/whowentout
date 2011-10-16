@@ -44,16 +44,25 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
     },
     initPresenceBeacon: function() {
         this._presenceBeacon = new WhoWentOut.PresenceBeacon();
+
+        if (this.currentUser().visibleTo() == 'online')
+            this._presenceBeacon.goOnline();
+
         this._presenceBeacon.bind('load', function() {
             var onlineUserIDs = this.getOnlineUserIDs();
             for (var i = 0; i < onlineUserIDs.length; i++) {
                 $('.user_' + onlineUserIDs[i]).addClass('online');
             }
         });
+
         this._presenceBeacon.bind('user_came_online', function(e) {
+            console.log('user ' + e.user_id + ' went online');
             $('.user_' + e.user_id).addClass('online');
         });
+        
         this._presenceBeacon.bind('user_went_offline', function(e) {
+            console.log('user ' + e.user_id + ' went offline');
+            console.log( $('.user_' + e.user_id).length );
             $('.user_' + e.user_id).removeClass('online');
         });
     },

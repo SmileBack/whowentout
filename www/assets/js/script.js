@@ -3,10 +3,6 @@
 
 $.when(app.load()).then(function() {
 
-    app.channel('current_user').bind('user_changed_visibility', function(e) {
-        $('.visibilitybar').markSelectedOption(e.visibility);
-    });
-
     $('.visibilitybar').entwine({
         onmatch: function() {
             var self = this;
@@ -18,11 +14,20 @@ $.when(app.load()).then(function() {
         },
         selectOption: function(k) {
             var self = this;
+            
             if (!this.isLoaded())
                 return this;
 
             $.getJSON('/user/change_visibility/' + k, function(response) {
-                app.refreshOnlineStatuses();
+                var api = app.getPresenceBeacon()
+                if (response.visibility == 'offline') {
+                    api.goOffline();
+                }
+                else {
+                    api.goOnline();
+                }
+                
+                self.markSelectedOption(response.visibility);
             });
 
             return this;

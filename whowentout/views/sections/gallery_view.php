@@ -7,13 +7,12 @@ load_view('party_notices_view', array(
     <div class="visibilitybar">
         <?php if ($party->chat_is_open()): ?>
         <h3>
-            <span>Who Can Chat With You?</span>
+            <span>Online Visibility?</span>
             <a class="who_can_chat help">?</a>
         </h3>
         <div class="links">
-            <a href="everyone" class="js">Everyone</a>
-            <a href="friends" class="js">My Facebook Friends</a>
-            <a href="none" class="js">Nobody</a>
+            <a href="online" class="js">Online</a>
+            <a href="offline" class="js">Offline</a>
         </div>
         <?php else: ?>
         <h3>
