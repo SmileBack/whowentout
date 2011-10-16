@@ -786,76 +786,7 @@ class XUser extends XObject
     {
         return images()->exists($this->id, $preset);
     }
-
-    function is_online()
-    {
-        $ci =& get_instance();
-        return $ci->presence->is_online($this->id);
-    }
-
-    function is_active($current_time = NULL)
-    {
-        if (!$this->is_online())
-            return FALSE;
-
-        if ($current_time == NULL)
-            $current_time = current_time();
-
-        $last_active = new DateTime($this->last_active, new DateTimeZone('UTC'));
-        $current_time = clone $current_time;
-        $a_little_while_ago = $current_time->modify('-10 seconds');
-
-        return $last_active->getTimestamp() > $a_little_while_ago->getTimestamp();
-    }
-
-    /**
-     * @param  XUser $user
-     * @return bool
-     *      Whether $this user appears online to $user.
-     */
-    function is_online_to($user)
-    {
-        $user = user($user);
-        return $this->is_online_to_one_way($user)
-               && $user->is_online_to_one_way($this);
-    }
-
-    function is_idle($current_time = NULL)
-    {
-        return FALSE; //@TODO: make this actually work
-    }
-
-    function is_idle_to($user)
-    {
-        $user = user($user);
-        return $this->is_online_to($user) && $this->is_idle();
-    }
-
-    /**
-     * @param  XUser $user
-     * @return bool
-     *      Whether $this user appears online to $user.
-     *      (In one direction.)
-     */
-    private function is_online_to_one_way($user)
-    {
-        $user = user($user);
-
-        if (!$this->is_online())
-            return FALSE;
-
-        else if ($this->visible_to == 'none')
-            return FALSE;
-
-            // not hiding anything, so your visible state is unaltered
-        else if ($this->visible_to == 'everyone')
-            return $this->is_online();
-
-            // only tell them you're online if you're friends with them
-        else if ($this->visible_to == 'friends')
-            return $this->is_online() && $this->is_friend_of($user);
-    }
-
+    
     function is_friend_of($user)
     {
         $user = user($user);
@@ -888,7 +819,6 @@ class XUser extends XObject
 
         if ($show_private_fields) {
             $array['visible_to'] = $this->visible_to;
-            $array['is_online'] = $this->is_online();
             $array['chatbar_state'] = $this->chatbar_state;
         }
 

@@ -48,60 +48,6 @@ class PushEventsPlugin extends CI_Plugin
                                                          ));
     }
 
-    //$e->user just came online
-    function on_user_came_online($e)
-    {
-        //notify all other users within the college...
-        $college = $e->user->college;
-        $user = $e->user->to_array();
-        foreach ($this->user_ids_online_to($e->user) as $user_id) {
-            $channel = $this->user_channel($user_id);
-            $this->ci->event->broadcast($channel, 'user_came_online', array(
-                                                                           'user' => $user,
-                                                                      ));
-        }
-    }
-
-    function on_user_went_offline($e)
-    {
-        //notify all other users within the college...
-        $college = $e->user->college;
-        $user = $e->user->to_array();
-        foreach ($this->ci->presence->get_online_users_ids() as $user_id) {
-            $channel = $this->user_channel($user_id);
-            $this->ci->event->broadcast($channel, 'user_went_offline', array(
-                                                                            'user' => $user,
-                                                                       ));
-        }
-    }
-
-    //$e->user just came online
-    function on_user_became_idle($e)
-    {
-        //notify all other users within the college...
-        $college = $e->user->college;
-        $user = $e->user->to_array();
-        foreach ($this->user_ids_online_to($e->user) as $user_id) {
-            $channel = $this->user_channel($user_id);
-            $this->ci->event->broadcast($channel, 'user_became_idle', array(
-                                                                           'user' => $user,
-                                                                      ));
-        }
-    }
-
-    function on_user_became_active($e)
-    {
-        //notify all other users within the college...
-        $college = $e->user->college;
-        $user = $e->user->to_array();
-        foreach ($this->user_ids_online_to($e->user) as $user_id) {
-            $channel = $this->user_channel($user_id);
-            $this->ci->event->broadcast($channel, 'user_became_active', array(
-                                                                             'user' => $user,
-                                                                        ));
-        }
-    }
-
     /**
      * Occurs when a $e->sender smiles at $e->receiver.
      *
@@ -146,13 +92,7 @@ class PushEventsPlugin extends CI_Plugin
 
     function on_time_faked($e)
     {
-        foreach ($this->ci->presence->get_online_user_ids() as $user_id) {
-            $channel = $this->user_channel($user_id);
-            $this->ci->event->broadcast($channel, 'time_faked', array(
-                                                                     'fake_time' => $e->fake_time,
-                                                                     'real_time' => $e->real_time,
-                                                                ));
-        }
+        //TODO: broadcast to all users to refresh their browser
     }
 
     function on_notification_sent($e)
@@ -182,15 +122,5 @@ class PushEventsPlugin extends CI_Plugin
     {
         return 'private-party_' . $party_id;
     }
-
-    private function user_ids_online_to($user)
-    {
-        $ids = array();
-        foreach ($this->ci->presence->get_online_user_ids() as $id) {
-            if ($user->is_online_to($id))
-                $ids[] = $id;
-        }
-        return $ids;
-    }
-
+    
 }
