@@ -12,7 +12,7 @@ class PushEventsPlugin extends CI_Plugin
 
     function on_chat_sent($e)
     {
-        $channel = 'user_' . $e->sender->id;
+        $channel = $this->user_channel($e->sender->id);
         $this->ci->event->broadcast($channel, 'chat_sent', array(
                                                            'sender' => $e->sender->to_array(),
                                                            'receiver' => $e->receiver->to_array(),
@@ -22,7 +22,7 @@ class PushEventsPlugin extends CI_Plugin
 
     function on_chat_received($e)
     {
-        $channel = 'user_' . $e->receiver->id;
+        $channel = $this->user_channel($e->receiver->id);
         $this->ci->event->broadcast($channel, 'chat_received', array(
                                                                'sender' => $e->sender->to_array(),
                                                                'receiver' => $e->receiver->to_array(),
@@ -37,7 +37,7 @@ class PushEventsPlugin extends CI_Plugin
      */
     function on_checkin($e)
     {
-        $channel = 'party_' . $e->party->id;
+        $channel = $this->party_channel($e->party->id);
         $this->ci->event->broadcast($channel, 'checkin', array(
                                                          'user' => $e->user->to_array(),
                                                          'insert_positions' => $e->party->attendee_insert_positions($e->user),
@@ -55,7 +55,7 @@ class PushEventsPlugin extends CI_Plugin
         $college = $e->user->college;
         $user = $e->user->to_array();
         foreach ($this->user_ids_online_to($e->user) as $user_id) {
-            $channel = 'user_' . $user_id;
+            $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'user_came_online', array(
                                                                       'user' => $user,
                                                                  ));
@@ -68,7 +68,7 @@ class PushEventsPlugin extends CI_Plugin
         $college = $e->user->college;
         $user = $e->user->to_array();
         foreach ($this->ci->presence->get_online_users_ids() as $user_id) {
-            $channel = 'user_' . $user_id;
+            $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'user_went_offline', array(
                                                                        'user' => $user,
                                                                   ));
@@ -82,7 +82,7 @@ class PushEventsPlugin extends CI_Plugin
         $college = $e->user->college;
         $user = $e->user->to_array();
         foreach ($this->user_ids_online_to($e->user) as $user_id) {
-            $channel = 'user_' . $user_id;
+            $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'user_became_idle', array(
                                                                       'user' => $user,
                                                                  ));
@@ -95,7 +95,7 @@ class PushEventsPlugin extends CI_Plugin
         $college = $e->user->college;
         $user = $e->user->to_array();
         foreach ($this->user_ids_online_to($e->user) as $user_id) {
-            $channel = 'user_' . $user_id;
+            $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'user_became_active', array(
                                                                         'user' => $user,
                                                                    ));
@@ -112,7 +112,7 @@ class PushEventsPlugin extends CI_Plugin
      */
     function on_smile_sent($e)
     {
-        $channel = 'user_' . $e->smile->receiver->id;
+        $channel = $this->user_channel($e->smile->receiver->id);
 
         $party_notices_view = load_view('party_notices_view', array(
                                                                    'user' => $e->smile->receiver,
@@ -132,7 +132,8 @@ class PushEventsPlugin extends CI_Plugin
      */
     function on_smile_match($e)
     {
-        $channel = 'user_' . $e->match->second_smile->receiver->id;
+        $channel = $this->user_channel($e->match->second_smile->receiver->id);
+        
         $party_notices_view = load_view('party_notices_view', array(
                                                                    'user' => $e->match->second_smile->receiver,
                                                                    'party' => $e->match->second_smile->party,
@@ -146,7 +147,7 @@ class PushEventsPlugin extends CI_Plugin
     function on_time_faked($e)
     {
         foreach ($this->ci->presence->get_online_user_ids() as $user_id) {
-            $channel = 'user_' . $user_id;
+            $channel = $this->user_channel($user_id);
             $this->ci->event->broadcast($channel, 'time_faked', array(
                                                                 'fake_time' => $e->fake_time,
                                                                 'real_time' => $e->real_time,
@@ -156,10 +157,20 @@ class PushEventsPlugin extends CI_Plugin
 
     function on_notification_sent($e)
     {
-        $channel = 'user_' . $e->user->id;
+        $channel = $this->user_channel($e->user->id);
         $this->ci->event->broadcast($channel, 'notification', array(
                                                                    'notification' => $e->notification,
                                                               ));
+    }
+
+    private function user_channel($user_id)
+    {
+        return 'private-user_' . $user_id;
+    }
+
+    private function party_channel($party_id)
+    {
+        return 'private-party_' . $party_id;
     }
 
     private function user_ids_online_to($user)

@@ -304,21 +304,54 @@ class User extends MY_Controller
 
     function pusherauth()
     {
+        if (!logged_in())
+            $this->json_failure('You must be logged in.');
+
+
         require_once APPPATH . 'third_party/pusher.php';
         $this->load->config('pusher');
 
         $channel_name = post('channel_name');
         $socket_id = post('socket_id');
         $user_id = current_user()->id;
+
+        if ( ! $this->user_can_access_channel(current_user(), $channel_name) ) {
+            $this->json_failure("You don't have permission to access this channel.");
+        }
+        
         $custom_data = array(
             'user_id' => $user_id,
         );
-        
+
         $pusher = new Pusher($this->config->item('pusher_app_key'),
             $this->config->item('pusher_app_secret'),
             $this->config->item('pusher_app_id'));
 
         print $pusher->socket_auth($channel_name, $socket_id, json_encode($custom_data));
+    }
+
+    private function user_can_access_channel(XUser $user, $channel)
+    {
+        $id = intval( preg_replace('/\D+/', '', $channel) );
+        if ($this->is_user_channel($channel)) {
+            return $user->id == $id;
+        }
+        elseif ($this->is_party_channel($channel)) {
+            return $user->has_attended_party($id);
+        }
+        else {
+            return TRUE;
+        }
+    }
+    
+    private function is_user_channel($channel)
+    {
+        return string_starts_with('private-user_', $channel);
+    }
+
+    private function is_party_channel($channel)
+    {
+        return string_starts_with('private-party_', $channel);
     }
 
 }

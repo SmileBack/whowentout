@@ -75,11 +75,10 @@ class Js extends MY_Controller
         $response['channels'] = array();
 
         if (logged_in()) {
-            $current_user_channel = 'user_' . current_user()->id;
+            $current_user_channel = 'private-user_' . current_user()->id;
             $response['channels']['current_user'] = array(
                 'type' => serverchannel()->type(),
                 'id' => $current_user_channel,
-                'url' => serverchannel()->url($current_user_channel),
             );
         }
 
@@ -88,12 +87,10 @@ class Js extends MY_Controller
             foreach ($party_ids as $party_id) {
                 $party = party($party_id);
                 if ($party) {
-                    $channel_id = 'party_' . $party->id;
+                    $channel_id = 'private-party_' . $party->id;
                     $response['channels'][$channel_id] = array(
                         'type' => serverchannel()->type(),
                         'id' => $channel_id,
-                        'url' => serverchannel()->url($channel_id),
-                        'frequency' => 10,
                     );
                 }
             }
