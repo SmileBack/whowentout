@@ -47,10 +47,10 @@ if (defined('ENVIRONMENT')) {
     switch (ENVIRONMENT)
     {
         case 'development':
-        case 'hostgator':
         case 'whowentout':
         case 'whowasout':
             error_reporting(E_ALL);
+            ini_set('display_errors', 1);
             break;
 
         case 'test':
