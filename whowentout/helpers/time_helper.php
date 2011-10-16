@@ -47,7 +47,7 @@ function set_fake_time(DateTime $fake_time)
     );
     $ci->option->set('fake_time_point', $fake_time_point);
     
-    raise_event('time_faked', array(
+    $ci->event->raise('time_faked', array(
                                 'fake_time' => $fake_time,
                                 'real_time' => $real_time,
                               ));

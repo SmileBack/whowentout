@@ -18,6 +18,8 @@ class SmilePlugin extends CI_Plugin
      */
     function on_smile_sent($e)
     {
+        $ci =& get_instance();
+        
         // check if $e->receiver has smiled at $e->sender before
         $first_smile = $e->receiver->most_recent_smile_to($e->sender);
         if ($first_smile) {
@@ -38,7 +40,7 @@ class SmilePlugin extends CI_Plugin
                                               'created_at' => current_time()->format('Y-m-d H:i:s'),
                                          ));
 
-            raise_event('smile_match', array(
+            $ci->event->raise('smile_match', array(
                                             'match' => $match,
                                        ));
         }

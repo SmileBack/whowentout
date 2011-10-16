@@ -161,6 +161,7 @@ class XParty extends XObject
 
     function send_invitation($from, $student_id)
     {
+        $ci =& get_instance();
         $from = user($from);
 
         $student = $this->db()->from('college_students')
@@ -182,7 +183,7 @@ class XParty extends XObject
                                                  'college_student_id' => $student->id,
                                                ));
 
-        raise_event('party_invite_sent', array(
+        $ci->event->raise('party_invite_sent', array(
                                          'party' => $this,
                                          'sender' => $from,
                                          'receiver' => (object)$receiver,

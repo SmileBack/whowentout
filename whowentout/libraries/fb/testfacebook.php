@@ -7,6 +7,7 @@ class TestFacebook extends Facebook
 
     function api($options)
     {
+        $ci =& get_instance();
         $data = NULL;
 
         $e = new stdClass();
@@ -17,7 +18,7 @@ class TestFacebook extends Facebook
         $args = func_get_args();
         $e->default_response = call_user_func_array(array('parent', 'api'), $args);
 
-        raise_event('call_facebook_api', $e);
+        $ci->event->raise('call_facebook_api', $e);
 
         return $e->response ? $e->response : $e->default_response;
     }

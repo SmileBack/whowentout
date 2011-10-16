@@ -34,6 +34,8 @@ class XUser extends XObject
 
     function change_visibility($visibility)
     {
+        $ci =& get_instance();
+
         $allowed_visibilities = array('online', 'offline');
         if (!in_array($visibility, $allowed_visibilities))
             return FALSE;
@@ -41,7 +43,7 @@ class XUser extends XObject
         $this->visible_to = $visibility;
         $this->save();
         
-        raise_event('user_changed_visibility', array(
+        $ci->event->raise('user_changed_visibility', array(
                                                     'user' => $this,
                                                     'visibility' => $this->visible_to,
                                                ));
@@ -130,6 +132,8 @@ class XUser extends XObject
 
     function checkin($party)
     {
+        $ci =& get_instance();
+        
         $party = party($party);
 
         if (!$this->can_checkin($party)) {
@@ -142,7 +146,7 @@ class XUser extends XObject
                                                     'checkin_time' => current_time()->format('Y-m-d H:i:s'),
                                                ));
 
-        raise_event('checkin', array(
+        $ci->event->raise('checkin', array(
                                     'source' => $party,
                                     'user' => $this,
                                     'party' => $party,
@@ -210,6 +214,8 @@ class XUser extends XObject
      */
     function smile_at($receiver, $party)
     {
+        $ci =& get_instance();
+        
         $receiver = user($receiver);
         $party = party($party);
 
@@ -223,7 +229,7 @@ class XUser extends XObject
                                      'smile_time' => current_time()->format('Y-m-d H:i:s'),
                                 ));
 
-        raise_event('smile_sent', array(
+        $ci->event->raise('smile_sent', array(
                                        'source' => $party,
                                        'smile' => $smile,
                                        'sender' => $this,

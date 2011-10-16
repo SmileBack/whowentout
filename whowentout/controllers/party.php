@@ -20,9 +20,9 @@ class Party extends MY_Controller
             redirect("party/$party_id");
         }
 
-        raise_event('page_load', array(
-                                      'url' => uri_string(),
-                                 ));
+        $this->event->raise('page_load', array(
+                                              'url' => uri_string(),
+                                         ));
         $data = array(
             'title' => "{$party->place->name} Gallery",
             'party' => $party,
@@ -43,15 +43,16 @@ class Party extends MY_Controller
     {
         $party = party($party_id);
         $this->json(array(
-                       'success' => TRUE,
-                       'online_user_ids' => $party->get_online_user_ids(current_user()),
+                         'success' => TRUE,
+                         'online_user_ids' => $party->get_online_user_ids(current_user()),
                     ));
     }
 
-    function invite() {
+    function invite()
+    {
         if (!logged_in())
             show_error('You must be logged in.');
-        
+
         $college_student_id = post('name');
         $party_id = post('party_id');
 
@@ -64,7 +65,7 @@ class Party extends MY_Controller
 
         $party->send_invitation(current_user(), $college_student_id);
         set_message('Sent invitation');
-        
+
         redirect("party/$party->id");
     }
 
@@ -76,5 +77,5 @@ class Party extends MY_Controller
                 ? $sort
                 : $possible_sorts[0];
     }
-    
+
 }
