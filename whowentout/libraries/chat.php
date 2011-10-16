@@ -17,7 +17,7 @@ class CI_Chat
     {
         if (empty($message_body))
             return;
-        
+
         $sender = user($sender_id);
         $receiver = user($receiver_id);
         $this->db->insert('chat_messages', array(
@@ -31,19 +31,19 @@ class CI_Chat
         $message = $this->message($this->db->insert_id());
 
         $this->ci->event->raise('chat_sent', array(
-                                      'source' => $sender,
-                                      'sender' => $sender,
-                                      'receiver' => $receiver,
-                                      'message' => $message,
-                                      'version' => $this->version,
-                                 ));
+                                                  'source' => $sender,
+                                                  'sender' => $sender,
+                                                  'receiver' => $receiver,
+                                                  'message' => $message,
+                                                  'version' => $this->version,
+                                             ));
         $this->ci->event->raise('chat_received', array(
-                                          'source' => $receiver,
-                                          'sender' => $sender,
-                                          'receiver' => $receiver,
-                                          'message' => $message,
-                                          'version' => $this->version,
-                                     ));
+                                                      'source' => $receiver,
+                                                      'sender' => $sender,
+                                                      'receiver' => $receiver,
+                                                      'message' => $message,
+                                                      'version' => $this->version,
+                                                 ));
     }
 
     function message($id)
@@ -57,7 +57,7 @@ class CI_Chat
     {
         $one_week_ago = current_time()->modify('-1 week')->getTimestamp();
         $user = user($user_id);
-        
+
         $query = "SELECT * FROM chat_messages WHERE (sender_id = ? OR receiver_id = ?)
                     AND sent_at > ?
                 ORDER BY id ASC";
@@ -106,5 +106,5 @@ class CI_Chat
 
         $this->last_query = $this->db->last_query();
     }
-    
+
 }
