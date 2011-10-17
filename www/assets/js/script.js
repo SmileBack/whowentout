@@ -66,14 +66,7 @@ $.when(app.load()).then(function() {
 });
 
 jQuery(function($) {
-
-    WWO.dialog = $.dialog.create();
-
-    WWO.dialog.anchor('viewport', 'c'); //keeps the dialog box in the center
-    $(window).bind('scroll resize', _.debounce(function() {
-        WWO.dialog.refreshPosition();
-    }, 250));
-
+    WWO.dialog = $.dialog.create({centerInViewport: true});
 });
 
 //smile help dialog behavior

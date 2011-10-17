@@ -1,6 +1,7 @@
 //= require lib/jquery.js
 //= require lib/jquery.entwine.js
 //= require lib/jquery.position.js
+//= require lib/underscore.js
 
 jQuery(function($) {
     if ($('#mask').length == 0) {
@@ -19,25 +20,47 @@ jQuery(function($) {
     }
 
     $('#mask').click(function() {
-        $('.dialog:visible').hideDialog();
+        if ($.dialog.hideMaskOnClick())
+            $('.dialog:visible').hideDialog();
     });
 
 });
 
 $.dialog = {
+    _hideMaskOnClick: true,
+    hideMaskOnClick: function(v) {
+        if (v === undefined) {
+            return this._hideMaskOnClick;
+        }
+        else {
+            this._hideMaskOnClick = v;
+        }
+    },
     mask: function() {
         return $('#mask');
     },
-    create: function() {
+    create: function(options) {
+        var defaults = {};
+        options = $.extend({}, defaults, options);
+
         var d = $('<div class="dialog"> '
         + '<h1></h1>'
         + '<div class="dialog_body"></div>'
         + '<div class="dialog_buttons"></div>'
         + '</div>');
         $('body').append(d);
+
+        if (options.centerInViewport) {
+            d.anchor('viewport', 'c'); //keeps the dialog box in the center
+            $(window).bind('scroll resize', _.debounce(function() {
+                d.refreshPosition();
+            }, 250));
+        }
+        
         return d;
     },
     buttonSets: {
+        none: {},
         yesno: [
             {key: 'y', title: 'Yes'},
             {key: 'n', title: 'No'}
@@ -77,13 +100,14 @@ $('.dialog').entwine({
     },
     loadContent: function(path, complete) {
         var self = this;
-        complete = complete || function() {};
+        complete = complete || function() {
+        };
 
         this.message('loading...');
         this.find('.dialog_body').load(path, function() {
             self.refreshPosition();
             $(this).bind('imageload', function(e) {
-               self.refreshPosition();
+                self.refreshPosition();
             });
             complete.call(self);
         });

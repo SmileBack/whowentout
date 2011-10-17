@@ -1,5 +1,8 @@
 //= require whowentout.component.js
 //= require whowentout.queue.js
+//= require lib/getflashplayerversion.js
+
+//= require widgets/jquery.dialog.js
 
 WhoWentOut.Component.extend('WhoWentOut.Channel', {
     Create: function(options) {
@@ -20,11 +23,42 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
 WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
     Pusher: function() {
         if (!this._pusher) {
-            this._pusher = new Pusher('23a32666914116c9b891');
             Pusher.channel_auth_endpoint = '/user/pusherauth';
-            //Pusher.log = function(msg) { window.console.log(msg); }
+            this._pusher = new Pusher('23a32666914116c9b891');
+            this.CheckForFailedPusher();
         }
         return this._pusher;
+    },
+    EnablePusherLogging: function() {
+        Pusher.log = function(msg) {
+            window.console.log(msg);
+        }
+    },
+    CheckForFailedPusher: function() {
+        var self = this;
+        if (this._pusher.connection.state == 'failed')
+            this.OnPusherFail();
+        else {
+            this._pusher.connection.bind('state_change', function(state) {
+                if (state.current == 'failed')
+                    self.OnPusherFail();
+            });
+        }
+    },
+    OnPusherFail: function() {
+        var version = getFlashPlayerVersion();
+        if (!version) {
+            var dialog = $.dialog.create({centerInViewport: true});
+            $.dialog.hideMaskOnClick(false);
+            
+            dialog.title('Flash Player required.');
+            dialog.message(
+            '<p>Download Flash Player to use WhoWentOut.</p>'
+            + '<p><a href="http://get.adobe.com/flashplayer/" target="_blank"><img src="/assets/images/get_flash_player_button.jpg" /></a></p>'
+            );
+
+            dialog.showDialog();
+        }
     }
 }, {
     init: function(options) {
@@ -44,7 +78,7 @@ WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
         this._channel.trigger('client-eventreceived', event_data);
     },
     oneventreceived: function(event) {
-        event.source  = 'server';
+        event.source = 'server';
         console.log('event :: ' + event.type);
         console.log(event);
         this.trigger(event);
