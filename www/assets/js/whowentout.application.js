@@ -44,7 +44,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         return this._presenceBeacon;
     },
     initPresenceBeacon: function() {
-        this._presenceBeacon = new WhoWentOut.PresenceBeacon();
+        this._presenceBeacon = new WhoWentOut.PresenceBeacon(this._config.presence_channels);
 
         if (this.currentUser().visibleTo() == 'online')
             this._presenceBeacon.goOnline();
@@ -66,6 +66,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
             console.log( $('.user_' + e.user_id).length );
             $('.user_' + e.user_id).removeClass('online');
         });
+        
     },
     initIdleEvents: function() {
         var self = this;
@@ -101,6 +102,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
             data: { user_ids: this.userIdsOnPage(), party_ids: this.partyIdsOnPage() },
             success: function(response) {
                 console.log(response);
+                self._config = response;
 
                 _.each(response.application, function(v, k) {
                     self.set(k, v);

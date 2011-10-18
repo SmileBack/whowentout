@@ -10,7 +10,6 @@ class Welcome extends MY_Controller
         $ven = user(array('first_name' => 'Venkat'));
         $dan = user(array('last_name' => 'Berenholtz'));
 
-        $remi = user(97);
         $maggie = user(96);
         $claire = user(82);
         $jenny = user(108);
@@ -21,7 +20,6 @@ class Welcome extends MY_Controller
 
         $parser = new PHPClassParser();
         $classes = $parser->get_file_classes(APPPATH . 'third_party/pusher.php');
-
         krumo::dump($classes);
     }
 

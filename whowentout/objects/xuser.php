@@ -42,11 +42,11 @@ class XUser extends XObject
 
         $this->visible_to = $visibility;
         $this->save();
-        
+
         $ci->event->raise('user_changed_visibility', array(
-                                                    'user' => $this,
-                                                    'visibility' => $this->visible_to,
-                                               ));
+                                                          'user' => $this,
+                                                          'visibility' => $this->visible_to,
+                                                     ));
 
         return TRUE;
     }
@@ -133,7 +133,7 @@ class XUser extends XObject
     function checkin($party)
     {
         $ci =& get_instance();
-        
+
         $party = party($party);
 
         if (!$this->can_checkin($party)) {
@@ -147,10 +147,10 @@ class XUser extends XObject
                                                ));
 
         $ci->event->raise('checkin', array(
-                                    'source' => $party,
-                                    'user' => $this,
-                                    'party' => $party,
-                               ));
+                                          'source' => $party,
+                                          'user' => $this,
+                                          'party' => $party,
+                                     ));
 
         return TRUE;
     }
@@ -193,18 +193,6 @@ class XUser extends XObject
         return TRUE;
     }
 
-    function recent_parties()
-    {
-        $parties = array();
-        $rows = $this->db()
-                ->select('party_id AS id')
-                ->from('party_attendees')
-                ->join('parties', 'party_attendees.party_id = parties.id')
-                ->where('user_id', $this->id)
-                ->order_by('date', 'desc');
-        return $this->load_objects('XParty', $rows);
-    }
-
     /**
      * Make this user smile at $receiver for $party.
      * @param XUser $receiver
@@ -215,7 +203,7 @@ class XUser extends XObject
     function smile_at($receiver, $party)
     {
         $ci =& get_instance();
-        
+
         $receiver = user($receiver);
         $party = party($party);
 
@@ -230,12 +218,12 @@ class XUser extends XObject
                                 ));
 
         $ci->event->raise('smile_sent', array(
-                                       'source' => $party,
-                                       'smile' => $smile,
-                                       'sender' => $this,
-                                       'receiver' => $receiver,
-                                       'party' => $party,
-                                  ));
+                                             'source' => $party,
+                                             'smile' => $smile,
+                                             'sender' => $this,
+                                             'receiver' => $receiver,
+                                             'party' => $party,
+                                        ));
 
         return TRUE;
     }
@@ -439,7 +427,7 @@ class XUser extends XObject
     function update_friends_from_facebook($force_update = FALSE)
     {
         $prev_access_token = fb()->getAccessToken();
-        
+
         if (!$this->friends_need_update($force_update))
             return FALSE;
 
@@ -456,7 +444,7 @@ class XUser extends XObject
             fb()->setAccessToken($prev_access_token);
             return FALSE;
         }
-        
+
         fb()->setAccessToken($prev_access_token);
 
         $rows = array();
@@ -563,6 +551,18 @@ class XUser extends XObject
                 ->order_by('date', 'desc')
                 ->where('user_id', $this->id)
                 ->where('date >', $cutoff->format('Y-m-d'));
+        return $this->load_objects('XParty', $rows);
+    }
+
+    function recent_parties()
+    {
+        $parties = array();
+        $rows = $this->db()
+                ->select('party_id AS id')
+                ->from('party_attendees')
+                ->join('parties', 'party_attendees.party_id = parties.id')
+                ->where('user_id', $this->id)
+                ->order_by('date', 'desc');
         return $this->load_objects('XParty', $rows);
     }
 
@@ -786,7 +786,7 @@ class XUser extends XObject
     {
         return images()->exists($this->id, $preset);
     }
-    
+
     function is_friend_of($user)
     {
         $user = user($user);

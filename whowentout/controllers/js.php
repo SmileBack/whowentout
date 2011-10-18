@@ -6,7 +6,7 @@ class Js extends MY_Controller
     function app()
     {
         $this->load->library('presence');
-        
+
         $response = array();
 
         if (!logged_in())
@@ -22,6 +22,7 @@ class Js extends MY_Controller
 
         $this->load_users($response);
         $this->load_channels($response);
+        $this->load_presence_channels($response);
 
         $response['success'] = TRUE;
         $this->json($response);
@@ -94,6 +95,18 @@ class Js extends MY_Controller
                     );
                 }
             }
+        }
+    }
+
+    private function load_presence_channels(&$response)
+    {
+        if (!logged_in())
+            return;
+
+        $response['presence_channels'] = array();
+        $recently_attended_parties = current_user()->recently_attended_parties();
+        foreach ($recently_attended_parties as $party) {
+            $response['presence_channels'][] = 'presence-party_' . $party->id;
         }
     }
 
