@@ -3,6 +3,8 @@
 class WallPostPlugin extends CI_Plugin
 {
 
+    private $enabled = FALSE;
+
     /**
      * Occurs when $e->user checks into a $party.
      *
@@ -11,10 +13,12 @@ class WallPostPlugin extends CI_Plugin
      */
     function on_checkin($e)
     {
-//        $user = $e->user;
-//        $party = $e->party;
-//        $message = "$user->full_name checked into {$party->place->name} using WhoWentOut.";
-//        job_call_async('post_to_wall', $user->id, $message, fb()->getAccessToken());
+        if ($this->enabled) {
+            $user = $e->user;
+            $party = $e->party;
+            $message = "$user->full_name checked into {$party->place->name} using WhoWentOut.";
+            job_call_async('post_to_wall', $user->id, $message, fb()->getAccessToken());
+        }
     }
 
 }
