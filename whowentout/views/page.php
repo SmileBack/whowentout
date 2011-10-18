@@ -36,7 +36,7 @@
 </div>
 
 <div id="background">
-    <img src="/assets/images/background_club.png" />
+    <!--<img src="/assets/images/background_club.png" />-->
 </div>
 
 <div id="page">

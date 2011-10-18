@@ -13,7 +13,7 @@
             $.getScript('/assets/js/lib/google.corechart.js', function() {
                 dfd.resolve();
             });
-        })
+        });
         
         dfd.promise();
     }

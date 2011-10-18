@@ -4,8 +4,14 @@ require_once APPPATH . 'libraries/fb/facebook.php';
 
 function get_facebook_id($user_name)
 {
-    $data = fb()->api("/$user_name");
-    return $data['id'];
+    static $ids = array();
+    if (!isset($ids[$user_name]))
+    {
+        $data = fb()->api("/$user_name");
+        $ids[$user_name] = $data['id'];
+    }
+    
+    return $ids[$user_name];
 }
 
 /**
