@@ -2,8 +2,7 @@
 
 class Welcome extends MY_Controller
 {
-
-
+    
     function index()
     {
         $party = party(32);
@@ -17,7 +16,13 @@ class Welcome extends MY_Controller
         $jenny = user(108);
         $allie = user(184);
 
-        
+        require_once APPPATH . 'core/phpclassparser.class.php';
+        require_once APPPATH . 'modules/debug/krumo.class.php';
+
+        $parser = new PHPClassParser();
+        $classes = $parser->get_file_classes(APPPATH . 'third_party/pusher.php');
+
+        krumo::dump($classes);
     }
 
 }
