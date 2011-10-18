@@ -1,8 +1,5 @@
 //= require whowentout.component.js
-//= require whowentout.queue.js
-//= require lib/getflashplayerversion.js
-
-//= require widgets/jquery.dialog.js
+//= require whowentout.compatibility.js
 
 WhoWentOut.Component.extend('WhoWentOut.Channel', {
     Create: function(options) {
@@ -46,18 +43,12 @@ WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
         }
     },
     OnPusherFail: function() {
-        var version = getFlashPlayerVersion();
-        if (!version) {
-            var dialog = $.dialog.create({centerInViewport: true});
-            $.dialog.hideMaskOnClick(false);
-            
-            dialog.title('Flash Player required.');
-            dialog.message(
-            '<p>Download Flash Player to use WhoWentOut.</p>'
-            + '<p><a href="http://get.adobe.com/flashplayer/" target="_blank"><img src="/assets/images/get_flash_player_button.jpg" /></a></p>'
-            );
-
-            dialog.showDialog();
+        var compat = new WhoWentOut.Compatibility();
+        if ( ! compat.flashPlayerIsInstalled()) {
+            compat.showInstallFlashDialog();
+        }
+        else if ( compat.flashPlayerIsOutOfDate() ) {
+            compat.showUpgradeFlashDialog();
         }
     }
 }, {
