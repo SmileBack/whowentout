@@ -446,9 +446,9 @@ class XCollege extends XObject
                 ->order_by('name', 'ASC');
     }
 
-    function parties($limit = 10)
+    function parties($limit = 10, $date_sort = 'asc')
     {
-        $query = $this->get_parties_query()->limit($limit);
+        $query = $this->get_parties_query($date_sort)->limit($limit);
         return $this->load_objects('XParty', $query);
     }
 
@@ -458,13 +458,13 @@ class XCollege extends XObject
         return $this->load_objects('XParty', $query);
     }
 
-    function get_parties_query()
+    function get_parties_query($date_sort = 'asc')
     {
         return $this->db()->select('parties.id AS id')
                 ->from('parties')
                 ->join('places', 'parties.place_id = places.id')
                 ->where('college_id', $this->id)
-                ->order_by('date', 'ASC')
+                ->order_by('date', $date_sort)
                 ->order_by('name', 'ASC');
     }
 

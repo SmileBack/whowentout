@@ -24,7 +24,7 @@
         <th>Delete</th>
       </thead>
       <tbody>
-        <?php foreach (college()->parties(100) as $party): ?>
+        <?php foreach (college()->parties(100, 'desc') as $party): ?>
         <tr>
           <td><?= $party->id ?></td>
           <td><?= $party->place->name ?></td>
