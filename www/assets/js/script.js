@@ -25,15 +25,7 @@ $.when(app.load()).then(function() {
         selectOption: function(k) {
             var self = this;
 
-            $.getJSON('/user/change_visibility/' + k, function(response) {
-                var api = app.getPresenceBeacon();
-                if (response.visibility == 'offline') {
-                    api.goOffline();
-                }
-                else {
-                    api.goOnline();
-                }
-            });
+            $.getJSON('/user/change_visibility/' + k, function(response) {});
 
             return this;
         },

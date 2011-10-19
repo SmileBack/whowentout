@@ -12,6 +12,9 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
 
         this._channelNames = channelNames;
     },
+    isOnline: function() {
+        return this._isOnline;
+    },
     userIsOnline: function(user_id) {
         return this._onlineUsers[user_id] == true;
     },
@@ -23,7 +26,7 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
     },
     createPresenceChannel: function(channelName) {
         var self = this;
-        
+
         var channel = this.pusher().subscribe(channelName);
         
         channel.bind('pusher:subscription_succeeded', function(members) {
@@ -66,8 +69,9 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
     goOnline: function() {
         var self = this;
         
-        if (this._isOnline) //already online
+        if (this._isOnline) { //already online
             return;
+        }
 
         $.each(this.channelNames(), function(k, channelName) {
             self.createPresenceChannel(channelName);
@@ -78,9 +82,10 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
     goOffline: function() {
         var self = this;
 
-        if (! this._isOnline) //already offline
+        if (! this._isOnline) { //already offline
             return;
-        
+        }
+
         var onlineUserIDs = this.getOnlineUserIDs();
         this._onlineUsers = {};
         
@@ -92,7 +97,7 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
         }
         
         $.each(this.channelNames(), function(k, channelName) {
-            self.destroyPresenceChannel();
+            self.destroyPresenceChannel(channelName);
         });
 
         this._isOnline = false;
