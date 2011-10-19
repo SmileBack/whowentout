@@ -76,6 +76,8 @@ WhoWentOut.Component.extend('WhoWentOut.PresenceBeacon', {
         this._isOnline = true;
     },
     goOffline: function() {
+        var self = this;
+
         if (! this._isOnline) //already offline
             return;
         
