@@ -3,9 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
-    <meta name="description" content
+    <meta name="description" content ="" />
     <meta name="author" content="">
+    <meta name="google-site-verification" content="Qx0f2RFdL3wf2NWU3kcxXacFs020qQ5quH9ZCsVnFlM" />
+
+    <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -14,6 +16,7 @@
     <?= css_asset('jquery.jcrop') ?>
 
     <?= less_asset('style') ?>
+    
     <!--[if IE]>
     <?= less_asset('ie') ?>
     <![endif]-->
@@ -22,7 +25,6 @@
     <?= js_asset('lib/modernizr.js') ?>
 
     <?= js_asset('asset.js') ?>
-
 </head>
 
 <body id="<?= body_id() ?>">
