@@ -17,10 +17,10 @@ class Welcome extends MY_Controller
 
         require_once APPPATH . 'classes/index.class.php';
         
-//        print 'done loading!';
-//        krumo::dump($fileIndex->data());
-//        $fileIndex->rebuild();
-        
+        $idx = new DirectoryIndex(APPPATH . 'libraries', $this->cache);
+        $idx->rebuild();
+
+        krumo::dump($idx->data());
     }
 
 }
