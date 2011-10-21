@@ -49,8 +49,8 @@ class XObject
             return;
 
         $rows = $ci->db->from($table)
-                       ->where_in('id', $row_ids)
-                       ->get()->result();
+                ->where_in('id', $row_ids)
+                ->get()->result();
 
         foreach ($rows as $row) {
             static::$rows[$table][$row->id] = (array)$row;
@@ -62,14 +62,42 @@ class XObject
         if (!isset(static::$rows[$table]))
             static::$rows[$table] = array();
 
-        if ( ! isset(static::$rows[$table][$row_id]) ) {
+        if (!isset(static::$rows[$table][$row_id])) {
             $ci =& get_instance();
             static::$rows[$table][$row_id] = (array)$ci->db->from($table)
                     ->where('id', $row_id)
                     ->get()->row();
         }
-        
+
         return static::$rows[$table][$row_id];
+    }
+
+    static function load_objects($class, $rows)
+    {
+        $ci =& get_instance();
+        if (is_string($rows)) {
+            $rows = $ci->db->query($rows);
+        }
+
+        if ($rows instanceof CI_DB_mysql_driver) {
+            $rows = $rows->get()->result();
+        }
+        elseif ($rows instanceof CI_DB_mysql_result) {
+            $rows = $rows->result();
+        }
+
+        //pre-fetch all of the table data
+        $ids = array();
+        foreach ($rows as $row) {
+            $ids[] = $row->id;
+        }
+        static::pre_fetch_rows($class::$table, $ids);
+
+        $objects = array();
+        foreach ($rows as $row) {
+            $objects[] = $class::get($row->id);
+        }
+        return $objects;
     }
 
     protected static function set($id, $object)
@@ -263,33 +291,6 @@ class XObject
     function db()
     {
         return ci()->db;
-    }
-
-    function load_objects($class, $rows)
-    {
-        if (is_string($rows)) {
-            $rows = $this->db()->query($rows);
-        }
-
-        if ($rows instanceof CI_DB_mysql_driver) {
-            $rows = $rows->get()->result();
-        }
-        elseif ($rows instanceof CI_DB_mysql_result) {
-            $rows = $rows->result();
-        }
-
-        //pre-fetch all of the table data
-        $ids = array();
-        foreach ($rows as $row) {
-            $ids[] = $row->id;
-        }
-        static::pre_fetch_rows($class::$table, $ids);
-
-        $objects = array();
-        foreach ($rows as $row) {
-            $objects[] = $class::get($row->id);
-        }
-        return $objects;
     }
 
     protected function before_save()

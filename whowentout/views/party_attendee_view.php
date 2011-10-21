@@ -29,7 +29,6 @@ if (!isset($smiles_left))
             <?= anchor("user/mutual_friends/$attendee->id", 'Mutual Friends', array('class' => 'show_mutual_friends')) ?>
         </p>
 
-        <?php if (TRUE): ?>
         <p>
             <?php if ($attendee->gender != current_user()->gender): ?>
             <?php if ($attendee->was_smiled_at(current_user()->id, $party->id)): ?>
@@ -48,8 +47,7 @@ if (!isset($smiles_left))
                 &nbsp;
             <?php endif; ?>
         </p>
-        <?php endif; ?>
-
+        
     </div>
 
 </div>

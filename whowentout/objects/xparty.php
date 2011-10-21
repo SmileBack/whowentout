@@ -17,7 +17,7 @@ class XParty extends XObject
     function attendees($sort = 'checkin_time')
     {
         $query = $this->attendees_query($sort);
-        return $this->load_objects('XUser', $query);
+        return XObject::load_objects('XUser', $query);
     }
 
     function attendees_query($sort = 'checkin_time')
@@ -115,7 +115,7 @@ class XParty extends XObject
     {
         $attendees = array();
         $query = $this->attendees_query('checkin_time')->limit($count);
-        return $this->load_objects('XUser', $query);
+        return XObject::load_objects('XUser', $query);
     }
 
     function chat_is_closed()

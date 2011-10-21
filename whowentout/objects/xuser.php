@@ -369,7 +369,7 @@ class XUser extends XObject
                 ->where('first_user_id', $this->id)
                 ->or_where('smiles.party_id', $party->id)
                 ->where('second_user_id', $this->id);
-        return $this->load_objects('XSmileMatch', $query);
+        return XObject::load_objects('XSmileMatch', $query);
     }
 
     function mutual_friends($person)
@@ -421,7 +421,7 @@ class XUser extends XObject
                 ->where('user_id', $this->id)
                 ->where('friend_id IS NOT NULL');
 
-        return $this->load_objects('XUser', $rows);
+        return XObject::load_objects('XUser', $rows);
     }
 
     function update_friends_from_facebook($force_update = FALSE)
@@ -551,7 +551,7 @@ class XUser extends XObject
                 ->order_by('date', 'desc')
                 ->where('user_id', $this->id)
                 ->where('date >', $cutoff->format('Y-m-d'));
-        return $this->load_objects('XParty', $rows);
+        return XObject::load_objects('XParty', $rows);
     }
 
     function recent_parties()
@@ -563,7 +563,7 @@ class XUser extends XObject
                 ->join('parties', 'party_attendees.party_id = parties.id')
                 ->where('user_id', $this->id)
                 ->order_by('date', 'desc');
-        return $this->load_objects('XParty', $rows);
+        return XObject::load_objects('XParty', $rows);
     }
 
     function smiles_received_message($party)

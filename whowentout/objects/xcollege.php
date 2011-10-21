@@ -43,7 +43,7 @@ class XCollege extends XObject
     {
         $parties = array();
         $query = $this->_get_open_parties_query($time);
-        return $this->load_objects('XParty', $query);
+        return XObject::load_objects('XParty', $query);
     }
 
     /**
@@ -90,7 +90,7 @@ class XCollege extends XObject
                 ->from('users')
                 ->where('college_id', $this->id)
                 ->order_by('first_name', 'ASC');
-        return $this->load_objects('XUser', $query);
+        return XObject::load_objects('XUser', $query);
     }
 
     function get_recent_dates()
@@ -435,7 +435,7 @@ class XCollege extends XObject
     function get_places()
     {
         $query = $this->get_places_query();
-        return $this->load_objects('XPlace', $query);
+        return XObject::load_objects('XPlace', $query);
     }
 
     function get_places_query()
@@ -449,13 +449,13 @@ class XCollege extends XObject
     function parties($limit = 10, $date_sort = 'asc')
     {
         $query = $this->get_parties_query($date_sort)->limit($limit);
-        return $this->load_objects('XParty', $query);
+        return XObject::load_objects('XParty', $query);
     }
 
     function get_parties()
     {
         $query = $this->get_parties_query();
-        return $this->load_objects('XParty', $query);
+        return XObject::load_objects('XParty', $query);
     }
 
     function get_parties_query($date_sort = 'asc')
@@ -485,7 +485,7 @@ class XCollege extends XObject
 
         $query = $this->db()->query($sql, array(date_format($time, 'Y-m-d')));
 
-        return $this->load_objects('XParty', $query);
+        return XObject::load_objects('XParty', $query);
     }
 
     function parties_on(DateTime $date)
@@ -499,7 +499,7 @@ class XCollege extends XObject
                              'date' => date_format($date, 'Y-m-d'),
                         ))
                 ->join('places', 'parties.place_id = places.id');
-        return $this->load_objects('XParty', $query);
+        return XObject::load_objects('XParty', $query);
     }
 
     private function _get_open_parties_query($time)
