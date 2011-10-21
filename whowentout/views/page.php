@@ -25,6 +25,8 @@
     <?= js_asset('lib/modernizr.js') ?>
 
     <?= js_asset('asset.js') ?>
+    
+    <?= load_view('development/google_analytics_view') ?>
 </head>
 
 <body id="<?= body_id() ?>">
