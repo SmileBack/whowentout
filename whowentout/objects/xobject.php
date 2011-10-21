@@ -3,7 +3,7 @@
 class XObject
 {
 
-    protected static $rows = array();
+    protected static $objects = array();
     protected static $table = NULL;
 
     static function get($id)
@@ -20,18 +20,18 @@ class XObject
         if ($id == NULL)
             return NULL;
 
-        if (!isset(self::$rows[$class])) {
-            self::$rows[$class] = array();
+        if (!isset(self::$objects[$class])) {
+            self::$objects[$class] = array();
         }
 
-        if (isset(self::$rows[$class][$id])) {
-            return self::$rows[$class][$id];
+        if (isset(self::$objects[$class][$id])) {
+            return self::$objects[$class][$id];
         }
         else {
             $object = new $class($id);
             if ($object->exists()) {
                 self::set($id, $object);
-                return self::$rows[$class][$id];
+                return self::$objects[$class][$id];
             }
             else {
                 return FALSE;
@@ -39,19 +39,52 @@ class XObject
         }
     }
 
+    protected static $rows = array();
+
+    public static function pre_fetch_rows($table, $row_ids = array())
+    {
+        $ci =& get_instance();
+
+        if (empty($row_ids))
+            return;
+
+        $rows = $ci->db->from($table)
+                       ->where_in('id', $row_ids)
+                       ->get()->result();
+
+        foreach ($rows as $row) {
+            static::$rows[$table][$row->id] = (array)$row;
+        }
+    }
+
+    protected static function fetch_row($table, $row_id)
+    {
+        if (!isset(static::$rows[$table]))
+            static::$rows[$table] = array();
+
+        if ( ! isset(static::$rows[$table][$row_id]) ) {
+            $ci =& get_instance();
+            static::$rows[$table][$row_id] = (array)$ci->db->from($table)
+                    ->where('id', $row_id)
+                    ->get()->row();
+        }
+        
+        return static::$rows[$table][$row_id];
+    }
+
     protected static function set($id, $object)
     {
         $class = get_called_class();
 
-        if (!isset(self::$rows[$class])) {
-            self::$rows[$class] = array();
+        if (!isset(self::$objects[$class])) {
+            self::$objects[$class] = array();
         }
 
         if ($object == NULL) {
-            unset(self::$rows[$class][$id]);
+            unset(self::$objects[$class][$id]);
         }
         else {
-            self::$rows[$class][$id] = $object;
+            self::$objects[$class][$id] = $object;
         }
     }
 
@@ -105,11 +138,7 @@ class XObject
             $table = static::$table;
             $id = intval($id);
 
-            $this->data = (array)$this->db()
-                    ->from($table)
-                    ->where('id', $id)
-                    ->get()->row();
-
+            $this->data = static::fetch_row($table, $id);
             if (empty($this->data)) {
                 $this->data = FALSE;
                 return FALSE;
@@ -248,6 +277,13 @@ class XObject
         elseif ($rows instanceof CI_DB_mysql_result) {
             $rows = $rows->result();
         }
+
+        //pre-fetch all of the table data
+        $ids = array();
+        foreach ($rows as $row) {
+            $ids[] = $row->id;
+        }
+        static::pre_fetch_rows($class::$table, $ids);
 
         $objects = array();
         foreach ($rows as $row) {

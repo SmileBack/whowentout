@@ -42,9 +42,9 @@ class ImageRepository
     
     function url($id, $preset)
     {
-        if ( ! $this->exists($id, $preset)) {
-            $this->refresh($id, $preset);
-        }
+//        if ( ! $this->exists($id, $preset)) {
+//            $this->refresh($id, $preset);
+//        }
         $user = user($id);
 
         $filename = $this->filename($id, $preset);

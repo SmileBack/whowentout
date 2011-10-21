@@ -14,14 +14,6 @@ class XParty extends XObject
         return $this->place->college;
     }
 
-    function get_admin()
-    {
-        if ($this->admin_id == NULL)
-            return NULL;
-
-        return user($this->admin_id);
-    }
-
     function attendees($sort = 'checkin_time')
     {
         $query = $this->attendees_query($sort);

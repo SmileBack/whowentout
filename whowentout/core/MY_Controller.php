@@ -6,6 +6,7 @@ class MY_Controller extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        $this->output->enable_profiler(TRUE);
 
         $this->load->library('asset');
         $this->asset->load('whowentout.application.js');
@@ -13,7 +14,10 @@ class MY_Controller extends CI_Controller
 
     protected function load_view($name, $data = array())
     {
+        $this->benchmark->mark('page_content_start');
         $data['page_content'] = $this->load->view($name, $data, TRUE);
+        $this->benchmark->mark('page_content_end');
+        
         $this->load->view('page', $data);
     }
 

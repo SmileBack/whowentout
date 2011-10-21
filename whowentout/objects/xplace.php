@@ -8,13 +8,6 @@ class XPlace extends XObject
     return XCollege::get($this->college_id);
   }
   
-  function get_admin() {
-    if ($this->admin_id == NULL)
-      return NULL;
-    
-    return user($this->admin_id);
-  }
-  
   function get_num_parties() {
     return $this->db()->from('parties')
                 ->where('place_id', $this->id)

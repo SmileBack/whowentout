@@ -23,12 +23,17 @@ class Party extends MY_Controller
         $this->event->raise('page_load', array(
                                               'url' => uri_string(),
                                          ));
+
+        $this->benchmark->mark('party_attendees_start');
+        $party_attendees = $party->attendees($sort);
+        $this->benchmark->mark('party_attendees_end');
+
         $data = array(
             'title' => "{$party->place->name} Gallery",
             'party' => $party,
             'user' => $user,
             'sort' => $sort,
-            'party_attendees' => $party->attendees($sort),
+            'party_attendees' => $party_attendees,
             'profile_pic_size' => $this->config->item('profile_pic_size'),
             'smiles_left' => $user->smiles_left($party->id),
         );

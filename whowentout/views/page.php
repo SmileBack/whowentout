@@ -108,5 +108,8 @@
 
 <?= load_view('js_view') ?>
 
+<?= load_view('development/benchmarks_view.php') ?>
+
+
 </body>
 </html>

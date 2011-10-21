@@ -67,10 +67,3 @@ load_view('party_notices_view', array(
     </ul>
 
 </div>
-
-<?php if ($party->admin): ?>
-    <p id="party_admin">
-        <span>Hosted by:</span>
-        <?= $party->admin->first_name; ?> <?= $party->admin->last_name; ?>
-    </p>
-<?php endif; ?>
