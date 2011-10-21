@@ -49,31 +49,39 @@
 
 <body>
 
-<img id="landing" src="/landing.png?version=4"/>
-
-<div id="countdown" class="time_counter"
-     data-target="<?= getenv('countdown_target') ? strtotime(getenv('countdown_target'))
-             : strtotime('October 23, 2011') ?>">
-    <div class="wrap">
-        <div class="days counter" data-length="2"></div>
-        <h3>days</h3>
+    <div id="landing">
+        <img src="/landing.png?version=5"/>
     </div>
 
-    <div class="wrap">
-        <div class="hours counter" data-length="2"></div>
-        <h3>hours</h3>
+    <div id="countdown_wrapper">
+        <div id="countdown" class="time_counter"
+             data-target="<?= getenv('countdown_target') ? strtotime(getenv('countdown_target'))
+                     : strtotime('October 23, 2011') ?>">
+            <div class="wrap">
+                <div class="days counter" data-length="2"></div>
+                <h3>days</h3>
+            </div>
+
+            <div class="wrap">
+                <div class="hours counter" data-length="2"></div>
+                <h3>hours</h3>
+            </div>
+
+            <div class="wrap">
+                <div class="minutes counter" data-length="2"></div>
+                <h3>minutes</h3>
+            </div>
+
+            <div class="wrap">
+                <div class="seconds counter" data-length="2"></div>
+                <h3>seconds</h3>
+            </div>
+        </div>
     </div>
 
-    <div class="wrap">
-        <div class="minutes counter" data-length="2"></div>
-        <h3>minutes</h3>
+    <div id="coming_soon">
+        <img src="/coming_soon.png?version=1"/>
     </div>
-
-    <div class="wrap">
-        <div class="seconds counter" data-length="2"></div>
-        <h3>seconds</h3>
-    </div>
-</div>
 
 </body>
 </html>
