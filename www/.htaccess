@@ -2,6 +2,7 @@
     RewriteEngine On
     RewriteBase /
 
+    # mydomain.com will redirect to www.mydomain.com
     RewriteCond %{HTTP_HOST}  \.
     RewriteCond %{HTTP_HOST} !^www\.
     RewriteCond %{HTTPS}s ^on(s)|
