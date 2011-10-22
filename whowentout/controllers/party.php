@@ -11,6 +11,8 @@ class Party extends MY_Controller
         $party = party($party_id);
         $sort = $this->_get_sort();
 
+        $smile_engine = new SmileEngine();
+
         enforce_restrictions();
 
         if (!$user->has_attended_party($party)) {
@@ -37,7 +39,8 @@ class Party extends MY_Controller
             'sort' => $sort,
             'party_attendees' => $party_attendees,
             'profile_pic_size' => $this->config->item('profile_pic_size'),
-            'smiles_left' => $user->smiles_left($party->id),
+            'smile_engine' => $smile_engine,
+            'smiles_left' => $smile_engine->get_num_smiles_left_to_give($user, $party),
         );
 
         if ($this->flag->missing('user', $user->id, 'has_seen_smile_help'))

@@ -1,11 +1,14 @@
 <?php
 
+require_once APPPATH . 'classes/smileengine.class.php';
+
 class MY_Controller extends CI_Controller
 {
 
     function __construct()
     {
         parent::__construct();
+        
         $this->load->library('asset');
         $this->asset->load('whowentout.application.js');
     }

@@ -2,6 +2,7 @@
 load_view('party_notices_view', array(
                                      'user' => $user,
                                      'party' => $party,
+                                     'smile_engine' => $smile_engine,
                                 )) ?>
 
     <div class="visibilitybar">
@@ -57,9 +58,9 @@ load_view('party_notices_view', array(
         <li>
             <?=
             load_view('party_attendee_view', array(
+                                                  'logged_in_user' => $user,
                                                   'party' => $party,
                                                   'attendee' => $attendee,
-                                                  'smiles_left' => $smiles_left,
                                              ))
             ?>
         </li>

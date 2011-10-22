@@ -3,21 +3,21 @@
 require_once APPPATH . 'classes/phpclassparser.class.php';
 require_once APPPATH . 'modules/debug/krumo.class.php';
 
-class DirectoryIndex
+class Index
 {
 
-    private $path;
+    private $root;
     private $cache;
 
-    function __construct($path, $cache)
+    function __construct($root, $cache)
     {
-        $this->path = $path;
+        $this->root = $root;
         $this->cache = $cache;
-    }
 
-    function cache_key()
-    {
-        return 'blox_index_' . md5($this->path);
+        if ($this->requires_rebuild())
+            $this->rebuild();
+        else
+            $this->load_from_cache();
     }
 
     function data()
@@ -25,10 +25,15 @@ class DirectoryIndex
         return $this->index;
     }
 
-    function resource_data($name)
+    function get_resource_metadata($name)
     {
         if (isset($this->index['aliases'][$name])) {
-            $resource_path = $this->index['aliases'][$name];
+            
+            if ( count($this->index['aliases'][$name]) > 1) {
+                throw new Exception("Ambiguous alias $name.");
+            }
+
+            $resource_path = $this->index['aliases'][$name][0];
         }
         else {
             $resource_path = $name;
@@ -38,42 +43,83 @@ class DirectoryIndex
 
     function load_from_cache()
     {
-        $this->index = $this->cache->get( $this->cache_key() );
+        $this->index = $this->cache->get($this->cache_key());
     }
 
     function rebuild()
     {
-        $parser = new PHPClassParser();
-        
-        $index = array();
-        
-        $files = $this->scan_files($this->path, TRUE);
+        $this->index = array(
+            'root' => $this->root,
+        );
+
+        $this->index_files($this->index);
+        $this->index_php_files($this->index);
+
+        $this->cache->set($this->cache_key(), $this->index);
+        return $this->index;
+    }
+
+    function index_files(&$index)
+    {
+        $files = $this->scan_files($index['root'], TRUE);
         foreach ($files as $filepath) {
-            $relative_filepath = $this->string_after_first($this->path, $filepath);
-            
-            if ($this->is_php_file($filepath)) {
-                $classes_in_filepath = $parser->get_file_classes($filepath);
-
-                foreach ($classes_in_filepath as $class_name => &$class_data) {
-                    $class_data['type'] = 'class';
-                    if (isset($index['classes'][$class_name]))
-                        throw new Exception("Class $class_name already exists.");;
-
-                    $resource_path = $relative_filepath . '/' . $class_name;
-                    
-                    $index['resources'][$resource_path] = $class_data;
-
-                    $index['aliases'][ strtolower($class_name) ][] = $resource_path;
-                    $index['aliases'][ strtolower($class_name) . ' class'] = $resource_path;
-                }
-            }
-
+            $this->index_file($index, $filepath);
         }
-        
-        $this->cache->set($this->cache_key(), $index);
-        $this->index = $index;
+    }
 
-        return $index;
+    function index_php_files(&$index)
+    {
+        foreach ($index['resources'] as $resource) {
+            if ($resource['type'] == 'file' && $this->is_php_file($resource['filepath'])) {
+                $this->index_php_file($index, $resource['filepath']);
+            }
+        }
+    }
+    
+    function index_file(&$index, $filepath)
+    {
+        $relative_filepath = $this->string_after_first($index['root'], $filepath);
+        $resource_path = $relative_filepath;
+
+        $m = array();
+        $m['type'] = 'file';
+        $m['filepath'] = $filepath;
+        $m['filename'] = basename($filepath);
+        $m['relative_filepath'] = $relative_filepath;
+
+        $index['resources'][$relative_filepath] = $m;
+        $index['aliases'][strtolower($m['filename'])][] = $resource_path;
+    }
+
+    function index_php_file(&$index, $filepath)
+    {
+        $parser = new PHPClassParser();
+        $classes_in_filepath = $parser->get_file_classes($filepath);
+        $relative_filepath = $this->string_after_first($index['root'], $filepath);
+
+        foreach ($classes_in_filepath as $class_name => &$class_metadata) {
+            $class_metadata['type'] = 'class';
+
+            if (isset($index['classes'][$class_name]))
+                throw new Exception("Class $class_name already exists.");
+
+            $resource_path = $relative_filepath . '/' . $class_name;
+
+            $index['resources'][$resource_path] = $class_metadata;
+
+            $index['aliases'][strtolower($class_name)][] = $resource_path;
+            $index['aliases'][strtolower($class_name) . ' class'][] = $resource_path;
+        }
+    }
+
+    function requires_rebuild()
+    {
+        return !$this->cache->exists($this->cache_key());
+    }
+
+    private function cache_key()
+    {
+        return 'blox_index_' . md5($this->root);
     }
 
     function is_php_file($filepath)

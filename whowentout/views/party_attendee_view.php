@@ -1,6 +1,5 @@
 <?php
-if (!isset($smiles_left))
-    $smiles_left = 0;
+$smiles_left = $smile_engine->get_num_smiles_left_to_give($logged_in_user, $party);
 ?>
 
 <div id="party_attendee_<?= $attendee->id ?>" class="party_attendee user <?= 'user_' . $attendee->id ?>" data-user-id="<?= $attendee->id ?>">
@@ -30,8 +29,8 @@ if (!isset($smiles_left))
         </p>
 
         <p>
-            <?php if ($attendee->gender != current_user()->gender): ?>
-            <?php if ($attendee->was_smiled_at(current_user()->id, $party->id)): ?>
+            <?php if ($attendee->gender != $logged_in_user->gender): ?>
+            <?php if ( $smile_engine->smile_was_sent($logged_in_user, $attendee, $party) ): ?>
                 <input type="submit" class="smiled_at submit_button" disabled="disabled"
                        value="Smiled at <?= $attendee->first_name ?>"></button>
                 <?php elseif ($party->smiling_is_open()): ?>

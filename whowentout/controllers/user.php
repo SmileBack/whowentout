@@ -211,22 +211,25 @@ class User extends MY_Controller
 
     function smile()
     {
-        $user = current_user();
+        $sender = current_user();
 
         $party_id = post('party_id');
         $receiver_id = post('receiver_id');
 
-        $receiver = user($receiver_id);
+        $party = XParty::get($party_id);
+        $receiver = XUser::get($receiver_id);
 
-        if (!$user->can_smile_at($receiver->id, $party_id)) {
+        if ( ! $sender->can_smile_at($receiver, $party)) {
             show_error("Smile denied.");
         }
 
-        $user->smile_at($receiver_id, $party_id);
+        $smile_engine = new SmileEngine();
+        $smile_engine->send_smile($sender, $receiver, $party);
+
         set_message("Smiled at $receiver->full_name");
         $this->jsaction->HighlightSmilesLeft(3000);
 
-        redirect("party/$party_id");
+        redirect("party/$party->id");
     }
 
     function mutual_friends($target_id)

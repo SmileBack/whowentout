@@ -104,8 +104,13 @@ class SmileEngine_Tests extends TestGroup
         $smileEngine->send_smile($this->dan, $this->michelle, $this->second_party);
 
         $who_dan_smiled_at = $smileEngine->get_who_user_smiled_at($this->dan, $this->second_party);
+
+        $this->assert_true($smileEngine->smile_was_sent($this->dan, $this->jess, $this->second_party), 'dan smiled at jess');
         $this->assert_true(in_array($this->jess, $who_dan_smiled_at), 'dan smiled at jess');
+
         $this->assert_true(in_array($this->michelle, $who_dan_smiled_at), 'dan smiled at michelle');
+
+        $this->assert_true( ! $smileEngine->smile_was_sent($this->dan, $this->samantha, $this->second_party), 'dan DID NOT smile at sam');
         $this->assert_true( ! in_array($this->samantha, $who_dan_smiled_at), 'dan DID NOT smile at sam');
     }
 

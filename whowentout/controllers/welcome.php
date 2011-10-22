@@ -16,11 +16,14 @@ class Welcome extends MY_Controller
         $allie = user(184);
 
         require_once APPPATH . 'classes/index.class.php';
-        
-        $idx = new DirectoryIndex(APPPATH . 'libraries', $this->cache);
-        $idx->rebuild();
+        require_once APPPATH . 'classes/classloader.class.php';
 
-        krumo::dump($idx->data());
+        $directory_index = new Index(APPPATH . 'libraries', $this->cache);
+        $loader = new ClassLoader($directory_index);
+
+        $data = $loader->get_class_metadata('ci_flag');
+
+        krumo::dump($data);
     }
 
 }
