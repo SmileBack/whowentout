@@ -258,12 +258,13 @@ class XUser extends XObject
             return FALSE;
         }
 
-        if ($this->smiles_left($party) <= 0) {
+        $smile_engine = new SmileEngine();
+        if ($smile_engine->get_num_smiles_left_to_give($this, $party) == 0) {
             $this->reason = REASON_OUT_OF_SMILES;
             return FALSE;
         }
-
-        if ($this->has_smiled_at($receiver, $party)) {
+        
+        if ( $smile_engine->smile_was_sent($this, $receiver, $party) ) {
             $this->reason = REASON_ALREADY_SMILED_AT;
             return FALSE;
         }
@@ -271,58 +272,7 @@ class XUser extends XObject
         $this->reason = NULL;
         return TRUE;
     }
-
-    /**
-     * Tells you if this user smiled at $receiver_id at $party_id.
-     * @param XUser $receiver
-     * @param XParty $party
-     * @return bool
-     */
-    function has_smiled_at($receiver, $party)
-    {
-        $smileEngine = new SmileEngine();
-        return $smileEngine->smile_was_sent($this, $receiver, $party);
-    }
-
-    function smiles_left($party)
-    {
-        $party = party($party);
-        $smileEngine = new SmileEngine();
-        return $smileEngine->get_num_smiles_left_to_give($this, $party);
-    }
-
-    function smiles_received($party)
-    {
-        $party = party($party);
-        $smileEngine = new SmileEngine();
-        return $smileEngine->get_num_smiles_received($this, $party);
-    }
-
-    /**
-     * Tells you if this user was smiled at by $sender_id at $party_id.
-     *
-     * @param XUser $sender
-     * @param XParty $party
-     * @return bool
-     */
-    function was_smiled_at($sender, $party)
-    {
-        $sender = user($sender);
-        $party = party($party);
-
-        $smileEngine = new SmileEngine();
-        return $smileEngine->smile_was_sent($this, $sender, $party);
-    }
     
-    function matches($party)
-    {
-        $party = party($party);
-
-        $smileEngine = new SmileEngine();
-        $matches = $smileEngine->get_smile_matches_for_user($this, $party);
-        return $matches;
-    }
-
     function mutual_friends($person)
     {
         $person = user($person);

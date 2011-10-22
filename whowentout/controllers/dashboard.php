@@ -30,6 +30,7 @@ class Dashboard extends MY_Controller
             'parties_attended' => $user->recent_parties(),
             'has_attended_party' => $user->has_attended_party_on_date($yesterday),
             'top_parties' => $college->top_parties(),
+            'smile_engine' => new SmileEngine(),
         );
 
         if ($data['has_attended_party']) {

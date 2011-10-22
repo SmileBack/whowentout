@@ -23,6 +23,7 @@
                 load_view('party_notices_view', array(
                                                      'user' => $user,
                                                      'party' => $party,
+                                                     'smile_engine' => $smile_engine,
                                                 )) ?>
 
             <?= form_open("party/$party->id", array('class' => 'see_party_gallery')) ?>
