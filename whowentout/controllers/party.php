@@ -5,7 +5,7 @@ class Party extends MY_Controller
 
     function page($party_id)
     {
-        $this->output->enable_profiler(TRUE);
+//        $this->output->enable_profiler(TRUE);
         
         $user = current_user();
         $party = party($party_id);
