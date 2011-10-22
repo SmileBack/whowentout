@@ -19,10 +19,10 @@
                 <span class="count">none</span>
             </li>
         <?php else: ?>
-            <? foreach ($user->matches($party) as $match): ?>
+            <? foreach ($user->matches($party) as $match_user): ?>
             <li>
-                You and <span class="count"><?= $match->other_user($user)->abbreviated_name ?></span> smiled at each other!
-                <?= $match->other_user($user)->anchor_facebook_message() ?>
+                You and <span class="count"><?= $match_user->abbreviated_name ?></span> smiled at each other!
+                <?= $match_user->anchor_facebook_message() ?>
             </li>
             <? endforeach; ?>
         <?php endif; ?>

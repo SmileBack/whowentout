@@ -21,6 +21,12 @@ class SmileEngine
         return XObject::load_objects('XUser', $query);
     }
 
+    function smile_was_sent($sender, $receiver, $party)
+    {
+        $who_sender_smiled_at = $this->get_who_user_smiled_at($sender, $party);
+        return in_array($receiver, $who_sender_smiled_at);
+    }
+
     function get_smile_matches_for_user($user, $party)
     {
         $query = $this->db->select('smile_matches.id AS id')

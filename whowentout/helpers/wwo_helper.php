@@ -29,22 +29,6 @@ function party($party_id)
     return XParty::get($party_id);
 }
 
-/**
- * @return XSmile
- */
-function smile($smile_id)
-{
-    return XSmile::get($smile_id);
-}
-
-/**
- * @return XSmileMatch
- */
-function smilematch($smile_match_id)
-{
-    return XSmileMatch::get($smile_match_id);
-}
-
 function option_exists($name)
 {
     return ci()->option->exists($name);

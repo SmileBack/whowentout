@@ -280,34 +280,22 @@ class XUser extends XObject
      */
     function has_smiled_at($receiver, $party)
     {
-        return $this->db()->from('smiles')
-                       ->where('sender_id', $this->id)
-                       ->where('receiver_id', $receiver->id)
-                       ->where('party_id', $party->id)
-                       ->count_all_results() > 0;
+        $smileEngine = new SmileEngine();
+        return $smileEngine->smile_was_sent($this, $receiver, $party);
     }
 
     function smiles_left($party)
     {
         $party = party($party);
-
-        $smiles_used = $this->db()
-                ->from('smiles')
-                ->where('sender_id', $this->id)
-                ->where('party_id', $party->id)
-                ->count_all_results();
-        return (3 - $smiles_used);
+        $smileEngine = new SmileEngine();
+        return $smileEngine->get_num_smiles_left_to_give($this, $party);
     }
 
     function smiles_received($party)
     {
         $party = party($party);
-
-        return $this->db()
-                ->from('smiles')
-                ->where('receiver_id', $this->id)
-                ->where('party_id', $party->id)
-                ->count_all_results();
+        $smileEngine = new SmileEngine();
+        return $smileEngine->get_num_smiles_received($this, $party);
     }
 
     /**
@@ -322,54 +310,17 @@ class XUser extends XObject
         $sender = user($sender);
         $party = party($party);
 
-        return $this->db()
-                       ->from('smiles')
-                       ->where('sender_id', $sender->id)
-                       ->where('receiver_id', $this->id)
-                       ->where('party_id', $party->id)
-                       ->count_all_results() == 1;
+        $smileEngine = new SmileEngine();
+        return $smileEngine->smile_was_sent($this, $sender, $party);
     }
-
-
-    function most_recent_smile_from($user)
-    {
-        $user = user($user);
-        $row = $this->db()->from('smiles')
-                ->where('sender_id', $user->id)
-                ->where('receiver_id', $this->id)
-                ->order_by('id', 'desc')
-                ->limit(1)
-                ->get()->row();
-        return empty($row) ? FALSE : smile($row->id);
-    }
-
-    /**
-     * @param  $user
-     * @return XSmile
-     */
-    function most_recent_smile_to($user)
-    {
-        $user = user($user);
-        $row = $this->db()->from('smiles')
-                ->where('sender_id', $this->id)
-                ->where('receiver_id', $user->id)
-                ->order_by('id', 'desc')
-                ->limit(1)
-                ->get()->row();
-        return empty($row) ? FALSE : smile($row->id);
-    }
-
+    
     function matches($party)
     {
         $party = party($party);
-        $query = $this->db()->select('smile_matches.id AS id')
-                ->from('smile_matches')
-                ->join('smiles', 'second_smile_id = smiles.id')
-                ->where('smiles.party_id', $party->id)
-                ->where('first_user_id', $this->id)
-                ->or_where('smiles.party_id', $party->id)
-                ->where('second_user_id', $this->id);
-        return XObject::load_objects('XSmileMatch', $query);
+
+        $smileEngine = new SmileEngine();
+        $matches = $smileEngine->get_smile_matches_for_user($this, $party);
+        return $matches;
     }
 
     function mutual_friends($person)

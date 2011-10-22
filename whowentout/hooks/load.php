@@ -8,6 +8,8 @@ function load_core()
     require_once APPPATH . 'libraries/imagerepository.php';
     require_once APPPATH . 'libraries/fb/testfacebook.php';
 
+    require_once APPPATH . 'classes/smileengine.class.php';
+
     require_once APPPATH . 'objects/xobject.php';
     require_once APPPATH . 'objects/xuser.php';
     require_once APPPATH . 'objects/xcollege.php';
