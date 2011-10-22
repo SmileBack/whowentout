@@ -6,6 +6,8 @@ class SmileEngine
     private $db;
     private $smiles_allowed_per_party = 3;
 
+    private $smile_cache = array();
+
     function __construct()
     {
         $this->init_db();
@@ -13,12 +15,27 @@ class SmileEngine
 
     function get_who_user_smiled_at($user, $party)
     {
+        if ( ! $this->who_user_smiled_at_cache_isset($user, $party))
+            $this->update_who_user_smiled_at_cache($user, $party);
+
+        return $this->smile_cache[$user->id][$party->id];
+    }
+
+    private function who_user_smiled_at_cache_isset($user, $party)
+    {
+        return isset($this->smile_cache[$user->id])
+            && isset($this->smile_cache[$user->id][$party->id]);
+    }
+
+    private function update_who_user_smiled_at_cache($user, $party)
+    {
         $query = $this->db->select('receiver_id AS id')
                 ->from('smiles')
                 ->where('sender_id', $user->id)
                 ->where('party_id', $party->id);
 
-        return XObject::load_objects('XUser', $query);
+        $who_user_smiled_at = XObject::load_objects('XUser', $query);
+        $this->smile_cache[$user->id][$party->id] = $who_user_smiled_at;
     }
 
     function smile_was_sent($sender, $receiver, $party)
@@ -39,7 +56,7 @@ class SmileEngine
 
         $smile_match_objects = XObject::load_objects('XSmileMatch', $query);
         $matches = array();
-        
+
         foreach ($smile_match_objects as $match_object) {
             if ($match_object->first_user == $user)
                 $matches[] = $match_object->second_user;
@@ -76,6 +93,8 @@ class SmileEngine
                                      'party_id' => $party->id,
                                      'smile_time' => current_time()->format('Y-m-d H:i:s'),
                                 ));
+
+        $this->update_who_user_smiled_at_cache($sender, $party);
 
         $first_smile = $this->get_most_recent_smile_sent($receiver, $sender);
 
