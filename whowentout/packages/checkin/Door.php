@@ -12,12 +12,7 @@ class Door
 
     function is_open()
     {
-        return FALSE;
-    }
-
-    function doors_are_open()
-    {
-        return $this->get_closing_time() < $this->get_opening_time();
+        return $this->get_closing_time()->getTimestamp() < $this->get_opening_time()->getTimestamp();
     }
 
     function get_opening_time()

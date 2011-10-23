@@ -70,6 +70,7 @@ class Door_Tests extends TestGroup
             '2011-10-28' => array( //friday
                 '00:00:00' => '2011-10-29 00:00:00',
                 '01:00:00' => '2011-10-29 00:00:00',
+                '02:00:00' => '2011-10-29 00:00:00',
                 '08:00:00' => '2011-10-29 00:00:00',
                 '23:59:59' => '2011-10-29 00:00:00',
             ),
@@ -156,7 +157,7 @@ class Door_Tests extends TestGroup
                 '23:59:59' => FALSE,
             ),
         );
-
+        
         $clock = new Clock($this->tz);
         $door = new Door($clock);
         foreach ($test_cases as $date => $cases) {
