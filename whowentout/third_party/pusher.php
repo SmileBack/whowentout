@@ -70,7 +70,7 @@ class Pusher
 		// Check for dependent PHP extensions (JSON, cURL)
 		if ( ! extension_loaded( 'curl' ) || ! extension_loaded( 'json' ) )
 		{
-			die( 'There is missing dependant extensions - please ensure both cURL and JSON modules are installed' );
+			die( 'There is missing dependant extensions - please ensure both cURL and JSON packages are installed' );
 		}
 
 		# Supports SHA256?

@@ -138,7 +138,7 @@
             
             /**
              * Decodes a XML node from string
-             * loosely based on http://outwestmedia.com/jquery-plugins/xmldom/
+             * loosely based on http://outwestmedia.com/jquery-whowentout.behaviors/xmldom/
              */
             decode: function(xmlString){
                 var dom_parser = ("DOMParser" in window && (new DOMParser()).parseFromString) ||

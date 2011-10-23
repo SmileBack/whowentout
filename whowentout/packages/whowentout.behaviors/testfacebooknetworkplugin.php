@@ -1,6 +1,6 @@
 <?php
 
-class TestFacebookNetworkPlugin extends CI_Plugin
+class TestFacebookNetworkPlugin extends Plugin
 {
 
     function on_call_facebook_api($e)

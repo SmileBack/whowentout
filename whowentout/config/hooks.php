@@ -22,5 +22,11 @@ $hook['post_controller_constructor'][] = array(
     'filepath' => 'hooks',
 );
 
+$hook['pre_system'][] = array(
+    'function' => 'boot_fire',
+    'filename' => 'boot_fire.php',
+    'filepath' => 'hooks',
+);
+
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

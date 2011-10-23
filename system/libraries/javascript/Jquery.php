@@ -784,7 +784,7 @@ class CI_Jquery extends CI_Javascript {
 	function corner($element = '', $corner_style = '')
 	{
 		// may want to make this configurable down the road
-		$corner_location = '/plugins/jquery.corner.js';
+		$corner_location = '/whowentout.behaviors/jquery.corner.js';
 
 		if ($corner_style != '')
 		{

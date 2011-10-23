@@ -1,7 +1,5 @@
 <?php
 
-require_once APPPATH . 'classes/smileengine.class.php';
-
 class MY_Controller extends CI_Controller
 {
 

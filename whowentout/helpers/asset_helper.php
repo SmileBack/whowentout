@@ -48,7 +48,7 @@ function other_asset_url($asset_name, $module_name = NULL, $asset_type = NULL)
     $asset_location = $base_url . 'assets/';
 
     if (!empty($module_name)):
-        $asset_location .= 'modules/' . $module_name . '/';
+        $asset_location .= 'packages/' . $module_name . '/';
     endif;
 
     $asset_location .= $asset_type . '/' . $asset_name;

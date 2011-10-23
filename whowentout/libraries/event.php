@@ -97,7 +97,7 @@ class CI_Event
         $this->store($event_name, $event_data);
         serverchannel()->trigger($channel, $event_name, $event_data);
     }
-    
+
     function plugins()
     {
         $this->load_plugins();
@@ -115,33 +115,23 @@ class CI_Event
         if ($this->plugins_loaded)
             return;
 
-        foreach ($this->get_plugin_filepaths() as $plugin_name => $plugin_filepath) {
-            require_once $plugin_filepath;
-            $plugin_class = $plugin_name . 'plugin';
-            $this->plugins[$plugin_name] = new $plugin_class;
+        $plugin_class_names = f()->class_loader()->get_subclass_names('Plugin');
+        foreach ($plugin_class_names as $class_name) {
+            $plugin_name = $this->string_before_last('plugin', strtolower($class_name));
+            $this->plugins[$plugin_name] = f()->class_loader()->init($class_name);
         }
-
+        
         $this->plugins_loaded = TRUE;
     }
 
-    private function get_plugin_filepaths()
+    function string_before_last($needle, $haystack)
     {
-        $paths = array();
-
-        $files = files(APPPATH . 'plugins');
-        foreach ($files as $filepath) {
-            if (string_ends_with('.php', $filepath)) {
-                $plugin_name = string_before_last('plugin.php', basename($filepath));
-                $paths[$plugin_name] = $filepath;
-            }
+        $pos = strrpos($haystack, $needle);
+        if ($pos === FALSE) {
+            return FALSE;
+        } else {
+            return substr($haystack, 0, $pos);
         }
-
-        return $paths;
     }
-
-}
-
-class CI_Plugin
-{
 
 }

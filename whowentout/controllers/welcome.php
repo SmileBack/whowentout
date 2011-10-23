@@ -3,6 +3,10 @@
 class Welcome extends MY_Controller
 {
 
+    function index()
+    {
+    }
+
     function index2()
     {
         $party = party(32);
@@ -14,16 +18,6 @@ class Welcome extends MY_Controller
         $claire = user(82);
         $jenny = user(108);
         $allie = user(184);
-
-        require_once APPPATH . 'classes/index.class.php';
-        require_once APPPATH . 'classes/classloader.class.php';
-
-        $directory_index = new Index(APPPATH . 'libraries', $this->cache);
-        $loader = new ClassLoader($directory_index);
-
-        $data = $loader->get_class_metadata('ci_flag');
-
-        krumo::dump($data);
     }
 
 }
