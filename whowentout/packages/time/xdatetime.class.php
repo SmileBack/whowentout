@@ -31,6 +31,12 @@ class XDateTime extends DateTime
         return in_array($this->getDayOfWeek(), $party_days);
     }
 
+    function isCheckinDay()
+    {
+        $yesterday = $this->getDay(-1);
+        return $yesterday->isPartyDay();
+    }
+    
     function isNormalDay()
     {
         return ! $this->isPartyDay();

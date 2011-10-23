@@ -6,6 +6,7 @@
     <thead>
       <tr>
         <th>Passed</th>
+        <th>Assertions</th>
         <th>Test</th>
         <th>Expected</th>
         <th>Actual</th>
@@ -17,6 +18,7 @@
       <?php foreach ($group['tests'] as $test): ?>
       <tr>
         <td><?= $test['passed'] ? 'Y' : 'N' ?></td>
+        <td><?= $test['assertion_pass_count'] ?>/<?= $test['assertion_count'] ?></td>
         <td><?= $test['name'] ?></td>
         <td><?= isset($test['expected']) ? $test['expected'] : '' ?></td>
         <td><?= isset($test['actual']) ? $test['actual'] : '' ?></td>
@@ -27,3 +29,4 @@
     </tbody>
   </table>
 <?php endforeach; ?>
+<h4>Ran tests at <?= date('Y-m-d H:i:s') ?></h4>

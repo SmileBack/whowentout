@@ -142,6 +142,8 @@ class TestGroup
         $this->current_test = array(
             'name' => $method,
             'passed' => TRUE,
+            'assertion_pass_count' => 0,
+            'assertion_count' => 0,
             'message' => '',
         );
 
@@ -163,6 +165,11 @@ class TestGroup
             $this->current_test['line'] = $this->calling_line();
             $this->current_test['file'] = $this->calling_file();
         }
+        else {
+            $this->current_test['assertion_pass_count']++;
+        }
+        
+        $this->current_test['assertion_count']++;
     }
 
     protected function assert_equal($actual, $expected, $message = '')
@@ -175,6 +182,11 @@ class TestGroup
             $this->current_test['line'] = $this->calling_line();
             $this->current_test['file'] = $this->calling_file();
         }
+        else {
+            $this->current_test['assertion_pass_count']++;
+        }
+
+        $this->current_test['assertion_count']++;
     }
 
     protected function calling_line()
