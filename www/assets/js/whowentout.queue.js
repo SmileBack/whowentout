@@ -8,19 +8,9 @@
         init: function(fn, options) {
             this._fn = fn;
             this._options = options;
-//            var args = $.makeArray(arguments).slice(1);
-//            console.log('--args--');console.log(args);
         },
         run: function() {
-            var result = null;
-            try {
-                result = this._fn(this._options);
-            }
-            catch (err) {
-                console.log('--error when running task--');
-                console.log(err);
-            }
-            return result;
+            return this._fn(this._options);
         }
     });
 

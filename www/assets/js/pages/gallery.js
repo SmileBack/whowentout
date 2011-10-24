@@ -2,6 +2,7 @@
 //= require lib/jquery.entwine.js
 //= require widgets/jquery.notice.js
 //= require whowentout.application.js
+//= require whowentout.queue.js
 
 $.when(app.load()).then(function() {
 
@@ -18,11 +19,50 @@ $.when(app.load()).then(function() {
         window.location.reload(true);
     });
 
+    function InsertAttendeeTask(options) {
+        var gallery = $(options.gallery);
+        var party_id = gallery.partyID();
+        var user_id = options.user_id;
+
+        var dfd = $.Deferred();
+
+        var attendeeResult = $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: '/user/party_attendee_view',
+            data: { user_id: user_id, party_id: party_id }
+        });
+        
+        attendeeResult.done(function(result) {
+            var insertPosition = result.insert_positions[ gallery.sorting() ];
+            var el = $('<li>' + result.party_attendee_view + '</li>');
+            el.addClass('new').css('display', 'inline-block').css('opacity', 0);
+
+            el.bind('imageload', function() {
+                if (insertPosition == 'first') {
+                    gallery.find('> ul').prepend(el);
+                }
+                else {
+                    gallery.attendee(insertPosition).closest('li').after(el);
+                }
+                el.animate({opacity: 1}, {
+                    complete: function() {
+                        dfd.resolve();
+                    }
+                });
+            });
+        });
+
+        return dfd.promise();
+    }
+
     $('.gallery').entwine({
         onmatch: function() {
             this._super();
-
             var self = this;
+            
+            this.data('queue', new WhoWentOut.Queue());
+            
             app.channel('private-party_' + this.partyID()).bind('checkin', function(e) {
                 var user_id = e.user_id;
                 var party_id = e.party_id;
@@ -30,6 +70,9 @@ $.when(app.load()).then(function() {
                 console.log(user_id + ' checked into ' + party_id);
                 self.insertAttendee(e.user_id, e.party_id);
             });
+        },
+        queue: function() {
+            return this.data('queue');
         },
         onunmatch: function() {
             this._super();
@@ -44,27 +87,10 @@ $.when(app.load()).then(function() {
             this.insertAttendee(e.party_attendee_view, e.insert_positions);
         },
         insertAttendee: function(user_id) {
-            var gallery = $(this);
-            var attendeeResult = $.ajax({
-                type: 'post',
-                dataType: 'json',
-                url: '/user/party_attendee_view',
-                data: { user_id: user_id, party_id: this.partyID() }
-            });
-            attendeeResult.done(function(result) {
-                var insertPosition = result.insert_positions[ gallery.sorting() ];
-                var el = $('<li>' + result.party_attendee_view + '</li>');
-                el.addClass('new').css('display', 'inline-block').css('opacity', 0);
-
-                el.bind('imageload', function() {
-                    if (insertPosition == 'first') {
-                        gallery.find('> ul').prepend(el);
-                    }
-                    else {
-                        gallery.attendee(insertPosition).closest('li').after(el);
-                    }
-                    el.animate({opacity: 1});
-                });
+            this.queue().add(InsertAttendeeTask, {
+                gallery: this,
+                party_id: this.partyID(),
+                user_id: user_id
             });
         },
         attendee: function(user_id) {
