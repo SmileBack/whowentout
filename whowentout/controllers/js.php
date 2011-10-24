@@ -104,7 +104,8 @@ class Js extends MY_Controller
             return;
 
         $response['presence_channels'] = array();
-        $recently_attended_parties = current_user()->recently_attended_parties();
+        $checkin_engine = new CheckinEngine();
+        $recently_attended_parties = $checkin_engine->get_recently_attended_parties_for_user( current_user() );
         foreach ($recently_attended_parties as $party) {
             $response['presence_channels'][] = 'presence-party_' . $party->id;
         }

@@ -16,20 +16,22 @@ class Dashboard extends MY_Controller
         
         $user = current_user();
         $college = college();
-        $time = current_time();
-        $yesterday = $college->yesterday(TRUE);
+        
+        $clock = $college->get_clock();
+        $time = $clock->get_time();
+        $yesterday = $time->getDay(-1);
         $parties = $college->open_parties($time);
+        $checkin_engine = new CheckinEngine();
 
         $data = array(
             'title' => 'My Parties',
             'user' => $user,
             'college' => $college,
             'closing_time' => load_view('closing_time_view'),
-            'doors_are_closed' => $college->doors_are_closed(),
+            'doors_are_closed' => ! $college->get_door()->is_open(),
             'open_parties' => $parties,
-            'parties_attended' => $user->recent_parties(),
+            'parties_attended' => $checkin_engine->get_recently_attended_parties_for_user($user),
             'has_attended_party' => $user->has_attended_party_on_date($yesterday),
-            'top_parties' => $college->top_parties(),
             'smile_engine' => new SmileEngine(),
         );
 

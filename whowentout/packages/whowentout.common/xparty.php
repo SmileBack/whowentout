@@ -125,15 +125,15 @@ class XParty extends XObject
 
     function chat_is_open()
     {
-        return current_time()->getTimestamp() < $this->chat_close_time()->getTimestamp();
+        return $this->college->get_clock()->get_time()->getTimestamp() < $this->chat_close_time()->getTimestamp();
     }
 
-    function chat_close_time($local = FALSE)
+    function chat_close_time()
     {
         $dt = DateTime::createFromFormat('Y-m-d H:i:s', $this->date . '00:00:00', $this->college->timezone);
         $dt->modify('next Wednesday');
         $dt->setTime(11, 59, 0);
-        return $local ? $this->college->make_local($dt) : make_gmt($dt);
+        return $dt;
     }
 
     function smiling_is_closed()
@@ -143,7 +143,7 @@ class XParty extends XObject
 
     function smiling_is_open()
     {
-        return current_time()->getTimestamp() < $this->smiling_close_time()->getTimestamp();
+        return $this->college->get_clock()->get_time()->getTimestamp() < $this->smiling_close_time()->getTimestamp();
     }
 
     function smiling_close_time($local = FALSE)
@@ -169,7 +169,7 @@ class XParty extends XObject
         );
 
         $this->db()->insert('party_invitations', array(
-                                                 'created_at' => current_time()->format('Y-m-d H:i:s'),
+                                                 'created_at' => $this->college->get_clock()->get_time()->format('Y-m-d H:i:s'),
                                                  'party_id' => $this->id,
                                                  'sender_id' => $from->id,
                                                  'college_student_id' => $student->id,

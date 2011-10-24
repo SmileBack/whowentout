@@ -11,7 +11,7 @@ function f()
 
 function boot_fire()
 {
-    global $_fire_app;
+    global $_fire_app, $routing;
 
     require_once APPPATH . '../fire/filesystemcache.class.php';
     require_once APPPATH . '../fire/fireapp.class.php';
@@ -26,4 +26,7 @@ function boot_fire()
     $_fire_app = new FireApp($class_loader);
     
     f()->enable_autoload();
+
+//    $routing['controller'] = 'welcome';
+//    $routing['function'] = 'blah';
 }

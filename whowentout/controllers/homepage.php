@@ -10,7 +10,7 @@ class Homepage extends MY_Controller
 
         $user = current_user();
         $college = college();
-        $current_time = current_time();
+        $current_time = $college->get_clock()->get_time();
 
         $this->load->view('homepage_view');
     }

@@ -1,4 +1,3 @@
-
 <section>
   <h1>Fake Time</h1>
   <div class="section_content">

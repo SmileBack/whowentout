@@ -15,7 +15,7 @@ class CheckinEngine
         $this->db->insert('party_attendees', array(
                                                   'user_id' => $user->id,
                                                   'party_id' => $party->id,
-                                                  'checkin_time' => $this->current_time()->format('Y-m-d H:i:s'),
+                                                  'checkin_time' => college()->get_clock()->get_time()->format('Y-m-d H:i:s'),
                                              ));
     }
 
@@ -32,9 +32,13 @@ class CheckinEngine
      *   The date that the parties occured, NOT the date of checkin.
      * @return bool
      */
-    function user_has_checked_in_on_date($date)
+    function user_has_checked_in_on_date(XUser $user, XDateTime $date)
     {
-        
+        return $this->db->from('party_attendees')
+                        ->join('parties', 'party_attendees.party_id = parties.id')
+                        ->where('user_id', $user->id)
+                        ->where('date', $date->format('Y-m-d'))
+                        ->count_all_results() > 0;
     }
 
     function get_checkins_for_party($party)
@@ -46,9 +50,18 @@ class CheckinEngine
         return XUser::load_objects('XUser', $query);
     }
 
-    function get_checkins_for_user($user)
+    function get_recently_attended_parties_for_user($user)
     {
-        
+        $now = $user->college->get_clock()->get_time();
+        $cutoff = $now->getDay(-60);
+        $rows = $this->db
+                ->select('party_id AS id')
+                ->from('party_attendees')
+                ->join('parties', 'party_attendees.party_id = parties.id')
+                ->order_by('date', 'desc')
+                ->where('user_id', $user->id)
+                ->where('date >', $cutoff->format('Y-m-d'));
+        return XObject::load_objects('XParty', $rows);
     }
 
     function get_parties_open_for_checkin($time)
@@ -58,7 +71,7 @@ class CheckinEngine
 
     private function current_time()
     {
-        return current_time();
+        return college()->get_clock()->get_time();
     }
 
     private function init_db()

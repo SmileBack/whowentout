@@ -143,7 +143,7 @@ class XUser extends XObject
         $this->db()->insert('party_attendees', array(
                                                     'user_id' => $this->id,
                                                     'party_id' => $party->id,
-                                                    'checkin_time' => current_time()->format('Y-m-d H:i:s'),
+                                                    'checkin_time' => $this->college->get_clock()->get_time()->format('Y-m-d H:i:s'),
                                                ));
 
         $ci->event->raise('checkin', array(
@@ -158,33 +158,34 @@ class XUser extends XObject
     function can_checkin($party_id)
     {
         $party = party($party_id);
+        $checkin_engine = new CheckinEngine();
 
         if ($party == NULL) {
             $this->reason = REASON_PARTY_DOESNT_EXIST;
             return FALSE;
         }
 
-        $party_date = new DateTime($party->date, $party->college->timezone);
+        $party_date = new XDateTime($party->date, $party->college->timezone);
 
         if ($party->college != $this->college) {
             $this->reason = REASON_NOT_IN_COLLEGE;
             return FALSE;
         }
 
-        $yesterday = $this->college->yesterday(TRUE);
+        $yesterday = $this->college->get_clock()->get_time()->getDay(-1);
         if ($party_date != $yesterday) {
             $this->reason = REASON_PARTY_WASNT_YESTERDAY;
             return FALSE;
         }
 
         // You've already attended a party
-        if ($this->has_attended_party_on_date($party_date)) {
+        if ($checkin_engine->user_has_checked_in_on_date($this, $party_date)) {
             $this->reason = REASON_ALREADY_ATTENDED_PARTY;
             return FALSE;
         }
 
         // You are not within the bounds of the checkin time.
-        if ($this->college->doors_are_closed()) {
+        if ( ! $this->college->get_door()->is_open() ) {
             $this->reason = REASON_DOORS_HAVE_CLOSED;
             return FALSE;
         }
@@ -214,7 +215,7 @@ class XUser extends XObject
                                      'sender_id' => $this->id,
                                      'receiver_id' => $receiver->id,
                                      'party_id' => $party->id,
-                                     'smile_time' => current_time()->format('Y-m-d H:i:s'),
+                                     'smile_time' => $this->college->get_clock()->get_time()->format('Y-m-d H:i:s'),
                                 ));
 
         $ci->event->raise('smile_sent', array(
@@ -374,7 +375,7 @@ class XUser extends XObject
                             WHERE friend_facebook_id = ?", array($this->id, $this->facebook_id));
 
         $this->db()->trans_complete();
-        $this->last_updated_friends = current_time()->format('Y-m-d H:i:s');
+        $this->last_updated_friends = $this->college->get_clock()->get_time()->format('Y-m-d H:i:s');
         $this->save();
 
         return TRUE;
@@ -397,7 +398,7 @@ class XUser extends XObject
 
         $last_updated = new DateTime($this->last_updated_friends, new DateTimeZone('UTC'));
 
-        return current_time()->getTimestamp() - $last_updated->getTimestamp() > 3600;
+        return $this->college->get_clock()->get_time()->getTimestamp() - $last_updated->getTimestamp() > 3600;
     }
 
     /**
@@ -408,16 +409,14 @@ class XUser extends XObject
      * @return object
      *   A party object
      */
-    function get_attended_party($date)
+    function get_attended_party(XDateTime $date)
     {
-        $date = $this->college->make_local($date);
-
         $row = $this->db()
                 ->select('party_id AS id')
                 ->from('party_attendees')
                 ->join('parties', 'party_attendees.party_id = parties.id')
                 ->where('user_id', $this->id)
-                ->where('date', date_format($date, 'Y-m-d'))
+                ->where('date', $date->format('Y-m-d'))
                 ->get()->row();
 
         if ($row == NULL)
@@ -426,45 +425,20 @@ class XUser extends XObject
         return party($row->id);
     }
 
-    function get_checked_in_party($date = NULL)
+    function get_checked_in_party(XDateTime $date = NULL)
     {
-        if (!$date)
-            $date = $this->college->today();
-
-        $date = $this->college->make_local($date);
-        $date->setTime(0, 0, 0);
-        $date->modify('-1 day');
-        return $this->get_attended_party($date);
+        if ($date == NULL)
+            $date = $this->college->get_clock()->get_time();
+        
+        $yesterday = $date->getDay(-1);
+        return $this->get_attended_party($yesterday);
     }
 
     function has_checked_in()
     {
-        return $this->has_checked_in_on_date($this->college->today());
-    }
-
-    function recently_attended_parties()
-    {
-        $cutoff = $this->college->day(-14, TRUE);
-        $rows = $this->db()
-                ->select('party_id AS id')
-                ->from('party_attendees')
-                ->join('parties', 'party_attendees.party_id = parties.id')
-                ->order_by('date', 'desc')
-                ->where('user_id', $this->id)
-                ->where('date >', $cutoff->format('Y-m-d'));
-        return XObject::load_objects('XParty', $rows);
-    }
-
-    function recent_parties()
-    {
-        $parties = array();
-        $rows = $this->db()
-                ->select('party_id AS id')
-                ->from('party_attendees')
-                ->join('parties', 'party_attendees.party_id = parties.id')
-                ->where('user_id', $this->id)
-                ->order_by('date', 'desc');
-        return XObject::load_objects('XParty', $rows);
+        $now = $this->college->get_clock()->get_time();
+        $today = $now->getDay(0);
+        return $this->has_checked_in_on_date($today);
     }
 
     function smiles_received_message($party)

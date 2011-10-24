@@ -18,7 +18,7 @@ class Door
     function get_opening_time()
     {
         $clock = $this->get_clock();
-        $now = $clock->get();
+        $now = $clock->get_time();
 
         $today = $now->getDay(0);
         $opening_time_today = $this->get_opening_time_for_day($today);
@@ -36,7 +36,7 @@ class Door
     function get_closing_time()
     {
         $clock = $this->get_clock();
-        $now = $clock->get();
+        $now = $clock->get_time();
 
         $today = $now->getDay(0);
         $closing_time_today = $this->get_closing_time_for_day($today);

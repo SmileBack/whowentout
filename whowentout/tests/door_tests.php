@@ -44,7 +44,7 @@ class Door_Tests extends TestGroup
 
         foreach ($test_cases as $date => $times) {
             foreach ($times as $time => $expected_opening_time) {
-                $clock->set($date . ' ' . $time);
+                $clock->set_time($date . ' ' . $time);
                 $actual_opening_time = $door->get_opening_time();
                 $this->assert_equal(
                     $actual_opening_time->format('Y-m-d H:i:s'),
@@ -96,7 +96,7 @@ class Door_Tests extends TestGroup
 
         foreach ($test_cases as $date => $times) {
             foreach ($times as $time => $expected_closing_time) {
-                $clock->set($date . ' ' . $time);
+                $clock->set_time($date . ' ' . $time);
                 $actual_closing_time = $door->get_closing_time();
                 $this->assert_equal(
                     $actual_closing_time->format('Y-m-d H:i:s'),
@@ -162,7 +162,7 @@ class Door_Tests extends TestGroup
         $door = new Door($clock);
         foreach ($test_cases as $date => $cases) {
             foreach ($cases as $time_of_day => $door_is_open) {
-                $clock->set($date . ' ' . $time_of_day);
+                $clock->set_time($date . ' ' . $time_of_day);
                 $this->assert_equal(
                     $door->is_open(),
                     $door_is_open,

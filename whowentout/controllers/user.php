@@ -52,13 +52,13 @@ class User extends MY_Controller
             }
 
             if ($user->changed()) {
-                $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
+                $user->last_edit = $this->college->get_clock()->get_time()->format('Y-m-d H:i:s');
                 $user->save();
             }
 
             // The first time no-changes edit still counts as a save.
             if ($user->never_edited_profile()) {
-                $user->last_edit = date_format(current_time(), 'Y-m-d H:i:s');
+                $user->last_edit = $this->college->get_clock()->get_time()->format('Y-m-d H:i:s');
                 $user->save();
             }
 
@@ -136,6 +136,9 @@ class User extends MY_Controller
     {
         $party_id = post('party_id');
         $user = current_user();
+        
+        $checkin_engine = new CheckinEngine();
+        $smile_engine = new SmileEngine();
 
         $response = array();
 
@@ -152,7 +155,7 @@ class User extends MY_Controller
             }
         }
 
-        $party = party($party_id);
+        $party = XParty::get($party_id);
 
         if ($party == NULL) {
             if ($this->is_ajax())
@@ -161,14 +164,14 @@ class User extends MY_Controller
                 show_error("Party with id = $party_id doesn't exist.");
         }
 
-        $party_date = new DateTime($party->date, college()->timezone);
+        $party_date = new XDateTime($party->date, college()->timezone);
         if ($user->can_checkin($party)) {
-            $user->checkin($party);
-
+            $checkin_engine->checkin_user_to_party($user, $party);
             if ($this->is_ajax()) {
                 $response['party_summary_view'] = load_view('party_summary_view', array(
                                                                                        'user' => $user,
                                                                                        'party' => $party,
+                                                                                       'smile_engine' => $smile_engine,
                                                                                   ));
                 $response['user_command_notice'] = load_view('user_command_notice', array(
                                                                                          'user' => $user,
@@ -180,19 +183,9 @@ class User extends MY_Controller
                 $response['channels'][$channel_id] = array(
                     'type' => serverchannel()->type(),
                     'id' => $channel_id,
-                    'url' => serverchannel()->url($channel_id),
-                    'frequency' => 10,
                 );
             }
 
-        }
-        elseif ($user->reason() == REASON_ALREADY_ATTENDED_PARTY) {
-            $other_party = $user->get_attended_party($party_date);
-
-            if ($other_party->id == $party->id)
-                $message = "You have already checked into {$party->place->name}.";
-            else
-                $message = "You have already checked into {$other_party->place->name}, so you can't checkin to {$party->place->name}.";
         }
         else {
             $message = get_reason_message($user->reason());

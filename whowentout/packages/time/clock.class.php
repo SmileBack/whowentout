@@ -11,7 +11,7 @@ class Clock
         $this->timezone = $timezone;
     }
 
-    function set($time)
+    function set_time($time)
     {
         if (is_string($time))
             $time = new XDateTime($time, $this->timezone);
@@ -19,7 +19,7 @@ class Clock
         $this->set_delta( $time->getTimestamp() - $this->actual_time()->getTimestamp() );
     }
 
-    function get()
+    function get_time()
     {
         $time = $this->actual_time();
         $time->modify("+{$this->delta} seconds");
@@ -29,6 +29,11 @@ class Clock
     function set_delta($seconds)
     {
         $this->delta = $seconds;
+    }
+
+    function get_delta()
+    {
+        return $this->delta;
     }
 
     private function actual_time()

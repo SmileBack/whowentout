@@ -21,7 +21,7 @@ class CI_Notification
                                                 'type' => $type,
                                                 'user_id' => $user->id,
                                                 'message' => $message,
-                                                'sent_at' => current_time()->getTimestamp(),
+                                                'sent_at' => college()->get_clock()->get_time()->getTimestamp(),
                                            ));
 
         $notification = $this->get($this->db->insert_id());

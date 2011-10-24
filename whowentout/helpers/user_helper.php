@@ -35,7 +35,7 @@ function create_user($facebook_id, $data = array())
     }
 
     $data['facebook_id'] = $facebook_id;
-    $data['registration_time'] = current_time()->format('Y-m-d H:i:s');
+    $data['registration_time'] = college()->get_clock()->get_time()->format('Y-m-d H:i:s'); //TODO: make UTC
     $user = XUser::create($data);
     $user->update_facebook_data();
     $user->refresh_image('facebook');

@@ -40,28 +40,17 @@ class Admin extends MY_Controller
     {
         $this->check_access();
 
-        $fake_time = post('fake_time');
-        $fake_time_point = get_option('fake_time_point');
+        $clock = college()->get_clock();
 
-        if ($fake_time != NULL) {
-            $fake_dt = new DateTime($fake_time, college()->timezone);
-            //$fake_dt = DateTime::createFromFormat('Y-m-d H:i:s', $fake_time, college()->timezone);
-            set_fake_time($fake_dt);
+        if (post('fake_time') != '') {
+            $fake_time_string = post('fake_time');
+            $fake_time = new XDateTime($fake_time_string, college()->timezone);
+            $clock->set_time($fake_time);
         }
 
-        $data = array();
-        $delta = time_delta_seconds();
-
-        if (!time_is_faked()) {
-            $fake_time_point = array(
-                'real_time' => actual_time(),
-                'fake_time' => current_time(),
-            );
-        }
-
-        $data['real_time'] = date_format($fake_time_point['real_time'], 'Y-m-d H:i:s');
-        $data['fake_time'] = date_format($fake_time_point['fake_time'], 'Y-m-d H:i:s');
-        $data['delta'] = "$delta seconds";
+        $data = array(
+            'delta' => $clock->get_delta(),
+        );
 
         $this->load_view('admin/fake_time_view', $data);
     }

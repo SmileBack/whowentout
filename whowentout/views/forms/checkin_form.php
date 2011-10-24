@@ -1,41 +1,23 @@
 <?php
-
-//figure out the next time you should check in
 $college = college();
-$checkin_day = $college->today();
-$doors_open = $college->doors_are_open();
-$within_checkin_periods = $college->within_checkin_periods();
-$open_parties = $college->open_parties($college->current_time());
+$checkin_engine = new CheckinEngine();
+$now = $college->get_clock()->get_time();
 
-$doors_opening_time = $college->get_opening_time(TRUE);
-$doors_closing_time = $college->get_closing_time(TRUE);
+$doors_opening_time = $college->get_door()->get_opening_time();
+$doors_closing_time = $college->get_door()->get_closing_time();
+$doors_open = $college->get_door()->is_open();
 
-if (logged_in())
-    $party = $user->get_checked_in_party($checkin_day);
-else
-    $party = NULL;
-
-$checked_in = ($party != NULL);
-
-$party_day = clone $checkin_day;
-$party_day->modify('-1 day');
-
-$next_checkin_day = $college->day_of_type('checkin', 0, TRUE);
-if (!$next_checkin_day || $checked_in)
-    $next_checkin_day = $college->day_of_type('checkin', 1, TRUE);
-
-$next_party_day = clone $next_checkin_day;
-$next_party_day->modify('-1 day');
-
-$next_doors_opening_time = $college->get_opening_time(TRUE, $next_checkin_day);
-$next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
+$today = $now->getDay(0);
+$party_day = $today->getDay(-1);
+$next_party_day_after_checkin = $doors_opening_time->getDay(-1); //FLIMSY if you change doors opening time
+$user_has_checked_in = $checkin_engine->user_has_checked_in_on_date(current_user(), $party_day);
 
 ?>
 
 <div class="party_summary checkin" data-party-date="<?= $party_day->format('Y-m-d') ?>">
 
 
-    <?php if ($doors_open && !$checked_in): ?>
+    <?php if ( $doors_open && !$user_has_checked_in ): ?>
     <h2>
         <?= form_open('checkin', array(
                                       'class' => 'checkin_form',
@@ -53,7 +35,7 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
     <div class="badge">open for checkin</div>
 
     <div class="body">
-        <?= load_view('recent_attendees_view', array('count' => 4, 'party' => $party)) ?>
+        <?= load_view('recent_attendees_view', array('count' => 4, 'party' => NULL)) ?>
         <div class="countdown">
             <h2>You have until <?= $doors_closing_time->format('g a') ?> to check in</h2>
 
@@ -61,27 +43,27 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
                  data-time="<?= $doors_closing_time->getTimestamp() ?>"></div>
         </div>
     </div>
-    <?php elseif ($doors_open && $checked_in): ?>
+    <?php elseif ($doors_open && $user_has_checked_in): ?>
 
     <div class="body">
 
         <div class="doors_message">
 
             <p class="primary">
-                You have checked in to <?= $party->place->name ?>.
-                People will continue checking in until <?= $doors_closing_time->format('g a') ?>.
+                You have checked in to last night's party.
             </p>
 
             <p class="secondary">
-                Check-ins will reopen after <?= $next_party_day->format('l') ?>'s parties
-                at <?= $next_doors_opening_time->format('g a') ?>.
-            </p>
+                Check-ins will reopen after
 
-            <p class="secondary">
-                Parties you'll be able to check in to:
-                <a href=".day_summary[data-day=<?= $next_party_day->format('Y-m-d') ?>]"
+                   <a href=".day_summary[data-day=<?= $next_party_day_after_checkin->format('Y-m-d') ?>]"
                    class="party_summary_link scroll"
-                   data-flash-spotlight="1">click here</a>
+                   data-flash-spotlight="1">
+
+                       <?= $next_party_day_after_checkin->format('l') ?>'s parties.
+
+                   </a>
+
             </p>
 
         </div>
@@ -94,19 +76,20 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
 
         <div class="doors_message">
 
-            <p>
-                Check-ins will reopen after <?= $next_party_day->format('l') ?>'s parties
-                at <?= $next_doors_opening_time->format('g a') ?>
-            </p>
-
             <div class="remaining_time time_until"
-                 data-time="<?= $next_doors_opening_time->getTimestamp() ?>"></div>
+                 data-time="<?= $doors_opening_time->getTimestamp() ?>"></div>
+            
+            <p class="secondary">
+                Check-ins will reopen after
 
-            <p>
-                Parties you'll be able to check in to:
-                <a href=".day_summary[data-day=<?= $next_party_day->format('Y-m-d') ?>]"
+                   <a href=".day_summary[data-day=<?= $next_party_day_after_checkin->format('Y-m-d') ?>]"
                    class="party_summary_link scroll"
-                   data-flash-spotlight="1">click here</a>
+                   data-flash-spotlight="1">
+
+                       <?= $next_party_day_after_checkin->format('l') ?>'s parties.
+
+                   </a>
+
             </p>
 
         </div>
@@ -115,4 +98,4 @@ $next_doors_closing_time = $college->get_closing_time(TRUE, $next_checkin_day);
     <?php endif; ?>
 
 </div>
-    
+

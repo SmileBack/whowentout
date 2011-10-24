@@ -6,10 +6,7 @@ class SmileEngine_Tests extends TestGroup
     protected function setup()
     {
         parent::setup();
-
-        require_once APPPATH . 'classes/smileengine.class.php';
-        require_once APPPATH . 'classes/checkinengine.class.php';
-
+        
         $this->clear_database();
         $this->ci =& get_instance();
         $this->seed_data();

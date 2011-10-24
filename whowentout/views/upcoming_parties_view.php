@@ -1,14 +1,13 @@
 <div class="upcoming_parties">
     <?php for ($offset = -1; $offset <= 4; $offset++): ?>
     <?php
-    $day = college()->day($offset, TRUE);
-    $is_party_day = college()->is_party_day($day);
+    $day = college()->get_clock()->get_time()->getDay($offset);
     ?>
     <div class="day_summary" data-day="<?= $day->format('Y-m-d') ?>">
         <h3><?= $college->format_time($day, 'short') ?></h3>
         <div class="inner">
             <div class="party_list">
-                <?php if ($is_party_day): ?>
+                <?php if ($day->isPartyDay()): ?>
                 <?php $parties = $college->parties_on($day); ?>
                 <?php if (empty($parties)): ?>
                     TBD

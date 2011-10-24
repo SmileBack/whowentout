@@ -5,6 +5,13 @@ class Welcome extends MY_Controller
 
     function index()
     {
+        $ven = user(array('first_name' => 'Venkat'));
+        $ven->recent_parties();
+    }
+
+    function blah()
+    {
+        print "<h1>woo</h1>";
     }
 
     function index2()
