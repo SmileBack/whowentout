@@ -13,21 +13,21 @@ class PushEventsPlugin extends Plugin
     function on_chat_sent($e)
     {
         $channel = $this->user_channel($e->sender->id);
-        $this->ci->event->broadcast($channel, 'chat_sent', array(
-                                                                'sender' => $e->sender->to_array(),
-                                                                'receiver' => $e->receiver->to_array(),
-                                                                'message' => $e->message,
-                                                           ));
+        $this->broadcast($channel, 'chat_sent', array(
+                                                     'sender' => $e->sender->to_array(),
+                                                     'receiver' => $e->receiver->to_array(),
+                                                     'message' => $e->message,
+                                                ));
     }
 
     function on_chat_received($e)
     {
         $channel = $this->user_channel($e->receiver->id);
-        $this->ci->event->broadcast($channel, 'chat_received', array(
-                                                                    'sender' => $e->sender->to_array(),
-                                                                    'receiver' => $e->receiver->to_array(),
-                                                                    'message' => $e->message,
-                                                               ));
+        $this->broadcast($channel, 'chat_received', array(
+                                                         'sender' => $e->sender->to_array(),
+                                                         'receiver' => $e->receiver->to_array(),
+                                                         'message' => $e->message,
+                                                    ));
     }
 
     /**
@@ -38,14 +38,10 @@ class PushEventsPlugin extends Plugin
     function on_checkin($e)
     {
         $channel = $this->party_channel($e->party->id);
-        $this->ci->event->broadcast($channel, 'checkin', array(
-                                                              'user' => $e->user->to_array(),
-                                                              'insert_positions' => $e->party->attendee_insert_positions($e->user),
-                                                              'party_attendee_view' => load_view('party_attendee_view', array(
-                                                                                                                             'party' => $e->party,
-                                                                                                                             'attendee' => $e->user,
-                                                                                                                        )),
-                                                         ));
+        $this->broadcast($channel, 'checkin', array(
+                                                   'user_id' => $e->user->id,
+                                                   'party_id' => $e->party->id,
+                                              ));
     }
 
     /**
@@ -65,10 +61,10 @@ class PushEventsPlugin extends Plugin
                                                                    'party' => $e->smile->party,
                                                               ));
 
-        $this->ci->event->broadcast($channel, 'smile_received', array(
-                                                                     'party' => $e->smile->party->to_array(),
-                                                                     'party_notices_view' => $party_notices_view,
-                                                                ));
+        $this->broadcast($channel, 'smile_received', array(
+                                                          'party' => $e->smile->party->to_array(),
+                                                          'party_notices_view' => $party_notices_view,
+                                                     ));
     }
 
     /**
@@ -84,10 +80,10 @@ class PushEventsPlugin extends Plugin
                                                                    'user' => $e->match->second_smile->receiver,
                                                                    'party' => $e->match->second_smile->party,
                                                               ));
-        $this->ci->event->broadcast($channel, 'smile_match', array(
-                                                                  'party' => $e->match->second_smile->party->to_array(),
-                                                                  'party_notices_view' => $party_notices_view,
-                                                             ));
+        $this->broadcast($channel, 'smile_match', array(
+                                                       'party' => $e->match->second_smile->party->to_array(),
+                                                       'party_notices_view' => $party_notices_view,
+                                                  ));
     }
 
     function on_time_faked($e)
@@ -98,9 +94,9 @@ class PushEventsPlugin extends Plugin
     function on_notification_sent($e)
     {
         $channel = $this->user_channel($e->user->id);
-        $this->ci->event->broadcast($channel, 'notification', array(
-                                                                   'notification' => $e->notification,
-                                                              ));
+        $this->broadcast($channel, 'notification', array(
+                                                        'notification' => $e->notification,
+                                                   ));
     }
 
     // $e->user
@@ -108,9 +104,20 @@ class PushEventsPlugin extends Plugin
     function on_user_changed_visibility($e)
     {
         $channel = $this->user_channel($e->user->id);
-        $this->ci->event->broadcast($channel, 'user_changed_visibility', array(
-                                                                              'visibility' => $e->visibility,
-                                                                         ));
+        $this->broadcast($channel, 'user_changed_visibility', array(
+                                                                   'visibility' => $e->visibility,
+                                                              ));
+    }
+
+    function broadcast($channel, $event_name, $event_data = array())
+    {
+        $event_data['channel'] = $channel;
+        $this->ci->db->insert('events', array(
+                                          'type' => $event_name,
+                                          'channel' => $channel,
+                                          'data' => serialize($event_data),
+                                        ));
+        serverchannel()->trigger($channel, $event_name, $event_data);
     }
 
     private function user_channel($user_id)
@@ -122,5 +129,5 @@ class PushEventsPlugin extends Plugin
     {
         return 'private-party_' . $party_id;
     }
-    
+
 }

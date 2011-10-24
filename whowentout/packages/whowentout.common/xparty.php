@@ -175,7 +175,7 @@ class XParty extends XObject
                                                  'college_student_id' => $student->id,
                                                ));
 
-        $ci->event->raise('party_invite_sent', array(
+        f()->trigger('party_invite_sent', array(
                                          'party' => $this,
                                          'sender' => $from,
                                          'receiver' => (object)$receiver,

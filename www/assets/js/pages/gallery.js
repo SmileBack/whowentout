@@ -24,7 +24,11 @@ $.when(app.load()).then(function() {
 
             var self = this;
             app.channel('private-party_' + this.partyID()).bind('checkin', function(e) {
-                self.insertAttendee(e.party_attendee_view, e.insert_positions);
+                var user_id = e.user_id;
+                var party_id = e.party_id;
+                console.log('--checkin--');
+                console.log(user_id + ' checked into ' + party_id);
+                self.insertAttendee(e.user_id, e.party_id);
             });
         },
         onunmatch: function() {
@@ -39,20 +43,28 @@ $.when(app.load()).then(function() {
         oncheckin: function(e) { //server generated event
             this.insertAttendee(e.party_attendee_view, e.insert_positions);
         },
-        insertAttendee: function(attendeeHTML, positions) {
-            var insertPosition = positions[ this.sorting() ];
-            var el = $('<li>' + attendeeHTML + '</li>');
+        insertAttendee: function(user_id) {
             var gallery = $(this);
-            el.addClass('new').css('display', 'inline-block').css('opacity', 0);
+            var attendeeResult = $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/user/party_attendee_view',
+                data: { user_id: user_id, party_id: this.partyID() }
+            });
+            attendeeResult.done(function(result) {
+                var insertPosition = result.insert_positions[ gallery.sorting() ];
+                var el = $('<li>' + result.party_attendee_view + '</li>');
+                el.addClass('new').css('display', 'inline-block').css('opacity', 0);
 
-            el.bind('imageload', function() {
-                if (insertPosition == 'first') {
-                    gallery.find('> ul').prepend(el);
-                }
-                else {
-                    gallery.attendee(insertPosition).closest('li').after(el);
-                }
-                el.animate({opacity: 1});
+                el.bind('imageload', function() {
+                    if (insertPosition == 'first') {
+                        gallery.find('> ul').prepend(el);
+                    }
+                    else {
+                        gallery.attendee(insertPosition).closest('li').after(el);
+                    }
+                    el.animate({opacity: 1});
+                });
             });
         },
         attendee: function(user_id) {

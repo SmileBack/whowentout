@@ -57,6 +57,14 @@ class XObject
         }
     }
 
+    protected static function clear_row_cache($table, $row_id)
+    {
+        if (!isset(static::$rows[$table]))
+            return;
+
+        unset(static::$rows[$table][$row_id]);
+    }
+
     protected static function fetch_row($table, $row_id)
     {
         if (!isset(static::$rows[$table]))
@@ -160,12 +168,15 @@ class XObject
         return !($this->data == FALSE || $this->data['id'] == NULL);
     }
 
-    protected function load($id = NULL)
+    protected function load($id = NULL, $refresh_cache = TRUE)
     {
         if ($id) {
             $table = static::$table;
             $id = intval($id);
 
+            if ($refresh_cache)
+                static::clear_row_cache($table, $id);
+            
             $this->data = static::fetch_row($table, $id);
             if (empty($this->data)) {
                 $this->data = FALSE;
@@ -256,9 +267,8 @@ class XObject
 
         $this->db()->update(static::$table, $this->changes(), array('id' => $this->id));
 
-        $this->load($this->id); //refresh values
+        $this->load($this->id, TRUE); //refresh values
     }
-
 
     function __get($name)
     {

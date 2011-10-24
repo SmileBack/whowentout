@@ -16,12 +16,6 @@ $hook['pre_system'][] = array(
     'filepath' => 'hooks',
 );
 
-$hook['post_controller_constructor'][] = array(
-    'function' => 'init_presence_events',
-    'filename' => 'presence.php',
-    'filepath' => 'hooks',
-);
-
 $hook['pre_system'][] = array(
     'function' => 'boot_fire',
     'filename' => 'boot_fire.php',

@@ -17,6 +17,11 @@ class CheckinEngine
                                                   'party_id' => $party->id,
                                                   'checkin_time' => college()->get_clock()->get_time()->format('Y-m-d H:i:s'),
                                              ));
+        
+        $this->trigger('checkin', array(
+                                    'user' => $user,
+                                    'party' => $party,
+                                  ));
     }
 
     function user_has_checked_into_party($user, $party)
@@ -67,6 +72,11 @@ class CheckinEngine
     function get_parties_open_for_checkin($time)
     {
 
+    }
+
+    private function trigger($event_name, $event_data)
+    {
+        f()->trigger($event_name, $event_data);
     }
 
     private function current_time()

@@ -10,7 +10,7 @@ class Dashboard extends MY_Controller
         }
 
         enforce_restrictions();
-        $this->event->raise('page_load', array(
+        f()->trigger('page_load', array(
                                            'url' => uri_string(),
                                          ));
         

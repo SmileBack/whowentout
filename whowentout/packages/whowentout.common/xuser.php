@@ -34,8 +34,6 @@ class XUser extends XObject
 
     function change_visibility($visibility)
     {
-        $ci =& get_instance();
-
         $allowed_visibilities = array('online', 'offline');
         if (!in_array($visibility, $allowed_visibilities))
             return FALSE;
@@ -43,10 +41,10 @@ class XUser extends XObject
         $this->visible_to = $visibility;
         $this->save();
 
-        $ci->event->raise('user_changed_visibility', array(
-                                                          'user' => $this,
-                                                          'visibility' => $this->visible_to,
-                                                     ));
+        f()->trigger('user_changed_visibility', array(
+                                                     'user' => $this,
+                                                     'visibility' => $this->visible_to,
+                                                ));
 
         return TRUE;
     }
@@ -146,11 +144,11 @@ class XUser extends XObject
                                                     'checkin_time' => $this->college->get_clock()->get_time()->format('Y-m-d H:i:s'),
                                                ));
 
-        $ci->event->raise('checkin', array(
-                                          'source' => $party,
-                                          'user' => $this,
-                                          'party' => $party,
-                                     ));
+        f()->trigger('checkin', array(
+                                     'source' => $party,
+                                     'user' => $this,
+                                     'party' => $party,
+                                ));
 
         return TRUE;
     }
@@ -185,7 +183,7 @@ class XUser extends XObject
         }
 
         // You are not within the bounds of the checkin time.
-        if ( ! $this->college->get_door()->is_open() ) {
+        if (!$this->college->get_door()->is_open()) {
             $this->reason = REASON_DOORS_HAVE_CLOSED;
             return FALSE;
         }
@@ -218,13 +216,13 @@ class XUser extends XObject
                                      'smile_time' => $this->college->get_clock()->get_time()->format('Y-m-d H:i:s'),
                                 ));
 
-        $ci->event->raise('smile_sent', array(
-                                             'source' => $party,
-                                             'smile' => $smile,
-                                             'sender' => $this,
-                                             'receiver' => $receiver,
-                                             'party' => $party,
-                                        ));
+        f()->trigger('smile_sent', array(
+                                        'source' => $party,
+                                        'smile' => $smile,
+                                        'sender' => $this,
+                                        'receiver' => $receiver,
+                                        'party' => $party,
+                                   ));
 
         return TRUE;
     }
@@ -264,8 +262,8 @@ class XUser extends XObject
             $this->reason = REASON_OUT_OF_SMILES;
             return FALSE;
         }
-        
-        if ( $smile_engine->smile_was_sent($this, $receiver, $party) ) {
+
+        if ($smile_engine->smile_was_sent($this, $receiver, $party)) {
             $this->reason = REASON_ALREADY_SMILED_AT;
             return FALSE;
         }
@@ -273,7 +271,7 @@ class XUser extends XObject
         $this->reason = NULL;
         return TRUE;
     }
-    
+
     function mutual_friends($person)
     {
         $person = user($person);
@@ -429,7 +427,7 @@ class XUser extends XObject
     {
         if ($date == NULL)
             $date = $this->college->get_clock()->get_time();
-        
+
         $yesterday = $date->getDay(-1);
         return $this->get_attended_party($yesterday);
     }

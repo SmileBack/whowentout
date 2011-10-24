@@ -136,7 +136,7 @@ class User extends MY_Controller
     {
         $party_id = post('party_id');
         $user = current_user();
-        
+
         $checkin_engine = new CheckinEngine();
         $smile_engine = new SmileEngine();
 
@@ -212,7 +212,7 @@ class User extends MY_Controller
         $party = XParty::get($party_id);
         $receiver = XUser::get($receiver_id);
 
-        if ( ! $sender->can_smile_at($receiver, $party)) {
+        if (!$sender->can_smile_at($receiver, $party)) {
             show_error("Smile denied.");
         }
 
@@ -298,6 +298,31 @@ class User extends MY_Controller
         exit;
     }
 
+    function party_attendee_view()
+    {
+        if ( ! logged_in())
+            $this->json_failure("You must be logged in.");
+        
+        $party = XParty::get(post('party_id'));
+        $attendee = XUser::get(post('user_id'));
+
+        if (!$party)
+            $this->json_failure("party doesnt exist");
+
+        if (!$attendee)
+            $this->json_failure("user doesnt exist");
+
+        $response = array();
+        $response['insert_positions'] = $party->attendee_insert_positions($attendee);
+        $response['party_attendee_view'] = load_view('party_attendee_view', array(
+                                                                                 'logged_in_user' => current_user(),
+                                                                                 'party' => $party,
+                                                                                 'attendee' => $attendee,
+                                                                                 'smile_engine' => new SmileEngine(),
+                                                                            ));
+        $this->json($response);
+    }
+
     function pusherauth()
     {
         if (!logged_in())
@@ -311,10 +336,10 @@ class User extends MY_Controller
         $socket_id = post('socket_id');
         $user_id = current_user()->id;
 
-        if ( ! $this->user_can_access_channel(current_user(), $channel_name) ) {
+        if (!$this->user_can_access_channel(current_user(), $channel_name)) {
             $this->json_failure("You don't have permission to access this channel.");
         }
-        
+
         $custom_data = array(
             'user_id' => $user_id,
         );
@@ -328,7 +353,7 @@ class User extends MY_Controller
 
     private function user_can_access_channel(XUser $user, $channel)
     {
-        $id = intval( preg_replace('/\D+/', '', $channel) );
+        $id = intval(preg_replace('/\D+/', '', $channel));
         if ($this->is_user_channel($channel)) {
             return $user->id == $id;
         }
@@ -339,7 +364,7 @@ class User extends MY_Controller
             return TRUE;
         }
     }
-    
+
     private function is_user_channel($channel)
     {
         return string_starts_with('private-user_', $channel);

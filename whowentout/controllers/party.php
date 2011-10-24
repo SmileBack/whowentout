@@ -5,8 +5,8 @@ class Party extends MY_Controller
 
     function page($party_id)
     {
-//        $this->output->enable_profiler(TRUE);
-        
+        //        $this->output->enable_profiler(TRUE);
+
         $user = current_user();
         $party = party($party_id);
         $sort = $this->_get_sort();
@@ -24,9 +24,9 @@ class Party extends MY_Controller
             redirect("party/$party_id");
         }
 
-        $this->event->raise('page_load', array(
-                                              'url' => uri_string(),
-                                         ));
+        f()->trigger('page_load', array(
+                                       'url' => uri_string(),
+                                  ));
 
         $this->benchmark->mark('party_attendees_start');
         $party_attendees = $party->attendees($sort);

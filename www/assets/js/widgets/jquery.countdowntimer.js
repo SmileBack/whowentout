@@ -20,16 +20,18 @@
     var bottomFrameHeight = 64;
     var bottomFrameActualHeight = 38;
     var image = 'digits.png';
-    
+
     var numFramesTop = 3;
     var numFramesBottom = 4;
 
     $('.time_counter').entwine({
         onmatch: function() {
             var self = this;
+
             function update() {
                 self.updateTimer();
             }
+
             setInterval(update, 1000);
         },
         onunmatch: function() {
@@ -38,8 +40,8 @@
             var target = this.attr('data-target');
             if (target == null || target == '')
                 return null;
-            
-            return new Date( parseInt(target) * 1000 );
+
+            return new Date(parseInt(target) * 1000);
         },
         currentTime: function() {
             return new Date();
@@ -47,7 +49,7 @@
         updateTimer: function() {
             if (this.targetTime() == null)
                 return;
-            
+
             var timeLeft = this.currentTime().timeUntil(this.targetTime());
             $('.time_counter').flipTo(timeLeft);
         },
@@ -81,6 +83,32 @@
         }
     });
 
+    function FlipToTask(options) {
+        var el = options.el,
+        endDigit = options.endDigit;
+
+        var dfd = $.Deferred();
+        var n = 0;
+        var startDigit = $(el).getDigit();
+
+        if (startDigit == endDigit) {
+            dfd.resolve();
+            return dfd.promise();
+        }
+
+        var id = setInterval(function() {
+            $(el).setTransitionFrame(startDigit, endDigit, n);
+            n++;
+
+            if (n == 6) {
+                clearInterval(id);
+                $(el).setDigit(endDigit);
+                dfd.resolve();
+            }
+        }, 75);
+        return dfd.promise();
+    }
+
     $('.digit').entwine({
         onmatch: function() {
             this.css({
@@ -102,32 +130,10 @@
             return this.data('queue');
         },
         flipTo: function(endDigit) {
-            var animateTask = function(el, endDigit) {
-                var dfd = $.Deferred();
-                var n = 0;
-                var startDigit = $(el).getDigit();
-
-                if (startDigit == endDigit) {
-                    dfd.resolve();
-                    return dfd.promise();
-                }
-
-                var id = setInterval(function() {
-                    $(el).setTransitionFrame(startDigit, endDigit, n);
-                    n++;
-
-                    if (n == 6) {
-                        clearInterval(id);
-                        $(el).setDigit(endDigit);
-                        dfd.resolve();
-                    }
-                }, 75);
-                return dfd.promise();
-            }
-
-            var task = _.bind(animateTask, {}, this, endDigit);
-            this.queue().add(task);
-
+            this.queue().add(FlipToTask, {
+                el: this,
+                endDigit: endDigit
+            });
             while (this.queue().count() > 2)
                 this.queue().drop();
         },
@@ -208,6 +214,6 @@
             this.css('background-position', '-' + left + 'px -' + top + 'px');
         }
     });
-    
+
 })
 (jQuery);

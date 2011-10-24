@@ -26,10 +26,10 @@ class CI_Notification
 
         $notification = $this->get($this->db->insert_id());
 
-        raise_event('notification_sent', array(
-                                      'user' => $user,
-                                      'notification' => $notification,
-                                 ));
+        f()->trigger('notification_sent', array(
+                                            'user' => $user,
+                                            'notification' => $notification,
+                                          ));
     }
 
     function get($id)

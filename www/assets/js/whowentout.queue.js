@@ -1,6 +1,28 @@
 //= require whowentout.component.js
 
-(function() {
+(function($) {
+
+    WhoWentOut.Component.extend('WhoWentOut.Task', {}, {
+        _fn: null,
+        _options: null,
+        init: function(fn, options) {
+            this._fn = fn;
+            this._options = options;
+//            var args = $.makeArray(arguments).slice(1);
+//            console.log('--args--');console.log(args);
+        },
+        run: function() {
+            var result = null;
+            try {
+                result = this._fn(this._options);
+            }
+            catch (err) {
+                console.log('--error when running task--');
+                console.log(err);
+            }
+            return result;
+        }
+    });
 
     WhoWentOut.Component.extend('WhoWentOut.Queue', {}, {
         _tasks: [],
@@ -18,12 +40,10 @@
         clear: function() {
             this._tasks = [];
         },
-        add: function(task) {
-            if (task != null) {
-                this._tasks.unshift(task);
-                this.run();
-            }
-            return this;
+        add: function(fn, options) {
+            var task = new WhoWentOut.Task(fn, options);
+            this._tasks.unshift(task);
+            this.run();
         },
         run: function() {
             if (this.isRunning())
@@ -46,14 +66,7 @@
             }
             else {
                 this._currentTask = this._tasks.pop();
-
-                try {
-                    var result = this._currentTask();
-                }
-                catch (err) {
-//                    console.log('--error when running task--');
-                    console.log(err);
-                }
+                var result = this._currentTask.run();
 
 //                console.log('--running task--');
                 if (result && result.then) {

@@ -61,6 +61,7 @@ load_view('party_notices_view', array(
                                                   'logged_in_user' => $user,
                                                   'party' => $party,
                                                   'attendee' => $attendee,
+                                                  'smile_engine' => $smile_engine,
                                              ))
             ?>
         </li>

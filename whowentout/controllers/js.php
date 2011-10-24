@@ -5,8 +5,6 @@ class Js extends MY_Controller
 
     function app()
     {
-        $this->load->library('presence');
-
         $response = array();
 
         if (!logged_in())

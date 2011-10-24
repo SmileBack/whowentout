@@ -5,8 +5,7 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $ven = user(array('first_name' => 'Venkat'));
-        $ven->recent_parties();
+        $this->notification->send(184, 'hello');
     }
 
     function blah()
