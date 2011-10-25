@@ -5,8 +5,6 @@ class Party extends MY_Controller
 
     function page($party_id)
     {
-        //        $this->output->enable_profiler(TRUE);
-
         $user = current_user();
         $party = XParty::get($party_id);
         $sort = $this->_get_sort();
@@ -60,9 +58,8 @@ class Party extends MY_Controller
 
     function invite()
     {
-        if (!logged_in())
-            show_error('You must be logged in.');
-
+        $this->require_login();
+        
         $college_student_id = post('name');
         $party_id = post('party_id');
 

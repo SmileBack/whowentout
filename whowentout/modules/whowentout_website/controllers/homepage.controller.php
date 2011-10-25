@@ -7,11 +7,7 @@ class Homepage extends MY_Controller
     {
         if (logged_in())
             redirect('dashboard');
-
-        $user = current_user();
-        $college = college();
-        $current_time = $college->get_time();
-
+        
         $this->load->view('homepage_view');
     }
 

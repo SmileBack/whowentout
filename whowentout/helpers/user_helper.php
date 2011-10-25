@@ -92,7 +92,9 @@ function enforce_restrictions()
         exit;
     }
 
-    if (!current_user()->can_use_website())
+    $use_website_permission = new UseWebsitePermission();
+    $can_use_website = $use_website_permission->check(current_user());
+    if (!$can_use_website)
         redirect('user/edit');
 }
 

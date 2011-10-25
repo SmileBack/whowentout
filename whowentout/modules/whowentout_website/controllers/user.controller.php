@@ -8,9 +8,8 @@ class User extends MY_Controller
 
     function upload_pic()
     {
-        if (!logged_in())
-            show_404();
-
+        $this->require_login();
+        
         $user = current_user();
         $user->upload_pic();
 
@@ -23,8 +22,7 @@ class User extends MY_Controller
 
     function use_facebook_pic()
     {
-        if (!logged_in())
-            show_404();
+        $this->require_login();
 
         $user = current_user();
         $user->use_facebook_pic();
@@ -38,8 +36,7 @@ class User extends MY_Controller
 
     function edit_save()
     {
-        if (!logged_in())
-            show_404();
+        $this->require_login();
 
         $user = current_user();
 
@@ -128,8 +125,7 @@ class User extends MY_Controller
 
     function checkin()
     {
-        if (!logged_in())
-            show_404();
+        $this->require_login();
 
         $party = $party = XParty::get(post('party_id'));
         $user = current_user();
@@ -143,9 +139,12 @@ class User extends MY_Controller
         $checkin_engine = new CheckinEngine();
         $smile_engine = new SmileEngine();
 
+        $checkin_permission = new CheckinPermission();
+        $can_checkin = $checkin_permission->check($user, $party);
+
         $response = array();
 
-        if ($user->can_checkin($party)) {
+        if ($can_checkin) {
             $checkin_engine->checkin_user_to_party($user, $party);
             $response['party_summary_view'] = load_view('party_summary_view', array(
                                                                                    'user' => $user,
@@ -166,12 +165,14 @@ class User extends MY_Controller
             $this->json($response);
         }
         else {
-            $this->json_failure("You are not allowed to checkin.");
+            $this->json_failure("You can't checkin.");
         }
     }
 
     function mutual_friends($target_id)
     {
+        $this->require_login();
+        
         $user = current_user();
         $target = XUser::get($target_id);
 
@@ -196,8 +197,7 @@ class User extends MY_Controller
 
     function friends()
     {
-        if (!logged_in())
-            show_error('Not logged in.');
+        $this->require_login();
 
         $user_id = current_user()->id;
         $q = $this->input->get('q');

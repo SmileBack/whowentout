@@ -7,7 +7,6 @@ class College extends MY_Controller
     {
         $q = $this->input->get('q');
         $college_id = college()->id;
-        $college_id = 1;
         $query = $this->db->from('college_students')
                           ->where('college_id', $college_id);
 
@@ -22,21 +21,5 @@ class College extends MY_Controller
         }
         $this->json($matches);
     }
-
-    function update_offline_users()
-    {
-        $last_updated = $this->option->get('last_updated_offline_users', 0);
-        $time = time();
-        $sometime_ago = time() - 10;
-
-        $throttle = $last_updated > $sometime_ago; //updated recently
-        
-        if (!$throttle) {
-            college()->update_offline_users();
-            $this->option->set('last_updated_offline_users', $time);
-        }
-        
-        $this->json(array('success' => TRUE, 'throttled' => $throttle));
-    }
-
+    
 }
