@@ -47,8 +47,7 @@ class ClassLoader
         return $superclass_metadata['subclasses'];
     }
 
-
-    private function get_class_metadata($class_name)
+    function get_class_metadata($class_name)
     {
         $class_name = strtolower($class_name);
         return $this->index->get_resource_metadata("$class_name class");

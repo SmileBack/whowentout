@@ -125,42 +125,6 @@ function create_college($name, $facebook_network_id, $facebook_school_id = NULL,
     return $college;
 }
 
-function preserve_login_action()
-{
-    ci()->session->keep_flashdata('login_action');
-}
-
-function unpack_login_action()
-{
-    $data = login_action();
-    foreach ($data['post'] as $key => $value) {
-        $_POST[$key] = $value;
-    }
-}
-
-function require_login($action = array())
-{
-    if (!logged_in()) {
-        ci()->session->set_userdata('login_action', $action);
-        redirect('login');
-    }
-}
-
-function login_action()
-{
-    return ci()->session->userdata('login_action');
-}
-
-function login_action_exists()
-{
-    return login_action() != NULL;
-}
-
-function clear_login_action()
-{
-    ci()->session->unset_userdata('login_action');
-}
-
 /**
  * @return XUser
  */

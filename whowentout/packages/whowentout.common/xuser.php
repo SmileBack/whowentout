@@ -529,10 +529,8 @@ class XUser extends XObject
         return $breakdown;
     }
 
-    private function _party_ids(DateTime $date)
+    private function _party_ids(XDateTime $date)
     {
-        $date = $this->college->make_local($date);
-
         $ids = array();
         foreach ($this->college->parties_on($date) as $party) {
             $ids[] = $party->id;

@@ -1,9 +1,10 @@
 <?php
 $user = current_user();
+$today = $user->college->get_clock()->get_time()->getDay(0);
 $party_days = array(
-    $user->college->party_day(-1, TRUE),
-    $user->college->party_day(-2, TRUE),
-    $user->college->party_day(-3, TRUE),
+    $today->getPartyDay(-1),
+    $today->getPartyDay(-2),
+    $today->getPartyDay(-3),
 );
 ?>
 

@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "homepage";
+$route[''] = "homepage/index";
 $route['404_override'] = '';
 
 $route['party/(:num)'] = 'party/page/$1';

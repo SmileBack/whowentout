@@ -33,7 +33,7 @@ class FireApp
     {
         return $this->class_loader;
     }
-
+    
     function enable_autoload()
     {
         $this->class_loader->enable_autoload();

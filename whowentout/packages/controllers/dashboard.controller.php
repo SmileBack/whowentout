@@ -71,7 +71,7 @@ class Dashboard extends MY_Controller
             $this->json_failure('You must be logged in');
 
         $user = current_user();
-        $date = new DateTime(post('date'), $user->college->timezone);
+        $date = new XDateTime(post('date'), $user->college->timezone);
         $response = array();
         
         $response['breakdown'] = where_friends_went_pie_chart_data($date);

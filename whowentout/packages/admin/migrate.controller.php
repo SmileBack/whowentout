@@ -137,5 +137,5 @@ class Migrate extends MY_Controller
 }
 // END Migrations Example Controller
 
-/* End of file migrate.php */
-/* Location: ./application/controllers/migrate.php */
+/* End of file migrate.controller.php */
+/* Location: ./application/controllers/migrate.controller.php */

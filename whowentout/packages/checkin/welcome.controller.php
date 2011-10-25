@@ -5,10 +5,9 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $this->notification->send(184, 'hello');
     }
 
-    function blah()
+    private function blah()
     {
         print "<h1>woo</h1>";
     }

@@ -61,13 +61,7 @@ class User extends MY_Controller
                 $user->last_edit = $this->college->get_clock()->get_time()->format('Y-m-d H:i:s');
                 $user->save();
             }
-
-            if (login_action() != NULL && $user->can_use_website()) {
-                $action = login_action();
-                if ($action['name'] == 'checkin')
-                    redirect('checkin');
-            }
-
+            
             redirect('dashboard');
         }
 
@@ -107,21 +101,12 @@ class User extends MY_Controller
 
     function login()
     {
-        $user_id = post('user_id');
         if (fb()->getUser() == NULL) {
             redirect(facebook_login_url());
         }
         else {
             login();
-
             enforce_restrictions();
-
-            if (login_action() != NULL) {
-                $action = login_action();
-                if ($action['name'] == 'checkin')
-                    redirect('checkin');
-            }
-
             redirect('dashboard');
         }
     }
@@ -134,72 +119,46 @@ class User extends MY_Controller
 
     function checkin()
     {
-        $party_id = post('party_id');
+        if (!logged_in())
+            show_404();
+        
+        $party = $party = XParty::get( post('party_id') );
         $user = current_user();
+
+        if (!$party)
+            $this->json_failure("Party doesn't exist.");
+
+        if (!$user)
+            $this->json_failure("User doesn't exist.");
 
         $checkin_engine = new CheckinEngine();
         $smile_engine = new SmileEngine();
 
         $response = array();
 
-        require_login(array(
-                           'name' => 'checkin', //action name
-                           'party_id' => $party_id,
-                      ));
-
-        if (login_action_exists()) {
-            $action = login_action();
-            if ($action['name'] == 'checkin') {
-                clear_login_action();
-                $party_id = $action['party_id'];
-            }
-        }
-
-        $party = XParty::get($party_id);
-
-        if ($party == NULL) {
-            if ($this->is_ajax())
-                $this->json_failure("Party with id = $party_id doesn't exist.");
-            else
-                show_error("Party with id = $party_id doesn't exist.");
-        }
-
-        $party_date = new XDateTime($party->date, college()->timezone);
         if ($user->can_checkin($party)) {
             $checkin_engine->checkin_user_to_party($user, $party);
-            if ($this->is_ajax()) {
-                $response['party_summary_view'] = load_view('party_summary_view', array(
-                                                                                       'user' => $user,
-                                                                                       'party' => $party,
-                                                                                       'smile_engine' => $smile_engine,
-                                                                                  ));
-                $response['user_command_notice'] = load_view('user_command_notice', array(
-                                                                                         'user' => $user,
-                                                                                    ));
-                $response['checkin_form'] = load_view('forms/checkin_form');
-                $response['party'] = $party->to_array();
+            $response['party_summary_view'] = load_view('party_summary_view', array(
+                                                                                   'user' => $user,
+                                                                                   'party' => $party,
+                                                                                   'smile_engine' => $smile_engine,
+                                                                              ));
+            $response['user_command_notice'] = load_view('user_command_notice', array(
+                                                                                     'user' => $user,
+                                                                                ));
+            $response['checkin_form'] = load_view('forms/checkin_form');
+            $response['party'] = $party->to_array();
 
-                $channel_id = 'party_' . $party->id;
-                $response['channels'][$channel_id] = array(
-                    'type' => serverchannel()->type(),
-                    'id' => $channel_id,
-                );
-            }
-
-        }
-        else {
-            $message = get_reason_message($user->reason());
-        }
-
-        if ($this->is_ajax()) {
-            $response['message'] = isset($message) ? $message : '';
+            $channel_id = 'party_' . $party->id;
+            $response['channels'][$channel_id] = array(
+                'type' => serverchannel()->type(),
+                'id' => $channel_id,
+            );
             $this->json($response);
         }
         else {
-            set_message($message);
-            redirect('/');
+            $this->json_failure("You are not allowed to checkin.");
         }
-
     }
 
     function smile()
@@ -242,35 +201,7 @@ class User extends MY_Controller
                                                       'mutual_friends' => $mutual_friends,
                                                  ));
     }
-
-
-    function invite()
-    {
-        if (!logged_in())
-            show_error('Not logged in.');
-
-        $friend_facebook_id = post('friend_facebook_id');
-        if (empty($friend_facebook_id)) {
-            set_message('You must select a friend to invite.');
-            redirect('dashboard');
-        }
-
-        $user_id = current_user()->id;
-        $rows = $this->db->from('friends')
-                ->where('user_id', $user_id)
-                ->where('friend_facebook_id', $friend_facebook_id)
-                ->get()->result();
-
-        if (empty($rows)) {
-            set_message("No such friend.");
-            redirect('dashboard');
-        }
-
-        $friend = $rows[0];
-        set_message("Here we would send an invite to $friend->friend_full_name (facebook id = $friend->friend_facebook_id)");
-        redirect('dashboard');
-    }
-
+    
     function change_visibility($visibility)
     {
         $success = current_user()->change_visibility($visibility);
