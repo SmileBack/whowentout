@@ -47,15 +47,6 @@ class Party extends MY_Controller
         $this->load_view('party_view', $data);
     }
 
-    function online_user_ids($party_id)
-    {
-        $party = XParty::get($party_id);
-        $this->json(array(
-                         'success' => TRUE,
-                         'online_user_ids' => $party->get_online_user_ids(current_user()),
-                    ));
-    }
-
     function invite()
     {
         $this->require_login();

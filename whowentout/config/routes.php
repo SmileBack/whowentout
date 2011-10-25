@@ -45,7 +45,7 @@ $route['party/(:num)'] = 'party/page/$1';
 
 $route['login'] = 'user/login';
 $route['logout'] = 'user/logout';
-$route['checkin'] = 'user/checkin';
+$route['checkin'] = 'checkin/create';
 $route['friends'] = 'dashboard/where_friends_went';
 
 $route['fakelogin'] = 'admin/fakelogin';
