@@ -66,7 +66,7 @@
         <nav>
 
             <?php if (logged_in()): ?>
-            <?= anchor('dashboard', 'My Parties', array('class' => 'dashboard_link')) ?>
+            <?= anchor('dashboard', 'My Parties' . '<span class="num_checkins"></span>', array('class' => 'dashboard_link')) ?>
             <?= anchor('friends', 'My Friends', array('class' => 'friends_link')) ?>
             <?php endif; ?>
 

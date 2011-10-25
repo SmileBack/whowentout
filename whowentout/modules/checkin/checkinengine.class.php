@@ -69,9 +69,11 @@ class CheckinEngine
         return XObject::load_objects('XParty', $rows);
     }
 
-    function get_parties_open_for_checkin($time)
+    function get_num_checkins_for_user($user)
     {
-
+        return $this->db->from('party_attendees')
+                        ->where('user_id', $user->id)
+                        ->count_all_results();
     }
 
     private function trigger($event_name, $event_data)

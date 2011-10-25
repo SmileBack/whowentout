@@ -43,6 +43,8 @@ class Dashboard extends MY_Controller
             $this->jsaction->ShowSiteHelp();
         }
 
+        $this->jsaction->SetText('.num_checkins', ' (' . $checkin_engine->get_num_checkins_for_user( $user ) . ')');
+
         $this->load_view('dashboard_view', $data);
     }
 

@@ -59,7 +59,7 @@
     };
 
     $.fn.flashSpotlight = function(delay, onComplete) {
-        delay = delay || 400;
+        delay = delay || 1000;
         onComplete = onComplete || function() {
         };
 

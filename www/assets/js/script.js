@@ -22,36 +22,29 @@ $.when(app.load()).then(function() {
             });
             
         },
+        onunmatch: function() {
+        },
         selectOption: function(k) {
-            var self = this;
-
             $.getJSON('/user/change_visibility/' + k, function(response) {});
-
             return this;
         },
         markSelectedOption: function(k) {
-            this.find('.selected').removeClass('selected');
-            this.getOption(k).addClass('selected');
-        },
-        getOption: function(k) {
-            return this.find('a').attrEq('href', k);
+            this.find('input:radio:checked').prop('checked', false);
+            this.find('input:radio[value=' + k + ']').prop('checked', true);
         },
         val: function(v) {
             if (v === undefined) {
-                return this.find('.selected').attr('href');
+                return this.find('input:radio:checked').val();
             }
             else {
                 this.selectOption(v);
             }
-        },
-        onunmatch: function() {
         }
     });
 
-    $('.visibilitybar a').entwine({
-        onclick: function(e) {
-            e.preventDefault();
-            this.closest('.visibilitybar').selectOption(this.attr('href'));
+    $('.visibilitybar input:radio').entwine({
+        onchange: function() {
+            this.closest('.visibilitybar').selectOption( this.val() );
         }
     });
 

@@ -7,6 +7,8 @@ class Js extends MY_Controller
     {
         $response = array();
 
+        $checkin_engine = new CheckinEngine();
+
         if (!logged_in())
             $this->json(array('success' => FALSE, 'error' => 'Not logged in.'));
 

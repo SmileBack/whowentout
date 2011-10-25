@@ -71,6 +71,11 @@ class CheckinEngine_Tests extends TestGroup
                                            'date' => '2011-10-24',
                                       ));
 
+        $this->second_party = XParty::create(array(
+                                           'place_id' => $this->place->id,
+                                           'date' => '2011-10-25',
+                                      ));
+
         $ci =& get_instance();
         $ci->config->set_item('selected_college_id', $this->college->id);
     }
@@ -100,14 +105,14 @@ class CheckinEngine_Tests extends TestGroup
         $this->clear_database();
         $this->seed_data();
 
-        $checkinEngine = new CheckinEngine();
+        $checkin_engine = new CheckinEngine();
 
-        $this->assert_equal($checkinEngine->get_checkins_for_party($this->party), array(), 'no checkins');
+        $this->assert_equal($checkin_engine->get_checkins_for_party($this->party), array(), 'no checkins');
 
-        $checkinEngine->checkin_user_to_party($this->dan, $this->party);
-        $checkinEngine->checkin_user_to_party($this->venkat, $this->party);
+        $checkin_engine->checkin_user_to_party($this->dan, $this->party);
+        $checkin_engine->checkin_user_to_party($this->venkat, $this->party);
 
-        $checkins = $checkinEngine->get_checkins_for_party($this->party);
+        $checkins = $checkin_engine->get_checkins_for_party($this->party);
 
         $this->assert_equal(count($checkins), 2, 'two checkins');
         $this->assert_true(in_array($this->dan, $checkins), 'dan is a checkin');
@@ -119,19 +124,36 @@ class CheckinEngine_Tests extends TestGroup
         $this->clear_database();
         $this->seed_data();
 
-        $checkinEngine = new CheckinEngine();
+        $checkin_engine = new CheckinEngine();
 
         $party_date = new XDateTime('2011-10-24 00:00:00', $this->tz);
         $day_after_party = new XDateTime('2011-10-25 00:00:00', $this->tz);
 
-        $this->assert_true( ! $checkinEngine->user_has_checked_in_on_date($this->dan, $party_date), 'dan hasnt checked in on 10-24-2011 yet');
-        $this->assert_true( ! $checkinEngine->user_has_checked_in_on_date($this->venkat, $party_date), 'venkat hasnt checked in on 10-24-2011 yet');
+        $this->assert_true( ! $checkin_engine->user_has_checked_in_on_date($this->dan, $party_date), 'dan hasnt checked in on 10-24-2011 yet');
+        $this->assert_true( ! $checkin_engine->user_has_checked_in_on_date($this->venkat, $party_date), 'venkat hasnt checked in on 10-24-2011 yet');
 
-        $checkinEngine->checkin_user_to_party($this->dan, $this->party);
-        $this->assert_true( $checkinEngine->user_has_checked_in_on_date($this->dan, $party_date), 'dan just checked in on 10-24-2011');
-        $this->assert_true( ! $checkinEngine->user_has_checked_in_on_date($this->venkat, $party_date), 'venkat still hasnt checked in on 10-24-2011');
+        $checkin_engine->checkin_user_to_party($this->dan, $this->party);
+        $this->assert_true( $checkin_engine->user_has_checked_in_on_date($this->dan, $party_date), 'dan just checked in on 10-24-2011');
+        $this->assert_true( ! $checkin_engine->user_has_checked_in_on_date($this->venkat, $party_date), 'venkat still hasnt checked in on 10-24-2011');
 
-        $this->assert_true( ! $checkinEngine->user_has_checked_in_on_date($this->dan, $day_after_party), 'dan didnt check in on 10-25-2011');
+        $this->assert_true( ! $checkin_engine->user_has_checked_in_on_date($this->dan, $day_after_party), 'dan didnt check in on 10-25-2011');
     }
-    
+
+    function test_num_checkins_for_user()
+    {
+        $this->clear_database();
+        $this->seed_data();
+
+        $checkin_engine = new CheckinEngine();
+
+        $this->assert_equal($checkin_engine->get_num_checkins_for_user($this->dan), 0, 'dan has no checkins');
+
+        $checkin_engine->checkin_user_to_party($this->dan, $this->party);
+        $this->assert_equal($checkin_engine->get_num_checkins_for_user($this->dan), 1, 'dan has 1 checkin');
+        $this->assert_equal($checkin_engine->get_num_checkins_for_user($this->venkat), 0, 'venkat has no checkins');
+
+        $checkin_engine->checkin_user_to_party($this->dan, $this->second_party);
+        $this->assert_equal($checkin_engine->get_num_checkins_for_user($this->dan), 2, 'dan has 2 checkins');
+    }
+
 }

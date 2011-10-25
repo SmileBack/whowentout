@@ -10,14 +10,14 @@
     <?= load_view('forms/checkin_form') ?>
 
     <?php foreach ($checkin_engine->get_recently_attended_parties_for_user( current_user() ) as $party): ?>
-
+    
     <?=
     load_view('party_summary_view', array(
                                          'user' => $user,
                                          'party' => $party,
                                          'smile_engine' => $smile_engine,
                                     ))
-    ; ?>
+    ?>
     <?php endforeach; ?>
-
+    
 </div>

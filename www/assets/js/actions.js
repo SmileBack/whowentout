@@ -81,5 +81,8 @@ Actions = {
             WWO.dialog.title('Help').setButtons('continue').showDialog('site_help');
             WWO.dialog.loadContent('/dashboard/site_help');
         });
+    },
+    SetText: function(selector, text) {
+        $(selector).text(text);
     }
 };

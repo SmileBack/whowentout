@@ -8,12 +8,15 @@ load_view('party_notices_view', array(
     <div class="visibilitybar">
         <?php if ($party->chat_is_open()): ?>
         <h3>
-            <span>Online Visibility?</span>
-            <a class="who_can_chat help">?</a>
+            <span>Chat Availability:</span>
         </h3>
         <div class="links">
-            <a href="online" class="js">Online</a>
-            <a href="offline" class="js">Offline</a>
+            <label>
+                <input type="radio" value="online" name="chat_visibility" /> <span>Online</span>
+            </label>
+            <label>
+                <input type="radio" value="offline" name="chat_visibility" /> <span>Offline</span>
+            </label>
         </div>
         <?php else: ?>
         <h3>
@@ -23,11 +26,6 @@ load_view('party_notices_view', array(
         <?php endif; ?>
     </div>
 
-    <div class="invite_to_party_box">
-        <span>Invite someone to check in.</span>
-        <a href="#invite_to_party" class="scroll">Click Here</a>
-    </div>
-    
     <div class="sortbar">
         <h3>Sort by:</h3>
         <ul>

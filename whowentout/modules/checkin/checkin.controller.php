@@ -42,6 +42,9 @@ class Checkin extends MY_Controller
                 'type' => serverchannel()->type(),
                 'id' => $channel_id,
             );
+
+            $this->jsaction->SetText('.num_checkins', ' (' . $checkin_engine->get_num_checkins_for_user( $user ) . ')');
+            
             $this->json($response);
         }
         else {
