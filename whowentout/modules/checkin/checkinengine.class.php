@@ -69,6 +69,11 @@ class CheckinEngine
         return XObject::load_objects('XParty', $rows);
     }
 
+    function get_parties_availiable_for_checkin(XDateTime $time)
+    {
+        
+    }
+
     function get_num_checkins_for_user($user)
     {
         return $this->db->from('party_attendees')
