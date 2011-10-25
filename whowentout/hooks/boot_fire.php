@@ -19,14 +19,11 @@ function boot_fire()
     require_once APPPATH . '../fire/classloader.class.php';
 
     $cache = new FilesystemCache(APPPATH . '../cache');
-    $index = new Index(APPPATH . 'packages/', $cache);
+    $index = new Index(APPPATH . 'modules/', $cache);
 
     $class_loader = new ClassLoader($index);
     
     $_fire_app = new FireApp($class_loader);
     
     f()->enable_autoload();
-
-//    $routing['controller'] = 'welcome';
-//    $routing['function'] = 'blah';
 }

@@ -17,7 +17,7 @@ function job_add($function, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
     'id' => job_unique_id(),
     'status' => 'pending',
     'type' => $function,
-    'created' => college()->get_clock()->get_time()->getTimestamp(),
+    'created' => college()->get_time()->getTimestamp(),
     'args' => serialize($args),
   );
   
@@ -55,14 +55,14 @@ function job_run($job_id) {
     ci()->db->where('id', $job->id)
             ->update('jobs', array(
               'status' => 'complete',
-              'executed' => college()->get_clock()->get_time()->getTimestamp(),
+              'executed' => college()->get_time()->getTimestamp(),
             ));
   }
   catch (Exception $e) {
     ci()->db->where('id', $job->id)
         ->update('jobs', array(
           'status' => 'error',
-          'executed' => college()->get_clock()->get_time()->getTimestamp(),
+          'executed' => college()->get_time()->getTimestamp(),
           'error_message' => $e->getMessage(),
           'error_line' => $e->getLine(),
           'error_file' => $e->getFile(),

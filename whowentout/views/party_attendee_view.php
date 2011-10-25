@@ -29,13 +29,14 @@ $smiles_left = $smile_engine->get_num_smiles_left_to_give($logged_in_user, $part
         </p>
 
         <p>
+
             <?php if ($attendee->gender != $logged_in_user->gender): ?>
             <?php if ( $smile_engine->smile_was_sent($logged_in_user, $attendee, $party) ): ?>
                 <input type="submit" class="smiled_at submit_button" disabled="disabled"
                        value="Smiled at <?= $attendee->first_name ?>"></button>
                 <?php elseif ($party->smiling_is_open()): ?>
 
-                <?= form_open('user/smile', array('class' => 'smile_form'), array('party_id' => $party->id, 'receiver_id' => $attendee->id)) ; ?>
+                <?= form_open('smile/send', array('class' => 'smile_form'), array('party_id' => $party->id, 'receiver_id' => $attendee->id)) ; ?>
 
                 <input type="submit" value="<?= 'Smile at ' . $attendee->first_name ?>"
                        class="submit_button <?= $smiles_left == 0 ? 'cant' : 'can' ?>"/>

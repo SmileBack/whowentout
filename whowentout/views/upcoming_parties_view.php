@@ -1,7 +1,7 @@
 <div class="upcoming_parties">
     <?php for ($offset = -1; $offset <= 4; $offset++): ?>
     <?php
-    $day = college()->get_clock()->get_time()->getDay($offset);
+    $day = college()->get_time()->getDay($offset);
     ?>
     <div class="day_summary" data-day="<?= $day->format('Y-m-d') ?>">
         <h3><?= $college->format_time($day, 'short') ?></h3>

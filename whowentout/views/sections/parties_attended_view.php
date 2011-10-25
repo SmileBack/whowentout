@@ -1,5 +1,5 @@
 <?php
- $yesterday = college()->get_clock()->get_time()->getDay(-1);
+ $yesterday = college()->get_time()->getDay(-1);
  $checkin_engine = new CheckinEngine();
 ?>
 

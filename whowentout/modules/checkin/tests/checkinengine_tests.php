@@ -49,7 +49,7 @@ class CheckinEngine_Tests extends TestGroup
                                            'facebook_id' => '5312146',
                                            'first_name' => 'Venkat',
                                            'last_name' => 'Dinavahi',
-                                           'gender' => 'F',
+                                           'gender' => 'M',
                                            'college_id' => $this->college->id,
                                       ));
 

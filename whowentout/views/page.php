@@ -36,7 +36,7 @@
 <div id="notice"></div>
 
 <div id="current_time" class="current_time">
-    <?= college()->get_clock()->get_time()->format('D, M j g:i a') ?>
+    <?= college()->get_time()->format('D, M j g:i a') ?>
 </div>
 
 <div id="background">

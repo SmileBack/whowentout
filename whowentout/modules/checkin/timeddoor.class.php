@@ -1,6 +1,6 @@
 <?php
 
-class Door
+class TimedDoor
 {
 
     private $clock;

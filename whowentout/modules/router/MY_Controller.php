@@ -11,6 +11,12 @@ class MY_Controller extends CI_Controller
         $this->asset->load('whowentout.application.js');
     }
 
+    protected function require_login()
+    {
+        if (!logged_in())
+            show_error("You must be logged in.");
+    }
+
     protected function load_view($name, $data = array())
     {
         $this->benchmark->mark('page_content_start');

@@ -8,7 +8,7 @@ class DashboardElement extends Element
         $user = current_user();
         $college = college();
 
-        $time = $college->get_clock()->get_time();
+        $time = $college->get_time();
         $yesterday = $time->getDay(-1);
         $parties = $college->open_parties($time);
 

@@ -1,7 +1,7 @@
 <?php
 $college = college();
 $checkin_engine = new CheckinEngine();
-$now = $college->get_clock()->get_time();
+$now = $college->get_time();
 
 $doors_opening_time = $college->get_door()->get_opening_time();
 $doors_closing_time = $college->get_door()->get_closing_time();

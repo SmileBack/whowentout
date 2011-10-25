@@ -128,150 +128,6 @@ class XUser extends XObject
         return $missing_info;
     }
 
-    function checkin($party)
-    {
-        $ci =& get_instance();
-
-        $party = party($party);
-
-        if (!$this->can_checkin($party)) {
-            return FALSE;
-        }
-
-        $this->db()->insert('party_attendees', array(
-                                                    'user_id' => $this->id,
-                                                    'party_id' => $party->id,
-                                                    'checkin_time' => $this->college->get_clock()->get_time()->format('Y-m-d H:i:s'),
-                                               ));
-
-        f()->trigger('checkin', array(
-                                     'source' => $party,
-                                     'user' => $this,
-                                     'party' => $party,
-                                ));
-
-        return TRUE;
-    }
-
-    function can_checkin($party_id)
-    {
-        $party = party($party_id);
-        $checkin_engine = new CheckinEngine();
-
-        if ($party == NULL) {
-            $this->reason = REASON_PARTY_DOESNT_EXIST;
-            return FALSE;
-        }
-
-        $party_date = new XDateTime($party->date, $party->college->timezone);
-
-        if ($party->college != $this->college) {
-            $this->reason = REASON_NOT_IN_COLLEGE;
-            return FALSE;
-        }
-
-        $yesterday = $this->college->get_clock()->get_time()->getDay(-1);
-        if ($party_date != $yesterday) {
-            $this->reason = REASON_PARTY_WASNT_YESTERDAY;
-            return FALSE;
-        }
-
-        // You've already attended a party
-        if ($checkin_engine->user_has_checked_in_on_date($this, $party_date)) {
-            $this->reason = REASON_ALREADY_ATTENDED_PARTY;
-            return FALSE;
-        }
-
-        // You are not within the bounds of the checkin time.
-        if (!$this->college->get_door()->is_open()) {
-            $this->reason = REASON_DOORS_HAVE_CLOSED;
-            return FALSE;
-        }
-
-        $this->reason = NULL;
-        return TRUE;
-    }
-
-    /**
-     * Make this user smile at $receiver for $party.
-     * @param XUser $receiver
-     * @param XParty $party
-     * @return bool
-     *   Whether the smile actually was permitted.
-     */
-    function smile_at($receiver, $party)
-    {
-        $ci =& get_instance();
-
-        $receiver = user($receiver);
-        $party = party($party);
-
-        if (!$this->can_smile_at($receiver, $party))
-            return FALSE;
-
-        $smile = XSmile::create(array(
-                                     'sender_id' => $this->id,
-                                     'receiver_id' => $receiver->id,
-                                     'party_id' => $party->id,
-                                     'smile_time' => $this->college->get_clock()->get_time()->format('Y-m-d H:i:s'),
-                                ));
-
-        f()->trigger('smile_sent', array(
-                                        'source' => $party,
-                                        'smile' => $smile,
-                                        'sender' => $this,
-                                        'receiver' => $receiver,
-                                        'party' => $party,
-                                   ));
-
-        return TRUE;
-    }
-
-    function can_smile_at($receiver, $party)
-    {
-        $receiver = user($receiver);
-        $party = party($party);
-
-        if (!$receiver) {
-            $this->reason = REASON_USER_DOESNT_EXIST;
-            return FALSE;
-        }
-
-        if (!$party) {
-            $this->reason = REASON_PARTY_DOESNT_EXIST;
-            return FALSE;
-        }
-
-        if ($receiver->gender == $this->gender) {
-            $this->reason = REASON_CANT_SMILE_AT_SAME_GENDER;
-            return FALSE;
-        }
-
-        if (!$receiver->has_attended_party($party)) {
-            $this->reason = REASON_RECEIVER_NOT_IN_PARTY;
-            return FALSE;
-        }
-
-        if (!$this->has_attended_party($party)) {
-            $this->reason = REASON_NOT_IN_PARTY;
-            return FALSE;
-        }
-
-        $smile_engine = new SmileEngine();
-        if ($smile_engine->get_num_smiles_left_to_give($this, $party) == 0) {
-            $this->reason = REASON_OUT_OF_SMILES;
-            return FALSE;
-        }
-
-        if ($smile_engine->smile_was_sent($this, $receiver, $party)) {
-            $this->reason = REASON_ALREADY_SMILED_AT;
-            return FALSE;
-        }
-
-        $this->reason = NULL;
-        return TRUE;
-    }
-
     function mutual_friends($person)
     {
         $person = user($person);
@@ -373,7 +229,7 @@ class XUser extends XObject
                             WHERE friend_facebook_id = ?", array($this->id, $this->facebook_id));
 
         $this->db()->trans_complete();
-        $this->last_updated_friends = $this->college->get_clock()->get_time()->format('Y-m-d H:i:s');
+        $this->last_updated_friends = $this->college->get_time()->formatMySqlTimestamp();
         $this->save();
 
         return TRUE;
@@ -396,7 +252,7 @@ class XUser extends XObject
 
         $last_updated = new DateTime($this->last_updated_friends, new DateTimeZone('UTC'));
 
-        return $this->college->get_clock()->get_time()->getTimestamp() - $last_updated->getTimestamp() > 3600;
+        return $this->college->get_time()->getTimestamp() - $last_updated->getTimestamp() > 3600;
     }
 
     /**
@@ -426,7 +282,7 @@ class XUser extends XObject
     function get_checked_in_party(XDateTime $date = NULL)
     {
         if ($date == NULL)
-            $date = $this->college->get_clock()->get_time();
+            $date = $this->college->get_time();
 
         $yesterday = $date->getDay(-1);
         return $this->get_attended_party($yesterday);
@@ -434,7 +290,7 @@ class XUser extends XObject
 
     function has_checked_in()
     {
-        $now = $this->college->get_clock()->get_time();
+        $now = $this->college->get_time();
         $today = $now->getDay(0);
         return $this->has_checked_in_on_date($today);
     }

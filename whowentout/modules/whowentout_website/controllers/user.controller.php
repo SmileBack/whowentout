@@ -52,13 +52,13 @@ class User extends MY_Controller
             }
 
             if ($user->changed()) {
-                $user->last_edit = $this->college->get_clock()->get_time()->format('Y-m-d H:i:s');
+                $user->last_edit = $this->college->get_time()->formatMySqlTimestamp();
                 $user->save();
             }
 
             // The first time no-changes edit still counts as a save.
             if ($user->never_edited_profile()) {
-                $user->last_edit = $this->college->get_clock()->get_time()->format('Y-m-d H:i:s');
+                $user->last_edit = $this->college->get_time()->formatMySqlTimestamp();
                 $user->save();
             }
             
@@ -70,7 +70,7 @@ class User extends MY_Controller
 
     function edit()
     {
-        require_login();
+        $this->require_login();
 
         if (!current_user()->can_use_website())
             current_user()->update_facebook_data();
@@ -159,29 +159,6 @@ class User extends MY_Controller
         else {
             $this->json_failure("You are not allowed to checkin.");
         }
-    }
-
-    function smile()
-    {
-        $sender = current_user();
-
-        $party_id = post('party_id');
-        $receiver_id = post('receiver_id');
-
-        $party = XParty::get($party_id);
-        $receiver = XUser::get($receiver_id);
-
-        if (!$sender->can_smile_at($receiver, $party)) {
-            show_error("Smile denied.");
-        }
-
-        $smile_engine = new SmileEngine();
-        $smile_engine->send_smile($sender, $receiver, $party);
-
-        set_message("Smiled at $receiver->full_name");
-        $this->jsaction->HighlightSmilesLeft(3000);
-
-        redirect("party/$party->id");
     }
 
     function mutual_friends($target_id)

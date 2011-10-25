@@ -91,7 +91,7 @@ class SmileEngine
                                      'sender_id' => $sender->id,
                                      'receiver_id' => $receiver->id,
                                      'party_id' => $party->id,
-                                     'smile_time' => college()->get_clock()->get_time()->format('Y-m-d H:i:s'),
+                                     'smile_time' => college()->get_time()->format('Y-m-d H:i:s'),
                                 ));
 
         $this->update_who_user_smiled_at_cache($sender, $party);
@@ -108,7 +108,7 @@ class SmileEngine
                                                   'second_smile_id' => $smile->id,
                                                   'first_user_id' => $first_smile->sender->id,
                                                   'second_user_id' => $smile->sender->id,
-                                                  'created_at' => college()->get_clock()->get_time()->format('Y-m-d H:i:s'),
+                                                  'created_at' => college()->get_time()->format('Y-m-d H:i:s'),
                                              ));
             }
         }

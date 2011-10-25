@@ -1,7 +1,7 @@
 <?php
 
 require_once 'phpclassparser.class.php';
-require_once APPPATH . 'packages/debug/krumo.class.php';
+require_once APPPATH . 'modules/debug/krumo.class.php';
 
 class Index
 {

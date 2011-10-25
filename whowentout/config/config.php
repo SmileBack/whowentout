@@ -41,7 +41,7 @@ elseif (ENVIRONMENT == 'test') {
 $config['index_page'] = '';
 
 if (ENVIRONMENT == 'test')
-    $config['index_page'] = 'test.controller.php';
+    $config['index_page'] = 'test.php';
 
 /*
 |--------------------------------------------------------------------------

@@ -77,4 +77,21 @@ class XDateTime extends DateTime
         return $cur_day;
     }
 
+    function getUTCTime()
+    {
+        $utc = clone $this;
+        $utc->setTimezone(new DateTimeZone('UTC'));
+        return $utc;
+    }
+
+    function getMySqlDatestamp()
+    {
+        return $this->getUTCTime()->format('Y-m-d');
+    }
+
+    function formatMySqlTimestamp()
+    {
+        return $this->getUTCTime()->format('Y-m-d H:i:s');
+    }
+
 }

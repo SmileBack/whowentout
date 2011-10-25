@@ -17,7 +17,7 @@ class Door_Tests extends TestGroup
     function test_get_opening_time()
     {
         $clock = new Clock($this->tz);
-        $door = new Door($clock);
+        $door = new TimedDoor($clock);
 
         $test_cases = array(
             '2011-10-27' => array( //thursday
@@ -58,7 +58,7 @@ class Door_Tests extends TestGroup
     function test_get_closing_time()
     {
         $clock = new Clock($this->tz);
-        $door = new Door($clock);
+        $door = new TimedDoor($clock);
 
         $test_cases = array(
             '2011-10-27' => array( //thursday
@@ -159,7 +159,7 @@ class Door_Tests extends TestGroup
         );
         
         $clock = new Clock($this->tz);
-        $door = new Door($clock);
+        $door = new TimedDoor($clock);
         foreach ($test_cases as $date => $cases) {
             foreach ($cases as $time_of_day => $door_is_open) {
                 $clock->set_time($date . ' ' . $time_of_day);

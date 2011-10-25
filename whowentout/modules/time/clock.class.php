@@ -19,13 +19,16 @@ class Clock
         $this->set_delta( $time->getTimestamp() - $this->actual_time()->getTimestamp() );
     }
 
+    /**
+     * @return XDateTime
+     */
     function get_time()
     {
         $time = $this->actual_time();
         $time->modify("+{$this->delta} seconds");
         return $time;
     }
-
+    
     function set_delta($seconds)
     {
         $this->delta = $seconds;

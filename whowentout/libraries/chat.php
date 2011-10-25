@@ -25,7 +25,7 @@ class CI_Chat
                                                 'sender_id' => $sender->id,
                                                 'receiver_id' => $receiver->id,
                                                 'message' => $message_body,
-                                                'sent_at' => college()->get_clock()->get_time()->getTimestamp(),
+                                                'sent_at' => college()->get_time()->getTimestamp(),
                                            ));
 
         $message = $this->message($this->db->insert_id());
@@ -55,7 +55,7 @@ class CI_Chat
 
     function messages($user_id)
     {
-        $one_week_ago = college()->get_clock()->get_time()->modify('-1 week')->getTimestamp();
+        $one_week_ago = college()->get_time()->modify('-1 week')->getTimestamp();
         $user = user($user_id);
 
         $query = "SELECT * FROM chat_messages WHERE (sender_id = ? OR receiver_id = ?)

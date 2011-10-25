@@ -7,9 +7,9 @@ class Test extends MY_Controller
     {
         if (ENVIRONMENT != 'test')
             show_error('ENVIRONMENT must be test.');
-        
-        $this->load->library('tester');
-        $groups = $this->tester->groups();
+
+        $tester = new Tester();
+        $groups = $tester->get_test_groups();
 
         $this->load->view('tester/tests', array('groups' => $groups));
     }
@@ -19,16 +19,15 @@ class Test extends MY_Controller
         if (ENVIRONMENT != 'test')
             show_error('ENVIRONMENT must be test.');
 
-        $this->load->library('tester');
-
-        $exists = $this->tester->load($group);
+        $tester = new Tester();
+        $exists = $tester->load($group);
 
         if (!$exists)
             show_404();
 
-        $this->tester->run();
+        $tester->run();
 
-        $report = $this->tester->report();
+        $report = $tester->report();
 
         $this->load->view('tester/report', array('report' => $report));
     }

@@ -15,7 +15,7 @@ class CheckinEngine
         $this->db->insert('party_attendees', array(
                                                   'user_id' => $user->id,
                                                   'party_id' => $party->id,
-                                                  'checkin_time' => college()->get_clock()->get_time()->format('Y-m-d H:i:s'),
+                                                  'checkin_time' => college()->get_time()->format('Y-m-d H:i:s'),
                                              ));
         
         $this->trigger('checkin', array(
@@ -57,7 +57,7 @@ class CheckinEngine
 
     function get_recently_attended_parties_for_user($user)
     {
-        $now = $user->college->get_clock()->get_time();
+        $now = $user->college->get_time();
         $cutoff = $now->getDay(-60);
         $rows = $this->db
                 ->select('party_id AS id')
@@ -81,7 +81,7 @@ class CheckinEngine
 
     private function current_time()
     {
-        return college()->get_clock()->get_time();
+        return college()->get_time();
     }
 
     private function init_db()

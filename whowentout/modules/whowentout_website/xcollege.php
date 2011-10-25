@@ -10,7 +10,7 @@ class XCollege extends XObject
      */
     private $clock;
     /**
-     * @var Door
+     * @var TimedDoor
      */
     private $door;
 
@@ -24,7 +24,15 @@ class XCollege extends XObject
     {
         parent::__construct($id);
         $this->clock = new PersistentClock($this->get_timezone());
-        $this->door = new Door($this->clock);
+        $this->door = new TimedDoor($this->clock);
+    }
+
+    /**
+     * @return XDateTime
+     */
+    function get_time()
+    {
+        return $this->get_clock()->get_time();
     }
 
     /**
@@ -36,11 +44,16 @@ class XCollege extends XObject
     }
 
     /**
-     * @return Door
+     * @return TimedDoor
      */
     function get_door()
     {
         return $this->door;
+    }
+
+    function set_door($door)
+    {
+        $this->door = $door;
     }
 
     function add_party($date, $place_id)
@@ -237,11 +250,11 @@ class XCollege extends XObject
         $college = array();
         $college['id'] = $this->id;
 
-        $college['currentTime'] = $this->clock->get_time()->getTimestamp();
+        $college['currentTime'] = $this->get_time()->getTimestamp();
         $college['doorsClosingTime'] = $this->get_door()->get_opening_time()->getTimestamp();
         $college['doorsOpeningTime'] = $this->get_door()->get_closing_time()->getTimestamp();
-        $college['yesterdayTime'] = $this->get_clock()->get_time()->getDay(-1)->getTimestamp();
-        $college['tomorrowTime'] = $this->get_clock()->get_time()->getDay(+1)->getTimestamp();
+        $college['yesterdayTime'] = $this->get_time()->getDay(-1)->getTimestamp();
+        $college['tomorrowTime'] = $this->get_time()->getDay(+1)->getTimestamp();
         $college['doorsOpen'] = $this->get_door()->is_open();
 
         return $college;

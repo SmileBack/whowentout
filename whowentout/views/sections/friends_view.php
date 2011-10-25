@@ -1,6 +1,6 @@
 <?php
 $user = current_user();
-$today = $user->college->get_clock()->get_time()->getDay(0);
+$today = $user->college->get_time()->getDay(0);
 $party_days = array(
     $today->getPartyDay(-1),
     $today->getPartyDay(-2),
