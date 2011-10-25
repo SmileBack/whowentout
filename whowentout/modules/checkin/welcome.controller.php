@@ -14,7 +14,7 @@ class Welcome extends MY_Controller
 
     function index2()
     {
-        $party = party(32);
+        $party = XParty::get(32);
 
         $ven = user(array('first_name' => 'Venkat'));
         $dan = user(array('last_name' => 'Berenholtz'));

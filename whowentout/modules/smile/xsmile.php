@@ -7,17 +7,17 @@ class XSmile extends XObject
 
     function get_sender()
     {
-        return user($this->sender_id);
+        return XUser::get($this->sender_id);
     }
 
     function get_receiver()
     {
-        return user($this->receiver_id);
+        return XUser::get($this->receiver_id);
     }
 
     function get_party()
     {
-        return party($this->party_id);
+        return XParty::get($this->party_id);
     }
 
 }

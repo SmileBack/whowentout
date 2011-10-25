@@ -3,22 +3,51 @@
 class UseWebsitePermission
 {
 
+    private $reasons = array();
+
+    const GENDER_MISSING = 'GENDER_MISSING';
+    const HOMETOWN_MISSING = 'HOMETOWN_MISSING';
+    const NEVER_EDITED_PROFILE = 'NEVER_EDITED_PROFILE';
+    const GRAD_YEAR_MISSING = 'GRAD_YEAR_MISSING';
+    const NETWORK_INFO_MISSING = 'NETWORK_INFO_MISSING';
+
     function check(XUser $user)
     {
         $valid_genders = array('M', 'F');
-        if ( ! in_array($user->gender, $valid_genders) )
-            return FALSE;
+
+        $this->reasons = array();
+        
+        if (!in_array($user->gender, $valid_genders))
+            $this->add_reason(UseWebsitePermission::GENDER_MISSING);
 
         if (empty($user->hometown_city) || empty($user->hometown_state))
-            return FALSE;
-        
+            $this->add_reason(UseWebsitePermission::HOMETOWN_MISSING);
+
         if ($user->never_edited_profile())
-            return FALSE;
+            $this->add_reason(UseWebsitePermission::NEVER_EDITED_PROFILE);
 
-        if ($user->grad_year == NULL)
-            return FALSE;
+        if ($user->grad_year == NULL || $user->grad_year == 0)
+            $this->add_reason(UseWebsitePermission::GRAD_YEAR_MISSING);
 
-        return TRUE;
+        if ($user->college != college())
+            $this->add_reason(UseWebsitePermission::NETWORK_INFO_MISSING);
+
+        return empty($this->reasons);
+    }
+
+    function cant_because($reason)
+    {
+        return in_array($reason, $this->reasons);
+    }
+
+    function get_reasons()
+    {
+        return $this->reasons;
+    }
+
+    protected function add_reason($reason)
+    {
+        $this->reasons[] = $reason;
     }
 
 }

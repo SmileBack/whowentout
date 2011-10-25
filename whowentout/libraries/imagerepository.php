@@ -22,7 +22,7 @@ class ImageRepository
         $filename = $this->filename($id, $preset);
         $this->ci->storage->save('pics', $filename, $temp_image_path);
         
-        $user = user($id);
+        $user = XUser::get($id);
         $user->pic_version++;
         $user->save();
     }
@@ -45,7 +45,7 @@ class ImageRepository
 //        if ( ! $this->exists($id, $preset)) {
 //            $this->refresh($id, $preset);
 //        }
-        $user = user($id);
+        $user = XUser::get($id);
 
         $filename = $this->filename($id, $preset);
         return $this->ci->storage->url('pics', $filename) . "?version=$user->pic_version";
@@ -81,7 +81,7 @@ class ImageRepository
 
     protected function refresh_facebook($id)
     {
-        $user = user($id);
+        $user = XUser::get($id);
 
         if (!$user->facebook_id)
             return;
@@ -98,7 +98,7 @@ class ImageRepository
 
     protected function refresh_upload($id)
     {
-        $user = user($id);
+        $user = XUser::get($id);
 
         $file = $_FILES['upload_pic'];
         $filepath = $file['tmp_name'];
@@ -138,7 +138,7 @@ class ImageRepository
     {
         $this->load_wide_image();
 
-        $user = user($id);
+        $user = XUser::get($id);
         $url = $this->url($id, 'source');
         $img = WideImage::load($url)
                 ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
@@ -149,7 +149,7 @@ class ImageRepository
     protected function refresh_thumb($id)
     {
         $this->load_wide_image();
-        $user = user($id);
+        $user = XUser::get($id);
         $url = $this->url($id, 'source');
         $img = WideImage::load($url)
                 ->crop($user->pic_x, $user->pic_y, $user->pic_width, $user->pic_height)
@@ -159,7 +159,7 @@ class ImageRepository
 
     function set_default_crop_box($id)
     {
-        $user = user($id);
+        $user = XUser::get($id);
 
         $padding = 20;
 

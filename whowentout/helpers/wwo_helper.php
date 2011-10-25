@@ -14,42 +14,6 @@ function college()
 }
 
 /**
- * @return XPlace
- */
-function place($place_id)
-{
-    return XPlace::get($place_id);
-}
-
-/**
- * @return XParty
- */
-function party($party_id)
-{
-    return XParty::get($party_id);
-}
-
-function option_exists($name)
-{
-    return ci()->option->exists($name);
-}
-
-function get_option($name, $default = NULL)
-{
-    return ci()->option->get($name, $default);
-}
-
-function unset_option($name)
-{
-    ci()->option->delete($name);
-}
-
-function set_option($name, $value)
-{
-    ci()->option->set($name, $value);
-}
-
-/**
  * @return ImageRepository
  */
 function images()
@@ -120,7 +84,7 @@ function grad_year_dropdown($selected_year = NULL)
 {
     $options = array('0' => '    ');
     for ($i = 1; $i <= 4; $i++) {
-        $year = college()->today()->modify("+$i year")->format('Y');
+        $year = college()->get_time()->getDay(0)->modify("+$i year")->format('Y');
         $options[$year] = $year;
     }
     return form_dropdown('grad_year', $options, $selected_year);
@@ -183,7 +147,7 @@ function where_friends_went_pie_chart_data(DateTime $date)
     $data = array();
 
     foreach (current_user()->where_friends_went($date) as $party_id => $friend_ids) {
-        $party = party($party_id);
+        $party = XParty::get($party_id);
         $data[] = array($party->place->name, count($friend_ids), $party->id);
     }
 
@@ -202,7 +166,7 @@ function get_reason_message($reason)
 
 function update_facebook_friends($user, $force_update = FALSE)
 {
-    $user = user($user);
+    $user = XUser::get($user);
     if ($user)
         $user->update_friends_from_facebook($force_update);
 }
@@ -213,7 +177,7 @@ function post_to_wall($user, $message, $access_token = NULL)
     if (!$access_token)
         fb()->setAccessToken($access_token);
 
-    $user = user($user);
+    $user = XUser::get($user);
     $attachment = array(
         'message' => $message,
         'link' => "http://www.whowentout.com",

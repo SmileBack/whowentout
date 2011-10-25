@@ -18,8 +18,8 @@ class CI_Chat
         if (empty($message_body))
             return;
 
-        $sender = user($sender_id);
-        $receiver = user($receiver_id);
+        $sender = XUser::get($sender_id);
+        $receiver = XUser:get($receiver_id);
         $this->db->insert('chat_messages', array(
                                                 'type' => $type,
                                                 'sender_id' => $sender->id,
@@ -56,7 +56,7 @@ class CI_Chat
     function messages($user_id)
     {
         $one_week_ago = college()->get_time()->modify('-1 week')->getTimestamp();
-        $user = user($user_id);
+        $user = XUser::get($user_id);
 
         $query = "SELECT * FROM chat_messages WHERE (sender_id = ? OR receiver_id = ?)
                     AND sent_at > ?
@@ -70,7 +70,7 @@ class CI_Chat
     function chatted_with_user_ids($from)
     {
         $ids = array();
-        $from = user($from);
+        $from = XUser::get($from);
 
         $rows = $this->db->select('sender_id')
                 ->distinct()
@@ -97,8 +97,8 @@ class CI_Chat
 
     function mark_as_read($by, $from)
     {
-        $from = user($from);
-        $by = user($by);
+        $from = XUser::get($from);
+        $by = XUser::get($by);
 
         $this->db->where('receiver_id', $by->id)
                 ->where('sender_id', $from->id)

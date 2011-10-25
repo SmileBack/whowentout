@@ -6,7 +6,7 @@ class XParty extends XObject
 
     function get_place()
     {
-        return place($this->place_id);
+        return XPlace::get($this->place_id);
     }
 
     function get_college()
@@ -154,7 +154,7 @@ class XParty extends XObject
     function send_invitation($from, $student_id)
     {
         $ci =& get_instance();
-        $from = user($from);
+        $from = XUser::get($from);
 
         $student = $this->db()->from('college_students')
                               ->where('id', $student_id)

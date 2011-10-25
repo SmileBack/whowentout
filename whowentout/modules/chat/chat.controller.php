@@ -11,9 +11,9 @@ class Chat extends MY_Controller
 
         $users = array();
         foreach ($messages as $message) {
-            $sender = user($message->sender_id);
+            $sender = XUser::get($message->sender_id);
             $users[$sender->id] = $sender->to_array( $sender->is_current_user() );
-            $receiver = user($message->receiver_id);
+            $receiver = XUser::get($message->receiver_id);
             $users[$receiver->id] = $receiver->to_array( $receiver->is_current_user() );
         }
 
@@ -31,7 +31,7 @@ class Chat extends MY_Controller
         $this->load->library('chat');
 
         $from = current_user();
-        $to = user(post('to'));
+        $to = XUser::get(post('to'));
         $message = post('message');
 
         $this->chat->send($from, $to, $message);
@@ -46,7 +46,7 @@ class Chat extends MY_Controller
     {
         $this->load->library('chat');
 
-        $from = user(post('from'));
+        $from = XUser::get(post('from'));
 
         $this->chat->mark_as_read(current_user(), $from);
 

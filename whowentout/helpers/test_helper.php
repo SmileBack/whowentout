@@ -5,14 +5,14 @@
  */
 function get_random_user($party_id)
 {
-    $party = party($party_id);
+    $party = XParty::get($party_id);
     $query = "SELECT id, first_name, last_name FROM users
               WHERE users.id NOT IN (SELECT user_id FROM party_attendees WHERE party_id = ?)
               AND users.college_id = ?
               ORDER BY RAND()
               LIMIT 1";
     $rows = ci()->db->query($query, array($party->id, $party->place->college->id))->result();
-    return user($rows[0]->id);
+    return XUser::get($rows[0]->id);
 }
 
 function create_test_users($college_id = NULL)
@@ -229,8 +229,8 @@ function create_test_users($college_id = NULL)
 
 function checkout_user($user, $party)
 {
-    $user = user($user);
-    $party = party($party);
+    $user = XUser::get($user);
+    $party = XParty::get($party);
 
     if (!$party || !$user)
         return FALSE;

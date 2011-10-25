@@ -29,7 +29,7 @@ class Js extends MY_Controller
     function user($user_id)
     {
         //@TODO: enforce permissions for whether the user can view the info of the user
-        $user = user($user_id);
+        $user = XUser::get($user_id);
 
         if (!$user) {
             $this->json(array(
@@ -61,7 +61,7 @@ class Js extends MY_Controller
             $user_ids = post('user_ids');
 
             foreach ($user_ids as $user_id) {
-                $user = user($user_id);
+                $user = XUser::get($user_id);
                 $response['users'][$user_id] = $user->to_array();
             }
         }
@@ -84,7 +84,7 @@ class Js extends MY_Controller
         if (is_array(post('party_ids'))) {
             $party_ids = post('party_ids');
             foreach ($party_ids as $party_id) {
-                $party = party($party_id);
+                $party = XParty::get($party_id);
                 if ($party) {
                     $channel_id = 'private-party_' . $party->id;
                     $response['channels'][$channel_id] = array(

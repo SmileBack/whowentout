@@ -8,7 +8,7 @@ class Party extends MY_Controller
         //        $this->output->enable_profiler(TRUE);
 
         $user = current_user();
-        $party = party($party_id);
+        $party = XParty::get($party_id);
         $sort = $this->_get_sort();
 
         $smile_engine = new SmileEngine();
@@ -51,7 +51,7 @@ class Party extends MY_Controller
 
     function online_user_ids($party_id)
     {
-        $party = party($party_id);
+        $party = XParty::get($party_id);
         $this->json(array(
                          'success' => TRUE,
                          'online_user_ids' => $party->get_online_user_ids(current_user()),
@@ -66,7 +66,7 @@ class Party extends MY_Controller
         $college_student_id = post('name');
         $party_id = post('party_id');
 
-        $party = party($party_id);
+        $party = XParty::get($party_id);
 
         if (!$party) {
             set_message("Party with id $party_id doesn't exist.");

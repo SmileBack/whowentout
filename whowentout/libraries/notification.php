@@ -16,7 +16,7 @@ class CI_Notification
         if (empty($message))
             return;
 
-        $user = user($user);
+        $user = XUser::get($user);
         $this->db->insert('notifications', array(
                                                 'type' => $type,
                                                 'user_id' => $user->id,
@@ -41,7 +41,7 @@ class CI_Notification
 
     function unread_notifications($user)
     {
-        $user = user($user);
+        $user = XUser::get($user);
         $query = $this->db->from('notifications')
                           ->where('user_id', $user->id)
                           ->where('is_read', 0);

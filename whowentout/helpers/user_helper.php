@@ -54,7 +54,7 @@ function create_user($facebook_id, $data = array())
 function destroy_user($user)
 {
     $ci =& get_instance();
-    $user = user($user);
+    $user = XUser::get($user);
 
     if ($user == NULL)
         return;
@@ -82,7 +82,7 @@ function destroy_user($user)
 
 function user_exists($user_id)
 {
-    return user($user_id) != NULL;
+    return XUser::get($user_id) != NULL;
 }
 
 function enforce_restrictions()

@@ -78,7 +78,7 @@ class Admin extends MY_Controller
     {
         $this->check_access();
 
-        $user = user($user_id);
+        $user = XUser::get($user_id);
         $full_name = $user->full_name;
         destroy_user($user->id);
         set_message("Destroyed $full_name.");
@@ -101,7 +101,7 @@ class Admin extends MY_Controller
     {
         $this->check_access();
 
-        $place = place($place_id);
+        $place = XPlace::get($place_id);
         $place_name = $place->name;
         $place->delete();
 
@@ -116,7 +116,7 @@ class Admin extends MY_Controller
         $date = new DateTime(post('date'), college()->timezone);
         $place_id = post('place_id');
 
-        $place = place($place_id);
+        $place = XPlace::get($place_id);
         $formatted_date = $date->format('Y-m-d');
 
         college()->add_party($formatted_date, $place_id);
@@ -128,7 +128,7 @@ class Admin extends MY_Controller
     {
         $this->check_access();
 
-        $party = party($party_id);
+        $party = XParty::get($party_id);
         $party_date = $party->date;
         $place_name = $party->place->name;
         $party->delete();
@@ -158,7 +158,7 @@ class Admin extends MY_Controller
     {
         $this->check_access();
 
-        $party = party($party_id);
+        $party = XParty::get($party_id);
         $user = get_random_user($party->id);
 
         if ($user->can_checkin($party)) {

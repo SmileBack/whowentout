@@ -46,22 +46,23 @@ class User extends MY_Controller
         if (post('op') == 'Save') {
             if (post('width') && post('height')) {
                 $user->crop_pic(post('x'), post('y'), post('width'), post('height'));
-                $user->hometown_city = post('hometown_city');
-                $user->hometown_state = post('hometown_state');
-                $user->grad_year = post('grad_year');
             }
 
+            $user->hometown_city = post('hometown_city');
+            $user->hometown_state = post('hometown_state');
+            $user->grad_year = post('grad_year');
+
             if ($user->changed()) {
-                $user->last_edit = $this->college->get_time()->formatMySqlTimestamp();
+                $user->last_edit = $user->college->get_time()->formatMySqlTimestamp();
                 $user->save();
             }
 
             // The first time no-changes edit still counts as a save.
             if ($user->never_edited_profile()) {
-                $user->last_edit = $this->college->get_time()->formatMySqlTimestamp();
+                $user->last_edit = $user->college->get_time()->formatMySqlTimestamp();
                 $user->save();
             }
-            
+
             redirect('dashboard');
         }
 
@@ -72,21 +73,30 @@ class User extends MY_Controller
     {
         $this->require_login();
 
-        if (!current_user()->can_use_website())
+        $use_website_permission = new UseWebsitePermission();
+        $can_use_website = $use_website_permission->check(current_user());
+
+        if (!$can_use_website)
             current_user()->update_facebook_data();
+
+        $can_use_website = $use_website_permission->check(current_user()); //check again
 
         $message = array();
 
-        if (current_user()->college != college()) {
+        if ($use_website_permission->cant_because(UseWebsitePermission::NETWORK_INFO_MISSING)) {
             $message[] = load_view('missing_network_view');
         }
 
-        if (current_user()->is_missing_info()) {
-            $message[] = '<p>You are missing information</p>';
+        if ($use_website_permission->cant_because(UseWebsitePermission::GENDER_MISSING)) {
+            $message[] = '<p>To use WhoWentOut, please <a href="http://www.facebook.com/editprofile.php" target="_blank">enter your gender</a> in your Facebook profile.</p>';
         }
 
-        if (current_user()->gender == '') {
-            $message[] = '<p>To use WhoWentOut, please <a href="http://www.facebook.com/editprofile.php" target="_blank">enter your gender</a> in your Facebook profile.</p>';
+        if ($use_website_permission->cant_because(UseWebsitePermission::GRAD_YEAR_MISSING)) {
+            $message[] = '<p>You are missing your graduation year.</p>';
+        }
+
+        if ($use_website_permission->cant_because(UseWebsitePermission::HOMETOWN_MISSING)) {
+            $message[] = '<p>You are missing your hometown.</p>';
         }
 
         if (!empty($message))
@@ -94,7 +104,6 @@ class User extends MY_Controller
 
         $this->load_view('user_edit_view', array(
                                                 'user' => current_user(),
-                                                'is_missing_info' => current_user()->is_missing_info(),
                                                 'missing_info' => current_user()->get_missing_info(),
                                            ));
     }
@@ -121,8 +130,8 @@ class User extends MY_Controller
     {
         if (!logged_in())
             show_404();
-        
-        $party = $party = XParty::get( post('party_id') );
+
+        $party = $party = XParty::get(post('party_id'));
         $user = current_user();
 
         if (!$party)
@@ -164,7 +173,7 @@ class User extends MY_Controller
     function mutual_friends($target_id)
     {
         $user = current_user();
-        $target = user($target_id);
+        $target = XUser::get($target_id);
 
         if (!$user || !$target) {
             print "Invalid request.";
@@ -178,7 +187,7 @@ class User extends MY_Controller
                                                       'mutual_friends' => $mutual_friends,
                                                  ));
     }
-    
+
     function change_visibility($visibility)
     {
         $success = current_user()->change_visibility($visibility);
@@ -208,9 +217,9 @@ class User extends MY_Controller
 
     function party_attendee_view()
     {
-        if ( ! logged_in())
+        if (!logged_in())
             $this->json_failure("You must be logged in.");
-        
+
         $party = XParty::get(post('party_id'));
         $attendee = XUser::get(post('user_id'));
 

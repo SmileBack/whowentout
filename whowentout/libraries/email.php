@@ -16,7 +16,7 @@ class Email extends Component
     function send($to, $subject, $body)
     {
         if (is_int($to))
-            $to = user($to);
+            $to = XUser::get($to);
 
         if (is_array($to))
             $to = (object)$to;

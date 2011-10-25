@@ -130,7 +130,7 @@ class XUser extends XObject
 
     function mutual_friends($person)
     {
-        $person = user($person);
+        $person = XUser::get($person);
         update_facebook_friends($person); // update his friends if necessary
 
         $params = array($this->id, $person->id, $this->id);
@@ -276,7 +276,7 @@ class XUser extends XObject
         if ($row == NULL)
             return NULL;
 
-        return party($row->id);
+        return XParty::get($row->id);
     }
 
     function get_checked_in_party(XDateTime $date = NULL)
@@ -297,7 +297,7 @@ class XUser extends XObject
 
     function smiles_received_message($party)
     {
-        $party = party($party);
+        $party = XParty::get($party);
 
         $count = $this->smiles_received($party->id);
         $smiles = 'smile';
@@ -310,7 +310,7 @@ class XUser extends XObject
 
     function smiles_left_message($party)
     {
-        $party = party($party);
+        $party = XParty::get($party);
 
         $smiles_left = $this->smiles_left($party->id);
         $smiles = 'smile';
@@ -344,7 +344,7 @@ class XUser extends XObject
      */
     function has_attended_party($party)
     {
-        $party = party($party);
+        $party = XParty::get($party);
         return $this->db()->from('party_attendees')
                        ->where('user_id', $this->id)
                        ->where('party_id', $party->id)
@@ -516,7 +516,7 @@ class XUser extends XObject
 
     function is_friend_of($user)
     {
-        $user = user($user);
+        $user = XUser::get($user);
         return $this->db()->from('friends')
                        ->where('user_id', $this->id)
                        ->where('friend_id', $user->id)
