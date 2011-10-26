@@ -8,7 +8,7 @@ class Homepage extends MY_Controller
         if (logged_in())
             redirect('dashboard');
         
-        print r('homepage_view');
+        print r('homepage');
     }
 
 }
