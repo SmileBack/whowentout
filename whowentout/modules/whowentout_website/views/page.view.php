@@ -95,16 +95,28 @@
 
         <?= $page_content ?>
 
+        <nav id="footer_links">
+            <a href="google.com">About Us</a>
+            <a href="google.com">FAQ</a>
+            <a href="google.com">Terms</a>
+        </nav>
     </div>
     <!-- page_content end -->
 
     <?php if (logged_in()): ?>
     <div id="sidebar">
         <div class="my_info_view user <?= 'user_' . current_user()->id ?>">
-            <?= r('my_info') ?>
+
+            <?= r('my_info', array(
+                               'user' => current_user(),
+                             )) ?>
+
         </div>
+
+        <h3 class="notifications_heading">Notifications</h3>
         <ul id="notifications"></ul>
     </div>
+
     <?php endif; ?>
 
 </div>

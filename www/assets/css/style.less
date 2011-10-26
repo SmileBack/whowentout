@@ -174,6 +174,7 @@ body {
 }
 
 #page {
+  position: relative;
   margin: 10px auto;
   overflow: hidden;
   width: @page_width;
@@ -281,6 +282,9 @@ header {
   text-align: center;
   .profile_pic {
     position: relative;
+    width: 90px;
+    overflow: hidden;
+    margin: auto;
     img { width: 90px; }
     .edit {
       position: absolute;
@@ -292,8 +296,8 @@ header {
       height: 20px;
       .opacity(0);
       padding: 4px 6px 0 26px;
-      bottom: 3px;
-      right: 1px;
+      top: 0;
+      right: 0px;
       text-decoration: none;
       &:hover { text-decoration: underline; .opacity(1); }
     }
@@ -308,6 +312,17 @@ header {
 
 .top_parties_view {
   ol { margin: 10px 45px; }
+}
+
+.notifications_heading {
+    float: right;
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #BFBFBF;
+    margin-top: 20px;
+    padding: 4px 0px;
 }
 
 .horizontal_sections(@count: 3) {
@@ -781,3 +796,9 @@ form .hometown {
   }
 }
 
+#footer_links {
+   position: absolute;
+   bottom: 20px;
+   width: 100%;
+   text-align: center;
+}

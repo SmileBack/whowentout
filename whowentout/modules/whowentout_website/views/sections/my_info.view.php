@@ -1,5 +1,3 @@
-<?php if (!isset($user)) $user = current_user(); ?>
-
 <div class="profile_pic">
   <?= $user->pic ?>
   <?= anchor('user/edit', 'change', array('class' => 'edit')); ?>
@@ -9,7 +7,7 @@
 <div class="profile_info">
   <p class="name">
       <?= $user->first_name ?> <?= $user->last_name ?>
-      <span class="online_badge"></div>
+      <span class="online_badge"></span>
   </p>
 
   <p class="hometown"><?= $user->hometown ?></p>

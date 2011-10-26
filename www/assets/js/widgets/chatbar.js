@@ -240,7 +240,7 @@ $.when(window.app.load()).then(function() {
             });
 
             if (this.talkingToSelf())
-                this.notice('Do you like talking to yourself?');
+                this.notice('Like talking to yourself? ;)');
 
             return this;
         },
