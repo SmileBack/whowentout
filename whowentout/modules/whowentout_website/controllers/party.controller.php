@@ -21,11 +21,7 @@ class Party extends MY_Controller
             $this->jsaction->ShowSpotlight('.party_notices', 1000);
             redirect("party/$party_id");
         }
-
-        f()->trigger('page_load', array(
-                                       'url' => uri_string(),
-                                  ));
-
+        
         $this->benchmark->mark('party_attendees_start');
         $party_attendees = $party->attendees($sort);
         $this->benchmark->mark('party_attendees_end');

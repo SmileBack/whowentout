@@ -17,19 +17,35 @@ class CheckinEngine
                                                   'party_id' => $party->id,
                                                   'checkin_time' => college()->get_time()->format('Y-m-d H:i:s'),
                                              ));
-        
+
         $this->trigger('checkin', array(
-                                    'user' => $user,
-                                    'party' => $party,
+                                       'user' => $user,
+                                       'party' => $party,
                                   ));
     }
 
     function user_has_checked_into_party($user, $party)
     {
         return $this->db->from('party_attendees')
-                        ->where('user_id', $user->id)
-                        ->where('party_id', $party->id)
-                        ->count_all_results() > 0;
+                       ->where('user_id', $user->id)
+                       ->where('party_id', $party->id)
+                       ->count_all_results() > 0;
+    }
+
+    /**
+     * @param  $date
+     *   The date that the parties occured, NOT the date of checkin.
+     * @return bool
+     */
+    function get_checkin_for_date(XUser $user, XDateTime $date)
+    {
+        $query = $this->db->select('parties.id AS id')
+                ->from('party_attendees')
+                ->join('parties', 'party_attendees.party_id = parties.id')
+                ->where('user_id', $user->id)
+                ->where('date', $date->format('Y-m-d'));
+        $parties = XObject::load_objects('XParty', $query);
+        return empty($parties) ? NULL : $parties[0];
     }
 
     /**
@@ -40,18 +56,18 @@ class CheckinEngine
     function user_has_checked_in_on_date(XUser $user, XDateTime $date)
     {
         return $this->db->from('party_attendees')
-                        ->join('parties', 'party_attendees.party_id = parties.id')
-                        ->where('user_id', $user->id)
-                        ->where('date', $date->format('Y-m-d'))
-                        ->count_all_results() > 0;
+                       ->join('parties', 'party_attendees.party_id = parties.id')
+                       ->where('user_id', $user->id)
+                       ->where('date', $date->format('Y-m-d'))
+                       ->count_all_results() > 0;
     }
 
     function get_checkins_for_party($party)
     {
         $query = $this->db->select('user_id AS id')
-                          ->from('party_attendees')
-                          ->where('party_id', $party->id);
-        
+                ->from('party_attendees')
+                ->where('party_id', $party->id);
+
         return XUser::load_objects('XUser', $query);
     }
 
@@ -71,14 +87,14 @@ class CheckinEngine
 
     function get_parties_availiable_for_checkin(XDateTime $time)
     {
-        
+        throw new Exception('Not yet implemented');
     }
 
     function get_num_checkins_for_user($user)
     {
         return $this->db->from('party_attendees')
-                        ->where('user_id', $user->id)
-                        ->count_all_results();
+                ->where('user_id', $user->id)
+                ->count_all_results();
     }
 
     private function trigger($event_name, $event_data)

@@ -249,8 +249,14 @@ if ($RTR->is_valid_request()) {
  */
 $EXT->_call_hook('post_controller_constructor');
 
-if ( $RTR->is_valid_request() && is_callable(array($CI, $method)) ) {
+if ($RTR->is_valid_request() && is_callable(array($CI, $method))) {
+    f()->trigger('before_controller_request', array(
+                                                   'uri' => uri_string(),
+                                              ));
     call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
+    f()->trigger('after_controller_request', array(
+                                                  'uri' => uri_string(),
+                                             ));
 }
 else {
     show_404($RTR->get_request());

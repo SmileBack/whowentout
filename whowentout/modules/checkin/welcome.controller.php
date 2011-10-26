@@ -5,6 +5,8 @@ class Welcome extends MY_Controller
 
     function index()
     {
+        $checkin_state = new UserCheckinState(current_user());
+        krumo::dump($checkin_state->get_checked_in_party());
     }
 
     private function blah()

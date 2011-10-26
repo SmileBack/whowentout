@@ -156,4 +156,25 @@ class CheckinEngine_Tests extends TestGroup
         $this->assert_equal($checkin_engine->get_num_checkins_for_user($this->dan), 2, 'dan has 2 checkins');
     }
 
+
+    function test_get_checkin_for_date()
+    {
+        $this->clear_database();
+        $this->seed_data();
+
+        $checkin_engine = new CheckinEngine();
+
+        $party_date = new XDateTime('2011-10-24 00:00:00', $this->tz);
+        $second_party_date =new XDateTime('2011-10-25 00:00:00', $this->tz);
+
+        $this->assert_equal($checkin_engine->get_checkin_for_date($this->dan, $party_date), NULL, 'dan has no checkins on the 24th');
+
+        $checkin_engine->checkin_user_to_party($this->dan, $this->party);
+        $this->assert_equal($checkin_engine->get_checkin_for_date($this->dan, $party_date), $this->party, 'dan has a checkin on the 24th');
+        $this->assert_equal($checkin_engine->get_checkin_for_date($this->dan, $second_party_date), NULL, 'dan has no checkins on the 25th');
+        
+        $this->assert_equal($checkin_engine->get_checkin_for_date($this->venkat, $party_date), NULL, 'venkat still has no checkins');
+    }
+
+
 }

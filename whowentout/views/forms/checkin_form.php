@@ -1,23 +1,17 @@
 <?php
-$college = college();
-$checkin_engine = new CheckinEngine();
-$now = $college->get_time();
-
-$doors_opening_time = $college->get_door()->get_opening_time();
-$doors_closing_time = $college->get_door()->get_closing_time();
-$doors_open = $college->get_door()->is_open();
-
-$today = $now->getDay(0);
-$party_day = $today->getDay(-1);
-$next_party_day_after_checkin = $doors_opening_time->getDay(-1); //FLIMSY if you change doors opening time
-$user_has_checked_in = $checkin_engine->user_has_checked_in_on_date(current_user(), $party_day);
-
+$checkin_state = new UserCheckinState( current_user() );
+$doors_open = $checkin_state->door_is_open();
+$doors_opening_time = $checkin_state->get_door_opening_time();
+$doors_closing_time = $checkin_state->get_door_closing_time();
+$user_has_checked_in = $checkin_state->user_has_checked_in();
+$next_party_day = $checkin_state->get_next_party_day();
+$party_day = $checkin_state->get_party_day();
 ?>
 
 <div class="party_summary checkin" data-party-date="<?= $party_day->format('Y-m-d') ?>">
 
 
-    <?php if ( $doors_open && !$user_has_checked_in ): ?>
+    <?php if ( $doors_open && ! $user_has_checked_in ): ?>
     <h2>
         <?= form_open('checkin', array(
                                       'class' => 'checkin_form',
@@ -27,7 +21,7 @@ $user_has_checked_in = $checkin_engine->user_has_checked_in_on_date(current_user
                                  )) ?>
         <?= $college->format_time($party_day) ?>
         |
-        <?= parties_dropdown($open_parties) ?>
+        <?= parties_dropdown( $checkin_state->get_open_parties() ) ?>
         <button type="submit" class="submit_button">check in</button>
         <?= form_close() ?>
     </h2>
@@ -56,11 +50,11 @@ $user_has_checked_in = $checkin_engine->user_has_checked_in_on_date(current_user
             <p class="secondary">
                 Check-ins will reopen after
 
-                   <a href=".day_summary[data-day=<?= $next_party_day_after_checkin->format('Y-m-d') ?>]"
+                   <a href=".day_summary[data-day=<?= $next_party_day->format('Y-m-d') ?>]"
                    class="party_summary_link scroll"
                    data-flash-spotlight="1">
 
-                       <?= $next_party_day_after_checkin->format('l') ?>'s parties.
+                       <?= $next_party_day->format('l') ?>'s parties.
 
                    </a>
 
@@ -82,11 +76,11 @@ $user_has_checked_in = $checkin_engine->user_has_checked_in_on_date(current_user
             <p class="secondary">
                 Check-ins will reopen after
 
-                   <a href=".day_summary[data-day=<?= $next_party_day_after_checkin->format('Y-m-d') ?>]"
+                   <a href=".day_summary[data-day=<?= $next_party_day->format('Y-m-d') ?>]"
                    class="party_summary_link scroll"
                    data-flash-spotlight="1">
 
-                       <?= $next_party_day_after_checkin->format('l') ?>'s parties.
+                       <?= $next_party_day->format('l') ?>'s parties.
 
                    </a>
 
