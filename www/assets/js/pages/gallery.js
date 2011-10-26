@@ -152,15 +152,24 @@ $.when(app.load()).then(function() {
 
     $('.user.can_chat img, .user.can_chat .full_name, .user.can_chat .click_to_chat').entwine({
         onmatch: function() {
-            this.addClass('clickable');
+            this._super();
         },
         onunmatch: function() {
-            this.removeClass('clickable');
+            this._super();
+            this.hideClickToChat();
         },
         onmouseenter: function(e) {
-            this.closest('.user').find('.click_to_chat').show();
+            this._super();
+            this.showClickToChat();
         },
         onmouseleave: function(e) {
+            this._super();
+            this.hideClickToChat();
+        },
+        showClickToChat: function() {
+            this.closest('.user').find('.click_to_chat').show();
+        },
+        hideClickToChat: function() {
             this.closest('.user').find('.click_to_chat').hide();
         },
         onclick: function(e) {

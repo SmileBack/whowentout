@@ -654,13 +654,16 @@ table td, table th {
       margin: 0 auto;
       overflow: hidden;
       > li { margin: 13px; height: 310px; width: 150px; overflow: hidden; float: left; }
-      .party_attendee {
+      .user {
         .full_name {
           overflow: hidden;
           height: 16px;
           > * { display: inline-block; }
         }
         .click_to_chat { display: none; }
+      }
+      .user.online {
+        img, .full_name, .click_to_chat { .clickable; }
       }
     }
     &.chat_closed .online_badge {
