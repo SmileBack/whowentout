@@ -150,12 +150,23 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.gallery .open_chat').entwine({
+    $('.user.can_chat img, .user.can_chat .full_name').entwine({
+        onmatch: function() {
+            this.addClass('clickable');
+        },
+        onunmatch: function() {
+            this.removeClass('clickable');
+        },
         onmouseenter: function(e) {
-            this.notice('Click to chat', 't');
+            console.log('onmouseenter gallery user online');
+            this.closest('.user').find('.full_name').notice('Click to chat', 't');
         },
         onmouseleave: function(e) {
             $('#notice').hideNotice();
+        },
+        onclick: function(e) {
+            var userID = this.closest('.user').userID();
+            $('#chatbar').openChat(userID);
         }
     });
 
@@ -165,27 +176,21 @@ $.when(app.load()).then(function() {
             this._super()
             var smileButtonClass = this.closest('.gallery').smilesLeft() > 0 ? 'can' : 'cant';
             this.find('.smile_form .submit_button').addClass(smileButtonClass);
-            this.fixLongName();
         },
         onunmatch: function() {
             this._super()
-        },
-        fixLongName: function() {
-            if (this.find('.full_name').is(':wraps')) {
-                this.find('.full_name').truncateText(120);
-            }
         }
     });
 
-    $('.party_attendee.online').entwine({
+    $('.gallery .user.online').entwine({
         onmatch: function() {
             this._super();
             if (this.closest('.gallery').chatIsOpen())
-                this.find('.full_name').addClass('open_chat');
+                this.addClass('can_chat');
         },
         onunmatch: function() {
             this._super();
-            this.find('.full_name').removeClass('open_chat');
+            this.removeClass('can_chat');
         }
     });
 

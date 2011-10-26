@@ -648,7 +648,11 @@ table td, table th {
       > li { margin: 13px; height: 310px; width: 150px; overflow: hidden; float: left; }
       .party_attendee {
         .full_name {
-          > * { display: inline-block; }
+          overflow: hidden;
+          height: 16px;
+          > * {
+              display: inline-block;
+          }
         }
         .online_badge {
           display: none;

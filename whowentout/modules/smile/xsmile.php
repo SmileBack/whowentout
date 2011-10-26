@@ -4,7 +4,7 @@ class XSmile extends XObject
 {
 
     protected static $table = 'smiles';
-
+    
     function get_sender()
     {
         return XUser::get($this->sender_id);

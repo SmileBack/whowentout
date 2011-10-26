@@ -9,7 +9,7 @@ $smiles_left = $smile_engine->get_num_smiles_left_to_give($logged_in_user, $part
 
     <div class="caption">
 
-        <div class="full_name" to="<?= $attendee->id ?>">
+        <div class="full_name">
             <div><?= $attendee->first_name; ?> <?= $attendee->last_name ?></div>
             <div class="online_badge"></div>
         </div>

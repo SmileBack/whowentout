@@ -42,6 +42,9 @@ $.when(window.app.load()).then(function() {
         onunmatch: function() {
             this._super();
         },
+        openChat: function(to) {
+            this.chatbox(to, true).show().expand().setFocus();
+        },
         loadMessages: function() {
             var self = this;
             var api = WhoWentOut.API.Chat.get();
@@ -246,12 +249,12 @@ $.when(window.app.load()).then(function() {
         },
         markAsRead: function() {
             var self = this;
-            
+
             var api = WhoWentOut.API.Chat.get();
             var request = api.markAsRead({
                 chatbox_user_id: this.toUserID()
             });
-            
+
             request.done(function() {
                 self.find('.chat_message.unread').removeClass('unread');
                 self.refreshUnreadCount();
@@ -401,14 +404,6 @@ $.when(window.app.load()).then(function() {
         },
         onfocusin: function(e) {
             this.closest('.chatbox').markAsRead();
-        }
-    });
-
-    $('.open_chat').entwine({
-        onclick: function(e) {
-            e.preventDefault();
-            var to = this.attr('to');
-            $('#chatbar').chatbox(to, true).show().expand().setFocus();
         }
     });
 

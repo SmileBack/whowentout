@@ -7,12 +7,12 @@ class XSmileMatch extends XObject
 
     function get_first_smile()
     {
-        return smile($this->first_smile_id);
+        return XSmile::get($this->first_smile_id);
     }
 
     function get_second_smile()
     {
-        return smile($this->second_smile_id);
+        return XSmile::get($this->second_smile_id);
     }
 
     function get_first_user()
