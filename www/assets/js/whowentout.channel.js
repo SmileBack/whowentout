@@ -17,15 +17,17 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
     }
 });
 
-WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
-    Pusher: function() {
+WhoWentOut.Component.extend('WhoWentOut.Pusher', {
+    Get: function() {
         if (!this._pusher) {
             Pusher.channel_auth_endpoint = '/user/pusherauth';
             this._pusher = new Pusher('23a32666914116c9b891');
             this.CheckForFailedPusher();
         }
+        
         return this._pusher;
     },
+
     EnablePusherLogging: function() {
         Pusher.log = function(msg) {
             window.console.log(msg);
@@ -44,12 +46,18 @@ WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
     },
     OnPusherFail: function() {
         var compat = new WhoWentOut.Compatibility();
-        if ( ! compat.flashPlayerIsInstalled()) {
+        if (! compat.flashPlayerIsInstalled()) {
             compat.showInstallFlashDialog();
         }
-        else if ( compat.flashPlayerIsOutOfDate() ) {
+        else if (compat.flashPlayerIsOutOfDate()) {
             compat.showUpgradeFlashDialog();
         }
+    }
+}, {});
+
+WhoWentOut.Channel.extend('WhoWentOut.PusherChannel', {
+    Pusher: function() {
+        return WhoWentOut.Pusher.Get();
     }
 }, {
     init: function(options) {
