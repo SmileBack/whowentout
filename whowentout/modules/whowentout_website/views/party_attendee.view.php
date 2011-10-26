@@ -3,9 +3,8 @@ $smiles_left = $smile_engine->get_num_smiles_left_to_give($logged_in_user, $part
 ?>
 
 <div id="party_attendee_<?= $attendee->id ?>" class="party_attendee user <?= 'user_' . $attendee->id ?>" data-user-id="<?= $attendee->id ?>">
-    <?php if (TRUE): ?>
     <?= $attendee->pic; ?>
-    <?php endif; ?>
+    <div class="click_to_chat">Click to chat</div>
 
     <div class="caption">
 

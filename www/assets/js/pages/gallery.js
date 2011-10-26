@@ -150,7 +150,7 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.user.can_chat img, .user.can_chat .full_name').entwine({
+    $('.user.can_chat img, .user.can_chat .full_name, .user.can_chat .click_to_chat').entwine({
         onmatch: function() {
             this.addClass('clickable');
         },
@@ -158,18 +158,16 @@ $.when(app.load()).then(function() {
             this.removeClass('clickable');
         },
         onmouseenter: function(e) {
-            console.log('onmouseenter gallery user online');
-            this.closest('.user').find('.full_name').notice('Click to chat', 't');
+            this.closest('.user').find('.click_to_chat').show();
         },
         onmouseleave: function(e) {
-            $('#notice').hideNotice();
+            this.closest('.user').find('.click_to_chat').hide();
         },
         onclick: function(e) {
             var userID = this.closest('.user').userID();
             $('#chatbar').openChat(userID);
         }
     });
-
 
     $('.gallery .party_attendee').entwine({
         onmatch: function() {

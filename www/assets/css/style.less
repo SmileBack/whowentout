@@ -657,9 +657,7 @@ table td, table th {
         .online_badge {
           display: none;
         }
-        &.online {
-          .open_chat { cursor: pointer; cursor: pointer; }
-        }
+        .click_to_chat { display: none; }
       }
       .party_attendee.online {
          .online_badge { display: inline-block; }
@@ -696,7 +694,16 @@ form .hometown {
 }
 
 .party_attendee {
-  .caption { text-align: center; }
+    position: relative;
+    .click_to_chat {
+        .notice_style;
+        position: absolute;
+        margin: 0;
+        top: 160px;
+        left: 20px;
+        right: 20px;
+    }
+    .caption { text-align: center; }
 }
 
 #party_invite_form {

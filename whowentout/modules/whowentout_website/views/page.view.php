@@ -33,7 +33,7 @@
 
 <?= r('wwo') ?>
 
-<div id="notice"></div>
+<div id="notice" class="notice"></div>
 
 <div id="current_time" class="current_time">
     <?= college()->get_time()->format('D, M j g:i a') ?>
