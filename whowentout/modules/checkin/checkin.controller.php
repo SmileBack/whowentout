@@ -2,7 +2,7 @@
 
 class Checkin extends MY_Controller
 {
-    
+
     function create()
     {
         $this->require_login();
@@ -26,15 +26,15 @@ class Checkin extends MY_Controller
 
         if ($can_checkin) {
             $checkin_engine->checkin_user_to_party($user, $party);
-            $response['party_summary_view'] = load_view('party_summary_view', array(
-                                                                                   'user' => $user,
-                                                                                   'party' => $party,
-                                                                                   'smile_engine' => $smile_engine,
-                                                                              ));
-            $response['user_command_notice'] = load_view('user_command_notice', array(
-                                                                                     'user' => $user,
-                                                                                ));
-            $response['checkin_form'] = load_view('forms/checkin_form');
+            $response['party_summary_view'] = r('party_summary', array(
+                                                                      'user' => $user,
+                                                                      'party' => $party,
+                                                                      'smile_engine' => $smile_engine,
+                                                                 ));
+            $response['user_command_notice'] = r('user_command_notice', array(
+                                                                             'user' => $user,
+                                                                        ));
+            $response['checkin_form'] = r('checkin_form');
             $response['party'] = $party->to_array();
 
             $channel_id = 'party_' . $party->id;

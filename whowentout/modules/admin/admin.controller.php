@@ -17,7 +17,7 @@ class Admin extends MY_Controller
     function index()
     {
         $this->check_access();
-        $this->load_view('admin/admin_view');
+        $this->load_view('admin');
     }
 
     function fakelogin($user_id = NULL)
@@ -30,9 +30,9 @@ class Admin extends MY_Controller
         }
         else {
             $students = college()->get_students();
-            $this->load_view('admin/fake_login_view', array(
-                                                           'students' => $students,
-                                                      ));
+            $this->load_view('fake_login', array(
+                                                'students' => $students,
+                                           ));
         }
     }
 
@@ -52,26 +52,26 @@ class Admin extends MY_Controller
             'delta' => $clock->get_delta(),
         );
 
-        $this->load_view('admin/fake_time_view', $data);
+        $this->load_view('fake_time', $data);
     }
 
     function parties()
     {
         $this->check_access();
-        $this->load_view('admin/edit_parties_view');
+        $this->load_view('edit_parties');
     }
 
     function places()
     {
         $this->check_access();
-        $this->load_view('admin/edit_places_view');
+        $this->load_view('edit_places');
     }
 
     function users()
     {
         $this->check_access();
 
-        $this->load_view('admin/users_view');
+        $this->load_view('users');
     }
 
     function destroy_user($user_id)
@@ -136,24 +136,7 @@ class Admin extends MY_Controller
 
         redirect('admin/parties');
     }
-
-    function past_top_parties()
-    {
-        $this->check_access();
-
-        $this->load_view('admin/edit_past_top_parties_view', array(
-                                                                  'html' => get_option('past_top_parties_html', ''),
-                                                             ));
-    }
-
-    function save_past_top_parties()
-    {
-        $this->check_access();
-        set_option('past_top_parties_html', post('past_top_parties_html'));
-        set_message('Saved past top parties html.');
-        redirect('admin/past_top_parties');
-    }
-
+    
     function random_checkin($party_id)
     {
         $this->check_access();

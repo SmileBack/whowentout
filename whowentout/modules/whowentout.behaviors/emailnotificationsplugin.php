@@ -13,10 +13,8 @@ class EmailNotificationsPlugin extends Plugin
      */
     function on_smile_sent($e)
     {
-        $ci =& get_instance();
-
         $subject = "A {$e->sender->gender_word} from {$e->party->place->name} has smiled at you";
-        $body = $ci->load->view('emails/smile_received_email', array(
+        $body = r('emails/smile_received_email', array(
                                                                     'sender' => $e->sender,
                                                                     'receiver' => $e->receiver,
                                                                     'party' => $e->party,
@@ -32,14 +30,12 @@ class EmailNotificationsPlugin extends Plugin
      */
     function on_smile_match($e)
     {
-        $ci =& get_instance();
-
         $first_user = $e->match->first_user;
         $second_user = $e->match->second_user;
 
         // Send email to the sender
         $subject = "You and {$second_user->full_name} have smiled at each other";
-        $body = $ci->load->view('emails/match_notification_email', array(
+        $body = r('emails/match_notification_email', array(
                                                                        'sender' => $second_user,
                                                                        'receiver' => $first_user,
                                                                        'party' => $e->match->second_smile->party,
@@ -48,7 +44,7 @@ class EmailNotificationsPlugin extends Plugin
 
         // Send email to the receiver
         $subject = "You and $first_user->full_name have smiled at each other";
-        $body = $ci->load->view('emails/match_notification_email', array(
+        $body = r('emails/match_notification_email', array(
                                                                        'sender' => $first_user,
                                                                        'receiver' => $second_user,
                                                                        'party' => $e->match->first_smile->party,
@@ -58,8 +54,6 @@ class EmailNotificationsPlugin extends Plugin
 
     function on_party_invite_sent($e)
     {
-        $ci =& get_instance();
-        
         $sender = $e->sender;
         $receiver = $e->receiver;
         $party = $e->party;
@@ -69,7 +63,7 @@ class EmailNotificationsPlugin extends Plugin
 
         $vars = array('full_name' => $receiver->full_name, 'party' => $party);
 
-        $body = $ci->load->view('emails/party_invite_email', $vars, TRUE);
+        $body = r('emails/party_invite_email', $vars, TRUE);
         
         $user['email'] = 'vendiddy@gmail.com';
         job_call_async('send_email', $user, $subject, $body);

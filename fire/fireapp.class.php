@@ -7,6 +7,7 @@ class FireApp
      * @var ClassLoader
      */
     private $class_loader;
+
     private $plugins = array();
 
     function __construct($class_loader)
@@ -32,6 +33,14 @@ class FireApp
     function class_loader()
     {
         return $this->class_loader;
+    }
+
+    /**
+     * @return Index
+     */
+    function index()
+    {
+        return $this->class_loader->get_index();
     }
     
     function enable_autoload()

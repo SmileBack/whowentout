@@ -8,7 +8,7 @@ class Homepage extends MY_Controller
         if (logged_in())
             redirect('dashboard');
         
-        $this->load->view('homepage_view');
+        print r('homepage_view');
     }
 
 }

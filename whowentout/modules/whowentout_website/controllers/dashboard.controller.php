@@ -10,10 +10,10 @@ class Dashboard extends MY_Controller
         }
 
         enforce_restrictions();
-        
+
         $user = current_user();
         $college = college();
-        
+
         $clock = $college->get_clock();
         $time = $clock->get_time();
         $yesterday = $time->getDay(-1);
@@ -24,8 +24,8 @@ class Dashboard extends MY_Controller
             'title' => 'My Parties',
             'user' => $user,
             'college' => $college,
-            'closing_time' => load_view('closing_time_view'),
-            'doors_are_closed' => ! $college->get_door()->is_open(),
+            'closing_time' => r('closing_time'),
+            'doors_are_closed' => !$college->get_door()->is_open(),
             'open_parties' => $parties,
             'parties_attended' => $checkin_engine->get_recently_attended_parties_for_user($user),
             'has_attended_party' => $user->has_attended_party_on_date($yesterday),
@@ -40,26 +40,12 @@ class Dashboard extends MY_Controller
             $this->jsaction->ShowSiteHelp();
         }
 
-        $this->load_view('dashboard_view', $data);
-    }
-
-    function top_parties()
-    {
-        print load_view('sections/top_parties_view', array(
-                                                          'college' => college(),
-                                                     ));
-    }
-
-    function past_top_parties()
-    {
-        $this->load_view('past_top_parties_view', array(
-                                                       'html' => get_option('past_top_parties_html', ''),
-                                                  ));
+        $this->load_view('dashboard', $data);
     }
 
     function where_friends_went()
     {
-        $this->load_view('where_friends_went_view');
+        $this->load_view('where_friends_went');
     }
 
     function where_friends_went_data()
@@ -70,23 +56,25 @@ class Dashboard extends MY_Controller
         $user = current_user();
         $date = new XDateTime(post('date'), $user->college->timezone);
         $response = array();
-        
+
         $response['breakdown'] = where_friends_went_pie_chart_data($date);
-        $response['friend_galleries_view'] = load_view('friend_galleries_view', array('user' => $user, 'date' => $date));
-        
+
+        $response['friend_galleries_view'] = r('friend_galleries', array('user' => $user,
+                                                                             'date' => $date));
+
         $this->json($response);
     }
 
     function site_help()
     {
         $this->flag->set('user', current_user()->id, 'has_seen_site_help');
-        print $this->load->view('site_help_view');
+        print r('site_help');
     }
 
     function smile_help()
     {
         $this->flag->set('user', current_user()->id, 'has_seen_smile_help');
-        print $this->load->view('smile_help_view');
+        print r('smile_help');
     }
-    
+
 }

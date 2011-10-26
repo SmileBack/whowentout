@@ -5,8 +5,9 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $checkin_state = new UserCheckinState(current_user());
-        krumo::dump($checkin_state->get_checked_in_party());
+        print r('test', array(
+                          'first_name' => 'Venkat',
+                        ));
     }
 
     private function blah()
@@ -18,8 +19,8 @@ class Welcome extends MY_Controller
     {
         $party = XParty::get(32);
 
-        $ven = user(array('first_name' => 'Venkat'));
-        $dan = user(array('last_name' => 'Berenholtz'));
+        $ven = XUser::get(array('first_name' => 'Venkat'));
+        $dan = XUser::get(array('last_name' => 'Berenholtz'));
 
         $maggie = user(96);
         $claire = user(82);

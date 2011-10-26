@@ -56,10 +56,10 @@ class PushEventsPlugin extends Plugin
     {
         $channel = $this->user_channel($e->smile->receiver->id);
 
-        $party_notices_view = load_view('party_notices_view', array(
-                                                                   'user' => $e->smile->receiver,
-                                                                   'party' => $e->smile->party,
-                                                              ));
+        $party_notices_view = r('party_notices', array(
+                                                      'user' => $e->smile->receiver,
+                                                      'party' => $e->smile->party,
+                                                 ));
 
         $this->broadcast($channel, 'smile_received', array(
                                                           'party' => $e->smile->party->to_array(),
@@ -76,10 +76,10 @@ class PushEventsPlugin extends Plugin
     {
         $channel = $this->user_channel($e->match->second_smile->receiver->id);
 
-        $party_notices_view = load_view('party_notices_view', array(
-                                                                   'user' => $e->match->second_smile->receiver,
-                                                                   'party' => $e->match->second_smile->party,
-                                                              ));
+        $party_notices_view = r('party_notices', array(
+                                                      'user' => $e->match->second_smile->receiver,
+                                                      'party' => $e->match->second_smile->party,
+                                                 ));
         $this->broadcast($channel, 'smile_match', array(
                                                        'party' => $e->match->second_smile->party->to_array(),
                                                        'party_notices_view' => $party_notices_view,
@@ -113,9 +113,9 @@ class PushEventsPlugin extends Plugin
     {
         $event_data['channel'] = $channel;
         $this->ci->db->insert('events', array(
-                                          'type' => $event_name,
-                                          'channel' => $channel,
-                                          'data' => serialize($event_data),
+                                             'type' => $event_name,
+                                             'channel' => $channel,
+                                             'data' => serialize($event_data),
                                         ));
         serverchannel()->trigger($channel, $event_name, $event_data);
     }

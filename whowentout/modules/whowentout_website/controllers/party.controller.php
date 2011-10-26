@@ -40,7 +40,7 @@ class Party extends MY_Controller
         if ($this->flag->missing('user', $user->id, 'has_seen_smile_help'))
             $this->jsaction->ShowSmileHelpTip();
 
-        $this->load_view('party_view', $data);
+        $this->load_view('party', $data);
     }
 
     function invite()

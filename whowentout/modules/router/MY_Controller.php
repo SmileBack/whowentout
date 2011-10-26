@@ -9,6 +9,8 @@ class MY_Controller extends CI_Controller
 
         $this->load->library('asset');
         $this->asset->load('whowentout.application.js');
+
+        f()->class_loader()->load('View');
     }
 
     protected function require_login()
@@ -17,13 +19,12 @@ class MY_Controller extends CI_Controller
             show_error("You must be logged in.");
     }
 
-    protected function load_view($name, $data = array())
+    protected function load_view($name, $vars = array())
     {
         $this->benchmark->mark('page_content_start');
-        $data['page_content'] = $this->load->view($name, $data, TRUE);
+        $vars['page_content'] = r($name, $vars);
         $this->benchmark->mark('page_content_end');
-
-        $this->load->view('page', $data);
+        print r('page', $vars);
     }
 
     protected function json($response)

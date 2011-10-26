@@ -19,7 +19,7 @@ class CI_Chat
             return;
 
         $sender = XUser::get($sender_id);
-        $receiver = XUser:get($receiver_id);
+        $receiver = XUser::get($receiver_id);
         $this->db->insert('chat_messages', array(
                                                 'type' => $type,
                                                 'sender_id' => $sender->id,

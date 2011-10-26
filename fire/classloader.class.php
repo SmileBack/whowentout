@@ -19,6 +19,14 @@ class ClassLoader
         return new $class_name($arg1, $arg2, $arg3);
     }
 
+    /**
+     * @return Index
+     */
+    function get_index()
+    {
+        return $this->index;
+    }
+
     function load($class_name)
     {
         $class_filepath = $this->get_class_filepath($class_name);

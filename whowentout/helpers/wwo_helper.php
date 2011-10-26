@@ -90,29 +90,6 @@ function grad_year_dropdown($selected_year = NULL)
     return form_dropdown('grad_year', $options, $selected_year);
 }
 
-function load_view($view_name, $data = array())
-{
-    $CI =& get_instance();
-    return $CI->load->view($view_name, $data, TRUE);
-}
-
-/* 
- * Loads the view of a section. The sections are located in views/sections
- * $section_name The name of the section. For example, 'my_info_view'.
- * $title The (optional) title of the section. If provided, a heading will
- * be shown for the section. If left out, nothing will be shown.
- * $data An array of any variables you would like to pass into the section.
- * This works just like when you pass data in with load_view.
- */
-function load_section_view($section_name, $title = '', $data = array())
-{
-    return render('section', array(
-                                  'id' => $section_name,
-                                  'title' => $title,
-                                  'vars' => $data,
-                             ));
-}
-
 function get_hometown_city($hometown)
 {
     return trim(string_before_last(',', $hometown));

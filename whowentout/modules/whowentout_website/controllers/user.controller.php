@@ -9,7 +9,7 @@ class User extends MY_Controller
     function upload_pic()
     {
         $this->require_login();
-        
+
         $user = current_user();
         $user->upload_pic();
 
@@ -81,7 +81,7 @@ class User extends MY_Controller
         $message = array();
 
         if ($use_website_permission->cant_because(UseWebsitePermission::NETWORK_INFO_MISSING)) {
-            $message[] = load_view('missing_network_view');
+            $message[] = r('missing_network');
         }
 
         if ($use_website_permission->cant_because(UseWebsitePermission::GENDER_MISSING)) {
@@ -99,7 +99,7 @@ class User extends MY_Controller
         if (!empty($message))
             set_message(implode('', $message));
 
-        $this->load_view('user_edit_view', array(
+        $this->load_view('user_edit', array(
                                                 'user' => current_user(),
                                                 'missing_info' => current_user()->get_missing_info(),
                                            ));
@@ -122,11 +122,11 @@ class User extends MY_Controller
         logout();
         redirect('/');
     }
-    
+
     function mutual_friends($target_id)
     {
         $this->require_login();
-        
+
         $user = current_user();
         $target = XUser::get($target_id);
 
@@ -136,10 +136,10 @@ class User extends MY_Controller
         }
 
         $mutual_friends = $user->mutual_friends($target);
-        $this->load->view('mutual_friends_view', array(
-                                                      'target' => $target,
-                                                      'mutual_friends' => $mutual_friends,
-                                                 ));
+        print r('mutual_friends', array(
+                                       'target' => $target,
+                                       'mutual_friends' => $mutual_friends,
+                                  ));
     }
 
     function change_visibility($visibility)
@@ -184,12 +184,12 @@ class User extends MY_Controller
 
         $response = array();
         $response['insert_positions'] = $party->attendee_insert_positions($attendee);
-        $response['party_attendee_view'] = load_view('party_attendee_view', array(
-                                                                                 'logged_in_user' => current_user(),
-                                                                                 'party' => $party,
-                                                                                 'attendee' => $attendee,
-                                                                                 'smile_engine' => new SmileEngine(),
-                                                                            ));
+        $response['party_attendee_view'] = r('party_attendee', array(
+                                                                    'logged_in_user' => current_user(),
+                                                                    'party' => $party,
+                                                                    'attendee' => $attendee,
+                                                                    'smile_engine' => new SmileEngine(),
+                                                               ));
         $this->json($response);
     }
 
