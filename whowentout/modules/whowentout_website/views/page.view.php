@@ -100,7 +100,7 @@
 
     <?php if (logged_in()): ?>
     <div id="sidebar">
-        <div class="my_info_view">
+        <div class="my_info_view user <?= 'user_' . current_user()->id ?>">
             <?= r('my_info') ?>
         </div>
         <ul id="notifications"></ul>

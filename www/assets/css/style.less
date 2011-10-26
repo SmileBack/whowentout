@@ -600,6 +600,14 @@ table td, table th {
     }
 }
 
+.user .online_badge {
+  visibility: hidden;
+}
+
+.user.online .online_badge {
+  visibility: visible;
+}
+
 .gallery_view {
   position: relative;
   .visibilitybar {
@@ -650,17 +658,9 @@ table td, table th {
         .full_name {
           overflow: hidden;
           height: 16px;
-          > * {
-              display: inline-block;
-          }
-        }
-        .online_badge {
-          display: none;
+          > * { display: inline-block; }
         }
         .click_to_chat { display: none; }
-      }
-      .party_attendee.online {
-         .online_badge { display: inline-block; }
       }
     }
     &.chat_closed .online_badge {
@@ -723,10 +723,6 @@ form .hometown {
     float: left;
     padding: 3px;
   }
-}
-
-.idle .online_badge {
-    background-color: #ff9600 !important;
 }
 
 .whats_a_smile {
