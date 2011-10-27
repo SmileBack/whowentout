@@ -2,7 +2,7 @@
 
 require_once APPPATH . 'third_party/swift/swift_required.php';
 
-class SwiftEmailDriver extends EmailDriver
+class SwiftEmailDriver extends XEmailDriver
 {
 
     function send_email($to, $subject, $body)
