@@ -1,5 +1,6 @@
 <?php
-$checkin_state = new UserCheckinState( current_user() );
+$college = $user->college;
+$checkin_state = new UserCheckinState( $user );
 $doors_open = $checkin_state->door_is_open();
 $doors_opening_time = $checkin_state->get_door_opening_time();
 $doors_closing_time = $checkin_state->get_door_closing_time();

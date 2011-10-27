@@ -7,7 +7,9 @@ $checkin_engine = new CheckinEngine();
 
     <div class="checkin_box"></div>
 
-    <?= r('checkin_form') ?>
+    <?= r('checkin_form', array(
+                            'user' => $user,
+                          )) ?>
 
     <?php foreach ($checkin_engine->get_recently_attended_parties_for_user(current_user()) as $party): ?>
 

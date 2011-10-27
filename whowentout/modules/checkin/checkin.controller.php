@@ -34,7 +34,9 @@ class Checkin extends MY_Controller
             $response['user_command_notice'] = r('user_command_notice', array(
                                                                              'user' => $user,
                                                                         ));
-            $response['checkin_form'] = r('checkin_form');
+            $response['checkin_form'] = r('checkin_form', array(
+                                                            'user' => $user,
+                                                          ));
             $response['party'] = $party->to_array();
 
             $channel_id = 'party_' . $party->id;
