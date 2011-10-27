@@ -1,6 +1,7 @@
 //= require lib/jquery.js
 //= require lib/jquery.entwine.js
-//= require lib/underscore.js
+//= require lib/timeinterval.js
+//= require whowentout.queue.js
 
 (function($) {
 
@@ -19,7 +20,7 @@
     var topFrameHeight = 39;
     var bottomFrameHeight = 64;
     var bottomFrameActualHeight = 38;
-    var image = 'digits.png';
+    var image = '/assets/images/landing/digits.png';
 
     var numFramesTop = 3;
     var numFramesBottom = 4;
@@ -43,14 +44,14 @@
 
             return new Date(parseInt(target) * 1000);
         },
-        currentTime: function() {
+        getCurrentTime: function() {
             return new Date();
         },
         updateTimer: function() {
             if (this.targetTime() == null)
                 return;
 
-            var timeLeft = this.currentTime().timeUntil(this.targetTime());
+            var timeLeft = this.getCurrentTime().timeUntil(this.targetTime());
             $('.time_counter').flipTo(timeLeft);
         },
         flipTo: function(timeInterval) {

@@ -33,8 +33,10 @@ class CI_Asset
         }
     }
 
-    function js()
+    function js($additional_js = array())
     {
+        $this->load($additional_js);
+
         $loaded = $this->loaded;
 
         $require_order = $this->require_order();

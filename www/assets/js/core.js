@@ -66,7 +66,7 @@ $('#wwo').entwine({
         });
     },
     _calculateTimeDelta: function() {
-        var serverUnixTs = parseInt($('#wwo').data('currentTime'));
+        var serverUnixTs = parseInt($('#wwo').data('getCurrentTime'));
         //Unix timestamp uses seconds while JS Date uses milliseconds
         var serverTime = new Date(serverUnixTs * 1000);
         var browserTime = new Date();

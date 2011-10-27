@@ -775,9 +775,9 @@ function SoundManager(smURL, smID) {
         }
       } else if (_t._a) {
         if (_t._html5_canplay) {
-          if (_t._a.currentTime !== position1K) {
+          if (_t._a.getCurrentTime !== position1K) {
             try {
-              _t._a.currentTime = position1K;
+              _t._a.getCurrentTime = position1K;
               if (_t.playState === 0 || _t.paused) {
                 _t._a.pause();
               }
@@ -995,7 +995,7 @@ function SoundManager(smURL, smID) {
         if (_t._a && (bForce || ((_t.playState > 0 || _t.readyState === 1) && !_t.paused))) {
           _t.duration = _t._get_html5_duration();
           _t.durationEstimate = _t.duration;
-          time = _t._a.currentTime?_t._a.currentTime*1000:0;
+          time = _t._a.getCurrentTime?_t._a.getCurrentTime*1000:0;
           _t._whileplaying(time,x,x,x,x);
           return true;
         } else {
@@ -1307,9 +1307,9 @@ function SoundManager(smURL, smID) {
       this._t._html5_canplay = true;
       this._t._onbufferchange(0);
       var position1K = (!isNaN(this._t.position)?this._t.position/1000:null);
-      if (this._t.position && this.currentTime !== position1K) {
+      if (this._t.position && this.getCurrentTime !== position1K) {
         try {
-          this.currentTime = position1K;
+          this.getCurrentTime = position1K;
         } catch(ee) {
         }
       }
