@@ -5,6 +5,8 @@ class Party extends MY_Controller
 
     function page($party_id)
     {
+        $this->require_login();
+        
         $user = current_user();
         $party = XParty::get($party_id);
         $sort = $this->_get_sort();

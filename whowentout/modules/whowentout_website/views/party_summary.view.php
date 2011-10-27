@@ -7,7 +7,7 @@
 
     <h2>
         <a href="<?= "party/$party->id" ?>">
-            <?= $party->college->format_time($date) ?> &nbsp;|&nbsp;  <?= $party->place->name ?> Gallery
+            <?= $party->college->format_time($date) ?> &nbsp;|&nbsp;  <?= $party->place->name ?>
         </a>
     </h2>
 
