@@ -23,10 +23,10 @@
     <script type="text/javascript" src="/assets/js/lib/timeinterval.js"></script>
 
     <script type="text/javascript" src="/assets/js/lib/jquery.class.js"></script>
-    <script type="text/javascript" src="/assets/js/whowentout.component.js?version=2"></script>
-    <script type="text/javascript" src="/assets/js/whowentout.queue.js?version=4"></script>
-    <script type="text/javascript" src="/assets/js/widgets/jquery.countdowntimer.js?version=3"></script>
-    <script type="text/javascript" src="landing.js?version=11"></script>
+    <script type="text/javascript" src="/assets/js/whowentout.component.js?version=3"></script>
+    <script type="text/javascript" src="/assets/js/whowentout.queue.js?version=5"></script>
+    <script type="text/javascript" src="/assets/js/widgets/jquery.countdowntimer.js?version=4"></script>
+    <script type="text/javascript" src="landing.js?version=12"></script>
 
     <meta name="google-site-verification" content="Qx0f2RFdL3wf2NWU3kcxXacFs020qQ5quH9ZCsVnFlM" />
     <script type="text/javascript">
@@ -50,13 +50,13 @@
 <body>
 
     <div id="landing">
-        <img src="/landing.png?version=5"/>
+        <img src="/landing.png?version=6"/>
     </div>
 
     <div id="countdown_wrapper">
         <div id="countdown" class="time_counter"
              data-target="<?= getenv('countdown_target') ? strtotime(getenv('countdown_target'))
-                     : strtotime('October 23, 2011') ?>">
+                     : '' ?>">
             <div class="wrap">
                 <div class="days counter" data-length="2"></div>
                 <h3>days</h3>
@@ -80,7 +80,7 @@
     </div>
 
     <div id="coming_soon">
-        <img src="/coming_soon.png?version=1"/>
+        <img src="/coming_soon.png?version=2"/>
     </div>
 
 </body>
