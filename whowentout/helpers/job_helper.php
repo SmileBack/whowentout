@@ -80,6 +80,8 @@ function job_run_async($job_id) {
 
 function job_curl_post_async($url, $params = array())
 {
+    krumo::dump(array('url' => $url, 'params' => $params));
+    
     $post_params = array();
     foreach ($params as $key => &$val) {
       if (is_array($val)) $val = implode(',', $val);
