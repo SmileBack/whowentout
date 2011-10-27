@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['email']['default'] = array(
+$config['xemail']['default'] = array(
     'driver' => 'swift',
     'server' => 'smtp.gmail.com',
     'port' => 465,
@@ -10,7 +10,7 @@ $config['email']['default'] = array(
     'from' => 'WhoWentOut',
 );
 
-$config['email']['development'] = array(
+$config['xemail']['development'] = array(
     'driver' => 'empty',
     'from' => 'WhoWentOut',
 );

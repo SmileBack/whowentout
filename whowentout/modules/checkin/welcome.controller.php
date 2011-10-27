@@ -5,8 +5,7 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $ven = XUser::get(array('first_name' => 'Venkat'));
-        $this->notification->send($ven, 'blahhasfwefwef');
+        $this->load->library('xemail');
     }
 
     private function blah()

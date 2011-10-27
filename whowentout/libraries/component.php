@@ -74,8 +74,8 @@ abstract class Component
     {
         $component_name = $this->name();
         $this->ci->load->config($component_name);
-        $config = $this->ci->config->item($component_name);
 
+        $config = $this->ci->config->item($component_name);
         return $config[$preset];
     }
 
