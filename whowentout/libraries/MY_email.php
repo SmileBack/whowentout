@@ -1,6 +1,6 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Email extends Component
+class MY_Email extends Component
 {
 
     protected $ci;
