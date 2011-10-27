@@ -29,6 +29,7 @@ function job_curl_post_async($url, $params = array())
 }
 
 error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 $url = 'http://www.whowasout.com/job/run/71ac2f2dbd5234abdf546043764b025f661e4c3f';
 $params = array();
