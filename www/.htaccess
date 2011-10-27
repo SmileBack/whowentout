@@ -3,9 +3,9 @@
     RewriteBase /
 
     # mydomain.com will redirect to www.mydomain.com
-    #RewriteCond %{HTTP_HOST}  \.
-    #RewriteCond %{HTTP_HOST} !^www\.
-    #RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+    RewriteCond %{HTTP_HOST}  \.
+    RewriteCond %{HTTP_HOST} !^www\.
+    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
     
     ### Canonicalize codeigniter URLs
  
