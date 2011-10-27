@@ -30,6 +30,6 @@ function job_curl_post_async($url, $params = array())
 
 error_reporting(E_ALL);
 
-$url = 'http://www.whowasout.com/job/run/5ee2254d3fed2d10e7a4af28d3aaa7321cf8b340';
+$url = 'http://www.whowasout.com/job/run/71ac2f2dbd5234abdf546043764b025f661e4c3f';
 $params = array();
 job_curl_post_async($url, $params);
