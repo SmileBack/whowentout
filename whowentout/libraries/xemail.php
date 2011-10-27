@@ -1,6 +1,6 @@
 <?php
 
-class MY_Email extends Component
+class XEmail extends Component
 {
 
     protected $ci;
