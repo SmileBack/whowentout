@@ -8,9 +8,9 @@ class Job_Proxy extends MY_Controller
         parent::__construct();
     }
 
-    function index()
+    function dandorroyven()
     {
         print r('job_proxy_page');
     }
-
+    
 }

@@ -6,7 +6,7 @@ jQuery(function($) {
 
     function SendJobRequestTask(options) {
         console.log('sending job request :: ' + options.url);
-        $.ajax({
+        return $.ajax({
             url: options.url,
             type: 'get',
             dataType: 'json',
