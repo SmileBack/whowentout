@@ -14,11 +14,11 @@ class EmailNotificationsPlugin extends Plugin
     function on_smile_sent($e)
     {
         $subject = "A {$e->sender->gender_word} from {$e->party->place->name} has smiled at you";
-        $body = r('emails/smile_received_email', array(
+        $body = r('smile_received_email', array(
                                                                     'sender' => $e->sender,
                                                                     'receiver' => $e->receiver,
                                                                     'party' => $e->party,
-                                                                    'date' => current_time(TRUE),
+                                                                    'date' => $e->party->college->get_time(),
                                                                ), TRUE);
         job_call_async('send_email', $e->receiver->id, $subject, $body);
     }
@@ -35,7 +35,7 @@ class EmailNotificationsPlugin extends Plugin
 
         // Send email to the sender
         $subject = "You and {$second_user->full_name} have smiled at each other";
-        $body = r('emails/match_notification_email', array(
+        $body = r('match_notification_email', array(
                                                                        'sender' => $second_user,
                                                                        'receiver' => $first_user,
                                                                        'party' => $e->match->second_smile->party,
@@ -44,7 +44,7 @@ class EmailNotificationsPlugin extends Plugin
 
         // Send email to the receiver
         $subject = "You and $first_user->full_name have smiled at each other";
-        $body = r('emails/match_notification_email', array(
+        $body = r('match_notification_email', array(
                                                                        'sender' => $first_user,
                                                                        'receiver' => $second_user,
                                                                        'party' => $e->match->first_smile->party,
@@ -63,7 +63,7 @@ class EmailNotificationsPlugin extends Plugin
 
         $vars = array('full_name' => $receiver->full_name, 'party' => $party);
 
-        $body = r('emails/party_invite_email', $vars, TRUE);
+        $body = r('party_invite_email', $vars, TRUE);
         
         $user['email'] = 'vendiddy@gmail.com';
         job_call_async('send_email', $user, $subject, $body);

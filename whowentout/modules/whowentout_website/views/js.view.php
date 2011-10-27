@@ -32,6 +32,6 @@ $ci->asset->load(array(
 <?= js_asset('ie.js') ?>
 <![endif]-->
 
-<?php if (isset($this->jsaction)): ?>
-    <?= $this->jsaction->run() ?>
+<?php if (isset($ci->jsaction)): ?>
+    <?= $ci->jsaction->run() ?>
 <?php endif; ?>

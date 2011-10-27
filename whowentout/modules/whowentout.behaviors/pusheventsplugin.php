@@ -59,6 +59,7 @@ class PushEventsPlugin extends Plugin
         $party_notices_view = r('party_notices', array(
                                                       'user' => $e->smile->receiver,
                                                       'party' => $e->smile->party,
+                                                      'smile_engine' => new SmileEngine(),
                                                  ));
 
         $this->broadcast($channel, 'smile_received', array(
@@ -79,6 +80,7 @@ class PushEventsPlugin extends Plugin
         $party_notices_view = r('party_notices', array(
                                                       'user' => $e->match->second_smile->receiver,
                                                       'party' => $e->match->second_smile->party,
+                                                      'smile_engine' => new SmileEngine(),
                                                  ));
         $this->broadcast($channel, 'smile_match', array(
                                                        'party' => $e->match->second_smile->party->to_array(),

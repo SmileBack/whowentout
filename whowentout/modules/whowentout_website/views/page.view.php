@@ -20,6 +20,10 @@
     <!--[if IE]>
     <?= less_asset('ie') ?>
     <![endif]-->
+
+    <script type="text/javascript">
+        window.settings = <?= json_encode(f()->window_settings) ?>;
+    </script>
     
     <?= js_asset('lib/less.js') ?>
     <?= js_asset('lib/modernizr.js') ?>
@@ -96,14 +100,14 @@
         <?= $page_content ?>
 
         <nav id="footer_links">
-            <a href="google.com">About Us</a>
-            <a href="google.com">FAQ</a>
-            <a href="google.com">Terms</a>
+            <?= anchor('terms', 'Terms') ?>
+            <?= anchor('terms/about_us', 'About Us') ?>
+            <?= anchor('terms/faq', 'FAQ') ?>
         </nav>
     </div>
     <!-- page_content end -->
 
-    <?php if (logged_in()): ?>
+    <?php if ( logged_in() ): ?>
     <div id="sidebar">
         <div class="my_info_view user <?= 'user_' . current_user()->id ?>">
 
@@ -116,7 +120,7 @@
         <h3 class="notifications_heading">Notifications</h3>
         <ul id="notifications"></ul>
     </div>
-
+    
     <?php endif; ?>
 
 </div>

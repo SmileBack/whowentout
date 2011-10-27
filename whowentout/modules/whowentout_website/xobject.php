@@ -80,6 +80,12 @@ class XObject
         return static::$rows[$table][$row_id];
     }
 
+    static function load_first($class, $query)
+    {
+        $objects = static::load_objects($class, $query);
+        return empty($objects) ? NULL : $objects[0];
+    }
+
     static function load_objects($class, $rows)
     {
         $ci =& get_instance();

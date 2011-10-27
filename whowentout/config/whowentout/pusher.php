@@ -1,5 +1,5 @@
 <?php
 
-$config['pusher_app_id'] = '8602';
-$config['app_key'] = '23a32666914116c9b891';
-$config['app_secret'] = '746d66aa6309ef7768ef';
+$config['pusher_app_id'] = '10139';
+$config['pusher_app_key'] = '8d634f5c91dded3c5ba9';
+$config['pusher_app_secret'] = '7089b317afc31e3d6d66';

@@ -134,18 +134,18 @@ class SmileEngine_Tests extends TestGroup
     {
         $this->setup_two_parties_and_checkins_scenario();
 
-        $smileEngine = new SmileEngine();
+        $smile_engine = new SmileEngine();
 
-        $num_smiles_left_to_give = $smileEngine->get_num_smiles_left_to_give($this->dan, $this->second_party);
+        $num_smiles_left_to_give = $smile_engine->get_num_smiles_left_to_give($this->dan, $this->second_party);
         $this->assert_equal($num_smiles_left_to_give, 3, 'dan starts out with 3 smiles');
 
-        $smileEngine->send_smile($this->dan, $this->samantha, $this->first_party);
-        $num_smiles_left_to_give = $smileEngine->get_num_smiles_left_to_give($this->dan, $this->second_party);
+        $smile_engine->send_smile($this->dan, $this->samantha, $this->first_party);
+        $num_smiles_left_to_give = $smile_engine->get_num_smiles_left_to_give($this->dan, $this->second_party);
         $this->assert_equal($num_smiles_left_to_give, 3, 'dan still has 3 smiles left to give at the second party (after using one up at a previous party)');
-
-        $smileEngine->send_smile($this->dan, $this->jess, $this->second_party);
-        $smileEngine->send_smile($this->dan, $this->michelle, $this->second_party);
-        $num_smiles_left_to_give = $smileEngine->get_num_smiles_left_to_give($this->dan, $this->second_party);
+        
+        $smile_engine->send_smile($this->dan, $this->jess, $this->second_party);
+        $smile_engine->send_smile($this->dan, $this->michelle, $this->second_party);
+        $num_smiles_left_to_give = $smile_engine->get_num_smiles_left_to_give($this->dan, $this->second_party);
         $this->assert_equal($num_smiles_left_to_give, 1, 'dan uses up 2 smiles at the party so he has 1 left to give');
     }
 
@@ -153,25 +153,35 @@ class SmileEngine_Tests extends TestGroup
     {
         $this->setup_two_parties_and_checkins_scenario();
 
-        $smileEngine = new SmileEngine();
+        $smile_engine = new SmileEngine();
 
-        $smileEngine->send_smile($this->dan, $this->samantha, $this->first_party);
-        $smileEngine->send_smile($this->samantha, $this->dan, $this->first_party);
+        $smile_engine->send_smile($this->dan, $this->samantha, $this->first_party);
+        $smile_engine->send_smile($this->samantha, $this->dan, $this->first_party);
 
-        $smileEngine->send_smile($this->dan, $this->jess, $this->second_party);
-        $smileEngine->send_smile($this->dan, $this->michelle, $this->second_party);
+        $smile_engine->send_smile($this->dan, $this->jess, $this->second_party);
+        $smile_engine->send_smile($this->dan, $this->michelle, $this->second_party);
 
-        $matches = $smileEngine->get_smile_matches_for_user($this->dan, $this->second_party);
+        $matches = $smile_engine->get_smile_matches_for_user($this->dan, $this->second_party);
         $this->assert_equal(count($matches), 0, 'no matches for dan at the second party');
 
-        $smileEngine->send_smile($this->jess, $this->dan, $this->second_party);
-        $smileEngine->send_smile($this->michelle, $this->dan, $this->second_party);
-        $smileEngine->send_smile($this->samantha, $this->dan, $this->second_party);
+        $smile_engine->send_smile($this->jess, $this->dan, $this->second_party);
+        $smile_engine->send_smile($this->michelle, $this->dan, $this->second_party);
+        $smile_engine->send_smile($this->samantha, $this->dan, $this->second_party);
 
-        $matches = $smileEngine->get_smile_matches_for_user($this->dan, $this->second_party);
-        $this->assert_true( in_array($this->jess, $matches), 'jess and dan have a match' );
-        $this->assert_true( in_array($this->michelle, $matches), 'michelle and dan have a match' );
-        $this->assert_true( ! in_array($this->samantha, $matches), 'samantha and dan DO NOT have a match' );
+        $matches = $smile_engine->get_smile_matches_for_user($this->dan, $this->second_party);
+        $match_users = $this->get_smile_match_users($this->dan, $matches);
+        $this->assert_true( in_array($this->jess, $match_users), 'jess and dan have a match' );
+        $this->assert_true( in_array($this->michelle, $match_users), 'michelle and dan have a match' );
+        $this->assert_true( ! in_array($this->samantha, $match_users), 'samantha and dan DO NOT have a match' );
+    }
+
+    function get_smile_match_users(XUser $for_user, array $matches)
+    {
+        $users = array();
+        foreach ($matches as $match) {
+            $users[] = $match->other_user($for_user);
+        }
+        return $users;
     }
 
 }

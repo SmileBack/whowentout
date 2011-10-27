@@ -13,7 +13,7 @@ class Index
     {
         $this->root = $root;
         $this->cache = $cache;
-
+        
         if ($this->requires_rebuild())
             $this->rebuild();
         else
@@ -58,12 +58,18 @@ class Index
         $index['resources'][$resource_path] = $resource_metadata;
     }
 
-    function load_from_cache()
+    private function save_to_cache()
     {
-        $this->index = $this->cache->get($this->cache_key());
+        $this->cache_set('index', $this->index);
+        $this->cache_set('version', $this->fetch_real_version());
     }
 
-    function rebuild()
+    private function load_from_cache()
+    {
+        $this->index = $this->cache_get('index');
+    }
+
+    private function rebuild()
     {
         $this->index = array(
             'root' => $this->root,
@@ -73,11 +79,11 @@ class Index
         $this->index_files($this->index);
         $this->index_php_files($this->index);
 
-        $this->cache->set($this->cache_key(), $this->index);
+        $this->save_to_cache();
         return $this->index;
     }
 
-    function clear_index($path)
+    private function clear_index($path)
     {
         foreach ($this->index['resources'] as $resource_path => $resource_meta) {
             if ($this->string_starts_with($path . '/', $resource_path))
@@ -100,13 +106,13 @@ class Index
         }
     }
 
-    function add_resource_alias(&$index, $alias, $path)
+    private function add_resource_alias(&$index, $alias, $path)
     {
         $alias = strtolower($alias);
         $index['aliases'][$alias][] = $path;
     }
 
-    function index_directories(&$index)
+    private function index_directories(&$index)
     {
         $directories = $this->scan_directories($index['root'], TRUE);
         foreach ($directories as $directory) {
@@ -114,7 +120,7 @@ class Index
         }
     }
 
-    function index_directory(&$index, $dirpath)
+    private function index_directory(&$index, $dirpath)
     {
         $dir_metadata = array();
 
@@ -125,7 +131,7 @@ class Index
         $this->set_resource_metadata($index, $dir_metadata['path'], $dir_metadata);
     }
 
-    function index_files(&$index)
+    private function index_files(&$index)
     {
         $files = $this->scan_files($index['root'], TRUE);
         foreach ($files as $filepath) {
@@ -133,7 +139,7 @@ class Index
         }
     }
 
-    function index_php_files(&$index)
+    private function index_php_files(&$index)
     {
         foreach ($index['resources'] as $resource) {
             if ($resource['type'] == 'file' && $this->is_php_file($resource)) {
@@ -143,7 +149,7 @@ class Index
         $this->index_php_class_heirarchy($index);
     }
 
-    function index_php_class_heirarchy(&$index)
+    private function index_php_class_heirarchy(&$index)
     {
         foreach ($index['resources'] as &$resource) {
 
@@ -160,7 +166,7 @@ class Index
         }
     }
 
-    function index_file(&$index, $filepath)
+    private function index_file(&$index, $filepath)
     {
         $resource_path = $this->string_after_first($index['root'], $filepath);
 
@@ -176,12 +182,12 @@ class Index
         $this->add_resource_alias($index, $file_metadata['filename'], $resource_path);
     }
 
-    function is_php_file($file_metadata)
+    private function is_php_file($file_metadata)
     {
         return $this->string_ends_with('.php', $file_metadata['filepath']);
     }
 
-    function index_php_file(&$index, $file_metadata)
+    private function index_php_file(&$index, $file_metadata)
     {
         $parser = new PHPClassParser();
 
@@ -200,9 +206,20 @@ class Index
         }
     }
 
-    function requires_rebuild()
+    private function requires_rebuild()
     {
-        return !$this->cache->exists($this->cache_key());
+        return !$this->cache_exists('index')
+             || $this->fetch_cached_version() < $this->fetch_real_version();
+    }
+
+    private function fetch_real_version()
+    {
+        return intval( @file_get_contents($this->root . 'version.txt') );
+    }
+
+    private function fetch_cached_version()
+    {
+        return intval( $this->cache_get('version') );
     }
 
     private function cache_key()
@@ -210,7 +227,25 @@ class Index
         return 'blox_index_' . md5($this->root);
     }
 
-    function scan_files($path, $include_subdirectories = FALSE)
+    private function cache_set($key, $value)
+    {
+        $namespaced_cache_key = $this->cache_key() . '_' . $key;
+        $this->cache->set($namespaced_cache_key, $value);
+    }
+
+    private function cache_get($key)
+    {
+        $namespaced_cache_key = $this->cache_key() . '_' . $key;
+        return $this->cache->get($namespaced_cache_key);
+    }
+
+    private function cache_exists($key)
+    {
+        $namespaced_cache_key = $this->cache_key() . '_' . $key;
+        return $this->cache->exists($namespaced_cache_key);
+    }
+
+    private function scan_files($path, $include_subdirectories = FALSE)
     {
         if (!is_dir($path))
             return FALSE;
@@ -233,7 +268,7 @@ class Index
         return $files;
     }
 
-    function scan_directories($path, $include_subdirectories = FALSE)
+    private function scan_directories($path, $include_subdirectories = FALSE)
     {
         if (!is_dir($path))
             return FALSE;
@@ -260,17 +295,17 @@ class Index
     }
 
 
-    function string_ends_with($end_of_string, $string)
+    private function string_ends_with($end_of_string, $string)
     {
         return substr($string, -strlen($end_of_string)) === $end_of_string;
     }
 
-    function string_starts_with($start_of_string, $source)
+    private function string_starts_with($start_of_string, $source)
     {
         return strncmp($source, $start_of_string, strlen($start_of_string)) == 0;
     }
 
-    function string_after_first($needle, $haystack)
+    private function string_after_first($needle, $haystack)
     {
         $pos = strpos($haystack, $needle);
         if ($pos === FALSE) {
@@ -280,7 +315,7 @@ class Index
         }
     }
 
-    function string_before_first($needle, $haystack)
+    private function string_before_first($needle, $haystack)
     {
         $pos = strpos($haystack, $needle);
         if ($pos === FALSE) {
@@ -290,7 +325,7 @@ class Index
         }
     }
 
-    function string_after_last($needle, $haystack)
+    private function string_after_last($needle, $haystack)
     {
         $pos = strrpos($haystack, $needle);
         if ($pos === FALSE) {
@@ -300,7 +335,7 @@ class Index
         }
     }
 
-    function string_before_last($needle, $haystack)
+    private function string_before_last($needle, $haystack)
     {
         $pos = strrpos($haystack, $needle);
         if ($pos === FALSE) {

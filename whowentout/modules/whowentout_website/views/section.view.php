@@ -1,4 +1,4 @@
-<section class="<?= $class ?>">
+<section class="<?= isset($class) ? $class : '' ?>">
 
   <?php if ($title): ?>
     <h1><?= $title ?></h1>

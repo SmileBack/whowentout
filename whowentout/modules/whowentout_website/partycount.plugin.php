@@ -11,8 +11,9 @@ class PartyCountPlugin extends Plugin
     function on_before_controller_request($e)
     {
         $segments = explode('/', $e->uri);
-        if ($segments[0] == 'party' || $segments[0] == 'dashboard' || $segments[0] == 'friends')
+        if ($segments[0] == 'party' || $segments[0] == 'dashboard' || $segments[0] == 'friends') {
             $this->update_num_checkins(current_user());
+        }
     }
 
     private function update_num_checkins($user)

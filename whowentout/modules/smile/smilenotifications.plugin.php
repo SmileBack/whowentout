@@ -1,8 +1,8 @@
 <?php
 
-class NotificationsPlugin extends Plugin
+class SmileNotificationsPlugin extends Plugin
 {
-
+    
     private $ci;
 
     function __construct()
@@ -49,16 +49,4 @@ class NotificationsPlugin extends Plugin
         $second_message = "You and $first_user->full_name have smiled at each other.";
         $this->ci->notification->send($second_user, $second_message);
     }
-
-    /**
-     * Occurs when a $e->user checks into a $e->party.
-     * @param XUser $e->user
-     * @param XParty $e->party
-     */
-    function on_checkin($e)
-    {
-        $message = "You checked into {$e->party->place->name}.";
-        $this->ci->notification->send($e->user, $message);
-    }
-    
 }

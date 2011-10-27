@@ -27,9 +27,6 @@ class XSmileMatch extends XObject
 
     function this_user($current_user)
     {
-        if (!$current_user)
-            $current_user = current_user();
-
         if ($this->first_user == $current_user)
             return $this->first_user;
         else if ($this->second_user == $current_user)
@@ -40,9 +37,6 @@ class XSmileMatch extends XObject
 
     function other_user($current_user)
     {
-        if (!$current_user)
-            $current_user = current_user();
-        
         if ($this->first_user == $current_user)
             return $this->second_user;
         else if ($this->second_user == $current_user)

@@ -55,16 +55,25 @@ class SmileEngine
                 ->where('second_user_id', $user->id);
 
         $smile_match_objects = XObject::load_objects('XSmileMatch', $query);
-        $matches = array();
+        return $smile_match_objects;
+    }
 
-        foreach ($smile_match_objects as $match_object) {
-            if ($match_object->first_user == $user)
-                $matches[] = $match_object->second_user;
-            else
-                $matches[] = $match_object->first_user;
-        }
+    function get_smiles_sent_for_user($user, $party)
+    {
+        $query = $this->db->select('id')
+                          ->from('smiles')
+                          ->where('sender_id', $user->id)
+                          ->where('party_id', $party->id);
+        return XObject::load_objects('XSmile', $query);
+    }
 
-        return $matches;
+    function get_smiles_received_for_user($user, $party)
+    {
+        $query = $this->db->select('id')
+                          ->from('smiles')
+                          ->where('receiver_id', $user->id)
+                          ->where('party_id', $party->id);
+        return XObject::load_objects('XSmile', $query);
     }
 
     function get_num_smiles_sent($user, $party)
@@ -93,11 +102,16 @@ class SmileEngine
                                      'party_id' => $party->id,
                                      'smile_time' => college()->get_time()->format('Y-m-d H:i:s'),
                                 ));
-
         $this->update_who_user_smiled_at_cache($sender, $party);
 
-        $first_smile = $this->get_most_recent_smile_sent($receiver, $sender);
+        f()->trigger('smile_sent', array(
+                                     'sender' => $sender,
+                                     'receiver' => $receiver,
+                                     'smile' => $smile,
+                                     'party' => $party,
+                                   ));
 
+        $first_smile = $this->get_most_recent_smile_sent($receiver, $sender);
         if ($first_smile) {
             if ($this->smiles_are_used_in_previous_match(array($smile->id, $first_smile->id))) {
                 //smiles have already been used in a previous match, so no match should be created
@@ -110,6 +124,10 @@ class SmileEngine
                                                   'second_user_id' => $smile->sender->id,
                                                   'created_at' => college()->get_time()->format('Y-m-d H:i:s'),
                                              ));
+                
+                f()->trigger('smile_match', array(
+                                              'match' => $match,
+                                            ));
             }
         }
 

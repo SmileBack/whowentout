@@ -11,6 +11,9 @@ class MY_Controller extends CI_Controller
         $this->asset->load('whowentout.application.js');
 
         f()->class_loader()->load('View');
+
+        $this->config->load('pusher');
+        f()->window_settings['pusher']['app_key'] = $this->config->item('pusher_app_key');
     }
 
     protected function require_login()

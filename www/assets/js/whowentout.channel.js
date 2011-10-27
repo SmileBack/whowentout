@@ -21,13 +21,12 @@ WhoWentOut.Component.extend('WhoWentOut.Pusher', {
     Get: function() {
         if (!this._pusher) {
             Pusher.channel_auth_endpoint = '/user/pusherauth';
-            this._pusher = new Pusher('23a32666914116c9b891');
+            this._pusher = new Pusher(window.settings.pusher.app_key);
             this.CheckForFailedPusher();
         }
         
         return this._pusher;
     },
-
     EnablePusherLogging: function() {
         Pusher.log = function(msg) {
             window.console.log(msg);

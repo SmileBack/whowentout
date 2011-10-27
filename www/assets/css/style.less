@@ -566,31 +566,19 @@ table td, table th {
 }
 
 .party_notices {
-  .count {
-    font-weight: bold;
-    .notice_style;
-    padding: 2px 5px;
-    margin: 2px;
-    .rounded(2px);
-    .shadow(1px, 1px, 1px, 1px, #dedede);
+  text-align: center;
+  .smiles_received_heading {
+    border-top: 1px solid #BFBFBF;
+    margin-top: 10px;
+    padding-top: 10px;
   }
-  .smiles_received {
-    .bullet;
-    background-image: url(../images/smiley_icon.png);
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-  .smiles_left {
-    .bullet;
-    background-image: url(../images/smiley_icon.png);
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-  .smile_matches > li {
-    .bullet;
-    background-image: url(../images/smiley_icon.png);
-    margin-top: 5px;
-    margin-bottom: 5px;
+  .smile_sender {
+    overflow: hidden;
+    display: block;
+    margin: 8px;
+    font-size: 16px;
+    img { float: left; margin-right: 15px; }
+    div { float: left; }
   }
 }
 
@@ -797,8 +785,8 @@ form .hometown {
 }
 
 #footer_links {
-   position: absolute;
-   bottom: 20px;
-   width: 100%;
-   text-align: center;
+    width: 100%;
+    clear: left;
+    text-align: center;
+    margin-top: 10px;
 }

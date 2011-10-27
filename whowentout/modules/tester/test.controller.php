@@ -11,7 +11,7 @@ class Test extends MY_Controller
         $tester = new Tester();
         $groups = $tester->get_test_groups();
 
-        print r('tester/tests', array('groups' => $groups));
+        print r('tests', array('groups' => $groups));
     }
 
     function group($group = NULL)
@@ -29,7 +29,7 @@ class Test extends MY_Controller
 
         $report = $tester->report();
 
-        print r('tester/report', array('report' => $report));
+        print r('test_results', array('report' => $report));
     }
 
 }

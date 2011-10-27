@@ -142,14 +142,18 @@ class Admin extends MY_Controller
         $this->check_access();
 
         $party = XParty::get($party_id);
+        
+        $checkin_engine = new CheckinEngine();
+        $checkin_permission = new CheckinPermission();
+        
         $user = get_random_user($party->id);
 
-        if ($user->can_checkin($party)) {
-            $user->checkin($party->id);
+        if ( $checkin_permission->check($user, $party) ) {
+            $checkin_engine->checkin_user_to_party($user, $party);
             set_message("Randomly checked in $user->full_name to {$party->place->name} on $party->date.");
         }
         else {
-            set_message("Couldn't checkin $user->full_name. " . get_reason_message($user->reason()));
+            set_message("Couldn't checkin $user->full_name.");
         }
 
         redirect('admin/parties');

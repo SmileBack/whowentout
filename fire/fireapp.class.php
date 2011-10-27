@@ -10,6 +10,8 @@ class FireApp
 
     private $plugins = array();
 
+    public $window_settings = array();
+
     function __construct($class_loader)
     {
         $this->class_loader = $class_loader;
