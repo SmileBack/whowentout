@@ -13,7 +13,13 @@ class Job extends MY_Controller
     function run($job_id)
     {
         job_run($job_id);
+        $job = job_get($job_id);
         $this->session->sess_destroy();
+
+        $this->json(array(
+                        'success' => TRUE,
+                        'job' => $job,
+                    ));
     }
 
 }

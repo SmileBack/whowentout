@@ -5,7 +5,9 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $this->load->library('xemail');
+        serverchannel()->trigger('job_proxy', 'new_job', array(
+                                                'url' => '3453254245245',
+                                                         ));
     }
 
     private function blah()
