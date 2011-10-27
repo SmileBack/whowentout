@@ -68,7 +68,7 @@ class User extends MY_Controller
 
     function edit()
     {
-        $this->require_login();
+        $this->require_login(TRUE);
 
         $use_website_permission = new UseWebsitePermission();
         $can_use_website = $use_website_permission->check(current_user());

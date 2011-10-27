@@ -3,7 +3,7 @@
 
 $.when(app.load()).then(function() {
 
-    $('.visibilitybar').entwine({
+    $('.chat_visibility').entwine({
         onmatch: function() {
             var self = this;
 
@@ -42,9 +42,9 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.visibilitybar input:radio').entwine({
+    $('.chat_visibility input:radio').entwine({
         onchange: function() {
-            this.closest('.visibilitybar').selectOption( this.val() );
+            this.closest('.chat_visibility').selectOption( this.val() );
         }
     });
 

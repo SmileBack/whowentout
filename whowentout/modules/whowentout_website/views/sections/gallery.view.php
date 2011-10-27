@@ -5,27 +5,6 @@ r('party_notices', array(
                         'smile_engine' => $smile_engine,
                    )) ?>
 
-<div class="visibilitybar">
-    <?php if ($party->chat_is_open()): ?>
-    <h3>
-        <span>Chat Availability:</span>
-    </h3>
-    <div class="links">
-        <label>
-            <input type="radio" value="online" name="chat_visibility"/> <span>Online</span>
-        </label>
-        <label>
-            <input type="radio" value="offline" name="chat_visibility"/> <span>Offline</span>
-        </label>
-    </div>
-    <?php else: ?>
-    <h3>
-        <span>Chat has closed for this party</span>
-        <a class="chat_has_closed help">?</a>
-    </h3>
-    <?php endif; ?>
-</div>
-
 <div class="sortbar">
     <h3>Sort by:</h3>
     <ul>

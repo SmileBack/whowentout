@@ -12,10 +12,16 @@ class MY_Controller extends CI_Controller
         f()->window_settings['pusher']['app_key'] = $this->config->item('pusher_app_key');
     }
 
-    protected function require_login()
+    protected function require_login($redirect = FALSE)
     {
-        if (!logged_in())
-            show_error("You must be logged in.");
+        if (!logged_in()) {
+            if ($redirect) {
+                redirect('/');
+            }
+            else {
+                show_error("You must be logged in.");
+            }
+        }
     }
 
     protected function load_view($name, $vars = array())

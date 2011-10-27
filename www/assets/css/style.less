@@ -25,7 +25,7 @@
 
 .infobox {
     background-color: #f7f7f7;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #bfbfbf;
     color: #444;
 }
 
@@ -102,7 +102,11 @@ section {
     border-color: #29447E #29447E #1A356E;
     color: @dialog_text_color;
     padding: 5px 10px;
-    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+  }
+  .dialog_buttons a.n {
+      background-color: #eee;
+      color: #444;
+      border:  1px solid #999999;
   }
 }
 
@@ -278,7 +282,6 @@ header {
   padding: 15px;
   overflow: hidden;
   float: right;
-  border-color: #bfbfbf;
   text-align: center;
   .profile_pic {
     position: relative;
@@ -373,6 +376,8 @@ header {
       left: 1px;
       border: 6px solid #444;
   }
+  .smile_sender { display: none; }
+  .whats_a_smile { display: none; }
 }
 
 .party_summary {
@@ -566,40 +571,82 @@ table td, table th {
 }
 
 .party_notices {
-  text-align: center;
-  .smiles_received_heading {
-    border-top: 1px solid #BFBFBF;
-    margin-top: 10px;
-    padding-top: 10px;
-  }
-  .smile_sender {
-    overflow: hidden;
-    display: block;
-    margin: 8px;
-    font-size: 16px;
-    img { float: left; margin-right: 15px; }
-    div { float: left; }
-  }
+    float: left;
+    h3 { text-align: center; margin-bottom: 8px; }
+    .smiles_left {
+        .infobox;
+        margin: 5px;
+        padding: 10px;
+        width: 205px;
+        float: left;
+        text-align: center;
+    }
+    .smiles_received {
+        .infobox;
+        margin: 5px;
+        padding: 10px;
+        float: left;
+        width: 205px;
+    }
 }
 
-.visibilitybar {
+.send_fb_message {
+  background: url(../images/facebook_icon.png) no-repeat;
+  text-indent: -9999px;
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.smile_sender {
+    overflow: hidden;
+    float: left;
+    clear: left;
+    width: 200px;
+    margin: 4px 0;
+    border: 1px solid #F0C36D;
+    background-color: #FEF7CB;
+    img {
+      display: block;
+      float: left;
+      border-right: 1px solid #F0C36D;
+      padding: 6px;
+    }
+    .smile_sender_name {
+      display: block;
+      float: left;
+      height: 26px;
+      line-height: 26px;
+      text-align: center;
+      width: 140px;
+      overflow: hidden;
+    }
+    .send_fb_message {
+      display: block;
+      float: right;
+      margin: 5px;
+    }
+}
+
+.chat_visibility {
     .infobox;
+    margin-top: 20px;
     padding: 9px;
+    float: right;
     overflow: hidden;
     h3 {
         margin: 0 0 4px 8px;
-        padding-left: 23px;
         background: url(../images/chat_icon.png) no-repeat 0 50%;
+        text-align: center;
     }
     .links {
         float: left;
-        margin-left: 26px;
     }
     label {
         float: left;
         font-weight: normal;
         display: block;
-        margin:  5px;
+        margin: 3px 3px;
     }
 }
 
@@ -613,20 +660,6 @@ table td, table th {
 
 .gallery_view {
   position: relative;
-  .visibilitybar {
-      float: right;
-  }
-  .party_notices {
-      .infobox;
-      float: left;
-      margin:  0 0 25px 0;
-      font-size: 14px;
-      padding: 12px 16px;
-      width: 320px;
-      > * {
-      }
-      > :first-child { margin-top: 0px; }
-  }
   .invite_to_party_box {
     .infobox;
     float: right;

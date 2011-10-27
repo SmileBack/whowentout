@@ -18,10 +18,12 @@ WhoWentOut.Component.extend('WhoWentOut.Channel', {
 });
 
 WhoWentOut.Component.extend('WhoWentOut.Pusher', {
+    PusherAppKey: window.settings.pusher.app_key,
+    PusherAuthEndpoint: '/user/pusherauth',
     Get: function() {
         if (!this._pusher) {
-            Pusher.channel_auth_endpoint = '/user/pusherauth';
-            this._pusher = new Pusher(window.settings.pusher.app_key);
+            Pusher.channel_auth_endpoint = this.PusherAuthEndpoint;
+            this._pusher = new Pusher(this.PusherAppKey);
             this.CheckForFailedPusher();
         }
         

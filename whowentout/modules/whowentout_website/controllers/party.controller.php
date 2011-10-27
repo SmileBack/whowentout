@@ -5,7 +5,7 @@ class Party extends MY_Controller
 
     function page($party_id)
     {
-        $this->require_login();
+        $this->require_login(TRUE);
         
         $user = current_user();
         $party = XParty::get($party_id);

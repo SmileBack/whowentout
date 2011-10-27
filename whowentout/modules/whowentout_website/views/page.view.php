@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="description" content ="" />
+    <meta name="description" content=""/>
     <meta name="author" content="">
-    <meta name="google-site-verification" content="Qx0f2RFdL3wf2NWU3kcxXacFs020qQ5quH9ZCsVnFlM" />
+    <meta name="google-site-verification" content="Qx0f2RFdL3wf2NWU3kcxXacFs020qQ5quH9ZCsVnFlM"/>
 
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
@@ -16,7 +16,7 @@
     <?= css_asset('jquery.jcrop') ?>
 
     <?= less_asset('style') ?>
-    
+
     <!--[if IE]>
     <?= less_asset('ie') ?>
     <![endif]-->
@@ -24,12 +24,20 @@
     <script type="text/javascript">
         window.settings = <?= json_encode(f()->window_settings) ?>;
     </script>
-    
+
     <?= js_asset('lib/less.js') ?>
+
+    <?php if (ENVIRONMENT == 'development'): ?>
+    <script type="text/javascript">
+        less.env = "development";
+        less.watch();
+    </script>
+    <?php endif; ?>
+    
     <?= js_asset('lib/modernizr.js') ?>
 
     <?= js_asset('asset.js') ?>
-    
+
     <?= r('google_analytics') ?>
 </head>
 
@@ -107,20 +115,22 @@
     </div>
     <!-- page_content end -->
 
-    <?php if ( logged_in() ): ?>
+    <?php if (logged_in()): ?>
     <div id="sidebar">
         <div class="my_info_view user <?= 'user_' . current_user()->id ?>">
 
             <?= r('my_info', array(
-                               'user' => current_user(),
+                                  'user' => current_user(),
                              )) ?>
 
         </div>
 
+        <?= r('chat_visibility') ?>
+
         <h3 class="notifications_heading">Notifications</h3>
         <ul id="notifications"></ul>
     </div>
-    
+
     <?php endif; ?>
 
 </div>

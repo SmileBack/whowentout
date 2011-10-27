@@ -50,7 +50,7 @@
 <body>
 
     <div id="landing">
-        <img src="/landing.png?version=6"/>
+        <img src="/landing.png?version=7"/>
     </div>
 
     <div id="countdown_wrapper">
@@ -80,7 +80,7 @@
     </div>
 
     <div id="coming_soon">
-        <img src="/coming_soon.png?version=2"/>
+        <img src="/coming_soon.png?version=3"/>
     </div>
 
 </body>

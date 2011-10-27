@@ -17,6 +17,8 @@ jQuery(function($) {
         });
     }
 
+    WhoWentOut.Pusher.PusherAuthEndpoint = '/job_proxy/pusherauth';
+
     var channel = window.channel = WhoWentOut.Channel.Create({
         type: 'PusherChannel',
         id: 'job_proxy'
