@@ -2,12 +2,12 @@
 
 class Welcome extends MY_Controller
 {
-
-    function clear_database_dandorroy_ven()
+    
+    function install_whowentout_dandorroyven()
     {
-        $this->clear_database();
+        create_college('GWU', '16777270', '108727889151725', TRUE);
     }
-
+    
     protected function clear_database()
     {
         $ci =& get_instance();
