@@ -17,6 +17,14 @@ class FireApp
         $this->class_loader = $class_loader;
     }
 
+    function load_window_settings()
+    {
+        $js = '<script type="text/javascript">'
+              . 'window.settings = ' . json_encode($this->window_settings) . ';'
+              . '</script>';
+        return $js;
+    }
+
     function trigger($event_name, $event_data)
     {
         $this->load_plugins_if_not_loaded();

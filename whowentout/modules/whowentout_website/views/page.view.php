@@ -21,9 +21,8 @@
     <?= less_asset('ie') ?>
     <![endif]-->
 
-    <script type="text/javascript">
-        window.settings = <?= json_encode(f()->window_settings) ?>;
-    </script>
+
+    <?= f()->load_window_settings() ?>
 
     <?= js_asset('lib/less.js') ?>
 

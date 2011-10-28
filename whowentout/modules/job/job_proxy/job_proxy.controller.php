@@ -10,6 +10,8 @@ class Job_Proxy extends MY_Controller
 
     function dandorroyven()
     {
+        f()->window_settings['job_proxy']['channel'] = 'job_proxy_' . ENVIRONMENT;
+        f()->window_settings['job_proxy']['presence_channel'] = 'presence-job_proxy_' . ENVIRONMENT;
         print r('job_proxy_page');
     }
 

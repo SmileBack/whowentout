@@ -83,9 +83,10 @@ function job_run($job_id)
 function job_run_async($job_id)
 {
     $job_url = site_url("job/run/$job_id");
-    serverchannel()->trigger('job_proxy', 'new_job', array(
-                                                          'url' => $job_url,
-                                                     ));
+    $job_proxy_channel = 'job_proxy_' . ENVIRONMENT;
+    serverchannel()->trigger($job_proxy_channel, 'new_job', array(
+                                                                 'url' => $job_url,
+                                                            ));
     //  job_curl_post_async($job_url);
 }
 

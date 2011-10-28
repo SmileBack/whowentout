@@ -1,0 +1,3 @@
+select student_full_name, student_email, party_id from college_students
+  inner join party_invitations on college_students.id = college_student_id
+  

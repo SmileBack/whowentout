@@ -9,7 +9,9 @@ class MY_Controller extends CI_Controller
 
         f()->class_loader()->load('View');
         $this->config->load('pusher');
+
         f()->window_settings['pusher']['app_key'] = $this->config->item('pusher_app_key');
+        f()->window_settings['environment'] = ENVIRONMENT;
     }
 
     protected function require_login($redirect = FALSE)

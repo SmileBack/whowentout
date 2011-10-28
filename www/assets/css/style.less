@@ -286,6 +286,7 @@ header {
   overflow: hidden;
   float: right;
   text-align: center;
+  width: 108px;
   .profile_pic {
     position: relative;
     width: 90px;
@@ -349,7 +350,7 @@ header {
 
 }
 
-@party_summary_height: 160px;
+@party_summary_height: 170px;
 
 .parties_attended_view {
   float: left;
@@ -375,7 +376,7 @@ header {
       height: 0px;
       position: absolute;
       z-index: 30;
-      top: 275px;
+      top: @party_summary_height + 115px;
       left: 1px;
       border: 6px solid #444;
   }
@@ -430,16 +431,20 @@ header {
        background-position: 6px 50%;
        background-repeat: no-repeat;
    }
-   .body { overflow: hidden; width: 100%; height: 150px; position: relative; clear: both; }
+   .body {
+       overflow: hidden;
+       width: 100%;
+       height: @party_summary_height - 5px;
+       position: relative;
+       clear: both;
+   }
    .body > .left { width: 62%; float: left;  }
    .body > .right { width: 37%; float: right;}
    .party_notices .send_fb_message { display: none; }
    .submit_button { font-size: 16px; }
    .see_party_gallery {
-      text-align: center;
-      position: absolute;
-      bottom: 0;
-      right: 0;
+       float: right;
+       clear: right;
    }
    .see_party_gallery .submit_button {
      .visible_button;
@@ -634,6 +639,7 @@ table td, table th {
 
 .chat_visibility {
     .infobox;
+    width: 120px;
     margin-top: 20px;
     padding: 9px;
     float: right;

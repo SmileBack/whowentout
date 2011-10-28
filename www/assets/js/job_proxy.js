@@ -21,7 +21,7 @@ jQuery(function($) {
 
     var channel = window.channel = WhoWentOut.Channel.Create({
         type: 'PusherChannel',
-        id: 'job_proxy'
+        id: window.settings.job_proxy.channel
     });
 
     var queue = window.queue = new WhoWentOut.Queue();
