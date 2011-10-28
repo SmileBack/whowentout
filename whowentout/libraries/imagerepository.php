@@ -87,7 +87,7 @@ class ImageRepository
             return;
 
         $this->load_wide_image();
-        $facebook_pic_url = "https://graph.facebook.com/$user->facebook_id/picture?type=large&access_token=" . fb()->getAccessToken();
+        $facebook_pic_url = "https://graph.facebook.com/$user->facebook_id/picture?type=large";
         $img = WideImage::loadFromFile($facebook_pic_url);
         $this->saveImage($img, $id, 'facebook');
 

@@ -54,6 +54,9 @@ function job_run($job_id)
     if (!$job)
         return FALSE;
 
+    if ($job->status == 'complete')
+        return FALSE;
+
     try {
         if (!function_exists($job->type))
             throw new Exception("Job type $job->type doesn't exist.");

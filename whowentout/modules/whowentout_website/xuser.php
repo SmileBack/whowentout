@@ -180,6 +180,28 @@ class XUser extends XObject
         return XObject::load_objects('XUser', $rows);
     }
 
+    function fetch_facebook_permissions()
+    {
+        $ci =& get_instance();
+        $avaliable_permissions = $ci->config->item('facebook_permissions');
+        $result = fb()->api(array(
+                                 'method' => 'fql.query',
+                                 'query' => "select " . implode(',', $avaliable_permissions) . " from permissions where uid = {$this->facebook_id}",
+                            ));
+        
+        $permissions = array();
+        foreach ($result[0] as $k => $v) {
+            $permissions[$k] = ($v == '1');
+        }
+        return $permissions;
+    }
+
+    function has_facebook_permission($permission_name)
+    {
+        $perms = $this->fetch_facebook_permissions();
+        return isset($perms[$permission_name]) && $perms[$permission_name] == TRUE;
+    }
+
     function update_friends_from_facebook($force_update = FALSE)
     {
         $prev_access_token = fb()->getAccessToken();

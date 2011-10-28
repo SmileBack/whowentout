@@ -5,11 +5,7 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $this->notification->send(current_user(), 'howdy');
-//        fb()->api(array(
-//                      'method' => 'fql.query',
-//
-//            ));
+        krumo::dump(current_user()->has_facebook_permission('offline_access'));
     }
 
     private function blah()
