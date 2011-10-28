@@ -8,6 +8,11 @@ class Welcome extends MY_Controller
         krumo::dump(current_user()->has_facebook_permission('offline_access'));
     }
 
+    function test_email()
+    {
+        job_call_async('send_email', current_user(), 'hello ' . rand(1, 100), 'hello here is a random number ' . rand(1, 100));
+    }
+
     private function blah()
     {
         print "<h1>woo</h1>";
