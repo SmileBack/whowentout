@@ -137,7 +137,9 @@
 
 <?= r('js') ?>
 
+<?php if (ENVIRONMENT != 'whowentout'): ?>
 <?= r('benchmarks') ?>
+<?php endif; ?>
 
 
 </body>
