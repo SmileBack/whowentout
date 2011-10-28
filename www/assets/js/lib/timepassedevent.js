@@ -7,7 +7,7 @@ WhoWentOut.Component.extend('TimePassedEvent', {
         this.setTargetTime(targetTime);
     },
     ontimepassed: function() {
-        alert('time passed');
+        this.trigger('timepassed');
     },
     getTargetTime: function() {
         return this._targetTime;

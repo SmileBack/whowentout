@@ -52,7 +52,9 @@
                 return;
 
             var timeLeft = this.getCurrentTime().timeUntil(this.targetTime());
-            $('.time_counter').flipTo(timeLeft);
+            
+            if (!timeLeft.isNegative())
+                $('.time_counter').flipTo(timeLeft);
         },
         flipTo: function(timeInterval) {
             this.find('.days').flipTo(timeInterval.get('d'));
