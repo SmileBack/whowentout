@@ -11,7 +11,12 @@
   </p>
 
   <p class="hometown"><?= $user->hometown ?></p>
-  <p class="college"><?= $user->college->name ?> <?= $user->grad_year ? $user->grad_year : '' ?></p>
+
+  <?php if ($user->college && $user->grad_year): ?>
+  <p class="college">
+      <?= $user->college->name ?> <?= $user->grad_year ? $user->grad_year : '' ?>
+  </p>
+  <?php endif; ?>
 
   <?= anchor('user/edit', 'edit', array('class' => 'edit_link')) ?>
 
