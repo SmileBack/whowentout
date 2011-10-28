@@ -1,9 +1,7 @@
 <?php
 date_default_timezone_set('America/New_York');
-if (getenv('show_landing') == 'true') {
-    include('landing.php');
-    exit;
-}
+
+print 'yo';
 
 /*
  *---------------------------------------------------------------
