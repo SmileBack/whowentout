@@ -37,11 +37,6 @@ class Facebook extends BaseFacebook
      */
     public function __construct($config)
     {
-        $this->ci =& get_instance();
-        if (!session_id()) {
-            session_start();
-            krumo::backtrace();
-        }
         parent::__construct($config);
     }
 
