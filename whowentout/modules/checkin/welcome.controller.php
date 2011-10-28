@@ -3,6 +3,34 @@
 class Welcome extends MY_Controller
 {
 
+    function clear_database_dandorroy_ven()
+    {
+        $this->clear_database();
+    }
+
+    protected function clear_database()
+    {
+        $ci =& get_instance();
+        $tables = $this->database_tables();
+        $ci->db->query('SET FOREIGN_KEY_CHECKS = 0');
+        foreach ($tables as $table) {
+            $ci->db->truncate($table);
+        }
+        $ci->db->query('SET FOREIGN_KEY_CHECKS = 1');
+    }
+
+    protected function database_tables()
+    {
+        $ci =& get_instance();
+        $tables = array();
+        $rows = $ci->db->query('SHOW TABLES')->result();
+        foreach ($rows as $row) {
+            $row = (array)$row;
+            $tables[] = array_pop($row);
+        }
+        return $tables;
+    }
+
     function index()
     {
         krumo::dump(current_user()->has_facebook_permission('offline_access'));
