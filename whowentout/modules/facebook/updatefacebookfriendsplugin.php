@@ -3,7 +3,7 @@
 class UpdateFacebookFriendsPlugin extends Plugin
 {
 
-    private $enabled = FALSE;
+    private $enabled = TRUE;
 
     function on_after_controller_request($e)
     {
