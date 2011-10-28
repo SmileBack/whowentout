@@ -22,7 +22,8 @@ class Admin extends MY_Controller
 
     function fakelogin($user_id = NULL)
     {
-        //    $this->check_access();
+        if (ENVIRONMENT == 'whowentout')
+            show_error("Disabled.");
 
         if ($user_id != NULL) {
             fake_login($user_id);
@@ -136,19 +137,19 @@ class Admin extends MY_Controller
 
         redirect('admin/parties');
     }
-    
+
     function random_checkin($party_id)
     {
         $this->check_access();
 
         $party = XParty::get($party_id);
-        
+
         $checkin_engine = new CheckinEngine();
         $checkin_permission = new CheckinPermission();
-        
+
         $user = get_random_user($party->id);
 
-        if ( $checkin_permission->check($user, $party) ) {
+        if ($checkin_permission->check($user, $party)) {
             $checkin_engine->checkin_user_to_party($user, $party);
             set_message("Randomly checked in $user->full_name to {$party->place->name} on $party->date.");
         }

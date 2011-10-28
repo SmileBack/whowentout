@@ -14,7 +14,7 @@ class Landing extends MY_Controller
     {
         return getenv('countdown_target')
                 ? strtotime(getenv('countdown_target'))
-                : strtotime('October 27, 2011 08:11:00 PM');
+                : strtotime('October 27, 2011 08:20:00 PM');
     }
 
 }

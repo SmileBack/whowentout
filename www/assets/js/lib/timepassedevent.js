@@ -1,9 +1,14 @@
 //= require whowentout.component.js
 
 WhoWentOut.Component.extend('TimePassedEvent', {
+    GetCurrentTime: function() {
+        return new Date();
+    }
+}, {
     _targetTime: null,
     _timeOut: null,
     init: function(targetTime) {
+        this._currentTimeFn
         this.setTargetTime(targetTime);
     },
     ontimepassed: function() {
@@ -25,6 +30,6 @@ WhoWentOut.Component.extend('TimePassedEvent', {
         return this.getTargetTime().getTime() - this.getCurrentTime().getTime();
     },
     getCurrentTime: function() {
-        return new Date();
+        return this.Class.GetCurrentTime();
     }
 });
