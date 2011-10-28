@@ -137,7 +137,7 @@
     }
 
     jQuery(function($) {
-        $('.my_pic').showLoadMask();
+        //$('.my_pic').showLoadMask();
         $.getScript('/assets/js/lib/jquery.jcrop.js', function() {
             $('#crop_raw_image').bind('imageload', function() {
                 reinitialize_crop_ui($('#crop_raw_image').html(), {
