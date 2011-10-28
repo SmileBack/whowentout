@@ -21,6 +21,8 @@
       <fieldset>
         <label>Delta</label>
         <p><?= $delta ?></p>
+        <label>Clock Time</label>
+        <p><?= $clock_time->format('Y-m-d H:i:s') ?></p>
       </fieldset>
 
     <input type="submit" value="Save" />

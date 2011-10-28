@@ -200,61 +200,7 @@ $.when(app.load()).then(function() {
             this.removeClass('can_chat');
         }
     });
-
-    $('.help').entwine({
-        onmouseenter: function() {
-            this.notice(this.helpMessage(), 'r');
-        },
-        onmouseleave: function() {
-            $('#notice').hideNotice();
-        },
-        helpMessage: function() {
-            return '<p>Here is a placeholder help message.</p>';
-        }
-    });
-
-    $('.smile_help.help').entwine({
-        helpMessage: function() {
-            return '<p style="width: 400px;">You have 3 smiles to give at each party. '
-            + ' The people you smile at will know that someone has smiled at them,'
-            + ' but they will <strong>not</strong> know it was you unless they smile at you as well.</p>';
-        }
-    });
-
-    $('.smiles_received_help.help').entwine({
-        helpMessage: function() {
-            var otherGender = app.currentUser().get('other_gender');
-            var fullGenders = {M: 'guys', F: 'girls'};
-
-            return '<p style="width: 400px;">You will see the number of '
-            + fullGenders[otherGender]
-            + ' who have smiled at you. However, you will not be informed of their identity unless you have smiled at them as well</p>';
-        }
-    });
-
-    $('.mutual_smiles_help.help').entwine({
-        helpMessage: function() {
-            var otherGender = app.currentUser().get('other_gender');
-            var fullGenders = {M: 'guy', F: 'girl'};
-
-            return '<p style="width: 400px;">If you and a '
-            + fullGenders[otherGender]
-            + ' happen to smile at each other, you will be informed of their identity here</p>';
-        }
-    });
-
-    $('.who_can_chat.help').entwine({
-        helpMessage: function() {
-            return '<p>Select who can send you chat messages!</p>'
-            + '<p>Users who are online will have a green circle to the right of their name.</p>';
-        }
-    });
-
-    $('.chat_has_closed.help').entwine({
-        helpMessage: function() {
-            return '<p>chat has closed help</p>';
-        }
-    });
+    
 });
 
 (function($) {

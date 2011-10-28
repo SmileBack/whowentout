@@ -46,11 +46,13 @@ class Admin extends MY_Controller
         if (post('fake_time') != '') {
             $fake_time_string = post('fake_time');
             $fake_time = new XDateTime($fake_time_string, college()->timezone);
+            krumo::dump($fake_time);
             $clock->set_time($fake_time);
         }
 
         $data = array(
             'delta' => $clock->get_delta(),
+            'clock_time' => $clock->get_time(),
         );
 
         $this->load_view('fake_time', $data);

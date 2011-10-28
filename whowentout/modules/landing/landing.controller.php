@@ -12,9 +12,10 @@ class Landing extends MY_Controller
 
     function get_countdown_target_timestamp()
     {
-        return getenv('countdown_target')
-                ? strtotime(getenv('countdown_target'))
-                : strtotime('October 27, 2011 08:20:00 PM');
+        $launch = new HalloweenLaunch(college()->get_clock());
+        return $launch->get_launch_date()->getTimestamp();
     }
+
+
 
 }

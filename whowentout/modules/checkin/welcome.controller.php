@@ -5,9 +5,11 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        serverchannel()->trigger('job_proxy', 'new_job', array(
-                                                'url' => '3453254245245',
-                                                         ));
+        $this->notification->send(current_user(), 'howdy');
+//        fb()->api(array(
+//                      'method' => 'fql.query',
+//
+//            ));
     }
 
     private function blah()
