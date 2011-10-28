@@ -277,7 +277,8 @@ class XUser extends XObject
 
         $last_updated = new DateTime($this->last_updated_friends, new DateTimeZone('UTC'));
 
-        return $this->college->get_time()->getTimestamp() - $last_updated->getTimestamp() > 3600;
+        //out of date means about 3.5 days
+        return $this->college->get_time()->getTimestamp() - $last_updated->getTimestamp() > 300000;
     }
 
     /**
