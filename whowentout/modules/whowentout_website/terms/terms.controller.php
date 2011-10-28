@@ -10,7 +10,7 @@ class Terms extends MY_Controller
 
     function index()
     {
-        $this->load_section_view('Terms', 'terms');
+        $this->load_section_view('Terms of Use/Privacy Policy', 'terms');
     }
 
     function about_us()
