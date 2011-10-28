@@ -38,8 +38,6 @@ WhoWentOut.Component.extend('WhoWentOut.JobProxy', {
             type: 'jobreceived',
             url: e.url
         });
-
-        console.log('got job request :: ' + e.url);
         this._queue.add(this.callback('_sendJobRequestTask'), {
             url: e.url
         });
@@ -50,13 +48,11 @@ WhoWentOut.Component.extend('WhoWentOut.JobProxy', {
             type: 'jobbeginsend',
             url: options.url
         });
-        console.log('sending job request :: ' + options.url);
         return $.ajax({
             url: options.url,
             type: 'get',
             dataType: 'json',
             success: function(response) {
-                console.log('successfully executed job ::');
                 self.trigger({
                     type: 'jobran',
                     job: response.job
@@ -110,8 +106,19 @@ jQuery(function($) {
         $('.online_list').removeUser(e.user_id);
     });
 
-    window.jobProxy.bind('jobran', function() {
+    window.jobProxy.bind('jobreceived', function(e) {
+        console.log('got job request :: ' + e.url);
+    });
+
+    window.jobProxy.bind('jobbeginsend', function(e) {
+        console.log('sending job request :: ' + e.url);
+    });
+
+    window.jobProxy.bind('jobran', function(e) {
         $('.job_count').text( parseInt($('.job_count').text()) + 1 );
+        
+        console.log('successfully executed job ::');
+        console.log(e.job);
     });
 });
 
