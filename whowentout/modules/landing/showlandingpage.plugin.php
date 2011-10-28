@@ -8,6 +8,10 @@ class ShowLandingPagePlugin extends Plugin
         if ($e->uri == 'landing')
             return;
 
+        $segments = explode('/', $e->uri);
+        if (isset($segments[0]) && $segments[0] == 'job_proxy')
+            return;
+
         if (!college())
             return;
         
