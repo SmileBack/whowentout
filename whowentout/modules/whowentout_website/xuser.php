@@ -221,7 +221,7 @@ class XUser extends XObject
                                  ));
         }
         catch (Exception $e) {
-//            print '<h1>' . $e->getMessage() . '</h1>';
+//            print '<h1>' . $e->getMessage() . '</h1>'; TODO: save to some log
             fb()->setAccessToken($prev_access_token);
             return FALSE;
         }

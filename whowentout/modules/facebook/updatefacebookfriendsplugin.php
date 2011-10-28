@@ -7,8 +7,11 @@ class UpdateFacebookFriendsPlugin extends Plugin
 
     function on_after_controller_request($e)
     {
-        if ($this->enabled && logged_in() && current_user()->friends_need_update() ) {
-            $this->update_facebook_friends_for_user( current_user() );
+        $segments = explode('/', $e->uri);
+        if ($segments[0] == 'dashboard' || $segments[0] == 'friends' || $segments[0] == 'party') {
+            if ($this->enabled && logged_in() && current_user()->friends_need_update()) {
+                $this->update_facebook_friends_for_user(current_user());
+            }
         }
     }
 
