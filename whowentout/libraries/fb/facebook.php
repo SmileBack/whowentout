@@ -74,6 +74,10 @@ class Facebook extends BaseFacebook
         }
 
         $session_var_name = $this->constructSessionVariableName($key);
+        
+        krumo::dump($this->ci);
+        krumo::dump($this->ci->session);
+
         return $this->ci->session->userdata($session_var_name) ?
                 $this->ci->session->userdata($session_var_name) : $default;
     }
