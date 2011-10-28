@@ -15,6 +15,9 @@ class XEmail extends Component
 
     function send($to, $subject, $body)
     {
+        if (is_string($to))
+            $to = array('email' => $to);
+
         if (is_int($to))
             $to = XUser::get($to);
 
