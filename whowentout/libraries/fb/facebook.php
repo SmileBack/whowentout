@@ -39,6 +39,7 @@ class Facebook extends BaseFacebook
     {
         parent::__construct($config);
         $this->ci =& get_instance();
+        $this->ci->load->library('session');
     }
 
     public function request($url, $params)
@@ -75,9 +76,6 @@ class Facebook extends BaseFacebook
 
         $session_var_name = $this->constructSessionVariableName($key);
         
-        krumo::dump($this->ci);
-        krumo::dump($this->ci->session);
-
         return $this->ci->session->userdata($session_var_name) ?
                 $this->ci->session->userdata($session_var_name) : $default;
     }
