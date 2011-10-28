@@ -21,6 +21,9 @@ WhoWentOut.Component.extend('WhoWentOut.JobProxy', {
         this.beacon.goOnline();
     },
     initJobQueue: function() {
+        if (this._jobChannel) //already init
+            return;
+
         this._jobChannel = WhoWentOut.Channel.Create({
             type: 'PusherChannel',
             id: this._options.channel
