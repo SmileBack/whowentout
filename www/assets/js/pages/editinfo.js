@@ -95,8 +95,6 @@
             $('.my_pic').hideLoadMask();
             dfd.resolve();
 
-            window.location.reload(true);
-
         });
         return dfd.promise();
     }
@@ -159,7 +157,10 @@
                 url: '/user/upload_pic',
                 dataType: 'json',
                 success: function(response) {
-                    reinitialize_crop_ui(response.raw_pic, response.crop_box);
+                    var result = reinitialize_crop_ui(response.raw_pic, response.crop_box);
+                    $.when(result).then(function() {
+                        window.location.reload(true);
+                    });
                 }
             });
         }
@@ -174,7 +175,10 @@
                 url: '/user/use_facebook_pic',
                 dataType: 'json',
                 success: function(response) {
-                    reinitialize_crop_ui(response.raw_pic, response.crop_box);
+                    var result = reinitialize_crop_ui(response.raw_pic, response.crop_box);
+                    $.when(result).then(function() {
+                        window.location.reload(true);
+                    });
                 }
             });
         }
