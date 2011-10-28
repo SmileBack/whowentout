@@ -44,6 +44,7 @@ class Dashboard extends MY_Controller
     function where_friends_went()
     {
         $this->require_login(TRUE);
+        enforce_restrictions();
         
         $this->load_view('where_friends_went');
     }

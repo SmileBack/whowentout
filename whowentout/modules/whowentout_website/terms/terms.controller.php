@@ -10,16 +10,22 @@ class Terms extends MY_Controller
 
     function index()
     {
+        enforce_restrictions();
+
         $this->load_section_view('Terms of Use/Privacy Policy', 'terms');
     }
 
     function about_us()
     {
+        enforce_restrictions();
+        
         $this->load_section_view('About Us', 'about_us');
     }
 
     function faq()
     {
+        enforce_restrictions();
+        
         $this->load_section_view('FAQ', 'faq');
     }
 
