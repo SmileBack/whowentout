@@ -94,6 +94,9 @@
             initialize_crop_ui();
             $('.my_pic').hideLoadMask();
             dfd.resolve();
+
+            window.location.reload(true);
+
         });
         return dfd.promise();
     }
