@@ -26,5 +26,12 @@
 
 <body id="<?= body_id() ?>">
 
+<h3 class="pusher_status"></h3>
+<h3 class="time"></h3>
+<h3 class="job_count">0</h3>
+
+<ol class="online_list">
+</ol>
+
 </body>
 </html>

@@ -29,7 +29,7 @@ class Job_Proxy extends MY_Controller
         }
 
         $custom_data = array(
-            'user_id' => $user_id,
+            'user_id' => time(),
         );
 
         $pusher = new Pusher($this->config->item('pusher_app_key'),
