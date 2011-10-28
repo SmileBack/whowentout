@@ -9,6 +9,9 @@ class SwiftXEmailDriver extends XEmailDriver
     {
         $config = (object)$this->config;
 
+        if (!$to->full_name)
+            $to->full_name = $to->email;
+
         $transport = Swift_SmtpTransport::newInstance($config->server, $config->port, $config->encryption)
                 ->setUsername($config->username)
                 ->setPassword($config->password);
