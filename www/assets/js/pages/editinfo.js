@@ -12,6 +12,14 @@
         width = parseInt($('#width').val()),
         height = parseInt($('#height').val());
 
+        console.log('--init crop ui--');
+        console.log({
+            x: x,
+            y: y,
+            width: width,
+            height: height
+        });
+
         var api = WWO.api = $.Jcrop('#crop img', {
             aspectRatio: 0.75,
             onChange: onChange,
@@ -90,6 +98,7 @@
         return dfd.promise();
     }
 
+    window.initalize_crop_ui = initalize_crop_ui;
     window.reinitialize_crop_ui = reinitialize_crop_ui;
 
     $.fn.hideLoadMask = function() {
