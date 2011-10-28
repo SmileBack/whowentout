@@ -5,7 +5,7 @@ class ShowLandingPagePlugin extends Plugin
 
     function on_before_controller_request($e)
     {
-        if ($e->uri == 'landing' ||)
+        if ($e->uri == 'landing')
             return;
 
         if (!college())
