@@ -189,6 +189,9 @@ class XUser extends XObject
                                  'query' => "select " . implode(',', $avaliable_permissions) . " from permissions where uid = {$this->facebook_id}",
                             ));
         
+        if (empty($result))
+            return array();
+
         $permissions = array();
         foreach ($result[0] as $k => $v) {
             $permissions[$k] = ($v == '1');
@@ -218,7 +221,7 @@ class XUser extends XObject
                                  ));
         }
         catch (Exception $e) {
-            print '<h1>' . $e->getMessage() . '</h1>';
+//            print '<h1>' . $e->getMessage() . '</h1>';
             fb()->setAccessToken($prev_access_token);
             return FALSE;
         }
