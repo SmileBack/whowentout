@@ -72,6 +72,9 @@
         $(pic_html).bind('imageload', function() {
             destroy_crop_ui();
 
+            console.log(pic_html);
+            console.log(crop_box);
+
             //update pictures
             $('#crop, #crop_preview').html(pic_html);
             //update crop box inputs
@@ -86,6 +89,8 @@
         });
         return dfd.promise();
     }
+
+    window.reinitialize_crop_ui = reinitialize_crop_ui;
 
     $.fn.hideLoadMask = function() {
         $(this).find('.mask, .load_message').remove();
