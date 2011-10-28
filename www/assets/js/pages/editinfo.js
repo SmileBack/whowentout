@@ -98,7 +98,7 @@
         return dfd.promise();
     }
 
-    window.initalize_crop_ui = initalize_crop_ui;
+    window.initialize_crop_ui = initalize_crop_ui;
     window.reinitialize_crop_ui = reinitialize_crop_ui;
 
     $.fn.hideLoadMask = function() {
