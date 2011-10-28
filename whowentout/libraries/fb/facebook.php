@@ -38,6 +38,7 @@ class Facebook extends BaseFacebook
     public function __construct($config)
     {
         parent::__construct($config);
+        $this->ci =& get_instance();
     }
 
     public function request($url, $params)
