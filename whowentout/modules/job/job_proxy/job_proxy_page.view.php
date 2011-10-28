@@ -26,7 +26,7 @@
 
 <body id="<?= body_id() ?>">
 
-<h3 class="pusher_status"></h3>
+<h3 class="pusher_status"></h3> <h3 class="jobproxy_status"></h3>
 <h3 class="time"></h3>
 <h3 class="job_count">0</h3>
 

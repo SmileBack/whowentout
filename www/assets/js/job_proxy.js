@@ -30,6 +30,8 @@ WhoWentOut.Component.extend('WhoWentOut.JobProxy', {
         });
         this._queue = new WhoWentOut.Queue();
         this._jobChannel.bind('new_job', this.callback('_onNewJob'));
+
+        $('.jobproxy_status').text('started');
     },
     _onNewJob: function(e) {
         this.trigger({
