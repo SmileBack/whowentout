@@ -5,6 +5,7 @@ class Welcome extends MY_Controller
     
     function index()
     {
+        send_email('errors@whowentout.com', 'heres a test error', 'woo');
     }
 
     function test($name)
