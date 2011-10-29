@@ -7,4 +7,8 @@
     <a href="http://www.facebook.com/editaccount.php?networks" target="_blank">click here</a>
     to add <?= college()->name ?> to your list of networks on Facebook.
   </p>
+  <p>
+      After you add yourself to the network, check your GWU email to confirm the network.
+      Then come back and refresh the page.
+  </p>
 </div>

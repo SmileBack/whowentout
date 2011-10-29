@@ -21,6 +21,9 @@ class XUser extends XObject
 
     static function destroy_session()
     {
+//        krumo::dump('destroy_session');
+//        krumo::backtrace();
+//        exit;
         //delete user id
         set_user_id(0);
 
@@ -51,6 +54,9 @@ class XUser extends XObject
 
     function logout()
     {
+//        krumo::dump('logout');
+//        krumo::backtrace();
+//        exit;
         self::destroy_session();
     }
 

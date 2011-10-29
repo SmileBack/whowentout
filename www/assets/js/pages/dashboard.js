@@ -237,7 +237,8 @@ $('.confirm_checkin.dialog').live('button_click', function(e, button) {
                         })
                         .show().delay(1000).animate({'margin-top': '0px'}, function() {
                             $(this).css('z-index', '');
-                            Actions.ShowPartyGalleryTip();
+                            window.location.reload(true);
+//                            Actions.ShowPartyGalleryTip();
                         });
                     });
                 });
