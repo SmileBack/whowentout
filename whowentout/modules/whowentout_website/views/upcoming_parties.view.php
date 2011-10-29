@@ -20,7 +20,7 @@
                     </ul>
                     <?php endif; ?>
                 <?php else: ?>
-                No Parties on <?= $day->format('l') ?>'s
+                No Parties on <?= $day->format('l') ?>s
                 <?php endif; ?>
             </div>
             
