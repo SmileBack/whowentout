@@ -2,10 +2,17 @@
 
 class Welcome extends MY_Controller
 {
-    
+
     function index()
     {
-        send_email('errors@whowentout.com', 'heres a test error', 'woo');
+        $events = fb()->api("2614741/events");
+        krumo::dump($events);
+//        $facebook_id = current_user()->facebook_id;
+//        $result = fb()->api(array(
+//                                 'method' => 'fql.query',
+//                                 'query' => "SELECT name FROM event WHERE eid IN (SELECT eid from event_member WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=$facebook_id) )",
+//                            ));
+//        krumo::dump($result);
     }
 
     function test($name)
@@ -23,5 +30,5 @@ class Welcome extends MY_Controller
             print "<h3>no such email</h3>";
         }
     }
-    
+
 }
