@@ -108,7 +108,6 @@
 
         <nav id="footer_links">
             <?= anchor('terms', 'Terms') ?>
-            <?= anchor('terms/about_us', 'About Us') ?>
             <?= anchor('terms/faq', 'FAQ') ?>
         </nav>
     </div>
