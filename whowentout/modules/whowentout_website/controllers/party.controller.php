@@ -21,11 +21,6 @@ class Party extends MY_Controller
             show_404();
         }
 
-        if ($this->input->get('src') == 'smiles') {
-            $this->jsaction->ShowSpotlight('.party_notices', 1000);
-            redirect("party/$party_id");
-        }
-        
         $this->benchmark->mark('party_attendees_start');
         $party_attendees = $party->attendees($sort);
         $this->benchmark->mark('party_attendees_end');
@@ -42,7 +37,7 @@ class Party extends MY_Controller
         );
 
         if ($this->flag->missing('user', $user->id, 'has_seen_smile_help'))
-            $this->jsaction->ShowSmileHelpTip();
+            $this->jsaction->ShowSmileHelpDialog();
 
         $this->load_view('party', $data);
     }
