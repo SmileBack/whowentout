@@ -5,6 +5,8 @@ r('party_notices', array(
                         'smile_engine' => $smile_engine,
                    )) ?>
 
+<div class="gallery_header_top" style="width: 100%; float: left; border-bottom: 1px solid #cdcdcd; margin-top: 8px;"></div>
+
 <div class="sortbar">
     <h3>Sort by:</h3>
     <ul>
