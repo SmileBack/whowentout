@@ -10,6 +10,9 @@ class TestFacebookNetworkPlugin extends Plugin
                 if ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 776200121') {
                     $e->response = $this->get_776200121_affiliations();
                 }
+                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 1185700827') {
+                    $e->response = $this->get_776200121_affiliations();
+                }
                 elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100001981675908') {
                     $e->response = $this->get_100001981675908_affiliations();
                 }
