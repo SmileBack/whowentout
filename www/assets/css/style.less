@@ -443,8 +443,9 @@ header {
    .party_notices .send_fb_message { display: none; }
    .submit_button { font-size: 16px; }
    .see_party_gallery {
-       float: right;
-       clear: right;
+       clear: both;
+       margin: auto;
+       width: 150px;
    }
    .see_party_gallery .submit_button {
      .visible_button;
@@ -455,7 +456,6 @@ header {
      display: block;
    }
 }
-
 
 
 .upcoming_parties_section {
@@ -580,10 +580,18 @@ table td, table th {
 
 .party_notices {
     float: left;
+    .smiles_title {
+        text-align: center;
+        background-color: #7D1729;
+        color: white;
+        padding: 4px;
+        margin-bottom: 0px !important;
+        font-size: 15px;
+        font-weight: bold;
+    }
     h3 { text-align: center; margin-bottom: 8px; }
     .smiles_left {
         .infobox;
-        margin: 5px;
         padding: 10px;
         width: 205px;
         float: left;
@@ -591,11 +599,11 @@ table td, table th {
     }
     .smiles_received {
         .infobox;
-        margin: 5px;
         padding: 10px;
         float: left;
         clear: left;
         width: 205px;
+        margin-bottom: 10px;
     }
 }
 

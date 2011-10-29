@@ -23,6 +23,11 @@
 
         <div class="left">
             <?= r('recent_attendees', array('party' => $party, 'count' => 4)) ?>
+
+            <?= form_open("party/$party->id", array('class' => 'see_party_gallery')) ?>
+            <input type="submit" class="submit_button" value="Go To Party Gallery"/>
+            <?= form_close() ?>
+
         </div>
 
         <div class="right">
@@ -32,10 +37,6 @@
                                     'party' => $party,
                                     'smile_engine' => $smile_engine,
                                )) ?>
-
-            <?= form_open("party/$party->id", array('class' => 'see_party_gallery')) ?>
-            <input type="submit" class="submit_button" value="Go To Party Gallery"/>
-            <?= form_close() ?>
         </div>
 
     </div>
