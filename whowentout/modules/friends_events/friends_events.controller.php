@@ -15,9 +15,9 @@ class Friends_Events extends MY_Controller
 
     private function get_website_facebook_ids()
     {
-        $rows = $this->db->select('facebook_id')
-                          ->from('users')
-                          ->where('facebook_access_token IS NOT NULL')->get()->result();
+        $rows = $this->db->select('facebook_id, facebook_access_token')
+                ->from('users')
+                ->where('facebook_access_token IS NOT NULL')->get()->result();
 
         $facebook_ids = array();
         foreach ($rows as $row) {
@@ -28,11 +28,14 @@ class Friends_Events extends MY_Controller
 
     private function get_website_gwu_network_facebook_ids()
     {
-        $facebook_ids = $this->get_website_facebook_ids();
-
+        $rows = $this->db->select('facebook_id, facebook_access_token')
+                ->from('users')
+                ->where('facebook_access_token IS NOT NULL')->get()->result();
+        
         $website_gwu_network_facebook_ids = array();
-        foreach ($facebook_ids as $user_facebook_id) {
-            $facebook_friend_ids = $this->get_user_gwu_facebook_friends($user_facebook_id);
+        foreach ($rows as $row) {
+            fb()->setAccessToken($row->facebook_access_token);
+            $facebook_friend_ids = $this->get_user_gwu_facebook_friends($row->facebook_id);
             $website_gwu_network_facebook_ids = array_merge($website_gwu_network_facebook_ids, $facebook_friend_ids);
         }
 
