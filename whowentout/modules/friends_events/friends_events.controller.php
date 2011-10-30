@@ -31,7 +31,7 @@ class Friends_Events extends MY_Controller
         $rows = $this->db->select('facebook_id, facebook_access_token')
                 ->from('users')
                 ->where('facebook_access_token IS NOT NULL')->get()->result();
-        
+
         $website_gwu_network_facebook_ids = array();
         foreach ($rows as $row) {
             fb()->setAccessToken($row->facebook_access_token);
@@ -45,10 +45,16 @@ class Friends_Events extends MY_Controller
 
     private function get_user_gwu_facebook_friends($user_facebook_id)
     {
-        $result = fb()->api(array(
-                                 'method' => 'fql.query',
-                                 'query' => "SELECT uid, name FROM user WHERE uid IN (SELECT uid1 FROM friend WHERE uid2=$user_facebook_id) AND 'GWU' IN affiliations",
-                            ));
+        try {
+            $result = fb()->api(array(
+                                     'method' => 'fql.query',
+                                     'query' => "SELECT uid, name FROM user WHERE uid IN (SELECT uid1 FROM friend WHERE uid2=$user_facebook_id) AND 'GWU' IN affiliations",
+                                ));
+        }
+        catch (Exception $e) {
+            return array();
+        }
+
         $facebook_friend_ids = array();
         foreach ($result as $k => $row) {
             $facebook_friend_ids[] = $row['uid'];
