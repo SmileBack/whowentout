@@ -5,14 +5,20 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $events = fb()->api("2614741/events");
-        krumo::dump($events);
+        $facebook_id = '776200121';
+//        $events = fb()->api("2614741/events");
+//        krumo::dump($events);
 //        $facebook_id = current_user()->facebook_id;
 //        $result = fb()->api(array(
 //                                 'method' => 'fql.query',
 //                                 'query' => "SELECT name FROM event WHERE eid IN (SELECT eid from event_member WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=$facebook_id) )",
 //                            ));
-//        krumo::dump($result);
+
+        $result = fb()->api(array(
+                               'method' => 'fql.query',
+                               'query' => "SELECT uid, name FROM user WHERE uid IN (SELECT uid1 FROM friend WHERE uid2=$facebook_id) AND 'GWU' IN affiliations",
+                            ));
+        krumo::dump($result);
     }
 
     function test($name)

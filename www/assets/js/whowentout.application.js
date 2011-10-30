@@ -11,6 +11,8 @@
 
 //= require whowentout.presencebeacon.js
 
+//= require whowentout.feedback.js
+
 //= require lib/jquery.idle-timer.js
 //= require lib/soundmanager2.config.js
 //= require lib/getflashplayerversion.js
