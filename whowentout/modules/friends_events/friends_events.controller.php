@@ -34,7 +34,14 @@ class Friends_Events extends MY_Controller
 
         $website_gwu_network_facebook_ids = array();
         foreach ($rows as $row) {
-            fb()->setAccessToken($row->facebook_access_token);
+            
+            try {
+                fb()->setAccessToken($row->facebook_access_token);
+            }
+            catch (Exception $e) {
+                return array();
+            }
+
             $facebook_friend_ids = $this->get_user_gwu_facebook_friends($row->facebook_id);
             $website_gwu_network_facebook_ids = array_merge($website_gwu_network_facebook_ids, $facebook_friend_ids);
         }
