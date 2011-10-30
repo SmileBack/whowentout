@@ -177,8 +177,9 @@ $('.checkin_form :submit').entwine({
         var doorsOpen = (this.closest('form').attr('doors_open') == 1);
         var place = this.form().selectedPlace();
         var doorsOpenTime = this.closest('form').doorsOpenTime().format('h tt');
+        var partiesAvailable = !this.closest('form').find('select').hasClass('empty');
 
-        if (doorsOpen) {
+        if (doorsOpen && partiesAvailable) {
             var date = yesterday_time().format('mmmm dS');
             WWO.dialog.title('Confirm Checkin')
             .message('<p>You are about to checkin to <em>' + place.name + '</em> for the night of ' + date + '.<p>'
@@ -186,6 +187,13 @@ $('.checkin_form :submit').entwine({
             .setButtons('yesno')
             .refreshPosition()
             .showDialog('confirm_checkin');
+        }
+        else if (doorsOpen && !partiesAvailable) {
+            WWO.dialog.title("Come Back Next Week!")
+                      .message("<p>WhoWentOut will open up for check-ins next weekend.</p>"
+                            +  "<p>Stay tuned!</p>")
+                      .setButtons('ok')
+                      .showDialog();
         }
         else {
             WWO.dialog.title("Can't Checkin")
