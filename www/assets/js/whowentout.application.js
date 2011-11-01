@@ -13,7 +13,6 @@
 
 //= require whowentout.feedback.js
 
-//= require lib/jquery.idle-timer.js
 //= require lib/soundmanager2.config.js
 //= require lib/getflashplayerversion.js
 
@@ -62,32 +61,13 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
             console.log('user ' + e.user_id + ' went online');
             $('.user_' + e.user_id).addClass('online');
         });
-        
+
         this._presenceBeacon.bind('user_went_offline', function(e) {
             console.log('user ' + e.user_id + ' went offline');
-            console.log( $('.user_' + e.user_id).length );
+            console.log($('.user_' + e.user_id).length);
             $('.user_' + e.user_id).removeClass('online');
         });
-        
-    },
-    initIdleEvents: function() {
-        var self = this;
-        $(document.body).idleTimer(10000);
-        $(document.body).bind("idle.idleTimer", function() {
-            self.trigger('becameidle');
-        });
-        $(document.body).bind("active.idleTimer", function() {
-            self.trigger('becameactive');
-        });
-    },
-    idleFor: function() {
-        return this.isIdle() ? $(document.body).idleTimer('getElapsedTime') : 0;
-    },
-    isActive: function() {
-        return !this.isIdle();
-    },
-    isIdle: function() {
-        return $.data(document.body, 'idleTimer') == 'idle';
+
     },
     load: function() {
         var self = this;
@@ -203,9 +183,11 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         var path = '/dashboard/smile_help';
 
         WWO.dialog.title('Welcome to the Party Gallery').setButtons('close').showDialog('smile_help');
-        WWO.dialog.loadContent('/dashboard/smile_help', function() {
-            $('.see_smile_help_tip').remove();
-        });
+        WWO.dialog.loadContent('/help/smile');
+    },
+    showHowItWorksHelp: function() {
+        WWO.dialog.title('How WhoWentOut Works').setButtons('close').showDialog('smile_help');
+        WWO.dialog.loadContent('/help/howitworks');
     },
     _fetchUsers: function(userIds) {
         var dfd = $.Deferred();

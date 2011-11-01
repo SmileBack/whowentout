@@ -32,7 +32,7 @@ $.when(app.load()).then(function() {
             url: '/user/party_attendee_view',
             data: { user_id: user_id, party_id: party_id }
         });
-        
+
         attendeeResult.done(function(result) {
             var insertPosition = result.insert_positions[ gallery.sorting() ];
             var el = $('<li>' + result.party_attendee_view + '</li>');
@@ -60,9 +60,9 @@ $.when(app.load()).then(function() {
         onmatch: function() {
             this._super();
             var self = this;
-            
+
             this.data('queue', new WhoWentOut.Queue());
-            
+
             app.channel('private-party_' + this.partyID()).bind('checkin', function(e) {
                 var user_id = e.user_id;
                 var party_id = e.party_id;
@@ -200,7 +200,24 @@ $.when(app.load()).then(function() {
             this.removeClass('can_chat');
         }
     });
-    
+
+    $('.view_picture').entwine({
+        onclick: function(e) {
+            e.preventDefault();
+
+            var img = $('<img />');
+            img.attr('src', this.attr('href'));
+
+            img.bind('imageload', function() {
+                WWO.dialog.title('Gallery')
+                .message(img)
+                .setButtons('ok')
+                .refreshPosition()
+                .showDialog('gallery_picture');
+            });
+        }
+    });
+
 });
 
 (function($) {

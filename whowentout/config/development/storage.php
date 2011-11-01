@@ -10,6 +10,11 @@ $config['storage']['pics'] = array(
     'bucket' => 'pics',
 );
 
+$config['storage']['gallery_pics'] = array(
+    'driver' => 'filesystem',
+    'bucket' => 'gallery_pics',
+);
+
 $config['storage']['js'] = array(
     'driver' => 's3',
     'bucket' => 'js',

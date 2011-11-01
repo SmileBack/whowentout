@@ -55,9 +55,8 @@ Actions = {
     },
     ShowSiteHelp: function() {
         $.when(app.load()).then(function() {
-            var path = '/dashboard/site_help';
             WWO.dialog.title('Welcome to WhoWentOut').setButtons('continue').showDialog('site_help');
-            WWO.dialog.loadContent('/dashboard/site_help');
+            WWO.dialog.loadContent('/help/site');
         });
     },
     SetText: function(selector, text) {

@@ -3,6 +3,16 @@
 class EmailNotificationsPlugin extends Plugin
 {
 
+    function __construct($name = NULL)
+    {
+        $this->name = $name;
+    }
+
+    function woo()
+    {
+        print "[[{$this->name}]]";
+    }
+
     /**
      * Occurs when a $e->sender smiles at $e->receiver.
      *

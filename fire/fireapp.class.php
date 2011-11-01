@@ -20,8 +20,8 @@ class FireApp
     function load_window_settings()
     {
         $js = '<script type="text/javascript">'
-              . 'window.settings = ' . json_encode($this->window_settings) . ';'
-              . '</script>';
+            . 'window.settings = ' . json_encode($this->window_settings) . ';'
+            . '</script>';
         return $js;
     }
 

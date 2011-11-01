@@ -66,16 +66,4 @@ class Dashboard extends MY_Controller
         $this->json($response);
     }
 
-    function site_help()
-    {
-        $this->flag->set('user', current_user()->id, 'has_seen_site_help');
-        print r('site_help');
-    }
-
-    function smile_help()
-    {
-        $this->flag->set('user', current_user()->id, 'has_seen_smile_help');
-        print r('smile_help');
-    }
-
 }
