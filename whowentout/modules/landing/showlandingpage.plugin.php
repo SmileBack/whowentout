@@ -3,8 +3,16 @@
 class ShowLandingPagePlugin extends Plugin
 {
 
+    function show_landing()
+    {
+        return TRUE;
+    }
+
     function on_before_controller_request($e)
     {
+        if (!$this->show_landing())
+            return FALSE;
+        
         if ($e->uri == 'landing')
             return;
 
@@ -14,10 +22,8 @@ class ShowLandingPagePlugin extends Plugin
 
         if (!college())
             return;
-        
-        $halloween_launch = new HalloweenLaunch(college()->get_clock());
-        if ( ! $halloween_launch->has_launched() )
-            redirect('landing');
-    }
 
+        redirect('landing');
+    }
+    
 }

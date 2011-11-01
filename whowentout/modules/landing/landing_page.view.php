@@ -40,33 +40,8 @@
         <img src="/assets/images/landing/landing.png?version=7"/>
     </div>
 
-    <div id="countdown_wrapper">
-        <div id="countdown" class="time_counter"
-             data-target="<?= $countdown_target ?>">
-            <div class="wrap">
-                <div class="days counter" data-length="2"></div>
-                <h3>days</h3>
-            </div>
-
-            <div class="wrap">
-                <div class="hours counter" data-length="2"></div>
-                <h3>hours</h3>
-            </div>
-
-            <div class="wrap">
-                <div class="minutes counter" data-length="2"></div>
-                <h3>minutes</h3>
-            </div>
-
-            <div class="wrap">
-                <div class="seconds counter" data-length="2"></div>
-                <h3>seconds</h3>
-            </div>
-        </div>
-    </div>
-
     <div id="coming_soon">
-        <img src="/assets/images/landing/coming_soon.png?version=3"/>
+        <img src="/assets/images/landing/coming_soon.png?version=6"/>
     </div>
 
 </body>
