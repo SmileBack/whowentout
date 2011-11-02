@@ -3,6 +3,44 @@
 //= require lib/timeinterval.js
 //= require lib/timepassedevent.js
 
+(function() {
+
+    var timeDelta = 0;
+
+    function calculate_time_delta() {
+        var serverUnixTs = window.settings.time.current;
+        //Unix timestamp uses seconds while JS Date uses milliseconds
+        var serverTime = new Date(serverUnixTs * 1000);
+        var browserTime = new Date();
+        var delta = (serverTime - browserTime);
+        this.timeDelta = delta;
+    }
+
+    window.time_delta = function() {
+        return timeDelta;
+    }
+    
+})();
+
+function current_time() {
+    var time = new Date();
+    var tzOffset = 0;//-50400;
+    time.setMilliseconds(time.getMilliseconds() + time_delta() + tzOffset);
+    return time;
+}
+
+function yesterday_time() {
+    var unixTs = window.settings.time.yesterday;
+    //Unix timestamp uses seconds while JS Date uses milliseconds
+    return new Date(unixTs * 1000);
+}
+
+function tomorrow_time() {
+    var unixTs = window.settings.time.tomorrow;
+    //Unix timestamp uses seconds while JS Date uses milliseconds
+    return new Date(unixTs * 1000);
+}
+
 $('.current_time').entwine({
     onmatch: function() {
         var self = $(this);
@@ -26,7 +64,7 @@ $('.current_time').entwine({
             return '';
 
         duration = duration.round('s');
-        
+
         return duration.format();
     }
 
@@ -52,12 +90,13 @@ $('.current_time').entwine({
 })();
 
 jQuery(function($) {
+    //this method prevents browsers with an incorrect time form providing incorrect results
     TimePassedEvent.GetCurrentTime = current_time;
-    
+
     var nextDayEvent = new TimePassedEvent(tomorrow_time());
 
     function reload_dashboard_page() {
-        if ( $('#dashboard_page').length > 0)
+        if ($('#dashboard_page').length > 0)
             window.location.reload(true);
     }
 
@@ -67,6 +106,7 @@ jQuery(function($) {
         var e = $.Event('timechanged', {time: current_time()});
         $('body').trigger(e);
     }
+
     every(1, trigger_time_changed);
     trigger_time_changed();
 });

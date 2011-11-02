@@ -94,8 +94,8 @@ $.when(window.app.load()).then(function() {
             return this;
         },
         getSavedState: function() {
-            if ($('#wwo').data('chatbar_state') != null) {
-                $.jStorage.set('chatbarstate', $('#wwo').data('chatbar_state'));
+            if ( window.settings.chatbar_state != null) {
+                $.jStorage.set('chatbarstate', window.settings.chatbar_state);
             }
             return $.jStorage.get('chatbarstate', {});
         },

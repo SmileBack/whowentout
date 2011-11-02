@@ -168,7 +168,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         return this._college;
     },
     currentUserID: function() {
-        return this.get('currentUserID');
+        return window.settings.current_user_id;
     },
     currentUser: function() {
         return WhoWentOut.User.get(this.currentUserID());

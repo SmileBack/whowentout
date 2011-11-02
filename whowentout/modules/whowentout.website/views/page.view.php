@@ -28,8 +28,8 @@
 
     <?php if (ENVIRONMENT == 'development'): ?>
     <script type="text/javascript">
-        less.env = "development";
-        less.watch();
+//        less.env = "development";
+//        less.watch();
     </script>
     <?php endif; ?>
     
@@ -41,8 +41,6 @@
 </head>
 
 <body id="<?= body_id() ?>">
-
-<?= r('wwo') ?>
 
 <div id="notice" class="notice"></div>
 
@@ -134,12 +132,11 @@
 </div>
 <!-- page end -->
 
-<?= r('js') ?>
-
 <?php if (ENVIRONMENT != 'whowentout'): ?>
-<?= r('benchmarks') ?>
+    <?= r('benchmarks') ?>
 <?php endif; ?>
 
+<?= r('js') ?>
 
 </body>
 </html>
