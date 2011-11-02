@@ -1,1 +1,0 @@
-<h1>party summary view</h1>
