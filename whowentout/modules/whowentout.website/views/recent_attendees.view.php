@@ -21,7 +21,7 @@
         <?php foreach (range(1, $count) as $i): ?>
             <li>
                 <a>
-                    <img src="/assets/images/empty_picture.png" />
+                    <img src="/assets/images/empty_picture.png?version=2" />
                 </a>
             </li>
         <?php endforeach; ?>

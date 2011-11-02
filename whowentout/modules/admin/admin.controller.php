@@ -132,7 +132,7 @@ class Admin extends MY_Controller
         $this->check_access();
 
         $party = XParty::get($party_id);
-        $party_date = $party->date;
+        $party_date = $party->date->format("Y-m-d");
         $place_name = $party->place->name;
         $party->delete();
         set_message("Deleted party on $party_date at $place_name.");
@@ -153,7 +153,7 @@ class Admin extends MY_Controller
 
         if ($checkin_permission->check($user, $party)) {
             $checkin_engine->checkin_user_to_party($user, $party);
-            set_message("Randomly checked in $user->full_name to {$party->place->name} on $party->date.");
+            set_message("Randomly checked in $user->full_name to {$party->place->name} on " . $party->date->format('Y-m-d') . ".");
         }
         else {
             set_message("Couldn't checkin $user->full_name.");

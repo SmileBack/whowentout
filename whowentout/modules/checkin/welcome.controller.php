@@ -5,6 +5,8 @@ class Welcome extends MY_Controller
 
     function index()
     {
+        $checkin_engine = new CheckinEngine();
+        $checkin_engine->checkin_user_to_party(current_user(), XParty::get(39));
     }
 
     function index3()

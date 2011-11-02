@@ -28,7 +28,7 @@
         <tr>
           <td><?= $party->id ?></td>
           <td><?= $party->place->name ?></td>
-          <td><?= $party->date ?></td>
+          <td><?= $party->date->format('Y-m-d') ?></td>
           <td><?= $party->female_count ?> girls</td>
           <td><?= $party->male_count ?> guys</td>
           <td><?= anchor("admin/random_checkin/$party->id", 'Random Checkin', array('class' => 'confirm')) ?></td>
@@ -37,7 +37,7 @@
                    'Delete',
                    array(
                      'class' => 'confirm',
-                     'action' => "delete the party at {$party->place->name} on $party->date",
+                     'action' => "delete the party at {$party->place->name} on " . $party->date->format('Y-m-d'),
                    ))
                ?>
           </td>

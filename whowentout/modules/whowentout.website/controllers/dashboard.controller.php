@@ -23,7 +23,6 @@ class Dashboard extends MY_Controller
             'user' => $user,
             'college' => $college,
             'closing_time' => r('closing_time'),
-            'doors_are_closed' => !$college->get_door()->is_open(),
             'open_parties' => $parties,
             'parties_attended' => $checkin_engine->get_recently_attended_parties_for_user($user),
             'has_attended_party' => $user->has_attended_party_on_date($yesterday),

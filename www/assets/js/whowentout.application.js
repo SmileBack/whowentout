@@ -10,8 +10,9 @@
 //= require whowentout.user.js
 
 //= require whowentout.presencebeacon.js
-
 //= require whowentout.feedback.js
+
+//= require whowentout.dialog.js
 
 //= require lib/soundmanager2.config.js
 //= require lib/getflashplayerversion.js
@@ -180,14 +181,34 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         this._sounds[name].play();
     },
     showSmileHelp: function() {
-        var path = '/dashboard/smile_help';
-
-        WWO.dialog.title('Welcome to the Party Gallery').setButtons('close').showDialog('smile_help');
-        WWO.dialog.loadContent('/help/smile');
+        WhoWentOut.Dialog.Show({
+            title: 'Welcome to the Party Gallery',
+            buttons: 'close',
+            cls: 'smile_help',
+            url: '/help/smile'
+        });
     },
     showHowItWorksHelp: function() {
-        WWO.dialog.title('How WhoWentOut Works').setButtons('close').showDialog('smile_help');
-        WWO.dialog.loadContent('/help/howitworks');
+        WhoWentOut.Dialog.Show({
+            title: 'How WhoWentOut Works',
+            buttons: 'close',
+            cls: 'how_whowentout_works',
+            url: '/help/howitworks'
+        });
+    },
+    showMutualFriendsDialog: function(path) {
+        WhoWentOut.Dialog.Show({
+            title: 'Mutual Friends',
+            buttons: 'close',
+            cls: 'friends_popup',
+            url: path,
+            onload: function() {
+                var dialog = WhoWentOut.Dialog.Get();
+                var count = dialog.find('.mutual_friends').attr('count') || 0;
+                dialog.title(dialog.title() + ' (' + count + ')');
+                dialog.refreshPosition();
+            }
+        });
     },
     _fetchUsers: function(userIds) {
         var dfd = $.Deferred();

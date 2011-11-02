@@ -54,8 +54,6 @@ $('.current_time').entwine({
 jQuery(function($) {
     TimePassedEvent.GetCurrentTime = current_time;
     
-    var doorsCloseEvent = new TimePassedEvent(doors_closing_time());
-    var doorsOpenEvent = new TimePassedEvent(doors_opening_time());
     var nextDayEvent = new TimePassedEvent(tomorrow_time());
 
     function reload_dashboard_page() {
@@ -63,8 +61,6 @@ jQuery(function($) {
             window.location.reload(true);
     }
 
-    doorsCloseEvent.bind('timepassed', reload_dashboard_page);
-    doorsOpenEvent.bind('timepassed', reload_dashboard_page);
     nextDayEvent.bind('timepassed', reload_dashboard_page);
 
     function trigger_time_changed() {

@@ -6,6 +6,8 @@
 
 (function($) {
 
+    var api = null;
+
     function initialize_crop_ui() {
         var x = parseInt($('#x').val()),
         y = parseInt($('#y').val()),
@@ -20,7 +22,7 @@
             height: height
         });
 
-        var api = WWO.api = $.Jcrop('#crop img', {
+        api = $.Jcrop('#crop img', {
             aspectRatio: 0.75,
             onChange: onChange,
             onSelect: onSelect,
@@ -71,8 +73,8 @@
     }
 
     function destroy_crop_ui() {
-        if (WWO.api)
-            WWO.api.destroy();
+        if (api)
+            api.destroy();
     }
 
     function reinitialize_crop_ui(pic_html, crop_box) {

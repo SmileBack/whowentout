@@ -127,19 +127,22 @@ $.when(app.load()).then(function() {
             : '<p>You are about to ' + action + '.</p>'
             + '<p>She will know that someone has smiled at her, but she will <strong>not</strong> know it was you unless she smiles at you as well.</p>';
 
-            WWO.dialog.title('Confirm Smile')
-            .message(message)
-            .setButtons('yesno')
-            .refreshPosition()
-            .showDialog('confirm_smile', form);
+            WhoWentOut.Dialog.Show({
+                title: 'Confirm Smile',
+                body: message,
+                buttons: 'yesno',
+                cls: 'confirm_smile',
+                data: form
+            });
         }
         else {
             action = action.substring(0, 1).toLowerCase() + action.substring(1);
-            WWO.dialog.title("Can't Smile")
-            .message("You can't " + action + " because you have already used up your smiles.")
-            .setButtons('ok')
-            .refreshPosition()
-            .showDialog('cant_smile');
+            WhoWentOut.Dialog.Show({
+                title: "Can't Smile",
+                body: "You can't " + action + " because you have already used up your smiles.",
+                cls: 'cant_smile',
+                buttons: 'ok'
+            });
         }
 
     });
@@ -209,11 +212,12 @@ $.when(app.load()).then(function() {
             img.attr('src', this.attr('href'));
 
             img.bind('imageload', function() {
-                WWO.dialog.title('Gallery')
-                .message(img)
-                .setButtons('ok')
-                .refreshPosition()
-                .showDialog('gallery_picture');
+                WhoWentOut.Dialog.Show({
+                    title: 'Gallery',
+                    body: img,
+                    buttons: 'ok',
+                    cls: 'gallery_picture'
+                });
             });
         }
     });
@@ -226,7 +230,7 @@ $.when(app.load()).then(function() {
         onclick: function(e) {
             e.preventDefault();
             var path = $(this).attr('href');
-            $('#wwo').showMutualFriendsDialog(path);
+            app.showMutualFriendsDialog(path);
         }
     });
 

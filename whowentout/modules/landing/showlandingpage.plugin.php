@@ -5,7 +5,7 @@ class ShowLandingPagePlugin extends Plugin
 
     function show_landing()
     {
-        return TRUE;
+        return FALSE;
     }
 
     function on_before_controller_request($e)

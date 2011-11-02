@@ -7,7 +7,7 @@ class Checkin extends MY_Controller
     {
         $this->require_login();
 
-        $party = $party = XParty::get(post('party_id'));
+        $party = XParty::get(post('party_id'));
         $user = current_user();
 
         if (!$party)
@@ -17,8 +17,6 @@ class Checkin extends MY_Controller
             $this->json_failure("User doesn't exist.");
 
         $checkin_engine = new CheckinEngine();
-        $smile_engine = new SmileEngine();
-
         $checkin_permission = new CheckinPermission();
         $can_checkin = $checkin_permission->check($user, $party);
 
@@ -26,17 +24,8 @@ class Checkin extends MY_Controller
 
         if ($can_checkin) {
             $checkin_engine->checkin_user_to_party($user, $party);
-            $response['party_summary_view'] = r('party_summary', array(
-                                                                      'user' => $user,
-                                                                      'party' => $party,
-                                                                      'smile_engine' => $smile_engine,
-                                                                 ));
-            $response['user_command_notice'] = r('user_command_notice', array(
-                                                                             'user' => $user,
-                                                                        ));
-            $response['checkin_form'] = r('checkin_form', array(
-                                                            'user' => $user,
-                                                          ));
+            $this->update_party_group($user, $party);
+
             $response['party'] = $party->to_array();
 
             $channel_id = 'party_' . $party->id;
@@ -48,8 +37,21 @@ class Checkin extends MY_Controller
             $this->json($response);
         }
         else {
+            $this->update_party_group($user, $party);
             $this->json_failure("You can't checkin.");
         }
     }
 
+    function update_party_group(XUser $user, XParty $party)
+    {
+        $party_group = new PartyGroup(college()->get_clock(), $party->date);
+        
+        $party_group_view = r('party_group', array(
+                                               'user' => $user,
+                                               'party_group' => $party_group,
+                                             ));
+
+        $this->jsaction->ReplaceHtml('.party_group_' . $party_group->get_date()->format('Ymd'), $party_group_view);
+    }
+    
 }

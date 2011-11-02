@@ -10,8 +10,10 @@ class CheckinEngine
         $this->init_db();
     }
 
-    function checkin_user_to_party($user, $party)
+    function checkin_user_to_party(XUser $user, XParty $party)
     {
+        $this->remove_user_checkin_for_date($user, $party->date);
+
         $this->db->insert('party_attendees', array(
                                                   'user_id' => $user->id,
                                                   'party_id' => $party->id,
@@ -22,6 +24,21 @@ class CheckinEngine
                                        'user' => $user,
                                        'party' => $party,
                                   ));
+    }
+
+    function remove_user_checkin_for_date(XUser $user, XDateTime $date)
+    {
+        $party = $this->get_checkin_for_date($user, $date);
+        if ($party)
+            $this->remove_user_checkin($user, $party);
+    }
+
+    function remove_user_checkin(XUser $user, XParty $party)
+    {
+        $this->db->delete('party_attendees', array(
+                                                  'party_id' => $party->id,
+                                                  'user_id' => $user->id,
+                                             ));
     }
 
     function user_has_checked_into_party($user, $party)
@@ -62,12 +79,19 @@ class CheckinEngine
                        ->count_all_results() > 0;
     }
 
+    function get_num_checkins_for_party($party)
+    {
+        return $this->db->select('user_id AS id')
+                ->from('party_attendees')
+                ->where('party_id', $party->id)
+                ->count_all_results();
+    }
+
     function get_checkins_for_party($party)
     {
         $query = $this->db->select('user_id AS id')
                 ->from('party_attendees')
                 ->where('party_id', $party->id);
-
         return XUser::load_objects('XUser', $query);
     }
 
@@ -83,11 +107,6 @@ class CheckinEngine
                 ->where('user_id', $user->id)
                 ->where('date >', $cutoff->format('Y-m-d'));
         return XObject::load_objects('XParty', $rows);
-    }
-
-    function get_parties_availiable_for_checkin(XDateTime $time)
-    {
-        throw new Exception('Not yet implemented');
     }
 
     function get_num_checkins_for_user($user)

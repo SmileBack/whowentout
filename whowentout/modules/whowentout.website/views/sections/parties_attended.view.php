@@ -1,25 +1,19 @@
 <?php
- $yesterday = college()->get_time()->getDay(-1);
-$checkin_engine = new CheckinEngine();
+$start_day = college()->get_time()->getDay(0);
+
+if (!$start_day->isPartyDay())
+    $start_day = $start_day->getPartyDay(1);
+
 ?>
 
-<div class="parties_attended">
-
-    <div class="checkin_box"></div>
-
-    <?= r('checkin_form', array(
-                            'user' => $user,
-                          )) ?>
-
-    <?php foreach ($checkin_engine->get_recently_attended_parties_for_user(current_user()) as $party): ?>
-
-    <?=
-    r('party_summary', array(
-                            'user' => $user,
-                            'party' => $party,
-                            'smile_engine' => $smile_engine,
-                       ))
-    ?>
-    <?php endforeach; ?>
-
-</div>
+<ul class="parties_attended">
+    <?php for ($k = 0; $k >= -5; $k--): ?>
+    <li>
+        <?php $party_group = new PartyGroup(college()->get_clock(), $start_day->getPartyDay($k)); ?>
+        <?= r('party_group', array(
+                               'party_group' => $party_group,
+                               'user' => current_user(),
+                             )) ?>
+    </li>
+    <?php endfor; ?>
+</ul>

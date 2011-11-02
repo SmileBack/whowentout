@@ -31,11 +31,6 @@ $(window).bind('beforeunload', function() {
     }
 });
 
-var WWO = null;
-jQuery(function() {
-    WWO = $('#wwo');
-});
-
 $('#wwo').entwine({
     onmatch: function() {
         var data = $.parseJSON(this.text());
@@ -48,22 +43,6 @@ $('#wwo').entwine({
     },
     timeDelta: function() {
         return this.data('timedelta');
-    },
-    doorsOpen: function() {
-        return this.data('doorsOpen');
-    },
-    doorsClosed: function() {
-        return ! this.doorsOpen();
-    },
-    showMutualFriendsDialog: function(path) {
-        WWO.dialog.title('Mutual Friends').message('loading...')
-        .setButtons('close').showDialog('friends_popup');
-        WWO.dialog.refreshPosition();
-        WWO.dialog.find('.dialog_body').load(path, function() {
-            var count = WWO.dialog.find('.mutual_friends').attr('count') || 0;
-            WWO.dialog.title(WWO.dialog.title() + ' (' + count + ')');
-            WWO.dialog.refreshPosition();
-        });
     },
     _calculateTimeDelta: function() {
         var serverUnixTs = parseInt($('#wwo').data('currentTime'));
@@ -96,18 +75,6 @@ function current_time() {
     var tzOffset = 0;//-50400;
     time.setMilliseconds(time.getMilliseconds() + $('#wwo').timeDelta() + tzOffset);
     return time;
-}
-
-function doors_closing_time() {
-    var unixTs = $('#wwo').data('doorsClosingTime');
-    //Unix timestamp uses seconds while JS Date uses milliseconds
-    return new Date(unixTs * 1000);
-}
-
-function doors_opening_time() {
-    var unixTs = $('#wwo').data('doorsOpeningTime');
-    //Unix timestamp uses seconds while JS Date uses milliseconds
-    return new Date(unixTs * 1000);
 }
 
 function yesterday_time() {

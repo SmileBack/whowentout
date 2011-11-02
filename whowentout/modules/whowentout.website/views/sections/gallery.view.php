@@ -24,7 +24,7 @@ r('party_notices', array(
 
 <h2 class="gallery_header">
     <span><?= $party->place->name ?> Attendees</span>
-    <span>(<?= date("l, M. jS", strtotime($party->date)) ?>)</span>
+    <span>(<?= $party->date->format('l, M. jS') ?>)</span>
 </h2>
 
 <div class="gallery party <?= $party->chat_is_open() ? 'chat_open' : 'chat_closed' ?>"

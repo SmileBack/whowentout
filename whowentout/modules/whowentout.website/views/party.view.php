@@ -9,7 +9,7 @@ else {
 
 <?=
 r('section', array(
-                  'title' => date("l, M. jS", strtotime($party->date)) . ' | ' . $party->place->name . ' Gallery',
+                  'title' => $party->date->format('l, M. jS') . ' | ' . $party->place->name . ' Gallery',
                   'description' => $description,
                   'class' => 'gallery_view',
                   'body' => r('gallery', array(

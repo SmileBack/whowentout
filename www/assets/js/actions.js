@@ -12,9 +12,8 @@ Actions = {
 
         setTimeout(removeClass, duration);
     },
-    HighlightSmilesLeft: function(duration) {
-        duration = duration || 3000;
-        this.AddTempClass('.smiles_left', 'attention', duration);
+    ReplaceHtml: function(selector, html) {
+        $(selector).replaceWith(html);
     },
     Alert: function(message) {
         alert(message);
@@ -54,9 +53,11 @@ Actions = {
         });
     },
     ShowSiteHelp: function() {
-        $.when(app.load()).then(function() {
-            WWO.dialog.title('Welcome to WhoWentOut').setButtons('continue').showDialog('site_help');
-            WWO.dialog.loadContent('/help/site');
+        WhoWentOut.Dialog.Show({
+            title: 'Welcome to WhoWentOut',
+            buttons: 'continue',
+            cls: 'site_help',
+            url: '/help/site'
         });
     },
     SetText: function(selector, text) {

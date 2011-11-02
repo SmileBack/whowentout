@@ -4,14 +4,44 @@
 //= require whowentout.application.js
 //= require whowentout.queue.js
 
+function jq(fn) {
+    fn(jQuery);
+}
+
+jq(function($) {
+
+    function checkin_to_party(party_id) {
+        return $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: '/checkin/create',
+            data: {party_id: party_id}
+        });
+    }
+    
+    $('.party_group input:radio').entwine({
+        onchange: function() {
+            var partyId = this.val();
+            checkin_to_party(partyId);
+        }
+    });
+
+    $('.party_group input:radio:disabled').entwine({
+        onclick: function() {
+            alert('disabled');
+        }
+    });
+
+});
+
 $.when(app.load()).then(function() {
 
     function InsertThumbnailTask(options) {
         var dfd = $.Deferred();
-        
+
         var gallery = $(options.gallery);
         var user_id = options.user_id;
-        
+
         var n = gallery.thumbnailCapacity() - 2;
         var oldPics = gallery.thumbnails().filter(':gt(' + n + ')');
         $.when(user(user_id)).then(function(u) {
@@ -57,7 +87,7 @@ $.when(app.load()).then(function() {
                 }
             });
         });
-        
+
         return dfd.promise();
     }
 
@@ -118,21 +148,6 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.party_summary .link_to_party').entwine({
-        onmatch: function() {
-            this._super();
-            this.css('cursor', 'pointer');
-        },
-        onunmatch: function() {
-            this._super();
-        },
-        onclick: function(e) {
-            e.preventDefault();
-            var link = this.closest('.party_summary').find('a');
-            window.location.href = link.attr('href') + '?src=smiles';
-        }
-    });
-
     $('.fake_time_options').entwine({
         onchange: function() {
             var value = this.val();
@@ -142,72 +157,6 @@ $.when(app.load()).then(function() {
 
 });
 
-
-$('.checkin_form').entwine({
-    selectedPlace: function() {
-        return {
-            id: this.find('option:selected').attr('value'),
-            name: this.find('option:selected').text()
-        };
-    },
-    doorsOpenTime: function() {
-        return new Date(this.attr('doors_opening_time') * 1000);
-    },
-    doorsCloseTime: function() {
-        return new Date(this.attr('doors_closing_time') * 1000);
-    }
-});
-
-$('.checkin_form select.empty').entwine({
-    onmouseenter: function(e) {
-        this.notice('Parties to checkin to will be listed here', 'b');
-    },
-    onmouseleave: function(e) {
-        $('#notice').hideNotice();
-    }
-});
-
-$('.checkin_form :submit').entwine({
-    form: function() {
-        return this.closest('form');
-    },
-    onclick: function(e) {
-        e.preventDefault();
-
-        var doorsOpen = (this.closest('form').attr('doors_open') == 1);
-        var place = this.form().selectedPlace();
-        var doorsOpenTime = this.closest('form').doorsOpenTime().format('h tt');
-        var partiesAvailable = !this.closest('form').find('select').hasClass('empty');
-
-        if (doorsOpen && partiesAvailable) {
-            var date = yesterday_time().format('mmmm dS');
-            WWO.dialog.title('Confirm Checkin')
-            .message('<p>You are about to checkin to <em>' + place.name + '</em> for the night of ' + date + '.<p>'
-            + '<p>This will let you see others who have checked in as well.</p>')
-            .setButtons('yesno')
-            .refreshPosition()
-            .showDialog('confirm_checkin');
-        }
-        else if (doorsOpen && !partiesAvailable) {
-            WWO.dialog.title("Come Back Next Week!")
-                      .message("<p>WhoWentOut will open up for check-ins next weekend.</p>"
-                            +  "<p>Stay tuned!</p>")
-                      .setButtons('ok')
-                      .showDialog();
-        }
-        else {
-            WWO.dialog.title("Can't Checkin")
-            .message(
-            '<p>Doors have not yet opened for checkin.</p>'
-            + '<p>You will be able to checkin to ' + place.name + ' at ' + doorsOpenTime + '.</p>'
-            )
-            .setButtons('ok')
-            .refreshPosition()
-            .showDialog('cant_checkin');
-        }
-    }
-});
-
 $('.smile_help_link').entwine({
     onclick: function(e) {
         this._super();
@@ -215,43 +164,3 @@ $('.smile_help_link').entwine({
         app.showSmileHelp();
     }
 });
-
-$('.confirm_checkin.dialog').live('button_click', function(e, button) {
-    if (button.hasClass('y')) {
-        $('#dashboard_page .checkin_form').ajaxSubmit({
-            type: 'post',
-            dataType: 'json',
-            success: function(response) {
-                //console.log('--checkin--');
-                console.log(response);
-                app.loadChannels(response.channels);
-                var party = response.party;
-                var partySummary = $('.party_summary[data-party-date=' + party.date + ']');
-                var newPartySummary = $(response.party_summary_view).hide();
-                $('.user_command_notice').replaceWith(response.user_command_notice);
-                partySummary.fadeOut(400, function() {
-                    partySummary.replaceWith(newPartySummary);
-                    newPartySummary.fadeIn(400, function() {
-
-                        var checkinForm = $(response.checkin_form);
-                        checkinForm.hide();
-                        $('.parties_attended').prepend(checkinForm);
-                        var height = checkinForm.whenShown(function() {
-                            return this.outerHeight(true);
-                        });
-                        checkinForm.css({
-                            'margin-top': '-' + height + 'px',
-                            'z-index': 5
-                        })
-                        .show().delay(1000).animate({'margin-top': '0px'}, function() {
-                            $(this).css('z-index', '');
-//                            window.location.reload(true);
-                            Actions.ShowPartyGalleryTip();
-                        });
-                    });
-                });
-            }
-        });
-    }
-});
-

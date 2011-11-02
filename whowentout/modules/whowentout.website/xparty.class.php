@@ -14,6 +14,15 @@ class XParty extends XObject
         return $this->place->college;
     }
 
+    /**
+     * @return XDateTime
+     */
+    function get_date()
+    {
+        $timezone = $this->college->timezone;
+        return new XDateTime($this->data['date'], $timezone);
+    }
+
     function attendees($sort = 'checkin_time')
     {
         $query = $this->attendees_query($sort);
@@ -113,7 +122,6 @@ class XParty extends XObject
 
     function recent_attendees($count = 5)
     {
-        $attendees = array();
         $query = $this->attendees_query('checkin_time')->limit($count);
         return XObject::load_objects('XUser', $query);
     }
@@ -130,10 +138,9 @@ class XParty extends XObject
 
     function chat_close_time()
     {
-        $dt = DateTime::createFromFormat('Y-m-d H:i:s', $this->date . '00:00:00', $this->college->timezone);
-        $dt->modify('next Wednesday');
-        $dt->setTime(11, 59, 0);
-        return $dt;
+        $date = $this->date;
+        $date->modify('next Thursday');
+        return $date;
     }
 
     function smiling_is_closed()

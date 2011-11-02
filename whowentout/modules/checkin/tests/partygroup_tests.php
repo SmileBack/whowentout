@@ -49,13 +49,13 @@ class PartyGroup_Tests extends TestGroup
                                    ));
 
         $this->mcfaddens = XPlace::create(array(
-                                           'name' => 'McFaddens',
-                                           'college_id' => $this->college->id,
-                                      ));
+                                               'name' => 'McFaddens',
+                                               'college_id' => $this->college->id,
+                                          ));
 
         $this->teatro = XPlace::create(array(
-                                           'name' => 'Teatro',
-                                           'college_id' => $this->college->id,
+                                            'name' => 'Teatro',
+                                            'college_id' => $this->college->id,
                                        ));
 
         $this->party = XParty::create(array(
@@ -86,7 +86,7 @@ class PartyGroup_Tests extends TestGroup
         $clock->set_time('2011-10-23 00:00:00');
 
         $party_group = new PartyGroup($clock, new XDateTime('2011-10-24 00:00:00', $this->tz));
-        
+
         $parties = $party_group->get_parties();
         $this->assert_true(in_array($this->party, $parties));
         $this->assert_true(in_array($this->same_day_party, $parties));
@@ -96,5 +96,37 @@ class PartyGroup_Tests extends TestGroup
         $next_day_parties = $next_day_party_group->get_parties();
         $this->assert_equal($next_day_parties[0], $this->next_day_party);
     }
-    
+
+    function test_phase()
+    {
+        $this->clear_database();
+        $this->seed_data();
+
+        $clock = new Clock($this->tz);
+        $clock->set_time('2011-10-23 00:00:00');
+
+        $party_group = new PartyGroup($clock, new XDateTime('2011-10-24 00:00:00', $this->tz));
+
+        $clock->set_time('2011-10-23 00:00:00');
+        $this->assert_equal($party_group->get_phase(), PartyGroupPhase::EarlyCheckin);
+
+        $clock->set_time('2011-10-24 10:00:00');
+        $this->assert_equal($party_group->get_phase(), PartyGroupPhase::EarlyCheckin);
+
+        $clock->set_time('2011-10-24 23:59:59');
+        $this->assert_equal($party_group->get_phase(), PartyGroupPhase::EarlyCheckin);
+
+        $clock->set_time('2011-10-25 00:00:00');
+        $this->assert_equal($party_group->get_phase(), PartyGroupPhase::Checkin);
+
+        $clock->set_time('2011-10-25 14:00:00');
+        $this->assert_equal($party_group->get_phase(), PartyGroupPhase::Checkin);
+
+        $clock->set_time('2011-10-25 23:59:59');
+        $this->assert_equal($party_group->get_phase(), PartyGroupPhase::Checkin);
+
+        $clock->set_time('2011-10-26 00:00:00');
+        $this->assert_equal($party_group->get_phase(), PartyGroupPhase::CheckinsClosed);
+    }
+
 }

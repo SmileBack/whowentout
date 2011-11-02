@@ -18,6 +18,9 @@ class CheckinEngine_Tests extends TestGroup
      */
     private $ted;
 
+    private $mcfaddens;
+    private $teatro;
+
     protected function setup()
     {
         parent::setup();
@@ -61,20 +64,31 @@ class CheckinEngine_Tests extends TestGroup
                                         'college_id' => $this->college->id,
                                    ));
 
-        $this->place = XPlace::create(array(
+        $this->mcfaddens = XPlace::create(array(
                                            'name' => 'McFaddens',
                                            'college_id' => $this->college->id,
                                       ));
 
+        $this->teatro = XPlace::create(array(
+                                           'name' => 'Teatro',
+                                           'college_id' => $this->college->id,
+                                      ));
+
         $this->party = XParty::create(array(
-                                           'place_id' => $this->place->id,
+                                           'place_id' => $this->mcfaddens->id,
                                            'date' => '2011-10-24',
                                       ));
 
+        $this->same_day_party = XParty::create(array(
+                                                   'place_id' => $this->teatro->id,
+                                                   'date' => '2011-10-24',
+                                               ));
+        
+
         $this->second_party = XParty::create(array(
-                                           'place_id' => $this->place->id,
-                                           'date' => '2011-10-25',
-                                      ));
+                                                  'place_id' => $this->mcfaddens->id,
+                                                  'date' => '2011-10-25',
+                                             ));
 
         $ci =& get_instance();
         $ci->config->set_item('selected_college_id', $this->college->id);
@@ -129,14 +143,14 @@ class CheckinEngine_Tests extends TestGroup
         $party_date = new XDateTime('2011-10-24 00:00:00', $this->tz);
         $day_after_party = new XDateTime('2011-10-25 00:00:00', $this->tz);
 
-        $this->assert_true( ! $checkin_engine->user_has_checked_in_on_date($this->dan, $party_date), 'dan hasnt checked in on 10-24-2011 yet');
-        $this->assert_true( ! $checkin_engine->user_has_checked_in_on_date($this->venkat, $party_date), 'venkat hasnt checked in on 10-24-2011 yet');
+        $this->assert_true(!$checkin_engine->user_has_checked_in_on_date($this->dan, $party_date), 'dan hasnt checked in on 10-24-2011 yet');
+        $this->assert_true(!$checkin_engine->user_has_checked_in_on_date($this->venkat, $party_date), 'venkat hasnt checked in on 10-24-2011 yet');
 
         $checkin_engine->checkin_user_to_party($this->dan, $this->party);
-        $this->assert_true( $checkin_engine->user_has_checked_in_on_date($this->dan, $party_date), 'dan just checked in on 10-24-2011');
-        $this->assert_true( ! $checkin_engine->user_has_checked_in_on_date($this->venkat, $party_date), 'venkat still hasnt checked in on 10-24-2011');
+        $this->assert_true($checkin_engine->user_has_checked_in_on_date($this->dan, $party_date), 'dan just checked in on 10-24-2011');
+        $this->assert_true(!$checkin_engine->user_has_checked_in_on_date($this->venkat, $party_date), 'venkat still hasnt checked in on 10-24-2011');
 
-        $this->assert_true( ! $checkin_engine->user_has_checked_in_on_date($this->dan, $day_after_party), 'dan didnt check in on 10-25-2011');
+        $this->assert_true(!$checkin_engine->user_has_checked_in_on_date($this->dan, $day_after_party), 'dan didnt check in on 10-25-2011');
     }
 
     function test_num_checkins_for_user()
@@ -165,16 +179,33 @@ class CheckinEngine_Tests extends TestGroup
         $checkin_engine = new CheckinEngine();
 
         $party_date = new XDateTime('2011-10-24 00:00:00', $this->tz);
-        $second_party_date =new XDateTime('2011-10-25 00:00:00', $this->tz);
+        $second_party_date = new XDateTime('2011-10-25 00:00:00', $this->tz);
 
         $this->assert_equal($checkin_engine->get_checkin_for_date($this->dan, $party_date), NULL, 'dan has no checkins on the 24th');
 
         $checkin_engine->checkin_user_to_party($this->dan, $this->party);
         $this->assert_equal($checkin_engine->get_checkin_for_date($this->dan, $party_date), $this->party, 'dan has a checkin on the 24th');
         $this->assert_equal($checkin_engine->get_checkin_for_date($this->dan, $second_party_date), NULL, 'dan has no checkins on the 25th');
-        
+
         $this->assert_equal($checkin_engine->get_checkin_for_date($this->venkat, $party_date), NULL, 'venkat still has no checkins');
     }
 
+    function test_select_party()
+    {
+        $this->clear_database();
+        $this->seed_data();
+
+        $party_date = new XDateTime('2011-10-24 00:00:00', $this->tz);
+
+        $checkin_engine = new CheckinEngine();
+
+        $checkin_engine->checkin_user_to_party($this->dan, $this->party);
+        $checked_in_party = $checkin_engine->get_checkin_for_date($this->dan, $party_date);
+        $this->assert_equal($checked_in_party, $this->party);
+
+        $checkin_engine->checkin_user_to_party($this->dan, $this->same_day_party);
+        $checked_in_party = $checkin_engine->get_checkin_for_date($this->dan, $party_date);
+        $this->assert_equal($checked_in_party, $this->same_day_party);
+    }
 
 }

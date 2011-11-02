@@ -238,17 +238,6 @@ header {
   }
 }
 
-.last_night_view {
-  width: 65%;
-  height: 260px;
-  h2 { font-size: 150%; }
-  h3 .remaining_time {
-    float: right;
-    margin-right: 20px;
-  }
-  .checkin_form { margin: 0; }
-}
-
 .recent_attendees {
     .horizontal_gallery;
     > li {
@@ -313,171 +302,42 @@ header {
     padding: 4px 0px;
 }
 
-.horizontal_sections(@count: 3) {
-    overflow:  hidden;
-    > * {
-      float: left;
-      width: (100% / @count) - 1;
-      border-right:  1px solid @light_border_color;
-      &:last-child { border-right: none; }
-      > h2 {
-          margin: 0 0 0 25px;
-          > * { display: inline-block; }
-      }
-      > .body {
-         margin:  10px 0 0 50px;
-      }
-    }
-
-}
-
-@party_summary_height: 170px;
-
 .parties_attended_view {
-  float: left;
-  clear: both;
-  position: relative;
-  .party_summary {
-    h2 {
-        margin-bottom: 10px;
-        a { text-decoration: none; }
-        a:hover { text-decoration: underline; }
-    }
-    margin-bottom: 20px;
-    padding-bottom: 30px;
-    border-bottom:  1px solid @border_color;
-    z-index: 10;
-    &:last-child {
-      margin-bottom: 0;
-      border-bottom: none;
-    }
-  }
-  .checkin_box {
-      width: 766px;
-      height: 0px;
-      position: absolute;
-      z-index: 30;
-      top: @party_summary_height + 115px;
-      left: 1px;
-      border: 6px solid #444;
-  }
-  .smile_sender { display: none; }
-  .whats_a_smile { display: none; }
+    float: left;
+    clear: both;
+  
 }
 
-.party_summary {
-   height: @party_summary_height;
-   position: relative;
-   background-color: white;
-   > h2 {
-     float: left;
+.party_group {
+   h2 {
+     color: white;
+     background-color: #444;
+     padding: 6px 8px;
    }
-   h2 > * {
-     display: inline-block;
-   }
-   .badge {
-     float: right;
-     text-transform: uppercase;
-     font-weight: bold;
-     font-size: 12px;
-   }
-   .recent_attendees {
-     float: left;
-   }
-   .countdown {
-     float: right;
-     width: 260px;
-     .infobox;
-     padding: 10px;
-     margin-top: 10px;
-   }
-   .doors_message {
-       display: table;
-       margin: 30px auto;
-       font-size: 18px;
-       p { text-align: center; }
-       .remaining_time { display: table; margin: auto; .infobox; padding: 10px 10px 10px 30px; }
-       .primary {
-           margin-bottom: 30px;
-           padding-left: 40px;
-           padding-right: 40px;
-           background: url(../images/check.png) no-repeat center left;
-       }
-       .secondary { font-size: 14px; }
-   }
-   .remaining_time {
-       font-size: 14px;
-       padding-left: 30px;
-       background-image: url(../images/clock.png);
-       background-position: 6px 50%;
-       background-repeat: no-repeat;
-   }
-   .body {
-       overflow: hidden;
-       width: 100%;
-       height: @party_summary_height - 5px;
-       position: relative;
-       clear: both;
-   }
-   .body > .left { width: 62%; float: left;  }
-   .body > .right { width: 37%; float: right;}
-   .party_notices .send_fb_message { display: none; }
-   .submit_button { font-size: 16px; }
-   .see_party_gallery {
-       clear: both;
-       margin: auto;
+   .party_group_body {
+     height: 150px;
+     padding: 20px;
+     overflow: hidden;
+     .party_group_left {
+       float: left;
        width: 150px;
+       height: 150px;
+     }
+     .party_group_right {
+       float: left;
+       height: 150px;
+     }
    }
-   .see_party_gallery .submit_button {
-     .visible_button;
-     .shadow(2px, 2px, 3px, 0px, #444);
-     font-weight: bold;
-     font-size: 14px;
-     margin: 2px;
-     padding: 4px 8px;
-     display: block;
-   }
+   border-color: #444;
+   margin-bottom: 20px;
 }
 
-
-.upcoming_parties_section {
-    .secondary_section;
+.large_message {
+  font-size: 1.5em;
 }
 
 .party_invite_section {
     .secondary_section;
-}
-
-.upcoming_parties {
-    overflow: hidden;
-    .day_summary {
-        float: left;
-        height: 200px;
-        width: 15.5%;
-        .shadow(1px, 1px, 3px, 0px, #dedede);
-        background-color: #FEF9ED;
-        margin: 3px;
-        h3 {
-            background-color: @primary_color;
-            color: @primary_text_color;
-            padding: 5px;
-        }
-        > .inner {
-          margin: 10px;
-        }
-    }
-    .party_list {
-        margin-top: 10px;
-    }
-}
-
-.checkin_form {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.closing_time {
-  display: inline-block;
 }
 
 .login_gallery li {

@@ -50,10 +50,6 @@ $.when(app.load()).then(function() {
 
 });
 
-jQuery(function($) {
-    WWO.dialog = $.dialog.create({centerInViewport: true});
-});
-
 $('a.confirm').entwine({
     onclick: function(e) {
         var action = this.attr('action') || 'do this';
