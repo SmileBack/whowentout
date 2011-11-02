@@ -11,28 +11,14 @@ class Dashboard extends MY_Controller
 
         $user = current_user();
         $college = college();
-
-        $clock = $college->get_clock();
-        $time = $clock->get_time();
-        $yesterday = $time->getDay(-1);
-        $parties = $college->open_parties($time);
-        $checkin_engine = new CheckinEngine();
-
+        
         $data = array(
             'title' => 'My Parties',
             'user' => $user,
             'college' => $college,
-            'closing_time' => r('closing_time'),
-            'open_parties' => $parties,
-            'parties_attended' => $checkin_engine->get_recently_attended_parties_for_user($user),
-            'has_attended_party' => $user->has_attended_party_on_date($yesterday),
             'smile_engine' => new SmileEngine(),
         );
-
-        if ($data['has_attended_party']) {
-            $data['party'] = $user->get_attended_party($yesterday);
-        }
-
+        
         if ($this->flag->missing('user', $user->id, 'has_seen_site_help')) {
             $this->jsaction->ShowSiteHelp();
         }

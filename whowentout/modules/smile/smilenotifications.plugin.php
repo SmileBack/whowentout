@@ -3,13 +3,6 @@
 class SmileNotificationsPlugin extends Plugin
 {
     
-    private $ci;
-
-    function __construct()
-    {
-        $this->ci =& get_instance();
-    }
-
     /**
      * Occurs when a $e->sender smiles at $e->receiver.
      *
@@ -20,6 +13,8 @@ class SmileNotificationsPlugin extends Plugin
      */
     function on_smile_sent($e)
     {
+        $this->ci =& get_instance();
+        
         //send notification to sender
         $sender_message = "You smiled at {$e->receiver->full_name} at {$e->party->place->name}";
         $this->ci->notification->send($e->smile->sender, $sender_message);
@@ -36,8 +31,8 @@ class SmileNotificationsPlugin extends Plugin
      */
     function on_smile_match($e)
     {
-        $ci =& get_instance();
-
+        $this->ci =& get_instance();
+        
         $first_user = $e->match->first_user;
         $second_user = $e->match->second_user;
 

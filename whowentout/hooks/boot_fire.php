@@ -13,7 +13,7 @@ function f()
 
 function boot_fire()
 {
-    global $_fire_app, $routing;
+    global $_fire_app;
 
     require_once APPPATH . '../fire/filesystemcache.class.php';
     require_once APPPATH . '../fire/fireapp.class.php';
@@ -28,4 +28,9 @@ function boot_fire()
     $_fire_app = new FireApp($class_loader);
     
     f()->enable_autoload();
+
+    f()->trigger('fire_boot', array(
+                           'f' => f(),
+                         ));
+    
 }

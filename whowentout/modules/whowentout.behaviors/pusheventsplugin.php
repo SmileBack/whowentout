@@ -3,13 +3,6 @@
 class PushEventsPlugin extends Plugin
 {
 
-    private $ci;
-
-    function __construct()
-    {
-        $this->ci =& get_instance();
-    }
-
     function on_chat_sent($e)
     {
         $channel = $this->user_channel($e->sender->id);
@@ -113,8 +106,10 @@ class PushEventsPlugin extends Plugin
 
     function broadcast($channel, $event_name, $event_data = array())
     {
+        $ci =& get_instance();
+
         $event_data['channel'] = $channel;
-        $this->ci->db->insert('events', array(
+        $ci->db->insert('events', array(
                                              'type' => $event_name,
                                              'channel' => $channel,
                                              'data' => serialize($event_data),

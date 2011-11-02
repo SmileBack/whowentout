@@ -80,7 +80,7 @@ $autoload['helper'] = array('core', 'date', 'time', 'html', 'form', 'url', 'emai
 |
 */
 
-$autoload['config'] = array('asset', 'facebook', 'amazon', 'errors', 'wwo');
+$autoload['config'] = array('asset', 'facebook', 'amazon', 'wwo');
 
 
 /*
