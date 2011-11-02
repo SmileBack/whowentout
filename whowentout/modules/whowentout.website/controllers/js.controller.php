@@ -73,12 +73,15 @@ class Js extends MY_Controller
 
     private function load_channels(&$response)
     {
+        /* @var $serverchannel ServerChannel */
+        $serverchannel = f()->fetch('serverchannel');
+
         $response['channels'] = array();
 
         if (logged_in()) {
             $current_user_channel = 'private-user_' . current_user()->id;
             $response['channels']['current_user'] = array(
-                'type' => serverchannel()->type(),
+                'type' => $serverchannel->type(),
                 'id' => $current_user_channel,
             );
         }
@@ -90,7 +93,7 @@ class Js extends MY_Controller
                 if ($party) {
                     $channel_id = 'private-party_' . $party->id;
                     $response['channels'][$channel_id] = array(
-                        'type' => serverchannel()->type(),
+                        'type' => $serverchannel->type(),
                         'id' => $channel_id,
                     );
                 }

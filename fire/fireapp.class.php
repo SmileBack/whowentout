@@ -3,14 +3,14 @@
 class FireApp
 {
 
+    public $window_settings = array();
+
     /**
      * @var ClassLoader
      */
     private $class_loader;
-
     private $plugins = array();
-
-    public $window_settings = array();
+    private $class_instances = array();
 
     function __construct($class_loader)
     {
@@ -20,11 +20,25 @@ class FireApp
     function load_window_settings()
     {
         $js = '<script type="text/javascript">'
-            . 'window.settings = ' . json_encode($this->window_settings) . ';'
-            . '</script>';
+              . 'window.settings = ' . json_encode($this->window_settings) . ';'
+              . '</script>';
         return $js;
     }
 
+    function create($key, $class_name, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL)
+    {
+        $instance = $this->class_loader()->init($class_name, $arg1, $arg2, $arg3);
+        $this->class_instances[$key] = $instance;
+        return $this->fetch($key);
+    }
+    
+    function fetch($key)
+    {
+        return isset($this->class_instances[$key])
+                ? $this->class_instances[$key]
+                : NULL;
+    }
+    
     function trigger($event_name, $event_data)
     {
         $this->load_plugins_if_not_loaded();
@@ -52,7 +66,7 @@ class FireApp
     {
         return $this->class_loader->get_index();
     }
-    
+
     function enable_autoload()
     {
         $this->class_loader->enable_autoload();
@@ -66,6 +80,7 @@ class FireApp
     }
 
     private $plugins_loaded = FALSE;
+
     private function load_plugins_if_not_loaded()
     {
         if ($this->plugins_loaded)

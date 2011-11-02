@@ -107,14 +107,16 @@ class PushEventsPlugin extends Plugin
     function broadcast($channel, $event_name, $event_data = array())
     {
         $ci =& get_instance();
-
         $event_data['channel'] = $channel;
         $ci->db->insert('events', array(
                                              'type' => $event_name,
                                              'channel' => $channel,
                                              'data' => serialize($event_data),
                                         ));
-        serverchannel()->trigger($channel, $event_name, $event_data);
+
+        /* @var $serverchannel ServerChannel */
+        $serverchannel = f()->fetch('serverchannel');
+        $serverchannel->trigger($channel, $event_name, $event_data);
     }
 
     private function user_channel($user_id)

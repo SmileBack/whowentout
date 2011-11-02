@@ -28,12 +28,6 @@ class Checkin extends MY_Controller
 
             $response['party'] = $party->to_array();
 
-            $channel_id = 'party_' . $party->id;
-            $response['channels'][$channel_id] = array(
-                'type' => serverchannel()->type(),
-                'id' => $channel_id,
-            );
-
             $this->json($response);
         }
         else {

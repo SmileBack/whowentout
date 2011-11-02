@@ -53,7 +53,7 @@ $autoload['packages'] = array(APPPATH.'third_party');
 */
 
 $autoload['libraries'] = array('database', 'session', 'response', 'option', 'asset', 'flag',
-                               'serverchannel', 'notification', 'jsaction');
+                               'notification', 'jsaction');
 
 /*
 | -------------------------------------------------------------------

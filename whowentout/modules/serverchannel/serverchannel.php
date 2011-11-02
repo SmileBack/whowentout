@@ -1,12 +1,11 @@
 <?php
 
-class ServerChannel extends Component
+class ServerChannel extends FireComponent
 {
-    
+
     function __construct($config)
     {
         parent::__construct($config);
-        $this->ci->load->helper('serverchannel');
     }
 
     function type()
@@ -28,5 +27,5 @@ class ServerChannel extends Component
     {
         return $this->driver()->url($channel);
     }
-    
+
 }
