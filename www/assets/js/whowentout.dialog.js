@@ -21,7 +21,8 @@ WhoWentOut.Component.extend('WhoWentOut.Dialog', {
             url: null,
             cls: 'whowentout_dialog',
             onload: function() {},
-            data: {}
+            data: {},
+            actions: {}
         };
 
         var options = $.extend({}, defaults, options);
@@ -36,6 +37,8 @@ WhoWentOut.Component.extend('WhoWentOut.Dialog', {
             dialog.message(options.body);
             options.onload();
         }
+
+        dialog.setActions(options.actions);
 
         dialog.showDialog(options.cls, options.data);
     }

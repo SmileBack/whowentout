@@ -2,7 +2,8 @@
 <?php $party_group_name = 'party_id_' . $party_group->get_date()->format('Ymd'); ?>
 <?php $checkin_engine = new CheckinEngine(); ?>
 <?php $phase = $party_group->get_phase(); ?>
-<div class="party_group <?= 'party_group_' . $party_group->get_date()->format('Ymd') ?> infobox">
+<div class="party_group <?= 'party_group_' . $party_group->get_date()->format('Ymd') ?> <?= $phase ?>"
+     data-phase="<?= $phase ?>">
 
     <h2>
         <?= $party_group->get_date()->format('l, M. jS') ?>

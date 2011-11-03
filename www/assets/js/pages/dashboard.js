@@ -18,17 +18,32 @@ jq(function($) {
             data: {party_id: party_id}
         });
     }
-    
-    $('.party_group input:radio').entwine({
-        onchange: function() {
-            var partyId = this.val();
-            checkin_to_party(partyId);
+
+    $('.party_group label, .party_group input:radio').entwine({
+        onclick: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            var radio = this.is('input:radio') ? this : this.find('input:radio');
+            
+            WhoWentOut.Dialog.Show({
+                title: 'Are you sure?',
+                body: 'Are you sure you want to do this?',
+                buttons: 'yesno',
+                actions: {
+                    y: function() {
+                        checkin_to_party( radio.val() );
+                    }
+                }
+            });
         }
     });
 
-    $('.party_group input:radio:disabled').entwine({
-        onclick: function() {
-            alert('disabled');
+    $('.party_group input:radio').entwine({
+        onchange: function() {
+            alert('checkin to party');
+            var partyId = this.val();
+            checkin_to_party(partyId);
         }
     });
 

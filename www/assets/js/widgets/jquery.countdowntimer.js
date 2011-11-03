@@ -33,7 +33,6 @@
 
     $('.time_counter').entwine({
         onmatch: function() {
-            console.log('time_counter :: onmatch');
             this._super();
 
             var self = this;
@@ -43,13 +42,15 @@
             }
 
             var interval = setInterval(update, 1000);
-            this.data('interval', interval);
+            this.attr('data-interval', interval);
+
+            setTimeout(function() {
+                self.updateTimer(true);
+            }, 200);
         },
         onunmatch: function() {
             this._super();
-            console.log('time_counter :: onUNmatch');
-
-            var interval = $(this).data('interval');
+            var interval = parseInt( this.attr('data-interval') );
             clearInterval(interval);
         },
         targetTime: function() {
@@ -62,43 +63,69 @@
         getCurrentTime: function() {
             return new Date();
         },
-        updateTimer: function() {
+        updateTimer: function(instant) {
             if (this.targetTime() == null)
                 return;
 
             var timeLeft = this.getCurrentTime().timeUntil(this.targetTime());
-            
+
             if (!timeLeft.isNegative())
-                $('.time_counter').flipTo(timeLeft);
+                $('.time_counter').flipTo(timeLeft, instant);
         },
-        flipTo: function(timeInterval) {
-            this.find('.days').flipTo(timeInterval.get('d'));
-            this.find('.hours').flipTo(timeInterval.get('h'));
-            this.find('.minutes').flipTo(timeInterval.get('m'));
-            this.find('.seconds').flipTo(timeInterval.get('s'));
+        flipTo: function(timeInterval, instant) {
+            this.find('.days').flipTo(timeInterval.get('d'), instant);
+            this.find('.hours').flipTo(timeInterval.get('h'), instant);
+            this.find('.minutes').flipTo(timeInterval.get('m'), instant);
+            this.find('.seconds').flipTo(timeInterval.get('s'), instant);
         }
     });
 
     $('.counter').entwine({
         onmatch: function() {
-            console.log('.counter || onmatch');
             this._super();
             for (var i = 0; i < this.numDigits(); i++) {
                 this.append('<div class="digit"/>');
             }
+            $(document).trigger('DOMMaybeChanged');
         },
         onunmatch: function() {
-            console.log('.counter || onUNmatch');
             this._super();
         },
-        flipTo: function(number) {
+        flipTo: function(number, instant) {
             var number = pad(number, this.numDigits());
             var digit;
             for (var i = 0; i < this.numDigits(); i++) {
-                var digitEl = this.find('.digit:eq(' + i + ')');
+                var digitEl = this._getDigitEl(i);
                 digit = parseInt(number.substring(i, i + 1));
-                digitEl.flipTo(digit);
+                digitEl.flipTo(digit, instant);
             }
+        },
+        val: function(v) {
+            var numDigits = this.numDigits();
+            if (v === undefined) {
+                var value = 0;
+                this.eachDigit(function(index, place) {
+                    value += Math.pow(10, place) * this.val();
+                });
+                return value;
+            }
+            else {
+                var number = pad(v, this.numDigits());
+                this.eachDigit(function(index) {
+                    var digitValue = parseInt(number.substring(index, index + 1));
+                    this.val(digitValue);
+                });
+            }
+        },
+        eachDigit: function(fn) {
+            var place, numDigits = this.numDigits();
+            for (var i = 0; i < numDigits; i++) {
+                place = numDigits - i - 1;
+                fn.call(this._getDigitEl(i), i, place);
+            }
+        },
+        _getDigitEl: function(index) {
+            return this.find('.digit:eq(' + index + ')');
         },
         numDigits: function() {
             return parseInt(this.attr('data-length'));
@@ -111,7 +138,7 @@
 
         var dfd = $.Deferred();
         var n = 0;
-        var startDigit = $(el).getDigit();
+        var startDigit = $(el).val();
 
         if (startDigit == endDigit) {
             dfd.resolve();
@@ -124,7 +151,7 @@
 
             if (n == 6) {
                 clearInterval(id);
-                $(el).setDigit(endDigit);
+                $(el).val(endDigit);
                 dfd.resolve();
             }
         }, 75);
@@ -133,7 +160,6 @@
 
     $('.digit').entwine({
         onmatch: function() {
-            console.log('.digit :: onmatch');
             this.css({
                 width: frameWidth + 'px',
                 height: (topFrameHeight + bottomFrameHeight) + 'px'
@@ -141,43 +167,47 @@
 
             this.append('<div class="top"/>');
             this.append('<div class="bottom"/>');
+            $(document).trigger('DOMMaybeChanged');
 
             var queue = new WhoWentOut.Queue();
             this.data('queue', queue);
 
-            this.setDigit(0);
+            this.val(0);
 
             this._super();
         },
         onunmatch: function() {
             this._super();
-            
-            console.log('.digit :: onUNmatch');
-            console.log(this);
-            console.log($(this).queue());
-            $(this).queue().clear();
-            console.log('.digit :: queue clear');
-            $(this).removeData('queue');
-            console.log('.digit :: removed data queue');
+
+            var queue = this.queue();
+            queue.clear();
+            this.removeData('queue');
         },
         queue: function() {
             return this.data('queue');
         },
-        flipTo: function(endDigit) {
-            this.queue().add(FlipToTask, {
-                el: this,
-                endDigit: endDigit
-            });
-            while (this.queue().count() > 2)
-                this.queue().drop();
+        flipTo: function(endDigit, instant) {
+            if (instant) {
+                this.val(endDigit);
+            }
+            else {
+                this.queue().add(FlipToTask, {
+                    el: this,
+                    endDigit: endDigit
+                });
+                while (this.queue().count() > 2)
+                    this.queue().drop();
+            }
         },
-        getDigit: function() {
-            return this.data('val') || 0;
-        },
-        setDigit: function(d) {
-            this.topFrame().setDigitFrame(d);
-            this.bottomFrame().setDigitFrame(d);
-            this.data('val', d);
+        val: function(v) {
+            if (v === undefined) {
+                return this.data('val') || 0;
+            }
+            else {
+                this.topFrame().setDigitFrame(v);
+                this.bottomFrame().setDigitFrame(v);
+                this.data('val', v);
+            }
         },
         setTransitionFrame: function(startDigit, endDigit, frame) {
             if (frame < 3) {

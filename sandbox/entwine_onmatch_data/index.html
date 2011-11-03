@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>
+
+    </title>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="jquery.entwine-dist.js"></script>
+    <script type="text/javascript">
+
+        $('.test').entwine({
+            onmatch: function() {
+                console.log('.test :: onmatch');
+                this.append('<div class="test_child"/>');
+            },
+            onunmatch: function() {
+            }
+        });
+
+        $('.test_child').entwine({
+            onmatch: function() {
+                console.log('.test_child :: onmatch');
+            },
+            onunmatch: function() {
+            }
+        });
+
+        window.runTest = function() {
+            $('body').append('<div class="test"/>');
+        }
+
+    </script>
+</head>
+<body>
+
+<h1>
+    <a href="#runTest" onclick="runTest()">Run Test</a>
+</h1>
+
+</body>
+</html>

@@ -162,8 +162,28 @@ $('.dialog').entwine({
         this.fadeIn(300);
     },
     hideDialog: function() {
+        var self = this;
         $.dialog.mask().fadeOut(300);
         this.fadeOut(300);
+        this.clearActions();
+    },
+
+    getActions: function() {
+        return this.data('dialogActions') || {};
+    },
+    setActions: function(actions) {
+        actions = actions || {};
+        this.data('dialogActions', actions);
+    },
+    clearActions: function() {
+        this.setActions({});
+    },
+    runAction: function(actionName) {
+        var actions = this.getActions(actionName);
+        var actionCallback = actions[actionName] || function() {};
+        var dialogData = this.data('dialog_data');
+
+        actionCallback.call(this, dialogData);
     }
 });
 
@@ -171,10 +191,11 @@ $('.dialog .button').entwine({
     onclick: function(e) {
         e.preventDefault();
 
-        var d = this.closest('.dialog');
-        var data = d.data('dialog_data');
-        d.trigger('button_click', [this, data]);
-
-        d.hideDialog();
+        var dialog = this.closest('.dialog');
+        dialog.runAction(this.key());
+        dialog.hideDialog();
+    },
+    key: function() {
+        return this.attr('data-key');
     }
 });

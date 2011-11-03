@@ -1433,6 +1433,7 @@ var console;
 	 * won't work.
 	 */
 	$(document).bind('DOMMaybeChanged', function(){
+        console.log(':: dom maybe changed ::');
 		// For every namespace
 		for (var k in $.entwine.namespaces) {
 			// That has constructors or destructors

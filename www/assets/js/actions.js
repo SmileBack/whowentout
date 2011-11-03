@@ -13,8 +13,13 @@ Actions = {
         setTimeout(removeClass, duration);
     },
     ReplaceHtml: function(selector, html) {
+        console.log('before replace');
+        console.log($(selector).find('.time_counter').data());
         var html = $(html);
-        $(selector).replaceWith(html);
+        var el = $(selector).replaceWithDetached(html);
+
+        console.log('after replace');
+        console.log($(selector).find('.time_counter').data());
     },
     Alert: function(message) {
         alert(message);

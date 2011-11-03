@@ -132,7 +132,11 @@ $.when(app.load()).then(function() {
                 body: message,
                 buttons: 'yesno',
                 cls: 'confirm_smile',
-                data: form
+                actions: {
+                    y: function() {
+                        form.submit();
+                    }
+                }
             });
         }
         else {
@@ -145,12 +149,6 @@ $.when(app.load()).then(function() {
             });
         }
 
-    });
-
-    $('.confirm_smile.dialog').live('button_click', function(e, button, form) {
-        if (button.hasClass('y')) {
-            form.submit();
-        }
     });
 
     $('.user.can_chat img, .user.can_chat .full_name, .user.can_chat .click_to_chat').entwine({
