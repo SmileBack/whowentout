@@ -3,7 +3,8 @@
 <?php $checkin_engine = new CheckinEngine(); ?>
 <?php $phase = $party_group->get_phase(); ?>
 <div class="party_group <?= 'party_group_' . $party_group->get_date()->format('Ymd') ?> <?= $phase ?>"
-     data-phase="<?= $phase ?>">
+     data-phase="<?= $phase ?>"
+     data-selected-party-id="<?= $selected_party ? $selected_party->id : '' ?>">
 
     <h2>
         <?= $party_group->get_date()->format('l, M. jS') ?>

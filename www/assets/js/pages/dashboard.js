@@ -19,23 +19,57 @@ jq(function($) {
         });
     }
 
+    $('.party_group').entwine({
+        phase: function() {
+            return this.attr('data-phase');
+        },
+        selectedPartyID: function() {
+            var attr = this.attr('data-selected-party-id');
+            if (attr == '')
+                return null;
+            else
+                return parseInt(attr);
+        }
+    });
+
+    var PartyGroupPhase = {
+        EarlyCheckin: 'EarlyCheckin',
+        Checkin: 'Checkin',
+        CheckinsClosed: 'CheckinsClosed'
+    };
+
     $('.party_group label, .party_group input:radio').entwine({
         onclick: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
+            var partyGroup = this.closest('.party_group');
             var radio = this.is('input:radio') ? this : this.find('input:radio');
-            
-            WhoWentOut.Dialog.Show({
-                title: 'Are you sure?',
-                body: 'Are you sure you want to do this?',
-                buttons: 'yesno',
-                actions: {
-                    y: function() {
-                        checkin_to_party( radio.val() );
+            var phase = partyGroup.phase();
+            var selectedPartyID = partyGroup.selectedPartyID();
+
+            if (phase == PartyGroupPhase.EarlyCheckin) {
+                checkin_to_party(radio.val());
+            }
+            else if (phase == PartyGroupPhase.Checkin && !selectedPartyID) {
+                WhoWentOut.Dialog.Show({
+                    title: 'Are you sure?',
+                    body: "Are you sure? You can't change once you've selected.",
+                    buttons: 'yesno',
+                    actions: {
+                        y: function() {
+                            checkin_to_party(radio.val());
+                        }
                     }
-                }
-            });
+                });
+            }
+            else if (phase == PartyGroupPhase.Checkin && selectedPartyID) {
+                WhoWentOut.Dialog.Show({
+                    title: "Can't Change",
+                    body: "You can't change where you check-in to during the check-in phase.",
+                    buttons: 'ok'
+                });
+            }
         }
     });
 

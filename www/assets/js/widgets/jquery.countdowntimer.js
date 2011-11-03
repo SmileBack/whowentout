@@ -22,7 +22,7 @@
 //    var topFrameImage = '/assets/images/digits_top.png';
 //    var bottomFrameImage = '/assets/images/digits_bottom.png';
 
-    var frameWidth = 26.5;
+    var frameWidth = 27;
     var topFrameHeight = 19;
     var bottomFrameHeight = 19;
     var topFrameImage = '/assets/images/digits_top_small.png';
