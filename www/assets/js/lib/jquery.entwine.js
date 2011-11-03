@@ -1,5 +1,3 @@
-//= require lib/jquery.js
-
 /* jQuery.Entwine - Copyright 2009-2011 Hamish Friedlander and SilverStripe. Version . */
 
 /* vendor/jquery.selector/jquery.class.js */
@@ -13,6 +11,8 @@
  * 
  * new-less Constructor: new Foo(arg) <-same as-> Foo(arg)
  */  	
+
+//= require lib/jquery.js
 
 var Base;
 
@@ -1673,4 +1673,3 @@ catch (e) {
 
 })(jQuery);
 ;
-

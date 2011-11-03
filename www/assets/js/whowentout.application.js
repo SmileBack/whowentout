@@ -14,6 +14,8 @@
 
 //= require whowentout.dialog.js
 
+//= require widgets/jquery.countdowntimer.js
+
 //= require lib/soundmanager2.config.js
 //= require lib/getflashplayerversion.js
 

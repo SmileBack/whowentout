@@ -28,14 +28,12 @@
 
     <?php if (ENVIRONMENT == 'development'): ?>
     <script type="text/javascript">
-//        less.env = "development";
-//        less.watch();
+        less.env = "development";
+        less.watch();
     </script>
     <?php endif; ?>
     
     <?= js_asset('lib/modernizr.js') ?>
-
-    <?= js_asset('asset.js') ?>
 
     <?= r('google_analytics') ?>
 </head>

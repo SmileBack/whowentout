@@ -326,6 +326,7 @@ header {
      .party_group_right {
        float: left;
        height: 150px;
+       position: relative;
      }
    }
    border-color: #444;
@@ -665,4 +666,24 @@ form .hometown {
     clear: left;
     text-align: center;
     margin-top: 10px;
+}
+
+.time_counter {
+    text-align: center;
+    .wrap {
+        float: left;
+        margin: 0px 10px;
+    }
+    .digit {
+        float: left;
+    }
+}
+
+.party_group .time_counter {
+  position: absolute;
+  background-color: white;
+  .rounded(50px);
+  top: 25px;
+  left: 60px;
+  padding: 15px 10px 10px 10px;
 }

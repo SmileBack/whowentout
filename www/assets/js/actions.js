@@ -13,6 +13,7 @@ Actions = {
         setTimeout(removeClass, duration);
     },
     ReplaceHtml: function(selector, html) {
+        var html = $(html);
         $(selector).replaceWith(html);
     },
     Alert: function(message) {

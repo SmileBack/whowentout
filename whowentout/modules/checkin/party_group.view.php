@@ -18,10 +18,10 @@
 
                         <?php
                         $radio = array(
-                            'name' => $party_group_name,
-                            'value' => $party->id,
-                            'checked' => $selected_party == $party,
-                        );
+                        'name' => $party_group_name,
+                        'value' => $party->id,
+                        'checked' => $selected_party == $party,
+                    );
 
                         if ($phase == PartyGroupPhase::CheckinsClosed) {
                             $radio['disabled'] = 'disabled';
@@ -47,10 +47,13 @@
 
             <?php if ($selected_party): ?>
 
-                <?= r('recent_attendees', array('party' => NULL, 'count' => 4)) ?>
+                <?=
+                r('time_counter', array(
+                                       'target' => $party_group->get_checkin_phase_start()->getTimestamp(),
+                                  ))
+                ?>
 
-                <div class="time_until" data-time="<?= $party_group->get_checkin_phase_start()->getTimestamp() ?>">
-                </div>
+                <?= r('recent_attendees', array('party' => NULL, 'count' => 4)) ?>
 
                 <?php else: ?>
                 <div class="large_message">

@@ -13,8 +13,9 @@
         var serverTime = new Date(serverUnixTs * 1000);
         var browserTime = new Date();
         var delta = (serverTime - browserTime);
-        this.timeDelta = delta;
+        timeDelta = delta;
     }
+    calculate_time_delta();
 
     window.time_delta = function() {
         return timeDelta;
@@ -88,6 +89,12 @@ $('.current_time').entwine({
     });
 
 })();
+
+$('.time_counter').entwine({
+    getCurrentTime: function() {
+        return current_time();
+    }
+});
 
 jQuery(function($) {
     //this method prevents browsers with an incorrect time form providing incorrect results

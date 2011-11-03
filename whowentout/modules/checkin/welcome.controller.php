@@ -5,6 +5,7 @@ class Welcome extends MY_Controller
 
     function index()
     {
+        print krumo::dump(college()->get_time());
     }
 
     function index3()
