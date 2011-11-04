@@ -66,7 +66,7 @@ jq(function($) {
             else if (phase == PartyGroupPhase.Checkin && selectedPartyID) {
                 WhoWentOut.Dialog.Show({
                     title: "Can't Change",
-                    body: "You can't change where you check-in to during the check-in phase.",
+                    body: "You can't change your selection after the party.",
                     buttons: 'ok'
                 });
             }
@@ -78,6 +78,24 @@ jq(function($) {
             alert('checkin to party');
             var partyId = this.val();
             checkin_to_party(partyId);
+        }
+    });
+
+    $('.go_to_party_gallery :submit').entwine({
+        onclick: function(e) {
+            e.preventDefault();
+
+            var partyGroup = this.closest('.party_group');
+            if (partyGroup.phase() == PartyGroupPhase.EarlyCheckin) {
+                WhoWentOut.Dialog.Show({
+                    title: "Hang In There",
+                    body: "The party gallery will open after the party",
+                    buttons: 'ok'
+                });
+            }
+            else {
+                this.closest('form').submit();
+            }
         }
     });
 

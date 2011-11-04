@@ -241,7 +241,7 @@ header {
 .recent_attendees {
     .horizontal_gallery;
     > li {
-        margin: 8px;
+        margin: 0;
         padding: 0;
     }
     a {
@@ -305,7 +305,7 @@ header {
 .parties_attended_view {
     float: left;
     clear: both;
-  
+
 }
 
 .party_group {
@@ -314,19 +314,53 @@ header {
      background-color: #444;
      padding: 6px 8px;
    }
+   .go_to_party_gallery {
+     float: left;
+     margin-left: 10px;
+     input {
+       .submit_button;
+       .visible_button;
+     }
+   }
    .party_group_body {
      height: 150px;
      padding: 20px;
      overflow: hidden;
      .party_group_left {
        float: left;
-       width: 150px;
+       width: 20%;
        height: 150px;
+       border-right: 1px solid @border_color;
+     }
+     .large_message {
+        clear: both;
+        ol {
+            margin-left: 50px;
+        }
+      }
+     .selected_party {
+       text-align: center;
+       overflow: hidden;
+       width: 150px;
+       border: 1px solid #444;
+       float: left;
      }
      .party_group_right {
        float: left;
+       width: 75%;
+       margin-left: 5%;
        height: 150px;
        position: relative;
+       .recent_attendees {
+         float: left;
+       }
+       .party_notices {
+         float: left;
+         width: 125px;
+         .smiles_title { padding: 0; }
+         .whats_a_smile { display: none; }
+         .smile_sender { display: none; }
+       }
      }
    }
    border-color: #444;
@@ -334,7 +368,13 @@ header {
 }
 
 .large_message {
-  font-size: 1.5em;
+  font-size: 20px;
+  ol { font-size: 18px; }
+}
+
+.large_message.arrow_left {
+  padding-left: 50px;
+  background: url(../images/arrow_left.png) no-repeat center left;
 }
 
 .party_invite_section {
@@ -415,30 +455,30 @@ table td, table th {
 
 .party_notices {
     float: left;
+    width: 205px;
     .smiles_title {
         text-align: center;
         background-color: #7D1729;
         color: white;
-        padding: 4px;
         margin-bottom: 0px !important;
         font-size: 15px;
         font-weight: bold;
+        width: 100%;
+        border: 1px solid #7d1729;
     }
-    h3 { text-align: center; margin-bottom: 8px; }
+    h3 { text-align: center; }
     .smiles_left {
         .infobox;
-        padding: 10px;
-        width: 205px;
         float: left;
         text-align: center;
+        width: 100%;
     }
     .smiles_received {
         .infobox;
-        padding: 10px;
         float: left;
         clear: left;
-        width: 205px;
         margin-bottom: 10px;
+        width: 100%;
     }
 }
 
@@ -682,8 +722,9 @@ form .hometown {
 .party_group .time_counter {
   position: absolute;
   background-color: white;
-  .rounded(10px);
-  top: 25px;
+  .rounded(8px);
+  top: 50px;
   left: 75px;
-  padding: 10px 0;
+  padding: 8px 0 3px 0;
 }
+

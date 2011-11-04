@@ -20,10 +20,10 @@
 
                         <?php
                         $radio = array(
-                        'name' => $party_group_name,
-                        'value' => $party->id,
-                        'checked' => $selected_party == $party,
-                    );
+                            'name' => $party_group_name,
+                            'value' => $party->id,
+                            'checked' => $selected_party == $party,
+                        );
 
                         if ($phase == PartyGroupPhase::CheckinsClosed) {
                             $radio['disabled'] = 'disabled';
@@ -45,6 +45,20 @@
         </div>
 
         <div class="party_group_right">
+
+
+            <?php if ($selected_party): ?>
+
+                <div class="selected_party" style="width: 150px;" class="infobox">
+                    <?= $selected_party->place->name ?>
+                </div>
+
+                <?= form_open("party/{$selected_party->id}", array('class' => 'go_to_party_gallery')); ?>
+                    <input type="submit" value="Go To Party Gallery" />
+                <?= form_close() ?>
+            
+            <?php endif; ?>
+
             <?php if ($phase == PartyGroupPhase::EarlyCheckin): ?>
 
             <?php if ($selected_party): ?>
@@ -58,8 +72,12 @@
                 <?= r('recent_attendees', array('party' => NULL, 'count' => 4)) ?>
 
                 <?php else: ?>
-                <div class="large_message">
-                    Select what party you will be going to.
+                <div class="large_message arrow_left">
+                    Select what party you will attend:
+                    <ol>
+                        <li>See how many people are going to each party</li>
+                        <li>Access the party gallery</li>
+                    </ol>
                 </div>
                 <?php endif; ?>
 
@@ -68,8 +86,12 @@
             <?php if ($selected_party): ?>
                 <?= r('recent_attendees', array('party' => $selected_party, 'count' => 4)) ?>
                 <?php else: ?>
-                <div class="large_message">
-                    Select what party you went to.
+                <div class="large_message arrow_left">
+                    Select what party you attended:
+                    <ol>
+                        <li>See how many people went to each party</li>
+                        <li>Access the party gallery</li>
+                    </ol>
                 </div>
                 <?php endif; ?>
 
@@ -85,9 +107,14 @@
 
             <?php endif; ?>
 
-            <div>
-                <?= $phase ?>
-            </div>
+            <?php if ($selected_party): ?>
+            <?= r('party_notices', array(
+                        'user' => $user,
+                        'party' => $selected_party,
+                        'smile_engine' => new SmileEngine(),
+                   )) ?>
+            <?php endif; ?>
+            
         </div>
 
     </div>

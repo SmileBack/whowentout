@@ -8,5 +8,3 @@ r('section', array(
                                                   ))
              ))
 ?>
-
-
