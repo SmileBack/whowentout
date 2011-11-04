@@ -53,11 +53,12 @@ jq(function($) {
             }
             else if (phase == PartyGroupPhase.Checkin && !selectedPartyID) {
                 WhoWentOut.Dialog.Show({
-                    title: 'Are you sure?',
-                    body: "Are you sure? You can't change once you've selected.",
-                    buttons: 'yesno',
+                    title: 'Confirm Check-in',
+                    body: "<p>You are about to check in to <b>" + radio.attr('data-party-name') + "</b>.</p>"
+                        + "<p>You can only check in to one party per night.</p>",
+                    buttons: 'confirmcancel',
                     actions: {
-                        y: function() {
+                        confirm: function() {
                             checkin_to_party(radio.val());
                         }
                     }

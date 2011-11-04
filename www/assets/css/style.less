@@ -24,6 +24,20 @@
     color: @bar_text_color;
 }
 
+h1 > span {
+    text-align: center;
+    background-color: white;
+    display: block;
+    float: left;
+    width: 200px;
+    margin: 0 auto -11px auto;
+}
+
+h1 > .divider {
+    width: 100%;
+    border-bottom: 1px solid #444;
+}
+
 .infobox {
     background-color: #f7f7f7;
     border: 1px solid #bfbfbf;
@@ -103,11 +117,15 @@ section {
     color: @dialog_text_color;
     padding: 5px 10px;
   }
-  .dialog_buttons a.n {
+  .dialog_buttons a.n, .dialog_buttons a.cancel {
       background-color: #eee;
       color: #444;
       border:  1px solid #999999;
   }
+}
+
+.confirm_smile.dialog {
+  width: 400px;
 }
 
 .smile_help.dialog {
@@ -181,8 +199,12 @@ body {
     float: left;
     overflow: hidden;
     width: 14%;
-    //border:  1px solid black;
   }
+}
+
+.parties_attended {
+    width: 94%;
+    margin-left: 3%;
 }
 
 input[type=text][disabled] {
@@ -241,7 +263,7 @@ header {
 .recent_attendees {
     .horizontal_gallery;
     > li {
-        margin: 0;
+        margin: 0 8px 0 0;
         padding: 0;
     }
     a {
@@ -302,66 +324,91 @@ header {
     padding: 4px 0px;
 }
 
-.parties_attended_view {
-    float: left;
-    clear: both;
-
-}
-
 .party_group {
-   h2 {
+   @height: 215px;
+   @left_width: 150px;
+   > h2 {
      color: white;
-     background-color: #444;
-     padding: 6px 8px;
-   }
-   .go_to_party_gallery {
+     background-color: @primary_color;
      float: left;
-     margin-left: 10px;
-     input {
-       .submit_button;
-       .visible_button;
-     }
+     width: @left_width + 14px;
+     line-height: 26px;
+     font-size: 14px;
+     font-weight: bold;
+     border-top-left-radius: 4px;
+     border-top-right-radius: 4px;
+     text-align: center;
    }
    .party_group_body {
-     height: 150px;
-     padding: 20px;
+     border: 1px solid #444;
+     height: @height;
      overflow: hidden;
+     clear: both;
+     position: relative;
      .party_group_left {
-       float: left;
-       width: 20%;
-       height: 150px;
-       border-right: 1px solid @border_color;
+       position: absolute;
+       top: 0;
+       left: 0;
+       bottom: 0;
+       margin: 0 12px;
+       width: @left_width;
+       border-right: 1px solid #444;
+       h3 { margin-top: 12px; margin-bottom: 8px; }
      }
+     .party_group_right {
+       position: absolute;
+       top: 0;
+       right: 0;
+       bottom: 0;
+       left: @left_width + 20px;
+       margin: 0 12px;
+       .recent_attendees {
+         float: left;
+         margin-top: 26px;
+       }
+       .party_notices {
+         float: right;
+         width: 125px;
+         margin:  26px 10px 0 0;
+         .smiles_title { padding: 0; }
+         .whats_a_smile { display: none; }
+         .smile_sender { display: none; }
+       }
+     }
+     .selected_party {
+       float: left;
+       .notice_style;
+       margin: 16px 0 0 0;
+       font-weight: bold;
+       font-size: 16px;
+       text-align: center;
+       overflow: hidden;
+       padding: 4px;
+       border-color: #b8860b;
+     }
+     .go_to_party_gallery {
+       float: left;
+       margin: 15px 0 0 8px;
+       input {
+         .submit_button;
+         .visible_button;
+         padding: 7px;
+       }
+     }
+     .time_counter {
+        position: absolute;
+        background-color: white;
+        top: 100px;
+        left: 50px;
+        border: 1px solid #444;
+        padding: 8px 0 3px 0;
+      }
      .large_message {
         clear: both;
         ol {
             margin-left: 50px;
         }
       }
-     .selected_party {
-       text-align: center;
-       overflow: hidden;
-       width: 150px;
-       border: 1px solid #444;
-       float: left;
-     }
-     .party_group_right {
-       float: left;
-       width: 75%;
-       margin-left: 5%;
-       height: 150px;
-       position: relative;
-       .recent_attendees {
-         float: left;
-       }
-       .party_notices {
-         float: left;
-         width: 125px;
-         .smiles_title { padding: 0; }
-         .whats_a_smile { display: none; }
-         .smile_sender { display: none; }
-       }
-     }
    }
    border-color: #444;
    margin-bottom: 20px;
@@ -466,12 +513,15 @@ table td, table th {
         width: 100%;
         border: 1px solid #7d1729;
     }
-    h3 { text-align: center; }
+    h3 { text-align: center; margin: 2px; }
     .smiles_left {
         .infobox;
         float: left;
         text-align: center;
         width: 100%;
+        > div {
+          margin: 2px;
+        }
     }
     .smiles_received {
         .infobox;
@@ -479,6 +529,12 @@ table td, table th {
         clear: left;
         margin-bottom: 10px;
         width: 100%;
+        .smiles_received_count {
+          .notice_style;
+          width: 8px;
+          line-height: 10px;
+          margin: 3px auto 3px auto;
+        }
     }
 }
 
@@ -712,19 +768,9 @@ form .hometown {
     text-align: center;
     .wrap {
         float: left;
-        margin: 0px 10px;
+        margin: 0px 8px;
     }
     .digit {
         float: left;
     }
 }
-
-.party_group .time_counter {
-  position: absolute;
-  background-color: white;
-  top: 50px;
-  left: 30px;
-  border: 1px solid #444;
-  padding: 8px 0 3px 0;
-}
-

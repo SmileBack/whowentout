@@ -65,6 +65,10 @@ $.dialog = {
             {key: 'y', title: 'Yes'},
             {key: 'n', title: 'No'}
         ],
+        confirmcancel: [
+            {key: 'confirm', title: 'Confirm'},
+            {key: 'cancel', title: 'Cancel'}
+        ],
         ok: [
             {key: 'ok', title: 'OK'}
         ],

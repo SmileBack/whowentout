@@ -3,7 +3,7 @@
 
     <div class="smiles_left">
         <?php $smiles_left = $smile_engine->get_num_smiles_left_to_give($user, $party); ?>
-        <h3>Left to Give (<?= $smiles_left ?>)</h3>
+        <h3>Left to Give</h3>
 
         <div>
             <?php if ($smiles_left == 0): ?>
@@ -18,7 +18,11 @@
 
     <div class="smiles_received">
     <?php $smiles_received = $smile_engine->get_smiles_received_for_user($user, $party); ?>
-    <h3>Received (<?= count($smiles_received) ?>)</h3>
+    <h3>Received</h3>
+        
+    <div class="smiles_received_count">
+        <?= count($smiles_received) ?>
+    </div>
 
     <?php foreach ($smiles_received AS $smile): ?>
             

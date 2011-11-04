@@ -6,13 +6,22 @@
      data-phase="<?= $phase ?>"
      data-selected-party-id="<?= $selected_party ? $selected_party->id : '' ?>">
 
+
     <h2>
         <?= $party_group->get_date()->format('l, M. jS') ?>
     </h2>
 
     <div class="party_group_body">
-
         <div class="party_group_left">
+            
+            <h3>
+            <?php if ($phase == PartyGroupPhase::EarlyCheckin): ?>
+                I'm Attending:
+            <?php else: ?>
+                I Attended:
+            <?php endif; ?>
+            </h3>
+
             <ul>
                 <?php foreach ($party_group->get_parties() as $party): ?>
                 <li>
@@ -20,10 +29,11 @@
 
                         <?php
                         $radio = array(
-                            'name' => $party_group_name,
-                            'value' => $party->id,
-                            'checked' => $selected_party == $party,
-                        );
+                        'name' => $party_group_name,
+                        'value' => $party->id,
+                        'checked' => $selected_party == $party,
+                        'data-party-name' => $party->place->name,
+                    );
 
                         if ($phase == PartyGroupPhase::CheckinsClosed) {
                             $radio['disabled'] = 'disabled';
@@ -49,14 +59,16 @@
 
             <?php if ($selected_party): ?>
 
-                <div class="selected_party" style="width: 150px;" class="infobox">
-                    <?= $selected_party->place->name ?>
-                </div>
+            <div class="selected_party" style="width: 150px;" class="infobox">
+                <?= $selected_party->place->name ?>
+            </div>
 
-                <?= form_open("party/{$selected_party->id}", array('class' => 'go_to_party_gallery')); ?>
-                    <input type="submit" value="Go To Party Gallery" />
-                <?= form_close() ?>
-            
+            <?=
+            form_open("party/{$selected_party->id}", array('class' => 'go_to_party_gallery'))
+            ; ?>
+            <input type="submit" value="Go To Party Gallery"/>
+            <?= form_close() ?>
+
             <?php endif; ?>
 
             <?php if ($phase == PartyGroupPhase::EarlyCheckin): ?>
@@ -108,13 +120,14 @@
             <?php endif; ?>
 
             <?php if ($selected_party): ?>
-            <?= r('party_notices', array(
-                        'user' => $user,
-                        'party' => $selected_party,
-                        'smile_engine' => new SmileEngine(),
-                   )) ?>
+            <?=
+            r('party_notices', array(
+                                    'user' => $user,
+                                    'party' => $selected_party,
+                                    'smile_engine' => new SmileEngine(),
+                               )) ?>
             <?php endif; ?>
-            
+
         </div>
 
     </div>

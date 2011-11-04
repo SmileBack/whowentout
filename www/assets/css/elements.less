@@ -132,10 +132,6 @@ form {
   -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
   -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
   box-shadow: inset 0px 1px 0px 0px #ffffff;
-  background-color: #ededed;
-
-  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
   background-color: #dfdfdf;
 
   border: 1px solid #8F8F8F;
@@ -146,8 +142,7 @@ form {
   text-shadow:1px 1px 0px #ffffff;
   font-size: 12px;
   &:hover {
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-    background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+      background-color: #ededed;
   }
   &:active {
     position: relative;
@@ -164,15 +159,16 @@ form {
 
 .visible_button {
     background: none;
-    background-color: #7d1729;
+    background-color: lighten(@primary_color, 10%);
     color: white;
     font-weight: bold;
     text-shadow: none;
     border: none;
-}
-
-.visible_button:hover {
-    background-color: #7d1729;
+    .rounded(2px);
+    .shadow(1px, 1px, 1px, 0px, #333);
+    &:hover {
+        background-color: lighten(@primary_color, 20%);
+    }
 }
 
 .notice_style {
