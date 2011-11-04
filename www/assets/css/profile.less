@@ -8,11 +8,13 @@
         border-left: 1px solid @border_color;
         padding-left: 35px;
     }
+    .my_pic.missing #crop_preview_frame {
+        display: none;
+    }
     #pic_options {
-        overflow: hidden;
         margin:  15px 0;
     }
-    #pic_options > div {
+    #pic_options > * {
         float: left;
         margin-right: 15px;
         #pic_use_facebook_input { cursor: auto; }

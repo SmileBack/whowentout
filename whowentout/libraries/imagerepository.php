@@ -136,6 +136,9 @@ class ImageRepository
 
     protected function refresh_normal($id)
     {
+        if (!$this->exists($id, 'source'))
+            return;
+
         $this->load_wide_image();
 
         $user = XUser::get($id);
@@ -148,6 +151,9 @@ class ImageRepository
 
     protected function refresh_thumb($id)
     {
+        if (!$this->exists($id, 'source'))
+            return;
+
         $this->load_wide_image();
         $user = XUser::get($id);
         $url = $this->url($id, 'source');

@@ -15,38 +15,41 @@ for ($k = 0; $k >= -5; $k--) {
     if ($party_group->get_phase() == PartyGroupPhase::EarlyCheckin)
         $upcoming_party_groups[] = $party_group;
     else if ($party_group->get_phase() == PartyGroupPhase::Checkin
-             || $party_group->get_selected_party($user))
+             || $party_group->get_selected_party($user)
+    )
         $past_party_groups[] = $party_group;
 }
 
 ?>
 
 <h1>
-    <span>
-        Upcoming Parties
-    </span>
     <div class="divider"></div>
+    <span>Upcoming Parties</span>
 </h1>
 
-<ul class="parties_attended">
+<ul class="parties_attended upcoming">
     <?php foreach ($upcoming_party_groups as $party_group): ?>
-        <li>
+    <li>
         <?= r('party_group', array(
-                               'party_group' => $party_group,
-                               'user' => $user,
+                                  'party_group' => $party_group,
+                                  'user' => $user,
                              )) ?>
-        </li>
+    </li>
     <?php endforeach; ?>
 </ul>
 
-<h1>Past Parties</h1>
-<ul class="parties_attended">
+<h1>
+    <div class="divider"></div>
+    <span>Past Parties</span>
+</h1>
+
+<ul class="parties_attended past">
     <?php foreach ($past_party_groups as $party_group): ?>
-        <li>
+    <li>
         <?= r('party_group', array(
-                               'party_group' => $party_group,
-                               'user' => $user,
+                                  'party_group' => $party_group,
+                                  'user' => $user,
                              )) ?>
-        </li>
+    </li>
     <?php endforeach; ?>
 </ul>

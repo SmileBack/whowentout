@@ -131,6 +131,9 @@ class XUser extends XObject
         if ($this->grad_year == '' || $this->grad_year == 0)
             $missing_info[] = 'grad_year';
 
+        if (!$this->has_image())
+            $missing_info[] = 'image';
+
         return $missing_info;
     }
 
@@ -394,10 +397,6 @@ class XUser extends XObject
 
         $friend_ids = $this->_friend_ids();
 
-        //foreach ($this->db()->select('id')->from('users')->where('college_id', $this->college->id)->get()->result() as $row) {
-        //    $friend_ids[] = $row->id;
-        //}
-
         if (empty($party_ids) || empty($friend_ids)) {
             return array();
         }
@@ -505,6 +504,9 @@ class XUser extends XObject
 
     function get_raw_pic_url()
     {
+        if (!$this->has_image())
+            return '/assets/images/empty_picture.png';
+        
         return $this->_get_image_path('source');
     }
 
@@ -515,6 +517,9 @@ class XUser extends XObject
 
     function get_pic_url()
     {
+        if (!$this->has_image())
+            return '/assets/images/empty_picture.png';
+
         return $this->_get_image_path('normal');
     }
 
@@ -525,6 +530,9 @@ class XUser extends XObject
 
     function get_thumb_url()
     {
+        if (!$this->has_image())
+            return '/assets/images/empty_picture.png';
+        
         return $this->_get_image_path('thumb');
     }
 
@@ -541,9 +549,9 @@ class XUser extends XObject
         return images()->get($this->id, $preset);
     }
 
-    function has_pic($preset)
+    function has_image()
     {
-        return images()->exists($this->id, $preset);
+        return images()->exists($this->id, 'source');
     }
 
     function is_friend_of($user)

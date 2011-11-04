@@ -38,8 +38,7 @@ function create_user($facebook_id, $data = array())
     $data['registration_time'] = college()->get_time()->formatMySqlTimestamp();
     $user = XUser::create($data);
     $user->update_facebook_data();
-    $user->refresh_image('facebook');
-
+    
     return $user;
 }
 

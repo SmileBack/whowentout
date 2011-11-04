@@ -10,7 +10,8 @@ class UseWebsitePermission
     const NEVER_EDITED_PROFILE = 'NEVER_EDITED_PROFILE';
     const GRAD_YEAR_MISSING = 'GRAD_YEAR_MISSING';
     const NETWORK_INFO_MISSING = 'NETWORK_INFO_MISSING';
-
+    const MISSING_IMAGE = 'MISSING_IMAGE';
+    
     function check(XUser $user)
     {
         $valid_genders = array('M', 'F');
@@ -31,6 +32,9 @@ class UseWebsitePermission
 
         if ($user->college != college())
             $this->add_reason(UseWebsitePermission::NETWORK_INFO_MISSING);
+
+        if (!$user->has_image())
+            $this->add_reason(UseWebsitePermission::MISSING_IMAGE);
 
         return empty($this->reasons);
     }

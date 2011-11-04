@@ -24,18 +24,24 @@
     color: @bar_text_color;
 }
 
+#page_content > h1 {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 97%;
+}
+
 h1 > span {
-    text-align: center;
+    text-align: left;
     background-color: white;
-    display: block;
-    float: left;
-    width: 200px;
-    margin: 0 auto -11px auto;
+    margin-left: 14px;
+    padding: 0 8px;
 }
 
 h1 > .divider {
     width: 100%;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #8C8C8C;
+    margin-bottom: -8px;
 }
 
 .infobox {
@@ -55,6 +61,10 @@ h1 > .divider {
 
 .active_link {
   color: #fff68f;
+}
+
+.friends_link {
+    display: none;
 }
 
 #dashboard_page .dashboard_link {
@@ -203,8 +213,10 @@ body {
 }
 
 .parties_attended {
+    clear: both;
     width: 94%;
     margin-left: 3%;
+    &.upcoming { margin-bottom: 50px; } 
 }
 
 input[type=text][disabled] {
@@ -411,7 +423,7 @@ header {
       }
    }
    border-color: #444;
-   margin-bottom: 20px;
+   margin-bottom: 25px;
 }
 
 .large_message {
