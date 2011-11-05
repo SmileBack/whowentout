@@ -12,6 +12,11 @@ $past_party_groups = array();
 
 for ($k = 0; $k >= -5; $k--) {
     $party_group = new PartyGroup(college()->get_clock(), $start_day->getPartyDay($k));
+    $has_parties = $party_group->has_parties();
+    
+    if (!$has_parties)
+        continue;
+    
     if ($party_group->get_phase() == PartyGroupPhase::EarlyCheckin)
         $upcoming_party_groups[] = $party_group;
     else if ($party_group->get_phase() == PartyGroupPhase::Checkin

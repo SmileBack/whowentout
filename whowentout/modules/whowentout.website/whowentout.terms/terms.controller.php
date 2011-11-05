@@ -26,6 +26,7 @@ class Terms extends MY_Controller
     {
         enforce_restrictions();
         
+        $this->flag->set('user', current_user()->id, 'has_seen_faq');
         $this->load_section_view('FAQ', 'faq');
     }
 

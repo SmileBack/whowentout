@@ -33,7 +33,7 @@ class PartyGroup
     function get_phase()
     {
         $current_time = $this->clock->get_time();
-        
+
         if ($current_time >= $this->get_checkin_phase_start() && $current_time < $this->get_checkin_phase_end())
             return PartyGroupPhase::Checkin;
         elseif ($current_time >= $this->get_checkin_phase_end())
@@ -60,7 +60,7 @@ class PartyGroup
     {
         return $this->date->getDay(+1);
     }
-    
+
     function get_checkin_phase_end()
     {
         return $this->date->getDay(+2);
@@ -81,6 +81,12 @@ class PartyGroup
                 ->from('parties')
                 ->where('date', $this->date->format('Y-m-d'));
         return XObject::load_objects('XParty', $query);
+    }
+
+    function has_parties()
+    {
+        $parties = $this->get_parties();
+        return !empty($parties);
     }
 
 }

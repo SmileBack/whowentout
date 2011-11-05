@@ -93,7 +93,7 @@
 
                 <?php else: ?>
                 <div class="large_message arrow_left">
-                    Select what party you will attend:
+                    Select the party you're going to so you can:
                     <ol>
                         <li>See how many people are going to each party</li>
                         <li>Access the party gallery</li>
@@ -107,7 +107,7 @@
                 <?= r('recent_attendees', array('party' => $selected_party, 'count' => 4)) ?>
                 <?php else: ?>
                 <div class="large_message arrow_left">
-                    Select what party you attended:
+                    Select the party you went to so you can:
                     <ol>
                         <li>See how many people went to each party</li>
                         <li>Access the party gallery</li>

@@ -22,6 +22,7 @@ r('section', array(
                                          )),
              )) ?>
 
+<?php if (FALSE): ?>
 <fieldset class="party_invite_section">
 
     <legend>
@@ -47,3 +48,4 @@ r('section', array(
     <?= form_close() ?>
 
 </fieldset>
+<?php endif; ?>
