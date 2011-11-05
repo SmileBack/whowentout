@@ -3,7 +3,7 @@
 class ShowLandingPagePlugin extends Plugin
 {
 
-    private $environments = array('whowentout');
+    private $environments = array();
 
     function show_landing()
     {
