@@ -52,6 +52,9 @@ class PartyGroup
             return PartyGroupPhase::Attending;
         elseif ($selected_party && $phase == PartyGroupPhase::Checkin)
             return PartyGroupPhase::Attended;
+
+        elseif ($selected_party && $phase == PartyGroupPhase::CheckinsClosed)
+            return PartyGroupPhase::Attended;
         elseif (!$selected_party && $phase == PartyGroupPhase::CheckinsClosed)
             return PartyGroupPhase::CheckinsClosed;
     }

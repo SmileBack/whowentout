@@ -3,9 +3,11 @@
 class ShowLandingPagePlugin extends Plugin
 {
 
+    private $environments = array('whowentout');
+
     function show_landing()
     {
-        return FALSE;
+        return in_array(ENVIRONMENT, $this->environments);
     }
 
     function on_before_controller_request($e)

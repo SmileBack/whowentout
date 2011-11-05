@@ -37,11 +37,11 @@
 
                         <?php
                         $radio = array(
-                        'name' => $party_group_name,
-                        'value' => $party->id,
-                        'checked' => $selected_party == $party,
-                        'data-party-name' => $party->place->name,
-                    );
+                            'name' => $party_group_name,
+                            'value' => $party->id,
+                            'checked' => $selected_party == $party,
+                            'data-party-name' => $party->place->name,
+                        );
 
                         if ($phase == PartyGroupPhase::CheckinsClosed) {
                             $radio['disabled'] = 'disabled';
