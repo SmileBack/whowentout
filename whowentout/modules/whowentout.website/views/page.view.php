@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8">
     <meta name="description" content=""/>
     <meta name="author" content="">
@@ -74,6 +75,7 @@
             <?php if (logged_in()): ?>
             <?= anchor('dashboard', 'My Parties' . '<span class="num_checkins"></span>', array('class' => 'dashboard_link')) ?>
             <?= anchor('friends', 'My Friends', array('class' => 'friends_link')) ?>
+            <?= anchor('howitworks', 'How it Works', array('class' => 'howitworks_link')) ?>
             <?php endif; ?>
 
             <?php if (logged_in() && current_user()->is_admin()): ?>

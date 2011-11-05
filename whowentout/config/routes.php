@@ -50,5 +50,7 @@ $route['friends'] = 'dashboard/where_friends_went';
 
 $route['fakelogin'] = 'admin/fakelogin';
 
+$route['howitworks'] = 'help/howitworks';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

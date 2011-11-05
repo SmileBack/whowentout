@@ -53,17 +53,12 @@ function other_asset_url($asset_name, $module_name = NULL, $asset_type = NULL)
 
     $asset_location .= $asset_type . '/' . $asset_name;
 
-    if ($asset_type == 'js') {
-        $version = site_version('js');
-    }
-    else {
-        $version = site_version('css');
+    if ($asset_type == 'css') {
+        $version = css_version();
     }
 
-    if ($version == 'refresh')
-        $version = time();
-
-    $asset_location .= "?version=$version";
+    if (isset($version))
+        $asset_location .= "?version=$version";
     
     return $asset_location;
 

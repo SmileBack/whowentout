@@ -204,12 +204,14 @@ function first_name($full_name)
     return $parts[0];
 }
 
-function site_version($type = 'site')
+function css_version()
 {
-    $ci =& get_instance();
-
-    if ($type == 'site')
-        return $ci->config->item('css_version') + $ci->config->item('js_version');
-    else
-        return $ci->config->item("{$type}_version");
+    $path = './assets/css/version.txt';
+    if (file_exists($path)) {
+        $version = file_get_contents($path);
+        return intval($version);
+    }
+    else {
+        return 0;
+    }
 }

@@ -13,9 +13,11 @@ class MY_Controller extends CI_Controller
         f()->window_settings['pusher']['app_key'] = $this->config->item('pusher_app_key');
         f()->window_settings['environment'] = ENVIRONMENT;
 
-        f()->window_settings['time']['current'] = college()->get_time()->getTimestamp();
-        f()->window_settings['time']['yesterday'] = college()->get_time()->getDay(-1)->getTimestamp();
-        f()->window_settings['time']['tomorrow'] = college()->get_time()->getDay(+1)->getTimestamp();
+        if (college()) {
+            f()->window_settings['time']['current'] = college()->get_time()->getTimestamp();
+            f()->window_settings['time']['yesterday'] = college()->get_time()->getDay(-1)->getTimestamp();
+            f()->window_settings['time']['tomorrow'] = college()->get_time()->getDay(+1)->getTimestamp();
+        }
 
         if (logged_in()) {
             f()->window_settings['current_user_id'] = current_user()->id;
