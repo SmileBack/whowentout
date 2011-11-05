@@ -34,9 +34,7 @@
     </ul>
 </fieldset>
 
-<?php $missing_image = in_array('image', $missing_info); ?>
-
-<fieldset class="my_pic <?= $missing_image ? 'missing' : '' ?>">
+<fieldset class="my_pic">
 
     <div id="crop_raw_image" style="display: none;"><?= $user->raw_pic ?></div>
 
@@ -48,7 +46,7 @@
         </div>
     </div>
 
-    <div id="pic_options" class="<?= $missing_image  ? 'missing' : '' ?>">
+    <div id="pic_options">
         <span class="file_wrapper">
             <input type="file" name="upload_pic" id="pic_upload_input"/>
             <span class="submit_button">Upload Pic</span>

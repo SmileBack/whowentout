@@ -82,7 +82,6 @@ h1 > .divider {
 section {
   float: left;
   width: 100%;
-  padding-bottom: 10px;
   overflow: hidden;
   margin: 0 0 20px 0;
   border: 1px solid @primary_color;
@@ -354,9 +353,13 @@ header {
    .party_group_body {
      border: 1px solid #444;
      height: @height;
-     overflow: hidden;
      clear: both;
      position: relative;
+     .party_group_badge {
+       position: absolute;
+       top: -11px;
+       right: -25px;
+     }
      .party_group_left {
        position: absolute;
        top: 0;
@@ -364,7 +367,7 @@ header {
        bottom: 0;
        margin: 0 12px;
        width: @left_width;
-       border-right: 1px solid #444;
+       border-right: 1px solid #9E9E9E;
        h3 { margin-top: 12px; margin-bottom: 8px; }
      }
      .party_group_right {
@@ -397,6 +400,7 @@ header {
        overflow: hidden;
        padding: 4px;
        border-color: #b8860b;
+       .rounded(0);
      }
      .go_to_party_gallery {
        float: left;
@@ -416,9 +420,11 @@ header {
         padding: 8px 0 3px 0;
       }
      .large_message {
+        margin-top: 75px;
         clear: both;
         ol {
             margin-left: 50px;
+            font-size: 16px;
         }
       }
    }
@@ -517,7 +523,7 @@ table td, table th {
     width: 205px;
     .smiles_title {
         text-align: center;
-        background-color: #7D1729;
+        background-color: #8b4c39;
         color: white;
         margin-bottom: 0px !important;
         font-size: 15px;

@@ -11,9 +11,11 @@
 
   <?php endif; ?>
 
+  <?php if (isset($body) && $body != NULL): ?>
   <div class="section_body">
     <?= $body ?>
   </div>
+  <?php endif; ?>
 
 </section>
     

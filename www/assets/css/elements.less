@@ -219,6 +219,32 @@ form {
   text-indent: -99999px;
 }
 
+@party_group_badge_width: 100px;
+@party_group_badge_height: 20px;
+.party_group_badge {
+  color: white;
+  font-weight: bold;
+  background-color: red;
+  width: @party_group_badge_width;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: @party_group_badge_height;
+  .rounded(@party_group_badge_height / 2);
+  .shadow(1px, 1px, 1px, 0px, #dedede);
+}
+
+.party_group_badge.checkin {
+  background-color: #EDA933;
+}
+
+.party_group_badge.attending {
+  background-color: #5CB811;
+}
+
+.party_group_badge.attended {
+  background-color: #104e86;
+}
+
 .help {
     cursor: help;
     @size: 16px;

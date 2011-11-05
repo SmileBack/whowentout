@@ -42,6 +42,20 @@ class PartyGroup
             return PartyGroupPhase::EarlyCheckin;
     }
 
+    function get_user_phase(XUser $user)
+    {
+        $phase = $this->get_phase();
+        $selected_party = $this->get_selected_party($user);
+        if (!$selected_party && $phase != PartyGroupPhase::CheckinsClosed)
+            return PartyGroupPhase::Checkin;
+        elseif ($selected_party && $phase == PartyGroupPhase::EarlyCheckin)
+            return PartyGroupPhase::Attending;
+        elseif ($selected_party && $phase == PartyGroupPhase::Checkin)
+            return PartyGroupPhase::Attended;
+        elseif (!$selected_party && $phase == PartyGroupPhase::CheckinsClosed)
+            return PartyGroupPhase::CheckinsClosed;
+    }
+
     function get_checkin_phase_start()
     {
         return $this->date->getDay(+1);
@@ -76,4 +90,7 @@ class PartyGroupPhase
     const EarlyCheckin = 'EarlyCheckin';
     const Checkin = 'Checkin';
     const CheckinsClosed = 'CheckinsClosed';
+
+    const Attending = 'Attending';
+    const Attended = 'Attended';
 }

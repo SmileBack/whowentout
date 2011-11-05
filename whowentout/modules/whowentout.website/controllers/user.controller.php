@@ -96,10 +96,6 @@ class User extends MY_Controller
             $message[] = '<p>You are missing your hometown.</p>';
         }
 
-        if ($use_website_permission->cant_because(UseWebsitePermission::MISSING_IMAGE)) {
-            $message[] = '<p>You are missing a profile picture.</p>';
-        }
-
         if (!empty($message))
             set_message(implode('', $message));
 

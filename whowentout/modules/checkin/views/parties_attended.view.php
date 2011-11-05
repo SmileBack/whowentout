@@ -20,31 +20,12 @@ for ($k = 0; $k >= -5; $k--) {
         $past_party_groups[] = $party_group;
 }
 
+$party_groups = array_merge($upcoming_party_groups, $past_party_groups);
+
 ?>
 
-<h1>
-    <div class="divider"></div>
-    <span>Upcoming Parties</span>
-</h1>
-
-<ul class="parties_attended upcoming">
-    <?php foreach ($upcoming_party_groups as $party_group): ?>
-    <li>
-        <?= r('party_group', array(
-                                  'party_group' => $party_group,
-                                  'user' => $user,
-                             )) ?>
-    </li>
-    <?php endforeach; ?>
-</ul>
-
-<h1>
-    <div class="divider"></div>
-    <span>Past Parties</span>
-</h1>
-
-<ul class="parties_attended past">
-    <?php foreach ($past_party_groups as $party_group): ?>
+<ul class="parties_attended">
+    <?php foreach ($party_groups as $party_group): ?>
     <li>
         <?= r('party_group', array(
                                   'party_group' => $party_group,

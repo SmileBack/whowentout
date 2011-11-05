@@ -131,9 +131,6 @@ class XUser extends XObject
         if ($this->grad_year == '' || $this->grad_year == 0)
             $missing_info[] = 'grad_year';
 
-        if (!$this->has_image())
-            $missing_info[] = 'image';
-
         return $missing_info;
     }
 

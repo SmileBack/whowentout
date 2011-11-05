@@ -12,6 +12,14 @@
     </h2>
 
     <div class="party_group_body">
+
+        <?=
+        r('party_group_badge', array(
+                                     'party_group' => $party_group,
+                                     'user' => $user,
+                                   ))
+        ?>
+        
         <div class="party_group_left">
             
             <h3>
