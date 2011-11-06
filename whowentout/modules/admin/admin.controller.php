@@ -22,7 +22,7 @@ class Admin extends MY_Controller
 
     function fakelogin($user_id = NULL)
     {
-        if (ENVIRONMENT == 'whowentout')
+        if (!logged_in() || !current_user()->is_admin())
             show_error("Disabled.");
 
         if ($user_id != NULL) {

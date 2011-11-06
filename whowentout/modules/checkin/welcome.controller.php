@@ -5,7 +5,8 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        print krumo::dump(college()->get_time());
+        $gallery = new FlickrGallery('72157628067656136');
+        
     }
 
     function index3()

@@ -3,6 +3,11 @@
 class Picture extends MY_Controller
 {
 
+    function auth()
+    {
+        include 'flikr/getToken.php';
+    }
+
     function test()
     {
         $data = array();
