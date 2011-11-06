@@ -184,7 +184,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
     },
     showSmileHelp: function() {
         WhoWentOut.Dialog.Show({
-            title: 'Welcome to the Party Gallery',
+            title: 'What is a Smile?',
             buttons: 'close',
             cls: 'smile_help',
             url: '/help/smile'
@@ -202,7 +202,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         WhoWentOut.Dialog.Show({
             title: 'Mutual Friends',
             buttons: 'close',
-            cls: 'friends_popup',
+            cls: 'mutual_friends_dialog',
             url: path,
             onload: function() {
                 var dialog = WhoWentOut.Dialog.Get();
