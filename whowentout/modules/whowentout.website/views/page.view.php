@@ -42,9 +42,11 @@
 
 <div id="notice" class="notice"></div>
 
+<?php if (ENVIRONMENT != 'whowentout'): ?>
 <div id="current_time" class="current_time">
     <?= college()->get_time()->format('D, M j g:i a') ?>
 </div>
+<?php endif; ?>
 
 <div id="background">
     <!--<img src="/assets/images/background_club.png" />-->
