@@ -78,6 +78,8 @@ class Dashboard extends MY_Controller
 
     private function get_past_party_groups(XUser $user, XCollege $college)
     {
+        $party_groups = array();
+        
         $checkin_engine = new CheckinEngine();
         $parties_attended = $checkin_engine->get_recently_attended_parties_for_user($user);
 
