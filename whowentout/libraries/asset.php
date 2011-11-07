@@ -1,5 +1,6 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+//todo: http://blog.jasondaly.name/post/969649133/caching-static-assets-with-cache-busting-support-in
 class CI_Asset
 {
 
@@ -20,7 +21,7 @@ class CI_Asset
         $this->cache =& $this->ci->cache;
 
         $this->config = $this->ci->config->item('asset');
-        $this->source_js_version = intval(file_get_contents('assets/js/version.txt'));
+        $this->source_js_version = file_get_contents('assets/js/version.txt');
     }
 
     function load($names)
@@ -63,7 +64,7 @@ class CI_Asset
         foreach ($names as $name) {
             $this->tags[] = $this->tag('script', array(
                                                    'type' => 'text/javascript',
-                                                   'src' => '/' . $this->source_path($name) . '?version=' . $this->source_js_version,
+                                                   'src' => '/' . $this->source_path($name, $this->source_js_version),
                                                  ));
         }
         
@@ -181,8 +182,13 @@ class CI_Asset
         return 'js/' . $name;
     }
 
-    function source_path($name)
+    function source_path($name, $version = NULL)
     {
+        if ($version) {
+            $version = str_pad($version, 10, '0', STR_PAD_LEFT);
+            $name = preg_replace('/\.js$/', ".$version.js", $name);
+        }
+
         return 'assets/js/' . $name;
     }
 
