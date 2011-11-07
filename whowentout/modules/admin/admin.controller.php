@@ -162,4 +162,69 @@ class Admin extends MY_Controller
         redirect('admin/parties');
     }
 
+    function featured_message()
+    {
+        $this->check_access();
+
+        $featured_message = $this->option->get('featured_message', '');
+        print r('page', array(
+                             'page_content' => r('admin_featured_message', array(
+                                                                             'featured_message' => $featured_message,
+                                                                        ))
+                        ));
+    }
+
+    function featured_message_save()
+    {
+        $featured_message = post('featured_message');
+        $this->option->set('featured_message', $featured_message);
+        set_message('Saved the featured message.');
+        redirect('admin/featured_message');
+    }
+
+    function featured_date()
+    {
+        $this->check_access();
+
+        $featured_date = $this->option->get('featured_date_string');
+        print r('page', array(
+                             'page_content' => r('admin_featured_date', array(
+                                                                             'featured_date_string' => $featured_date,
+                                                                        ))
+                        ));
+    }
+
+    function featured_date_save()
+    {
+        $this->check_access();
+
+        $featured_date_string = post('featured_date_string');
+
+        if ($featured_date_string == '') {
+            $this->option->delete('featured_date_string');
+            set_message("Removed featured date.");
+        }
+        elseif ($this->is_valid_date_string($featured_date_string)) {
+            $this->option->set('featured_date_string', $featured_date_string);
+            set_message("Saved featured date.");
+        }
+        else {
+            set_message("Invalid date. Must be of the format 2011-10-24");
+        }
+
+        redirect('admin/featured_date');
+    }
+
+    private function is_valid_date_string($date_string)
+    {
+        $valid = TRUE;
+        try {
+            $featured_date = new XDateTime($date_string, new DateTimeZone('UTC'));
+        }
+        catch (Exception $e) {
+            $valid = FALSE;
+        }
+        return $valid && $featured_date->format('Y-m-d') == $date_string;
+    }
+
 }
