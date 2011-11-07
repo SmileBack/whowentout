@@ -67,8 +67,8 @@
 
             <?php if ($selected_party): ?>
 
-            <div class="selected_party" style="width: 150px;" class="infobox">
-                <?= $selected_party->place->name ?>
+            <div class="selected_party" class="infobox" style="padding-left: 8px; padding-right: 8px;">
+                <?= strip_tags($selected_party->place->name) ?>
             </div>
 
             <?=
