@@ -3,7 +3,7 @@
 class PushEventsPlugin extends Plugin
 {
 
-    function on_chat_sent($e)
+    function on_chat_sent(Chat_Sent_Event $e)
     {
         $channel = $this->user_channel($e->sender->id);
         $this->broadcast($channel, 'chat_sent', array(
@@ -12,8 +12,8 @@ class PushEventsPlugin extends Plugin
                                                      'message' => $e->message,
                                                 ));
     }
-
-    function on_chat_received($e)
+    
+    function on_chat_received(Chat_Received_Event $e)
     {
         $channel = $this->user_channel($e->receiver->id);
         $this->broadcast($channel, 'chat_received', array(
@@ -28,7 +28,7 @@ class PushEventsPlugin extends Plugin
      * @param XUser $e->user
      * @param XParty $e->party
      */
-    function on_checkin($e)
+    function on_checkin(Checkin_Event $e)
     {
         $channel = $this->party_channel($e->party->id);
         $this->broadcast($channel, 'checkin', array(
@@ -45,7 +45,7 @@ class PushEventsPlugin extends Plugin
      * @param XSmile $e->smile
      * @param XParty $e->party
      */
-    function on_smile_sent($e)
+    function on_smile_sent(Smile_Sent_Event $e)
     {
         $channel = $this->user_channel($e->smile->receiver->id);
 
@@ -66,7 +66,7 @@ class PushEventsPlugin extends Plugin
      *
      * @param XSmileMatch $e->match
      */
-    function on_smile_match($e)
+    function on_smile_match(Smile_Match_Event $e)
     {
         $channel = $this->user_channel($e->match->second_smile->receiver->id);
 
@@ -79,11 +79,6 @@ class PushEventsPlugin extends Plugin
                                                        'party' => $e->match->second_smile->party->to_array(),
                                                        'party_notices_view' => $party_notices_view,
                                                   ));
-    }
-
-    function on_time_faked($e)
-    {
-        //TODO: broadcast to all users to refresh their browser
     }
 
     function on_notification_sent($e)

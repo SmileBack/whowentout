@@ -5,9 +5,8 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        f()->trigger('boom', array(
-                               'name' => 'boom name',
-                             ));
+        $logger = new UserEventLogger($this->db);
+        $logger->log(current_user(), college()->get_time(), 'test', array(1, 2, 3));
     }
     
     function test($name)

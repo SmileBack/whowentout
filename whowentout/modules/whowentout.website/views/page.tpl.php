@@ -1,3 +1,8 @@
+<?php f()->trigger('page_view', array(
+                                  'url' => uri_string(),
+                                  'user' => current_user(),
+                                  'time' => college()->get_time(),
+                                )); ?>
 <!doctype html>
 <html lang="en">
 <head>

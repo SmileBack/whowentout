@@ -16,7 +16,7 @@ class EmailNotificationsPlugin extends Plugin
      * @param XSmile $e->smile
      * @param XParty $e->party
      */
-    function on_smile_sent($e)
+    function on_smile_sent(Smile_Sent_Event $e)
     {
         $subject = "A {$e->sender->gender_word} from {$e->party->place->name} has smiled at you";
         $body = r('smile_received_email', array(
@@ -33,7 +33,7 @@ class EmailNotificationsPlugin extends Plugin
      *
      * @param XSmileMatch $e->match
      */
-    function on_smile_match($e)
+    function on_smile_match(Smile_Match_Event $e)
     {
         $first_user = $e->match->first_user;
         $second_user = $e->match->second_user;

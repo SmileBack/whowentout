@@ -35,7 +35,7 @@ function create_user($facebook_id, $data = array())
     }
 
     $data['facebook_id'] = $facebook_id;
-    $data['registration_time'] = college()->get_time()->formatMySqlTimestamp();
+    $data['registration_time'] = college()->get_time()->getMySqlTimestamp();
 
     /* @var $user XUser */
     $user = XUser::create($data);

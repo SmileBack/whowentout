@@ -31,14 +31,12 @@ class CI_Chat
         $message = $this->message($this->db->insert_id());
 
         f()->trigger('chat_sent', array(
-                                       'source' => $sender,
                                        'sender' => $sender,
                                        'receiver' => $receiver,
                                        'message' => $message,
                                        'version' => $this->version,
                                   ));
         f()->trigger('chat_received', array(
-                                           'source' => $receiver,
                                            'sender' => $sender,
                                            'receiver' => $receiver,
                                            'message' => $message,

@@ -54,9 +54,6 @@ class XUser extends XObject
 
     function logout()
     {
-//        krumo::dump('logout');
-//        krumo::backtrace();
-//        exit;
         self::destroy_session();
     }
 

@@ -89,7 +89,7 @@ class XDateTime extends DateTime
         return $this->getUTCTime()->format('Y-m-d');
     }
 
-    function formatMySqlTimestamp()
+    function getMySqlTimestamp()
     {
         return $this->getUTCTime()->format('Y-m-d H:i:s');
     }

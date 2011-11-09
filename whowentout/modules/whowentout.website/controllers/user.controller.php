@@ -50,13 +50,13 @@ class User extends MY_Controller
             $user->grad_year = post('grad_year');
 
             if ($user->changed()) {
-                $user->last_edit = college()->get_time()->formatMySqlTimestamp();
+                $user->last_edit = college()->get_time()->getMySqlTimestamp();
                 $user->save();
             }
 
             // The first time no-changes edit still counts as a save.
             if ($user->never_edited_profile()) {
-                $user->last_edit = college()->get_time()->formatMySqlTimestamp();
+                $user->last_edit = college()->get_time()->getMySqlTimestamp();
                 $user->save();
             }
 

@@ -12,7 +12,7 @@ class CheckinEngine
 
     function checkin_user_to_party(XUser $user, XParty $party)
     {
-        $this->remove_user_checkin_for_date($user, $party->date);
+        $previous_party = $this->remove_user_checkin_for_date($user, $party->date);
 
         $this->db->insert('party_attendees', array(
                                                   'user_id' => $user->id,
@@ -23,6 +23,7 @@ class CheckinEngine
         $this->trigger('checkin', array(
                                        'user' => $user,
                                        'party' => $party,
+                                       'previous_party' => $previous_party,
                                   ));
     }
 
@@ -31,6 +32,7 @@ class CheckinEngine
         $party = $this->get_checkin_for_date($user, $date);
         if ($party)
             $this->remove_user_checkin($user, $party);
+        return $party;
     }
 
     function remove_user_checkin(XUser $user, XParty $party)

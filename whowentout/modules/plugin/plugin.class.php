@@ -2,5 +2,7 @@
 
 abstract class Plugin
 {
-    
+    function __construct()
+    {
+    }
 }

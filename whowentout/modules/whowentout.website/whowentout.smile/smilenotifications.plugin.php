@@ -3,15 +3,7 @@
 class SmileNotificationsPlugin extends Plugin
 {
     
-    /**
-     * Occurs when a $e->sender smiles at $e->receiver.
-     *
-     * @param XUser $e->sender
-     * @param XUser $e->receiver
-     * @param XSmile $e->smile
-     * @param XParty $e->party
-     */
-    function on_smile_sent($e)
+    function on_smile_sent(Smile_Sent_Event $e)
     {
         $this->ci =& get_instance();
         
@@ -24,12 +16,7 @@ class SmileNotificationsPlugin extends Plugin
         $this->ci->notification->send($e->smile->receiver, $receiver_message);
     }
 
-    /**
-     * Occurs when $sender smiles *back* at $e->receiver.
-     *
-     * @param XSmileMatch $e->match
-     */
-    function on_smile_match($e)
+    function on_smile_match(Smile_Match_Event $e)
     {
         $this->ci =& get_instance();
         
@@ -44,4 +31,5 @@ class SmileNotificationsPlugin extends Plugin
         $second_message = "You and $first_user->full_name have smiled at each other.";
         $this->ci->notification->send($second_user, $second_message);
     }
+    
 }
