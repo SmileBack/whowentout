@@ -1,5 +1,7 @@
 <?php
 
+require_once 'event.class.php';
+
 class FireApp
 {
 
@@ -76,7 +78,15 @@ class FireApp
     {
         $e = is_object($event_data) ? $event_data : (object)$event_data;
         $e->type = $event_name;
-        return $e;
+        
+        $event_object = $this->class_loader()->init_subclass('Event', $e->type);
+        if (!$event_object)
+            $event_object = $this->class_loader()->init('Event');
+        
+        foreach ($e as $prop => $val)
+            $event_object->$prop = $val;
+
+        return $event_object;
     }
 
     private $plugins_loaded = FALSE;

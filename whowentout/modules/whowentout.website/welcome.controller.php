@@ -5,6 +5,9 @@ class Welcome extends MY_Controller
 
     function index()
     {
+        f()->trigger('boom', array(
+                               'name' => 'boom name',
+                             ));
     }
     
     function test($name)

@@ -23,8 +23,13 @@ class ClassLoader
     {
         if ($this->is_subclass($superclass, $subclass))
             return $this->init($subclass, $arg1, $arg2, $arg3);
+
         elseif ($this->is_subclass($superclass, "$subclass$superclass"))
             return $this->init("$subclass$superclass", $arg1, $arg2, $arg3);
+
+        elseif ($this->is_subclass($superclass, $subclass . '_' . $superclass))
+            return $this->init($subclass . '_' . $superclass, $arg1, $arg2, $arg3);
+        
         else
             return NULL;
     }

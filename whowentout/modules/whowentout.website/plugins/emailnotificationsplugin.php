@@ -8,11 +8,6 @@ class EmailNotificationsPlugin extends Plugin
         $this->name = $name;
     }
 
-    function woo()
-    {
-        print "[[{$this->name}]]";
-    }
-
     /**
      * Occurs when a $e->sender smiles at $e->receiver.
      *
