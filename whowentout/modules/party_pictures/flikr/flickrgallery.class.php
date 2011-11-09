@@ -5,12 +5,13 @@ class FlickrGallery
 
     private $api_key = '7a8c13b831347f7b325013797fa85ca7';
     private $secret_key = 'b2b59ba403b9e34b';
+    private $token = '72157627962087007-341309d00bf115ab-69464164';
 
     /**
      * @var phpFlickr
      */
     private $f;
-
+    
     private $id;
 
     private $gallery_photo_data = array();

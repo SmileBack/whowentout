@@ -75,6 +75,11 @@ $.dialog = {
         close: [
             {key: 'close', title: 'Close'}
         ],
+        nextprevclose: [
+            {key: 'prev', title: 'Prev'},
+            {key: 'close', title: 'Close'},
+            {key: 'next', title: 'Next'}
+        ],
         'continue': [
             {key: 'continue', title: 'Continue'}
         ]
@@ -187,7 +192,7 @@ $('.dialog').entwine({
         var actionCallback = actions[actionName] || function() {};
         var dialogData = this.data('dialog_data');
 
-        actionCallback.call(this, dialogData);
+        return actionCallback.call(this, dialogData);
     }
 });
 
@@ -196,8 +201,10 @@ $('.dialog .button').entwine({
         e.preventDefault();
 
         var dialog = this.closest('.dialog');
-        dialog.runAction(this.key());
-        dialog.hideDialog();
+        var result = dialog.runAction(this.key());
+        
+        if (result !== false)
+            dialog.hideDialog();
     },
     key: function() {
         return this.attr('data-key');

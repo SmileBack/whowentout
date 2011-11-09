@@ -8,7 +8,7 @@ class Party extends MY_Controller
         $this->require_login(TRUE);
 
         enforce_restrictions();
-        
+
         $user = current_user();
         $party = XParty::get($party_id);
         $sort = $this->_get_sort();
@@ -36,16 +36,62 @@ class Party extends MY_Controller
             'smiles_left' => $smile_engine->get_num_smiles_left_to_give($user, $party),
         );
 
-        if ( $this->flag->missing('user', $user->id, 'has_seen_smile_help') )
+        if ($this->flag->missing('user', $user->id, 'has_seen_smile_help'))
             $this->jsaction->ShowSmileHelpDialog();
 
         $this->load_view('party', $data);
     }
 
+    function admin($party_id)
+    {
+        $this->require_admin();
+
+        $party = XParty::get($party_id);
+
+        $this->load_view('party_admin', array(
+                                             'party' => $party,
+                                        ));
+    }
+
+    function pictures($party_id)
+    {
+        $this->require_login(TRUE);
+        enforce_restrictions();
+
+        /* @var $party XParty */
+        $party = XParty::get($party_id);
+        
+        if ($party->flickr_gallery_id == NULL)
+            show_error("This party doesn't have any pictures");
+
+        $gallery = new FlickrGallery($party->flickr_gallery_id);
+        
+        if ($gallery) {
+            $this->load_view('party_pictures', array(
+                                                 'party' => $party,
+                                                 'gallery' => $gallery,
+                                               ));
+        }
+    }
+
+    function attach_gallery()
+    {
+        $party_id = post('party_id');
+        $gallery_id = post('flickr_gallery_id');
+
+        /* @var $party XParty */
+        $party = XParty::get($party_id);
+        $party->flickr_gallery_id = $gallery_id;
+        $party->save();
+
+        set_message("Set party Flickr Gallery ID to $gallery_id.");
+        redirect("party/admin/{$party->id}");
+    }
+
     function invite()
     {
         $this->require_login();
-        
+
         $college_student_id = post('name');
         $party_id = post('party_id');
 

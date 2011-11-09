@@ -25,6 +25,13 @@ class MY_Controller extends CI_Controller
         }
     }
 
+    protected function require_admin()
+    {
+        $this->require_login();
+        if (!current_user()->is_admin())
+            show_error("You must be an admin.");
+    }
+
     protected function require_login($redirect = FALSE)
     {
         if (!logged_in()) {

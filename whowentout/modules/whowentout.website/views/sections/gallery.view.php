@@ -1,3 +1,7 @@
+<?php
+/* @var $party XParty */
+?>
+
 <?=
 r('party_notices', array(
                         'user' => $user,
@@ -5,7 +9,9 @@ r('party_notices', array(
                         'smile_engine' => $smile_engine,
                    )) ?>
 
-<?= r('pictures_teaser') ?>
+<?php if ($party->has_photos()): ?>
+    <?= r('party_photos_teaser', array('party' => $party)) ?>
+<?php endif; ?>
 
 <div class="gallery_header_top" style="width: 100%; float: left; border-bottom: 1px solid #cdcdcd; margin-top: 8px;"></div>
 

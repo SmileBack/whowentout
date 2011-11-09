@@ -105,6 +105,11 @@ class XParty extends XObject
             return 'asc';
     }
 
+    function has_photos()
+    {
+        return $this->flickr_gallery_id != NULL;
+    }
+
     function get_count()
     {
         return $this->attendees_query()->count_all_results();

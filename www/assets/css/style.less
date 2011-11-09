@@ -130,7 +130,8 @@ section {
     color: @dialog_text_color;
     padding: 5px 10px;
   }
-  .dialog_buttons a.n, .dialog_buttons a.cancel {
+  .dialog_buttons a.n, .dialog_buttons a.cancel,
+  .dialog_buttons a.next, .dialog_buttons a.prev {
       background-color: #eee;
       color: #444;
       border:  1px solid #999999;
@@ -147,8 +148,10 @@ section {
 
 .gallery_picture.dialog .dialog_body {
     width: 600px;
-    height: 400px;
     text-align: center;
+    > img {
+        height: 400px;
+    }
 }
 
 .site_help.dialog {

@@ -202,21 +202,37 @@ $.when(app.load()).then(function() {
         }
     });
 
+    function view_picture(thumbnail) {
+        var nextThumbnail = thumbnail.closest('li').next().find('a');
+        var prevThumbnail = thumbnail.closest('li').prev().find('a');
+        
+        var img = $('<img />');
+        img.attr('src', thumbnail.attr('href'));
+
+        img.bind('imageload', function() {
+            WhoWentOut.Dialog.Show({
+                title: 'Gallery',
+                body: img,
+                buttons: 'nextprevclose',
+                cls: 'gallery_picture',
+                actions: {
+                    prev: function() {
+                        view_picture(prevThumbnail);
+                        return false;
+                    },
+                    next: function() {
+                        view_picture(nextThumbnail);
+                        return false;
+                    }
+                }
+            });
+        });
+    }
+
     $('.view_picture').entwine({
         onclick: function(e) {
             e.preventDefault();
-
-            var img = $('<img />');
-            img.attr('src', this.attr('href'));
-
-            img.bind('imageload', function() {
-                WhoWentOut.Dialog.Show({
-                    title: 'Gallery',
-                    body: img,
-                    buttons: 'ok',
-                    cls: 'gallery_picture'
-                });
-            });
+            view_picture(this);
         }
     });
 
