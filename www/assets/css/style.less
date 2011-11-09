@@ -640,12 +640,15 @@ table td, table th {
       clear: left;
       margin-top: 6px;
       line-height: 10px;
-      > * { display: inline-block; }
+      > * { display: inline-block; } 
   }
   .gallery_header {
       float: left;
       clear: left;
       margin: 10px;
+  }
+  .pictures_teaser {
+      float: right;
   }
   .gallery {
     border-top: 1px solid @border_color;
@@ -812,4 +815,8 @@ form .hometown {
       width: 500px;
       display: block;
     }
+}
+
+.gallery_pictures {
+  .horizontal_gallery;
 }

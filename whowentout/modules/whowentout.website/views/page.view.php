@@ -15,8 +15,8 @@
     <?= css_asset('jquery.autocomplete') ?>
     <?= css_asset('jquery.jcrop') ?>
 
-    <?= less_asset('style') ?>
-
+    <?= less_asset('style.' . filemtime('assets/css/style.less')) ?>
+    
     <!--[if IE]>
     <?= less_asset('ie') ?>
     <![endif]-->

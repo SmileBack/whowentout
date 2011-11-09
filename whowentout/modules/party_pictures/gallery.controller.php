@@ -10,15 +10,15 @@ class Gallery extends MY_Controller
                                     ));
         redirect("gallery/view/{$gallery->id}");
     }
-    
+
     function view($gallery_id)
     {
         $gallery = new FlickrGallery('72157628067656136');
         if ($gallery) {
             print r('page', array(
-                                 'page_content' => r('gallery_pictures', array(
-                                                                              'gallery' => $gallery,
-                                                                         ))
+                                 'page_content' => r('pictures', array(
+                                                                      'gallery' => $gallery,
+                                                                 ))
                             ));
         }
     }

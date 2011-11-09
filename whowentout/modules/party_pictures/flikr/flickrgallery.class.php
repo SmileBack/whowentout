@@ -22,7 +22,7 @@ class FlickrGallery
         $this->f = new phpFlickr($this->api_key, $this->secret_key);
         $this->load_pictures();
     }
-
+    
     function id()
     {
         return $this->id;
