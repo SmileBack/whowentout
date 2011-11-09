@@ -5,15 +5,9 @@ class FlickrPicture
 
     private $photo_data;
 
-    /**
-     * @var phpFlickr
-     */
-    private $f;
-
-    function __construct($photo_data, phpFlickr $f)
+    function __construct($photo_data)
     {
         $this->photo_data = $photo_data;
-        $this->f = $f;
     }
 
     function id()
@@ -24,9 +18,9 @@ class FlickrPicture
     function url($size)
     {
         if ($size == 'thumb')
-            return $this->f->buildPhotoURL($this->photo_data, 'square');
+            return $this->photo_data['url_sq'];
         elseif ($size == 'large')
-            return $this->f->buildPhotoURL($this->photo_data, 'medium');
+            return $this->photo_data['url_m'];
         else
             throw new Exception("Unsupported size $size.");
     }
