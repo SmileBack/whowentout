@@ -201,15 +201,32 @@ $.when(app.load()).then(function() {
             this.removeClass('can_chat');
         }
     });
+    
+    $('.gallery_picture.dialog .dialog_body > img').entwine({
+        onclick: function() {
+            this.closest('.dialog').find('.button.next').trigger('click');
+        }
+    });
 
-    function view_picture(thumbnail) {
-        var nextThumbnail = thumbnail.closest('li').next().find('a');
-        var prevThumbnail = thumbnail.closest('li').prev().find('a');
-        
-        var img = $('<img />');
-        img.attr('src', thumbnail.attr('href'));
+    $('.thumbnail').entwine({
+        onclick: function(e) {
+            e.preventDefault();
+            this.showDialog();
+        },
+        prevThumbnail: function() {
+            return this.closest('li').prev().find('.thumbnail');
+        },
+        nextThumbnail: function() {
+            return this.closest('li').next().find('.thumbnail');
+        },
+        buildFullSizedImg: function() {
+            return $('<img/>').attr('src', this.attr('href'));
+        },
+        showDialog: function() {
+            var thumb = this;
+            
+            var img = this.buildFullSizedImg().css('cursor', 'pointer');
 
-        img.bind('imageload', function() {
             WhoWentOut.Dialog.Show({
                 title: 'Gallery',
                 body: img,
@@ -217,28 +234,15 @@ $.when(app.load()).then(function() {
                 cls: 'gallery_picture',
                 actions: {
                     prev: function() {
-                        view_picture(prevThumbnail);
+                        thumb.prevThumbnail().showDialog();
                         return false;
                     },
                     next: function() {
-                        view_picture(nextThumbnail);
+                        thumb.nextThumbnail().showDialog();
                         return false;
                     }
                 }
             });
-        });
-    }
-
-    $('.gallery_picture.dialog .dialog_body > img').entwine({
-        onclick: function() {
-            
-        }
-    });
-
-    $('.view_picture').entwine({
-        onclick: function(e) {
-            e.preventDefault();
-            view_picture(this);
         }
     });
 
