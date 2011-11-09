@@ -26,7 +26,27 @@ class WhoWentOutLoggerPlugin extends Plugin
 
     function on_smile_match(Smile_Match_Event $e)
     {
+        $first_user = $e->match->first_user;
+        $second_user = $e->match->second_user;
 
+        $first_party = $e->match->first_smile->party;
+        $second_party = $e->match->second_smile->party;
+        
+        $first_user_data = array(
+            'first_party_id' => $first_party->id,
+            'second_party_id' => $second_party->id,
+            'matched_user_id' => $second_user->id,
+            'sent_first_smile' => TRUE,
+        );
+        $this->logger->log($first_user, $this->get_time(), 'smile_match', $first_user_data);
+
+        $second_user_data = array(
+            'first_party_id' => $first_party->id,
+            'second_party_id' => $second_party->id,
+            'matched_user_id' => $first_user->id,
+            'sent_first_smile' => FALSE,
+        );
+        $this->logger->log($second_user, $this->get_time(), 'smile_match', $second_user_data);
     }
 
     function on_checkin(Checkin_Event $e)
