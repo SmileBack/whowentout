@@ -11,6 +11,7 @@
 
 //= require whowentout.presencebeacon.js
 //= require whowentout.feedback.js
+//= require whowentout.userlogger.js
 
 //= require whowentout.dialog.js
 
@@ -234,3 +235,4 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
 });
 
 window.app = new WhoWentOut.Application();
+window.userLogger = new WhoWentOut.UserLogger();

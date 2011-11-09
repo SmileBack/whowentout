@@ -5,9 +5,6 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $logger = new UserEventLogger();
-        $result = $logger->export();
-        krumo::dump($result);
     }
     
     function test($name)
