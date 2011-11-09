@@ -229,6 +229,12 @@ $.when(app.load()).then(function() {
         });
     }
 
+    $('.gallery_picture.dialog .dialog_body > img').entwine({
+        onclick: function() {
+            
+        }
+    });
+
     $('.view_picture').entwine({
         onclick: function(e) {
             e.preventDefault();

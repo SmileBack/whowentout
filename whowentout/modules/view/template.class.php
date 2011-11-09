@@ -1,8 +1,8 @@
 <?php
 
-require_once 'view.functions.php';
+require_once 'template.functions.php';
 
-class View
+class Template
 {
 
     private $template_file_resource;
@@ -10,10 +10,10 @@ class View
 
     function __construct($template_name)
     {
-        $this->set_template($template_name);
+        $this->load($template_name);
     }
 
-    private function set_template($template_name)
+    private function load($template_name)
     {
         $this->template_file_resource = f()->index()->get_resource_metadata("$template_name.view.php");
         if (!$this->template_file_resource)

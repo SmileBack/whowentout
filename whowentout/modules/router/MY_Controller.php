@@ -7,7 +7,7 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
 
-        f()->class_loader()->load('View');
+        f()->class_loader()->load('Template');
         $this->config->load('pusher');
 
         f()->window_settings['pusher']['app_key'] = $this->config->item('pusher_app_key');
