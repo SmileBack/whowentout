@@ -29,6 +29,15 @@ class FlickrGallery
         return $this->id;
     }
 
+    /**
+     * @param  $index
+     * @return FlickrPicture
+     */
+    function picture($index)
+    {
+        return $this->pictures[$index];
+    }
+
     function pictures()
     {
         return $this->pictures;

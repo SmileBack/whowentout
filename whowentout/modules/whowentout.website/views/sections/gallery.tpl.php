@@ -9,7 +9,7 @@ r('party_notices', array(
                         'smile_engine' => $smile_engine,
                    )) ?>
 
-<?php if ($party->has_photos()): ?>
+<?php if ($party->has_photo_gallery()): ?>
     <?= r('party_photos_teaser', array('party' => $party)) ?>
 <?php endif; ?>
 

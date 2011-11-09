@@ -49,7 +49,7 @@ class XParty extends XObject
         elseif ($sort == 'gender') {
             $order = $this->attendees_query_gender_sort_order();
             $query->order_by('gender', $order)
-                  ->order_by('checkin_time', 'desc');
+                    ->order_by('checkin_time', 'desc');
         }
         elseif ($sort == 'name') {
             $query->order_by('first_name', 'asc')
@@ -105,9 +105,24 @@ class XParty extends XObject
             return 'asc';
     }
 
-    function has_photos()
+    function has_photo_gallery()
     {
         return $this->flickr_gallery_id != NULL;
+    }
+
+    private $photo_gallery;
+    /**
+     * @return FlickrGallery
+     */
+    function get_photo_gallery()
+    {
+        if (!$this->has_photo_gallery())
+            return NULL;
+
+        if (!$this->photo_gallery)
+            $this->photo_gallery = new FlickrGallery($this->flickr_gallery_id);
+
+        return $this->photo_gallery;
     }
 
     function get_count()
@@ -169,29 +184,29 @@ class XParty extends XObject
         $from = XUser::get($from);
 
         $student = $this->db()->from('college_students')
-                              ->where('id', $student_id)
-                              ->get()->row();
+                ->where('id', $student_id)
+                ->get()->row();
 
         if (!$from || !$student)
             return FALSE;
 
         $receiver = array(
-          'full_name' => $student->student_full_name,
-          'email' => $student->student_email,
+            'full_name' => $student->student_full_name,
+            'email' => $student->student_email,
         );
 
         $this->db()->insert('party_invitations', array(
-                                                 'created_at' => $this->college->get_time()->formatMySqlTimestamp(),
-                                                 'party_id' => $this->id,
-                                                 'sender_id' => $from->id,
-                                                 'college_student_id' => $student->id,
-                                               ));
+                                                      'created_at' => $this->college->get_time()->formatMySqlTimestamp(),
+                                                      'party_id' => $this->id,
+                                                      'sender_id' => $from->id,
+                                                      'college_student_id' => $student->id,
+                                                 ));
 
         f()->trigger('party_invite_sent', array(
-                                         'party' => $this,
-                                         'sender' => $from,
-                                         'receiver' => (object)$receiver,
-                                       ));
+                                               'party' => $this,
+                                               'sender' => $from,
+                                               'receiver' => (object)$receiver,
+                                          ));
 
         return TRUE;
     }
