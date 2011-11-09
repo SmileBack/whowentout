@@ -31,7 +31,7 @@ class WhoWentOutLoggerPlugin extends Plugin
 
         $first_party = $e->match->first_smile->party;
         $second_party = $e->match->second_smile->party;
-        
+
         $first_user_data = array(
             'first_party_id' => $first_party->id,
             'second_party_id' => $second_party->id,
@@ -65,9 +65,34 @@ class WhoWentOutLoggerPlugin extends Plugin
                                                             ));
     }
 
-    function on_picture_view($e)
+    function on_user_changed_visibility(User_Changed_Visibility_Event $e)
     {
-        //        $this->logger->log($e->user, $e->time, 'picture_view', $data);
+        $this->logger->log($e->user, $this->get_time(), 'user_changed_visibility', array(
+                                                                                        'visibility' => $e->visibility,
+                                                                                   ));
+    }
+
+    function on_chat_sent(Chat_Sent_Event $e)
+    {
+        $this->logger->log($e->sender, $this->get_time(), 'chat_sent', array(
+                                                                            'receiver_id' => $e->receiver->id,
+                                                                       ));
+
+        $this->logger->log($e->receiver, $this->get_time(), 'chat_received', array(
+                                                                                  'sender_id' => $e->sender->id,
+                                                                             ));
+    }
+
+    function on_user_view_mutual_friends($e)
+    {
+        $this->logger->log($e->user, $this->get_time(), 'user_view_mutual_friends', array(
+                                                                                         'target_id' => $e->target->id,
+                                                                                    ));
+    }
+
+    function on_user_edit_profile($e)
+    {
+        $this->logger->log($e->user, $this->get_time(), 'user_edit_profile');
     }
 
     private function get_time()

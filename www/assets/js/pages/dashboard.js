@@ -55,16 +55,27 @@ jq(function($) {
                 WhoWentOut.Dialog.Show({
                     title: 'Confirm Check-in',
                     body: "<p>You are about to check in to <b>" + radio.attr('data-party-name') + "</b>.</p>"
-                        + "<p>You can only check in to one party per night.</p>",
+                    + "<p>You can only check in to one party per night.</p>",
                     buttons: 'confirmcancel',
                     actions: {
                         confirm: function() {
                             checkin_to_party(radio.val());
+                            userLogger.log('user_checkin_dialog_confirm', {
+                                party_id: radio.val()
+                            });
+                        },
+                        cancel: function() {
+                            userLogger.log('user_checkin_dialog_cancel', {
+                                party_id: radio.val()
+                            });
                         }
                     }
                 });
             }
             else if (phase == PartyGroupPhase.Checkin && selectedPartyID) {
+                userLogger.log('user_attempt_checkin', {
+                    party_id: radio.val()
+                });
                 WhoWentOut.Dialog.Show({
                     title: "Can't Change",
                     body: "You can't change your selection after the party.",
@@ -74,20 +85,13 @@ jq(function($) {
         }
     });
 
-    $('.party_group input:radio').entwine({
-        onchange: function() {
-            alert('checkin to party');
-            var partyId = this.val();
-            checkin_to_party(partyId);
-        }
-    });
-
     $('.go_to_party_gallery :submit').entwine({
         onclick: function(e) {
             e.preventDefault();
 
             var partyGroup = this.closest('.party_group');
             if (partyGroup.phase() == PartyGroupPhase.EarlyCheckin) {
+                userLogger.log('user_attempt_gallery_view');
                 WhoWentOut.Dialog.Show({
                     title: "Hang In There",
                     body: "The party gallery will open after the party",
@@ -103,7 +107,7 @@ jq(function($) {
 });
 
 $.when(app.load()).then(function() {
-
+    
     $('.recent_attendees.party li').entwine({
         userID: function() {
             return parseInt(this.attr('data-user-id'));

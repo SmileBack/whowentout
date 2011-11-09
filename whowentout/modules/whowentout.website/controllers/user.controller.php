@@ -60,6 +60,10 @@ class User extends MY_Controller
                 $user->save();
             }
 
+            f()->trigger('user_edit_profile', array(
+                                                   'user' => $user,
+                                              ));
+
             redirect('dashboard');
         }
 
@@ -69,6 +73,8 @@ class User extends MY_Controller
     function edit()
     {
         $this->require_login(TRUE);
+
+        $logger = new UserEventLogger();
 
         $use_website_permission = new UseWebsitePermission();
         $can_use_website = $use_website_permission->check(current_user());
@@ -81,18 +87,22 @@ class User extends MY_Controller
         $message = array();
 
         if ($use_website_permission->cant_because(UseWebsitePermission::NETWORK_INFO_MISSING)) {
+            $logger->log(current_user(), college()->get_time(), 'user_missing_network');
             $message[] = r('missing_network');
         }
 
         if ($use_website_permission->cant_because(UseWebsitePermission::GENDER_MISSING)) {
+            $logger->log(current_user(), college()->get_time(), 'user_missing_gender');
             $message[] = '<p>To use WhoWentOut, please <a href="http://www.facebook.com/editprofile.php" target="_blank">enter your gender</a> in your Facebook profile.</p>';
         }
 
         if ($use_website_permission->cant_because(UseWebsitePermission::GRAD_YEAR_MISSING)) {
+            $logger->log(current_user(), college()->get_time(), 'user_missing_grad_year');
             $message[] = '<p>You are missing your graduation year.</p>';
         }
 
         if ($use_website_permission->cant_because(UseWebsitePermission::HOMETOWN_MISSING)) {
+            $logger->log(current_user(), college()->get_time(), 'user_missing_hometown');
             $message[] = '<p>You are missing your hometown.</p>';
         }
 
@@ -100,9 +110,9 @@ class User extends MY_Controller
             set_message(implode('', $message));
 
         $this->load_view('user_edit', array(
-                                                'user' => current_user(),
-                                                'missing_info' => current_user()->get_missing_info(),
-                                           ));
+                                           'user' => current_user(),
+                                           'missing_info' => current_user()->get_missing_info(),
+                                      ));
     }
 
     function login()
@@ -134,6 +144,11 @@ class User extends MY_Controller
             print "Invalid request.";
             exit;
         }
+
+        f()->trigger('user_view_mutual_friends', array(
+                                                      'user' => $user,
+                                                      'target' => $target,
+                                                 ));
 
         $mutual_friends = $user->mutual_friends($target);
         print r('mutual_friends', array(

@@ -135,12 +135,20 @@ $.when(app.load()).then(function() {
                 actions: {
                     y: function() {
                         form.submit();
+                    },
+                    n: function() {
+                        userLogger.log('user_cancel_smile', {
+                            receiver_id: this.closest('.user').userID()
+                        });
                     }
                 }
             });
         }
         else {
             action = action.substring(0, 1).toLowerCase() + action.substring(1);
+            userLogger.log('user_attempt_smile', {
+                receiver_id: this.closest('.user').userID()
+            });
             WhoWentOut.Dialog.Show({
                 title: "Can't Smile",
                 body: "You can't " + action + " because you have already used up your smiles.",
@@ -201,7 +209,7 @@ $.when(app.load()).then(function() {
             this.removeClass('can_chat');
         }
     });
-    
+
     $('.gallery_picture.dialog .dialog_body > img').entwine({
         onclick: function() {
             this.closest('.dialog').find('.button.next').trigger('click');
@@ -224,7 +232,7 @@ $.when(app.load()).then(function() {
         },
         showDialog: function() {
             var thumb = this;
-            
+
             var img = this.buildFullSizedImg().css('cursor', 'pointer');
 
             WhoWentOut.Dialog.Show({
@@ -241,6 +249,11 @@ $.when(app.load()).then(function() {
                         thumb.nextThumbnail().showDialog();
                         return false;
                     }
+                },
+                onload: function() {
+                    userLogger.log('user_view_picture', {
+                        image_url: img.attr('src')
+                    });
                 }
             });
         }
