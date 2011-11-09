@@ -13,6 +13,10 @@ r('party_notices', array(
     <?= r('party_photos_teaser', array('party' => $party)) ?>
 <?php endif; ?>
 
+<?php if ($user->is_admin()): ?>
+    <?= anchor("party/admin/$party->id", "Party Admin", array('class' => 'admin_link')) ?>
+<?php endif; ?>
+
 <div class="gallery_header_top" style="width: 100%; float: left; border-bottom: 1px solid #cdcdcd; margin-top: 8px;"></div>
 
 <div class="sortbar">

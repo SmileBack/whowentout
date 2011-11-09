@@ -1,3 +1,4 @@
+<h1><?= anchor("party/$party->id", "Back to Party Gallery") ?></h1>
 <section>
     <h1>Flickr Gallery ID</h1>
     <div class="section_body">
