@@ -41,5 +41,10 @@ WhoWentOut.Component.extend('WhoWentOut.Dialog', {
         dialog.setActions(options.actions);
 
         dialog.showDialog(options.cls, options.data);
+
+        //hack to refresh position
+        setTimeout(function() {
+            dialog.refreshPosition();
+        }, 1000);
     }
 }, {});
