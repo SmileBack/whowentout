@@ -13,6 +13,9 @@ class User extends MY_Controller
         $user = current_user();
         $user->upload_pic();
 
+        $logger = new UserEventLogger();
+        $logger->log($user, college()->get_time(), 'user_upload_pic');
+
         $this->json_for_ajax_file_upload(array(
                                               'success' => TRUE,
                                               'raw_pic' => $user->raw_pic,
@@ -26,6 +29,9 @@ class User extends MY_Controller
 
         $user = current_user();
         $user->use_facebook_pic();
+
+        $logger = new UserEventLogger();
+        $logger->log($user, college()->get_time(), 'user_use_facebook_pic');
 
         $this->json_for_ajax_file_upload(array(
                                               'success' => TRUE,
@@ -74,35 +80,37 @@ class User extends MY_Controller
     {
         $this->require_login(TRUE);
 
+        $user = current_user();
+
         $logger = new UserEventLogger();
 
         $use_website_permission = new UseWebsitePermission();
-        $can_use_website = $use_website_permission->check(current_user());
+        $can_use_website = $use_website_permission->check($user);
 
         if (!$can_use_website)
-            current_user()->update_facebook_data();
+           $user->update_facebook_data();
 
-        $can_use_website = $use_website_permission->check(current_user()); //check again
+        $can_use_website = $use_website_permission->check($user); //check again
 
         $message = array();
 
         if ($use_website_permission->cant_because(UseWebsitePermission::NETWORK_INFO_MISSING)) {
-            $logger->log(current_user(), college()->get_time(), 'user_missing_network');
+            $logger->log($user, college()->get_time(), 'user_missing_network');
             $message[] = r('missing_network');
         }
 
         if ($use_website_permission->cant_because(UseWebsitePermission::GENDER_MISSING)) {
-            $logger->log(current_user(), college()->get_time(), 'user_missing_gender');
+            $logger->log($user, college()->get_time(), 'user_missing_gender');
             $message[] = '<p>To use WhoWentOut, please <a href="http://www.facebook.com/editprofile.php" target="_blank">enter your gender</a> in your Facebook profile.</p>';
         }
 
         if ($use_website_permission->cant_because(UseWebsitePermission::GRAD_YEAR_MISSING)) {
-            $logger->log(current_user(), college()->get_time(), 'user_missing_grad_year');
+            $logger->log($user, college()->get_time(), 'user_missing_grad_year');
             $message[] = '<p>You are missing your graduation year.</p>';
         }
 
         if ($use_website_permission->cant_because(UseWebsitePermission::HOMETOWN_MISSING)) {
-            $logger->log(current_user(), college()->get_time(), 'user_missing_hometown');
+            $logger->log($user, college()->get_time(), 'user_missing_hometown');
             $message[] = '<p>You are missing your hometown.</p>';
         }
 
@@ -110,8 +118,8 @@ class User extends MY_Controller
             set_message(implode('', $message));
 
         $this->load_view('user_edit', array(
-                                           'user' => current_user(),
-                                           'missing_info' => current_user()->get_missing_info(),
+                                           'user' => $user,
+                                           'missing_info' => $user->get_missing_info(),
                                       ));
     }
 
