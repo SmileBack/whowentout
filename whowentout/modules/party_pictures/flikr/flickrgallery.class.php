@@ -37,7 +37,6 @@ class FlickrGallery
     private function load_pictures()
     {
         $this->gallery_photo_data = $this->f->photosets_getPhotos($this->id, 'url_sq,url_t,url_s,url_m,url_o');
-        krumo::dump($this->gallery_photo_data);
         foreach ($this->gallery_photo_data['photoset']['photo'] as $k => $photo_data) {
             $this->pictures[] = new FlickrPicture($photo_data);
         }
