@@ -38,7 +38,7 @@
  * href="http://docs.amazonwebservices.com/general/latest/gr/index.html?rande.html">Regions and Endpoints</a> in the Amazon Web Services
  * General Reference.
  *
- * @version Tue Jun 07 16:11:09 PDT 2011
+ * @version Thu Sep 01 21:17:05 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
  * @link http://aws.amazon.com/autoscaling/Amazon Auto-Scaling
@@ -51,34 +51,39 @@ class AmazonAS extends CFRuntime
 	// CLASS CONSTANTS
 
 	/**
-	 * Specify the default queue URL.
+	 * Specify the queue URL for the United States East (Northern Virginia) Region.
 	 */
-	const DEFAULT_URL = 'autoscaling.us-east-1.amazonaws.com';
+	const REGION_US_E1 = 'autoscaling.us-east-1.amazonaws.com';
 
 	/**
-	 * Specify the queue URL for the US-East (Northern Virginia) Region.
-	 */
-	const REGION_US_E1 = self::DEFAULT_URL;
-
-	/**
-	 * Specify the queue URL for the US-West (Northern California) Region.
+	 * Specify the queue URL for the United States West (Northern California) Region.
 	 */
 	const REGION_US_W1 = 'autoscaling.us-west-1.amazonaws.com';
 
 	/**
-	 * Specify the queue URL for the EU (Ireland) Region.
+	 * Specify the queue URL for the United States West (Oregon) Region.
+	 */
+	const REGION_US_W2 = 'autoscaling.us-west-2.amazonaws.com';
+
+	/**
+	 * Specify the queue URL for the Europe West (Ireland) Region.
 	 */
 	const REGION_EU_W1 = 'autoscaling.eu-west-1.amazonaws.com';
 
 	/**
-	 * Specify the queue URL for the Asia Pacific (Singapore) Region.
+	 * Specify the queue URL for the Asia Pacific Southeast (Singapore) Region.
 	 */
 	const REGION_APAC_SE1 = 'autoscaling.ap-southeast-1.amazonaws.com';
 
 	/**
-	 * Specify the queue URL for the Asia Pacific (Japan) Region.
+	 * Specify the queue URL for the Asia Pacific Northeast (Tokyo) Region.
 	 */
 	const REGION_APAC_NE1 = 'autoscaling.ap-northeast-1.amazonaws.com';
+
+	/**
+	 * Default service endpoint.
+	 */
+	const DEFAULT_URL = self::REGION_US_E1;
 
 
 	/*%******************************************************************************************%*/
@@ -140,8 +145,10 @@ class AmazonAS extends CFRuntime
 	 *
 	 * @param string $auto_scaling_group_name (Required) The name or ARN of the Auto Scaling Group.
 	 * @param string $scheduled_action_name (Required) The name of this scaling action.
-	 * @param string $time (Required) The time for this action to start. Accepts any value that <php:strtotime()> understands.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+	 * 	<li><code>Time</code> - <code>string</code> - Optional - The time for this action to start. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
+	 * 	<li><code>EndTime</code> - <code>string</code> - Optional -  May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
+	 * 	<li><code>Recurrence</code> - <code>string</code> - Optional -  </li>
 	 * 	<li><code>MinSize</code> - <code>integer</code> - Optional - The minimum size for the new Auto Scaling group. </li>
 	 * 	<li><code>MaxSize</code> - <code>integer</code> - Optional - The maximum size for the Auto Scaling group. </li>
 	 * 	<li><code>DesiredCapacity</code> - <code>integer</code> - Optional - The number of EC2 instances that should be running in the group. </li>
@@ -149,12 +156,23 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
 	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
 	 */
-	public function put_scheduled_update_group_action($auto_scaling_group_name, $scheduled_action_name, $time, $opt = null)
+	public function put_scheduled_update_group_action($auto_scaling_group_name, $scheduled_action_name, $opt = null)
 	{
 		if (!$opt) $opt = array();
 		$opt['AutoScalingGroupName'] = $auto_scaling_group_name;
 		$opt['ScheduledActionName'] = $scheduled_action_name;
-		$opt['Time'] = $this->util->convert_date_to_iso8601($time);
+
+		// Optional parameter
+		if (isset($opt['Time']))
+		{
+			$opt['Time'] = $this->util->convert_date_to_iso8601($opt['Time']);
+		}
+
+		// Optional parameter
+		if (isset($opt['EndTime']))
+		{
+			$opt['EndTime'] = $this->util->convert_date_to_iso8601($opt['EndTime']);
+		}
 
 		return $this->authenticate('PutScheduledUpdateGroupAction', $opt, $this->hostname);
 	}

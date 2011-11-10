@@ -1,9 +1,13 @@
 <?php
+/* @var $attendee XUser */
+/* @var $smile_engine SmileEngine */
+
 $smiles_left = $smile_engine->get_num_smiles_left_to_give($logged_in_user, $party);
 ?>
 
 <div id="party_attendee_<?= $attendee->id ?>" class="party_attendee user <?= 'user_' . $attendee->id ?>" data-user-id="<?= $attendee->id ?>">
-    <?= $attendee->pic; ?>
+    <?php $profile_picture = new UserProfilePicture($attendee); ?>
+    <?= $profile_picture->img('normal') ?>
     <div class="click_to_chat">Click to chat</div>
 
     <div class="caption">

@@ -1,3 +1,5 @@
+<?php $profile_picture = new UserProfilePicture($user); ?>
+
 <?= form_open_multipart('user/edit_save', array('id' => 'edit_form')) ?>
 
 <fieldset class="my_info">
@@ -36,7 +38,7 @@
 
 <fieldset class="my_pic">
 
-    <div id="crop_raw_image" style="display: none;"><?= $user->raw_pic ?></div>
+    <div id="crop_raw_image" style="display: none;"><?= $profile_picture->img('source') ?></div>
 
     <div id="crop" class="frame">
     </div>
@@ -57,10 +59,11 @@
         </div>
     </div>
 
-    <input type="hidden" id="x" name="x" value="<?= $user->pic_x ?>"/>
-    <input type="hidden" id="y" name="y" value="<?= $user->pic_y ?>"/>
-    <input type="hidden" id="width" name="width" value="<?= $user->pic_width ?>"/>
-    <input type="hidden" id="height" name="height" value="<?= $user->pic_height ?>"/>
+    <?php $crop_box = $profile_picture->get_crop_box() ?>
+    <input type="hidden" id="x" name="x" value="<?= $crop_box->x ?>"/>
+    <input type="hidden" id="y" name="y" value="<?= $crop_box->y ?>"/>
+    <input type="hidden" id="width" name="width" value="<?= $crop_box->width ?>"/>
+    <input type="hidden" id="height" name="height" value="<?= $crop_box->height ?>"/>
 
 </fieldset>
 

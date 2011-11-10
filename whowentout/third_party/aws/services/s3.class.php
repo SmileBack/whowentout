@@ -49,7 +49,7 @@ class S3_Exception extends Exception {}
  *
  * Visit <http://aws.amazon.com/s3/> for more information.
  *
- * @version 2011.05.18
+ * @version 2011.11.09
  * @license See the included NOTICE.md file for more information.
  * @copyright See the included NOTICE.md file for more information.
  * @link http://aws.amazon.com/s3/ Amazon Simple Storage Service
@@ -74,6 +74,11 @@ class AmazonS3 extends CFRuntime
 	 * Specify the queue URL for the US-West (Northern California) Region.
 	 */
 	const REGION_US_W1 = 'us-west-1';
+
+	/**
+	 * Specify the queue URL for the US-West (Oregon) Region.
+	 */
+	const REGION_US_W2 = 'us-west-2';
 
 	/**
 	 * Specify the queue URL for the EU (Ireland) Region.
@@ -245,13 +250,16 @@ class AmazonS3 extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of this class.
+	 * Constructs a new instance of <AmazonS3>. If the <code>AWS_DEFAULT_CACHE_CONFIG</code> configuration
+	 * option is set, requests will be authenticated using a session token. Otherwise, requests will use
+	 * the older authentication method.
 	 *
-	 * @param string $key (Optional) Amazon API Key. If blank, the `AWS_KEY` constant is used.
-	 * @param string $secret_key (Optional) Amazon API Secret Key. If blank, the `AWS_SECRET_KEY` constant is used.
+	 * @param string $key (Optional) Your AWS key, or a session key. If blank, it will look for the <code>AWS_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your AWS secret key, or a session secret key. If blank, it will look for the <code>AWS_SECRET_KEY</code> constant.
+	 * @param string $token (optional) An AWS session token. If blank, a request will be made to the AWS Secure Token Service to fetch a set of session credentials.
 	 * @return boolean A value of <code>false</code> if no valid values are set, otherwise <code>true</code>.
 	 */
-	public function __construct($key = null, $secret_key = null)
+	public function __construct($key = null, $secret_key = null, $token = null)
 	{
 		$this->vhost = null;
 		$this->api_version = '2006-03-01';
@@ -279,7 +287,12 @@ class AmazonS3 extends CFRuntime
 			// @codeCoverageIgnoreEnd
 		}
 
-		return parent::__construct($key, $secret_key);
+		if (defined('AWS_DEFAULT_CACHE_CONFIG') && AWS_DEFAULT_CACHE_CONFIG)
+		{
+			return parent::session_based_auth($key, $secret_key, $token);
+		}
+
+		return parent::__construct($key, $secret_key, $token);
 	}
 
 
@@ -416,6 +429,12 @@ class AmazonS3 extends CFRuntime
 		);
 
 		/*%******************************************************************************************%*/
+
+		// Do we have an authentication token?
+		if ($this->auth_token)
+		{
+			$headers['X-Amz-Security-Token'] = $this->auth_token;
+		}
 
 		// Handle specific resources
 		if (isset($opt['resource']))
@@ -1155,6 +1174,8 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>fileUpload</code> - <code>string|resource</code> - Required; Conditional - The URL/path for the file to upload, or an open resource. Either this parameter or <code>body</code> is required.</li>
 	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <code>ACL_PRIVATE</code>.</li>
 	 * 	<li><code>contentType</code> - <code>string</code> - Optional - The type of content that is being sent in the body. If a file is being uploaded via <code>fileUpload</code> as a file system path, it will attempt to determine the correct mime-type based on the file extension. The default value is <code>application/octet-stream</code>.</li>
+	 * 	<li><code>contentType</code> - <code>string</code> - Optional - The type of content that is being sent in the body. If a file is being uploaded via <code>fileUpload</code> as a file system path, it will attempt to determine the correct mime-type based on the file extension. The default value is <code>application/octet-stream</code>.</li>
+	 * 	<li><code>encryption</code> - <code>string</code> - Optional - The algorithm to use for encrypting the object. [Allowed values: <code>AES256</code>]</li>
 	 * 	<li><code>headers</code> - <code>array</code> - Optional - The standard HTTP headers to send along in the request.</li>
 	 * 	<li><code>length</code> - <code>integer</code> - Optional - The size of the object in bytes. For more information, see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13">RFC 2616, section 14.13</a>. The value can also be passed to the <code>header</code> option as <code>Content-Length</code>.</li>
 	 * 	<li><code>meta</code> - <code>array</code> - Optional - An associative array of key-value pairs. Represented by <code>x-amz-meta-:</code>. Any header starting with this prefix is considered user metadata. It will be stored with the object and returned when you retrieve the object. The total size of the HTTP request, not including the body, must be less than 4 KB.</li>
@@ -1199,6 +1220,13 @@ class AmazonS3 extends CFRuntime
 		{
 			$opt['headers']['x-amz-storage-class'] = $opt['storage'];
 			unset($opt['storage']);
+		}
+
+		// Handle encryption settings. Can also be passed as an HTTP header.
+		if (isset($opt['encryption']))
+		{
+			$opt['headers']['x-amz-server-side-encryption'] = $opt['encryption'];
+			unset($opt['encryption']);
 		}
 
 		// Handle meta tags. Can also be passed as an HTTP header.
@@ -1380,6 +1408,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>filename</code> - <code>string</code> - Required - Specifies the file name to copy the object to.</li></ul>
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. Alternatively, an array of associative arrays. Each associative array contains an <code>id</code> and a <code>permission</code> key. The default value is <code>ACL_PRIVATE</code>.</li>
+	 * 	<li><code>encryption</code> - <code>string</code> - Optional - The algorithm to use for encrypting the object. [Allowed values: <code>AES256</code>]</li>
 	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>AmazonS3::STORAGE_STANDARD</code>, <code>AmazonS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
 	 * 	<li><code>versionId</code> - <code>string</code> - Optional - The version of the object to copy. Version IDs are returned in the <code>x-amz-version-id</code> header of any previous object-related request.</li>
 	 * 	<li><code>ifMatch</code> - <code>string</code> - Optional - The ETag header from a previous request. Copies the object if its entity tag (ETag) matches the specified tag; otherwise, the request returns a <code>412</code> HTTP status code error (precondition failed). Used in conjunction with <code>ifUnmodifiedSince</code>.</li>
@@ -1426,11 +1455,7 @@ class AmazonS3 extends CFRuntime
 		}
 
 		// Handle metadata directive
-		$opt['headers']['x-amz-metadata-directive'] = 'COPY';
-		if ($source['bucket'] === $dest['bucket'] && $source['filename'] === $dest['filename'])
-		{
-			$opt['headers']['x-amz-metadata-directive'] = 'REPLACE';
-		}
+		$opt['headers']['x-amz-metadata-directive'] = 'REPLACE';
 		if (isset($opt['metadataDirective']))
 		{
 			$opt['headers']['x-amz-metadata-directive'] = $opt['metadataDirective'];
@@ -1456,6 +1481,13 @@ class AmazonS3 extends CFRuntime
 		{
 			$opt['headers']['x-amz-storage-class'] = $opt['storage'];
 			unset($opt['storage']);
+		}
+
+		// Handle encryption settings. Can also be passed as an HTTP header.
+		if (isset($opt['encryption']))
+		{
+			$opt['headers']['x-amz-server-side-encryption'] = $opt['encryption'];
+			unset($opt['encryption']);
 		}
 
 		// Handle conditional-copy parameters
@@ -1905,7 +1937,7 @@ class AmazonS3 extends CFRuntime
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param boolean $friendly_format (Optional) A value of <code>true</code> will format the return value to 2 decimal points using the largest possible unit (i.e., 3.42 GB). A value of <code>false</code> will format the return value as the raw number of bytes.
-	 * @return integer|string The number of bytes as an integer, or the friendly format as a string.
+	 * @return integer|string The number of bytes as an integer, or the friendly format as a string. If the bucket does not exist, the filesize will be 0.
 	 */
 	public function get_bucket_filesize($bucket, $friendly_format = false)
 	{
@@ -1949,7 +1981,7 @@ class AmazonS3 extends CFRuntime
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
 	 * @param boolean $friendly_format (Optional) A value of <code>true</code> will format the return value to 2 decimal points using the largest possible unit (i.e., 3.42 GB). A value of <code>false</code> will format the return value as the raw number of bytes.
-	 * @return integer|string The number of bytes as an integer, or the friendly format as a string.
+	 * @return integer|string The number of bytes as an integer, or the friendly format as a string. If the object does not exist, the filesize will be 0.
 	 */
 	public function get_object_filesize($bucket, $filename, $friendly_format = false)
 	{
@@ -1958,8 +1990,13 @@ class AmazonS3 extends CFRuntime
 			throw new S3_Exception(__FUNCTION__ . '() cannot be batch requested');
 		}
 
+		$filesize = 0;
 		$object = $this->get_object_headers($bucket, $filename);
-		$filesize = (integer) $object->header['content-length'];
+
+		if (isset($object->header['content-length']))
+		{
+			$filesize = (integer) $object->header['content-length'];
+		}
 
 		if ($friendly_format)
 		{
@@ -2110,6 +2147,7 @@ class AmazonS3 extends CFRuntime
 			do
 			{
 				$list = $this->list_objects($bucket, $opt);
+
 				if ($keys = $list->body->query('descendant-or-self::Key')->map_string($pcre))
 				{
 					$objects = array_merge($objects, $keys);
@@ -2321,7 +2359,7 @@ class AmazonS3 extends CFRuntime
 		);
 
 		// Add the content type
-		$data['ContentType'] = (string) $response[1]->header['content-type'];
+		$data['ContentType'] = isset($response[1]->header['content-type']) ? (string) $response[1]->header['content-type'] : '';
 
 		// Add the other metadata (including storage type)
 		$contents = json_decode(json_encode($response[2]->body->query('descendant-or-self::Contents')->first()), true);
@@ -2370,6 +2408,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>method</code> - <code>string</code> - Optional - The HTTP method to use for the request. Defaults to a value of <code>GET</code>.</li>
 	 * 	<li><code>response</code> - <code>array</code> - Optional - Allows adjustments to specific response headers. Pass an associative array where each key is one of the following: <code>cache-control</code>, <code>content-disposition</code>, <code>content-encoding</code>, <code>content-language</code>, <code>content-type</code>, <code>expires</code>. The <code>expires</code> value should use <php:gmdate()> and be formatted with the <code>DATE_RFC2822</code> constant.</li>
 	 * 	<li><code>torrent</code> - <code>boolean</code> - Optional - A value of <code>true</code> will return a URL to a torrent of the Amazon S3 object. A value of <code>false</code> will return a non-torrent URL. Defaults to <code>false</code>.</li>
+	 * 	<li><code>versionId</code> - <code>string</code> - Optional - The version of the object. Version IDs are returned in the <code>x-amz-version-id</code> header of any previous object-related request.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
 	 * @return string The file URL, with authentication and/or torrent parameters if requested.
 	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html Using Query String Authentication
@@ -2786,6 +2825,7 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <code>ACL_PRIVATE</code>.</li>
 	 * 	<li><code>contentType</code> - <code>string</code> - Optional - The type of content that is being sent. The default value is <code>application/octet-stream</code>.</li>
+	 * 	<li><code>encryption</code> - <code>string</code> - Optional - The algorithm to use for encrypting the object. [Allowed values: <code>AES256</code>]</li>
 	 * 	<li><code>headers</code> - <code>array</code> - Optional - The standard HTTP headers to send along in the request.</li>
 	 * 	<li><code>meta</code> - <code>array</code> - Optional - An associative array of key-value pairs. Any header starting with <code>x-amz-meta-:</code> is considered user metadata. It will be stored with the object and returned when you retrieve the object. The total size of the HTTP request, not including the body, must be less than 4 KB.</li>
 	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>AmazonS3::STORAGE_STANDARD</code>, <code>AmazonS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
@@ -2829,6 +2869,13 @@ class AmazonS3 extends CFRuntime
 		{
 			$opt['headers']['x-amz-storage-class'] = $opt['storage'];
 			unset($opt['storage']);
+		}
+
+		// Handle encryption settings. Can also be passed as an HTTP header.
+		if (isset($opt['encryption']))
+		{
+			$opt['headers']['x-amz-server-side-encryption'] = $opt['encryption'];
+			unset($opt['encryption']);
 		}
 
 		// Handle meta tags. Can also be passed as an HTTP header.

@@ -12,6 +12,10 @@ class Help extends MY_Controller
     function smile()
     {
         $this->flag->set('user', current_user()->id, 'has_seen_smile_help');
+
+        $logger = new UserEventLogger();
+        $logger->log(current_user(), college()->get_time(), 'smile_help_view');
+
         print r('smile_help');
     }
 

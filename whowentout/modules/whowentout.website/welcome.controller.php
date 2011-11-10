@@ -5,8 +5,18 @@ class Welcome extends MY_Controller
 
     function index()
     {
+        $s3_storage = new S3FileRepository(array(
+                                                'amazon_public_key' => '0N83TDC3E416BETER2R2',
+                                                'amazon_secret_key' => 'sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK',
+                                                'bucket' => 'whowasout_pics',
+                                           ));
+        
+        $local_storage = new LocalFileRepository(array(
+                                                      'path' => 'teststorage',
+                                                      'base_url' => base_url(),
+                                                 ));
     }
-    
+
     function test($name)
     {
         $emails = array('ven' => 'vendiddy@gmail.com',

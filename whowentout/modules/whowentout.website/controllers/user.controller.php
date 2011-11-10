@@ -11,15 +11,14 @@ class User extends MY_Controller
         $this->require_login();
 
         $user = current_user();
-        $user->upload_pic();
-
-        $logger = new UserEventLogger();
-        $logger->log($user, college()->get_time(), 'user_upload_pic');
+        $profile_picture = new UserProfilePicture($user);
+        
+        $profile_picture->set_to_upload();
 
         $this->json_for_ajax_file_upload(array(
                                               'success' => TRUE,
-                                              'raw_pic' => $user->raw_pic,
-                                              'crop_box' => $user->pic_crop_box,
+                                              'raw_pic' => $profile_picture->img('source'),
+                                              'crop_box' => $profile_picture->get_crop_box(),
                                          ));
     }
 
@@ -28,15 +27,13 @@ class User extends MY_Controller
         $this->require_login();
 
         $user = current_user();
-        $user->use_facebook_pic();
-
-        $logger = new UserEventLogger();
-        $logger->log($user, college()->get_time(), 'user_use_facebook_pic');
+        $profile_picture = new UserProfilePicture($user);
+        $profile_picture->set_to_facebook();
 
         $this->json_for_ajax_file_upload(array(
                                               'success' => TRUE,
-                                              'raw_pic' => $user->raw_pic,
-                                              'crop_box' => $user->pic_crop_box,
+                                              'raw_pic' => $profile_picture->img('source'),
+                                              'crop_box' => $profile_picture->get_crop_box(),
                                          ));
     }
 
@@ -45,10 +42,11 @@ class User extends MY_Controller
         $this->require_login();
 
         $user = current_user();
+        $profile_picture = new UserProfilePicture($user);
 
         if (post('op') == 'Save') {
             if (post('width') && post('height')) {
-                $user->crop_pic(post('x'), post('y'), post('width'), post('height'));
+                $profile_picture->crop(post('x'), post('y'), post('width'), post('height'));
             }
 
             $user->hometown_city = post('hometown_city');
@@ -88,7 +86,7 @@ class User extends MY_Controller
         $can_use_website = $use_website_permission->check($user);
 
         if (!$can_use_website)
-           $user->update_facebook_data();
+            $user->update_facebook_data();
 
         $can_use_website = $use_website_permission->check($user); //check again
 

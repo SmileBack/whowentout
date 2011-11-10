@@ -35,6 +35,11 @@ class XUser extends XObject
         }
     }
 
+    function __construct($id = NULL)
+    {
+        parent::__construct($id);
+    }
+    
     function change_visibility($visibility)
     {
         $allowed_visibilities = array('online', 'offline');
@@ -437,40 +442,6 @@ class XUser extends XObject
             return fb()->api("/$this->facebook_id");
     }
 
-    function upload_pic()
-    {
-        $this->refresh_image('upload');
-    }
-
-    function use_facebook_pic()
-    {
-        images()->delete($this->id, 'upload');
-        images()->delete($this->id, 'source');
-        images()->refresh($this->id, 'facebook');
-    }
-
-    //todo: validate
-    function crop_pic($x, $y, $width, $height)
-    {
-        $this->pic_x = $x;
-        $this->pic_y = $y;
-        $this->pic_width = $width;
-        $this->pic_height = $height;
-
-        $this->refresh_image('normal');
-        $this->refresh_image('thumb');
-    }
-
-    function get_pic_crop_box()
-    {
-        return (object)array(
-            'x' => $this->pic_x,
-            'y' => $this->pic_y,
-            'width' => $this->pic_width,
-            'height' => $this->pic_height
-        );
-    }
-
     function anchor_facebook_message()
     {
         return anchor("http://www.facebook.com/messages/$this->facebook_id", 'send message', array('target' => '_blank', 'class' => 'send_fb_message'));
@@ -489,63 +460,6 @@ class XUser extends XObject
     function get_other_gender()
     {
         return $this->gender == 'M' ? 'F' : 'M';
-    }
-
-    function get_raw_pic()
-    {
-        return img($this->raw_pic_url);
-    }
-
-    function get_raw_pic_url()
-    {
-        if (!$this->has_image())
-            return '/assets/images/empty_picture.png';
-        
-        return $this->_get_image_path('source');
-    }
-
-    function get_pic()
-    {
-        return img($this->pic_url);
-    }
-
-    function get_pic_url()
-    {
-        if (!$this->has_image())
-            return '/assets/images/empty_picture.png';
-
-        return $this->_get_image_path('normal');
-    }
-
-    function get_thumb()
-    {
-        return img($this->thumb_url);
-    }
-
-    function get_thumb_url()
-    {
-        if (!$this->has_image())
-            return '/assets/images/empty_picture.png';
-        
-        return $this->_get_image_path('thumb');
-    }
-
-    function refresh_image($preset)
-    {
-        images()->refresh($this->id, $preset);
-    }
-
-    /**
-     * @return WideImage
-     */
-    function image($preset)
-    {
-        return images()->get($this->id, $preset);
-    }
-
-    function has_image()
-    {
-        return images()->exists($this->id, 'source');
     }
 
     function is_friend_of($user)
@@ -584,12 +498,6 @@ class XUser extends XObject
         }
 
         return $array;
-    }
-
-    //this is underscored so it doesn't conflict with the XObject get_{property} methods.
-    private function _get_image_path($preset)
-    {
-        return images()->url($this->id, $preset);
     }
 
     function update_facebook_data()
