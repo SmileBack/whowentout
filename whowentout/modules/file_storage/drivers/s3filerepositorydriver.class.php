@@ -1,14 +1,7 @@
 <?php
 
-class S3FileRepository extends FileRepository
+class S3FileRepositoryDriver extends FileRepositoryDriver
 {
-
-    private $options = array();
-
-    function __construct($options)
-    {
-        $this->options = $options;
-    }
 
     function create($destination_filename, $source_filepath)
     {

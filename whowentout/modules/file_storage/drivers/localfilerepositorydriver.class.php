@@ -1,13 +1,11 @@
 <?php
 
-class LocalFileRepository extends FileRepository
+class LocalFileRepositoryDriver extends FileRepositoryDriver
 {
-
-    private $options = array();
 
     function __construct($options)
     {
-        $this->options = $options;
+        parent::__construct($options);
         $this->check_path();
     }
 

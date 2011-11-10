@@ -13,18 +13,6 @@ function college()
     return XCollege::current();
 }
 
-/**
- * @return ImageRepository
- */
-function images()
-{
-    $ci =& get_instance();
-    if ( ! isset($ci->imagerepository) )
-        $ci->load->library('imagerepository');
-
-    return $ci->imagerepository;
-}
-
 function post($key = NULL)
 {
     if ($key) {

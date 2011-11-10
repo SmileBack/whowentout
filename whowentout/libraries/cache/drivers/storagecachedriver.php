@@ -5,15 +5,15 @@ class StorageCacheDriver extends CacheDriver
 
     private $storage_preset;
 
-    function __construct($config)
+    function __construct($options)
     {
-        parent::__construct($config);
+        parent::__construct($options);
 
         $this->ci =& get_instance();
         $this->ci->load->library('storage');
 
-        $this->storage_preset = $this->config['preset'] . '_cache';
-        $this->ci->storage->add_preset($this->storage_preset, $this->config['storage']);
+        $this->storage_preset = $this->options['preset'] . '_cache';
+        $this->ci->storage->add_preset($this->storage_preset, $this->options['storage']);
     }
 
     function get($key)

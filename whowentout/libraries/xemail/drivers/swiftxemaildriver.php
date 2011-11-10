@@ -7,7 +7,7 @@ class SwiftXEmailDriver extends XEmailDriver
 
     function send_email($to, $subject, $body)
     {
-        $config = (object)$this->config;
+        $config = (object)$this->options;
 
         if ( ! isset($to->full_name) )
             $to->full_name = $to->email;

@@ -1,6 +1,6 @@
 <?php
 
-class ImageRepository
+class ImageRepowiworwy
 {
 
     function __construct()

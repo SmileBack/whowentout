@@ -5,9 +5,9 @@ class S3StorageDriver extends StorageDriver
 
     private $s3;
 
-    function __construct($config)
+    function __construct($options)
     {
-        parent::__construct($config);
+        parent::__construct($options);
 
         $ci =& get_instance();
         $this->amazon_public_key = $ci->config->item('amazon_public_key');
@@ -16,7 +16,7 @@ class S3StorageDriver extends StorageDriver
 
     function save($destFilename, $sourceFilepath)
     {
-        $response = $this->s3()->create_object($this->config['bucket'], $destFilename, array(
+        $response = $this->s3()->create_object($this->options['bucket'], $destFilename, array(
                                                                                             'fileUpload' => $sourceFilepath,
                                                                                             'acl' => AmazonS3::ACL_PUBLIC,
                                                                                        ));
@@ -29,7 +29,7 @@ class S3StorageDriver extends StorageDriver
 
     function saveText($destFilename, $text)
     {
-        $this->s3()->create_object($this->config['bucket'], $destFilename, array(
+        $this->s3()->create_object($this->options['bucket'], $destFilename, array(
                                                                                 'body' => $text,
                                                                                 'acl' => AmazonS3::ACL_PUBLIC,
                                                                            ));
@@ -37,17 +37,17 @@ class S3StorageDriver extends StorageDriver
 
     function exists($filename)
     {
-        return $this->s3()->if_object_exists($this->config['bucket'], $filename);
+        return $this->s3()->if_object_exists($this->options['bucket'], $filename);
     }
 
     function delete($filename)
     {
-        $response = $this->s3()->delete_object($this->config['bucket'], $filename);
+        $response = $this->s3()->delete_object($this->options['bucket'], $filename);
     }
 
     function url($filename)
     {
-        return $this->s3()->get_object_url($this->config['bucket'], $filename);
+        return $this->s3()->get_object_url($this->options['bucket'], $filename);
     }
 
     /**

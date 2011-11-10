@@ -33,7 +33,7 @@ class PusherServerChannelDriver extends ServerChannelDriver
     function pusher()
     {
         if ($this->pusher == NULL) {
-            $this->pusher = new Pusher($this->config['app_key'], $this->config['app_secret'], $this->config['app_id']);
+            $this->pusher = new Pusher($this->options['app_key'], $this->options['app_secret'], $this->options['app_id']);
         }
         return $this->pusher;
     }

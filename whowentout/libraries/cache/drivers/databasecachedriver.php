@@ -3,9 +3,9 @@
 class DatabaseCacheDriver extends CacheDriver
 {
 
-    function __construct($config)
+    function __construct($options)
     {
-        parent::__construct($config);
+        parent::__construct($options);
 
         $this->ci =& get_instance();
         $this->db = $this->ci->db;

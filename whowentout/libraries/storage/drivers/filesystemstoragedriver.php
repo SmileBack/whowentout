@@ -3,9 +3,9 @@
 class FilesystemStorageDriver extends StorageDriver
 {
 
-    function __construct($config)
+    function __construct($options)
     {
-        parent::__construct($config);
+        parent::__construct($options);
 
         $this->checkPath();
     }
@@ -19,7 +19,7 @@ class FilesystemStorageDriver extends StorageDriver
 
     function bucket()
     {
-        return $this->config['bucket'];
+        return $this->options['bucket'];
     }
 
     function save($destFilename, $sourceFilepath)

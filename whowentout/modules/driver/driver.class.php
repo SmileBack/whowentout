@@ -4,11 +4,11 @@ abstract class Driver
 {
 
     private $name;
-    protected $config;
+    protected $options;
 
-    function __construct($config = array())
+    function __construct($options = array())
     {
-        $this->config = $config;
+        $this->options = $options;
     }
 
     function name()
