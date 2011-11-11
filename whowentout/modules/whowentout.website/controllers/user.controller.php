@@ -49,11 +49,21 @@ class User extends MY_Controller
             redirect('dashboard');
         }
         elseif ($op == 'use_facebook_pic') {
-            $profile_picture->set_to_facebook();
+            try {
+                $profile_picture->set_to_facebook();
+            }
+            catch (InvalidImageException $e) {
+                set_message("Invalid image.");
+            }
             redirect('user/edit');
         }
         elseif ($op == 'upload_pic') {
-            $profile_picture->set_to_upload('upload_pic');
+            try {
+                $profile_picture->set_to_upload('upload_pic');
+            }
+            catch (InvalidImageException $e) {
+                set_message("Invalid image.");
+            }
             redirect('user/edit');
         }
 

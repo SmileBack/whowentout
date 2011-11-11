@@ -26,12 +26,18 @@ class ImageRepository
 
     function create_from_upload($key, $field_name)
     {
+        if (!$this->is_valid_image_upload($field_name))
+            throw new InvalidImageException();
+        
         $img = WideImage::loadFromUpload($field_name);
         $this->create_from_image($key, $img);
     }
 
     function create_from_filepath($key, $filepath)
     {
+        if (!$this->is_valid_image($filepath))
+            throw new InvalidImageException();
+        
         $img = $this->load_image_from_filepath($filepath);
         $this->create_from_image($key, $img);
     }
@@ -53,7 +59,7 @@ class ImageRepository
         $version = $this->get_version($key);
 
         $this->save_image_variation($key, 'source', $img);
-        
+
         $this->set_version($key, $version + 1);
     }
 
@@ -69,7 +75,7 @@ class ImageRepository
 
         $this->set_version($key, $version + 1);
     }
-    
+
     function delete($key)
     {
         $variations = array('source', 'thumb', 'normal');
@@ -78,12 +84,31 @@ class ImageRepository
         }
     }
 
+    private function is_valid_image_upload($field_name)
+    {
+        $upload_filepath = $this->get_upload_filepath($field_name);
+        return $this->is_valid_image($upload_filepath);
+    }
+
+    private function is_valid_image($filepath)
+    {
+        return getimagesize($filepath) !== FALSE;
+    }
+
+    private function get_upload_filepath($field_name)
+    {
+        $file = $_FILES['upload_pic'];
+        $filepath = $file['tmp_name'];
+        return $filepath;
+    }
+
     private function filename($key, $variation)
     {
         return "$key.$variation.jpg";
     }
 
     private $images = array();
+
     /**
      * @param  $filepath
      * @return WideImage_Image
