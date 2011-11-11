@@ -10,6 +10,7 @@ function _get_state_data() {
     'Colorado' => 'CO',
     'Connecticut' => 'CT',
     'Delaware' => 'DE',
+    'District of Columnbia' => 'DC',
     'Florida' => 'FL',
     'Georgia' => 'GA',
     'Hawaii' => 'HI',
