@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $config['storage']['default'] = array(
-    'driver' => 'filesystem',
-    'bucket' => '../tmp',
+    'driver' => 'local',
+    'path' => '../tmp',
 );
 
 $config['storage']['pics'] = array(

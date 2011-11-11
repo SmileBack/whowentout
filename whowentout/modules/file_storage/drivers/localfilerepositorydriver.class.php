@@ -50,7 +50,7 @@ class LocalFileRepositoryDriver extends FileRepositoryDriver
 
     private function base_url()
     {
-        return $this->options['base_url'];
+        return isset($this->options['base_url']) ? $this->options['base_url'] : '';
     }
 
     private function check_path()

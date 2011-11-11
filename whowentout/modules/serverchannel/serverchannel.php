@@ -1,6 +1,6 @@
 <?php
 
-class ServerChannel extends FireComponent
+class ServerChannel extends Component
 {
 
     function __construct($config)

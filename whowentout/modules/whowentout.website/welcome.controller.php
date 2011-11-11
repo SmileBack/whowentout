@@ -5,27 +5,8 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $s3_storage = new FileRepository(array(
-                                              'driver' => 's3',
-                                              'amazon_public_key' => '0N83TDC3E416BETER2R2',
-                                              'amazon_secret_key' => 'sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK',
-                                              'bucket' => 'whowasout_pics',
-                                         ));
-
-        $local_storage = new FileRepository(array(
-                                                 'driver' => 'local',
-                                                 'path' => 'teststorage',
-                                                 'base_url' => base_url(),
-                                            ));
-
-        $local_storage->delete('test.png');
-//        $local_storage->create('test.png', 'assets/images/empty_picture.png');
-
-
-        //        $image_repository = new ImageRepository($local_storage);
-        //
-        //        $img = WideImage::loadFromFile('assets/images/empty_picture.png');
-        //        $image_repository->create_from_image('test', $img);
+        $profile_pic = new UserProfilePicture(current_user());
+        krumo::dump($profile_pic->get_crop_box());
     }
 
     function test($name)

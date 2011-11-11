@@ -10,5 +10,4 @@ abstract class FileRepositoryDriver extends Driver
 
     abstract function url($filename);
 
-    abstract function get_file_names();
 }

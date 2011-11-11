@@ -13,7 +13,7 @@ class User extends MY_Controller
         $user = current_user();
         $profile_picture = new UserProfilePicture($user);
         
-        $profile_picture->set_to_upload();
+        $profile_picture->set_to_upload('upload_pic');
 
         $this->json_for_ajax_file_upload(array(
                                               'success' => TRUE,

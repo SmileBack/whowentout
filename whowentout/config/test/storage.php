@@ -1,16 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $config['storage']['default'] = array(
-    'driver' => 'filesystem',
-    'bucket' => '../tmp',
+    'driver' => 'local',
+    'path' => '../tmp',
 );
 
 $config['storage']['pics'] = array(
-    'driver' => 'filesystem',
-    'bucket' => 'teststorage/pics',
+    'driver' => 'local',
+    'path' => 'teststorage/pics',
 );
 
 $config['storage']['js'] = array(
     'driver' => 's3',
-    'bucket' => 'teststorage/js',
+    'path' => 'teststorage/js',
 );

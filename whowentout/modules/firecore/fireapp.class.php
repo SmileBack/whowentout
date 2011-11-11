@@ -30,8 +30,13 @@ class FireApp
     function create($key, $class_name, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL)
     {
         $instance = $this->class_loader()->init($class_name, $arg1, $arg2, $arg3);
-        $this->class_instances[$key] = $instance;
+        $this->register($key, $instance);
         return $this->fetch($key);
+    }
+    
+    function register($key, $instance)
+    {
+        $this->class_instances[$key] = $instance;
     }
     
     function fetch($key)

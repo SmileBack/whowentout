@@ -5,9 +5,10 @@
     data-party-id="<?= $party->id ?>"
     data-thumbnail-capacity="<?= $count ?>">
     <?php foreach ($party->recent_attendees($count) as $attendee): ?>
+    <?php $profile_picture = new UserProfilePicture($attendee); ?>
     <li>
         <a href="<?= "/party/$party->id" ?>">
-            <?= $attendee->thumb ?>
+            <?= $profile_picture->img('thumb') ?>
         </a>
     </li>
     <?php endforeach; ?>

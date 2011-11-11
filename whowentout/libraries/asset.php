@@ -4,23 +4,13 @@
 class CI_Asset
 {
 
-    private $ci;
-
-    private $config = array();
     private $source_js_version = 1;
-
     private $index = array();
-
     private $loaded = array();
 
     function __construct()
     {
-        $this->ci =& get_instance();
-
-        $this->ci->load->library('cache');
-        $this->cache =& $this->ci->cache;
-
-        $this->config = $this->ci->config->item('asset');
+        $this->cache =& f()->fetch('cache');
         $this->source_js_version = file_get_contents('assets/js/version.txt');
     }
 

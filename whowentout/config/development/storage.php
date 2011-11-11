@@ -1,18 +1,14 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 $config['storage']['default'] = array(
-    'driver' => 'filesystem',
-    'bucket' => '../tmp',
+    'driver' => 'local',
+    'path' => '../tmp',
 );
 
 $config['storage']['pics'] = array(
-    'driver' => 'filesystem',
-    'bucket' => 'pics',
-);
-
-$config['storage']['gallery_pics'] = array(
-    'driver' => 'filesystem',
-    'bucket' => 'gallery_pics',
+    'driver' => 'local',
+    'path' => 'pics',
+    'base_url' => 'http://localhost/',
 );
 
 $config['storage']['js'] = array(
