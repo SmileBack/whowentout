@@ -24,6 +24,16 @@ class WhoWentOutLoggerPlugin extends Plugin
         $this->logger->log($e->sender, $this->get_time(), 'smile_sent', $data);
     }
 
+    function on_smile_received(Smile_Received_Event $e)
+    {
+        $data = array(
+            'sender_id' => $e->sender->id,
+            'receiver_id' => $e->receiver->id,
+            'party_id' => $e->party->id,
+        );
+        $this->logger->log($e->receiver, $this->get_time(), 'smile_received', $data);
+    }
+
     function on_smile_match(Smile_Match_Event $e)
     {
         $first_user = $e->match->first_user;

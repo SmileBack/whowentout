@@ -15,7 +15,7 @@ class SmileEngine
 
     function get_who_user_smiled_at($user, $party)
     {
-        if ( ! $this->who_user_smiled_at_cache_isset($user, $party))
+        if (!$this->who_user_smiled_at_cache_isset($user, $party))
             $this->update_who_user_smiled_at_cache($user, $party);
 
         return $this->smile_cache[$user->id][$party->id];
@@ -24,7 +24,7 @@ class SmileEngine
     private function who_user_smiled_at_cache_isset($user, $party)
     {
         return isset($this->smile_cache[$user->id])
-            && isset($this->smile_cache[$user->id][$party->id]);
+               && isset($this->smile_cache[$user->id][$party->id]);
     }
 
     private function update_who_user_smiled_at_cache($user, $party)
@@ -61,18 +61,18 @@ class SmileEngine
     function get_smiles_sent_for_user($user, $party)
     {
         $query = $this->db->select('id')
-                          ->from('smiles')
-                          ->where('sender_id', $user->id)
-                          ->where('party_id', $party->id);
+                ->from('smiles')
+                ->where('sender_id', $user->id)
+                ->where('party_id', $party->id);
         return XObject::load_objects('XSmile', $query);
     }
 
     function get_smiles_received_for_user($user, $party)
     {
         $query = $this->db->select('id')
-                          ->from('smiles')
-                          ->where('receiver_id', $user->id)
-                          ->where('party_id', $party->id);
+                ->from('smiles')
+                ->where('receiver_id', $user->id)
+                ->where('party_id', $party->id);
         return XObject::load_objects('XSmile', $query);
     }
 
@@ -105,11 +105,18 @@ class SmileEngine
         $this->update_who_user_smiled_at_cache($sender, $party);
 
         f()->trigger('smile_sent', array(
-                                     'sender' => $sender,
-                                     'receiver' => $receiver,
-                                     'smile' => $smile,
-                                     'party' => $party,
+                                        'sender' => $sender,
+                                        'receiver' => $receiver,
+                                        'smile' => $smile,
+                                        'party' => $party,
                                    ));
+
+        f()->trigger('smile_received', array(
+                                            'sender' => $sender,
+                                            'receiver' => $receiver,
+                                            'smile' => $smile,
+                                            'party' => $party,
+                                       ));
 
         $first_smile = $this->get_most_recent_smile_sent($receiver, $sender);
         if ($first_smile) {
@@ -124,9 +131,9 @@ class SmileEngine
                                                   'second_user_id' => $smile->sender->id,
                                                   'created_at' => college()->get_time()->format('Y-m-d H:i:s'),
                                              ));
-                
+
                 f()->trigger('smile_match', array(
-                                              'match' => $match,
+                                                 'match' => $match,
                                             ));
             }
         }
