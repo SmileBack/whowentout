@@ -19,7 +19,7 @@ function boot_fire()
     require_once APPPATH . 'modules/firecore/fireapp.class.php';
     require_once APPPATH . 'modules/firecore/index.class.php';
     require_once APPPATH . 'modules/firecore/classloader.class.php';
-
+    
     $cache = new FilesystemCache(APPPATH . '../cache');
     $index = new Index(FIREAPPPATH, $cache);
     $class_loader = new ClassLoader($index);

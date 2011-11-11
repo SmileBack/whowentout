@@ -6,45 +6,15 @@ define('LOGIN_LINK_STATE', 2);
 class User extends MY_Controller
 {
 
-    function upload_pic()
+    function update()
     {
         $this->require_login();
 
-        $user = current_user();
-        $profile_picture = new UserProfilePicture($user);
-        
-        $profile_picture->set_to_upload('upload_pic');
-
-        $this->json_for_ajax_file_upload(array(
-                                              'success' => TRUE,
-                                              'raw_pic' => $profile_picture->img('source'),
-                                              'crop_box' => $profile_picture->get_crop_box(),
-                                         ));
-    }
-
-    function use_facebook_pic()
-    {
-        $this->require_login();
-
-        $user = current_user();
-        $profile_picture = new UserProfilePicture($user);
-        $profile_picture->set_to_facebook();
-
-        $this->json_for_ajax_file_upload(array(
-                                              'success' => TRUE,
-                                              'raw_pic' => $profile_picture->img('source'),
-                                              'crop_box' => $profile_picture->get_crop_box(),
-                                         ));
-    }
-
-    function edit_save()
-    {
-        $this->require_login();
-
+        $op = post('op');
         $user = current_user();
         $profile_picture = new UserProfilePicture($user);
 
-        if (post('op') == 'Save') {
+        if ($op == 'save') {
             if (post('width') && post('height')) {
                 $profile_picture->crop(post('x'), post('y'), post('width'), post('height'));
             }
@@ -69,6 +39,14 @@ class User extends MY_Controller
                                               ));
 
             redirect('dashboard');
+        }
+        elseif ($op == 'Use Facebook Pic') {
+            $profile_picture->set_to_facebook();
+            redirect('user/edit');
+        }
+        elseif ($op == 'Upload Pic') {
+            $profile_picture->set_to_upload('upload_pic');
+            redirect('user/edit');
         }
 
         show_404();

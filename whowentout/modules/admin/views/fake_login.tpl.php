@@ -1,8 +1,12 @@
+<?php
+/* @var $student XUser */
+?>
 <ul class="login_gallery">
   <?php foreach ($students as $student): ?>
     <li>
       <a href="/admin/fakelogin/<?= $student->id ?>">
-        <?= $student->thumb ?>
+        <?php $profile_picture = new UserProfilePicture($student); ?>
+        <?= $profile_picture->img('thumb') ?>
       </a>
       <p>
         <?= $student->full_name ?>

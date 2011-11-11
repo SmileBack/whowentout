@@ -2,6 +2,7 @@
 //= require lib/jquery.entwine.js
 //= require lib/jquery.ext.js
 //= require lib/jquery.form.js
+//= require lib/jquery.jcrop.js
 //= require core.js
 
 (function($) {
@@ -94,7 +95,6 @@
             $('#height').val(crop_box.height);
 
             initialize_crop_ui();
-            $('.my_pic').hideLoadMask();
             dfd.resolve();
 
         });
@@ -139,51 +139,27 @@
     }
 
     jQuery(function($) {
-        //$('.my_pic').showLoadMask();
-        $.getScript('/assets/js/lib/jquery.jcrop.js', function() {
-            $('#crop_raw_image').bind('imageload', function() {
+         $('.my_pic').showLoadMask('Loading your Picture');
+        $('#crop_raw_image').bind('imageload', function() {
+            setTimeout(function() {
                 reinitialize_crop_ui($('#crop_raw_image').html(), {
                     x: $('#x').val(),
                     y: $('#y').val(),
                     width: $('#width').val(),
                     height: $('#height').val()
                 });
-            });
+                $('.my_pic').hideLoadMask();
+            }, 3000);
         });
     });
 
-    $('#pic_upload_input').entwine({
-        onchange: function(e) {
-            $('.my_pic').showLoadMask('Uploading');
-            this.closest('form').ajaxSubmit({
-                url: '/user/upload_pic',
-                dataType: 'json',
-                success: function(response) {
-                    var result = reinitialize_crop_ui(response.raw_pic, response.crop_box);
-                    $.when(result).then(function() {
-                        window.location.reload(true);
-                    });
-                }
-            });
-        }
+    $('#edit_form').live('submit', function() {
+        $('.my_pic').showLoadMask('Please Wait');
     });
 
-    $('#pic_use_facebook_input').entwine({
-        onclick: function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $('.my_pic').showLoadMask();
-            this.closest('form').ajaxSubmit({
-                url: '/user/use_facebook_pic',
-                dataType: 'json',
-                success: function(response) {
-                    var result = reinitialize_crop_ui(response.raw_pic, response.crop_box);
-                    $.when(result).then(function() {
-                        window.location.reload(true);
-                    });
-                }
-            });
-        }
+    $('#pic_upload_input').live('change', function() {
+        console.log('file input :: change');
+        $(this).parent().find(':submit').click();
     });
 
 })(jQuery);

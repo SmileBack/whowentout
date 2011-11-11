@@ -21,7 +21,7 @@
         img.onload = function() {
             if (!dfd.isResolved())
                 dfd.resolve();
-        }
+        };
         img.src = $(imgEl).attr('src');
 
         if (img.complete && !dfd.isResolved()) {

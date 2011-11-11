@@ -1,6 +1,6 @@
 <?php $profile_picture = new UserProfilePicture($user); ?>
 
-<?= form_open_multipart('user/edit_save', array('id' => 'edit_form')) ?>
+<?= form_open_multipart('user/update', array('id' => 'edit_form')) ?>
 
 <fieldset class="my_info">
     <ul>
@@ -51,7 +51,7 @@
     <div id="pic_options">
         <span class="file_wrapper">
             <input type="file" name="upload_pic" id="pic_upload_input"/>
-            <span class="submit_button">Upload Pic</span>
+            <input type="submit" name="op" class="submit_button" value="Upload Pic" />
         </span>
 
         <div>
