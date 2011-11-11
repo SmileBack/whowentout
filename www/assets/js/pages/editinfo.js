@@ -139,7 +139,7 @@
     }
 
     jQuery(function($) {
-         $('.my_pic').showLoadMask('Loading your Picture');
+        $('.my_pic').showLoadMask('Loading your Picture');
         $('#crop_raw_image').bind('imageload', function() {
             setTimeout(function() {
                 reinitialize_crop_ui($('#crop_raw_image').html(), {

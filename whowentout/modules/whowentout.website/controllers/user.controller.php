@@ -6,11 +6,19 @@ define('LOGIN_LINK_STATE', 2);
 class User extends MY_Controller
 {
 
+    private function get_op()
+    {
+        $op = post('op');
+        $op = trim(strtolower($op));
+        $op = preg_replace('/\s+/', '_', $op);
+        return $op;
+    }
+
     function update()
     {
         $this->require_login();
 
-        $op = post('op');
+        $op = $this->get_op();
         $user = current_user();
         $profile_picture = new UserProfilePicture($user);
 
@@ -40,11 +48,11 @@ class User extends MY_Controller
 
             redirect('dashboard');
         }
-        elseif ($op == 'Use Facebook Pic') {
+        elseif ($op == 'use_facebook_pic') {
             $profile_picture->set_to_facebook();
             redirect('user/edit');
         }
-        elseif ($op == 'Upload Pic') {
+        elseif ($op == 'upload_pic') {
             $profile_picture->set_to_upload('upload_pic');
             redirect('user/edit');
         }
