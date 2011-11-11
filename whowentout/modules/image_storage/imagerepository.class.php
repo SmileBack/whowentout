@@ -1,6 +1,6 @@
 <?php
 
-require_once APPPATH . 'third_party/wideimage/wideimage.php';
+require_once APPPATH . 'third_party/wideimage/WideImage.php';
 
 class ImageRepository
 {
