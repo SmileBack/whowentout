@@ -2,7 +2,7 @@
 
 $config['storage']['default'] = array(
     'driver' => 'local',
-    'bucket' => '../tmp',
+    'path' => '../tmp',
 );
 
 $config['storage']['pics'] = array(
