@@ -22,7 +22,7 @@ class UserProfilePicture
 
     function url($size = 'normal')
     {
-        if (!$this->is_missing())
+        if ($this->is_missing())
             return site_url('assets/images/empty_picture.png');
         
         return $this->image_repository->url($this->user->id, $size);
