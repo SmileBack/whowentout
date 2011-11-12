@@ -4,7 +4,7 @@ $profile_picture = new UserProfilePicture($user);
 ?>
 
 <div class="profile_pic">
-    <?= $profile_picture->img('thumb') ?>
+    <?= $profile_picture->img('thumb', TRUE) ?>
     <?= anchor('user/edit', 'change', array('class' => 'edit')); ?>
 </div>
 

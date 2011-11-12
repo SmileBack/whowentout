@@ -9,6 +9,10 @@
 
     var api = null;
 
+    function picture_is_missing() {
+        return $('.my_pic').hasClass('missing');
+    }
+
     function initialize_crop_ui() {
         var x = parseInt($('#x').val()),
         y = parseInt($('#y').val()),
@@ -31,7 +35,7 @@
             boxHeight: 300
         });
 
-        if (!$('.my_pic').hasClass('missing')) {
+        if (! picture_is_missing()) {
             api.setSelect([x, y, x + width, y + height]);
             api.selection.enableHandles();
         }
@@ -70,7 +74,7 @@
                     marginLeft: '-' + Math.round(rx * coords.x) + 'px',
                     marginTop: '-' + Math.round(ry * coords.y) + 'px'
                 });
-                
+
             }
 
         }
@@ -142,7 +146,10 @@
     }
 
     jQuery(function($) {
-        $('.my_pic').showLoadMask('Loading Your Pic');
+        if (!picture_is_missing()) {
+            $('.my_pic').showLoadMask('Loading Your Pic');
+        }
+
         $('#crop_raw_image').bind('imageload', function() {
             $('.my_pic').hideLoadMask();
             reinitialize_crop_ui($('#crop_raw_image').html(), {

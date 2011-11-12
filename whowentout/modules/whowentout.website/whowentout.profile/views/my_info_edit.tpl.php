@@ -41,7 +41,7 @@
 
 <fieldset class="my_pic <?= $image_missing ? 'missing' : '' ?>">
 
-    <div id="crop_raw_image" style="display: none;"><?= $profile_picture->img('source') ?></div>
+    <div id="crop_raw_image" style="display: none;"><?= $profile_picture->img('source', TRUE) ?></div>
 
     <div id="crop" class="frame">
     </div>

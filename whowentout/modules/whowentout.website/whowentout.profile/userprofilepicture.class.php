@@ -15,16 +15,16 @@ class UserProfilePicture
         $this->image_repository = f()->fetch('pics_image_repository');
     }
 
-    function img($size = 'normal')
+    function img($size = 'normal', $show_alternative_if_not_present = FALSE)
     {
-        return img($this->url($size));
+        return img($this->url($size, $show_alternative_if_not_present));
     }
 
-    function url($size = 'normal')
+    function url($size = 'normal', $show_alternative_if_not_present = FALSE)
     {
-        if ($this->is_missing())
+        if ($show_alternative_if_not_present && $this->is_missing())
             return site_url('assets/images/empty_profile_picture.png');
-        
+
         return $this->image_repository->url($this->user->id, $size) . '?version=' . $this->get_version();
     }
 
