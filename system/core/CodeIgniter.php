@@ -239,7 +239,7 @@ $BM->mark('controller_execution_time_( ' . $class . ' / ' . $method . ' )_start'
 if ($RTR->is_valid_request()) {
     unset($CI);
     $CI = new $class;
-
+    $CI->router = $RTR;
 }
 
 /*
