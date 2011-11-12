@@ -142,7 +142,9 @@
     }
 
     jQuery(function($) {
+        $('.my_pic').showLoadMask('Loading Your Pic');
         $('#crop_raw_image').bind('imageload', function() {
+            $('.my_pic').hideLoadMask();
             reinitialize_crop_ui($('#crop_raw_image').html(), {
                 x: $('#x').val(),
                 y: $('#y').val(),
