@@ -9,10 +9,10 @@ else {
 
 <?=
 r('section', array(
-                  'title' => $party->date->format('l, M. jS') . ' | ' . $party->place->name . ' Gallery',
+                  'title' => $party->date->format('l, M. jS') . ' | ' . strip_tags($party->place->name) . ' Gallery',
                   'description' => $description,
                   'class' => 'gallery_view',
-                  'body' => r('gallery', array(
+                  'body' => r('party_gallery', array(
                                               'user' => current_user(),
                                               'party' => $party,
                                               'smile_engine' => $smile_engine,
