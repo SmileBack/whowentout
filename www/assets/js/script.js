@@ -42,10 +42,16 @@ $.when(app.load()).then(function() {
         }
     });
 
-    $('.chat_visibility input:radio').entwine({
-        onchange: function() {
-            this.closest('.chat_visibility').selectOption( this.val() );
+    $('.chat_visibility label').entwine({
+        onclick: function() {
+            this.find('input:radio').trigger('change');
         }
+    });
+
+    $('.chat_visibility input:radio').live('change', function() {
+        var val = $(this).val();
+        var chatVisibility = $(this).closest('.chat_visibility');
+        chatVisibility.selectOption(val);
     });
 
 });
