@@ -40,7 +40,6 @@ class TestFacebookNetworkPlugin extends Plugin
                 $this->modify_100001981675908_api($e->response);
             }
         }
-
         
     }
 

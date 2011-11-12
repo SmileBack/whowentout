@@ -56,6 +56,8 @@ class FireApp
                 $plugin_instance->$handler($e);
             }
         }
+        
+        return $e;
     }
 
     /**

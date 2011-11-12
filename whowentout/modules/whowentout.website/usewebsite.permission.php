@@ -33,13 +33,10 @@ class UseWebsitePermission
         if ($user->college != college())
             $this->add_reason(UseWebsitePermission::NETWORK_INFO_MISSING);
 
-        $profile_picture = new UserProfilePicture($user);
-        if ($profile_picture->is_missing()) {
-            $this->add_reason(UseWebsitePermission::MISSING_IMAGE);
-        }
-        else {
-            krumo::dump("woooo");
-        }
+//        $profile_picture = new UserProfilePicture($user);
+//        if ($profile_picture->is_missing()) {
+//            $this->add_reason(UseWebsitePermission::MISSING_IMAGE);
+//        }
 
         return empty($this->reasons);
     }

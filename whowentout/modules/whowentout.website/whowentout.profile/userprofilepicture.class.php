@@ -58,7 +58,7 @@ class UserProfilePicture
 
     function is_missing()
     {
-        return $this->image_repository->exists($this->user->id);
+        return !$this->image_repository->exists($this->user->id);
     }
 
     private function update_variations()

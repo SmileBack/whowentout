@@ -613,6 +613,7 @@ class XUser extends XObject
             else
                 $disabled_colleges[] = $college;
         }
+
         return array_merge($enabled_colleges, $disabled_colleges);
     }
 
