@@ -3,6 +3,11 @@
 class Party extends MY_Controller
 {
 
+    function __construct()
+    {
+        parent::__construct();
+    }
+
     function page($party_id)
     {
         $this->require_login(TRUE);

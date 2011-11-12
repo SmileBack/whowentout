@@ -43,7 +43,6 @@ class XObject
 
     public static function pre_fetch_rows($table, $row_ids = array())
     {
-        krumo::dump('pre_fetch_rows');
         $ci =& get_instance();
 
         if (empty($row_ids))
@@ -56,7 +55,6 @@ class XObject
         foreach ($rows as $row) {
             static::$rows[$table][$row->id] = (array)$row;
         }
-        krumo::dump(static::$rows);
     }
 
     protected static function clear_row_cache($table, $row_id)

@@ -8,7 +8,7 @@ class UserProfilePicture
 
     /* @var $image_repository ImageRepository */
     private $image_repository;
-
+    
     function __construct(XUser $user)
     {
         $this->user = $user;
@@ -25,7 +25,7 @@ class UserProfilePicture
         if ($this->is_missing())
             return site_url('assets/images/empty_profile_picture.png');
         
-        return $this->image_repository->url($this->user->id, $size);
+        return $this->image_repository->url($this->user->id, $size) . '?version=' . $this->get_version();
     }
 
     function set_to_upload($field_name)
@@ -34,6 +34,7 @@ class UserProfilePicture
         
         $this->set_default_crop_box();
         $this->update_variations();
+        $this->update_version();
 
         $logger = new UserEventLogger();
         $logger->log($this->user, college()->get_time(), 'user_upload_pic');
@@ -46,6 +47,7 @@ class UserProfilePicture
         
         $this->set_default_crop_box();
         $this->update_variations();
+        $this->update_version();
 
         $logger = new UserEventLogger();
         $logger->log($this->user, college()->get_time(), 'user_use_facebook_pic');
@@ -66,6 +68,17 @@ class UserProfilePicture
         $box = $this->get_crop_box();
         $variations = $this->get_variations($box);
         $this->image_repository->update_variations($this->user->id, $variations);
+    }
+
+    private function update_version()
+    {
+        $this->user->pic_version++;
+        $this->user->save();
+    }
+
+    private function get_version()
+    {
+        return $this->user->pic_version;
     }
 
     private function get_variations($box)
@@ -89,6 +102,7 @@ class UserProfilePicture
                                 'x' => $x, 'y' => $y, 'width' => $width, 'height' => $height,
                             ));
         $this->update_variations();
+        $this->update_version();
     }
 
     private function get_facebook_image_url(XUser $user)

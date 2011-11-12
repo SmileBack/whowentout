@@ -16,7 +16,7 @@ class ImageRepository
     function url($key, $variation = 'source')
     {
         $filename = $this->filename($key, $variation);
-        return $this->storage->url($filename) . '?version=' . $this->get_version($key);
+        return $this->storage->url($filename);// . '?version=' . $this->get_version($key); TODO: add back and cache
     }
 
     function exists($key)

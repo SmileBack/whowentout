@@ -23,8 +23,6 @@ class MY_Controller extends CI_Controller
             f()->window_settings['current_user_id'] = current_user()->id;
             f()->window_settings['chatbar_state'] = current_user()->chatbar_state;
         }
-
-        $this->output->enable_profiler(TRUE);
     }
 
     protected function require_admin()

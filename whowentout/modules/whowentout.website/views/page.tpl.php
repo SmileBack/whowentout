@@ -64,7 +64,7 @@
         <div id="logo">
 
             <a href="/">
-                <img src="/assets/images/logo.png?version=10"/>
+                <img src="/assets/images/logo.png?version=11"/>
             </a>
 
             <?php if (FALSE): ?>
