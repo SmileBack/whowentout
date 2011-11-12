@@ -31,9 +31,11 @@
             boxHeight: 300
         });
 
-        api.setSelect([x, y, x + width, y + height]);
+        if (!$('.my_pic').hasClass('missing')) {
+            api.setSelect([x, y, x + width, y + height]);
+            api.selection.enableHandles();
+        }
 
-        api.selection.enableHandles();
 
         function set_textbox_coordinates(x, y, width, height) {
             $('#x').val(x);
@@ -140,7 +142,6 @@
     }
 
     jQuery(function($) {
-        $('.my_pic').showLoadMask('Loading your Picture');
         $('#crop_raw_image').bind('imageload', function() {
             reinitialize_crop_ui($('#crop_raw_image').html(), {
                 x: $('#x').val(),
@@ -148,7 +149,6 @@
                 width: $('#width').val(),
                 height: $('#height').val()
             });
-            $('.my_pic').hideLoadMask();
         });
     });
 
