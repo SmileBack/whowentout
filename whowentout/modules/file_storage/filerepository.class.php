@@ -13,7 +13,7 @@ class FileRepository
         $this->options = $options;
         $this->driver = f()->class_loader()->init_subclass('FileRepositoryDriver', $this->options['driver'], $this->options);
     }
-    
+
     function create($destination_filename, $source_filepath, $metadata = array())
     {
         $this->create_without_metadata($destination_filename, $source_filepath);
@@ -48,11 +48,6 @@ class FileRepository
         }
 
         return $filtered_file_names;
-    }
-
-    private function is_metadata_file($filename)
-    {
-        return string_ends_with('.meta', $filename);
     }
 
     function create_from_text($destination_filename, $text)
@@ -95,6 +90,11 @@ class FileRepository
     function delete_metadata($filename)
     {
         $this->delete_without_metadata($this->metadata_filename($filename));
+    }
+
+    private function is_metadata_file($filename)
+    {
+        return string_ends_with('.meta', $filename);
     }
 
     private function create_without_metadata($destination_filename, $source_filepath)

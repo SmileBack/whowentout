@@ -78,7 +78,7 @@ class ImageRepository
 
     function delete($key)
     {
-        $variations = array('source', 'thumb', 'normal');
+        $variations = array('source', 'thumb', 'normal'); //todo: remove hard-coding by storing in metadata
         foreach ($variations as $cur_variation) {
             $this->storage->delete($this->filename($key, $cur_variation));
         }

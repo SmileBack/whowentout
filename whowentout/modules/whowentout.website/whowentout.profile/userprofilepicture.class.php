@@ -22,6 +22,9 @@ class UserProfilePicture
 
     function url($size = 'normal')
     {
+        if (!$this->is_missing())
+            return site_url('assets/images/empty_picture.png');
+        
         return $this->image_repository->url($this->user->id, $size);
     }
 
@@ -48,7 +51,12 @@ class UserProfilePicture
         $logger->log($this->user, college()->get_time(), 'user_use_facebook_pic');
     }
 
-    function has_image()
+    function delete()
+    {
+        $this->image_repository->delete($this->user->id);
+    }
+
+    function is_missing()
     {
         return $this->image_repository->exists($this->user->id);
     }

@@ -6,7 +6,7 @@ class Welcome extends MY_Controller
     function index()
     {
         $profile_pic = new UserProfilePicture(current_user());
-        krumo::dump($profile_pic->get_crop_box());
+        $profile_pic->delete();
     }
 
     function test($name)
