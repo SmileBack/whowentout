@@ -10,7 +10,7 @@ class UseWebsitePermission
     const NEVER_EDITED_PROFILE = 'NEVER_EDITED_PROFILE';
     const GRAD_YEAR_MISSING = 'GRAD_YEAR_MISSING';
     const NETWORK_INFO_MISSING = 'NETWORK_INFO_MISSING';
-    const MISSING_IMAGE = 'MISSING_IMAGE';
+    const IMAGE_MISSING = 'MISSING_IMAGE';
 
     function check(XUser $user)
     {
@@ -35,7 +35,7 @@ class UseWebsitePermission
 
         $profile_picture = new UserProfilePicture($user);
         if ($profile_picture->is_missing()) {
-            $this->add_reason(UseWebsitePermission::MISSING_IMAGE);
+            $this->add_reason(UseWebsitePermission::IMAGE_MISSING);
         }
 
         return empty($this->reasons);

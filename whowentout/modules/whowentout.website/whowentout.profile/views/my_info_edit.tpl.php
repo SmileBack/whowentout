@@ -36,7 +36,10 @@
     </ul>
 </fieldset>
 
-<fieldset class="my_pic">
+
+<?php $image_missing = in_array('image', $missing_info); ?>
+
+<fieldset class="my_pic <?= $image_missing ? 'missing' : '' ?>">
 
     <div id="crop_raw_image" style="display: none;"><?= $profile_picture->img('source') ?></div>
 
@@ -49,13 +52,15 @@
     </div>
 
     <div id="pic_options">
-        <span class="file_wrapper">
+        <span class="file_wrapper upload_pic">
             <input type="file" name="upload_pic" id="pic_upload_input"/>
             <input type="submit" name="op" class="submit_button" value="Upload Pic" />
         </span>
 
-        <div>
-            <input type="submit" name="op" value="Use Facebook Pic" id="pic_use_facebook_input" class="submit_button"/>
+        <div class="or">OR</div>
+
+        <div class="use_facebook_pic">
+            <input type="submit" name="op" value="Use Facebook Pic" class="submit_button"/>
         </div>
     </div>
 

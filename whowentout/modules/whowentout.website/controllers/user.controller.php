@@ -23,7 +23,7 @@ class User extends MY_Controller
         $profile_picture = new UserProfilePicture($user);
 
         if ($op == 'save') {
-            if (post('width') && post('height')) {
+            if (post('width') && post('height') && !$profile_picture->is_missing()) {
                 $profile_picture->crop(post('x'), post('y'), post('width'), post('height'));
             }
 
@@ -85,6 +85,7 @@ class User extends MY_Controller
             $user->update_facebook_data();
 
         $can_use_website = $use_website_permission->check($user); //check again
+        $missing_info = $user->get_missing_info();
 
         $message = array();
 
@@ -108,12 +109,17 @@ class User extends MY_Controller
             $message[] = '<p>You are missing your hometown.</p>';
         }
 
+        if ($use_website_permission->cant_because(UseWebsitePermission::IMAGE_MISSING)) {
+            $message[] = '<p>You are missing a picture of yourself.</p>';
+            $missing_info[] = 'image';
+        }
+
         if (!empty($message))
             set_message(implode('', $message));
 
         $this->load_view('user_edit', array(
                                            'user' => $user,
-                                           'missing_info' => $user->get_missing_info(),
+                                           'missing_info' => $missing_info,
                                       ));
     }
 
