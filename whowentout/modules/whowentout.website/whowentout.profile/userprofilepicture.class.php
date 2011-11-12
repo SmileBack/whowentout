@@ -94,7 +94,6 @@ class UserProfilePicture
     private function get_facebook_image_url(XUser $user)
     {
         $facebook_id = $user->facebook_id;
-        $facebook_id = '507890094';
         return "https://graph.facebook.com/$facebook_id/picture?type=large";
     }
 
