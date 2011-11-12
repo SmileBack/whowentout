@@ -138,7 +138,7 @@ $.when(app.load()).then(function() {
                     },
                     n: function() {
                         userLogger.log('user_cancel_smile', {
-                            receiver_id: this.closest('.user').userID()
+                            receiver_id: $(this).closest('.user').userID()
                         });
                     }
                 }
@@ -147,7 +147,7 @@ $.when(app.load()).then(function() {
         else {
             action = action.substring(0, 1).toLowerCase() + action.substring(1);
             userLogger.log('user_attempt_smile', {
-                receiver_id: this.closest('.user').userID()
+                receiver_id: $(this).closest('.user').userID()
             });
             WhoWentOut.Dialog.Show({
                 title: "Can't Smile",

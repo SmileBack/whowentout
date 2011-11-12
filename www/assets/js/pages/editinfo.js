@@ -68,6 +68,7 @@
                     marginLeft: '-' + Math.round(rx * coords.x) + 'px',
                     marginTop: '-' + Math.round(ry * coords.y) + 'px'
                 });
+                
             }
 
         }
@@ -141,15 +142,13 @@
     jQuery(function($) {
         $('.my_pic').showLoadMask('Loading your Picture');
         $('#crop_raw_image').bind('imageload', function() {
-            setTimeout(function() {
-                reinitialize_crop_ui($('#crop_raw_image').html(), {
-                    x: $('#x').val(),
-                    y: $('#y').val(),
-                    width: $('#width').val(),
-                    height: $('#height').val()
-                });
-                $('.my_pic').hideLoadMask();
-            }, 3000);
+            reinitialize_crop_ui($('#crop_raw_image').html(), {
+                x: $('#x').val(),
+                y: $('#y').val(),
+                width: $('#width').val(),
+                height: $('#height').val()
+            });
+            $('.my_pic').hideLoadMask();
         });
     });
 

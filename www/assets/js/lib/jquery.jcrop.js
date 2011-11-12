@@ -315,9 +315,12 @@
 
     presize($img, options.boxWidth, options.boxHeight);
 
+    console.log('img.width = ' + $img.width() + ', img.height = ' + $img.height());
+    console.log('origimg.width = ' + $origimg.width() + ', origimg.height = ' + $origimg.height());
+
     var boundx = $img.width(),
         boundy = $img.height(),
-        
+
         
         $div = $('<div />').width(boundx).height(boundy).addClass(cssClass('holder')).css({
         position: 'relative',
@@ -1506,6 +1509,7 @@
 
     function attachWhenDone(from) //{{{
     {
+        console.log('attach when done');
       var opt = (typeof(options) === 'object') ? options : {};
       var loadsrc = opt.useImg || from.src;
       var img = new Image();
