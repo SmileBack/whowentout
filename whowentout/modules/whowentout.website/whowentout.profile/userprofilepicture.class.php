@@ -93,7 +93,9 @@ class UserProfilePicture
 
     private function get_facebook_image_url(XUser $user)
     {
-        return "https://graph.facebook.com/$user->facebook_id/picture?type=large";
+        $facebook_id = $user->facebook_id;
+        $facebook_id = '507890094';
+        return "https://graph.facebook.com/$facebook_id/picture?type=large";
     }
 
     function set_default_crop_box()
