@@ -65,11 +65,19 @@ class Dashboard extends MY_Controller
     {
         $groups = array();
 
-        if ($this->option->exists('featured_date_string') && $this->option->get('featured_date_string') != NULL) {
-            $featured_party_group_date = new XDateTime($this->option->get('featured_date_string'), $college->timezone);
+        $featured_date_strings = $this->option->get('featured_date_strings');
+        if ( ! is_array($featured_date_strings) )
+            return array();
+
+        foreach ($featured_date_strings as $date_string) {
+            if ($date_string == '')
+                continue;
+            
+            $featured_party_group_date = new XDateTime($date_string, $college->timezone);
             $featured_party_group = new PartyGroup($college->get_clock(), $featured_party_group_date);
 
-            if (!$featured_party_group->get_selected_party($user)) //only feature it if they havent attended
+            //only featured if they haven't checked in
+            if ( ! $featured_party_group->get_selected_party($user))
                 $groups[] = $featured_party_group;
         }
 

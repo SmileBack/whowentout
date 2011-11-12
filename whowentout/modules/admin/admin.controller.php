@@ -186,10 +186,13 @@ class Admin extends MY_Controller
     {
         $this->check_access();
 
-        $featured_date = $this->option->get('featured_date_string');
+        $featured_date_strings = $this->option->get('featured_date_strings');
+        if (!is_array($featured_date_strings))
+            $featured_date_strings = array('', '', '');
+
         print r('page', array(
                              'page_content' => r('admin_featured_date', array(
-                                                                             'featured_date_string' => $featured_date,
+                                                                             'featured_date_strings' => $featured_date_strings,
                                                                         ))
                         ));
     }
@@ -198,25 +201,33 @@ class Admin extends MY_Controller
     {
         $this->check_access();
 
-        $featured_date_string = post('featured_date_string');
+        $featured_date_strings = post('featured_date_strings');
 
-        if ($featured_date_string == '') {
-            $this->option->delete('featured_date_string');
-            set_message("Removed featured date.");
-        }
-        elseif ($this->is_valid_date_string($featured_date_string)) {
-            $this->option->set('featured_date_string', $featured_date_string);
-            set_message("Saved featured date.");
+        if ($this->are_valid_date_strings($featured_date_strings)) {
+            $this->option->set('featured_date_strings', $featured_date_strings);
+            set_message("Saved featured date strings.");
         }
         else {
             set_message("Invalid date. Must be of the format 2011-10-24");
         }
-
+        
         redirect('admin/featured_date');
+    }
+
+    private function are_valid_date_strings(array $date_strings)
+    {
+        foreach ($date_strings as $ds)
+            if (!$this->is_valid_date_string($ds))
+                return FALSE;
+
+        return TRUE;
     }
 
     private function is_valid_date_string($date_string)
     {
+        if ($date_string == '')
+            return TRUE;
+        
         $valid = TRUE;
         try {
             $featured_date = new XDateTime($date_string, new DateTimeZone('UTC'));
