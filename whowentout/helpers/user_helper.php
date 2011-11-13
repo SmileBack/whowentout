@@ -40,7 +40,6 @@ function create_user($facebook_id, $data = array())
     /* @var $user XUser */
     $user = XUser::create($data);
     $user->update_facebook_data();
-    $user->refresh_image('facebook');
     
     return $user;
 }
