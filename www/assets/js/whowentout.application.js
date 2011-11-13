@@ -184,6 +184,7 @@ WhoWentOut.Model.extend('WhoWentOut.Application', {
         this._sounds[name].play();
     },
     showSmileHelp: function() {
+        $('.see_smile_help_tip').hideTip();
         WhoWentOut.Dialog.Show({
             title: 'What is a Smile?',
             buttons: 'close',

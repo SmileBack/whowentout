@@ -41,6 +41,9 @@ class Party extends MY_Controller
             'smiles_left' => $smile_engine->get_num_smiles_left_to_give($user, $party),
         );
 
+        if ($this->flag->missing('user', current_user()->id, 'has_seen_smile_help'))
+            $this->jsaction->ShowSmileTip();
+
         $this->load_view('party', $data);
     }
 
