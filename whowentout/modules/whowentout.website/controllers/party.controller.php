@@ -58,6 +58,38 @@ class Party extends MY_Controller
                                         ));
     }
 
+    function admin_checkin_add()
+    {
+        $this->require_admin();
+
+        $party_id = post('party_id');
+        $party = XParty::get($party_id);
+
+        $user_id = post('user_id');
+        $user = XUser::get($user_id);
+
+        $checkin_engine = new CheckinEngine();
+        $checkin_engine->checkin_user_to_party($user, $party);
+
+        redirect("party/admin/$party->id");
+    }
+
+    function admin_checkin_remove()
+    {
+        $this->require_admin();
+
+        $party_id = post('party_id');
+        $party = XParty::get($party_id);
+
+        $user_id = post('user_id');
+        $user = XUser::get($user_id);
+
+        $checkin_engine = new CheckinEngine();
+        $checkin_engine->remove_user_checkin($user, $party);
+
+        redirect("party/admin/$party->id");
+    }
+
     function pictures($party_id)
     {
         $this->require_login(TRUE);
@@ -65,16 +97,16 @@ class Party extends MY_Controller
 
         /* @var $party XParty */
         $party = XParty::get($party_id);
-        
+
         if ($party->flickr_gallery_id == NULL)
             show_error("This party doesn't have any pictures");
 
         $gallery = new FlickrGallery($party->flickr_gallery_id);
-        
+
         if ($gallery) {
             $this->load_view('party_pictures', array(
-                                                 'party' => $party,
-                                                 'gallery' => $gallery,
+                                                    'party' => $party,
+                                                    'gallery' => $gallery,
                                                ));
         }
     }

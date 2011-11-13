@@ -13,7 +13,7 @@ class SmileEngine
         $this->init_db();
     }
 
-    function get_who_user_smiled_at($user, $party)
+    function get_who_user_smiled_at(XUser $user, XParty $party)
     {
         if (!$this->who_user_smiled_at_cache_isset($user, $party))
             $this->update_who_user_smiled_at_cache($user, $party);
@@ -21,13 +21,13 @@ class SmileEngine
         return $this->smile_cache[$user->id][$party->id];
     }
 
-    private function who_user_smiled_at_cache_isset($user, $party)
+    private function who_user_smiled_at_cache_isset(XUser $user, XParty $party)
     {
         return isset($this->smile_cache[$user->id])
                && isset($this->smile_cache[$user->id][$party->id]);
     }
 
-    private function update_who_user_smiled_at_cache($user, $party)
+    private function update_who_user_smiled_at_cache(XUser $user, XParty $party)
     {
         $query = $this->db->select('receiver_id AS id')
                 ->from('smiles')
@@ -38,13 +38,13 @@ class SmileEngine
         $this->smile_cache[$user->id][$party->id] = $who_user_smiled_at;
     }
 
-    function smile_was_sent($sender, $receiver, $party)
+    function smile_was_sent(XUser $sender, XUser $receiver, Xparty $party)
     {
         $who_sender_smiled_at = $this->get_who_user_smiled_at($sender, $party);
         return in_array($receiver, $who_sender_smiled_at);
     }
 
-    function get_smile_matches_for_user($user, $party)
+    function get_smile_matches_for_user(XUser $user, XParty $party)
     {
         $query = $this->db->select('smile_matches.id AS id')
                 ->from('smile_matches')
@@ -58,7 +58,7 @@ class SmileEngine
         return $smile_match_objects;
     }
 
-    function get_smiles_sent_for_user($user, $party)
+    function get_smiles_sent_for_user(XUser $user, XParty $party)
     {
         $query = $this->db->select('id')
                 ->from('smiles')
@@ -67,7 +67,7 @@ class SmileEngine
         return XObject::load_objects('XSmile', $query);
     }
 
-    function get_smiles_received_for_user($user, $party)
+    function get_smiles_received_for_user(XUser $user, XParty $party)
     {
         $query = $this->db->select('id')
                 ->from('smiles')
@@ -76,12 +76,12 @@ class SmileEngine
         return XObject::load_objects('XSmile', $query);
     }
 
-    function get_num_smiles_sent($user, $party)
+    function get_num_smiles_sent(XUser $user, XParty $party)
     {
         return count($this->get_who_user_smiled_at($user, $party));
     }
 
-    function get_num_smiles_received($user, $party)
+    function get_num_smiles_received(XUser $user, XParty $party)
     {
         return $this->db->from('smiles')
                 ->where('receiver_id', $user->id)
@@ -89,12 +89,19 @@ class SmileEngine
                 ->count_all_results();
     }
 
-    function get_num_smiles_left_to_give($user, $party)
+    function get_num_overall_smiles_received(XUser $user)
+    {
+        return $this->db->from('smiles')
+                ->where('receiver_id', $user->id)
+                ->count_all_results();
+    }
+
+    function get_num_smiles_left_to_give(XUser $user, XParty $party)
     {
         return $this->smiles_allowed_per_party - $this->get_num_smiles_sent($user, $party);
     }
 
-    function send_smile($sender, $receiver, $party)
+    function send_smile(XUser $sender, XUser $receiver, XParty $party)
     {
         $smile = XSmile::create(array(
                                      'sender_id' => $sender->id,
@@ -141,7 +148,7 @@ class SmileEngine
         return $smile;
     }
 
-    function get_most_recent_smile_sent($from_user, $to_user)
+    function get_most_recent_smile_sent(XUser $from_user, XUser $to_user)
     {
         $row = $this->db->from('smiles')
                 ->where('sender_id', $from_user->id)
