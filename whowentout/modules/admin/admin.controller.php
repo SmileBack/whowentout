@@ -8,7 +8,7 @@ class Admin extends MY_Controller
         return logged_in() && current_user()->is_admin();
     }
 
-    private function check_access()
+    private function check_admin_access()
     {
         if (!$this->can_access())
             show_404();
@@ -16,7 +16,7 @@ class Admin extends MY_Controller
 
     function index()
     {
-        $this->check_access();
+        $this->check_admin_access();
         $this->load_view('admin');
     }
 
@@ -39,7 +39,7 @@ class Admin extends MY_Controller
 
     function fake_time()
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $clock = college()->get_clock();
 
@@ -60,26 +60,26 @@ class Admin extends MY_Controller
 
     function parties()
     {
-        $this->check_access();
+        $this->check_admin_access();
         $this->load_view('edit_parties');
     }
 
     function places()
     {
-        $this->check_access();
+        $this->check_admin_access();
         $this->load_view('edit_places');
     }
 
     function users()
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $this->load_view('users');
     }
 
     function destroy_user($user_id)
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $user = XUser::get($user_id);
         $full_name = $user->full_name;
@@ -90,7 +90,7 @@ class Admin extends MY_Controller
 
     function add_place()
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $college = college();
         $name = post('place_name');
@@ -102,7 +102,7 @@ class Admin extends MY_Controller
 
     function delete_place($place_id)
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $place = XPlace::get($place_id);
         $place_name = $place->name;
@@ -114,7 +114,7 @@ class Admin extends MY_Controller
 
     function add_party()
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $date = new DateTime(post('date'), college()->timezone);
         $place_id = post('place_id');
@@ -129,7 +129,7 @@ class Admin extends MY_Controller
 
     function delete_party($party_id)
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $party = XParty::get($party_id);
         $party_date = $party->date->format("Y-m-d");
@@ -142,7 +142,7 @@ class Admin extends MY_Controller
 
     function random_checkin($party_id)
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $party = XParty::get($party_id);
 
@@ -164,7 +164,7 @@ class Admin extends MY_Controller
 
     function featured_message()
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $featured_message = $this->option->get('featured_message', '');
         print r('page', array(
@@ -184,7 +184,7 @@ class Admin extends MY_Controller
 
     function featured_date()
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $featured_date_strings = $this->option->get('featured_date_strings');
         if (!is_array($featured_date_strings))
@@ -199,7 +199,7 @@ class Admin extends MY_Controller
 
     function featured_date_save()
     {
-        $this->check_access();
+        $this->check_admin_access();
 
         $featured_date_strings = post('featured_date_strings');
 
@@ -212,6 +212,34 @@ class Admin extends MY_Controller
         }
         
         redirect('admin/featured_date');
+    }
+
+    function logs()
+    {
+        $this->check_admin_access();
+
+        $this->load_view('admin_logs');
+    }
+
+    function log_download()
+    {
+        $logger = new UserEventLogger();
+        $data = $logger->export();
+
+        $rows = array();
+        $empty_row = array_fill_keys($data['columns'], '');
+        foreach ($data['rows'] as $r) {
+            $rows[] = array_merge($empty_row, $r);
+        }
+        
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename="log.csv"');
+        header('Cache-Control: max-age=0');
+        $file = new CsvWriter('php://output');
+        $file->addLine($data['columns']);
+        foreach ($rows as $row) {
+            $file->addLine($row);
+        }
     }
 
     private function are_valid_date_strings(array $date_strings)

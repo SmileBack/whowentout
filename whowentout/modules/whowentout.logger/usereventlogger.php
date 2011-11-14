@@ -50,7 +50,7 @@ class UserEventLogger
         unset($all_columns['data']);
         
         return array(
-            'columns' => $all_columns,
+            'columns' => array_keys($all_columns),
             'rows' => $all_data_points,
         );
     }
