@@ -23,32 +23,12 @@ class User extends MY_Controller
         $profile_picture = new UserProfilePicture($user);
 
         if ($op == 'save') {
-            if (post('width') && post('height') && !$profile_picture->is_missing()) {
-                $profile_picture->crop(post('x'), post('y'), post('width'), post('height'));
-            }
-
-            $user->hometown_city = post('hometown_city');
-            $user->hometown_state = post('hometown_state');
-            $user->grad_year = post('grad_year');
-
-            if ($user->changed()) {
-                $user->last_edit = college()->get_time()->getMySqlTimestamp();
-                $user->save();
-            }
-
-            // The first time no-changes edit still counts as a save.
-            if ($user->never_edited_profile()) {
-                $user->last_edit = college()->get_time()->getMySqlTimestamp();
-                $user->save();
-            }
-
-            f()->trigger('user_edit_profile', array(
-                                                   'user' => $user,
-                                              ));
-
+            $this->crop_profile_pic();
+            $this->update_basic_info();
             redirect('dashboard');
         }
         elseif ($op == 'use_facebook_pic') {
+            $this->update_basic_info();
             try {
                 $profile_picture->set_to_facebook();
             }
@@ -58,6 +38,7 @@ class User extends MY_Controller
             redirect('user/edit');
         }
         elseif ($op == 'upload_pic') {
+            $this->update_basic_info();
             try {
                 $profile_picture->set_to_upload('upload_pic');
             }
@@ -68,6 +49,39 @@ class User extends MY_Controller
         }
 
         show_404();
+    }
+
+    private function update_basic_info()
+    {
+        $user = current_user();
+
+        $user->hometown_city = post('hometown_city');
+        $user->hometown_state = post('hometown_state');
+        $user->grad_year = post('grad_year');
+
+        if ($user->changed()) {
+            $user->last_edit = college()->get_time()->getMySqlTimestamp();
+            $user->save();
+            f()->trigger('user_edit_profile', array(
+                                                   'user' => $user,
+                                              ));
+        }
+
+        // The first time no-changes edit still counts as a save.
+        if ($user->never_edited_profile()) {
+            $user->last_edit = college()->get_time()->getMySqlTimestamp();
+            $user->save();
+        }
+    }
+
+    private function crop_profile_pic()
+    {
+        $user = current_user();
+        $profile_picture = new UserProfilePicture($user);
+        
+        if (post('width') && post('height') && !$profile_picture->is_missing()) {
+            $profile_picture->crop(post('x'), post('y'), post('width'), post('height'));
+        }
     }
 
     function edit()
@@ -110,6 +124,7 @@ class User extends MY_Controller
         }
 
         if ($use_website_permission->cant_because(UseWebsitePermission::IMAGE_MISSING)) {
+            $logger->log($user, college()->get_time(), 'user_missing_image');
             $message[] = '<p>You are missing a picture of yourself.</p>';
             $missing_info[] = 'image';
         }
