@@ -45,7 +45,7 @@ class Job extends MY_Controller
         }
 
         set_message("Ran " . count($jobs) . " jobs.");
-        redirect('pending');
+        redirect('job/pending');
     }
 
     function admin_run($job_id)
