@@ -21,5 +21,6 @@
                 </tr>
             <?php endforeach; ?>
         </table>
+        <?= anchor('job/admin_run_pending', 'run pending') ?>
     </div>
 </section>

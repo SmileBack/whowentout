@@ -31,10 +31,27 @@ class Job extends MY_Controller
         $this->load_view('job_list', array('jobs' => $jobs));
     }
 
+    function admin_run_pending()
+    {
+        $this->require_admin();
+
+        $jobs = $this->db->from('jobs')
+                ->where('status', 'pending')
+                ->order_by('type', 'asc')
+                ->get()->result();
+
+        foreach ($jobs as $job) {
+            job_run_async($job->id);
+        }
+
+        set_message("Ran " . count($jobs) . " jobs.");
+        redirect('pending');
+    }
+
     function admin_run($job_id)
     {
         $this->require_admin();
-        
+
         job_run_async($job_id);
         set_message("Ran job $job_id");
         redirect('job/pending');
