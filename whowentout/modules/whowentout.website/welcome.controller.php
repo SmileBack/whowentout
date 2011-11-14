@@ -5,8 +5,6 @@ class Welcome extends MY_Controller
 
     function index()
     {
-        $profile_pic = new UserProfilePicture(current_user());
-        $profile_pic->delete();
     }
 
     function test($name)

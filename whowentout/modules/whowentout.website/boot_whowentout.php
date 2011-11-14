@@ -27,6 +27,10 @@ class BootWhoWentOutPlugin extends Plugin
         $image_repository_storage = new FileRepository($image_respository_storage_config);
         $image_repository = new ImageRepository($image_repository_storage);
         $fire->register('pics_image_repository', $image_repository);
+        
+        $emailer_config = $this->load_config('emailer', 'default');
+        $emailer = new Emailer($emailer_config);
+        $fire->register('emailer', $emailer);
     }
 
     private $CFG;

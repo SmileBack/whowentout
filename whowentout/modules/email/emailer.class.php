@@ -1,16 +1,11 @@
 <?php
 
-class XEmail extends Component
+class Emailer extends Component
 {
-
-    protected $ci;
 
     function __construct($config)
     {
         parent::__construct($config);
-
-        $this->ci =& get_instance();
-        $this->ci->load->helper('email');
     }
 
     function send($to, $subject, $body)
@@ -28,11 +23,17 @@ class XEmail extends Component
             return FALSE;
 
         $this->driver()->send_email($to, $subject, $body);
-        $this->ci->db->insert('sent_emails', array(
+        $this->db()->insert('sent_emails', array(
                                                   'recipient_email' => $to->email,
                                                   'subject' => $subject,
                                                   'body' => $body,
                                              ));
+    }
+
+    private function db()
+    {
+        $ci =& get_instance();
+        return $ci->db;
     }
 
 }

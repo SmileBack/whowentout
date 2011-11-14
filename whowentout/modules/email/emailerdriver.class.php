@@ -1,6 +1,6 @@
 <?php
 
-abstract class XEmailDriver extends Driver
+abstract class EmailerDriver extends Driver
 {
   abstract function send_email($to, $subject, $body);
 }

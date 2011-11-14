@@ -29,7 +29,7 @@ class Component
      * @param string $preset
      * @return Driver
      */
-    function driver($preset = NULL)
+    function driver()
     {
         return $this->driver;
     }
