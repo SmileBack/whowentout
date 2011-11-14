@@ -265,7 +265,7 @@ class XUser extends XObject
 
         $this->db()->trans_complete();
         
-        $this->last_updated_friends = $this->college->get_time()->formatMySqlTimestamp();
+        $this->last_updated_friends = $this->college->get_time()->getMySqlTimestamp();
         $this->save();
 
         return TRUE;

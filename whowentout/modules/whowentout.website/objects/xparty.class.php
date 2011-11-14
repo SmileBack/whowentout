@@ -196,7 +196,7 @@ class XParty extends XObject
         );
 
         $this->db()->insert('party_invitations', array(
-                                                      'created_at' => $this->college->get_time()->formatMySqlTimestamp(),
+                                                      'created_at' => $this->college->get_time()->getMySqlTimestamp(),
                                                       'party_id' => $this->id,
                                                       'sender_id' => $from->id,
                                                       'college_student_id' => $student->id,
