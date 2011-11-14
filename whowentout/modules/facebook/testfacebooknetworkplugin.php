@@ -15,15 +15,15 @@ class TestFacebookNetworkPlugin extends Plugin
                 }
 
                 //extra users
-//                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003126769765') {
-//                    $e->response = $this->get_776200121_affiliations();
-//                }
-//                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003158469787') {
-//                    $e->response = $this->get_776200121_affiliations();
-//                }
-//                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003135799985') {
-//                    $e->response = $this->get_776200121_affiliations();
-//                }
+                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003126769765') {
+                    $e->response = $this->get_776200121_affiliations();
+                }
+                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003158469787') {
+                    $e->response = $this->get_776200121_affiliations();
+                }
+                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003135799985') {
+                    $e->response = $this->get_776200121_affiliations();
+                }
 
 
                 elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100001981675908') {
