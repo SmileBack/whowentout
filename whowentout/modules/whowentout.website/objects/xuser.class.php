@@ -249,7 +249,9 @@ class XUser extends XObject
         //delete old friends data
         $this->db()->trans_start();
         $this->db()->delete('friends', array('user_id' => $this->id));
-        $this->db()->insert_batch('friends', $rows);
+        
+        if ( count($rows) > 0 )
+            $this->db()->insert_batch('friends', $rows);
 
         //update friends
         $this->db()->query("UPDATE friends
@@ -262,6 +264,7 @@ class XUser extends XObject
                             WHERE friend_facebook_id = ?", array($this->id, $this->facebook_id));
 
         $this->db()->trans_complete();
+        
         $this->last_updated_friends = $this->college->get_time()->formatMySqlTimestamp();
         $this->save();
 
