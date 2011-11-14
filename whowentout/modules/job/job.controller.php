@@ -38,6 +38,7 @@ class Job extends MY_Controller
         $jobs = $this->db->from('jobs')
                 ->where('status', 'pending')
                 ->order_by('type', 'asc')
+                ->limit(10)
                 ->get()->result();
 
         foreach ($jobs as $job) {
