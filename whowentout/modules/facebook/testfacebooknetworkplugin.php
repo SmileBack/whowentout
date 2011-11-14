@@ -13,13 +13,27 @@ class TestFacebookNetworkPlugin extends Plugin
                 elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 1185700827') {
                     $e->response = $this->get_776200121_affiliations();
                 }
+
+                //extra users
+                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003126769765') {
+                    $e->response = $this->get_776200121_affiliations();
+                }
+                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003158469787') {
+                    $e->response = $this->get_776200121_affiliations();
+                }
+                elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100003135799985') {
+                    $e->response = $this->get_776200121_affiliations();
+                }
+
+
                 elseif ($e->options['query'] == 'SELECT affiliations FROM user WHERE uid = 100001981675908') {
                     $e->response = $this->get_100001981675908_affiliations();
                 }
 
                 if (ENVIRONMENT != 'whowentout'
-                    && string_starts_with('SELECT affiliations FROM user WHERE uid = ', $e->options['query'])) {
-                    
+                    && string_starts_with('SELECT affiliations FROM user WHERE uid = ', $e->options['query'])
+                ) {
+
                     $e->response = $e->default_response;
                     $e->response[0]['affiliations'][] = array(
                         'nid' => '16777231',
@@ -27,7 +41,7 @@ class TestFacebookNetworkPlugin extends Plugin
                         'type' => 'college',
                     );
                 }
-                
+
             }
         }
         elseif (is_string($e->options)) {
@@ -40,7 +54,7 @@ class TestFacebookNetworkPlugin extends Plugin
                 $this->modify_100001981675908_api($e->response);
             }
         }
-        
+
     }
 
     function get_100001981675908_affiliations()
