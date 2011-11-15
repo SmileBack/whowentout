@@ -6,20 +6,33 @@ class DatabaseTable
     private $db;
     private $name;
 
+    private $schema;
+    private $rows = array();
+    private $columns = array();
+
     function __construct(Database $db, $name)
     {
         $this->db = $db;
         $this->name = $name;
 
         $this->load_schema_from_database();
+        $this->cache = new Cache(array(
+                                      'driver' => 'array'
+                                 ));
     }
 
     function name()
     {
+        return $this->name();
     }
 
     function row($id)
     {
+        if (!isset($this->rows[$id])) {
+            $this->rows[$id] = new DatabaseRow($this, $id);
+        }
+
+        return $this->rows[$id];
     }
 
     function create_row($values = array())
@@ -32,10 +45,22 @@ class DatabaseTable
 
     function column($name)
     {
+        if (!isset($this->columns[$name])) {
+            $column_options = $this->schema['columns'][$name];
+            $column_type = $column_options['type'];
+            $column = f()->class_loader()->init_subclass('databasecolumn', $column_type, $this, $column_options);
+            $this->columns[$name] = $column;
+            krumo::dump($this->columns);
+        }
+
+        return $this->columns[$name];
     }
 
     function create_column($name, array $options)
     {
+        $column_sql = $this->get_column_sql($name, $options);
+        $query = $this->db->query_statement("ALTER TABLE $this->name ADD $column_sql");
+        $query->execute();
     }
 
     function rename_column($name, $new_name)
@@ -44,6 +69,8 @@ class DatabaseTable
 
     function destroy_column($name)
     {
+        $query = $this->db->query_statement("ALTER TABLE $this->name DROP COLUMN $name");
+        $query->execute();
     }
 
     function create_index($column)
@@ -58,23 +85,6 @@ class DatabaseTable
     {
     }
 
-    function update_row_sql($id, array $values)
-    {
-        $columns = array_keys($values);
-        $set_statements = array();
-        foreach ($columns as $column) {
-            $set_statements[] = "$column = :$column";
-        }
-
-        $set_statements = implode(', ', $set_statements);
-
-        $sql = "UPDATE {$this->name()} SET $set_statements\n";
-        $sql .= " WHERE id = :id";
-
-        $row['id'] = $id;
-        krumo::dump($row);
-    }
-
     function load_schema_from_database()
     {
         $schema = array(
@@ -86,7 +96,6 @@ class DatabaseTable
         $query = $this->db->query_statement("SHOW FULL COLUMNS FROM {$this->name}");
         $query->execute();
         $column_infos = $query->fetchAll(PDO::FETCH_OBJ);
-        krumo::dump($column_infos);
 
         foreach ($column_infos as $info) {
             $column = array(
@@ -124,8 +133,6 @@ class DatabaseTable
         }
 
         $this->schema = $schema;
-
-        krumo::dump($this->schema);
     }
 
     private function get_data_type($field_info)
@@ -157,6 +164,43 @@ class DatabaseTable
         $matches = array();
         $num_matches = preg_match('/^\w+\((?<size>\d+)\)/', $field_info->Type, $matches);
         return $num_matches > 0 ? (int)$matches['size'] : FALSE;
+    }
+
+    private function update_row_query($id, array $values)
+    {
+        $columns = array_keys($values);
+        $set_statements = array();
+        foreach ($columns as $column) {
+            $set_statements[] = "$column = :$column";
+        }
+
+        $set_statements = implode(', ', $set_statements);
+
+        $sql = "UPDATE $this->name SET $set_statements\n";
+        $sql .= " WHERE id = :id";
+
+        $values['id'] = $id;
+
+        return $this->db->query_statement($sql, $values);
+    }
+
+    private function get_column_sql($column_name, $column_config)
+    {
+        $column_type = f()->class_loader()->init_subclass('columntype', $column_config['type'], $column_config);
+        return $column_name . ' ' . $column_type->to_sql();
+    }
+
+    function _persist_row_changes($row_id, $changes)
+    {
+        $query = $this->update_row_query($row_id, $changes);
+        $query->execute();
+    }
+
+    function _fetch_row_values($row_id)
+    {
+        $query = $this->db->query_statement("SELECT * FROM $this->name WHERE id = :id", array(':id' => $row_id));
+        $query->execute();
+        return (array)$query->fetchObject();
     }
 
 }

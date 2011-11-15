@@ -8,7 +8,7 @@ class Database
 
     private $config = array();
     private $tables = array();
-
+    
     function __construct($config)
     {
         $this->connect($config);
@@ -40,7 +40,7 @@ class Database
         $this->dbh->commit();
     }
 
-    function rollback_transactions()
+    function rollback_transaction()
     {
         $this->dbh->rollBack();
     }
@@ -48,6 +48,19 @@ class Database
     function last_insert_id()
     {
         return $this->dbh->lastInsertId();
+    }
+
+    /**
+     * @param  $table_name
+     * @return DatabaseTable
+     */
+    function table($table_name)
+    {
+        if (!isset($this->tables[$table_name])) {
+            $this->tables[$table_name] = new DatabaseTable($this, $table_name);
+        }
+
+        return $this->tables[$table_name];
     }
 
     function create_table($table_name, $columns)
