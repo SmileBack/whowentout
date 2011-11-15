@@ -12,9 +12,7 @@ class Database
     function __construct($config)
     {
         $this->connect($config);
-
         $this->load_tables();
-        krumo::dump($this->tables);
     }
 
     function connect(array $config)
@@ -59,17 +57,34 @@ class Database
         $query->execute();
     }
 
+    function rename_table($table_name, $new_table_name)
+    {
+        $query = $this->query_statement("RENAME $table_name TO $new_table_name");
+        $query->execute();
+    }
+
+    function destroy_table($table_name)
+    {
+        $query = $this->query_statement("DROP TABLE $table_name");
+        $query->execute();
+    }
+
+    function drop_table($table_name)
+    {
+        throw new Exception("Please use the destroy_table method.");
+    }
+
     function create_table_sql($table_name, $columns)
     {
         $column_schemas = array();
         foreach ($columns as $column_name => $column_config) {
             $column_schemas[] = $this->get_column_sql($column_name, $column_config);
         }
-        
+
         return "CREATE TABLE $table_name\n"
-             . "(\n"
-             . implode(",\n", $column_schemas) . "\n"
-             . ") ENGINE=INNODB";
+               . "(\n"
+               . implode(",\n", $column_schemas) . "\n"
+               . ") ENGINE=INNODB";
     }
 
     private function get_column_sql($column_name, $column_config)
@@ -97,7 +112,7 @@ class Database
      * @param array $params If placeholders are used in your sql, place your values in $params.
      * @return PDOStatement
      */
-    private function query_statement($sql, $params = array())
+    function query_statement($sql, $params = array())
     {
         $statement = $this->dbh->prepare($sql);
         foreach ($params as $name => $value) {

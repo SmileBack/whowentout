@@ -2,25 +2,25 @@
 
 //connect to database
 $db = new Database(array(
-                     'host' => 'localhost',
-                     'username' => 'root',
-                     'password' => '123',
+                        'host' => 'localhost',
+                        'username' => 'root',
+                        'password' => '123',
                    ));
 
 //create a table
 $db->create_table('facebook_events', array(
-                                       'id' => array(
-                                           'type' => 'id',
-                                       ),
-                                       'name' => array(
-                                           'type' => 'string',
-                                       ),
-                                       'start' => array(
-                                           'type' => 'time',
-                                       ),
-                                       'end' => array(
-                                           'type' => 'time',
-                                       ),
+                                          'id' => array(
+                                              'type' => 'id',
+                                          ),
+                                          'name' => array(
+                                              'type' => 'string',
+                                          ),
+                                          'start' => array(
+                                              'type' => 'time',
+                                          ),
+                                          'end' => array(
+                                              'type' => 'time',
+                                          ),
                                      ));
 
 //drop a table
@@ -31,7 +31,7 @@ $db->table('facebook_events')->rename('events');
 
 //add column
 $db->table('facebook_events')->add_column('version', array(
-                                                       'type' => 'integer',
+                                                          'type' => 'integer',
                                                      ));
 
 //rename column

@@ -5,6 +5,15 @@ class Welcome extends MY_Controller
 
     function index()
     {
+        $profile_pic = new UserProfilePicture(current_user());
+        $profile_pic->delete();
+//        $db = new Database(array(
+//                                'host' => 'localhost',
+//                                'database' => 'test',
+//                                'username' => 'root',
+//                                'password' => 'root',
+//                           ));
+//        $colleges = new DatabaseTable($db, 'colleges');
     }
 
     function test($name)

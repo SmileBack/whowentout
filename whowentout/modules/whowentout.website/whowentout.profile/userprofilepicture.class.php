@@ -23,7 +23,7 @@ class UserProfilePicture
     function url($size = 'normal', $show_alternative_if_not_present = FALSE)
     {
         if ($show_alternative_if_not_present && $this->is_missing())
-            return site_url('assets/images/empty_profile_picture.png');
+            return site_url('assets/images/empty_profile_picture.png?version=2');
 
         return $this->image_repository->url($this->user->id, $size) . '?version=' . $this->get_version();
     }
