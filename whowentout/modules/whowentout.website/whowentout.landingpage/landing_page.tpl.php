@@ -41,7 +41,7 @@
     </div>
 
     <div id="coming_soon">
-        <img src="/assets/images/landing/coming_soon.png?version=6"/>
+        <img src="/assets/images/landing/coming_soon.png?version=7"/>
     </div>
 
 </body>
