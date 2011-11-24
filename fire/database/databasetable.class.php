@@ -24,8 +24,15 @@ class DatabaseTable
         return $this->name;
     }
 
+    /**
+     * @param  $id
+     * @return DatabaseRow|null
+     */
     function row($id)
     {
+        if (!$this->_row_exists($id))
+            return null;
+        
         if (!isset($this->rows[$id])) {
             $this->rows[$id] = new DatabaseRow($this, $id);
         }
@@ -33,12 +40,25 @@ class DatabaseTable
         return $this->rows[$id];
     }
 
+    /**
+     * @param array $values
+     * @return DatabaseRow
+     */
     function create_row($values = array())
     {
+        $query = $this->create_row_query($values);
+        $query->execute();
+
+        $row_id = $this->db->last_insert_id();
+        return $this->row($row_id);
     }
 
     function destroy_row($id)
     {
+        $query = $this->destroy_row_query($id);
+        $query->execute();
+
+        unset($this->rows[$id]);
     }
 
     /**
@@ -201,6 +221,28 @@ class DatabaseTable
         return $this->db->query_statement($sql, $values);
     }
 
+    private function create_row_query(array $values)
+    {
+        $columns = array_keys($values);
+
+        $columns_sql = implode(',', $columns);
+
+        $values_sql = array();
+        foreach ($columns as $column) {
+            $values_sql[] = ":$column";
+        }
+        $values_sql = implode(', ', $values_sql);
+
+        $sql = "INSERT INTO $this->name ($columns_sql) VALUES ($values_sql)";
+        return $this->db->query_statement($sql, $values);
+    }
+
+    private function destroy_row_query($row_id)
+    {
+        $sql = "DELETE FROM $this->name WHERE id = :id";
+        return $this->db->query_statement($sql, array('id' => $row_id));
+    }
+
     private function get_column_sql($column_name, $column_config)
     {
         $column_type = f()->class_loader()->init_subclass('columntype', $column_config['type'], $column_config);
@@ -217,7 +259,13 @@ class DatabaseTable
     {
         $query = $this->db->query_statement("SELECT * FROM $this->name WHERE id = :id", array(':id' => $row_id));
         $query->execute();
-        return (array)$query->fetchObject();
+        $row_count = $query->rowCount();
+        return $row_count > 0 ? (array)$query->fetchObject() : false;
     }
 
+    function _row_exists($row_id)
+    {
+        return $this->_fetch_row_values($row_id) != null;
+    }
+    
 }

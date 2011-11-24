@@ -11,14 +11,10 @@ class DatabaseRow
      */
     private $table;
 
-    private $id;
-
     function __construct(DatabaseTable $table, $id)
     {
         $this->table = $table;
-        $this->id = $id;
-
-        $this->load_values();
+        $this->load_values($id);
     }
 
     /**
@@ -63,9 +59,11 @@ class DatabaseRow
         $this->table->_persist_row_changes($this->id, $changes);
     }
 
-    private function load_values()
+    private function load_values($row_id)
     {
-        $this->values = $this->table->_fetch_row_values($this->id);
+        $this->values = $this->table->_fetch_row_values($row_id);
+        if (!$this->values)
+            throw new Exception("Row with id $row_id doesn't exist.");
     }
 
 }
