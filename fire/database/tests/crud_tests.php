@@ -16,7 +16,7 @@ class Crud_Tests extends TestGroup
                                       'password' => 'root',
                                       'database' => 'fire_test',
                                  ));
-
+        
         foreach ($this->db->list_table_names() as $table_name) {
             $this->db->destroy_table($table_name);
         }

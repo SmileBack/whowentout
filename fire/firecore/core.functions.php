@@ -28,7 +28,7 @@ function html_element($tag, $attributes = array(), $content = '')
 
 function a($url, $title, $attributes = array())
 {
-    $attributes['href'] = $url;
+    $attributes['href'] = '/' . $url;
     return html_element('a', $attributes, $title);
 }
 

@@ -1,5 +1,6 @@
 <?php
 
+define('FIREPATH', '../fire/');
 define('APPPATH', '../');
 
 /**
@@ -15,10 +16,10 @@ function boot_fire()
 {
     global $_fire_app;
 
-    require_once APPPATH . 'fire/firecore/filesystemcache.class.php';
-    require_once APPPATH . 'fire/firecore/fireapp.class.php';
-    require_once APPPATH . 'fire/firecore/index.class.php';
-    require_once APPPATH . 'fire/firecore/classloader.class.php';
+    require_once FIREPATH . 'firecore/filesystemcache.class.php';
+    require_once FIREPATH . 'firecore/fireapp.class.php';
+    require_once FIREPATH . 'firecore/index.class.php';
+    require_once FIREPATH .  'firecore/classloader.class.php';
 
     $cache = new FilesystemCache(APPPATH . 'cache');
     $index = new Index(APPPATH, $cache);

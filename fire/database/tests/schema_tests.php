@@ -24,7 +24,6 @@ class Schema_Tests extends TestGroup
 
     function teardown()
     {
-
     }
 
     function test_create_basic_table()

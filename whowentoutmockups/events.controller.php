@@ -1,5 +1,5 @@
 <?php
-
+/*
 class Events extends Controller
 {
 
@@ -34,3 +34,4 @@ class Events extends Controller
     }
 
 }
+*/
