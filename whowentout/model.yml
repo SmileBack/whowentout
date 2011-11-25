@@ -1,0 +1,94 @@
+user:
+  full_name:
+    type: string
+  email:
+    type: string
+  facebook_id:
+    type: string
+  facebook_access_token:
+    type: string
+    size: 512??
+  facebook_friends:
+    type: relation
+    model: user
+  profile_picture:
+    type: ??
+
+city:
+  name:
+    type: string
+  venues:
+    type: relation
+    has_many: venue
+
+venue:
+  name:
+    type: string
+  city:
+    type: relation
+    belongs_to: city
+  address:
+    type: text
+  owner:
+    type: relation
+    has_one: user
+  tables:
+    type: relation
+    has_many: table
+  events:
+    type: relation
+    has_many: event
+
+table:
+  name:
+    type: string
+  venue:
+    type: relation
+    belongs_to: venue
+
+event:
+  name:
+    type: text
+  description:
+    type: text
+  picture:
+    type: ??
+  date:
+    type: date
+  admins: # through event_admins implied
+    type: relation
+    model: user
+  promoters:
+    type: relation
+    model: user
+  guestlist:
+    type: guestlist
+
+guestlist:
+  event:
+    type: reference
+    belongs_to: event
+  entries:
+    type: reference
+    model: guestlist_entry
+
+guestlist_entry:
+  promoter:
+    type: relation
+    model: user
+  user:
+    type: relation
+  status:
+    type: choice
+    choices:
+      - none
+      - accepted
+      - denied
+  notes:
+    type: text
+
+checkin:
+  user:
+    type: relation
+  event:
+    type: event
