@@ -103,17 +103,52 @@ class Schema_Tests extends TestGroup
         $this->assert_equal($db->table('destroy_col_table')->column('temp_col'), null);
     }
 
-    function test_create_index()
+    function test_create_single_column_index()
     {
         $db = $this->db;
-        $db->create_table('create_index_table', array(
+        $table = $db->create_table('create_index_table', array(
+                                                     'id' => array('type' => 'id'),
+                                                     'indexed_column' => array('type' => 'string'),
+                                                ));
+
+        $this->assert_true(!$table->has_index('indexed_column'), 'no index before you create one');
+
+        $table->create_index('indexed_column');
+        $this->assert_true($table->has_index('indexed_column'), 'index one you create one');
+
+        $table->destroy_index('indexed_column');
+        $this->assert_true(!$table->has_index('indexed_column'), 'no index after you destroy it');
+    }
+
+    function test_create_multi_column_index()
+    {
+        $db = $this->db;
+        $table = $db->create_table('create_multi_column_index_table', array(
+                                                     'id' => array('type' => 'id'),
+                                                     'indexed_column_1' => array('type' => 'string'),
+                                                     'indexed_column_2' => array('type' => 'string'),
+                                                ));
+
+        $this->assert_true(!$table->has_index('indexed_column_1', 'indexed_column_2'), 'no index before you create one');
+
+        $table->create_index('indexed_column_1', 'indexed_column_2');
+        $this->assert_true($table->has_index('indexed_column_1', 'indexed_column_2'), 'index present after you create it');
+        $this->assert_true($table->has_index('indexed_column_2', 'indexed_column_1'), 'column order doesnt matter');
+
+        $table->destroy_index('indexed_column_1', 'indexed_column_2');
+        $this->assert_true(!$table->has_index('indexed_column_1', 'indexed_column_2'), 'no index after you destroy it');
+    }
+
+    function test_create_foreign_key()
+    {
+        $db = $this->db;
+
+        $users_table = $db->create_table('users', array(
                                                     'id' => array('type' => 'id'),
-                                                    'indexed_column' => array('type' => 'string'),
-                                               ));
+                                                    'name' => array('type' => 'string'),
+                                                  ));
+
         
-        $db->table('create_index_table')->create_index('indexed_column');
-        $db->table('create_index_table')->destroy_index('indexed_column');
-        $db->table('create_index_table')->destroy_index('indexed_column_woo');
     }
 
 }

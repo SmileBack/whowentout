@@ -2,7 +2,7 @@
 
 class DatabaseTable
 {
-    
+
     private $db;
     private $name;
 
@@ -37,7 +37,7 @@ class DatabaseTable
     {
         if (!$this->_row_exists($id))
             return null;
-        
+
         if (!isset($this->rows[$id])) {
             $this->rows[$id] = new DatabaseRow($this, $id);
         }
@@ -111,10 +111,11 @@ class DatabaseTable
     function create_index($column)
     {
         $column_list = func_get_args();
+        $column_list_sql = implode(', ', $column_list);
         $table_name = $this->name();
-        $index_name =  $this->get_index_name($column_list);
+        $index_name = $this->get_index_name($column_list);
 
-        $query = $this->db->query_statement("CREATE INDEX `$index_name` ON $table_name ($column) USING BTREE");
+        $query = $this->db->query_statement("CREATE INDEX `$index_name` ON $table_name ($column_list_sql) USING BTREE");
         $query->execute();
     }
 
@@ -123,22 +124,74 @@ class DatabaseTable
         $column_list = func_get_args();
         $table_name = $this->name();
         $index_name = $this->get_index_name($column_list);
-        
+
         $query = $this->db->query_statement("DROP INDEX `$index_name` ON $table_name");
         $query->execute();
     }
 
-    private function get_index_name(array $columns)
+    function has_index($column)
     {
-        $table_name = $this->name();
-        $index_name = $table_name . '::' . implode(':', $columns) . '::index';
-        return $index_name;
+        $column_list = func_get_args();
+        $index_name = $this->get_index_name($column_list);
+
+        $query_sql = "SELECT * FROM information_schema.statistics
+                        WHERE index_schema = :database_name
+                        AND  table_name = :table_name
+                        AND index_name = :index_name";
+        $params = array(
+            'database_name' => $this->database()->name(),
+            'table_name' => $this->name(),
+            'index_name' => $index_name,
+        );
+
+        $query = $this->db->query_statement($query_sql, $params);
+        $query->execute();
+
+        
+
+        return $query->rowCount() > 0;
     }
 
     function create_unique_index($column)
     {
+        throw new Exception("Not yet implemented.");
     }
 
+    private function get_index_name(array $columns)
+    {
+        $columns = array_map('strtolower', $columns);
+        sort($columns, SORT_STRING);
+
+        $index_name = implode(':', $columns);
+        return $index_name;
+    }
+    
+    function create_foreign_key($column, $referenced_table, $referenced_column)
+    {
+        $table_name = $this->name();
+        $foreign_key_name = $this->get_foreign_key_name($column);
+
+        $query_sql = "ALTER TABLE $table_name
+                        ADD CONSTRAINT $foreign_key_name FOREIGN KEY ($column) REFERENCES $referenced_table ($referenced_column)";
+        $query = $this->db->query_statement($query_sql);
+        $query->execute();
+    }
+
+    function destroy_foreign_key($column)
+    {
+        
+    }
+
+    private function get_foreign_key_name($column)
+    {
+        $table_name = $this->name();
+        return "$table_name.$column";
+    }
+
+    private function get_constraint_object()
+    {
+        
+    }
 
     function _refresh_schema()
     {
@@ -292,5 +345,5 @@ class DatabaseTable
     {
         return $this->_fetch_row_values($row_id) != null;
     }
-    
+
 }

@@ -31,7 +31,7 @@ class Database
 
     function name()
     {
-        return $this->config['name'];
+        return $this->config['database'];
     }
 
     function begin_transaction()
