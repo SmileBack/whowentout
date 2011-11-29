@@ -5,7 +5,7 @@ class DatabaseRow
 
     private $values = array();
     private $changes = array();
-    
+
     /**
      * @var DatabaseTable
      */
@@ -15,6 +15,22 @@ class DatabaseRow
     {
         $this->table = $table;
         $this->load_values($id);
+    }
+
+    /**
+     * @return DatabaseTable
+     */
+    function table()
+    {
+        return $this->table;
+    }
+
+    /**
+     * @return Database
+     */
+    function database()
+    {
+        return $this->table()->database();
     }
 
     /**
@@ -48,7 +64,7 @@ class DatabaseRow
     {
         if ($field == 'id')
             throw new Exception("The id property is read-only.");
-        
+
         $converted_value = $this->column($field)->to_database_value($value);
         $this->changes[$field] = $converted_value;
     }

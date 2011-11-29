@@ -4,13 +4,23 @@ class Model
 {
 
     /**
-     * @var Databsae
+     * @var DatabaseRow
      */
-    private $db;
+    private $row;
 
-    function __construct(Database $db)
+    function __construct(DatabaseRow $row)
     {
-        $this->database = $db;
+        $this->row = $row;
+    }
+
+    function __get($name)
+    {
+        return $this->row->$name;
+    }
+
+    function __set($name, $value)
+    {
+        $this->row->$name = $value;
     }
 
     function related_model_collection($model)

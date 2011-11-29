@@ -2,7 +2,7 @@
 
 class DatabaseTable
 {
-
+    
     private $db;
     private $name;
 
@@ -14,14 +14,19 @@ class DatabaseTable
     {
         $this->db = $db;
         $this->_load_schema_from_database($table_name);
-        $this->cache = new Cache(array(
-                                      'driver' => 'array'
-                                 ));
     }
 
     function name()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Database
+     */
+    function database()
+    {
+        return $this->db;
     }
 
     /**
@@ -105,15 +110,35 @@ class DatabaseTable
 
     function create_index($column)
     {
+        $column_list = func_get_args();
+        $table_name = $this->name();
+        $index_name =  $this->get_index_name($column_list);
+
+        $query = $this->db->query_statement("CREATE INDEX `$index_name` ON $table_name ($column) USING BTREE");
+        $query->execute();
+    }
+
+    function destroy_index($column)
+    {
+        $column_list = func_get_args();
+        $table_name = $this->name();
+        $index_name = $this->get_index_name($column_list);
+        
+        $query = $this->db->query_statement("DROP INDEX `$index_name` ON $table_name");
+        $query->execute();
+    }
+
+    private function get_index_name(array $columns)
+    {
+        $table_name = $this->name();
+        $index_name = $table_name . '::' . implode(':', $columns) . '::index';
+        return $index_name;
     }
 
     function create_unique_index($column)
     {
     }
 
-    function destroy_index($column)
-    {
-    }
 
     function _refresh_schema()
     {

@@ -65,7 +65,7 @@ class Database
         }
 
         if ( $this->tables[$table_name] == null ) {
-            $this->tables[$table_name] = new DatabaseTable($this, $table_name);
+            $this->tables[$table_name] = new DatabaseRow($this, $table_name);
         }
 
         return $this->tables[$table_name];
@@ -92,6 +92,11 @@ class Database
         return $this->tables[$table_name];
     }
 
+    /**
+     * @param  $table_name
+     * @param  $new_table_name
+     * @return DatabaseTable
+     */
     function rename_table($table_name, $new_table_name)
     {
         $table = $this->table($table_name);
@@ -102,6 +107,8 @@ class Database
         unset($this->tables[$table_name]);
         $table->_load_schema_from_database($new_table_name); //refresh schema so it has updated name
         $this->tables[$new_table_name] = $table;
+
+        return $table;
     }
 
     function destroy_table($table_name)

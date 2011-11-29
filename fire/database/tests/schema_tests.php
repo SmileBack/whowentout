@@ -91,11 +91,10 @@ class Schema_Tests extends TestGroup
     function test_destroy_column()
     {
         $db = $this->db;
-
         $db->create_table('destroy_col_table', array(
-                                            'id' => array('type' => 'id'),
-                                            'temp_col' => array('type' => 'string'),
-                                       ));
+                                                    'id' => array('type' => 'id'),
+                                                    'temp_col' => array('type' => 'string'),
+                                               ));
 
 
         $this->assert_equal($db->table('destroy_col_table')->column('temp_col')->name(), 'temp_col');
@@ -103,5 +102,18 @@ class Schema_Tests extends TestGroup
         $db->table('destroy_col_table')->destroy_column('temp_col');
         $this->assert_equal($db->table('destroy_col_table')->column('temp_col'), null);
     }
-      
+
+    function test_create_index()
+    {
+        $db = $this->db;
+        $db->create_table('create_index_table', array(
+                                                    'id' => array('type' => 'id'),
+                                                    'indexed_column' => array('type' => 'string'),
+                                               ));
+        
+        $db->table('create_index_table')->create_index('indexed_column');
+        $db->table('create_index_table')->destroy_index('indexed_column');
+        $db->table('create_index_table')->destroy_index('indexed_column_woo');
+    }
+
 }
