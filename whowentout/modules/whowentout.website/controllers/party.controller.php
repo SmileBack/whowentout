@@ -19,10 +19,11 @@ class Party extends MY_Controller
         $sort = $this->_get_sort();
 
         $smile_engine = new SmileEngine();
+        $checkin_engine = new CheckinEngine();
 
         enforce_restrictions();
 
-        if (!$user->has_attended_party($party)) {
+        if ( ! $checkin_engine->user_has_checked_into_party($user, $party) ) {
             show_404();
         }
 

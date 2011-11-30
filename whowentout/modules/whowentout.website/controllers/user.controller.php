@@ -266,7 +266,10 @@ class User extends MY_Controller
             return $user->id == $id;
         }
         elseif ($this->is_party_channel($channel)) {
-            return $user->has_attended_party($id);
+            $party = XParty::get($id);
+            $checkin_engine = new CheckinEngine();
+            return $party != NULL
+                   && $checkin_engine->user_has_checked_into_party($user, $party);
         }
         else {
             return TRUE;
