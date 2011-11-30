@@ -46,6 +46,8 @@ class Schema_Tests extends TestGroup
                                              'foo' => array('type' => 'string'),
                                         ));
 
+        $this->assert_true($db->table_exists('test_table'));
+
         $table = $db->table('test_table');
         $this->assert_equal($table->name(), 'test_table');
     }
@@ -104,7 +106,7 @@ class Schema_Tests extends TestGroup
                                        ));
         $table = $db->table('col_table');
         $this->assert_equal($table->column('new_col'), null, 'column doesnt exist yet');
-
+        
         $table->create_column('new_col', array('type' => 'string'));
         $column = $table->column('new_col');
         $this->assert_equal($column->name(), 'new_col');
@@ -180,6 +182,16 @@ class Schema_Tests extends TestGroup
         $this->assert_true(!$table->has_index('indexed_column_1', 'indexed_column_2'), 'no index after you destroy it');
     }
 
+    function test_destroy_column_with_foreign_key()
+    {
+        $this->assert_true(FALSE, 'not yet implemented');
+    }
+
+    function test_destroy_column_with_index()
+    {
+        $this->assert_true(FALSE, 'not yet implemented');
+    }
+
     function test_create_foreign_key()
     {
         $db = $this->db;
@@ -188,14 +200,15 @@ class Schema_Tests extends TestGroup
                                                        'id' => array('type' => 'id'),
                                                        'name' => array('type' => 'string'),
                                                   ));
-        
-        $admins_table = $db->create_table('admins', array(
-                                                      'id' => array('type' => 'id'),
-                                                      'user_id' => array('type' => 'integer'),
-                                                    ));
 
-        $admins_table->create_foreign_key('user_id', 'users', 'id');
+        $admins_table = $db->create_table('admins', array(
+                                                         'id' => array('type' => 'id'),
+                                                         'user_id' => array('type' => 'integer'),
+                                                    ));
         
+        $admins_table->create_foreign_key('user_id', 'users', 'id');
+
+        $this->assert_true(FALSE, 'not yet implemented');
     }
-    
+
 }

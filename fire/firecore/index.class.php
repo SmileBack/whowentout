@@ -12,18 +12,21 @@ class Index
     {
         $this->root = $root;
         $this->cache = $cache;
-        
+
         if ($this->requires_rebuild())
             $this->rebuild();
         else
             $this->load_from_cache();
+
+        require_once FIREPATH . 'debug/krumo.class.php';
+        krumo::dump($this->data());
     }
 
     function data()
     {
         return $this->index;
     }
-    
+
     function get_resource_metadata($name)
     {
         $alias_path = $this->get_alias_path($name);
@@ -208,17 +211,17 @@ class Index
     private function requires_rebuild()
     {
         return !$this->cache_exists('index')
-             || $this->fetch_cached_version() < $this->fetch_real_version();
+               || $this->fetch_cached_version() < $this->fetch_real_version();
     }
 
     private function fetch_real_version()
     {
-        return intval( @file_get_contents($this->root . 'version.txt') );
+        return intval(@file_get_contents($this->root . 'version.txt'));
     }
 
     private function fetch_cached_version()
     {
-        return intval( $this->cache_get('version') );
+        return intval($this->cache_get('version'));
     }
 
     private function cache_key()
@@ -251,17 +254,18 @@ class Index
 
         $files = array();
 
-        $iterator = $include_subdirectories
-                ? new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path))
-                : new DirectoryIterator($path);
+        $iterator = $this->get_directory_iterator($path, $include_subdirectories);
 
         foreach ($iterator as $file) {
             // isDot method is only available in DirectoryIterator items
             // isDot check skips '.' and '..'
-            if ($include_subdirectories == false && $file->isDot())
+            if (method_exists($file, 'isDot') && $file->isDot())
                 continue;
+
             // Standardize to forward slashes
-            $files[] = str_replace('\\', '/', $file->getPathName());
+            $filepath = str_replace('\\', '/', $file->getPathName());
+
+            $files[] = $filepath;
         }
 
         return $files;
@@ -274,25 +278,41 @@ class Index
 
         $folders = array();
 
-        $iterator = $include_subdirectories
-                ? new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST)
-                : new DirectoryIterator($path);
+        $iterator = $this->get_directory_iterator($path, $include_subdirectories);
 
         foreach ($iterator as $file) {
             // isDot method is only available in DirectoryIterator items
             // isDot check skips '.' and '..'
-            if ($include_subdirectories == false && $file->isDot())
+            if (method_exists($file, 'isDot') && $file->isDot())
                 continue;
+
+            $filepath = str_replace('\\', '/', $file->getPathName());
 
             if ($file->isDir()) {
                 // Standardize to forward slashes
-                $folders[] = str_replace('\\', '/', $file->getPathName());
+                $folders[] = $filepath;
             }
         }
 
         return $folders;
     }
 
+    private function get_directory_iterator($path, $include_subdirectories)
+    {
+        if ($include_subdirectories) {
+            return new RecursiveIteratorIterator(
+                new IgnoreFilesRecursiveFilterIterator(
+                    new RecursiveDirectoryIterator($path)
+                ),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+        }
+        else {
+            return new IgnoreFilesIterator(
+                new DirectoryIterator($path)
+            );
+        }
+    }
 
     private function string_ends_with($end_of_string, $string)
     {
@@ -344,4 +364,33 @@ class Index
         }
     }
 
+}
+
+class IgnoreFilesRecursiveFilterIterator extends RecursiveFilterIterator
+{
+    public function accept()
+    {
+        /* @var $current_file SplFileInfo */
+        $current_file = $this->current();
+        $filename = $current_file->getFilename();
+        if ($current_file->isDir() && substr($filename, 0, 1) == '.')
+            return false;
+        else
+            return true;
+    }
+}
+
+class IgnoreFilesIterator extends FilterIterator
+{
+    public function accept()
+    {
+        /* @var $current_file SplFileInfo */
+        $current_file = $this->current();
+        $filename = $current_file->getFilename();
+        var_dump($filename);
+        if ($current_file->isDir() && substr($filename, 0, 1) == '.')
+            return false;
+        else
+            return true;
+    }
 }

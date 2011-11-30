@@ -13,11 +13,20 @@ class FireApp
      */
     private $class_loader;
     private $plugins = array();
-    private $class_instances = array();
-
+    
     function __construct($class_loader)
     {
         $this->class_loader = $class_loader;
+    }
+
+    function environment()
+    {
+        if (getenv('environment')) {
+            return getenv('environment');
+        }
+        else {
+            return $_SERVER['HTTP_HOST'];
+        }
     }
 
     function load_window_settings()
@@ -27,26 +36,7 @@ class FireApp
               . '</script>';
         return $js;
     }
-
-    function create($key, $class_name, $arg1 = null, $arg2 = null, $arg3 = null)
-    {
-        $instance = $this->class_loader()->init($class_name, $arg1, $arg2, $arg3);
-        $this->register($key, $instance);
-        return $this->fetch($key);
-    }
-    
-    function register($key, $instance)
-    {
-        $this->class_instances[$key] = $instance;
-    }
-    
-    function fetch($key)
-    {
-        return isset($this->class_instances[$key])
-                ? $this->class_instances[$key]
-                : null;
-    }
-    
+        
     function trigger($event_name, $event_data)
     {
         $this->load_plugins_if_not_loaded();

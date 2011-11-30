@@ -54,16 +54,21 @@ class Database
         return $this->dbh->lastInsertId();
     }
 
+
+    function table_exists($table_name)
+    {
+        return array_key_exists($table_name, $this->tables);
+    }
+
     /**
      * @param  $table_name
      * @return DatabaseTable
      */
     function table($table_name)
     {
-        if ( ! array_key_exists($table_name, $this->tables) ) {
+        if ( ! $this->table_exists($table_name))
             return null;
-        }
-
+        
         if ( $this->tables[$table_name] == null ) {
             $this->tables[$table_name] = new DatabaseTable($this, $table_name);
         }

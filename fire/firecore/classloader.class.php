@@ -8,6 +8,8 @@ class ClassLoader
      */
     private $index;
 
+    private $class_instances = array();
+
     function __construct(Index $index)
     {
         $this->index = $index;
@@ -27,6 +29,26 @@ class ClassLoader
             return $this->init($subclass_name, $arg1, $arg2, $arg3);
         else
             return null;
+    }
+
+
+    function create($key, $class_name, $arg1 = null, $arg2 = null, $arg3 = null)
+    {
+        $instance = $this->init($class_name, $arg1, $arg2, $arg3);
+        $this->register($key, $instance);
+        return $this->fetch($key);
+    }
+
+    function register($key, $instance)
+    {
+        $this->class_instances[$key] = $instance;
+    }
+
+    function fetch($key)
+    {
+        return isset($this->class_instances[$key])
+                ? $this->class_instances[$key]
+                : null;
     }
 
     function get_subclass_name($superclass, $subclass)

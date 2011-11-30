@@ -2,7 +2,14 @@
 
 class Events_Controller extends Controller
 {
-    
+
+    function test()
+    {
+        $cfg = new ConfigSource(f()->index());
+        $config = $cfg->load('config');
+        krumo::dump($config);
+    }
+
     function index()
     {
         $current_user = app()->current_user();

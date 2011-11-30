@@ -1,0 +1,32 @@
+class_loader:
+  type: ClassLoader
+  index: index
+  
+index_cache:
+  type: FilesystemCache
+  path: cache
+
+index:
+  type: Index
+  path: .
+  cache: index_cache
+
+app:
+  type: FireApp
+  class_loader: class_loader
+  clock: clock
+
+clock:
+  type: PersistentClock
+  database: database
+
+database:
+  type: database
+  host: localhost
+  database: wwo2
+  username: root
+  password: 123
+
+router:
+  type: FireRouter
+  class_loader: class_loader
