@@ -18,7 +18,6 @@ class CreateTableParser
         $table = array();
 
         $table['name'] = $this->get_table_name($create_table_sql);
-        $table['statements'] = $this->get_statements($create_table_sql);
         $table['columns'] = $this->get_columns($create_table_sql);
         
         $table['foreign_keys'] = $this->get_foreign_keys($create_table_sql);

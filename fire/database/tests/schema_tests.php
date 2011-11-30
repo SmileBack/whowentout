@@ -8,14 +8,24 @@ class Schema_Tests extends TestGroup
      */
     private $db;
 
+    /**
+     * @var Database
+     */
+    private $db2;
+
+    private function create_database_connection()
+    {
+        return new Database(array(
+                                 'host' => 'localhost',
+                                 'username' => 'root',
+                                 'password' => 'root',
+                                 'database' => 'fire_test',
+                            ));
+    }
+
     function setup()
     {
-        $this->db = new Database(array(
-                                      'host' => 'localhost',
-                                      'username' => 'root',
-                                      'password' => 'root',
-                                      'database' => 'fire_test',
-                                 ));
+        $this->db = $this->create_database_connection();
 
         foreach ($this->db->list_table_names() as $table_name) {
             $this->db->destroy_table($table_name);
@@ -38,6 +48,18 @@ class Schema_Tests extends TestGroup
 
         $table = $db->table('test_table');
         $this->assert_equal($table->name(), 'test_table');
+    }
+
+    function test_table_persistance()
+    {
+        $db = $this->db;
+        $db->create_table('uncached_table', array(
+                                                 'id' => array('type' => 'id'),
+                                            ));
+
+        $db2 = $this->create_database_connection();
+        $table = $db2->table('uncached_table', 'table persists between database sessions');
+        $this->assert_true($table != null);
     }
 
     function test_destroy_table()
@@ -88,6 +110,25 @@ class Schema_Tests extends TestGroup
         $this->assert_equal($column->name(), 'new_col');
     }
 
+    function test_rename_column()
+    {
+        $db = $this->db;
+
+        $table = $db->create_table('rename_column_table', array(
+                                                               'id' => array('type' => 'id'),
+                                                               'orange' => array('type' => 'string'),
+                                                          ));
+
+        $column = $table->column('orange');
+        $this->assert_equal($column->name(), 'orange');
+
+        $table->rename_column('orange', 'apple');
+
+        $this->assert_equal($table->column('orange'), null);
+        $this->assert_equal($table->column('apple'), $column, 'new column name refers to same object');
+        $this->assert_equal($column->name(), 'apple', 'name has changed for object');
+    }
+
     function test_destroy_column()
     {
         $db = $this->db;
@@ -107,9 +148,9 @@ class Schema_Tests extends TestGroup
     {
         $db = $this->db;
         $table = $db->create_table('create_index_table', array(
-                                                     'id' => array('type' => 'id'),
-                                                     'indexed_column' => array('type' => 'string'),
-                                                ));
+                                                              'id' => array('type' => 'id'),
+                                                              'indexed_column' => array('type' => 'string'),
+                                                         ));
 
         $this->assert_true(!$table->has_index('indexed_column'), 'no index before you create one');
 
@@ -124,10 +165,10 @@ class Schema_Tests extends TestGroup
     {
         $db = $this->db;
         $table = $db->create_table('create_multi_column_index_table', array(
-                                                     'id' => array('type' => 'id'),
-                                                     'indexed_column_1' => array('type' => 'string'),
-                                                     'indexed_column_2' => array('type' => 'string'),
-                                                ));
+                                                                           'id' => array('type' => 'id'),
+                                                                           'indexed_column_1' => array('type' => 'string'),
+                                                                           'indexed_column_2' => array('type' => 'string'),
+                                                                      ));
 
         $this->assert_true(!$table->has_index('indexed_column_1', 'indexed_column_2'), 'no index before you create one');
 
@@ -144,11 +185,17 @@ class Schema_Tests extends TestGroup
         $db = $this->db;
 
         $users_table = $db->create_table('users', array(
-                                                    'id' => array('type' => 'id'),
-                                                    'name' => array('type' => 'string'),
+                                                       'id' => array('type' => 'id'),
+                                                       'name' => array('type' => 'string'),
                                                   ));
+        
+        $admins_table = $db->create_table('admins', array(
+                                                      'id' => array('type' => 'id'),
+                                                      'user_id' => array('type' => 'integer'),
+                                                    ));
 
+        $admins_table->create_foreign_key('user_id', 'users', 'id');
         
     }
-
+    
 }

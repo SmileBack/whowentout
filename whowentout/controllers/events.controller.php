@@ -2,28 +2,7 @@
 
 class Events_Controller extends Controller
 {
-
-    function test()
-    {
-        $sql = "CREATE TABLE `party_attendees` (
-                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                  `user_id` int(10) unsigned NOT NULL,
-                  `party_id` int(10) unsigned NOT NULL,
-                  `checkin_time` datetime DEFAULT NULL,
-                  PRIMARY KEY (`id`),
-                  UNIQUE KEY `user_id_party_id` (`user_id`,`party_id`),
-                  KEY `user_id_key` (`user_id`),
-                  KEY `party_id_key` (`party_id`),
-                  CONSTRAINT `party_attendee_party` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-                  CONSTRAINT `party_attendee_user` FOREIGN KEY (`party_id`) REFERENCES `parties` (`id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=910 DEFAULT CHARSET=latin1";
-
-        $parser = new CreateTableParser();
-        $table = $parser->parse($sql);
-
-        krumo::dump($table);
-    }
-
+    
     function index()
     {
         $current_user = app()->current_user();

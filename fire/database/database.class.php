@@ -60,12 +60,12 @@ class Database
      */
     function table($table_name)
     {
-        if ( ! isset($this->tables[$table_name] ) ) {
+        if ( ! array_key_exists($table_name, $this->tables) ) {
             return null;
         }
 
         if ( $this->tables[$table_name] == null ) {
-            $this->tables[$table_name] = new DatabaseRow($this, $table_name);
+            $this->tables[$table_name] = new DatabaseTable($this, $table_name);
         }
 
         return $this->tables[$table_name];
@@ -107,7 +107,7 @@ class Database
         unset($this->tables[$table_name]);
         $table->_load_schema_from_database($new_table_name); //refresh schema so it has updated name
         $this->tables[$new_table_name] = $table;
-
+        
         return $table;
     }
 

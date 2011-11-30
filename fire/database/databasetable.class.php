@@ -8,7 +8,7 @@ class DatabaseTable
 
     private $schema;
     private $rows = array();
-    private $columns = array();
+    public $columns = array();
 
     function __construct(Database $db, $table_name)
     {
@@ -72,7 +72,7 @@ class DatabaseTable
      */
     function column($name)
     {
-        if (!isset($this->schema['columns'][$name]))
+        if ( ! isset($this->schema['columns'][$name]) )
             return NULL;
 
         if (!isset($this->columns[$name])) {
@@ -93,10 +93,26 @@ class DatabaseTable
         $query->execute();
 
         $this->_refresh_schema();
+        
     }
 
-    function rename_column($name, $new_name)
+    function rename_column($current_column_name, $new_column_name)
     {
+        /* @var $column DatabaseColumn */
+        $column = $this->columns[$current_column_name];
+
+        $table_name = $this->name();
+        $create_table_schema = $this->fetch_create_table_schema();
+        $column_schema = $create_table_schema['columns'][$current_column_name]['schema'];
+        $query = $this->db->query_statement("ALTER TABLE $table_name CHANGE $current_column_name $new_column_name $column_schema");
+        $query->execute();
+
+        $this->_refresh_schema();
+
+        // change name on object
+        unset($this->columns[$current_column_name]);
+        $column->_set_name($new_column_name);
+        $this->columns[$new_column_name] = $column;
     }
 
     function destroy_column($name)
@@ -146,9 +162,7 @@ class DatabaseTable
 
         $query = $this->db->query_statement($query_sql, $params);
         $query->execute();
-
         
-
         return $query->rowCount() > 0;
     }
 
@@ -165,21 +179,21 @@ class DatabaseTable
         $index_name = implode(':', $columns);
         return $index_name;
     }
-    
+
     function create_foreign_key($column, $referenced_table, $referenced_column)
     {
         $table_name = $this->name();
         $foreign_key_name = $this->get_foreign_key_name($column);
 
         $query_sql = "ALTER TABLE $table_name
-                        ADD CONSTRAINT $foreign_key_name FOREIGN KEY ($column) REFERENCES $referenced_table ($referenced_column)";
+                        ADD CONSTRAINT `$foreign_key_name` FOREIGN KEY ($column) REFERENCES $referenced_table ($referenced_column)";
         $query = $this->db->query_statement($query_sql);
         $query->execute();
     }
 
     function destroy_foreign_key($column)
     {
-        
+
     }
 
     private function get_foreign_key_name($column)
@@ -187,12 +201,7 @@ class DatabaseTable
         $table_name = $this->name();
         return "$table_name.$column";
     }
-
-    private function get_constraint_object()
-    {
-        
-    }
-
+    
     function _refresh_schema()
     {
         $this->_load_schema_from_database($this->name);
@@ -208,46 +217,65 @@ class DatabaseTable
             'primary key' => array(),
         );
 
-        $query = $this->db->query_statement("SHOW FULL COLUMNS FROM {$this->name}");
-        $query->execute();
-        $column_infos = $query->fetchAll(PDO::FETCH_OBJ);
-
-        foreach ($column_infos as $info) {
+        // we must fetch schema from two sources because the information schema table is incomplete
+        $information_schema = $this->fetch_mysql_information_schema();
+        $create_table_schema = $this->fetch_create_table_schema();
+        
+        foreach ($information_schema as $column_info) {
             $column = array(
-                'name' => $info->Field,
-                'type' => $this->get_data_type($info),
-                'null' => ($info->Null == 'YES'),
-                'description' => $info->Comment,
+                'name' => $column_info->Field,
+                'type' => $this->get_data_type($column_info),
+                'null' => ($column_info->Null == 'YES'),
+                'description' => $column_info->Comment,
             );
 
-            $column['default'] = $info->Default;
+            $column['default'] = $column_info->Default;
 
             //size of field
-            $size = $this->get_mysql_data_size($info);
+            $size = $this->get_mysql_data_size($column_info);
             if ($size !== false) {
                 $column['size'] = $size;
             }
 
             $schema['columns'][$column['name']] = $column;
         }
-
+        
         $query = $this->db->query_statement("SHOW INDEX FROM {$this->name}");
         $query->execute();
         $index_infos = $query->fetchAll(PDO::FETCH_OBJ);
 
-        foreach ($index_infos as $info) {
-            if ($info->Key_name == 'PRIMARY') {
-                $schema['primary key'][] = $info->Column_name;
+        foreach ($index_infos as $column_info) {
+            if ($column_info->Key_name == 'PRIMARY') {
+                $schema['primary key'][] = $column_info->Column_name;
             }
-            elseif ($info->Non_unique == '0') { // means unique
-                $schema['unique keys'][$info->Key_name][] = $info->Column_name;
+            elseif ($column_info->Non_unique == '0') { // means unique
+                $schema['unique keys'][$column_info->Key_name][] = $column_info->Column_name;
             }
-            elseif ($info->Non_unique == '1') { // not unique.. just an index
-                $schema['indexes'][$info->Key_name][] = $info->Column_name;
+            elseif ($column_info->Non_unique == '1') { // not unique.. just an index
+                $schema['indexes'][$column_info->Key_name][] = $column_info->Column_name;
             }
         }
 
         $this->schema = $schema;
+    }
+
+    private function fetch_create_table_schema()
+    {
+        $query = $this->db->query_statement("SHOW CREATE TABLE {$this->name}");
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        
+        $create_table_statement = $result['Create Table'];
+        $parser = new CreateTableParser();
+        return $parser->parse($create_table_statement);
+    }
+
+    private function fetch_mysql_information_schema()
+    {
+        $query = $this->db->query_statement("SHOW FULL COLUMNS FROM {$this->name}");
+        $query->execute();
+        $column_schemas = $query->fetchAll(PDO::FETCH_OBJ);
+        return $column_schemas;
     }
 
     private function get_data_type($field_info)
