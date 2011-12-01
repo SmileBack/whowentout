@@ -54,7 +54,8 @@ class Factory
         $args = array_fill(0, 6, null);
 
         if (count($params) == 1 && isset($params['options'])) {
-            return array($config);
+            $args[0] = $config;
+            return $args;
         }
 
         foreach ($params as $arg_info) {

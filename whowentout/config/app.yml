@@ -2,12 +2,12 @@ app:
   type: FireApp
   class_loader: class_loader
   
-database:
+test_database:
   type: database
   host: localhost
-  database: wwo2
+  database: fire_test
   username: root
-  password: 123
+  password: root
 
 router:
   type: Router

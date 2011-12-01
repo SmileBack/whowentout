@@ -10,12 +10,7 @@ class Crud_Tests extends TestGroup
 
     function setup()
     {
-        $this->db = new Database(array(
-                                      'host' => 'localhost',
-                                      'username' => 'root',
-                                      'password' => 'root',
-                                      'database' => 'fire_test',
-                                 ));
+        $this->db = factory()->build('test_database');
         
         foreach ($this->db->list_table_names() as $table_name) {
             $this->db->destroy_table($table_name);
