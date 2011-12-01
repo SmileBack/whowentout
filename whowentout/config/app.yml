@@ -11,4 +11,4 @@ database:
 
 router:
   type: Router
-  app: app3
+  app: app
