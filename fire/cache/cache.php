@@ -5,6 +5,11 @@ class Cache extends Component
 
     private $cache = array();
 
+    function __construct($options = array())
+    {
+        parent::__construct($options);
+    }
+
     function get($key)
     {
         if ( ! isset($this->cache[$key]) ) {
@@ -22,7 +27,7 @@ class Cache extends Component
     function exists($key)
     {
         if (isset($this->cache[$key]))
-            return TRUE;
+            return true;
         
         return $this->driver()->exists($key);
     }

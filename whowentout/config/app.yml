@@ -1,7 +1,15 @@
 app:
-  type: FireApp
+  type: WhoWentOutApp
   class_loader: class_loader
-  
+  database: database
+
+database:
+  type: database
+  host: localhost
+  database: wwo
+  username: root
+  password: root
+
 test_database:
   type: database
   host: localhost

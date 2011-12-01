@@ -43,7 +43,7 @@ class Component
             }
             else {
                 $component_name = strtolower(get_class($this));
-                $driver_class_name = "{$driver_name}{$component_name}driver"; //todo: use init_subclass
+                $driver_class_name = "{$driver_name}{$component_name}driver";
                 $this->driver = new $driver_class_name($this->options);
             }
         }

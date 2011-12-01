@@ -8,15 +8,22 @@ class FireApp
 
     public $window_settings = array();
 
+    private $plugins = array();
+
     /**
      * @var ClassLoader
      */
-    private $class_loader;
-    private $plugins = array();
+    protected $class_loader;
+
+    /**
+     * @var Database
+     */
+    protected $database;
     
-    function __construct(ClassLoader $class_loader)
+    function __construct(ClassLoader $class_loader, Database $database)
     {
         $this->class_loader = $class_loader;
+        $this->database = $database;
     }
 
     function environment()
