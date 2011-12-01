@@ -41,6 +41,8 @@ class Schema_Tests extends TestGroup
         $db = $this->db;
         $this->assert_equal($db->table('test_table'), null);
 
+        $this->assert_true(!$db->table_exists('test_table'));
+
         $db->create_table('test_table', array(
                                              'id' => array('type' => 'id'),
                                              'foo' => array('type' => 'string'),
@@ -62,6 +64,7 @@ class Schema_Tests extends TestGroup
         $db2 = $this->create_database_connection();
         $table = $db2->table('uncached_table', 'table persists between database sessions');
         $this->assert_true($table != null);
+        $this->assert_true($db2->table_exists('uncached_table'));
     }
 
     function test_destroy_table()

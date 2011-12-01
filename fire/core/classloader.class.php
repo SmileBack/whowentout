@@ -31,7 +31,6 @@ class ClassLoader
             return null;
     }
 
-
     function create($key, $class_name, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
     {
         $instance = $this->init($class_name, $arg1, $arg2, $arg3, $arg4, $arg5);

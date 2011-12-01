@@ -23,12 +23,23 @@ abstract class DatabaseColumn
         return $this->options['name'];
     }
 
+    abstract function from_database_value($value);
+
+    abstract function to_database_value($value);
+    
+    function is_primary_key()
+    {
+        return $this->options['primary key'];
+    }
+
+    function auto_increment()
+    {
+        return $this->options['auto increment'];
+    }
+
     function _set_name($name)
     {
         $this->options['name'] = $name;
     }
 
-    abstract function from_database_value($value);
-    abstract function to_database_value($value);
-    
 }

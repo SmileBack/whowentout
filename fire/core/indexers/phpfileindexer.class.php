@@ -1,6 +1,6 @@
 <?php
 
-require_once FIREPATH . 'firecore/phpclassparser.class.php';
+require_once FIREPATH . 'core/phpclassparser.class.php';
 
 class PHPFileIndexer
 {

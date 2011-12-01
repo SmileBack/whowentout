@@ -5,9 +5,10 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $config_source = factory()->build('config_source');
-        $config = $config_source->load('config');
-        krumo::dump($config);
+        $db = app()->database();
+        $row = $db->table('fire_packages')->row('session');
+        $row->status = 'yo';
+        $row->save();
     }
 
     function index()

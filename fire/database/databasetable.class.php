@@ -86,6 +86,16 @@ class DatabaseTable
         return $this->columns[$name];
     }
 
+    /**
+     * @return DatabaseColumn
+     */
+    function id_column()
+    {
+        assert(count($this->schema['primary key']) == 1);
+        $pk = $this->schema['primary key'][0];
+        return $this->column($pk);
+    }
+
     function create_column($name, array $options)
     {
         $column_sql = $this->get_column_sql($name, $options);
@@ -220,7 +230,7 @@ class DatabaseTable
         // we must fetch schema from two sources because the information schema table is incomplete
         $information_schema = $this->fetch_mysql_information_schema();
         $create_table_schema = $this->fetch_create_table_schema();
-        
+
         foreach ($information_schema as $column_info) {
             $column = array(
                 'name' => $column_info->Field,
@@ -230,6 +240,9 @@ class DatabaseTable
             );
 
             $column['default'] = $column_info->Default;
+
+            $column['primary key'] = $column_info->Key == 'PRI';
+            $column['auto increment'] = $column_info->Extra == 'auto_increment';
 
             //size of field
             $size = $this->get_mysql_data_size($column_info);
@@ -311,6 +324,8 @@ class DatabaseTable
 
     private function update_row_query($id, array $values)
     {
+        $id_column = $this->id_column()->name();
+        
         $columns = array_keys($values);
         $set_statements = array();
         foreach ($columns as $column) {
@@ -320,7 +335,7 @@ class DatabaseTable
         $set_statements = implode(', ', $set_statements);
 
         $sql = "UPDATE $this->name SET $set_statements\n";
-        $sql .= " WHERE id = :id";
+        $sql .= " WHERE $id_column = :id";
 
         $values['id'] = $id;
 
@@ -330,7 +345,6 @@ class DatabaseTable
     private function create_row_query(array $values)
     {
         $columns = array_keys($values);
-
         $columns_sql = implode(',', $columns);
 
         $values_sql = array();
@@ -345,7 +359,8 @@ class DatabaseTable
 
     private function destroy_row_query($row_id)
     {
-        $sql = "DELETE FROM $this->name WHERE id = :id";
+        $id_column = $this->id_column()->name();
+        $sql = "DELETE FROM $this->name WHERE $id_column = :id";
         return $this->db->query_statement($sql, array('id' => $row_id));
     }
 
@@ -363,7 +378,8 @@ class DatabaseTable
 
     function _fetch_row_values($row_id)
     {
-        $query = $this->db->query_statement("SELECT * FROM $this->name WHERE id = :id", array(':id' => $row_id));
+        $id_column = $this->id_column()->name();
+        $query = $this->db->query_statement("SELECT * FROM $this->name WHERE $id_column = :id", array('id' => $row_id));
         $query->execute();
         $row_count = $query->rowCount();
         return $row_count > 0 ? (array)$query->fetchObject() : false;

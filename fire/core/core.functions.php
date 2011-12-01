@@ -14,9 +14,9 @@ function factory()
         throw new Exception('You must define APPPATH in your index.php file');
 
     if (!$_factory) {
-        require_once FIREPATH . 'firecore/filesystemcache.class.php';
-        require_once FIREPATH . 'firecore/index.class.php';
-        require_once FIREPATH . 'firecore/classloader.class.php';
+        require_once FIREPATH . 'core/filesystemcache.class.php';
+        require_once FIREPATH . 'core/index.class.php';
+        require_once FIREPATH . 'core/classloader.class.php';
 
         $index_cache = new FilesystemCache(APPPATH . 'cache');
         $index = new Index(APPPATH, $index_cache);
@@ -105,4 +105,17 @@ function check_required_options($options_to_check, $required_options)
     if (count($missing) > 0) {
         throw new Exception("You are missing " . conjunct($missing) . '.');
     }
+}
+
+function run_command($args)
+{
+    $command_name = isset($args[1]) ? $args[1] : 'empty';
+    $args = array_slice($args, 2);
+    
+    /* @var $command Command */
+    $command = app()->class_loader()->init_subclass('Command', $command_name);
+    if ($command)
+        $command->run($args);
+    else
+        print "The command '$command_name' doesn't exist.";
 }

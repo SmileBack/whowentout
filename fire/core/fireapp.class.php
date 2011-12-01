@@ -26,6 +26,11 @@ class FireApp
         $this->database = $database;
     }
 
+    function database()
+    {
+        return $this->database;
+    }
+
     function environment()
     {
         if (getenv('environment')) {
