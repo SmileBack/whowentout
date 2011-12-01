@@ -39,9 +39,9 @@ class ClassLoader
         return $this->fetch($key);
     }
 
-    function register($key, $instance)
+    function register($key, $object)
     {
-        $this->class_instances[$key] = $instance;
+        $this->class_instances[$key] = $object;
     }
 
     function fetch($key)

@@ -144,7 +144,7 @@ class Database
 
     private function get_column_sql($column_name, $column_config)
     {
-        $column_type = f()->class_loader()->init_subclass('columntype', $column_config['type'], $column_config);
+        $column_type = app()->class_loader()->init_subclass('columntype', $column_config['type'], $column_config);
         return $column_name . ' ' . $column_type->to_sql();
     }
 

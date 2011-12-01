@@ -3,11 +3,11 @@
 class FilesystemCache
 {
 
-    private $cache_directory;
+    private $path;
 
-    function __construct($cache_directory)
+    function __construct($path)
     {
-        $this->cache_directory = $cache_directory;
+        $this->path = $path;
     }
 
     function get($key)
@@ -38,13 +38,13 @@ class FilesystemCache
     private function filepath($key)
     {
         $key = str_replace(array('/', '\\'), '', $key);
-        return $this->cache_directory . '/' . $key;
+        return $this->path . '/' . $key;
     }
 
     private function check_path()
     {
-        if (!is_writable($this->cache_directory)) {
-            throw new Exception("The path " . $this->cache_directory . " is not writeable.");
+        if (!is_writable($this->path)) {
+            throw new Exception("The path " . $this->path . " is not writeable.");
         }
     }
     

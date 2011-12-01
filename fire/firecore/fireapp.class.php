@@ -14,7 +14,7 @@ class FireApp
     private $class_loader;
     private $plugins = array();
     
-    function __construct($class_loader)
+    function __construct(ClassLoader $class_loader)
     {
         $this->class_loader = $class_loader;
     }
@@ -94,10 +94,10 @@ class FireApp
         if ($this->plugins_loaded)
             return;
 
-        $plugin_class_names = f()->class_loader()->get_subclass_names('Plugin');
+        $plugin_class_names = app()->class_loader()->get_subclass_names('Plugin');
         foreach ($plugin_class_names as $class_name) {
             $plugin_name = strtolower($class_name);
-            $this->plugins[$plugin_name] = f()->class_loader()->init($class_name);
+            $this->plugins[$plugin_name] = app()->class_loader()->init($class_name);
         }
 
         $this->plugins_loaded = true;

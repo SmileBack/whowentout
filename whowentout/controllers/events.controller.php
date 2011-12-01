@@ -5,8 +5,8 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $cfg = new ConfigSource(f()->index());
-        $config = $cfg->load('config');
+        $config_source = factory()->build('config_source');
+        $config = $config_source->load('config');
         krumo::dump($config);
     }
 

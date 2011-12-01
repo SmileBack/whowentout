@@ -31,7 +31,7 @@ class Tester
 
     function get_test_groups()
     {
-        return f()->class_loader()->get_subclass_names('TestGroup');
+        return app()->class_loader()->get_subclass_names('TestGroup');
     }
 
     /**
@@ -39,7 +39,7 @@ class Tester
      */
     private function get_test_group($group)
     {
-        return f()->class_loader()->init($group);
+        return app()->class_loader()->init($group);
     }
 
 }

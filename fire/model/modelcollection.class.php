@@ -49,7 +49,7 @@ class ModelCollection
 
     private function create_from_row(DatabaseRow $row)
     {
-        $model = f()->class_loader()->init_subclass('Model', $this->model_name, $row);
+        $model = app()->class_loader()->init_subclass('Model', $this->model_name, $row);
         return $model;
     }
 

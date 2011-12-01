@@ -6,10 +6,13 @@ class Index
 {
 
     private $root;
+    /**
+     * @var \FilesystemCache
+     */
     private $cache;
     private $data = array();
 
-    function __construct($root, $cache)
+    function __construct($root, FilesystemCache $cache)
     {
         $this->root = $root;
         $this->cache = $cache;

@@ -1,14 +1,44 @@
 <?php
 
-class FireRouter
+class Router
 {
+
+    private $app;
 
     private $class;
     private $method;
     private $routed_segments;
 
-    function __construct($names)
+    function __construct(FireApp $app)
     {
+        $this->app = $app;
+    }
+
+    function route_request()
+    {
+        $this->determine_route();
+        $controller_class = $this->get_class();
+        $controller_method = $this->get_method();
+
+        if ($this->is_valid_request()) {
+            $controller = new $controller_class;
+        }
+
+        if ($this->is_valid_request() && is_callable(array($controller, $controller_method))) {
+            $routed_segments = $this->get_routed_segments();
+            $this->app->trigger('before_controller_request', array(
+                                                             'url' => $this->get_url(),
+                                                        ));
+
+            call_user_func_array(array(&$controller, $controller_method), array_slice($routed_segments, 2));
+
+            $this->app->trigger('after_controller_request', array(
+                                                            'url' => $this->get_url(),
+                                                       ));
+        }
+        else {
+            print "<h1>404 page not found</h1>";
+        }
     }
 
     function get_url()

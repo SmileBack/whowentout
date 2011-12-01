@@ -15,7 +15,7 @@ class Template
 
     private function load($template_name)
     {
-        $this->template_file_resource = f()->index()->get_resource_metadata("$template_name.tpl.php");
+        $this->template_file_resource = app()->index()->get_resource_metadata("$template_name.tpl.php");
         if (!$this->template_file_resource)
             throw new Exception("Template $template_name doesn't exist.");
     }

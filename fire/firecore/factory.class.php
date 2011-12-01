@@ -8,12 +8,6 @@ class Factory
      */
     protected $config_source;
 
-
-    /**
-     * @var Index
-     */
-    protected $index;
-
     /**
      * @var ClassLoader
      */
@@ -21,11 +15,14 @@ class Factory
 
     protected $config;
 
-    function __construct(ConfigSource $config_source, Index $index, ClassLoader $class_loader, $config_name)
+    function __construct(ConfigSource $config_source, ClassLoader $class_loader, $config_name)
     {
         $this->config_source = $config_source;
-        $this->index = $index;
         $this->class_loader = $class_loader;
+        
+        $this->class_loader->register('config_source', $config_source);
+        $this->class_loader->register('class_loader', $class_loader);
+
         $this->config = $this->load_config($config_name);
     }
 
@@ -42,9 +39,14 @@ class Factory
         return $this->class_loader->fetch($key);
     }
 
+    function register($key, $object)
+    {
+        $this->class_loader->register($key, $object);
+    }
+
     private function get_constructor_arguments($class, $config)
     {
-        $class_info = $this->index->get_resource_metadata($class);
+        $class_info = $this->class_loader->get_class_metadata($class);
         if (!isset($class_info['methods']['__construct']))
             return array();
 
@@ -56,7 +58,15 @@ class Factory
         }
 
         foreach ($params as $arg_info) {
-            $args[$arg_info['position']] = $config[$arg_info['name']];
+            $arg_position = $arg_info['position'];
+            $arg_value = $config[ $arg_info['name'] ];
+
+            //this argument references an object that should be (or has already been) built
+            $arg_type = isset($arg_info['type']) ? $arg_info['type'] : null;
+            if ($arg_type)
+                $arg_value = $this->build($arg_value);
+
+            $args[$arg_position] = $arg_value;
         }
 
         return $args;

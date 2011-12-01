@@ -78,7 +78,7 @@ class DatabaseTable
         if (!isset($this->columns[$name])) {
             $column_options = $this->schema['columns'][$name];
             $column_type = $column_options['type'];
-            $column = f()->class_loader()->init_subclass('databasecolumn', $column_type, $this, $column_options);
+            $column = app()->class_loader()->init_subclass('databasecolumn', $column_type, $this, $column_options);
 
             $this->columns[$name] = $column;
         }
@@ -351,7 +351,7 @@ class DatabaseTable
 
     private function get_column_sql($column_name, $column_config)
     {
-        $column_type = f()->class_loader()->init_subclass('columntype', $column_config['type'], $column_config);
+        $column_type = app()->class_loader()->init_subclass('columntype', $column_config['type'], $column_config);
         return $column_name . ' ' . $column_type->to_sql();
     }
 
