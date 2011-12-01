@@ -29,4 +29,4 @@ database:
 
 router:
   type: FireRouter
-  class_loader: class_loader
+  

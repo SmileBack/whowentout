@@ -7,7 +7,7 @@ class FireRouter
     private $method;
     private $routed_segments;
 
-    function __construct()
+    function __construct($names)
     {
     }
 

@@ -3,6 +3,8 @@
 define('FIREPATH', '../fire/');
 define('APPPATH', '../');
 
+require_once FIREPATH . 'debug/krumo.class.php';
+
 /**
  * @return FireApp
  */
@@ -79,7 +81,7 @@ function build_factory()
     $class_loader->enable_autoload();
     
     $config_source = new ConfigSource($index);
-    $factory = new Factory($config_source, $class_loader, 'app');
+    $factory = new Factory($config_source, $index, $class_loader, 'app');
     return $factory;
     
 }

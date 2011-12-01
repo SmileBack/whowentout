@@ -1,12 +1,13 @@
 <?php
 
-require_once 'phpclassparser.class.php';
+require_once 'indexers/phpfileindexer.class.php';
 
 class Index
 {
 
     private $root;
     private $cache;
+    private $data = array();
 
     function __construct($root, $cache)
     {
@@ -17,14 +18,16 @@ class Index
             $this->rebuild();
         else
             $this->load_from_cache();
-
-        require_once FIREPATH . 'debug/krumo.class.php';
-        krumo::dump($this->data());
     }
 
     function data()
     {
-        return $this->index;
+        return $this->data;
+    }
+
+    function root()
+    {
+        return $this->data['root'];
     }
 
     function get_resource_metadata($name)
@@ -37,141 +40,138 @@ class Index
             $resource_path = $name;
         }
 
-        return isset($this->index['resources'][$resource_path])
-                ? $this->index['resources'][$resource_path]
+        return isset($this->data['resources'][$resource_path])
+                ? $this->data['resources'][$resource_path]
                 : null;
     }
 
     function get_alias_path($alias)
     {
         $alias = strtolower($alias);
-        if (!isset($this->index['aliases'][$alias]))
+        if (!isset($this->data['aliases'][$alias]))
             return false;
 
-        if (count($this->index['aliases'][$alias]) > 1) {
+        if (count($this->data['aliases'][$alias]) > 1) {
             throw new Exception("Ambiguous alias $alias.");
         }
 
-        return $this->index['aliases'][$alias][0];
+        return $this->data['aliases'][$alias][0];
     }
 
-    function set_resource_metadata(&$index, $resource_path, $resource_metadata)
+    function set_resource_metadata($resource_path, $resource_metadata)
     {
-        $index['resources'][$resource_path] = $resource_metadata;
+        $this->data['resources'][$resource_path] = $resource_metadata;
     }
 
     private function save_to_cache()
     {
-        $this->cache_set('index', $this->index);
+        $this->cache_set('index', $this->data);
         $this->cache_set('version', $this->fetch_real_version());
     }
 
     private function load_from_cache()
     {
-        $this->index = $this->cache_get('index');
+        $this->data = $this->cache_get('index');
     }
 
     private function rebuild()
     {
-        $this->index = array(
+        $this->data = array(
             'root' => $this->root,
         );
 
-        $this->index_directories($this->index);
-        $this->index_files($this->index);
-        $this->index_php_files($this->index);
+        $this->index_directories();
+        $this->index_files();
+        $this->index_php_files();
 
         $this->save_to_cache();
-        return $this->index;
+        return $this->data;
     }
 
     private function clear_index($path)
     {
-        foreach ($this->index['resources'] as $resource_path => $resource_meta) {
+        foreach ($this->data['resources'] as $resource_path => $resource_meta) {
             if ($this->string_starts_with($path . '/', $resource_path))
-                unset($this->index['resources'][$resource_path]);
+                unset($this->data['resources'][$resource_path]);
         }
 
-        foreach ($this->index['aliases'] as $alias => $linked_resource_paths) {
+        foreach ($this->data['aliases'] as $alias => $linked_resource_paths) {
             foreach ($linked_resource_paths as $k => $resource_path) {
-                if (!isset($this->index['resources'][$resource_path])) {
-                    unset($this->index['aliases'][$alias][$k]);
+                if (!isset($this->data['resources'][$resource_path])) {
+                    unset($this->data['aliases'][$alias][$k]);
                 }
             }
 
-            if (empty($this->index['aliases'][$alias])) {
-                unset($this->index['aliases'][$alias]);
+            if (empty($this->data['aliases'][$alias])) {
+                unset($this->data['aliases'][$alias]);
             }
             else {
-                $this->index['aliases'][$alias] = array_values($this->index['aliases'][$alias]);
+                $this->data['aliases'][$alias] = array_values($this->data['aliases'][$alias]);
             }
         }
     }
 
-    private function add_resource_alias(&$index, $alias, $path)
+    function add_resource_alias($alias, $path)
     {
         $alias = strtolower($alias);
-        $index['aliases'][$alias][] = $path;
+        $this->data['aliases'][$alias][] = $path;
     }
 
-    private function index_directories(&$index)
+    private function index_directories()
     {
-        $directories = $this->scan_directories($index['root'], true);
+        $directories = $this->scan_directories($this->root(), true);
         foreach ($directories as $directory) {
-            $this->index_directory($index, $directory);
+            $this->index_directory($directory);
         }
     }
 
-    private function index_directory(&$index, $dirpath)
+    private function index_directory($dirpath)
     {
         $dir_metadata = array();
 
         $dir_metadata['type'] = 'directory';
-        $dir_metadata['path'] = $this->string_after_first($index['root'], $dirpath);
+        $dir_metadata['path'] = $this->string_after_first($this->root(), $dirpath);
         $dir_metadata['directorypath'] = $dirpath;
 
-        $this->set_resource_metadata($index, $dir_metadata['path'], $dir_metadata);
+        $this->set_resource_metadata($dir_metadata['path'], $dir_metadata);
     }
 
-    private function index_files(&$index)
+    private function index_files()
     {
-        $files = $this->scan_files($index['root'], true);
+        $files = $this->scan_files($this->root(), true);
         foreach ($files as $filepath) {
-            $this->index_file($index, $filepath);
+            $this->index_file($filepath);
         }
     }
 
-    private function index_php_files(&$index)
+    private function index_php_files()
     {
-        foreach ($index['resources'] as $resource) {
+        foreach ($this->data['resources'] as $resource) {
             if ($resource['type'] == 'file' && $this->is_php_file($resource)) {
-                $this->index_php_file($index, $resource);
+                $this->index_php_file($resource);
             }
         }
-        $this->index_php_class_heirarchy($index);
+
+        $this->index_php_class_heirarchy();
     }
 
-    private function index_php_class_heirarchy(&$index)
+    private function index_php_class_heirarchy()
     {
-        foreach ($index['resources'] as &$resource) {
-
-            if (!isset($resource['type']))
-                krumo::dump($resource);
-
+        foreach ($this->data['resources'] as &$resource) {
             if ($resource['type'] == 'class' && isset($resource['parent'])) {
                 $superclass_resource_path = $this->get_alias_path($resource['parent'] . ' class');
                 if ($superclass_resource_path) {
-                    $superclass_resource_metadata =& $index['resources'][$superclass_resource_path];
+                    $superclass_resource_metadata =& $this->data['resources'][$superclass_resource_path];
                     $superclass_resource_metadata['subclasses'][] = $resource['name'];
                 }
             }
         }
     }
 
-    private function index_file(&$index, $filepath)
+    private function index_file($filepath)
     {
-        $resource_path = $this->string_after_first($index['root'], $filepath);
-
+        $resource_path = $this->string_after_first($this->root(), $filepath);
+        
         $file_metadata = array();
         $file_metadata['type'] = 'file';
         $file_metadata['path'] = $resource_path;
@@ -180,8 +180,8 @@ class Index
         $file_metadata['filename'] = basename($filepath);
         $file_metadata['extension'] = $this->string_after_last('.', $file_metadata['filename']);
 
-        $this->set_resource_metadata($index, $resource_path, $file_metadata);
-        $this->add_resource_alias($index, $file_metadata['filename'], $resource_path);
+        $this->set_resource_metadata($resource_path, $file_metadata);
+        $this->add_resource_alias($file_metadata['filename'], $resource_path);
     }
 
     private function is_php_file($file_metadata)
@@ -189,23 +189,10 @@ class Index
         return $this->string_ends_with('.php', $file_metadata['filepath']);
     }
 
-    private function index_php_file(&$index, $file_metadata)
+    private function index_php_file($file_metadata)
     {
-        $parser = new PHPClassParser();
-
-        $filepath = $file_metadata['filepath'];
-
-        $classes_in_filepath = $parser->get_file_classes($filepath);
-
-        foreach ($classes_in_filepath as $class_name => &$class_metadata) {
-            $class_metadata['type'] = 'class';
-            $class_metadata['path'] = $file_metadata['path'] . '/' . $class_name;
-            $class_metadata['file'] = $file_metadata['path'];
-
-            $this->set_resource_metadata($index, $class_metadata['path'], $class_metadata);
-            $this->add_resource_alias($index, $class_name, $class_metadata['path']);
-            $this->add_resource_alias($index, $class_name . ' class', $class_metadata['path']);
-        }
+        $php_file_indexer = new PHPFileIndexer($this);
+        $php_file_indexer->index($file_metadata);
     }
 
     private function requires_rebuild()

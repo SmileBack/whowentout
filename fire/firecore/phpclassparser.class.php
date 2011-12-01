@@ -99,8 +99,7 @@ class PHPClassParser
     {
         return is_array($tokens[$i])
                && $tokens[$i - 1][0] == T_FUNCTION
-               && $tokens[$i][0] == T_STRING
-               && $tokens[$i][1] != '__construct';
+               && $tokens[$i][0] == T_STRING;
     }
 
     private function get_method($tokens, &$i)
@@ -150,6 +149,7 @@ class PHPClassParser
         while ($tokens[$i] != '(') $i++; // Go to first (
 
         $unclosed_parens = 0;
+        $argument_position = 0;
 
         do {
             if ($tokens[$i] == '(') {
@@ -160,6 +160,8 @@ class PHPClassParser
             }
             elseif ($this->is_argument($tokens, $i)) {
                 $argument = $this->get_argument($tokens, $i);
+                $argument['position'] = $argument_position++;
+                
                 $arguments[$argument['name']] = $argument;
             }
 

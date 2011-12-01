@@ -15,26 +15,26 @@ class ClassLoader
         $this->index = $index;
     }
 
-    function init($class_name, $arg1 = null, $arg2 = null, $arg3 = null)
+    function init($class_name, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
     {
         $this->load($class_name);
-        return new $class_name($arg1, $arg2, $arg3);
+        return new $class_name($arg1, $arg2, $arg3, $arg4, $arg5);
     }
 
-    function init_subclass($superclass, $subclass, $arg1 = null, $arg2 = null, $arg3 = null)
+    function init_subclass($superclass, $subclass, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
     {
         $subclass_name = $this->get_subclass_name($superclass, $subclass);
         
         if ($subclass_name)
-            return $this->init($subclass_name, $arg1, $arg2, $arg3);
+            return $this->init($subclass_name, $arg1, $arg2, $arg3, $arg4, $arg5);
         else
             return null;
     }
 
 
-    function create($key, $class_name, $arg1 = null, $arg2 = null, $arg3 = null)
+    function create($key, $class_name, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
     {
-        $instance = $this->init($class_name, $arg1, $arg2, $arg3);
+        $instance = $this->init($class_name, $arg1, $arg2, $arg3, $arg4, $arg5);
         $this->register($key, $instance);
         return $this->fetch($key);
     }

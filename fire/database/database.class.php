@@ -11,9 +11,9 @@ class Database
 
     private $required_options = array('host', 'database', 'username', 'password');
     
-    function __construct($config)
+    function __construct(array $options)
     {
-        $this->connect($config);
+        $this->connect($options);
         $this->load_tables();
     }
     
