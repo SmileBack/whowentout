@@ -2,13 +2,13 @@
 
 abstract class Package
 {
-    abstract function install();
+    function install()
+    {
 
-    abstract function uninstall();
+    }
 
-    abstract function is_installed();
-
-    abstract function installer_version();
-
-    abstract function installed_version();
+    function uninstall()
+    {
+        
+    }
 }

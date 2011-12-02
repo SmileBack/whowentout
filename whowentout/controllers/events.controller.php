@@ -3,7 +3,9 @@
 class Events_Controller extends Controller
 {
 
-    function test()
+    
+
+    function test_session()
     {
         $session_handler = factory()->build('session_handler');
         session_set_save_handler(

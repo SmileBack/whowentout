@@ -8,10 +8,52 @@ class PackageInstaller
      */
     protected $db;
 
-    function __construct(Database $db)
+    /**
+     * @var ClassLoader
+     */
+    protected $class_loader;
+
+    function __construct(Database $db, ClassLoader $class_loader)
     {
         $this->db = $db;
+        $this->class_loader = $class_loader;
+        
         $this->_create_table_if_needed();
+    }
+    
+    function install($package)
+    {
+        
+    }
+
+    function uninstall($package)
+    {
+        
+    }
+
+    function upgrade($package)
+    {
+        
+    }
+
+    function upgrade_to($package, $version)
+    {
+        
+    }
+
+    function downgrade_to($package, $version)
+    {
+        
+    }
+
+    function get_installed_version($package)
+    {
+
+    }
+
+    function get_avaliable_version($package)
+    {
+        
     }
 
     function _create_table_if_needed()
