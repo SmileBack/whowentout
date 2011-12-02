@@ -3,6 +3,10 @@ app:
   class_loader: class_loader
   database: database
 
+timezone:
+  type: DateTimeZone
+  
+
 database:
   type: database
   host: localhost

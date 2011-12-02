@@ -5,20 +5,12 @@ class Events_Controller extends Controller
 
     function test()
     {
-        krumo::dump(app()->index()->data());
-
-        $session_handler = new DatabaseSessionHandler(db());
-        session_set_save_handler(
-            array($session_handler, 'open'),
-            array($session_handler, 'close'),
-            array($session_handler, 'read'),
-            array($session_handler, 'write'),
-            array($session_handler, 'destroy'),
-            array($session_handler, 'gc')
-        );
-
-        session_start();
-        $_SESSION['test'] = 'foo';
+        $reflection = new ReflectionClass('Factory');
+        $constructor = $reflection->getConstructor();
+        $params = $constructor->getParameters();
+        /* @var $p ReflectionParameter */
+        $p = $params[0];
+        print $p->getClass()->getName();
     }
 
     function test_db()

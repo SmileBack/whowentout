@@ -46,30 +46,33 @@ class Factory
 
     private function get_constructor_arguments($class, $config)
     {
-        $class_info = $this->class_loader->get_class_metadata($class);
-        if (!isset($class_info['methods']['__construct']))
-            return array();
-
-        $params = $class_info['methods']['__construct']['arguments'];
         $args = array_fill(0, 6, null);
+        
+        $reflector = new ReflectionClass($class);
+        $constructor = $reflector->getConstructor();
+        
+        if (!$constructor)
+            return $args;
+        
+        $params = $constructor->getParameters();
 
-        if (count($params) == 1 && isset($params['options'])) {
+        if (count($params) == 1 && $params[0]->getName() == 'options') {
             $args[0] = $config;
             return $args;
         }
 
-        foreach ($params as $arg_info) {
-            $arg_position = $arg_info['position'];
-            $arg_value = $config[ $arg_info['name'] ];
-
-            //this argument references an object that should be (or has already been) built
-            $arg_type = isset($arg_info['type']) ? $arg_info['type'] : null;
-            if ($arg_type)
+        /* @var $param ReflectionParameter */
+        foreach ($params as $param) {
+            $arg_position = $param->getPosition();
+            $arg_value = $config[ $param->getName() ];
+            
+            $arg_class = $param->getClass();
+            if ($arg_class)
                 $arg_value = $this->build($arg_value);
 
             $args[$arg_position] = $arg_value;
         }
-
+        
         return $args;
     }
 
