@@ -16,5 +16,4 @@ class Guestlist_Controller extends Controller
         $guestlist->entries->destroy($entry_id);
     }
 
-
 }

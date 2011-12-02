@@ -11,7 +11,7 @@ class Crud_Tests extends TestGroup
     function setup()
     {
         $this->db = factory()->build('test_database');
-        
+
         foreach ($this->db->list_table_names() as $table_name) {
             $this->db->destroy_table($table_name);
         }
@@ -65,6 +65,19 @@ class Crud_Tests extends TestGroup
         $table->destroy_row($row1_id);
         $this->assert_equal($table->row($row1_id), null, 'deleted row is null');
         $this->assert_equal($table->row($row2_id), $row2, 'regular row is still there');
+    }
+
+    function test_create_row_with_time()
+    {
+        $this->db->table('data')->create_column('my_date', array('type' => 'time'));
+        $date = new DateTime('2011-12-02', new DateTimeZone('UTC'));
+        $row = $this->db->table('data')->create_row(array(
+                                                         'name' => 'woo a date name',
+                                                         'my_date' => $date,
+                                                    ));
+
+        $same_date = clone $date;
+        $this->assert_equal($row->my_date, $same_date);
     }
 
 }

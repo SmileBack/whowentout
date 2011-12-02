@@ -5,10 +5,31 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $db = app()->database();
-        $row = $db->table('fire_packages')->row('session');
-        $row->status = 'yo';
-        $row->save();
+        krumo::dump(app()->index()->data());
+
+        $session_handler = new DatabaseSessionHandler(db());
+        session_set_save_handler(
+            array($session_handler, 'open'),
+            array($session_handler, 'close'),
+            array($session_handler, 'read'),
+            array($session_handler, 'write'),
+            array($session_handler, 'destroy'),
+            array($session_handler, 'gc')
+        );
+
+        session_start();
+        $_SESSION['test'] = 'foo';
+    }
+
+    function test_db()
+    {
+        db()->create_table('sessions', array(
+                                         'id' => array('type' => 'key', 'length' => 32),
+                                         'user_id' => array('type' => 'integer'),
+                                         'created' => array('type' => 'time'),
+                                         'updated' => array('type' => 'time'),
+                                         'data' => array('type' => 'text'),
+                                       ));
     }
 
     function index()

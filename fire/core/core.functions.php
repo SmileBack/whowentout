@@ -1,5 +1,7 @@
 <?php
 
+define('COREPATH', FIREPATH . 'core/');
+
 /**
  * @return Factory
  */
@@ -14,9 +16,9 @@ function factory()
         throw new Exception('You must define APPPATH in your index.php file');
 
     if (!$_factory) {
-        require_once FIREPATH . 'core/filesystemcache.class.php';
-        require_once FIREPATH . 'core/index.class.php';
-        require_once FIREPATH . 'core/classloader.class.php';
+        require_once COREPATH . 'filesystemcache.class.php';
+        require_once COREPATH . 'index.class.php';
+        require_once COREPATH . 'classloader.class.php';
 
         $index_cache = new FilesystemCache(APPPATH . 'cache');
         $index = new Index(APPPATH, $index_cache);
@@ -44,6 +46,14 @@ function app()
     }
 
     return $_app;
+}
+
+/**
+ * @return Database
+ */
+function db()
+{
+    return app()->database();
 }
 
 function route_uri_request()

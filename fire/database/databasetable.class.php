@@ -344,6 +344,8 @@ class DatabaseTable
 
     private function create_row_query(array $values)
     {
+        $values = $this->format_values_for_database($values);
+        
         $columns = array_keys($values);
         $columns_sql = implode(',', $columns);
 
@@ -355,6 +357,14 @@ class DatabaseTable
 
         $sql = "INSERT INTO $this->name ($columns_sql) VALUES ($values_sql)";
         return $this->db->query_statement($sql, $values);
+    }
+
+    private function format_values_for_database($values)
+    {
+        foreach ($values as $column => &$value) {
+            $value = $this->column($column)->to_database_value($value);
+        }
+        return $values;
     }
 
     private function destroy_row_query($row_id)

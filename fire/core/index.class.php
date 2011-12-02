@@ -80,7 +80,7 @@ class Index
     private function rebuild()
     {
         $this->data = array(
-            'root' => $this->root,
+            'root' => realpath($this->root),
         );
 
         $this->index_directories();
@@ -130,12 +130,18 @@ class Index
 
     private function index_directory($dirpath)
     {
+        $root = realpath($this->root());
+        $path = realpath($dirpath);
+        $resource_path = $this->string_after_first($root, $path);
+        $resource_path = str_replace('\\', '/', $resource_path);
+        $resource_path = substr($resource_path, 1);
+
         $dir_metadata = array();
 
         $dir_metadata['type'] = 'directory';
-        $dir_metadata['path'] = $this->string_after_first($this->root(), $dirpath);
+        $dir_metadata['path'] = $resource_path;
         $dir_metadata['directorypath'] = $dirpath;
-
+        
         $this->set_resource_metadata($dir_metadata['path'], $dir_metadata);
     }
 
@@ -173,8 +179,12 @@ class Index
 
     private function index_file($filepath)
     {
-        $resource_path = $this->string_after_first($this->root(), $filepath);
-        
+        $root = realpath($this->root());
+        $filepath = realpath($filepath);
+        $resource_path = $this->string_after_first($root, $filepath);
+        $resource_path = str_replace('\\', '/', $resource_path);
+        $resource_path = substr($resource_path, 1);
+
         $file_metadata = array();
         $file_metadata['type'] = 'file';
         $file_metadata['path'] = $resource_path;
@@ -255,7 +265,9 @@ class Index
             // Standardize to forward slashes
             $filepath = str_replace('\\', '/', $file->getPathName());
 
-            $files[] = $filepath;
+            if ($file->isFile()) {
+                $files[] = $filepath;
+            }
         }
 
         return $files;
@@ -276,10 +288,10 @@ class Index
             if (method_exists($file, 'isDot') && $file->isDot())
                 continue;
 
+            // Standardize to forward slashes
             $filepath = str_replace('\\', '/', $file->getPathName());
 
             if ($file->isDir()) {
-                // Standardize to forward slashes
                 $folders[] = $filepath;
             }
         }
