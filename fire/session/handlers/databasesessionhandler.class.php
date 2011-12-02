@@ -6,13 +6,17 @@ class DatabaseSessionHandler extends SessionHandler
     /* @var $db Database */
     private $db;
 
+    /* @var $clock Clock */
+    private $clock;
+
     private $sessions_table = 'sessions';
 
-    function __construct(Database $database)
+    function __construct(Database $database, Clock $clock)
     {
         $this->db = $database;
+        $this->clock = $clock;
     }
-
+    
     function open($path, $name)
     {
         return true;
@@ -32,17 +36,18 @@ class DatabaseSessionHandler extends SessionHandler
     function write($sess_id, $data)
     {
         $row = $this->table()->row($sess_id);
+        $current_time = $this->clock->get_time();
         
         if ($row) {
             $row->data = $data;
-            $row->updated = new DateTime();
+            $row->updated = $current_time;
             $row->save();
         }
         else {
             $this->table()->create_row(array(
                                            'id' => $sess_id,
-                                           'created' => new DateTime(),
-                                           'updated' => new DateTime(),
+                                           'created' => $current_time,
+                                           'updated' => $current_time,
                                            'data' => $data,
                                        ));
         }

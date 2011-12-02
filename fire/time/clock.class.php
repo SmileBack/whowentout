@@ -5,8 +5,8 @@ class Clock
 
     private $delta = 0;
     private $timezone;
-
-    function __construct($timezone)
+    
+    function __construct(DateTimeZone $timezone)
     {
         $this->timezone = $timezone;
     }

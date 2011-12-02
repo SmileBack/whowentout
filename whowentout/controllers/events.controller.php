@@ -5,8 +5,18 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $tz = factory()->build('timezone');
-        krumo::dump($tz);
+        $session_handler = factory()->build('session_handler');
+        session_set_save_handler(
+            array($session_handler, 'open'),
+            array($session_handler, 'close'),
+            array($session_handler, 'read'),
+            array($session_handler, 'write'),
+            array($session_handler, 'destroy'),
+            array($session_handler, 'gc')
+        );
+        
+        session_start();
+        $_SESSION['test'] = 52;
     }
 
     function test_db()

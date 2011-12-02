@@ -1,3 +1,4 @@
+# TODO: deny access to these directories using .htaccess
 app:
   type: WhoWentOutApp
   class_loader: class_loader
@@ -7,15 +8,24 @@ timezone:
   type: DateTimeZone
   timezone: UTC
 
+clock:
+  type: Clock
+  timezone: timezone
+
 database:
-  type: database
+  type: Database
   host: localhost
   database: wwo
   username: root
   password: root
 
+session_handler:
+  type: DatabaseSessionHandler
+  database: database
+  clock: clock
+
 test_database:
-  type: database
+  type: Database
   host: localhost
   database: fire_test
   username: root
