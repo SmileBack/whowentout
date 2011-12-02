@@ -34,9 +34,9 @@ class DatabaseSessionHandler extends SessionHandler
         $row = $this->table()->row($sess_id);
         
         if ($row) {
-//            $row->data = $data;
-//            $row->updated = new DateTime();
-//            $row->save();
+            $row->data = $data;
+            $row->updated = new DateTime();
+            $row->save();
         }
         else {
             $this->table()->create_row(array(
