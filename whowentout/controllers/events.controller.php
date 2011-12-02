@@ -5,12 +5,8 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $reflection = new ReflectionClass('Factory');
-        $constructor = $reflection->getConstructor();
-        $params = $constructor->getParameters();
-        /* @var $p ReflectionParameter */
-        $p = $params[0];
-        print $p->getClass()->getName();
+        $tz = factory()->build('timezone');
+        krumo::dump($tz);
     }
 
     function test_db()

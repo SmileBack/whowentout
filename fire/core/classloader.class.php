@@ -18,7 +18,22 @@ class ClassLoader
     function init($class_name, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
     {
         $this->load($class_name);
-        return new $class_name($arg1, $arg2, $arg3, $arg4, $arg5);
+        $num_params = $this->get_num_constructor_parameters($class_name);
+
+        if ($num_params == 0)
+            return new $class_name;
+        else if ($num_params == 1)
+            return new $class_name($arg1);
+        else if ($num_params == 2)
+            return new $class_name($arg1, $arg2);
+        else if ($num_params == 3)
+            return new $class_name($arg1, $arg2, $arg3);
+        else if ($num_params == 4)
+            return new $class_name($arg1, $arg2, $arg3, $arg4);
+        else if ($num_params == 5)
+            return new $class_name($arg1, $arg2, $arg3, $arg4, $arg5);
+        else
+            throw new Exception("Greater than 5 arguments is currently unsupported");
     }
 
     function init_subclass($superclass, $subclass, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
@@ -117,6 +132,18 @@ class ClassLoader
 
         $file_metadata = $this->index->get_resource_metadata($class_metadata['file']);
         return $file_metadata['filepath'];
+    }
+
+    private function get_num_constructor_parameters($class)
+    {
+        $reflector = new ReflectionClass($class);
+        $constructor = $reflector->getConstructor();
+
+        if (!$constructor)
+            return 0;
+
+        $params = $constructor->getParameters();
+        return count($params);
     }
 
 }

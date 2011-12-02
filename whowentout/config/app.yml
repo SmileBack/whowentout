@@ -5,7 +5,7 @@ app:
 
 timezone:
   type: DateTimeZone
-  
+  timezone: UTC
 
 database:
   type: database
