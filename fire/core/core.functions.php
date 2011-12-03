@@ -5,17 +5,20 @@ define('COREPATH', FIREPATH . 'core/');
 /**
  * @return Factory
  */
-function factory()
+function factory($key = 'app', $config = null)
 {
-    global $_factory;
-
+    global $_factories;
+    
     if (!defined('FIREPATH'))
         throw new Exception('You must define FIREPATH in your index.php file');
 
     if (!defined('APPPATH'))
         throw new Exception('You must define APPPATH in your index.php file');
 
-    if (!$_factory) {
+    if (!$_factories)
+        $_factories = array();
+
+    if (!isset($_factories[$key])) {
         require_once COREPATH . 'filesystemcache.class.php';
         require_once COREPATH . 'index.class.php';
         require_once COREPATH . 'classloader.class.php';
@@ -26,10 +29,12 @@ function factory()
         $class_loader->enable_autoload();
 
         $config_source = new ConfigSource($index);
-        $_factory = new Factory($config_source, $class_loader, 'app');
+
+        $config = is_array($config) ? $config : $key;
+        $_factories[$key] = new Factory($config_source, $class_loader, $config);
     }
 
-    return $_factory;
+    return $_factories[$key];
 }
 
 /**

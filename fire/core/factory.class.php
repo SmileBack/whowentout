@@ -72,12 +72,15 @@ class Factory
 
             $args[$arg_position] = $arg_value;
         }
-        
+
         return $args;
     }
 
     private function load_config($config_name)
     {
+        if (is_array($config_name))
+            return $config_name;
+        
         return $this->config_source->load($config_name);
     }
 

@@ -13,9 +13,9 @@ class PackageInstaller
      */
     protected $class_loader;
 
-    function __construct(Database $db, ClassLoader $class_loader)
+    function __construct(Database $database, ClassLoader $class_loader)
     {
-        $this->db = $db;
+        $this->db = $database;
         $this->class_loader = $class_loader;
         
         $this->_create_table_if_needed();
