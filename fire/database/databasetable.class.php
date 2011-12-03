@@ -35,7 +35,7 @@ class DatabaseTable
      */
     function row($id)
     {
-        if (!$this->_row_exists($id))
+        if (!$this->row_exists($id))
             return null;
 
         if (!isset($this->rows[$id])) {
@@ -43,6 +43,15 @@ class DatabaseTable
         }
 
         return $this->rows[$id];
+    }
+
+    /**
+     * @param  $row_id
+     * @return bool
+     */
+    function row_exists($row_id)
+    {
+        return $this->_fetch_row_values($row_id) != null;
     }
 
     /**
@@ -72,7 +81,7 @@ class DatabaseTable
      */
     function column($name)
     {
-        if ( ! isset($this->schema['columns'][$name]) )
+        if (!isset($this->schema['columns'][$name]))
             return NULL;
 
         if (!isset($this->columns[$name])) {
@@ -103,7 +112,7 @@ class DatabaseTable
         $query->execute();
 
         $this->_refresh_schema();
-        
+
     }
 
     function rename_column($current_column_name, $new_column_name)
@@ -172,7 +181,7 @@ class DatabaseTable
 
         $query = $this->db->query_statement($query_sql, $params);
         $query->execute();
-        
+
         return $query->rowCount() > 0;
     }
 
@@ -211,7 +220,7 @@ class DatabaseTable
         $table_name = $this->name();
         return "$table_name.$column";
     }
-    
+
     function _refresh_schema()
     {
         $this->_load_schema_from_database($this->name);
@@ -252,7 +261,7 @@ class DatabaseTable
 
             $schema['columns'][$column['name']] = $column;
         }
-        
+
         $query = $this->db->query_statement("SHOW INDEX FROM {$this->name}");
         $query->execute();
         $index_infos = $query->fetchAll(PDO::FETCH_OBJ);
@@ -277,7 +286,7 @@ class DatabaseTable
         $query = $this->db->query_statement("SHOW CREATE TABLE {$this->name}");
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
-        
+
         $create_table_statement = $result['Create Table'];
         $parser = new CreateTableParser();
         return $parser->parse($create_table_statement);
@@ -325,7 +334,7 @@ class DatabaseTable
     private function update_row_query($id, array $values)
     {
         $id_column = $this->id_column()->name();
-        
+
         $columns = array_keys($values);
         $set_statements = array();
         foreach ($columns as $column) {
@@ -345,7 +354,7 @@ class DatabaseTable
     private function create_row_query(array $values)
     {
         $values = $this->format_values_for_database($values);
-        
+
         $columns = array_keys($values);
         $columns_sql = implode(',', $columns);
 
@@ -393,11 +402,6 @@ class DatabaseTable
         $query->execute();
         $row_count = $query->rowCount();
         return $row_count > 0 ? (array)$query->fetchObject() : false;
-    }
-
-    function _row_exists($row_id)
-    {
-        return $this->_fetch_row_values($row_id) != null;
     }
 
 }

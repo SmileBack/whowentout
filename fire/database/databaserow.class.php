@@ -17,6 +17,11 @@ class DatabaseRow
         $this->load_values($id);
     }
 
+    function values()
+    {
+        return $this->values;
+    }
+
     /**
      * @return DatabaseTable
      */
