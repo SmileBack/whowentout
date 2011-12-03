@@ -64,7 +64,7 @@ class PackageInstaller_Tests extends TestGroup
         $this->installer->install(TEST_PACKAGE_ONE);
         $this->assert_true($this->installer->is_installed(TEST_PACKAGE_ONE), 'package IS installed afterword');
         $this->assert_true($this->db->table_exists('table_one'), 'table has been successfully created');
-        $this->assert_equal($this->installer->get_installed_version(TEST_PACKAGE_ONE), '0.5');
+        $this->assert_equal($this->installer->get_installed_version(TEST_PACKAGE_ONE), '1.5.2');
         $this->assert_true(!$this->installer->is_installed(TEST_PACKAGE_TWO), 'other package still isnt installed');
 
         $this->installer->install(TEST_PACKAGE_TWO);
@@ -83,8 +83,8 @@ class PackageInstaller_Tests extends TestGroup
     {
         $package_one_version = $this->installer->get_available_version(TEST_PACKAGE_ONE);
         $package_two_version = $this->installer->get_available_version(TEST_PACKAGE_TWO);
-
-        $this->assert_equal($package_one_version, '0.5');
+        
+        $this->assert_equal($package_one_version, '1.5.2');
         $this->assert_equal($package_two_version, '1.2.1');
     }
     

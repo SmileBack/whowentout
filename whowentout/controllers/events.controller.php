@@ -3,7 +3,12 @@
 class Events_Controller extends Controller
 {
 
-    
+    function test()
+    {
+        $p = new TestPackageOne();
+        $versions = $p->get_versions();
+        krumo::dump($versions);
+    }
 
     function test_session()
     {
@@ -20,18 +25,7 @@ class Events_Controller extends Controller
         session_start();
         $_SESSION['test'] = 52;
     }
-
-    function test_db()
-    {
-        db()->create_table('sessions', array(
-                                         'id' => array('type' => 'key', 'length' => 32),
-                                         'user_id' => array('type' => 'integer'),
-                                         'created' => array('type' => 'time'),
-                                         'updated' => array('type' => 'time'),
-                                         'data' => array('type' => 'text'),
-                                       ));
-    }
-
+    
     function index()
     {
         $current_user = app()->current_user();
