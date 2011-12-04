@@ -52,7 +52,7 @@ class TestPackageOne extends Package
      */
     private function db()
     {
-        return factory('package_installer_test')->build('database');
+        return $this->database;
     }
 
 }

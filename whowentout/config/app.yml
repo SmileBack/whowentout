@@ -34,3 +34,9 @@ test_database:
 router:
   type: Router
   app: app
+
+package_installer:
+  type: PackageInstaller
+  database: database
+  class_loader: class_loader
+  

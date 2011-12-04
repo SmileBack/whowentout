@@ -8,7 +8,7 @@ class Test_Controller extends Controller
         $tester = new Tester();
         $groups = $tester->get_test_groups();
 
-        print r('tests', array('groups' => $groups));
+        print r::tests(array('groups' => $groups));
     }
 
     function group($group = null)
@@ -23,7 +23,7 @@ class Test_Controller extends Controller
 
         $report = $tester->report();
 
-        print r('test_results', array('report' => $report));
+        print r::test_results(array('report' => $report));
     }
 
 }

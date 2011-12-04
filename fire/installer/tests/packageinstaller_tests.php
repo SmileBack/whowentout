@@ -63,7 +63,7 @@ class PackageInstaller_Tests extends TestGroup
 
         $this->installer->install(TEST_PACKAGE_ONE);
         $this->assert_true($this->installer->is_installed(TEST_PACKAGE_ONE), 'package IS installed afterword');
-        $this->assert_true($this->db->table_exists('table_one'), 'table has been successfully created');
+        $this->assert_true($this->db->has_table('table_one'), 'table has been successfully created');
         $this->assert_equal($this->installer->get_installed_version(TEST_PACKAGE_ONE), '1.5.2');
         $this->assert_true(!$this->installer->is_installed(TEST_PACKAGE_TWO), 'other package still isnt installed');
 
@@ -72,7 +72,7 @@ class PackageInstaller_Tests extends TestGroup
 
         $this->installer->uninstall(TEST_PACKAGE_ONE);
         $this->assert_true(!$this->installer->is_installed(TEST_PACKAGE_ONE), ' first package got uninstalled');
-        $this->assert_true(!$this->db->table_exists('table_one'), 'table has been successfully destroyed');
+        $this->assert_true(!$this->db->has_table('table_one'), 'table has been successfully destroyed');
         $this->assert_true($this->installer->is_installed(TEST_PACKAGE_TWO), 'second package is still installed');
 
         $this->installer->uninstall(TEST_PACKAGE_TWO);

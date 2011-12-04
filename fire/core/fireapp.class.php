@@ -89,9 +89,9 @@ class FireApp
         $e = is_object($event_data) ? $event_data : (object)$event_data;
         $e->type = $event_name;
         
-        $event_object = $this->class_loader()->init_subclass('Event', $e->type);
+        $event_object = $this->class_loader()->init_subclass('FireEvent', $e->type);
         if (!$event_object)
-            $event_object = $this->class_loader()->init('Event');
+            $event_object = $this->class_loader()->init('FireEvent');
         
         foreach ($e as $prop => $val)
             $event_object->$prop = $val;

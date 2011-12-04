@@ -9,7 +9,7 @@ class PackageInstaller
     /**
      * @var Database
      */
-    protected $db;
+    protected $database;
 
     /**
      * @var ClassLoader
@@ -18,7 +18,7 @@ class PackageInstaller
 
     function __construct(Database $database, ClassLoader $class_loader)
     {
-        $this->db = $database;
+        $this->database = $database;
         $this->class_loader = $class_loader;
 
         $this->_create_table_if_missing();
@@ -40,6 +40,9 @@ class PackageInstaller
             $package_row->status = PACKAGE_STATUS_INSTALLED;
             $package_row->save();
         }
+        else {
+            throw new Exception("$package_name doesn't exist");
+        }
     }
 
     function uninstall($package_name)
@@ -47,7 +50,7 @@ class PackageInstaller
         $package_row = $this->get_package_row($package_name);
         if ($package_row) {
             /* @var $package Package */
-            $package = $this->class_loader->init_subclass('Package', $package_name);
+            $package = $this->get_package($package_name);
             $package->uninstall();
 
             $package_row->status = PACKAGE_STATUS_INACTIVE;
@@ -104,7 +107,7 @@ class PackageInstaller
      */
     function get_package($package_name)
     {
-        return $this->class_loader->init_subclass('Package', $package_name);
+        return $this->class_loader->init_subclass('Package', $package_name, $this->database);
     }
 
     /**
@@ -132,13 +135,13 @@ class PackageInstaller
      */
     private function table()
     {
-        return $this->db->table('fire_packages');
+        return $this->database->table('fire_packages');
     }
 
     private function _create_table_if_missing()
     {
-        if (!$this->db->table_exists('fire_packages')) {
-            $this->db->create_table('fire_packages', array(
+        if (!$this->database->has_table('fire_packages')) {
+            $this->database->create_table('fire_packages', array(
                                                           'name' => array('type' => 'key'),
                                                           'version' => array('type' => 'string', 'null' => false, 'default' => ''),
                                                           'status' => array('type' => 'string'),

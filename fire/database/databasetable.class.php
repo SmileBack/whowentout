@@ -100,9 +100,14 @@ class DatabaseTable
      */
     function id_column()
     {
-        assert(count($this->schema['primary key']) == 1);
-        $pk = $this->schema['primary key'][0];
+        assert(count($this->schema['primary_key']) == 1);
+        $pk = $this->schema['primary_key'][0];
         return $this->column($pk);
+    }
+
+    function has_column($column_name)
+    {
+        return $this->column($column_name) != null;
     }
 
     function create_column($name, array $options)
@@ -134,13 +139,16 @@ class DatabaseTable
         $this->columns[$new_column_name] = $column;
     }
 
-    function destroy_column($name)
+    function destroy_column($column_name)
     {
-        $query = $this->db->query_statement("ALTER TABLE $this->name DROP COLUMN $name");
+        if ($this->has_foreign_key($column_name))
+            $this->destroy_foreign_key($column_name);
+
+        $query = $this->db->query_statement("ALTER TABLE $this->name DROP COLUMN $column_name");
         $query->execute();
 
         $this->_refresh_schema();
-        unset($this->columns[$name]);
+        unset($this->columns[$column_name]);
     }
 
     function create_index($column)
@@ -204,15 +212,50 @@ class DatabaseTable
         $table_name = $this->name();
         $foreign_key_name = $this->get_foreign_key_name($column);
 
+        if (!$this->database()->has_table($referenced_table))
+            throw new TableMissingException();
+
         $query_sql = "ALTER TABLE $table_name
                         ADD CONSTRAINT `$foreign_key_name` FOREIGN KEY ($column) REFERENCES $referenced_table ($referenced_column)";
         $query = $this->db->query_statement($query_sql);
         $query->execute();
+
+        $this->_refresh_schema();
+    }
+
+    function has_foreign_key($column)
+    {
+        $key_name = $this->get_foreign_key_name($column);
+        return isset($this->schema['foreign_keys'][$key_name]);
     }
 
     function destroy_foreign_key($column)
     {
+        if ($this->has_foreign_key($column)) {
+            $table_name = $this->name();
+            $foreign_key_name = $this->get_foreign_key_name($column);
+            $query = $this->db->query_statement("ALTER TABLE $table_name DROP FOREIGN KEY `$foreign_key_name`");
+            $query->execute();
+            $this->_refresh_schema();
+        }
+    }
 
+    function get_foreign_key_table($column)
+    {
+        if ($this->has_foreign_key($column)) {
+            $key_name = $this->get_foreign_key_name($column);
+            return $this->schema['foreign_keys'][$key_name]['referenced_table'];
+        }
+        return null;
+    }
+
+    function get_foreign_key_column($column)
+    {
+        if ($this->has_foreign_key($column)) {
+            $key_name = $this->get_foreign_key_name($column);
+            return $this->schema['foreign_keys'][$key_name]['referenced_column'];
+        }
+        return null;
     }
 
     private function get_foreign_key_name($column)
@@ -233,12 +276,15 @@ class DatabaseTable
         $schema = array(
             'name' => $table_name,
             'columns' => array(),
-            'primary key' => array(),
+            'primary_key' => array(),
         );
 
         // we must fetch schema from two sources because the information schema table is incomplete
         $information_schema = $this->fetch_mysql_information_schema();
         $create_table_schema = $this->fetch_create_table_schema();
+
+        $schema['foreign_keys'] = $create_table_schema['foreign_keys'];
+        $schema['indexes'] = $create_table_schema['indexes'];
 
         foreach ($information_schema as $column_info) {
             $column = array(
@@ -250,8 +296,8 @@ class DatabaseTable
 
             $column['default'] = $column_info->Default;
 
-            $column['primary key'] = $column_info->Key == 'PRI';
-            $column['auto increment'] = $column_info->Extra == 'auto_increment';
+            $column['primary_key'] = $column_info->Key == 'PRI';
+            $column['auto_increment'] = $column_info->Extra == 'auto_increment';
 
             //size of field
             $size = $this->get_mysql_data_size($column_info);
@@ -268,10 +314,10 @@ class DatabaseTable
 
         foreach ($index_infos as $column_info) {
             if ($column_info->Key_name == 'PRIMARY') {
-                $schema['primary key'][] = $column_info->Column_name;
+                $schema['primary_key'][] = $column_info->Column_name;
             }
             elseif ($column_info->Non_unique == '0') { // means unique
-                $schema['unique keys'][$column_info->Key_name][] = $column_info->Column_name;
+                $schema['unique_keys'][$column_info->Key_name][] = $column_info->Column_name;
             }
             elseif ($column_info->Non_unique == '1') { // not unique.. just an index
                 $schema['indexes'][$column_info->Key_name][] = $column_info->Column_name;

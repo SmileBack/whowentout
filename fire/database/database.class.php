@@ -55,7 +55,7 @@ class Database
     }
 
 
-    function table_exists($table_name)
+    function has_table($table_name)
     {
         return array_key_exists($table_name, $this->tables);
     }
@@ -66,7 +66,7 @@ class Database
      */
     function table($table_name)
     {
-        if ( ! $this->table_exists($table_name))
+        if ( ! $this->has_table($table_name))
             return null;
         
         if ( $this->tables[$table_name] == null ) {
@@ -145,6 +145,10 @@ class Database
     private function get_column_sql($column_name, $column_config)
     {
         $column_type = app()->class_loader()->init_subclass('columntype', $column_config['type'], $column_config);
+        
+        if ($column_type == null)
+            throw new ColumnTypeMissingException();
+
         return $column_name . ' ' . $column_type->to_sql();
     }
 
@@ -159,6 +163,12 @@ class Database
             // when we ask for the schema of a table for the first time, the schema will be loaded into $this->tables[table name]
             $this->tables[$name] = null;
         }
+    }
+
+    function execute($sql, $params = array())
+    {
+        $query = $this->query_statement($sql, $params);
+        $query->execute();
     }
 
     /**

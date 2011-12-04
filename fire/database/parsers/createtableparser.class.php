@@ -6,8 +6,8 @@ class CreateTableParser
     private $commas_regex = '/(\s|\n)*,(\s|\n)*/';
     private $table_name_regex = '/CREATE TABLE `(?P<name>\w+)` \([^)]+\)/';
     private $column_regex = '/^`(?P<name>\w+)` (?P<schema>.+)$/';
-    private $foreign_key_regex = '/CONSTRAINT `(?P<name>\w+)` FOREIGN KEY \(`(?P<column>\w+)`\) REFERENCES `(?P<referenced_table>\w+)` \(`(?P<referenced_column>\w+)`\)/';
-    private $index_regex = '/KEY `(?P<name>\w+)` \((?<columns>[^)]+)\)/';
+    private $foreign_key_regex = '/CONSTRAINT `(?P<name>[^`]+)` FOREIGN KEY \(`(?P<column>\w+)`\) REFERENCES `(?P<referenced_table>\w+)` \(`(?P<referenced_column>\w+)`\)/';
+    private $index_regex = '/KEY `(?P<name>[^`]+)` \((?<columns>[^)]+)\)/';
     
     function __construct()
     {
@@ -26,13 +26,13 @@ class CreateTableParser
         return $table;
     }
 
-    function get_table_name($sql)
+    private function get_table_name($sql)
     {
         preg_match($this->table_name_regex, $sql, $m);
         return $m['name'];
     }
 
-    function get_columns($sql)
+    private function get_columns($sql)
     {
         $columns = array();
 
@@ -47,7 +47,7 @@ class CreateTableParser
         return $columns;
     }
 
-    function get_foreign_keys($sql)
+    private function get_foreign_keys($sql)
     {
         $foreign_keys = array();
         
@@ -62,7 +62,7 @@ class CreateTableParser
         return $foreign_keys;
     }
 
-    function get_indexes($sql)
+    private function get_indexes($sql)
     {
         $indexes = array();
 
@@ -77,7 +77,7 @@ class CreateTableParser
         return $indexes;
     }
 
-    function get_column_from_sql($column_sql)
+    private function get_column_from_sql($column_sql)
     {
         preg_match($this->column_regex, $column_sql, $m);
         return array(
@@ -86,12 +86,12 @@ class CreateTableParser
         );
     }
 
-    function is_column_statement($statement)
+    private function is_column_statement($statement)
     {
         return preg_match($this->column_regex, $statement) > 0;
     }
 
-    function get_foreign_key_from_sql($foreign_key_sql)
+    private function get_foreign_key_from_sql($foreign_key_sql)
     {
         preg_match($this->foreign_key_regex, $foreign_key_sql, $m);
         return array(
@@ -102,12 +102,12 @@ class CreateTableParser
         );
     }
     
-    function is_foreign_key_statement($foreign_key_sql)
+    private function is_foreign_key_statement($foreign_key_sql)
     {
         return preg_match($this->foreign_key_regex, $foreign_key_sql, $m) > 0;
     }
 
-    function get_index_from_sql($key_sql)
+    private function get_index_from_sql($key_sql)
     {
         preg_match($this->index_regex, $key_sql, $m);
         $columns = preg_split($this->commas_regex, $m['columns']);
@@ -117,12 +117,12 @@ class CreateTableParser
         );
     }
 
-    function is_index_statement($key_sql)
+    private function is_index_statement($key_sql)
     {
         return preg_match($this->index_regex, $key_sql, $m) > 0;
     }
 
-    function get_statements($sql)
+    private function get_statements($sql)
     {
         $open_paren_position = strpos($sql, '(');
         $close_paren_position = strrpos($sql, ')');
