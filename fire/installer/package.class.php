@@ -23,7 +23,6 @@ abstract class Package
                 $versions[] = $this->get_upgrade_method_version($method);
             }
         }
-
         usort($versions, 'version_compare');
         return $versions;
     }

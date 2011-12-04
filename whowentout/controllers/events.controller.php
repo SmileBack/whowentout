@@ -5,9 +5,6 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $p = new TestPackageOne();
-        $versions = $p->get_versions();
-        krumo::dump($versions);
     }
 
     function test_session()
