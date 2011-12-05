@@ -24,6 +24,7 @@
     <div class="logo" href="/"><img src="/images/logo.png" /></div>
     <a class="events active" href="/events/view/admin">Events</a>
     <a class="events" href="/events">My Parties</a>
+    <a class="messages" href="/messages">Messages (3)</a>
     <a class="logout">Logout</a>
 </nav>
 

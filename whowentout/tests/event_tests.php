@@ -87,7 +87,5 @@ class Event_Tests extends TestGroup
         $this->assert_equal($event->place, $other_place);
         $this->assert_equal($event->place->id, $other_place->id);
     }
-
-    
     
 }

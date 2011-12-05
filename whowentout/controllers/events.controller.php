@@ -5,7 +5,18 @@ class Events_Controller extends Controller
 
     function test()
     {
-        
+        print r::page(array(
+                           'content' => r::events_view(array(
+                                                            'role' => 'user',
+                                                       )),
+                      ));
+    }
+
+    function invite()
+    {
+        print r::page(array(
+                          'content' => r::event_invite(),
+                      ));
     }
 
     function test_session()
@@ -19,11 +30,11 @@ class Events_Controller extends Controller
             array($session_handler, 'destroy'),
             array($session_handler, 'gc')
         );
-        
+
         session_start();
         $_SESSION['test'] = 52;
     }
-    
+
     function index()
     {
         $current_user = app()->current_user();

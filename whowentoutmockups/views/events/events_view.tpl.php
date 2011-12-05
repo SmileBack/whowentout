@@ -1,36 +1,25 @@
-<div id="dates">
-    <a href="/" class="prev">Prev</a>
+<?= r::events_date_selector() ?>
 
-    <a href="/" class="active">Today</a>
-    <a href="/">Fri, Nov 25</a>
-    <a href="/">Sat, Nov 26</a>
-    <a href="/">Sun, Nov 27</a>
+<?php
+$events = array(
+    array('name' => 'Rhino Bar', 'deal' => 'Free cover before 11 pm'),
+    array('name' => 'The Guards', 'deal' => '$3 Drafts before midnight'),
+    array('name' => 'Shadowroom', 'deal' => '$8 Pitchers before midnight'),
+    array('name' => 'Public', 'deal' => '$2.50 Coronas before midnight'),
+    array('name' => 'Madhatters', 'deal' => '$2 Test tube shooters'),
+    array('name' => 'Eden', 'deal' => 'Buy 1 drink, get 2nd one free'),
+);
+?>
 
-    <a href="/" class="next">Next</a>
-</div>
+<fieldset class="event_list">
+    <legend>Check-in to claim your deal and see who else is going!</legend>
+    <ul>
+    <?php foreach ($events as $k => $event): ?>
+        <li class="<?= $k == 0 ? 'first' : '' ?>">
+            <?= r::event_option($event) ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</fieldset>
 
-<?php if ($role == 'admin'): ?>
-<a class="create_event" href="/events/create">Create Event</a>
-<?php endif; ?>
-
-<ul class="event_list">
-    <li>
-        <?= r('event', array('role' => $role)) ?>
-    </li>
-    <li>
-        <?= r('event', array('role' => 'user')) ?>
-    </li>
-    <li>
-        <?= r('event', array('role' => 'user')) ?>
-    </li>
-    <li>
-        <?= r('event', array('role' => 'user')) ?>
-    </li>
-    <li>
-        <?= r('event', array('role' => 'user')) ?>
-    </li>
-    <li>
-        <?= r('event', array('role' => 'user')) ?>
-    </li>
-</ul>
-    
+<?= r::event_gallery() ?>

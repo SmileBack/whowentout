@@ -32,7 +32,7 @@ body {
     background-color: @primary_color;
     font-size: 20px;
     .logo {
-        margin:  60px 20px;
+        margin: 30px 20px;
     }
     a {
         display: block;
@@ -81,22 +81,33 @@ li {
 
 #dates {
     margin-bottom: 25px;
+    margin-left: 50px;
 }
 
 #dates > a {
     float: left;
     text-align: center;
     display: block;
-    width: 125px;
-    padding: 15px;
-    margin: 0 10px;
-    border:  1px solid black;
-    &.active { background-color: #ffc; }
+    width: 90px;
+    height: 70px;
+    overflow: hidden;
+    background: url(../images/calendar.png) no-repeat center;
+    margin: 0 8px;
+    text-decoration: none;
+    .day { margin-top: 25px; }
+    .date { font-weight: bold; font-size: 16px; }
+    &:hover {
+        background-image: url(../images/calendar_selected.png);
+    }
+    &.selected {
+        background-image: url(../images/calendar_selected.png);
+    }
     &.prev, &.next {
         padding: 0;
+        margin-top: 6px;
         text-indent: -9999px;
         width: 48px;
-        height: 48px;
+        height: 65px;
         background-repeat: no-repeat;
         border: none;
     }
@@ -109,62 +120,84 @@ li {
 }
 
 .event_list {
-    margin-top: 20px;
-    width: 100%;
-    float: left;
+    width: 550px;
+    margin: 0 140px;
     float: left;
     clear: both;
-    width: 100%;
+    border: 1px solid grey;
+    ul {
+        height: 190px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    li { width: 98%; }
+    li:hover { background-color: #F9EDBE; }
+    li.first label {
+        border-top: 1px solid #b0b0b0;
+    }
+    label {
+      overflow:  hidden;
+      display: block;
+      width: 100%;
+      border-bottom: 1px solid #b0b0b0;
+      input { float: left; margin: 10px; }
+      .place { width: 150px; float: left; margin: 10px; font-weight: bold; }
+      .deal { width: 200px; float: left; margin: 10px; }
+      .help { width: 50px; float: left; margin: 10px; color: #b5b5b5; font-size: 12px; }
+    }
 }
 
-.event {
-    border: 1px solid black;
-    padding: 20px;
-    margin-bottom: 25px;
-    position: relative;
-    .admin_link {
-        padding: 5px;
-        position: absolute;
-        top: 5px;
-        right: 5px;
+.event_gallery {
+    text-align: center;
+    margin: 0 35px;
+    h1 { margin-top: 15px; }
+    li {
+        display: inline-block;
+        margin: 15px;
+        padding: 15px;
+        border: 1px solid grey;
     }
-    > .body {
-        height: 100px;
-        .description {
-            float: left;
-            width: 60%;
-        }
-        .links {
-            float: left;
-            width: 38%;
-        }
-    }
-    nav a {
+    .send_message_link {
         display: block;
-        float: left;
-        width: 100px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        .button_style;
+        margin-top: 4px;
+        background: url(../images/message_icon.gif) center left no-repeat;
+        padding-left: 16px;
+        text-decoration: none;
+        &:hover { text-decoration: underline; }
     }
-    .more_info {
-        clear: both;
-        width: 100%;
-        float: left;
+}
+
+.event_invite {
+    border: 1px solid #333;
+    margin: 20px;
+    padding: 20px;
+    img { width: 75px; }
+    li {
         text-align: center;
+        display: inline-block;
+        margin: 16px;
     }
-}
-
-.user_picker {
-    line-height: 28px;
-    td { padding: 4px; }
-}
-.user_picker .name_column {
-    width: 200px;
-}
-
-.guestlist {
-    line-height: 28px;
-    .name_column { width: 200px; }
-    td { padding: 4px; }
+    .event_badge {
+        display: block;
+        border: 1px solid #CCC;
+        padding: 3px 0px;
+        width: 100%;
+        text-decoration: none;
+        border-radius: 2px;
+    }
+    .event_invite_link {
+        .event_badge;
+        background-color: #5d9ddd;
+        color: white;
+    }
+    .event_invited_badge {
+        .event_badge;
+        background-color: #eeb44f;
+        color: white;
+    }
+    .event_attending_badge {
+        .event_badge;
+        background-color: #5cb811;
+        color: white;
+    }
 }
