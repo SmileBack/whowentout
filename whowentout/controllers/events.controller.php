@@ -5,6 +5,7 @@ class Events_Controller extends Controller
 
     function test()
     {
+        
     }
 
     function test_session()

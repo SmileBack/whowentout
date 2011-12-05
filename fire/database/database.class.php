@@ -124,6 +124,12 @@ class Database
         unset($this->tables[$table_name]);
     }
 
+    function destroy_table_if_exists($table_name)
+    {
+        if ($this->has_table($table_name))
+            $this->destroy_table($table_name);
+    }
+
     function drop_table($table_name)
     {
         throw new Exception("Please use the destroy_table method.");

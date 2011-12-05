@@ -62,7 +62,8 @@ class PackageInstaller
     function exists($package)
     {
         $packages = $this->list_packages();
-        return in_array($package, $packages);
+        $packages = array_map('strtolower', $packages);
+        return in_array(strtolower($package), $packages);
     }
 
     function is_installed($package_name)
@@ -76,7 +77,7 @@ class PackageInstaller
 
     function upgrade($package)
     {
-
+        
     }
 
     function upgrade_to($package, $version)
@@ -118,7 +119,7 @@ class PackageInstaller
     {
         if (!$this->exists($package_name))
             return null;
-
+        
         if (!$this->table()->row_exists($package_name)) {
             $this->table()->create_row(array(
                                             'name' => $package_name,
