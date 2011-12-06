@@ -77,7 +77,6 @@ class Index
 
     private function load_from_cache()
     {
-        krumo::dump('load_from_cache');
         $this->data = $this->cache_get('index');
     }
 
