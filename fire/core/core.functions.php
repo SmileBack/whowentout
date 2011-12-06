@@ -9,8 +9,9 @@ function environment()
     }
     else {
         $environment = $_SERVER['HTTP_HOST'];
-        $environment = explode('.', $environment);
-        return $environment[1];
+        $parts = explode('.', $environment);
+        $parts = array_diff($parts, array('www', 'com'));
+        return array_shift($parts);
     }
 }
 
