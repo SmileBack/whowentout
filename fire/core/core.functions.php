@@ -39,6 +39,7 @@ function factory($key = null, $config = null)
         require_once COREPATH . 'index.class.php';
         require_once COREPATH . 'classloader.class.php';
 
+        krumo::dump(APPPATH);
         $index_cache = new FilesystemCache(APPPATH . 'cache');
         $index = new Index(APPPATH, $index_cache);
         krumo::dump($index->data());exit;
