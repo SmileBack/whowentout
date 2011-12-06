@@ -17,9 +17,12 @@ function environment()
 /**
  * @return Factory
  */
-function factory($key = 'app', $config = null)
+function factory($key = null, $config = null)
 {
     global $_factories;
+
+    if ($key == null)
+        $key = environment();
 
     if (!defined('FIREPATH'))
         throw new Exception('You must define FIREPATH in your index.php file');
