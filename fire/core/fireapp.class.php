@@ -31,16 +31,6 @@ class FireApp
         return $this->database;
     }
 
-    function environment()
-    {
-        if (getenv('environment')) {
-            return getenv('environment');
-        }
-        else {
-            return $_SERVER['HTTP_HOST'];
-        }
-    }
-
     function load_window_settings()
     {
         $js = '<script type="text/javascript">'

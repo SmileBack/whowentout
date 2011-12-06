@@ -3,7 +3,7 @@
 class Events_Controller extends Controller
 {
 
-    function test()
+    function index()
     {
         print r::page(array(
                            'content' => r::events_view(array(
@@ -35,6 +35,7 @@ class Events_Controller extends Controller
         $_SESSION['test'] = 52;
     }
 
+    /*
     function index()
     {
         $current_user = app()->current_user();
@@ -46,6 +47,7 @@ class Events_Controller extends Controller
                                         'events' => $events,
                                    ));
     }
+    */
 
     function view($event_id)
     {

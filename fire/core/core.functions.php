@@ -2,13 +2,23 @@
 
 define('COREPATH', FIREPATH . 'core/');
 
+function environment()
+{
+    if (getenv('environment')) {
+        return getenv('environment');
+    }
+    else {
+        return $_SERVER['HTTP_HOST'];
+    }
+}
+
 /**
  * @return Factory
  */
 function factory($key = 'app', $config = null)
 {
     global $_factories;
-    
+
     if (!defined('FIREPATH'))
         throw new Exception('You must define FIREPATH in your index.php file');
 
@@ -104,7 +114,7 @@ function conjunct($words)
 {
     $last_word = array_pop($words);
     return empty($words) ? $last_word
-                         : implode(', ', $words) . ", and $last_word";
+            : implode(', ', $words) . ", and $last_word";
 }
 
 function check_required_options($options_to_check, $required_options)
@@ -112,7 +122,7 @@ function check_required_options($options_to_check, $required_options)
     $missing = array();
 
     foreach ($required_options as $key) {
-        if ( ! isset($options_to_check[$key]) ) {
+        if (!isset($options_to_check[$key])) {
             $missing[] = $key;
         }
     }
@@ -126,7 +136,7 @@ function run_command($args)
 {
     $command_name = isset($args[1]) ? $args[1] : 'empty';
     $args = array_slice($args, 2);
-    
+
     /* @var $command Command */
     $command = app()->class_loader()->init_subclass('Command', $command_name);
     if ($command)
