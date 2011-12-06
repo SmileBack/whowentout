@@ -75,6 +75,14 @@ class DatabaseTable
         unset($this->rows[$id]);
     }
 
+    function count()
+    {
+        $query = $this->database()->query_statement('SELECT COUNT(*) AS count FROM ' . $this->name());
+        $query->execute();
+        $count = $query->fetch(PDO::FETCH_COLUMN);
+        return intval($count);
+    }
+
     /**
      * @param  $name
      * @return DatabaseColumn
@@ -324,6 +332,19 @@ class DatabaseTable
         }
 
         $this->schema = $schema;
+    }
+
+    /* Query Functions */
+    /**
+     * @param  $column string
+     * @param  $value mixed
+     * @return ResultSet
+     */
+    function where($column, $value)
+    {
+        $result_set = new ResultSet($this);
+        $result_set->where($column, $value);
+        return $result_set;
     }
 
     private function fetch_create_table_schema()

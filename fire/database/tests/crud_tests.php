@@ -31,9 +31,16 @@ class Crud_Tests extends TestGroup
         $table = $this->db->table('data');
         $this->assert_equal($table->row(1), null, 'row doesnt exist');
 
+        $this->assert_equal($table->count(), 0, 'zero rows in db');
+
         $row = $table->create_row(array('name' => 'ven'));
         $this->assert_equal($table->row($row->id), $row, 'same object is referenced');
         $this->assert_equal($row->name, 'ven', 'row data was properly saved');
+
+        $this->assert_equal($table->count(), 1, '1 row in db');
+
+        $second_row = $table->create_row(array('name' => 'bob'));
+        $this->assert_equal($table->count(), 2, '2 rows in db');
 
         $this->assert_true(is_int($row->id));
         $this->assert_true(is_string($row->name));

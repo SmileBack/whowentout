@@ -15,8 +15,8 @@ clock:
 database:
   type: Database
   host: db01-share
-  database: whowasout-com
-  username: CodeIgnite-13568
+  database: whowasout_com
+  username: Custom App-18359
   password: MySQL4668
 
 session_handler:
@@ -39,4 +39,3 @@ package_installer:
   type: PackageInstaller
   database: database
   class_loader: class_loader
-  

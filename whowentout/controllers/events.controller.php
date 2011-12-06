@@ -5,7 +5,7 @@ class Events_Controller extends Controller
 
     function test()
     {
-        
+        $set = app()->database()->table('users')->where('full_name', 'foo')->order_by('full_name', 'asc');
     }
 
     function index()

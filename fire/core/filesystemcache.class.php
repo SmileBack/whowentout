@@ -27,7 +27,6 @@ class FilesystemCache
     function set($key, $value)
     {
         $serialized_value = serialize($value);
-        krumo::dump($this->filepath($key));exit;
         file_put_contents($this->filepath($key), $serialized_value, LOCK_EX);
     }
 

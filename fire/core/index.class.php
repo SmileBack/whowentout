@@ -76,31 +76,21 @@ class Index
 
     private function load_from_cache()
     {
-        krumo::dump('load_from_cache');exit;
         $this->data = $this->cache_get('index');
     }
 
     private function rebuild()
     {
-        krumo::dump('rebuild');
-        krumo::dump($this->root);
         $this->data = array(
             'root' => realpath($this->root),
         );
-        krumo::dump($this->data);
 
         $this->index_directories();
-        krumo::dump($this->data);
-
         $this->index_files();
-        krumo::dump($this->data);
-
         $this->index_php_files();
-        krumo::dump($this->data);
-
-        krumo::dump('indexed');exit;
 
         $this->save_to_cache();
+        
         return $this->data;
     }
 

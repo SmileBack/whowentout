@@ -53,18 +53,20 @@ class ModelCollection
         return new $model_class($row);
     }
 
-//    /**
-//     * @return int
-//     */
-//    function count()
-//    {
-//    }
-//
+    /**
+     * @return int
+     */
+    function count()
+    {
+        return $this->table->count();
+    }
+
 //    /**
 //     * @return Model
 //     */
 //    function first()
 //    {
+//
 //    }
 //
 //    /**
