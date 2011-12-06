@@ -8,7 +8,6 @@ class FilesystemCache
     function __construct($path)
     {
         $this->path = $path;
-        krumo::dump('yea');exit;
     }
 
     function get($key)

@@ -155,6 +155,8 @@ function run_command($args)
 function reproduce_502_error()
 {
     require_once COREPATH . 'filesystemcache.class.php';
+    require_once COREPATH . 'index.class.php';
+    require_once COREPATH . 'classloader.class.php';
     $index_cache = new FilesystemCache(APPPATH . 'cache');
-//    $index = new Index(APPPATH, $index_cache);
+    $index = new Index(APPPATH, $index_cache);
 }
