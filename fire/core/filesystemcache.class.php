@@ -21,6 +21,7 @@ class FilesystemCache
 
     function exists($key)
     {
+        krumo::dump($this->filepath($key));
         return file_exists($this->filepath($key));
     }
 
