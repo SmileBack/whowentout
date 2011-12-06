@@ -83,6 +83,7 @@ class Index
     private function rebuild()
     {
         krumo::dump('rebuild');
+        krumo::dump($this->root);
         $this->data = array(
             'root' => realpath($this->root),
         );
