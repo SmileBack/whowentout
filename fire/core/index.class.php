@@ -17,12 +17,12 @@ class Index
         $this->root = $root;
         $this->cache = $cache;
 
-        krumo::dump('done');exit;
-
-        if ($this->requires_rebuild())
+        if ($this->requires_rebuild()) {
             $this->rebuild();
-        else
+        }
+        else {
             $this->load_from_cache();
+        }
     }
 
     function data()
@@ -76,11 +76,13 @@ class Index
 
     private function load_from_cache()
     {
+        krumo::dump('load_from_cache');exit;
         $this->data = $this->cache_get('index');
     }
 
     private function rebuild()
     {
+        krumo::dump('rebuild');exit;
         $this->data = array(
             'root' => realpath($this->root),
         );
