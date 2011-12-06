@@ -17,6 +17,8 @@ class Index
         $this->root = $root;
         $this->cache = $cache;
 
+        krumo::dump('done');exit;
+
         if ($this->requires_rebuild())
             $this->rebuild();
         else
