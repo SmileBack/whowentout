@@ -91,7 +91,11 @@ class Index
         $this->index_files();
         $this->index_php_files();
 
+        krumo::dump($this->data);
+
         $this->save_to_cache();
+
+
         return $this->data;
     }
 
