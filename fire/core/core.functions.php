@@ -8,7 +8,9 @@ function environment()
         return getenv('environment');
     }
     else {
-        return $_SERVER['HTTP_HOST'];
+        $environment = $_SERVER['HTTP_HOST'];
+        $environment = explode('.', $environment);
+        return $environment[1];
     }
 }
 
