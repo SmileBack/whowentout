@@ -14,10 +14,10 @@ clock:
 
 database:
   type: Database
-  host: localhost
-  database: wwo
-  username: root
-  password: root
+  host: db01-share
+  database: whowasout-com
+  username: CodeIgnite-13568
+  password: MySQL4668
 
 session_handler:
   type: DatabaseSessionHandler
