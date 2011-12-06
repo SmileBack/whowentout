@@ -41,8 +41,10 @@ $names = preg_split('/\s*\n\s*/', $names);
 ?>
 
 <?php srand(1) ?>
-<div class="event_invite">
-    <h1>Tell your Friends about the Deal!</h1>
+<fieldset class="event_invite">
+    <legend>
+        <h1>Tell your Friends about the Deal!</h1>
+    </legend>
     <ul>
         <?php for ($n = 19; $n <= 37; $n++): ?>
         <?php $image_url = "/images/mockup_profiles/thumb{$n}.jpg" ?>
@@ -61,4 +63,4 @@ $names = preg_split('/\s*\n\s*/', $names);
         </li>
         <?php endfor; ?>
     </ul>
-</div>
+</fieldset>
