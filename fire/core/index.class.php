@@ -86,12 +86,17 @@ class Index
         $this->data = array(
             'root' => realpath($this->root),
         );
+        krumo::dump($this->data);
 
         $this->index_directories();
-        $this->index_files();
-        $this->index_php_files();
-
         krumo::dump($this->data);
+
+        $this->index_files();
+        krumo::dump($this->data);
+
+        $this->index_php_files();
+        krumo::dump($this->data);
+
         krumo::dump('indexed');exit;
 
         $this->save_to_cache();
