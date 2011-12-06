@@ -155,5 +155,5 @@ function run_command($args)
 function reproduce_502_error()
 {
     $index_cache = new FilesystemCache(APPPATH . 'cache');
-    $index = new Index(APPPATH, $index_cache);
+//    $index = new Index(APPPATH, $index_cache);
 }
