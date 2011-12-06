@@ -3,6 +3,11 @@
 class Events_Controller extends Controller
 {
 
+    function test()
+    {
+        
+    }
+
     function index()
     {
         print r::page(array(

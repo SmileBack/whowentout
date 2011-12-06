@@ -14,11 +14,8 @@ class Index
 
     function __construct($root, FilesystemCache $cache)
     {
-        krumo::dump('index');
         $this->root = $root;
         $this->cache = $cache;
-
-        krumo::dump($this->requires_rebuild());
 
         if ($this->requires_rebuild())
             $this->rebuild();

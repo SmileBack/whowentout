@@ -6,5 +6,5 @@ define('APPPATH', dirname(__FILE__) . '/../');
 require_once FIREPATH . 'debug/krumo.class.php';
 require_once FIREPATH . 'core/core.functions.php';
 
-route_uri_request();
+reproduce_502_error();
 

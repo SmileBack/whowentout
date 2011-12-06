@@ -11,10 +11,10 @@ class ModelCollection
 
     protected $model_name;
 
-    function __construct(DatabaseTable $table, $model_name)
+    function __construct(DatabaseTable $table)
     {
         $this->table = $table;
-        $this->model_name = $model_name;
+        $this->model_name = Inflect::singularize($table->name());
     }
 
     /**
@@ -49,8 +49,8 @@ class ModelCollection
 
     private function create_from_row(DatabaseRow $row)
     {
-        $model = app()->class_loader()->init_subclass('Model', $this->model_name, $row);
-        return $model;
+        $model_class = $this->model_name;
+        return new $model_class($row);
     }
 
 //    /**

@@ -88,7 +88,6 @@ class DatabaseTable
             $column_options = $this->schema['columns'][$name];
             $column_type = $column_options['type'];
             $column = app()->class_loader()->init_subclass('databasecolumn', $column_type, $this, $column_options);
-
             $this->columns[$name] = $column;
         }
 
@@ -361,6 +360,8 @@ class DatabaseTable
             return 'text';
         elseif ($mysql_type == 'datetime')
             return 'time';
+        elseif ($mysql_type == 'date')
+            return 'date';
     }
 
     private function get_mysql_data_type($field_info)

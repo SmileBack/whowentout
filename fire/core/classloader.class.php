@@ -39,7 +39,6 @@ class ClassLoader
     function init_subclass($superclass, $subclass, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
     {
         $subclass_name = $this->get_subclass_name($superclass, $subclass);
-        
         if ($subclass_name)
             return $this->init($subclass_name, $arg1, $arg2, $arg3, $arg4, $arg5);
         else
