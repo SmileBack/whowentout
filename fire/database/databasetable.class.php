@@ -3,7 +3,11 @@
 class DatabaseTable
 {
 
+    /**
+     * @var \Database
+     */
     private $db;
+    
     private $name;
 
     private $schema;
@@ -334,7 +338,6 @@ class DatabaseTable
         $this->schema = $schema;
     }
 
-    /* Query Functions */
     /**
      * @param  $column string
      * @param  $value mixed

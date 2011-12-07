@@ -5,7 +5,12 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $set = app()->database()->table('users')->where('full_name', 'foo')->order_by('full_name', 'asc');
+//        $set = app()->database()
+//                    ->table('users')
+//                    ->where('full_name', 'foo')
+//                    ->order_by('full_name', 'desc')
+//                    ->limit(3);
+//        print '<pre>' . $set->to_sql() . '</pre>';
     }
 
     function index()
@@ -20,7 +25,7 @@ class Events_Controller extends Controller
     function invite()
     {
         print r::page(array(
-                          'content' => r::event_invite(),
+                           'content' => r::event_invite(),
                       ));
     }
 
