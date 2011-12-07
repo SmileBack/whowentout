@@ -59,7 +59,7 @@ class DatabaseRow
         elseif (isset($this->values[$field]))
             $value = $this->values[$field];
         else
-            return null;
+            return $this->resolve_reference($field);
 
         $converted_value = $this->column($field)->from_database_value($value);
         return $converted_value;
@@ -74,13 +74,27 @@ class DatabaseRow
         $this->changes[$field] = $converted_value;
     }
 
+    function resolve_reference($field)
+    {
+        $fk_column = $field . '_id';
+        if ($this->table()->has_column($fk_column) && $this->table()->has_foreign_key($fk_column)) {
+            $fk_id = $this->values[$fk_column];
+            if ($fk_id) {
+                $table_name = $this->table()->get_foreign_key_table($fk_column);
+                return $this->table()->database()->table($table_name)->row($fk_id);
+            }
+        }
+
+        return null;
+    }
+
     function save()
     {
         $id_column = $this->table()->id_column()->name();
         $changes = $this->changes();
         $this->table->_persist_row_changes($this->$id_column, $changes);
     }
-    
+
     private function load_values($row_id)
     {
         $this->values = $this->table->_fetch_row_values($row_id);

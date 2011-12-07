@@ -1,6 +1,6 @@
 <?php
 
-class DatabaseTable
+class DatabaseTable implements Iterator
 {
 
     /**
@@ -186,21 +186,21 @@ class DatabaseTable
     function has_index($column)
     {
         $column_list = func_get_args();
-        $index_name = $this->get_index_name($column_list);
-
+        
         $query_sql = "SELECT * FROM information_schema.statistics
                         WHERE index_schema = :database_name
-                        AND  table_name = :table_name
+                        AND table_name = :table_name
                         AND index_name = :index_name";
+        
         $params = array(
             'database_name' => $this->database()->name(),
             'table_name' => $this->name(),
-            'index_name' => $index_name,
+            'index_name' => $this->get_index_name($column_list),
         );
 
         $query = $this->db->query_statement($query_sql, $params);
         $query->execute();
-
+        
         return $query->rowCount() > 0;
     }
 
@@ -348,6 +348,49 @@ class DatabaseTable
         $result_set = new ResultSet($this);
         $result_set->where($column, $value);
         return $result_set;
+    }
+
+
+    /* Methods */
+    private $iterator_position;
+    private $iterator_row_ids;
+
+    function current()
+    {
+        $key = $this->key();
+        if ($key)
+            return $this->row($key);
+    }
+
+    function key()
+    {
+        if (!$this->valid())
+            return null;
+        
+        return $this->iterator_row_ids[$this->iterator_position];
+    }
+
+    function next()
+    {
+        $this->iterator_position++;
+    }
+
+    function rewind()
+    {
+        $id_column_name = $this->id_column()->name();
+        $table_name = $this->name();
+
+        $query = $this->db->query_statement("SELECT $id_column_name AS id FROM $table_name");
+        $query->execute();
+
+        $this->iterator_row_ids = $query->fetchAll(PDO::FETCH_COLUMN, 0);
+        $this->iterator_position = 0;
+    }
+
+    function valid()
+    {
+        return $this->iterator_row_ids
+               && isset($this->iterator_row_ids[$this->iterator_position]);
     }
 
     private function fetch_create_table_schema()

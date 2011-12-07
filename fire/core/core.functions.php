@@ -55,7 +55,7 @@ function factory($key = null, $config = null)
 }
 
 /**
- * @return FireApp
+ * @return WhoWentOutApp
  */
 function app()
 {
@@ -139,24 +139,20 @@ function check_required_options($options_to_check, $required_options)
     }
 }
 
+function redirect($destination)
+{
+    header("Location: /$destination");
+}
+
 function run_command($args)
 {
     $command_name = isset($args[1]) ? $args[1] : 'empty';
     $args = array_slice($args, 2);
-
+ 
     /* @var $command Command */
     $command = app()->class_loader()->init_subclass('Command', $command_name);
     if ($command)
         $command->run($args);
     else
         print "The command '$command_name' doesn't exist.";
-}
-
-function reproduce_502_error()
-{
-    require_once COREPATH . 'filesystemcache.class.php';
-    require_once COREPATH . 'index.class.php';
-    require_once COREPATH . 'classloader.class.php';
-    $index_cache = new FilesystemCache(APPPATH . 'cache');
-    $index = new Index(APPPATH, $index_cache);
 }

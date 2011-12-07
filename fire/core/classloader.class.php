@@ -96,7 +96,7 @@ class ClassLoader
     {
         spl_autoload_register(array($this, 'load'));
     }
-
+    
     function is_subclass($superclass, $subclass)
     {
         $subclass_names = $this->get_subclass_names($superclass);
