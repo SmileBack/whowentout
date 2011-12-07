@@ -37,8 +37,8 @@
     <tr>
         <td><?= $event->id ?></td>
         <td><?= $event->name ?></td>
-        <td><?= $event->date->format('Y-m-d') ?></td>
-        <td><?= $event->place_id ?></td>
+        <td><?= $event->date->format('D. M j, Y') ?></td>
+        <td><?= $event->place->name ?></td>
         <td>
             <?= a("admin_events/destroy/$event->id", 'destroy') ?>
         </td>
