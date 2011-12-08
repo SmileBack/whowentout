@@ -55,7 +55,7 @@ class Facebook_Profile_Source_Tests extends TestGroup
 
     function test_get_hometown()
     {
-        $hometown = $this->profile_source->get_hometwon();
+        $hometown = $this->profile_source->get_hometown();
         $this->assert_equal($hometown, 'Severna Park, Maryland');
     }
 

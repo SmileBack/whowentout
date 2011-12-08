@@ -14,6 +14,7 @@ facebook:
 auth:
   type: FacebookAuth
   facebook: facebook
+  database: database
   facebook_permissions:
     - user_birthday
     - user_education_history
@@ -25,7 +26,6 @@ auth:
     - user_location
     - friends_events
     - friends_education_history
-
 
 timezone:
   type: DateTimeZone

@@ -7,7 +7,7 @@ class DatabaseTable implements Iterator
      * @var \Database
      */
     private $db;
-    
+
     private $name;
 
     private $schema;
@@ -186,12 +186,12 @@ class DatabaseTable implements Iterator
     function has_index($column)
     {
         $column_list = func_get_args();
-        
+
         $query_sql = "SELECT * FROM information_schema.statistics
                         WHERE index_schema = :database_name
                         AND table_name = :table_name
                         AND index_name = :index_name";
-        
+
         $params = array(
             'database_name' => $this->database()->name(),
             'table_name' => $this->name(),
@@ -200,13 +200,19 @@ class DatabaseTable implements Iterator
 
         $query = $this->db->query_statement($query_sql, $params);
         $query->execute();
-        
+
         return $query->rowCount() > 0;
     }
 
     function create_unique_index($column)
     {
-        throw new Exception("Not yet implemented.");
+        $column_list = func_get_args();
+        $column_list_sql = implode(', ', $column_list);
+        $table_name = $this->name();
+        $index_name = $this->get_index_name($column_list);
+
+        $query = $this->db->query_statement("CREATE UNIQUE INDEX `$index_name` ON $table_name ($column_list_sql) USING BTREE");
+        $query->execute();
     }
 
     private function get_index_name(array $columns)

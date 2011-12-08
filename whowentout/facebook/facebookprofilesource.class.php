@@ -53,7 +53,7 @@ class FacebookProfileSource
         return isset($map[$gender]) ? $map[$gender] : null;
     }
 
-    function get_hometwon()
+    function get_hometown()
     {
         return $this->basic_info['hometown']['name'];
     }
@@ -62,7 +62,7 @@ class FacebookProfileSource
     {
         return $this->basic_info['location']['name'];
     }
-
+    
     /**
      * @return DateTime|null
      */
@@ -77,16 +77,16 @@ class FacebookProfileSource
     function get_networks()
     {
         $networks = array();
-        
+
         $result = $this->facebook->api(array(
-                                 'method' => 'fql.query',
-                                 'query' => "SELECT affiliations FROM user WHERE uid = $this->facebook_id",
-                            ));
+                                            'method' => 'fql.query',
+                                            'query' => "SELECT affiliations FROM user WHERE uid = $this->facebook_id",
+                                       ));
 
         foreach ($result[0]['affiliations'] as $network_data) {
             $networks[] = new FacebookNetwork($network_data);
         }
-        
+
         return $networks;
     }
 

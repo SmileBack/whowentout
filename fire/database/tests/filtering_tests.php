@@ -67,10 +67,18 @@ class Filtering_Tests extends TestGroup
     {
         $items = array();
         $seventh = new DateTime('2011-12-07');
-        foreach ($this->db->table('food')->where('purchased', $seventh) as $id => $item) {
+        $query= $this->db->table('food')->where('purchased', $seventh);
+        foreach ($query as $id => $item) {
             $items[] = $item->name;
         }
+
         $this->assert_equal(implode(',', $items), 'apple,orange,celery');
+    }
+
+    function test_count()
+    {
+        $query = $this->db->table('food')->where('type', 'fruit');
+        $this->assert_equal($query->count(), 3);
     }
 
     function test_multi_where()

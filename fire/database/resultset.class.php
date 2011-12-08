@@ -116,6 +116,13 @@ class ResultSet implements Iterator
         return null;
     }
 
+    function count()
+    {
+        $query = $this->database()->query_statement($this->to_sql(), $this->get_parameters());
+        $query->execute();
+        return $query->rowCount();
+    }
+
     /* Iterator Methods */
     /**
      * @var TableQueryIterator

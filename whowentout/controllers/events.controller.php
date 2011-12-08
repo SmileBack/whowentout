@@ -5,12 +5,8 @@ class Events_Controller extends Controller
 
     function test()
     {
-        /* @var $facebook Facebook */
-        $facebook = factory()->build('facebook');
-        $facebook_id = '776200121';
-
-        $profile = new FacebookProfileSource($facebook, $facebook_id);
-        krumo::dump($profile->get_birthday());
+        $auth = auth();
+        print $auth->get_login_link('Login');
     }
 
     function test_fb()

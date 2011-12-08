@@ -78,6 +78,14 @@ function db()
     return app()->database();
 }
 
+/**
+ * @return Auth
+ */
+function auth()
+{
+    return factory()->build('auth');
+}
+
 function current_url()
 {
     return isset($_SERVER['PATH_INFO'])

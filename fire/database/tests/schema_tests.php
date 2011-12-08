@@ -278,4 +278,18 @@ class Schema_Tests extends TestGroup
         $this->assert_true($exception_thrown, 'exception thrown when table is missing');
     }
 
+    function test_create_unique_index()
+    {
+        $table = $this->db->create_table('unique_index_table', array(
+                                                                 'id' => array('type' => 'id'),
+                                                                 'name' => array('type' => 'string'),
+                                                               ));
+
+        $table->create_unique_index('name');
+        $this->assert_true($table->has_index('name'));
+
+        $table->destroy_index('name');
+        $this->assert_true(!$table->has_index('name'));
+    }
+
 }
