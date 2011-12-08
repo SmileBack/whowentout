@@ -27,12 +27,16 @@ auth:
     - friends_events
     - friends_education_history
 
-pic_repository:
+profile_pic_file_repository:
   type: FileRepository
   driver: local
   path: pics
   base_url: http://localhost/
-  
+
+profile_pic_repository:
+  type: ImageRepository
+  file_repository: profile_pic_file_repository
+
 timezone:
   type: DateTimeZone
   timezone: UTC

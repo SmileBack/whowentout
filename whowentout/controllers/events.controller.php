@@ -5,9 +5,9 @@ class Events_Controller extends Controller
 
     function test()
     {
-        /* @var $repo FileRepository */
-        $repo = factory()->build('pic_repository');
-        $repo->create('test.txt', './css/styles.less');
+        /* @var $pic_repo ImageRepository */
+        $pic_repo = factory()->build('profile_pic_repository');
+        print $pic_repo->url('woo');
     }
 
     function logout()
