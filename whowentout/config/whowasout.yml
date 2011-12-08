@@ -3,6 +3,7 @@ app:
   type: WhoWentOutApp
   class_loader: class_loader
   database: database
+  clock: clock
 
 timezone:
   type: DateTimeZone

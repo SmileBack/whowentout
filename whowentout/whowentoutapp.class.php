@@ -9,21 +9,24 @@ class WhoWentOutApp extends FireApp
     protected $database;
 
     /**
-     * @var ModelCollection
+     * @var Clock
      */
-    private $places;
+    protected $clock;
 
-    function __construct(ClassLoader $class_loader, Database $database)
+    function __construct(ClassLoader $class_loader, Database $database, Clock $clock)
     {
         parent::__construct($class_loader, $database);
+        
         $this->database = $database;
-
-        $this->places = new ModelCollection($this->database()->table('places'));
+        $this->clock = $clock;
     }
 
-    function places()
+    /**
+     * @return Clock
+     */
+    function clock()
     {
-        return $this->places;
+        return $this->clock;
     }
-
+    
 }

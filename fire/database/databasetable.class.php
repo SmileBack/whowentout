@@ -346,51 +346,42 @@ class DatabaseTable implements Iterator
     function where($column, $value)
     {
         $result_set = new ResultSet($this);
-        $result_set->where($column, $value);
-        return $result_set;
+        return $result_set->where($column, $value);
     }
 
 
-    /* Methods */
-    private $iterator_position;
-    private $iterator_row_ids;
+    /* Iterator Methods */
+    /**
+     * @var TableQueryIterator
+     */
+    private $iterator;
 
     function current()
     {
-        $key = $this->key();
-        if ($key)
-            return $this->row($key);
+        return $this->iterator->current();
     }
 
     function key()
     {
-        if (!$this->valid())
-            return null;
-        
-        return $this->iterator_row_ids[$this->iterator_position];
+        return $this->iterator->key();
     }
 
     function next()
     {
-        $this->iterator_position++;
+        $this->iterator->next();
     }
 
     function rewind()
     {
         $id_column_name = $this->id_column()->name();
         $table_name = $this->name();
-
-        $query = $this->db->query_statement("SELECT $id_column_name AS id FROM $table_name");
-        $query->execute();
-
-        $this->iterator_row_ids = $query->fetchAll(PDO::FETCH_COLUMN, 0);
-        $this->iterator_position = 0;
+        $this->iterator = new TableQueryIterator($this, "SELECT $id_column_name AS id FROM $table_name");
+        $this->iterator->rewind();
     }
 
     function valid()
     {
-        return $this->iterator_row_ids
-               && isset($this->iterator_row_ids[$this->iterator_position]);
+        return $this->iterator->valid();
     }
 
     private function fetch_create_table_schema()

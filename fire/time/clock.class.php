@@ -29,6 +29,11 @@ class Clock
         return $time;
     }
 
+    function today()
+    {
+        return $this->get_time()->getDay(0);
+    }
+
     function set_delta($seconds)
     {
         $this->delta = $seconds;

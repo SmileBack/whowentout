@@ -5,13 +5,18 @@ class Events_Controller extends Controller
 
     function test()
     {
+        $day = app()->clock()->get_time()->getDay(1);
+        $today_events = db()->table('events')->where('date', $day);
+        foreach ($today_events as $id => $event) {
+            krumo::dump($event->name);
+        }
     }
-
+    
     function index()
     {
         print r::page(array(
                            'content' => r::events_view(array(
-                                                            'role' => 'user',
+                                                           'date' => app()->clock()->today(),
                                                        )),
                       ));
     }
@@ -37,102 +42,6 @@ class Events_Controller extends Controller
 
         session_start();
         $_SESSION['test'] = 52;
-    }
-
-    /*
-    function index()
-    {
-        $current_user = app()->current_user();
-
-        $city = $current_user->city;
-        $events = $city->events->order('created', 'desc')->limit(10);
-
-        app()->show_page('events', array(
-                                        'events' => $events,
-                                   ));
-    }
-    */
-
-    function view($event_id)
-    {
-        $event = app()->events->find($event_id);
-
-        app()->show_page('event', array(
-                                       'event' => $event,
-                                  ));
-    }
-
-    function edit($event_id)
-    {
-        $event = app()->events->find($event_id);
-
-        app()->show_page('event_edit', array(
-                                            'event' => $event,
-                                       ));
-    }
-
-    function create()
-    {
-        $attributes = app()->input->post('event');
-        $event = app()->events->create($attributes);
-
-        app()->show_page('event_calendar', array(
-                                                'date' => $event->date,
-                                           ));
-    }
-
-    function update($event_id)
-    {
-        $attributes = app()->input()->post('event');
-        $event = app()->events->find($event_id);
-        $event->set($attributes);
-        $event->save();
-
-        app()->show_page('event_calendar', array(
-                                                'date' => $event->date,
-                                           ));
-    }
-
-    function destroy($event_id)
-    {
-        $event_date = app()->events->find($event_id)->date;
-        app()->events->destroy($event_id);
-
-        app()->show_page('event_calendar', array(
-                                                'date' => $event_date,
-                                           ));
-    }
-
-    function admins_add($event_id, $user_id)
-    {
-        $event = app()->events->find($event_id);
-        $user = app()->users->find($user_id);
-
-        $event->admins->add($user);
-    }
-
-    function admins_remove($event_id, $user_id)
-    {
-        $event = app()->events->find($event_id);
-        $user = app()->users->find($user_id);
-
-        $event->admins->remove($user);
-    }
-
-    function promoters_add($event_id, $user_id)
-    {
-        $event = app()->events->find($event_id);
-        $user = app()->users->find($user_id);
-
-        $event->promoters->add($user);
-    }
-
-    function promoters_remove($event_id, $user_id)
-    {
-        $event = app()->promoters->find($event_id);
-        $user = app()->users->find($user_id);
-
-        $event->promoters->remove($user);
     }
 
 }

@@ -6,7 +6,7 @@ class Admin_Places_Controller extends Controller
     function index()
     {
         print r::page(array(
-                           'content' => r::places(array(
+                           'content' => r::admin_places(array(
                                                        'places' => app()->database()->table('places'),
                                                   )),
                       ));

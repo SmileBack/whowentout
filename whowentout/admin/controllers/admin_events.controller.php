@@ -6,7 +6,7 @@ class Admin_Events_Controller extends Controller
     function index()
     {
         print r::page(array(
-                           'content' => r::events(array(
+                           'content' => r::admin_events(array(
                                                        'events' => app()->database()->table('events'),
                                                        'places' => app()->database()->table('places'),
                                                   )),
