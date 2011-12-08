@@ -5,17 +5,45 @@ class Events_Controller extends Controller
 
     function test()
     {
-        /* @var $installer PackageInstaller */
-        // $installer = factory()->build('package_installer');
+        /* @var $facebook Facebook */
+        $facebook = factory()->build('facebook');
+        $facebook_id = '776200121';
+
+        $profile = new FacebookProfileSource($facebook, $facebook_id);
+        krumo::dump($profile->get_birthday());
+    }
+
+    function test_fb()
+    {
+        /* @var $auth FacebookAuth */
+        $auth = factory()->build('auth');
+
+        if ($auth->logged_in()) {
+            $user = $auth->current_user();
+            print a('events/logout', "logout (logged in as $user)");
+        }
+        else {
+            print sprintf('<a href="%s">login</a>', $auth->get_login_url());
+        }
+    }
+
+    function logout()
+    {
+        /* @var $auth FacebookAuth */
+        $auth = factory()->build('auth');
+        $auth->logout();
+        redirect('events/test');
     }
 
     function index($date = null)
     {
         if ($date == null)
             $date = app()->clock()->today();
-        else
-            $date = DateTime::createFromFormat($date, 'Ymd');
-
+        else {
+            $date = DateTime::createFromFormat('Ymd', $date);
+            $date->setTime(0, 0, 0);
+        }
+        
         print r::page(array(
                            'content' => r::events_view(array(
                                                             'date' => $date,

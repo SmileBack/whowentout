@@ -3,12 +3,13 @@
 <div id="dates">
     <a href="/" class="prev">Prev</a>
     <?php for ($n = 0; $n < 6; $n++): ?>
-        <a href="http://www.google.com" class="<?= $n == 0 ? 'selected' : '' ?>">
+        <?php $url = url('events/index/' . $date->format('Ymd')); ?>
+        <?= a_open('events/index/' . $date->format('Ymd')) ?>
             <div class="day">
                 <?= $n == 0 ? 'Today' : $date->format('D') ?>
             </div>
             <div class="date"><?= $date->format('j') ?></div>
-        </a>
+        <?= a_close() ?>
         <?php $date->modify('+1 day') ?>
     <?php endfor; ?>
     <a href="/" class="next">Next</a>

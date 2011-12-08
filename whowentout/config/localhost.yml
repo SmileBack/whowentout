@@ -5,6 +5,28 @@ app:
   database: database
   clock: clock
 
+facebook:
+  type: Facebook
+  config:
+    appId: 161054327279516
+    secret: 8b1446580556993a34880a831ee36856
+
+auth:
+  type: FacebookAuth
+  facebook: facebook
+  facebook_permissions:
+    - user_birthday
+    - user_education_history
+    - user_hometown
+    - user_events
+    - email
+    - offline_access
+    - publish_stream
+    - user_location
+    - friends_events
+    - friends_education_history
+
+
 timezone:
   type: DateTimeZone
   timezone: UTC

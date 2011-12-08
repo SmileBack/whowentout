@@ -78,6 +78,13 @@ function db()
     return app()->database();
 }
 
+function current_url()
+{
+    return isset($_SERVER['PATH_INFO'])
+            ? substr($_SERVER['PATH_INFO'], 1)
+            : '';
+}
+
 function route_uri_request()
 {
     /* @var $router Router */
@@ -91,7 +98,7 @@ function show_404()
     exit;
 }
 
-function html_element($tag, $attributes = array(), $content = '')
+function html_element_open($tag, $attributes = array())
 {
     $html = array();
 
@@ -105,16 +112,52 @@ function html_element($tag, $attributes = array(), $content = '')
     }
 
     $html[] = ">";
-    $html[] = $content;
-    $html[] = "</$tag>";
 
     return implode('', $html);
 }
 
-function a($url, $title, $attributes = array())
+function html_element_close($tag)
 {
-    $attributes['href'] = '/' . $url;
-    return html_element('a', $attributes, $title);
+    return "</$tag>";
+}
+
+function html_element($tag, $attributes = array(), $content = '')
+{
+    return html_element_open($tag, $attributes) . $content . html_element_close($tag);
+}
+
+function url($path)
+{
+    return '/' . $path;
+}
+
+function a($path, $title, $attributes = array())
+{
+    return a_open($path, $attributes) . $title . a_close();
+}
+
+function a_open($path, $attributes = array())
+{
+    $attributes['href'] = url($path);
+    
+    if (is_active($path)) {
+        $attributes['class'] = isset($attributes['class'])
+                ? $attributes['class'] . ' active'
+                : 'active';
+    }
+
+    return html_element_open('a', $attributes);
+}
+
+function a_close()
+{
+    return html_element_close('a');
+}
+
+function is_active($path)
+{
+    $current_url = current_url();
+    return string_starts_with($path, $current_url);
 }
 
 function conjunct($words)
@@ -141,18 +184,69 @@ function check_required_options($options_to_check, $required_options)
 
 function redirect($destination)
 {
-    header("Location: /$destination");
+    $url = url($destination);
+    header("Location: $url");
 }
 
 function run_command($args)
 {
     $command_name = isset($args[1]) ? $args[1] : 'empty';
     $args = array_slice($args, 2);
- 
+
     /* @var $command Command */
     $command = app()->class_loader()->init_subclass('Command', $command_name);
     if ($command)
         $command->run($args);
     else
         print "The command '$command_name' doesn't exist.";
+}
+
+function string_ends_with($end_of_string, $string)
+{
+    return substr($string, -strlen($end_of_string)) === $end_of_string;
+}
+
+function string_starts_with($start_of_string, $source)
+{
+    return strncmp($source, $start_of_string, strlen($start_of_string)) == 0;
+}
+
+function string_after_first($needle, $haystack)
+{
+    $pos = strpos($haystack, $needle);
+    if ($pos === FALSE) {
+        return FALSE;
+    } else {
+        return substr($haystack, $pos + strlen($needle));
+    }
+}
+
+function string_before_first($needle, $haystack)
+{
+    $pos = strpos($haystack, $needle);
+    if ($pos === FALSE) {
+        return FALSE;
+    } else {
+        return substr($haystack, 0, $pos);
+    }
+}
+
+function string_after_last($needle, $haystack)
+{
+    $pos = strrpos($haystack, $needle);
+    if ($pos === FALSE) {
+        return FALSE;
+    } else {
+        return substr($haystack, $pos + strlen($needle));
+    }
+}
+
+function string_before_last($needle, $haystack)
+{
+    $pos = strrpos($haystack, $needle);
+    if ($pos === FALSE) {
+        return FALSE;
+    } else {
+        return substr($haystack, 0, $pos);
+    }
 }

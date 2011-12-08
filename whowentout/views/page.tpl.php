@@ -22,10 +22,9 @@
 
 <nav id="nav">
     <div class="logo" href="/"><img src="/images/logo.png" /></div>
-    <a class="events active" href="/events/view/admin">Events</a>
-    <a class="events" href="/events">My Parties</a>
-    <a class="messages" href="/messages">Messages (3)</a>
-    <a class="logout">Logout</a>
+    <?= a('events', 'Events') ?>
+    <?= a('messages', 'Messages (3)') ?>
+    <?= a('logout', 'Logout') ?>
 </nav>
 
 <div id="page">
