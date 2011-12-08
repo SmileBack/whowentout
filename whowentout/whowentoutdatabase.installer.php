@@ -3,6 +3,8 @@
 class WhoWentOutDatabase extends Package
 {
 
+    public $version = '0.1.1';
+
     function install()
     {
         $this->database->create_table('users', array(
@@ -20,6 +22,7 @@ class WhoWentOutDatabase extends Package
                                                      'id' => array('type' => 'id'),
                                                      'name' => array('type' => 'string'),
                                                      'date' => array('type' => 'date'),
+                                                     'deal' => array('type' => 'text'),
                                                      'place_id' => array('type' => 'integer'),
                                                 ));
 
@@ -36,6 +39,11 @@ class WhoWentOutDatabase extends Package
         $this->database->table('checkins')->create_foreign_key('event_id', 'events', 'id');
     }
 
+    function update_0_1_1()
+    {
+        $this->database->table('events')->create_column('deal', array('type' => 'text'));
+    }
+    
     function uninstall()
     {
         $this->database->destroy_table_if_exists('checkins');

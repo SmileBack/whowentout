@@ -20,6 +20,11 @@
                 <?php endforeach; ?>
             </select>
         </div>
+
+        <div>
+            <label>Deal</label>
+            <input type="text" name="event[deal]" autocomplete="off" />
+        </div>
         
         <input type="submit" name="op" value="Create"/>
     </fieldset>
@@ -31,6 +36,7 @@
         <th>Name</th>
         <th>Date</th>
         <th>Place</th>
+        <th>Deal</th>
         <th>Actions</th>
     </tr>
     <?php foreach ($events as $event): ?>
@@ -39,6 +45,7 @@
         <td><?= $event->name ?></td>
         <td><?= $event->date->format('D. M j, Y') ?></td>
         <td><?= $event->place->name ?></td>
+        <td><?= $event->deal ?></td>
         <td>
             <?= a("admin_events/destroy/$event->id", 'destroy') ?>
         </td>

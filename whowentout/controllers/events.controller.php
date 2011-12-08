@@ -5,20 +5,27 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $day = app()->clock()->get_time()->getDay(1);
-        $today_events = db()->table('events')->where('date', $day);
-        foreach ($today_events as $id => $event) {
-            krumo::dump($event->name);
-        }
+        /* @var $installer PackageInstaller */
+        // $installer = factory()->build('package_installer');
     }
-    
-    function index()
+
+    function index($date = null)
     {
+        if ($date == null)
+            $date = app()->clock()->today();
+        else
+            $date = DateTime::createFromFormat($date, 'Ymd');
+
         print r::page(array(
                            'content' => r::events_view(array(
-                                                           'date' => app()->clock()->today(),
+                                                            'date' => $date,
                                                        )),
                       ));
+    }
+
+    private function default_date()
+    {
+        return app()->clock()->today();
     }
 
     function invite()

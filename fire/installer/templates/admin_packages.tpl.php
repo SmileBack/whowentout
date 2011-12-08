@@ -1,5 +1,5 @@
 <ul>
 <?php foreach ($packages as $package): ?>
-    <li><?= $package ?></li>
+    <li><?= a("admin_packages/info/$package", $package) ?></li>
 <?php endforeach; ?>
 </ul>

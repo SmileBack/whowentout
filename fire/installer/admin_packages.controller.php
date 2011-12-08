@@ -1,6 +1,6 @@
 <?php
 
-class Packages_Controller extends Controller
+class Admin_Packages_Controller extends Controller
 {
 
     /* @var $installer PackageInstaller */
@@ -14,17 +14,13 @@ class Packages_Controller extends Controller
     function index()
     {
         $packages = $this->installer->list_packages();
-        print r::packages(array('packages' => $packages));
+        print r::admin_packages(array('packages' => $packages));
     }
 
-    function install($package_name)
+    function info($package_name)
     {
-        $this->installer->install($package_name);
+        $this->installer->update($package_name);
+        redirect('admin_packages');
     }
-
-    function uninstall($package_name)
-    {
-        $this->installer->uninstall($package_name);
-    }
-
+    
 }

@@ -75,19 +75,33 @@ class PackageInstaller
         return $package_row->status == PACKAGE_STATUS_INSTALLED;
     }
 
-    function upgrade($package)
+    function update($package_name)
     {
-        
+        $package_row = $this->get_package_row($package_name);
+        if ($package_row) {
+            $package = $this->get_package($package_name);
+            $update_methods = $this->get_update_methods($package);
+            
+            foreach ($update_methods as $method) {
+                $package->$method();
+            }
+            
+            $package_row->version = $package->version;
+            $package_row->save();
+        }
+        else {
+            throw new Exception("$package_name doesn't exist");
+        }
     }
 
-    function upgrade_to($package, $version)
+    function update_to($package_name, $target_version)
     {
-
+        throw new Exception("update_to is not yet implemented");
     }
 
-    function downgrade_to($package, $version)
+    function rollback_to($package_version, $target_version)
     {
-
+        throw new Exception("rollback_to is not yet implemented");
     }
 
     function get_installed_version($package_name)
@@ -119,7 +133,7 @@ class PackageInstaller
     {
         if (!$this->exists($package_name))
             return null;
-        
+
         if (!$this->table()->row_exists($package_name)) {
             $this->table()->create_row(array(
                                             'name' => $package_name,
@@ -143,11 +157,82 @@ class PackageInstaller
     {
         if (!$this->database->has_table('fire_packages')) {
             $this->database->create_table('fire_packages', array(
-                                                          'name' => array('type' => 'key'),
-                                                          'version' => array('type' => 'string', 'null' => false, 'default' => ''),
-                                                          'status' => array('type' => 'string'),
-                                                     ));
+                                                                'name' => array('type' => 'key'),
+                                                                'version' => array('type' => 'string', 'null' => false, 'default' => ''),
+                                                                'status' => array('type' => 'string'),
+                                                           ));
         }
     }
 
+    private function get_update_methods(Package $package)
+    {
+        $update_methods = array();
+
+        $all_update_methods = $this->get_all_update_methods($package);
+
+        $current_version = $this->get_installed_version(get_class($package));
+        $target_version = $this->get_available_version(get_class($package));
+
+        foreach ($all_update_methods as $update_method) {
+            $update_method_version = $this->get_update_method_version($update_method);
+            if (version_compare($update_method_version, $current_version, '>')
+                && version_compare($update_method_version, $target_version, '<=')
+            ) {
+                $update_methods[] = $update_method;
+            }
+        }
+
+        return $update_methods;
+    }
+
+    private function get_all_update_methods(Package $package)
+    {
+        $update_methods = array();
+        $all_update_methods = get_class_methods($package);
+
+        foreach ($all_update_methods as $method) {
+            if ($this->is_update_method($method)) {
+                $update_methods[] = $method;
+            }
+        }
+
+        usort($update_methods, array($this, 'update_method_compare'));
+
+        return $update_methods;
+    }
+
+    private function get_versions(Package $package)
+    {
+        $versions = array();
+
+        $methods = get_class_methods($package);
+        foreach ($methods as $method) {
+            if ($this->is_update_method($method)) {
+                $versions[] = $this->get_update_method_version($method);
+            }
+        }
+        usort($versions, 'version_compare');
+        return $versions;
+    }
+
+    private function update_method_compare($a, $b)
+    {
+        return version_compare(
+            $this->get_update_method_version($a),
+            $this->get_update_method_version($b)
+        );
+    }
+
+    private function is_update_method($method)
+    {
+        return preg_match('/^update_.+/', $method) == 1;
+    }
+
+    private function get_update_method_version($method)
+    {
+        $method = preg_replace('/^update_/', '', $method);
+        $method = preg_replace('/\D+/', '.', $method);
+        return $method;
+    }
+    
 }

@@ -10,4 +10,3 @@
         check-in
     </div>
 </label>
-    
