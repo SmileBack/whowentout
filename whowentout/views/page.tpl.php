@@ -24,7 +24,7 @@
     <div class="logo" href="/"><img src="/images/logo.png" /></div>
     <?= a('events', 'Events') ?>
     <?= a('messages', 'Messages (3)') ?>
-    <?= a('logout', 'Logout') ?>
+    <?= auth()->get_login_link() ?>
 </nav>
 
 <div id="page">

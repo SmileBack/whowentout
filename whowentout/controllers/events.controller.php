@@ -5,8 +5,15 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $auth = auth();
-        print $auth->get_login_link('Login');
+        /* @var $repo FileRepository */
+        $repo = factory()->build('pic_repository');
+        $repo->create('test.txt', './css/styles.less');
+    }
+
+    function logout()
+    {
+        auth()->logout();
+        redirect('events/test');
     }
 
     function test_fb()
@@ -21,14 +28,6 @@ class Events_Controller extends Controller
         else {
             print sprintf('<a href="%s">login</a>', $auth->get_login_url());
         }
-    }
-
-    function logout()
-    {
-        /* @var $auth FacebookAuth */
-        $auth = factory()->build('auth');
-        $auth->logout();
-        redirect('events/test');
     }
 
     function index($date = null)

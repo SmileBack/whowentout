@@ -15,6 +15,16 @@ function environment()
     }
 }
 
+function site_url($path = '')
+{
+    $protocol = 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    if ($path)
+        return $protocol . $host . url($path);
+    else
+        return $protocol . $host;
+}
+
 /**
  * @return Factory
  */
@@ -79,7 +89,7 @@ function db()
 }
 
 /**
- * @return Auth
+ * @return FacebookAuth
  */
 function auth()
 {

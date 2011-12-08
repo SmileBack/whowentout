@@ -29,8 +29,8 @@ class FacebookAuth extends Auth
     {
         $facebook_id = $this->facebook->getUser();
         return $this->database->table('users')
-                              ->where('facebook_id', $facebook_id)
-                              ->first();
+                ->where('facebook_id', $facebook_id)
+                ->first();
     }
 
     /**
@@ -38,29 +38,39 @@ class FacebookAuth extends Auth
      */
     function create_user()
     {
+        if ($this->current_user() == null) {
+            $facebook_id = $this->facebook->getUser();
+            $profile_source = new FacebookProfileSource($this->facebook, $facebook_id);
+            $row = $this->database->table('users')->create_row(array(
+                                                                    'first_name' => $profile_source->get_first_name(),
+                                                                    'last_name' => $profile_source->get_last_name(),
+                                                                    'email' => $profile_source->get_email(),
+                                                                    'facebook_id' => $profile_source->get_facebook_id(),
+                                                               ));
+            return $row;
+        }
         
-        $facebook_id = $this->facebook->getUser();
-        $profile_source = new FacebookProfileSource($this->facebook, $facebook_id);
-        $row = $this->database->table('users')->create_row(array(
-                                                                'first_name' => $profile_source->get_first_name(),
-                                                                'last_name' => $profile_source->get_last_name(),
-                                                                'email' => $profile_source->get_email(),
-                                                           ));
-        return $row;
+        return $this->current_user();
     }
-    
+
     function logged_in()
     {
         return $this->facebook->getUser() != null;
     }
 
+    function get_logout_url()
+    {
+        return url('auth/logout');
+    }
+
     function get_login_url()
     {
         return $this->facebook->getLoginUrl(array(
+                                                 'redirect_uri' => site_url('auth/complete'),
                                                  'scope' => implode(',', $this->facebook_permissions),
                                             ));
     }
-    
+
     function logout()
     {
         //destroy facebook session data

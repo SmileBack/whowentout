@@ -1,9 +1,9 @@
 <?php
 
-class WhoWentOutDatabase extends Package
+class WhoWentOut extends Package
 {
 
-    public $version = '0.1.3';
+    public $version = '0.1.5';
 
     function install()
     {
@@ -68,6 +68,19 @@ class WhoWentOutDatabase extends Package
         $this->database->table('users')->destroy_column('full_name');
         $this->database->table('users')->create_column('first_name', array('type' => 'string'));
         $this->database->table('users')->create_column('last_name', array('type' => 'string'));
+    }
+
+    /**
+     * Added date of birth
+     */
+    function update_0_1_4()
+    {
+        $this->database->table('users')->create_column('date_of_birth', array('type' => 'date'));
+    }
+
+    function update_0_1_5()
+    {
+        $this->database->table('users')->create_column('hometown', array('type' => 'string'));
     }
 
     function uninstall()

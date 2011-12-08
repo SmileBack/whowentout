@@ -1,19 +1,8 @@
 <?php
 
-class FileRepository
+class FileRepository extends Component
 {
-
-    /* @var $driver FileRepositoryDriver */
-    private $driver;
-
-    protected $options = array();
-
-    function __construct($options = array())
-    {
-        $this->options = $options;
-        $this->driver = f()->class_loader()->init_subclass('FileRepositoryDriver', $this->options['driver'], $this->options);
-    }
-
+    
     function create($destination_filename, $source_filepath, $metadata = array())
     {
         $this->create_without_metadata($destination_filename, $source_filepath);
