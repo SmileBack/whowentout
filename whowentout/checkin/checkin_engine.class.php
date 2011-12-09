@@ -17,11 +17,26 @@ class CheckinEngine
     {
         $this->database = $database;
         $this->clock = $clock;
+    }
+
+    function checkin_user_to_event($user, $event)
+    {
+
+    }
+
+    function get_checkin_on_date($user, DateTime $date)
+    {
+
+    }
+
+    function remove_checkin_on_date($user, DateTime $date)
+    {
         
     }
 
-    function checkin($user, $event)
+    function get_checkins_for_event($event)
     {
+        
     }
 
 }

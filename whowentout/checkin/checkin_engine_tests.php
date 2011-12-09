@@ -21,6 +21,12 @@ class Checkin_Engine_Tests extends TestGroup
     private $ven;
     private $dan;
 
+    private $mcfaddens_place;
+    private $shadowroom_place;
+
+    private $mcfaddens_event;
+    private $shadowroom_event;
+
     function setup()
     {
         $factory = factory('checkin_engine_tests');
@@ -28,7 +34,10 @@ class Checkin_Engine_Tests extends TestGroup
         $this->db = $factory->build('test_database');
         $this->checkin_engine = $factory->build('checkin_engine');
         $this->installer = $factory->build('package_installer');
+
         $this->create_database_schema();
+        $this->create_users();
+
     }
 
     function clear_database()
@@ -62,21 +71,26 @@ class Checkin_Engine_Tests extends TestGroup
                                               ));
     }
 
-    function test_get_checkins()
+    function create_events()
     {
+        $this->mcfaddens_place = $this->db->table('places')->create_row(array(
+                                                   'name' => 'McFaddens',
+                                               ));
+        $this->shadowroom_place = $this->db->table('places')->create_row(array(
+                                                   'name' => 'Shadowroom'
+                                               ));
 
+        $this->mcfaddens_event = $this->db->table('events')->create_row(array(
+                                                   'name' => 'McFaddens Event',
+                                                   'place_id' => $this->mcfaddens_place->id,
+                                               ));
+        $this->shadowroom_event = $this->db->table('events')->create_row(array(
+                                                                             'name' => 'Shadowroom Event',
+                                                                             'place_id' => $this->shadowroom_place->id,
+                                                                         ));
     }
 
-    function test_user_has_checked_into_particular_event()
-    {
-    }
-
-    function test_users_who_checked_into_event()
-    {
-
-    }
-
-    function test_user_can_check_into_event()
+    function test_basic_checkin()
     {
         
     }
