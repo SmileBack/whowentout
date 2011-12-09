@@ -3,7 +3,7 @@
 class WhoWentOut extends Package
 {
 
-    public $version = '0.1.5';
+    public $version = '0.1.6';
 
     function install()
     {
@@ -13,10 +13,11 @@ class WhoWentOut extends Package
                                                     'last_name' => array('type' => 'string'),
                                                     'email' => array('type' => 'string'),
                                                     'facebook_id' => array('type' => 'string'),
+                                                    'hometown' => array('type' => 'string'),
                                                ));
         $this->database->table('users')->create_unique_index('facebook_id');
 
-        
+
         $this->database->create_table('places', array(
                                                      'id' => array('type' => 'id'),
                                                      'name' => array('type' => 'string'),
@@ -78,9 +79,31 @@ class WhoWentOut extends Package
         $this->database->table('users')->create_column('date_of_birth', array('type' => 'date'));
     }
 
+    /**
+     * Added hometown
+     */
     function update_0_1_5()
     {
         $this->database->table('users')->create_column('hometown', array('type' => 'string'));
+    }
+
+
+    /**
+     * Created checkins table
+     */
+    function update_0_1_6()
+    {
+        $this->database->create_table('checkins', array(
+                                                       'id' => array('type' => 'id'),
+                                                       'time' => array('type' => 'time'),
+                                                       'event_id' => array('type' => 'integer', 'null' => false),
+                                                       'user_id' => array('type' => 'integer', 'null' => false),
+                                                  ));
+        
+        $this->database->table('checkins')->create_unique_index('event_id', 'user_id');
+
+        $this->database->table('checkins')->create_foreign_key('event_id', 'events', 'id');
+        $this->database->table('checkins')->create_foreign_key('user_id', 'users', 'id');
     }
 
     function uninstall()

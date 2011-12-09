@@ -15,7 +15,7 @@ class Events_Controller extends Controller
         auth()->logout();
         redirect('events/test');
     }
-
+    
     function test_fb()
     {
         /* @var $auth FacebookAuth */

@@ -1,0 +1,23 @@
+test_database:
+  type: Database
+  host: localhost
+  database: fire_test
+  username: root
+  password: root
+
+timezone:
+  type: DateTimeZone
+  timezone: UTC
+
+clock:
+  type: Clock
+  timezone: timezone
+
+checkin_engine:
+  type: CheckinEngine
+  database: test_database
+
+package_installer:
+  type: PackageInstaller
+  database: test_database
+  class_loader: class_loader
