@@ -16,6 +16,7 @@ clock:
 checkin_engine:
   type: CheckinEngine
   database: test_database
+  clock: clock
 
 package_installer:
   type: PackageInstaller

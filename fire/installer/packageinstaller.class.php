@@ -152,7 +152,7 @@ class PackageInstaller
     {
         return $this->database->table('fire_packages');
     }
-
+    
     private function _create_table_if_missing()
     {
         if (!$this->database->has_table('fire_packages')) {

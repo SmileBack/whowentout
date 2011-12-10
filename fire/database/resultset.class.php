@@ -78,7 +78,7 @@ class ResultSet implements Iterator
         $this->query['limit'] = intval($n);
     }
 
-    function to_sql()
+    function to_select_sql()
     {
         $sql = array();
 
@@ -89,6 +89,21 @@ class ResultSet implements Iterator
 
         if ($this->query['order_by'])
             $sql[] = "\n  " . $this->get_order_by_sql();
+
+        if ($this->query['limit'])
+            $sql[] = "\n  " . $this->get_limit_sql();
+
+        return implode('', $sql);
+    }
+
+    function to_delete_sql()
+    {
+        $sql = array();
+
+        $sql[] = $this->get_delete_from_table_sql();
+
+        if (count($this->query['filters']) > 0)
+            $sql[] = "\n  " . $this->get_where_sql();
 
         if ($this->query['limit'])
             $sql[] = "\n  " . $this->get_limit_sql();
@@ -118,7 +133,7 @@ class ResultSet implements Iterator
 
     function count()
     {
-        $query = $this->database()->query_statement($this->to_sql(), $this->get_parameters());
+        $query = $this->database()->query_statement($this->to_select_sql(), $this->get_parameters());
         $query->execute();
         return $query->rowCount();
     }
@@ -133,7 +148,7 @@ class ResultSet implements Iterator
     {
         return $this->iterator->current();
     }
-    
+
     function key()
     {
         return $this->iterator->key();
@@ -147,16 +162,23 @@ class ResultSet implements Iterator
     function rewind()
     {
         $table = $this->table();
-        $sql = $this->to_sql();
+        $sql = $this->to_select_sql();
         $params = $this->get_parameters();
         $this->iterator = new TableQueryIterator($table, $sql, $params);
-        
+
         $this->iterator->rewind();
     }
 
     function valid()
     {
         return $this->iterator->valid();
+    }
+
+    function destroy()
+    {
+        foreach ($this as $row_id => $row) {
+            $this->table()->destroy_row($row_id);
+        }
     }
 
     /**
@@ -180,6 +202,12 @@ class ResultSet implements Iterator
         $table_name = $this->table()->name();
         $id_column_name = $this->table()->id_column()->name();
         return "SELECT $table_name.$id_column_name AS id FROM $table_name";
+    }
+
+    private function get_delete_from_table_sql()
+    {
+        $table_name = $this->table()->name();
+        return "DELETE FROM $table_name";
     }
 
     private function get_where_sql()

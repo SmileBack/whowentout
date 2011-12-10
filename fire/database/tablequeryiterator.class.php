@@ -21,8 +21,8 @@ class TableQueryIterator implements Iterator
     function current()
     {
         $key = $this->key();
-        if ($key)
-            return $this->table->row($key);
+        return $key ? $this->table->row($key)
+                    : null;
     }
 
     function key()

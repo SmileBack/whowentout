@@ -2,20 +2,13 @@
 
 class Events_Controller extends Controller
 {
-
-    function test()
-    {
-        /* @var $pic_repo ImageRepository */
-        $pic_repo = factory()->build('profile_pic_repository');
-        print $pic_repo->url('woo');
-    }
-
+    
     function logout()
     {
         auth()->logout();
         redirect('events/test');
     }
-    
+
     function test_fb()
     {
         /* @var $auth FacebookAuth */
@@ -38,7 +31,7 @@ class Events_Controller extends Controller
             $date = DateTime::createFromFormat('Ymd', $date);
             $date->setTime(0, 0, 0);
         }
-        
+
         print r::page(array(
                            'content' => r::events_view(array(
                                                             'date' => $date,

@@ -52,7 +52,7 @@ class Facebook_Profile_Source_Tests extends TestGroup
         $gender = $this->profile_source->get_gender();
         $this->assert_equal($gender, 'M');
     }
-
+    
     function test_get_hometown()
     {
         $hometown = $this->profile_source->get_hometown();

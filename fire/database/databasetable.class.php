@@ -75,7 +75,7 @@ class DatabaseTable implements Iterator
     {
         $query = $this->destroy_row_query($id);
         $query->execute();
-
+        
         unset($this->rows[$id]);
     }
 
@@ -481,8 +481,12 @@ class DatabaseTable implements Iterator
 
     private function format_values_for_database($values)
     {
-        foreach ($values as $column => &$value) {
-            $value = $this->column($column)->to_database_value($value);
+        foreach ($values as $column_name => &$column_value) {
+            $column = $this->column($column_name);
+            if (!$column)
+                throw new Exception("Column $column_name is missing.");
+            
+            $column_value = $column->to_database_value($column_value);
         }
         return $values;
     }

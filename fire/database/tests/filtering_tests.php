@@ -51,6 +51,12 @@ class Filtering_Tests extends TestGroup
                                'purchased' => new DateTime('2011-12-07'),
                                'type' => 'vegetable',
                            ));
+
+        $table->create_row(array(
+                               'name' => 'cyanide',
+                               'purchased' => new DateTime('2009-12-07'),
+                               'type' => 'chemical',
+                           ));
     }
 
     function test_basic_where()
@@ -89,6 +95,25 @@ class Filtering_Tests extends TestGroup
                          ->where('type', 'vegetable')
                          ->first();
         $this->assert_equal($item->name, 'celery');
+    }
+
+    function test_delete()
+    {
+        $cyanide = $this->db->table('food')
+                            ->where('type', 'chemical')
+                            ->first();
+
+        $this->assert_equal($cyanide->name, 'cyanide');
+
+        $this->db->table('food')
+                 ->where('type', 'chemical')
+                 ->destroy();
+
+        $cyanide_again = $this->db->table('food')
+                                  ->where('type', 'chemical')
+                                  ->first();
+
+        $this->assert_equal($cyanide_again, null);
     }
 
 }

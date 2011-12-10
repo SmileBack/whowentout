@@ -68,6 +68,9 @@ class FacebookProfileSource
      */
     function get_birthday()
     {
+        if (!isset($this->basic_info['birthday']))
+            return null;
+        
         return DateTime::createFromFormat('m/d/Y H:i:s', $this->basic_info['birthday'] . ' 00:00:00', new DateTimeZone('UTC'));
     }
 

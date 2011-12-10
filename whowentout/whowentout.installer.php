@@ -3,7 +3,7 @@
 class WhoWentOut extends Package
 {
 
-    public $version = '0.1.6';
+    public $version = '0.1.7';
 
     function install()
     {
@@ -14,10 +14,10 @@ class WhoWentOut extends Package
                                                     'email' => array('type' => 'string'),
                                                     'facebook_id' => array('type' => 'string'),
                                                     'hometown' => array('type' => 'string'),
+                                                    'gender' => array('type' => 'string'),
                                                ));
         $this->database->table('users')->create_unique_index('facebook_id');
-
-
+        
         $this->database->create_table('places', array(
                                                      'id' => array('type' => 'id'),
                                                      'name' => array('type' => 'string'),
@@ -32,7 +32,6 @@ class WhoWentOut extends Package
                                                 ));
 
         $this->database->table('events')->create_foreign_key('place_id', 'places', 'id');
-
 
         $this->database->create_table('checkins', array(
                                                        'id' => array('type' => 'id'),
@@ -104,6 +103,14 @@ class WhoWentOut extends Package
 
         $this->database->table('checkins')->create_foreign_key('event_id', 'events', 'id');
         $this->database->table('checkins')->create_foreign_key('user_id', 'users', 'id');
+    }
+
+    /**
+     * Add gender column
+     */
+    function update_0_1_7()
+    {
+        $this->database->table('users')->create_column('gender', array('type' => 'string'));
     }
 
     function uninstall()
