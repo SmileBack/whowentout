@@ -23,6 +23,14 @@ abstract class DatabaseColumn
         return $this->options['name'];
     }
 
+    /**
+     * @return DatabaseTable
+     */
+    function table()
+    {
+        return $this->table;
+    }
+
     abstract function from_database_value($value);
 
     abstract function to_database_value($value);

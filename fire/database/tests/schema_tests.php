@@ -258,8 +258,8 @@ class Schema_Tests extends TestGroup
         $admins_table->create_foreign_key('user_id', 'users', 'id');
         $this->assert_true($admins_table->has_foreign_key('user_id'));
 
-        $this->assert_equal($admins_table->get_foreign_key_table('user_id'), 'users');
-        $this->assert_equal($admins_table->get_foreign_key_column('user_id'), 'id');
+        $this->assert_equal($admins_table->get_foreign_key_table_name('user_id'), 'users');
+        $this->assert_equal($admins_table->get_foreign_key_column_name('user_id'), 'id');
 
         $admins_table->destroy_foreign_key('user_id');
         $this->assert_true(!$admins_table->has_foreign_key('user_id'));

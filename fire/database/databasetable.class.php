@@ -6,7 +6,7 @@ class DatabaseTable implements Iterator
     /**
      * @var \Database
      */
-    private $db;
+    private $database;
 
     private $name;
 
@@ -14,9 +14,9 @@ class DatabaseTable implements Iterator
     private $rows = array();
     public $columns = array();
 
-    function __construct(Database $db, $table_name)
+    function __construct(Database $database, $table_name)
     {
-        $this->db = $db;
+        $this->database = $database;
         $this->_load_schema_from_database($table_name);
     }
 
@@ -30,7 +30,7 @@ class DatabaseTable implements Iterator
      */
     function database()
     {
-        return $this->db;
+        return $this->database;
     }
 
     /**
@@ -67,7 +67,7 @@ class DatabaseTable implements Iterator
         $query = $this->create_row_query($values);
         $query->execute();
 
-        $row_id = $this->db->last_insert_id();
+        $row_id = $this->database->last_insert_id();
         return $this->row($row_id);
     }
 
@@ -124,7 +124,7 @@ class DatabaseTable implements Iterator
     function create_column($name, array $options)
     {
         $column_sql = $this->get_column_sql($name, $options);
-        $query = $this->db->query_statement("ALTER TABLE $this->name ADD $column_sql");
+        $query = $this->database->query_statement("ALTER TABLE $this->name ADD $column_sql");
         $query->execute();
 
         $this->_refresh_schema();
@@ -139,7 +139,7 @@ class DatabaseTable implements Iterator
         $table_name = $this->name();
         $create_table_schema = $this->fetch_create_table_schema();
         $column_schema = $create_table_schema['columns'][$current_column_name]['schema'];
-        $query = $this->db->query_statement("ALTER TABLE $table_name CHANGE $current_column_name $new_column_name $column_schema");
+        $query = $this->database->query_statement("ALTER TABLE $table_name CHANGE $current_column_name $new_column_name $column_schema");
         $query->execute();
 
         $this->_refresh_schema();
@@ -155,7 +155,7 @@ class DatabaseTable implements Iterator
         if ($this->has_foreign_key($column_name))
             $this->destroy_foreign_key($column_name);
 
-        $query = $this->db->query_statement("ALTER TABLE $this->name DROP COLUMN $column_name");
+        $query = $this->database->query_statement("ALTER TABLE $this->name DROP COLUMN $column_name");
         $query->execute();
 
         $this->_refresh_schema();
@@ -169,7 +169,7 @@ class DatabaseTable implements Iterator
         $table_name = $this->name();
         $index_name = $this->get_index_name($column_list);
 
-        $query = $this->db->query_statement("CREATE INDEX `$index_name` ON $table_name ($column_list_sql) USING BTREE");
+        $query = $this->database->query_statement("CREATE INDEX `$index_name` ON $table_name ($column_list_sql) USING BTREE");
         $query->execute();
     }
 
@@ -179,7 +179,7 @@ class DatabaseTable implements Iterator
         $table_name = $this->name();
         $index_name = $this->get_index_name($column_list);
 
-        $query = $this->db->query_statement("DROP INDEX `$index_name` ON $table_name");
+        $query = $this->database->query_statement("DROP INDEX `$index_name` ON $table_name");
         $query->execute();
     }
 
@@ -198,7 +198,7 @@ class DatabaseTable implements Iterator
             'index_name' => $this->get_index_name($column_list),
         );
 
-        $query = $this->db->query_statement($query_sql, $params);
+        $query = $this->database->query_statement($query_sql, $params);
         $query->execute();
 
         return $query->rowCount() > 0;
@@ -211,7 +211,7 @@ class DatabaseTable implements Iterator
         $table_name = $this->name();
         $index_name = $this->get_index_name($column_list);
 
-        $query = $this->db->query_statement("CREATE UNIQUE INDEX `$index_name` ON $table_name ($column_list_sql) USING BTREE");
+        $query = $this->database->query_statement("CREATE UNIQUE INDEX `$index_name` ON $table_name ($column_list_sql) USING BTREE");
         $query->execute();
     }
 
@@ -234,7 +234,7 @@ class DatabaseTable implements Iterator
 
         $query_sql = "ALTER TABLE $table_name
                         ADD CONSTRAINT `$foreign_key_name` FOREIGN KEY ($column) REFERENCES $referenced_table ($referenced_column)";
-        $query = $this->db->query_statement($query_sql);
+        $query = $this->database->query_statement($query_sql);
         $query->execute();
 
         $this->_refresh_schema();
@@ -245,31 +245,51 @@ class DatabaseTable implements Iterator
         $key_name = $this->get_foreign_key_name($column);
         return isset($this->schema['foreign_keys'][$key_name]);
     }
-
+    
     function destroy_foreign_key($column)
     {
         if ($this->has_foreign_key($column)) {
             $table_name = $this->name();
             $foreign_key_name = $this->get_foreign_key_name($column);
-            $query = $this->db->query_statement("ALTER TABLE $table_name DROP FOREIGN KEY `$foreign_key_name`");
+            $query = $this->database->query_statement("ALTER TABLE $table_name DROP FOREIGN KEY `$foreign_key_name`");
             $query->execute();
             $this->_refresh_schema();
         }
     }
 
-    function get_foreign_key_table($column)
+    /**
+     * @param  $column_name
+     * @return DatabaseTable|null
+     */
+    function get_foreign_key_table($column_name)
     {
-        if ($this->has_foreign_key($column)) {
-            $key_name = $this->get_foreign_key_name($column);
+        $table_name = $this->get_foreign_key_table_name($column_name);
+        return $table_name ? $this->database()->table($table_name) : null;
+    }
+
+    /**
+     * @param  $column_name
+     * @return DatabaseColumn|null
+     */
+    function get_foreign_key_column($column_name)
+    {
+        $fk_column_name = $this->get_foreign_key_column_name($column_name);
+        return $column_name ? $this->get_foreign_key_table($column_name)->column($fk_column_name) : null;
+    }
+    
+    function get_foreign_key_table_name($column_name)
+    {
+        if ($this->has_foreign_key($column_name)) {
+            $key_name = $this->get_foreign_key_name($column_name);
             return $this->schema['foreign_keys'][$key_name]['referenced_table'];
         }
         return null;
     }
 
-    function get_foreign_key_column($column)
+    function get_foreign_key_column_name($column_name)
     {
-        if ($this->has_foreign_key($column)) {
-            $key_name = $this->get_foreign_key_name($column);
+        if ($this->has_foreign_key($column_name)) {
+            $key_name = $this->get_foreign_key_name($column_name);
             return $this->schema['foreign_keys'][$key_name]['referenced_column'];
         }
         return null;
@@ -325,7 +345,7 @@ class DatabaseTable implements Iterator
             $schema['columns'][$column['name']] = $column;
         }
 
-        $query = $this->db->query_statement("SHOW INDEX FROM {$this->name}");
+        $query = $this->database->query_statement("SHOW INDEX FROM {$this->name}");
         $query->execute();
         $index_infos = $query->fetchAll(PDO::FETCH_OBJ);
 
@@ -345,17 +365,16 @@ class DatabaseTable implements Iterator
     }
 
     /**
-     * @param  $column string
+     * @param  $field_name string
      * @param  $value mixed
      * @return ResultSet
      */
-    function where($column, $value)
+    function where($field_name, $value)
     {
         $result_set = new ResultSet($this);
-        return $result_set->where($column, $value);
+        return $result_set->where($field_name, $value);
     }
-
-
+    
     /* Iterator Methods */
     /**
      * @var TableQueryIterator
@@ -392,7 +411,7 @@ class DatabaseTable implements Iterator
 
     private function fetch_create_table_schema()
     {
-        $query = $this->db->query_statement("SHOW CREATE TABLE {$this->name}");
+        $query = $this->database->query_statement("SHOW CREATE TABLE {$this->name}");
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -403,7 +422,7 @@ class DatabaseTable implements Iterator
 
     private function fetch_mysql_information_schema()
     {
-        $query = $this->db->query_statement("SHOW FULL COLUMNS FROM {$this->name}");
+        $query = $this->database->query_statement("SHOW FULL COLUMNS FROM {$this->name}");
         $query->execute();
         $column_schemas = $query->fetchAll(PDO::FETCH_OBJ);
         return $column_schemas;
@@ -426,6 +445,8 @@ class DatabaseTable implements Iterator
             return 'time';
         elseif ($mysql_type == 'date')
             return 'date';
+        else
+            throw new Exception("No such MySql type $mysql_type");
     }
 
     private function get_mysql_data_type($field_info)
@@ -459,7 +480,7 @@ class DatabaseTable implements Iterator
 
         $values['id'] = $id;
 
-        return $this->db->query_statement($sql, $values);
+        return $this->database->query_statement($sql, $values);
     }
 
     private function create_row_query(array $values)
@@ -476,7 +497,7 @@ class DatabaseTable implements Iterator
         $values_sql = implode(', ', $values_sql);
 
         $sql = "INSERT INTO $this->name ($columns_sql) VALUES ($values_sql)";
-        return $this->db->query_statement($sql, $values);
+        return $this->database->query_statement($sql, $values);
     }
 
     private function format_values_for_database($values)
@@ -495,7 +516,7 @@ class DatabaseTable implements Iterator
     {
         $id_column = $this->id_column()->name();
         $sql = "DELETE FROM $this->name WHERE $id_column = :id";
-        return $this->db->query_statement($sql, array('id' => $row_id));
+        return $this->database->query_statement($sql, array('id' => $row_id));
     }
 
     private function get_column_sql($column_name, $column_config)
@@ -513,7 +534,7 @@ class DatabaseTable implements Iterator
     function _fetch_row_values($row_id)
     {
         $id_column = $this->id_column()->name();
-        $query = $this->db->query_statement("SELECT * FROM $this->name WHERE $id_column = :id", array('id' => $row_id));
+        $query = $this->database->query_statement("SELECT * FROM $this->name WHERE $id_column = :id", array('id' => $row_id));
         $query->execute();
         $row_count = $query->rowCount();
         return $row_count > 0 ? (array)$query->fetchObject() : false;

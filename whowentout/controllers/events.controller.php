@@ -2,11 +2,21 @@
 
 class Events_Controller extends Controller
 {
-    
-    function logout()
+
+    function test()
     {
-        auth()->logout();
-        redirect('events/test');
+        $events_table = db()->table('events');
+        $checkins_table = db()->table('checkins');
+
+        print '<pre>';
+        print $checkins_table->where('event.place.name', 'bob')->to_sql();
+        print '</pre>';
+    }
+
+    function inner_join($base_table_name, $base_column_name, $fk_table_name, $fk_column_name)
+    {
+        $sql = "INNER JOIN $fk_table_name ON $base_table_name.$base_column_name = $fk_table_name.$fk_column_name";
+        return $sql;
     }
 
     function test_fb()

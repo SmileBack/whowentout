@@ -2,64 +2,70 @@
 
 class ResultSet implements Iterator
 {
+    
+    /**
+     * @var DatabaseTable
+     */
+    private $base_table;
 
-    private $query = array(
-        'filters' => array(),
-        'limit' => false,
-        'order_by' => false,
-    );
+    /**
+     * @var DatabaseFilter[]
+     */
+    private $filters = array();
+
+    /**
+     * @var DatabaseLimit|null
+     */
+    private $limit = null;
+
+    /**
+     * @var DatabaseOrderBy|null
+     */
+    private $order_by = null;
+
 
     /**
      * @var DatabaseTable
      */
     private $tables;
 
-    function __construct(DatabaseTable $table)
+    function __construct(DatabaseTable $base_table)
     {
-        $this->tables[] = $table;
+        $this->base_table = $base_table;
     }
 
     /**
-     * @param  $column
-     * @param  $value
+     * @param  $field_name
+     * @param  $field_value
      * @return ResultSet
      */
-    function where($column, $value)
+    function where($field_name, $field_value)
     {
         $set = clone $this;
-        $set->set_where($column, $value);
+        $set->set_where($field_name, $field_value);
         return $set;
     }
 
-    function set_where($column, $value)
+    function set_where($field_name, $field_value)
     {
-        $this->query['filters'][$column] = $value;
+        $this->filters[] = new DatabaseFilter($this->base_table, $field_name, $field_value);
     }
 
     /**
-     * @param  $column
+     * @param  $field_name
      * @param string $order
      * @return ResultSet
      */
-    function order_by($column, $order = 'asc')
+    function order_by($field_name, $order = 'asc')
     {
         $set = clone $this;
-        $set->set_order_by($column, $order);
+        $set->set_order_by($field_name, $order);
         return $set;
     }
 
-    function set_order_by($column, $order = 'asc')
+    function set_order_by($field_name, $order = 'asc')
     {
-        $allowed_order = array('asc', 'desc');
-
-        $order = strtolower($order);
-        if (!in_array($order, $allowed_order))
-            throw new Exception("\$order parameter must be asc or desc");
-
-        $this->query['order_by'] = array(
-            'column' => $column,
-            'order' => $order,
-        );
+        $this->order_by = new DatabaseOrderBy($this->base_table, $field_name, $order);
     }
 
     /**
@@ -75,24 +81,35 @@ class ResultSet implements Iterator
 
     function set_limit($n)
     {
-        $this->query['limit'] = intval($n);
+        $this->limit = new DatabaseLimit($n);
     }
 
-    function to_select_sql()
+    function to_sql()
     {
         $sql = array();
 
-        $sql[] = $this->get_select_from_tables_sql();
+        $sql[] = "SELECT " . $this->base_table->name() . '.' . $this->base_table->id_column()->name()
+                           . ' AS id FROM ' . $this->base_table->name();
 
-        if (count($this->query['filters']) > 0)
+        $joins = array();
+        foreach ($this->filters as $filter) {
+            foreach ($filter->joins() as $join) {
+                $joins[ $join->join_table->name() ] = $join;
+            }
+        }
+        foreach ($joins as $join) {
+            $sql[] = "\n  " . $join->to_sql();
+        }
+
+        if (count($this->filters) > 0)
             $sql[] = "\n  " . $this->get_where_sql();
+        
+        if ($this->order_by)
+            $sql[] = "\n  " . $this->order_by->to_sql();
 
-        if ($this->query['order_by'])
-            $sql[] = "\n  " . $this->get_order_by_sql();
-
-        if ($this->query['limit'])
-            $sql[] = "\n  " . $this->get_limit_sql();
-
+        if ($this->limit)
+            $sql[] = "\n  " . $this->limit->to_sql();
+        
         return implode('', $sql);
     }
 
@@ -133,7 +150,7 @@ class ResultSet implements Iterator
 
     function count()
     {
-        $query = $this->database()->query_statement($this->to_select_sql(), $this->get_parameters());
+        $query = $this->database()->query_statement($this->to_sql(), $this->get_parameters());
         $query->execute();
         return $query->rowCount();
     }
@@ -162,7 +179,7 @@ class ResultSet implements Iterator
     function rewind()
     {
         $table = $this->table();
-        $sql = $this->to_select_sql();
+        $sql = $this->to_sql();
         $params = $this->get_parameters();
         $this->iterator = new TableQueryIterator($table, $sql, $params);
 
@@ -186,7 +203,7 @@ class ResultSet implements Iterator
      */
     function table()
     {
-        return $this->tables[0];
+        return $this->query['base_table'];
     }
 
     /**
@@ -213,11 +230,11 @@ class ResultSet implements Iterator
     private function get_where_sql()
     {
         $sql = array();
-        $table_name = $this->table()->name();
-        foreach ($this->query['filters'] as $column => $value) {
-            $filter_placeholder = $this->get_filter_placeholder($column);
-            $sql[] = "$table_name.$column = :$filter_placeholder";
+        
+        foreach ($this->filters as $filter) {
+            $sql[] = $filter->to_sql();
         }
+
         return "WHERE " . implode(' AND ', $sql);
     }
 
@@ -259,10 +276,5 @@ class ResultSet implements Iterator
     {
         return 'filter__' . $this->table()->name() . '__' . $column;
     }
-
-    function _set_query(array $query)
-    {
-        $this->query = $query;
-    }
-
+    
 }

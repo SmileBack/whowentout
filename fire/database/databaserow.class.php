@@ -80,7 +80,7 @@ class DatabaseRow
         if ($this->table()->has_column($fk_column) && $this->table()->has_foreign_key($fk_column)) {
             $fk_id = $this->values[$fk_column];
             if ($fk_id) {
-                $table_name = $this->table()->get_foreign_key_table($fk_column);
+                $table_name = $this->table()->get_foreign_key_table_name($fk_column);
                 return $this->table()->database()->table($table_name)->row($fk_id);
             }
         }
