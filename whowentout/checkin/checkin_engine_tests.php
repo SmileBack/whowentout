@@ -89,7 +89,7 @@ class Checkin_Engine_Tests extends TestGroup
                                                                               'name' => 'Shadowroom'
                                                                          ));
         $this->eden_place = $this->db->table('places')->create_row(array(
-                                                                       'name' => 'Eden',
+                                                                        'name' => 'Eden',
                                                                    ));
 
         $this->mcfaddens_event = $this->db->table('events')->create_row(array(
@@ -103,9 +103,9 @@ class Checkin_Engine_Tests extends TestGroup
                                                                               'date' => new DateTime('2011-12-10', new DateTimeZone('UTC')),
                                                                          ));
         $this->eden_event = $this->db->table('events')->create_row(array(
-                                                                       'name' => 'Eden Event',
-                                                                       'place_id' => $this->eden_place->id,
-                                                                       'date' =>  new DateTime('2011-12-10', new DateTimeZone('UTC')),
+                                                                        'name' => 'Eden Event',
+                                                                        'place_id' => $this->eden_place->id,
+                                                                        'date' => new DateTime('2011-12-10', new DateTimeZone('UTC')),
                                                                    ));
     }
 
@@ -119,7 +119,7 @@ class Checkin_Engine_Tests extends TestGroup
         $this->checkin_engine->remove_checkin_on_date($this->ven, $this->mcfaddens_event->date);
         $this->assert_true(!$this->checkin_engine->user_has_checked_into_event($this->ven, $this->mcfaddens_event));
     }
-
+    
     function test_switch_checkin()
     {
         $this->checkin_engine->checkin_user_to_event($this->dan, $this->shadowroom_event);
@@ -129,5 +129,5 @@ class Checkin_Engine_Tests extends TestGroup
         $this->assert_true($this->checkin_engine->user_has_checked_into_event($this->dan, $this->eden_event));
         $this->assert_true(!$this->checkin_engine->user_has_checked_into_event($this->dan, $this->shadowroom_event));
     }
-
+    
 }
