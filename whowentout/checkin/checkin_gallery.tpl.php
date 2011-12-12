@@ -1,15 +1,16 @@
-<h1><?= $event->name ?>'s Attendees (@ <?= $event->place->name ?>)</h1>
 <?php
-/* @var $checkin_engine CheckinEngine */
+    /* @var $checkin_engine CheckinEngine */
 $checkin_engine = factory()->build('checkin_engine');
 $checkins = $checkin_engine->get_checkins_for_event($event);
 ?>
 
-<ul>
-    <?php foreach ($checkins as $checkin): ?>
+<div class="checkin_gallery">
+    <h1><?= $event->name ?>'s Attendees</h1>
+    <ul>
+        <?php foreach ($checkins as $checkin): ?>
         <li>
-            <?= $checkin->user->first_name . '  ' . $checkin->user->last_last ?>
+            <?= r::profile_small(array('user' => $checkin->user)) ?>
         </li>
-    <?php endforeach; ?>
-</ul>
-    
+        <?php endforeach; ?>
+    </ul>
+</div>

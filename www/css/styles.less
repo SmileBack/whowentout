@@ -12,7 +12,7 @@ body {
     #content {
         background-color: white;
         overflow: hidden;
-        padding: 10px;
+        padding: 10px 60px;
         min-height: 900px;
         > * {
           float: left;
@@ -87,7 +87,6 @@ td {
 
 #dates {
     margin-bottom: 25px;
-    margin-left: 50px;
 }
 
 #dates > a {
@@ -127,7 +126,7 @@ td {
 
 .event_list {
     width: 600px;
-    margin: 0 130px;
+    margin: 0 84px;
     float: left;
     clear: both;
     fieldset {
@@ -155,24 +154,25 @@ td {
     }
 }
 
-.event_gallery {
-    text-align: center;
-    margin: 0 35px;
-    h1 { margin-top: 15px; }
-    li {
+.checkin_gallery {
+    margin-top: 20px;
+    > ul > li {
         display: inline-block;
-        margin: 15px;
-        padding: 15px;
-        border: 1px solid grey;
-        border-radius: 3px;
     }
-    .send_message_link {
-        display: block;
-        margin-top: 4px;
-        background: url(../images/message_icon.gif) center left no-repeat;
-        padding-left: 16px;
-        text-decoration: none;
-        &:hover { text-decoration: underline; }
+}
+
+.profile_small {
+    margin: 15px;
+    padding: 15px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    img {
+      display: block;
+    }
+    .profile_name {
+      margin-top: 8px;
+      text-align: center;
+      font-weight: bold;
     }
 }
 

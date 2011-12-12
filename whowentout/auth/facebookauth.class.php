@@ -41,7 +41,7 @@ class FacebookAuth extends Auth
         if ($this->current_user() == null) {
             $facebook_id = $this->facebook->getUser();
             $profile_source = new FacebookProfileSource($this->facebook, $facebook_id);
-            $row = $this->database->table('users')->create_row(array(
+            $user = $this->database->table('users')->create_row(array(
                                                                     'first_name' => $profile_source->get_first_name(),
                                                                     'last_name' => $profile_source->get_last_name(),
                                                                     'gender' => $profile_source->get_gender(),
@@ -50,10 +50,25 @@ class FacebookAuth extends Auth
                                                                     'date_of_birth' => $profile_source->get_birthday(),
                                                                     'hometown' => $profile_source->get_hometown(),
                                                                ));
-            return $row;
+
+            $this->create_user_profile_pic($user);
+
+            return $user;
         }
         
         return $this->current_user();
+    }
+    
+    /**
+     * @param  $user
+     * @return ProfilePicture
+     */
+    private function create_user_profile_pic($user)
+    {
+        /* @var $profile_picture ProfilePicture */
+        $profile_picture = factory()->build('profile_picture', $user);
+        $profile_picture->set_to_facebook();
+        return $profile_picture;
     }
 
     function logged_in()
