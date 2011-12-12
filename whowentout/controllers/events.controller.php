@@ -10,6 +10,12 @@ class Events_Controller extends Controller
 
     function test()
     {
+        $user = db()->table('users')->where('first_name', 'Venkat')
+                                    ->first();
+
+        /* @var $profile_pic ProfilePicture */
+        $profile_pic = factory()->build('profile_picture', $user);
+        $profile_pic->set_to_facebook();
     }
 
     function test_fb()
@@ -29,7 +35,10 @@ class Events_Controller extends Controller
     function index($date = null)
     {
         $current_user = auth()->current_user();
-        
+
+        if (isset($_SESSION['checkins_create_event_id']))
+            redirect('checkins/create');
+
         if ($date == null)
             $date = app()->clock()->today();
         else {
@@ -39,11 +48,10 @@ class Events_Controller extends Controller
 
         /* @var $checkin_engine CheckinEngine */
         $checkin_engine = factory()->build('checkin_engine');
+        
         $checkin = $checkin_engine->get_checkin_on_date($current_user, $date);
-
         $selected_event = $checkin ? $checkin->event : null;
         
-
         print r::page(array(
                            'content' => r::events_view(array(
                                                             'date' => $date,
@@ -51,6 +59,14 @@ class Events_Controller extends Controller
                                                             'selected_event' => $selected_event,
                                                        )),
                       ));
+    }
+
+    /**
+     * @return CheckinEngine
+     */
+    private function checkin_engine()
+    {
+        return factory()->build('checkin_engine');
     }
 
     private function default_date()
@@ -67,17 +83,7 @@ class Events_Controller extends Controller
 
     function test_session()
     {
-        $session_handler = factory()->build('session_handler');
-        session_set_save_handler(
-            array($session_handler, 'open'),
-            array($session_handler, 'close'),
-            array($session_handler, 'read'),
-            array($session_handler, 'write'),
-            array($session_handler, 'destroy'),
-            array($session_handler, 'gc')
-        );
-
-        session_start();
+        
         $_SESSION['test'] = 52;
     }
 

@@ -30,7 +30,7 @@ class CompoundImageTransformation extends ImageTransformation
      */
     private function load_transformation(array $options)
     {
-        $transformation = f()->class_loader()->init_subclass('ImageTransformation', $options['type'], $options);
+        $transformation = app()->class_loader()->init_subclass('ImageTransformation', $options['type'], $options);
         return $transformation;
     }
 

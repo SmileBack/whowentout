@@ -93,4 +93,23 @@ class Crud_Tests extends TestGroup
         $this->assert_equal($row->my_date, $same_date);
     }
 
+    function test_create_or_update_row()
+    {
+        $table = $this->db->table('data');
+
+        $row_a = $table->create_row(array('name' => 'row a'));
+
+        $updated_row = $table->create_or_update_row(array('id' => $row_a->id, 'name' => 'woo'));
+        $this->assert_equal($row_a->name, 'woo', 'row was successfully updated');
+        $this->assert_true($updated_row == $row_a, 'correct row was updated');
+
+        $row_b = $table->create_or_update_row(array(
+                                                  'name' => 'row b',
+                                              ));
+
+        $this->assert_equal($row_b->name, 'row b', 'row was successfully created');
+        
+        $this->assert_true($row_a->id != $row_b->id);
+    }
+
 }

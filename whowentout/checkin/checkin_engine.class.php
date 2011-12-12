@@ -30,7 +30,7 @@ class CheckinEngine
     {
         $previous_checkin = $this->get_checkin_on_date($user, $event->date);
 
-        if ($previous_checkin->event == $event)
+        if ($previous_checkin && $previous_checkin->event == $event)
             return;
         
         if ($previous_checkin) {
@@ -53,6 +53,9 @@ class CheckinEngine
 
     function get_checkin_on_date($user, DateTime $date)
     {
+        if ($user == null)
+            return null;
+        
         return $this->checkins->where('user_id', $user->id)
                               ->where('event.date', $date)
                               ->first();

@@ -44,8 +44,11 @@ class FacebookAuth extends Auth
             $row = $this->database->table('users')->create_row(array(
                                                                     'first_name' => $profile_source->get_first_name(),
                                                                     'last_name' => $profile_source->get_last_name(),
+                                                                    'gender' => $profile_source->get_gender(),
                                                                     'email' => $profile_source->get_email(),
                                                                     'facebook_id' => $profile_source->get_facebook_id(),
+                                                                    'date_of_birth' => $profile_source->get_birthday(),
+                                                                    'hometown' => $profile_source->get_hometown(),
                                                                ));
             return $row;
         }

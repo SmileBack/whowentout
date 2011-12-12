@@ -3,9 +3,18 @@
 class WhoWentOut extends Package
 {
 
-    public $version = '0.1.7';
+    public $version = '0.1.8';
 
     function install()
+    {
+        $this->create_users_table();
+        $this->create_places_table();
+        $this->create_events_table();
+        $this->create_checkins_table();
+        $this->create_profile_pictures_table();
+    }
+
+    function create_users_table()
     {
         $this->database->create_table('users', array(
                                                     'id' => array('type' => 'id'),
@@ -17,12 +26,18 @@ class WhoWentOut extends Package
                                                     'gender' => array('type' => 'string'),
                                                ));
         $this->database->table('users')->create_unique_index('facebook_id');
-        
+    }
+
+    function create_places_table()
+    {
         $this->database->create_table('places', array(
                                                      'id' => array('type' => 'id'),
                                                      'name' => array('type' => 'string'),
                                                 ));
+    }
 
+    function create_events_table()
+    {
         $this->database->create_table('events', array(
                                                      'id' => array('type' => 'id'),
                                                      'name' => array('type' => 'string'),
@@ -32,7 +47,10 @@ class WhoWentOut extends Package
                                                 ));
 
         $this->database->table('events')->create_foreign_key('place_id', 'places', 'id');
+    }
 
+    function create_checkins_table()
+    {
         $this->database->create_table('checkins', array(
                                                        'id' => array('type' => 'id'),
                                                        'user_id' => array('type' => 'integer'),
@@ -42,6 +60,21 @@ class WhoWentOut extends Package
 
         $this->database->table('checkins')->create_foreign_key('user_id', 'users', 'id');
         $this->database->table('checkins')->create_foreign_key('event_id', 'events', 'id');
+    }
+
+    function create_profile_pictures_table()
+    {
+        $this->database->create_table('profile_pictures', array(
+                                                               'id' => array('type' => 'id'),
+                                                               'user_id' => array('type' => 'integer'),
+                                                               'version' => array('type' => 'integer'),
+                                                               'crop_x' => array('type' => 'integer'),
+                                                               'crop_y' => array('type' => 'integer'),
+                                                               'crop_width' => array('type' => 'integer'),
+                                                               'crop_height' => array('type' => 'integer'),
+                                                          ));
+
+        $this->database->table('profile_pictures')->create_foreign_key('user_id', 'users', 'id');
     }
 
     function update_0_1_1()
@@ -98,7 +131,7 @@ class WhoWentOut extends Package
                                                        'event_id' => array('type' => 'integer', 'null' => false),
                                                        'user_id' => array('type' => 'integer', 'null' => false),
                                                   ));
-        
+
         $this->database->table('checkins')->create_unique_index('event_id', 'user_id');
 
         $this->database->table('checkins')->create_foreign_key('event_id', 'events', 'id');
@@ -113,12 +146,31 @@ class WhoWentOut extends Package
         $this->database->table('users')->create_column('gender', array('type' => 'string'));
     }
 
+    /**
+     * Create profile pictures table
+     */
+    function update_0_1_8()
+    {
+        $this->database->create_table('profile_pictures', array(
+                                                               'id' => array('type' => 'id'),
+                                                               'user_id' => array('type' => 'integer'),
+                                                               'version' => array('type' => 'integer'),
+                                                               'crop_x' => array('type' => 'integer'),
+                                                               'crop_y' => array('type' => 'integer'),
+                                                               'crop_width' => array('type' => 'integer'),
+                                                               'crop_height' => array('type' => 'integer'),
+                                                          ));
+
+        $this->database->table('profile_pictures')->create_foreign_key('user_id', 'users', 'id');
+    }
+
     function uninstall()
     {
+        $this->database->destroy_table('profile_pictures');
         $this->database->destroy_table_if_exists('checkins');
         $this->database->destroy_table_if_exists('events');
         $this->database->destroy_table_if_exists('places');
         $this->database->destroy_table_if_exists('users');
     }
-
+    
 }

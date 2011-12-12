@@ -37,6 +37,11 @@ profile_pic_repository:
   type: ImageRepository
   file_repository: profile_pic_file_repository
 
+profile_picture_factory:
+  type: ProfilePictureFactory
+  database: database
+  image_repository: profile_pic_repository
+
 timezone:
   type: DateTimeZone
   timezone: UTC
@@ -77,3 +82,4 @@ checkin_engine:
   type: CheckinEngine
   database: database
   clock: clock
+  

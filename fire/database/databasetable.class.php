@@ -71,6 +71,24 @@ class DatabaseTable implements Iterator
         return $this->row($row_id);
     }
 
+    function create_or_update_row($values = array())
+    {
+        $id_column_name = $this->id_column()->name();
+        $row_id = isset($values[$id_column_name]) ? $values[$id_column_name] : null;
+        if ($row_id) {
+            unset($values[$id_column_name]);
+            $row = $this->row($row_id);
+            foreach ($values as $k => $v) {
+                $row->$k = $v;
+            }
+            $row->save();
+            return $row;
+        }
+        else {
+            return $this->create_row($values);
+        }
+    }
+
     function destroy_row($id)
     {
         $query = $this->destroy_row_query($id);

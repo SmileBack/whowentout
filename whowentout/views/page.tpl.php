@@ -27,6 +27,11 @@
     <div class="logo" href="/"><img src="/images/logo.png"/></div>
     <?= a('events', 'Events') ?>
     <?= a('messages', 'Messages (3)') ?>
+    
+    <?php if (auth()->logged_in()): ?>
+        <?= a('profile/edit', 'Edit Profile') ?>
+    <?php endif; ?>
+
     <?= auth()->get_login_link() ?>
 </nav>
 
