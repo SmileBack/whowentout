@@ -13,5 +13,3 @@ $checkins = $checkin_engine->get_checkins_for_event($event);
     <?php endforeach; ?>
 </ul>
     
-    
-    
