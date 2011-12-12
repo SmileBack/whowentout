@@ -9,7 +9,10 @@ class Events_Controller extends Controller
         $checkins_table = db()->table('checkins');
 
         print '<pre>';
-        print $checkins_table->where('event.place.name', 'bob')->to_sql();
+        print $checkins_table
+                ->order_by('event.name', 'asc')
+                ->limit(3)
+                ->to_sql();
         print '</pre>';
     }
 

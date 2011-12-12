@@ -23,12 +23,6 @@ class ResultSet implements Iterator
      */
     private $order_by = null;
 
-
-    /**
-     * @var DatabaseTable
-     */
-    private $tables;
-
     function __construct(DatabaseTable $base_table)
     {
         $this->base_table = $base_table;
@@ -91,13 +85,7 @@ class ResultSet implements Iterator
         $sql[] = "SELECT " . $this->base_table->name() . '.' . $this->base_table->id_column()->name()
                            . ' AS id FROM ' . $this->base_table->name();
 
-        $joins = array();
-        foreach ($this->filters as $filter) {
-            foreach ($filter->joins() as $join) {
-                $joins[ $join->join_table->name() ] = $join;
-            }
-        }
-        foreach ($joins as $join) {
+        foreach ($this->joins() as $join) {
             $sql[] = "\n  " . $join->to_sql();
         }
 
@@ -212,6 +200,27 @@ class ResultSet implements Iterator
     function database()
     {
         return $this->table()->database();
+    }
+
+    /**
+     * @return DatabaseTableJoin[]
+     */
+    private function joins()
+    {
+        $joins = array();
+        foreach ($this->filters as $filter) {
+            foreach ($filter->joins() as $join) {
+                $joins[ $join->join_table->name() ] = $join;
+            }
+        }
+        
+        if ($this->order_by) {
+            foreach ($this->order_by->joins() as $join) {
+                $joins[ $join->join_table->name() ] = $join;
+            }
+        }
+
+        return $joins;
     }
 
     private function get_select_from_tables_sql()

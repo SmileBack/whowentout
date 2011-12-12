@@ -374,6 +374,27 @@ class DatabaseTable implements Iterator
         $result_set = new ResultSet($this);
         return $result_set->where($field_name, $value);
     }
+
+    /**
+     * @param $field_name string
+     * @param $order string
+     * @return ResultSet
+     */
+    function order_by($field_name, $order = 'asc')
+    {
+        $result_set = new ResultSet($this);
+        return $result_set->order_by($field_name, $order);
+    }
+
+    /**
+     * @param  $n
+     * @return ResultSet
+     */
+    function limit($n)
+    {
+        $result_set = new ResultSet($this);
+        return $result_set->limit($n);
+    }
     
     /* Iterator Methods */
     /**

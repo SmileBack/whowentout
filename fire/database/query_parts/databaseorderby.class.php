@@ -17,7 +17,7 @@ class DatabaseOrderBy extends QueryPart
 
     function __construct(DatabaseTable $base_table, $field_name, $order = 'asc')
     {
-        $this->base_table;
+        $this->base_table = $base_table;
         $this->field_name = $field_name;
         $this->order = strtolower($order);
         $this->validate_order();
