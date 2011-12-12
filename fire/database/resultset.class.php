@@ -101,25 +101,12 @@ class ResultSet implements Iterator
         return implode('', $sql);
     }
 
-    function to_delete_sql()
-    {
-        $sql = array();
-
-        $sql[] = $this->get_delete_from_table_sql();
-
-        if (count($this->query['filters']) > 0)
-            $sql[] = "\n  " . $this->get_where_sql();
-
-        if ($this->query['limit'])
-            $sql[] = "\n  " . $this->get_limit_sql();
-
-        return implode('', $sql);
-    }
-
-    function get_parameters()
+    function parameters()
     {
         $params = array();
-        $params = array_merge($params, $this->get_where_parameters());
+        foreach ($this->filters as $filter) {
+            $params = array_merge($params, $filter->parameters());
+        }
         return $params;
     }
 
@@ -138,7 +125,7 @@ class ResultSet implements Iterator
 
     function count()
     {
-        $query = $this->database()->query_statement($this->to_sql(), $this->get_parameters());
+        $query = $this->database()->query_statement($this->to_sql(), $this->parameters());
         $query->execute();
         return $query->rowCount();
     }
@@ -168,7 +155,7 @@ class ResultSet implements Iterator
     {
         $table = $this->table();
         $sql = $this->to_sql();
-        $params = $this->get_parameters();
+        $params = $this->parameters();
         $this->iterator = new TableQueryIterator($table, $sql, $params);
 
         $this->iterator->rewind();
@@ -191,7 +178,7 @@ class ResultSet implements Iterator
      */
     function table()
     {
-        return $this->query['base_table'];
+        return $this->base_table;
     }
 
     /**
@@ -222,24 +209,11 @@ class ResultSet implements Iterator
 
         return $joins;
     }
-
-    private function get_select_from_tables_sql()
-    {
-        $table_name = $this->table()->name();
-        $id_column_name = $this->table()->id_column()->name();
-        return "SELECT $table_name.$id_column_name AS id FROM $table_name";
-    }
-
-    private function get_delete_from_table_sql()
-    {
-        $table_name = $this->table()->name();
-        return "DELETE FROM $table_name";
-    }
-
+    
     private function get_where_sql()
     {
         $sql = array();
-        
+
         foreach ($this->filters as $filter) {
             $sql[] = $filter->to_sql();
         }
@@ -247,43 +221,4 @@ class ResultSet implements Iterator
         return "WHERE " . implode(' AND ', $sql);
     }
 
-    private function get_order_by_sql()
-    {
-        $table_name = $this->table()->name();
-        $order_by_column = $this->query['order_by']['column'];
-        $order_by_order = $this->query['order_by']['order'];
-
-        return "ORDER BY $table_name.$order_by_column $order_by_order";
-    }
-
-    private function get_limit_sql()
-    {
-        return "LIMIT $this->limit";
-    }
-
-    private function get_where_parameters()
-    {
-        $params = array();
-        foreach ($this->query['filters'] as $column_name => $column_value) {
-            $filter_placeholder = $this->get_filter_placeholder($column_name);
-            $database_value = $this->get_database_value($column_name, $column_value);
-            $params[$filter_placeholder] = $database_value;
-        }
-        return $params;
-    }
-
-    private function get_database_value($column_name, $column_value)
-    {
-        $column = $this->table()->column($column_name);
-        if (!$column)
-            throw new Exception("Column '$column_name' is missing.");
-
-        return $column->to_database_value($column_value);
-    }
-
-    private function get_filter_placeholder($column)
-    {
-        return 'filter__' . $this->table()->name() . '__' . $column;
-    }
-    
 }

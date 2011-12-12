@@ -11,15 +11,21 @@ class Crud_Tests extends TestGroup
     function setup()
     {
         $this->db = factory()->build('test_database');
-
-        foreach ($this->db->list_table_names() as $table_name) {
-            $this->db->destroy_table($table_name);
-        }
-
+        $this->clear_database($this->db);
+        
         $this->db->create_table('data', array(
                                              'id' => array('type' => 'id'),
                                              'name' => array('type' => 'string'),
                                         ));
+    }
+
+    function clear_database(Database $database)
+    {
+        $database->execute('SET foreign_key_checks = 0');
+        foreach ($database->list_table_names() as $table_name) {
+            $database->destroy_table($table_name);
+        }
+        $database->execute('SET foreign_key_checks = 1');
     }
 
     function teardown()

@@ -12,26 +12,24 @@ class Filtering_Tests extends TestGroup
     {
         $this->db = factory()->build('test_database');
 
-        foreach ($this->db->list_table_names() as $table_name) {
-            $this->db->destroy_table($table_name);
-        }
-
+        $this->clear_database($this->db);
+        
         $cities_table = $this->db->create_table('cities', array(
-                                                            'id' => array('type' => 'id'),
-                                                            'name' => array('type' => 'string'),
+                                                               'id' => array('type' => 'id'),
+                                                               'name' => array('type' => 'string'),
                                                           ));
 
         $dc = $cities_table->create_row(array(
-                                            'name' => 'dc',
+                                             'name' => 'dc',
                                         ));
         $ny = $cities_table->create_row(array(
-                                            'name' => 'ny',
+                                             'name' => 'ny',
                                         ));
 
         $users_table = $this->db->create_table('users', array(
-                                                          'id' => array('type' => 'id'),
-                                                          'name' => array('type' => 'string'),
-                                                          'city_id' => array('type' => 'integer'),
+                                                             'id' => array('type' => 'id'),
+                                                             'name' => array('type' => 'string'),
+                                                             'city_id' => array('type' => 'integer'),
                                                         ));
         $users_table->create_foreign_key('city_id', 'cities', 'id');
 
@@ -39,52 +37,61 @@ class Filtering_Tests extends TestGroup
         $joe = $users_table->create_row(array('name' => 'joe', 'city_id' => $ny->id));
 
         $food_table = $this->db->create_table('food', array(
-                                                      'id' => array('type' => 'id'),
-                                                      'name' => array('type' => 'string'),
-                                                      'purchased' => array('type' => 'date'),
-                                                      'type' => array('type' => 'string'),
-                                                      'owner_id' => array('type' => 'integer'),
-                                                 ));
+                                                           'id' => array('type' => 'id'),
+                                                           'name' => array('type' => 'string'),
+                                                           'purchased' => array('type' => 'date'),
+                                                           'type' => array('type' => 'string'),
+                                                           'owner_id' => array('type' => 'integer'),
+                                                      ));
         $food_table->create_foreign_key('owner_id', 'users', 'id');
 
         $food_table->create_row(array(
-                                'name' => 'apple',
-                                'purchased' => new DateTime('2011-12-07'),
-                                'type' => 'fruit',
-                                'owner_id' => $bob->id,
-                           ));
+                                     'name' => 'apple',
+                                     'purchased' => new DateTime('2011-12-07'),
+                                     'type' => 'fruit',
+                                     'owner_id' => $bob->id,
+                                ));
 
         $food_table->create_row(array(
-                                'name' => 'carrot',
-                                'purchased' => new DateTime('2011-08-23'),
-                                'type' => 'vegetable',
-                                'owner_id' => $bob->id,
-                           ));
-        
-        $food_table->create_row(array(
-                                'name' => 'orange',
-                                'purchased' => new DateTime('2011-12-07'),
-                                'type' => 'fruit',
-                                'owner_id' => $joe->id,
-                           ));
+                                     'name' => 'carrot',
+                                     'purchased' => new DateTime('2011-08-23'),
+                                     'type' => 'vegetable',
+                                     'owner_id' => $bob->id,
+                                ));
 
         $food_table->create_row(array(
-                                'name' => 'kiwi',
-                                'purchased' => new DateTime('2011-12-08'),
-                                'type' => 'fruit',
-                           ));
+                                     'name' => 'orange',
+                                     'purchased' => new DateTime('2011-12-07'),
+                                     'type' => 'fruit',
+                                     'owner_id' => $joe->id,
+                                ));
 
         $food_table->create_row(array(
-                               'name' => 'celery',
-                               'purchased' => new DateTime('2011-12-07'),
-                               'type' => 'vegetable',
-                           ));
+                                     'name' => 'kiwi',
+                                     'purchased' => new DateTime('2011-12-08'),
+                                     'type' => 'fruit',
+                                ));
 
         $food_table->create_row(array(
-                               'name' => 'cyanide',
-                               'purchased' => new DateTime('2009-12-07'),
-                               'type' => 'chemical',
-                           ));
+                                     'name' => 'celery',
+                                     'purchased' => new DateTime('2011-12-07'),
+                                     'type' => 'vegetable',
+                                ));
+
+        $food_table->create_row(array(
+                                     'name' => 'cyanide',
+                                     'purchased' => new DateTime('2009-12-07'),
+                                     'type' => 'chemical',
+                                ));
+    }
+
+    function clear_database(Database $database)
+    {
+        $database->execute('SET foreign_key_checks = 0');
+        foreach ($database->list_table_names() as $table_name) {
+            $database->destroy_table($table_name);
+        }
+        $database->execute('SET foreign_key_checks = 1');
     }
 
     function test_basic_where()
@@ -101,11 +108,11 @@ class Filtering_Tests extends TestGroup
     {
         $items = array();
         $seventh = new DateTime('2011-12-07');
-        $query= $this->db->table('food')->where('purchased', $seventh);
+        $query = $this->db->table('food')->where('purchased', $seventh);
         foreach ($query as $id => $item) {
             $items[] = $item->name;
         }
-        
+
         $this->assert_equal(implode(',', $items), 'apple,orange,celery');
     }
 
@@ -150,7 +157,7 @@ class Filtering_Tests extends TestGroup
                                 ->where('owner.name', 'bob');
         $this->assert_equal($bobs_fruits->count(), 2);
     }
-
+    
     function test_complex_multi_table_filter()
     {
         $ny_bob_fruits = $this->db->table('food')
@@ -160,7 +167,7 @@ class Filtering_Tests extends TestGroup
         
         $dc_bob_fruits = $this->db->table('food')
                               ->where('owner.name', 'bob')
-                              ->where('owner.city.name', 'ny');
+                              ->where('owner.city.name', 'dc');
         $this->assert_equal($dc_bob_fruits->count(), 2);
     }
     

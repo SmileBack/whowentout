@@ -4,10 +4,17 @@ abstract class QueryPart
 {
     
     /**
-     * @abstract
      * @return DatabaseTableJoin[]
      */
     function joins()
+    {
+        return array();
+    }
+
+    /**
+     * @return array
+     */
+    function parameters()
     {
         return array();
     }

@@ -25,6 +25,14 @@ class DatabaseField extends QueryPart
         $this->compute();
     }
 
+    /**
+     * @return DatabaseColumn
+     */
+    function column()
+    {
+        return $this->field_column;
+    }
+
     function to_sql()
     {
         return $this->field_column->table()->name() . '.' . $this->field_column->name();
@@ -61,7 +69,7 @@ class DatabaseField extends QueryPart
                     throw new Exception("Invalid join. between " . $current_base_table->name() . " and " . $current_field_component);
 
                 $this->joins[] = $join;
-
+                
                 $current_base_table = $join->join_table;
             }
         }

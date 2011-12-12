@@ -8,12 +8,17 @@ class Events_Controller extends Controller
         $events_table = db()->table('events');
         $checkins_table = db()->table('checkins');
 
+
         print '<pre>';
-        print $checkins_table
+        $query = $checkins_table
+                ->where('event.place.name', 'nyc')
                 ->order_by('event.name', 'asc')
-                ->limit(3)
-                ->to_sql();
+                ->limit(3);
+        print '<pre>';
+        print $query->to_sql();
         print '</pre>';
+
+        krumo::dump($query->parameters());
     }
 
     function inner_join($base_table_name, $base_column_name, $fk_table_name, $fk_column_name)
