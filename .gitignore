@@ -12,3 +12,6 @@ tmp/*
 cache/*
 # Except for the .htaccess that blocks public access to the cache
 !cache/.htaccess
+
+# pics
+www/pics
