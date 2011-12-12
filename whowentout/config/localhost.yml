@@ -72,4 +72,8 @@ package_installer:
   type: PackageInstaller
   database: database
   class_loader: class_loader
-  
+
+checkin_engine:
+  type: CheckinEngine
+  database: database
+  clock: clock

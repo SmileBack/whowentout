@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -16,12 +17,14 @@
 
     <script src="/js/less.js" type="text/javascript"></script>
 
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/page.js"></script>
 </head>
 
 <body>
 
 <nav id="nav">
-    <div class="logo" href="/"><img src="/images/logo.png" /></div>
+    <div class="logo" href="/"><img src="/images/logo.png"/></div>
     <?= a('events', 'Events') ?>
     <?= a('messages', 'Messages (3)') ?>
     <?= auth()->get_login_link() ?>

@@ -1,4 +1,4 @@
-<?php $date = new DateTime('now') ?>
+<?php $date = app()->clock()->today(); ?>
 
 <div id="dates">
     <a href="/" class="prev">Prev</a>
@@ -14,3 +14,4 @@
     <?php endfor; ?>
     <a href="/" class="next">Next</a>
 </div>
+        

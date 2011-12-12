@@ -3,28 +3,13 @@
 class Events_Controller extends Controller
 {
 
-    function test()
+    function __construct()
     {
-        $events_table = db()->table('events');
-        $checkins_table = db()->table('checkins');
-
-
-        print '<pre>';
-        $query = $checkins_table
-                ->where('event.place.name', 'nyc')
-                ->order_by('event.name', 'asc')
-                ->limit(3);
-        print '<pre>';
-        print $query->to_sql();
-        print '</pre>';
-
-        krumo::dump($query->parameters());
+        app()->clock()->set_time('2011-12-08');
     }
 
-    function inner_join($base_table_name, $base_column_name, $fk_table_name, $fk_column_name)
+    function test()
     {
-        $sql = "INNER JOIN $fk_table_name ON $base_table_name.$base_column_name = $fk_table_name.$fk_column_name";
-        return $sql;
     }
 
     function test_fb()
@@ -43,6 +28,8 @@ class Events_Controller extends Controller
 
     function index($date = null)
     {
+        $current_user = auth()->current_user();
+        
         if ($date == null)
             $date = app()->clock()->today();
         else {
@@ -50,9 +37,18 @@ class Events_Controller extends Controller
             $date->setTime(0, 0, 0);
         }
 
+        /* @var $checkin_engine CheckinEngine */
+        $checkin_engine = factory()->build('checkin_engine');
+        $checkin = $checkin_engine->get_checkin_on_date($current_user, $date);
+
+        $selected_event = $checkin ? $checkin->event : null;
+        
+
         print r::page(array(
                            'content' => r::events_view(array(
                                                             'date' => $date,
+                                                            'checkin' => $checkin,
+                                                            'selected_event' => $selected_event,
                                                        )),
                       ));
     }

@@ -146,7 +146,8 @@ function html_element($tag, $attributes = array(), $content = '')
 
 function url($path)
 {
-    return '/' . $path;
+    return $path == '/' ? '/'
+                        : '/' . $path;
 }
 
 function a($path, $title, $attributes = array())
@@ -202,7 +203,7 @@ function check_required_options($options_to_check, $required_options)
 
 function redirect($destination)
 {
-    $url = url($destination);
+    $url = site_url($destination);
     header("Location: $url");
 }
 

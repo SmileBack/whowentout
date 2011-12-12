@@ -29,7 +29,11 @@ class CheckinEngine
     function checkin_user_to_event($user, $event)
     {
         $previous_checkin = $this->get_checkin_on_date($user, $event->date);
-        if ($previous_checkin && $previous_checkin->event != $event) {
+
+        if ($previous_checkin->event == $event)
+            return;
+        
+        if ($previous_checkin) {
             $this->remove_checkin_on_date($user, $event->date);
         }
         
@@ -65,5 +69,5 @@ class CheckinEngine
     {
         return $this->checkins->where('event_id', $event->id);
     }
-
+    
 }
