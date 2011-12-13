@@ -82,7 +82,6 @@ class FacebookAuth extends Auth
                                                                     'network_id' => $network->id,
                                                                 ));
         }
-
     }
 
     /**

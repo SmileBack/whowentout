@@ -1,0 +1,8 @@
+source 'http://rubygems.org'
+
+gem 'facets'
+gem 'sqlite3'
+
+gem 'activerecord'
+
+gem 'nokogiri'

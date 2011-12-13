@@ -1,0 +1,12 @@
+ramaniwubi:
+  database:
+    adapter: sqlite3
+    database: /home/venkat/mrgwramdrive/students.db
+ramaniwindows:
+  database:
+    adapter: sqlite3
+    database: R:/students.db
+wwobestbuynetbook:
+  database:
+    adapter: sqlite3
+    database: R:/students.db
