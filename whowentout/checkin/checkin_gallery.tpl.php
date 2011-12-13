@@ -5,7 +5,7 @@ $checkins = $checkin_engine->get_checkins_for_event($event);
 ?>
 
 <div class="checkin_gallery">
-    <h1><?= $event->name ?>'s Attendees</h1>
+    <h1><?= $event->name ?> Attendees</h1>
     <ul>
         <?php foreach ($checkins as $checkin): ?>
         <li>
@@ -14,3 +14,4 @@ $checkins = $checkin_engine->get_checkins_for_event($event);
         <?php endforeach; ?>
     </ul>
 </div>
+    

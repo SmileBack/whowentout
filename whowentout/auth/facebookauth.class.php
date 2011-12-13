@@ -52,13 +52,39 @@ class FacebookAuth extends Auth
                                                                ));
 
             $this->create_user_profile_pic($user);
-
+            $this->update_facebook_networks($user, $profile_source->get_networks());
+            
             return $user;
         }
         
         return $this->current_user();
     }
-    
+
+    /**
+     * @param  $user DatabaseTable
+     * @param  $networks FacebookNetwork[]
+     * @return void
+     */
+    function update_facebook_networks($user, $networks)
+    {
+        $this->database->execute('DELETE FROM user_networks WHERE user_id = :id', array(
+                                                                                    'id' => $user->id,
+                                                                                  ));
+        foreach ($networks as $network) {
+            $this->database->table('networks')->create_or_update_row(array(
+                                                                         'id' => $network->id,
+                                                                         'type' => $network->type,
+                                                                         'name' => $network->name,
+                                                                     ));
+            
+//            $this->database->table('user_networks')->create_row(array(
+//                                                                    'user_id' => $user->id,
+//                                                                    'network_id' => $network->id,
+//                                                                ));
+        }
+
+    }
+
     /**
      * @param  $user
      * @return ProfilePicture

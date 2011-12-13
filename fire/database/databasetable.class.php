@@ -75,9 +75,8 @@ class DatabaseTable implements Iterator
     {
         $id_column_name = $this->id_column()->name();
         $row_id = isset($values[$id_column_name]) ? $values[$id_column_name] : null;
-        if ($row_id) {
-            unset($values[$id_column_name]);
-            $row = $this->row($row_id);
+        $row = $row_id ? $this->row($row_id) : null;
+        if ($row) {
             foreach ($values as $k => $v) {
                 $row->$k = $v;
             }

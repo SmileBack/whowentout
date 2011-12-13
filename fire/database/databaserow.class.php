@@ -67,9 +67,6 @@ class DatabaseRow
 
     function __set($field, $value)
     {
-        if ($field == 'id')
-            throw new Exception("The id property is read-only.");
-
         $converted_value = $this->column($field)->to_database_value($value);
         $this->changes[$field] = $converted_value;
     }

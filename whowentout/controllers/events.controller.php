@@ -10,12 +10,20 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $user = db()->table('users')->where('first_name', 'Venkat')
-                                    ->first();
+        $name = db()->table('networks')->id_column()->name();
+        $facebook = factory()->build('facebook');
+        
+        $facebook_id = '8100231';
+        $source = new FacebookProfileSource($facebook, $facebook_id);
 
-        /* @var $profile_pic ProfilePicture */
-        $profile_pic = factory()->build('profile_picture', $user);
-        $profile_pic->set_to_facebook();
+        $networks = $source->get_networks();
+        foreach ($networks as $network) {
+            db()->table('networks')->create_or_update_row(array(
+                                                              'id' => $network->id,
+                                                              'type' => $network->type,
+                                                              'name' => $network->name,
+                                                          ));
+        }
     }
 
     function test_fb()

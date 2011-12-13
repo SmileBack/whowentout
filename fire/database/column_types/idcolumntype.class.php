@@ -2,8 +2,23 @@
 
 class IdColumnType extends ColumnType
 {
+
+    protected $defaults = array(
+        'auto_increment' => true,
+    );
+
     function to_sql()
     {
-        return 'INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL';
+        $sql = array('INTEGER', 'UNSIGNED');
+
+        if ($this->options['auto_increment'])
+            $sql[] = 'AUTO_INCREMENT';
+
+        $sql[] = 'PRIMARY KEY';
+
+        $sql[] = 'NOT NULL';
+
+        return implode(' ', $sql);
     }
+    
 }
