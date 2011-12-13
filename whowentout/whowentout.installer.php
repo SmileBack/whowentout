@@ -3,7 +3,7 @@
 class WhoWentOut extends Package
 {
 
-    public $version = '0.1.9';
+    public $version = '0.2.0';
 
     function install()
     {
@@ -61,6 +61,7 @@ class WhoWentOut extends Package
 
         $this->database->table('checkins')->create_foreign_key('user_id', 'users', 'id');
         $this->database->table('checkins')->create_foreign_key('event_id', 'events', 'id');
+        $this->database->table('checkins')->create_unique_index('user_id', 'event_id');
     }
 
     function create_profile_pictures_table()
@@ -81,21 +82,21 @@ class WhoWentOut extends Package
     function create_networks_table()
     {
         $this->database->create_table('networks', array(
-                                                       'id' => array(
-                                                           'type' => 'id',
-                                                           'auto_increment' => false,
-                                                       ),
+                                                       'id' => array('type' => 'id', 'auto_increment' => false),
                                                        'type' => array('type' => 'string'),
                                                        'name' => array('type' => 'string'),
                                                   ));
         $this->database->table('networks')->create_index('type');
 
         $this->database->create_table('user_networks', array(
+                                                            'id' => array('type' => 'id'),
                                                             'user_id' => array('type' => 'integer'),
                                                             'network_id' => array('type' => 'integer'),
                                                        ));
+
         $this->database->table('user_networks')->create_foreign_key('user_id', 'users', 'id');
         $this->database->table('user_networks')->create_foreign_key('network_id', 'networks', 'id');
+        $this->database->table('user_networks')->create_unique_index('user_id', 'network_id');
     }
 
     function update_0_1_1()
@@ -206,6 +207,16 @@ class WhoWentOut extends Package
                                                        ));
         $this->database->table('user_networks')->create_foreign_key('user_id', 'users', 'id');
         $this->database->table('user_networks')->create_foreign_key('network_id', 'networks', 'id');
+    }
+
+    /**
+     * Add primary keys to tables that don't have them
+     * Also add unique indexes where applicable
+     */
+    function update_0_2_0()
+    {
+        $this->database->table('user_networks')->create_column('id', array('type' => 'id'));
+        $this->database->table('user_networks')->create_unique_index('user_id', 'network_id');
     }
 
     function uninstall()

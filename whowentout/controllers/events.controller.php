@@ -15,15 +15,12 @@ class Events_Controller extends Controller
         
         $facebook_id = '8100231';
         $source = new FacebookProfileSource($facebook, $facebook_id);
-
         $networks = $source->get_networks();
-        foreach ($networks as $network) {
-            db()->table('networks')->create_or_update_row(array(
-                                                              'id' => $network->id,
-                                                              'type' => $network->type,
-                                                              'name' => $network->name,
-                                                          ));
-        }
+        
+        db()->table('user_networks')->create_row(array(
+                                                    'user_id' => 8,
+                                                    'network_id' => 16777274,
+                                                 ));
     }
 
     function test_fb()
@@ -53,7 +50,7 @@ class Events_Controller extends Controller
             $date = DateTime::createFromFormat('Ymd', $date);
             $date->setTime(0, 0, 0);
         }
-
+        
         /* @var $checkin_engine CheckinEngine */
         $checkin_engine = factory()->build('checkin_engine');
         
@@ -88,11 +85,5 @@ class Events_Controller extends Controller
                            'content' => r::event_invite(),
                       ));
     }
-
-    function test_session()
-    {
-        
-        $_SESSION['test'] = 52;
-    }
-
+    
 }

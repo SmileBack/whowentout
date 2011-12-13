@@ -48,9 +48,9 @@ class Schema_Tests extends TestGroup
                                              'id' => array('type' => 'id'),
                                              'foo' => array('type' => 'string'),
                                         ));
-
+        
         $this->assert_true($db->has_table('test_table'));
-
+        
         $table = $db->table('test_table');
         $this->assert_equal($table->name(), 'test_table');
     }

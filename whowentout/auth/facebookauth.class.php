@@ -50,7 +50,7 @@ class FacebookAuth extends Auth
                                                                     'date_of_birth' => $profile_source->get_birthday(),
                                                                     'hometown' => $profile_source->get_hometown(),
                                                                ));
-
+            
             $this->create_user_profile_pic($user);
             $this->update_facebook_networks($user, $profile_source->get_networks());
             
@@ -77,10 +77,10 @@ class FacebookAuth extends Auth
                                                                          'name' => $network->name,
                                                                      ));
             
-//            $this->database->table('user_networks')->create_row(array(
-//                                                                    'user_id' => $user->id,
-//                                                                    'network_id' => $network->id,
-//                                                                ));
+            $this->database->table('user_networks')->create_row(array(
+                                                                    'user_id' => $user->id,
+                                                                    'network_id' => $network->id,
+                                                                ));
         }
 
     }

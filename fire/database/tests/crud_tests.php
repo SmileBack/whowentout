@@ -17,6 +17,10 @@ class Crud_Tests extends TestGroup
                                              'id' => array('type' => 'id'),
                                              'name' => array('type' => 'string'),
                                         ));
+
+        $this->db->create_table('data_no_pk', array(
+                                                'name' => array('type' => 'string'),
+                                              ));
     }
 
     function clear_database(Database $database)
@@ -111,5 +115,15 @@ class Crud_Tests extends TestGroup
         
         $this->assert_true($row_a->id != $row_b->id);
     }
+
+//    function test_insert_no_pk()
+//    {
+//        $table = $this->db->table('data_no_pk');
+//        $row = $table->create_row(array(
+//                               'name' => 'woo',
+//                           ));
+//
+//        $this->assert_true($table->where('name', 'woo')->first() != null);
+//    }
 
 }

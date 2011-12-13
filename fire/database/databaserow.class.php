@@ -84,14 +84,14 @@ class DatabaseRow
 
         return null;
     }
-
+    
     function save()
     {
         $id_column = $this->table()->id_column()->name();
         $changes = $this->changes();
         $this->table->_persist_row_changes($this->$id_column, $changes);
     }
-
+    
     private function load_values($row_id)
     {
         $this->values = $this->table->_fetch_row_values($row_id);

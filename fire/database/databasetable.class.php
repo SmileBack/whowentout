@@ -55,6 +55,9 @@ class DatabaseTable implements Iterator
      */
     function row_exists($row_id)
     {
+        if (!$this->id_column())
+            return null;
+        
         return $this->_fetch_row_values($row_id) != null;
     }
 
@@ -128,9 +131,13 @@ class DatabaseTable implements Iterator
      */
     function id_column()
     {
-        assert(count($this->schema['primary_key']) == 1);
-        $pk = $this->schema['primary_key'][0];
-        return $this->column($pk);
+        if (count($this->schema['primary_key']) == 1) {
+            $pk = $this->schema['primary_key'][0];
+            return $this->column($pk);
+        }
+        else {
+            return null;
+        }
     }
 
     function has_column($column_name)
