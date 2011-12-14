@@ -73,25 +73,43 @@ class DatabaseRow
 
     function resolve_reference($field)
     {
-        $fk_column = $field . '_id';
-        if ($this->table()->has_column($fk_column) && $this->table()->has_foreign_key($fk_column)) {
-            $fk_id = $this->values[$fk_column];
-            if ($fk_id) {
-                $table_name = $this->table()->get_foreign_key_table_name($fk_column);
-                return $this->table()->database()->table($table_name)->row($fk_id);
-            }
+        if ($this->is_one_to_one_reference($field)) {
+            return $this->resolve_one_to_one_reference($field);
+        }
+        elseif ($this->is_one_to_many_reference($field)) {
+            
         }
 
         return null;
     }
-    
+
+    private function is_one_to_one_reference($field)
+    {
+        return $this->table()->has_column($field . '_id')
+               && $this->table()->has_foreign_key($field . '_id')
+               && isset($this->values[$field . '_id']);
+    }
+
+    private function resolve_one_to_one_reference($field)
+    {
+        $table_name = $this->table()->get_foreign_key_table_name($field . '_id');
+        $fk_id = $this->values[$field . '_id'];
+        return $this->table()->database()->table($table_name)->row($fk_id);
+    }
+
+    private function is_one_to_many_reference($field)
+    {
+        $field = new DatabaseField($this->table(), $field);
+        krumo::dump($field->to_sql());
+    }
+
     function save()
     {
         $id_column = $this->table()->id_column()->name();
         $changes = $this->changes();
         $this->table->_persist_row_changes($this->$id_column, $changes);
     }
-    
+
     private function load_values($row_id)
     {
         $this->values = $this->table->_fetch_row_values($row_id);

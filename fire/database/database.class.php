@@ -17,13 +17,13 @@ class Database
         $this->load_tables();
     }
     
-    function connect(array $options)
+    protected function connect(array $options)
     {
         check_required_options($options, $this->required_options);
         
         $this->config = $options;
         $this->dbh = new PDO("mysql:host={$options['host']};dbname={$options['database']}",
-            $options['username'], $options['password']);
+                                $options['username'], $options['password']);
 
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->load_tables();

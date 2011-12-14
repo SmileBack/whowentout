@@ -10,17 +10,14 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $name = db()->table('networks')->id_column()->name();
-        $facebook = factory()->build('facebook');
+        $dan = db()->table('users')->where('first_name', 'Dan')->first();
+        $checkin = db()->table('checkins')->row(92);
+
+        $checkins = db()->table('checkins')->where('user.id', $dan->id);
         
-        $facebook_id = '8100231';
-        $source = new FacebookProfileSource($facebook, $facebook_id);
-        $networks = $source->get_networks();
-        
-        db()->table('user_networks')->create_row(array(
-                                                    'user_id' => 8,
-                                                    'network_id' => 16777274,
-                                                 ));
+        foreach ($checkins as $checkin) {
+            krumo::dump($checkin->event->name);
+        }
     }
 
     function test_fb()
@@ -50,13 +47,13 @@ class Events_Controller extends Controller
             $date = DateTime::createFromFormat('Ymd', $date);
             $date->setTime(0, 0, 0);
         }
-        
+
         /* @var $checkin_engine CheckinEngine */
         $checkin_engine = factory()->build('checkin_engine');
-        
+
         $checkin = $checkin_engine->get_checkin_on_date($current_user, $date);
         $selected_event = $checkin ? $checkin->event : null;
-        
+
         print r::page(array(
                            'content' => r::events_view(array(
                                                             'date' => $date,
@@ -85,5 +82,5 @@ class Events_Controller extends Controller
                            'content' => r::event_invite(),
                       ));
     }
-    
+
 }

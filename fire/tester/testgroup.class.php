@@ -110,30 +110,14 @@ class TestGroup
         $backtrace = debug_backtrace();
         return $backtrace[1]['file'];
     }
-
-    /* utility methods */
-
-    protected function clear_database()
+    
+    protected function clear_database(Database $database)
     {
-        $ci =& get_instance();
-        $tables = $this->database_tables();
-        $ci->db->query('SET FOREIGN_KEY_CHECKS = 0');
-        foreach ($tables as $table) {
-            $ci->db->truncate($table);
+        $database->execute('SET foreign_key_checks = 0');
+        foreach ($database->list_table_names() as $table_name) {
+            $database->destroy_table($table_name);
         }
-        $ci->db->query('SET FOREIGN_KEY_CHECKS = 1');
+        $database->execute('SET foreign_key_checks = 1');
     }
-
-    protected function database_tables()
-    {
-        $ci =& get_instance();
-        $tables = array();
-        $rows = $ci->db->query('SHOW TABLES')->result();
-        foreach ($rows as $row) {
-            $row = (array)$row;
-            $tables[] = array_pop($row);
-        }
-        return $tables;
-    }
-
+    
 }
