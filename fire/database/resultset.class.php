@@ -162,20 +162,11 @@ class ResultSet implements Iterator
                 $filter->field->link_path = $reversed_link_path->add_link_path( $filter->field->link_path );
             }
             return $set;
-            /**
-             * New result set has
-             *   - select_column
-             *      - [new table].[id] --check!
-             *   - all fields
-             *      - prepend link reversed link path
-             */
         }
         else {
             return null;
         }
     }
-
-
 
     /**
      * @return DatabaseRow|null

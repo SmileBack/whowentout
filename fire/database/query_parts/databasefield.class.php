@@ -48,7 +48,8 @@ class DatabaseField extends QueryPart
 
     function __clone()
     {
-        $this->link_path = clone $this->link_path;
+        if ($this->link_path)
+            $this->link_path = clone $this->link_path;
     }
 
     function to_sql()

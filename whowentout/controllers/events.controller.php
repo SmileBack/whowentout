@@ -14,28 +14,6 @@ class Events_Controller extends Controller
         $users_table = db()->table('users');
         $checkins_table = db()->table('checkins');
         $events_table = db()->table('events');
-
-        $result_set = new ResultSet($users_table);
-        $result_set = $result_set->where('id', 5);
-        $result_set = $result_set->checkins->event;
-
-        print '<pre>';
-        print $result_set->to_sql();
-        print '</pre>';
-    }
-
-    function test_fb()
-    {
-        /* @var $auth FacebookAuth */
-        $auth = factory()->build('auth');
-
-        if ($auth->logged_in()) {
-            $user = $auth->current_user();
-            print a('events/logout', "logout (logged in as $user)");
-        }
-        else {
-            print sprintf('<a href="%s">login</a>', $auth->get_login_url());
-        }
     }
 
     function index($date = null)

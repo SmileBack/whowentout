@@ -140,7 +140,6 @@ class Reference_Tests extends TestGroup
         $this->assert_equal(implode(',', $names), 'mcfaddens,public');
     }
 
-    /*
     function test_foreign_key_with_joining_table()
     {
         $venkats_networks = array();
@@ -151,5 +150,5 @@ class Reference_Tests extends TestGroup
 
         $this->assert_equal(implode(',', $venkats_networks), 'maryland,stanford');
     }
-    */
+
 }
