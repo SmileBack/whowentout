@@ -72,7 +72,7 @@ class DatabaseLinkResolver
 
     function is_simple_foreign_key_link(DatabaseTable $left_table, $field_name)
     {
-        return $left_table->has_column($field_name);
+        return $left_table->has_column($field_name . '_id');
     }
 
     function get_simple_foreign_key_link(DatabaseTable $left_table, $field_name)
