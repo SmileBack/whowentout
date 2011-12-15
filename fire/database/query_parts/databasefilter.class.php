@@ -3,36 +3,23 @@
 class DatabaseFilter extends QueryPart
 {
 
-    /* @var $base_base DatabaseTable */
-    private $base_table;
 
-    /* @var $field_name string */
-    private $field_name;
-
-    /* @var $field_value mixed */
-    private $field_value;
 
     /* @var $field DatabaseField */
-    private $field;
+    public $field;
+
+    public $value;
 
     private $unique_id;
 
-    function __construct(DatabaseTable $base_table, $field_name, $field_value)
+    function __construct(DatabaseField $field, $value)
     {
-        $this->base_table = $base_table;
-        $this->field_name = $field_name;
-        $this->field_value = $field_value;
-
+        $this->field = $field;
+        $this->value = $value;
+        
         $this->unique_id = uniqid('field__');
-
-        $this->compute();
     }
-
-    function compute()
-    {
-        $this->field = new DatabaseField($this->base_table, $this->field_name);
-    }
-
+    
     function to_sql()
     {
         $filter_placeholder = $this->get_filter_placeholder();

@@ -5,39 +5,21 @@ class DatabaseOrderBy extends QueryPart
 
     private $allowed_orders = array('asc', 'desc');
 
-    /* @var $base_table DatabaseTable */
-    private $base_table;
-    private $field_name;
-    private $order;
-
-    /**
-     * @var DatabaseField
-     */
+    /* @var $base_table DatabaseField*/
     private $field;
+    private $order;
+    
 
-    function __construct(DatabaseTable $base_table, $field_name, $order = 'asc')
+    function __construct(DatabaseField $field, $order = 'asc')
     {
-        $this->base_table = $base_table;
-        $this->field_name = $field_name;
+        $this->field = $field;
         $this->order = strtolower($order);
         $this->validate_order();
-        
-        $this->compute();
     }
 
     function to_sql()
     {
         return "ORDER BY " . $this->field->to_sql() . ' ' . $this->order;
-    }
-
-    function joins()
-    {
-        return $this->field->joins();
-    }
-
-    protected function compute()
-    {
-        $this->field = new DatabaseField($this->base_table, $this->field_name);
     }
 
     private function validate_order()

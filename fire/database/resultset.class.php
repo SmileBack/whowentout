@@ -2,11 +2,11 @@
 
 class ResultSet implements Iterator
 {
-    
+
     /**
-     * @var DatabaseTable
+     * @var DatabaseField
      */
-    private $base_table;
+    private $select_field;
 
     /**
      * @var DatabaseFilter[]
@@ -23,9 +23,12 @@ class ResultSet implements Iterator
      */
     private $order_by = null;
 
+    private $link_resolver;
+
     function __construct(DatabaseTable $base_table)
     {
-        $this->base_table = $base_table;
+        $this->select_field = new DatabaseField($base_table, $base_table->id_column()->name());
+        $this->link_resolver = new DatabaseLinkResolver();
     }
 
     /**
@@ -42,7 +45,9 @@ class ResultSet implements Iterator
 
     function set_where($field_name, $field_value)
     {
-        $this->filters[] = new DatabaseFilter($this->base_table, $field_name, $field_value);
+        $table = $this->select_field->column()->table();
+        $field = new DatabaseField($table, $field_name);
+        $this->filters[] = new DatabaseFilter($field, $field_value);
     }
 
     /**
@@ -59,7 +64,9 @@ class ResultSet implements Iterator
 
     function set_order_by($field_name, $order = 'asc')
     {
-        $this->order_by = new DatabaseOrderBy($this->base_table, $field_name, $order);
+        $table = $this->select_field->column()->table();
+        $field = new DatabaseField($table, $field_name);
+        $this->order_by = new DatabaseOrderBy($field, $order);
     }
 
     /**
@@ -82,22 +89,37 @@ class ResultSet implements Iterator
     {
         $sql = array();
 
-        $sql[] = "SELECT " . $this->base_table->name() . '.' . $this->base_table->id_column()->name()
-                           . ' AS id FROM ' . $this->base_table->name();
+        $sql[] = $this->select_field->to_sql() . ' AS id FROM ' . $this->select_field->column()->table()->name();
 
-        foreach ($this->joins() as $join) {
-            $sql[] = "\n  " . $join->to_sql();
+        foreach ($this->select_field->link_path->links as $link) {
+            if ($link instanceof DatabaseTableLink) {
+                /* @var $link DatabaseTableLink */
+                $sql[] = "  INNER JOIN " . $link->right_table->name()
+                         . " ON " . $link->left_table->name() . '.' . $link->left_column->name()
+                         . " = " . $link->right_table->name() . '.' . $link->right_column->name();
+            }
         }
 
-        if (count($this->filters) > 0)
-            $sql[] = "\n  " . $this->get_where_sql();
-        
-        if ($this->order_by)
-            $sql[] = "\n  " . $this->order_by->to_sql();
+//        foreach ($this->filters as $filter) {
+//            foreach ($filter->field->link_path->links as $link) {
+//                if ($link instanceof DatabaseTableLink) {
+//                    /* @var $link DatabaseTableLink */
+//                    $sql[] = "  INNER JOIN " . $link->right_table->name()
+//                             . " ON " . $link->left_table->name() . '.' . $link->left_column->name()
+//                             . " = " . $link->right_table->name() . '.' . $link->right_column->name();
+//                }
+//            }
+//        }
+        //
+        //        if (count($this->filters) > 0)
+        //            $sql[] = "\n  " . $this->get_where_sql();
+        //
+        //        if ($this->order_by)
+        //            $sql[] = "\n  " . $this->order_by->to_sql();
+        //
+        //        if ($this->limit)
+        //            $sql[] = "\n  " . $this->limit->to_sql();
 
-        if ($this->limit)
-            $sql[] = "\n  " . $this->limit->to_sql();
-        
         return implode('', $sql);
     }
 
@@ -108,6 +130,17 @@ class ResultSet implements Iterator
             $params = array_merge($params, $filter->parameters());
         }
         return $params;
+    }
+
+    function __get($field_name)
+    {
+        $field = new DatabaseField($this->select_field, $field_name);
+        if ($field->is_valid()) {
+
+        }
+        else {
+            return null;
+        }
     }
 
     /**
@@ -178,7 +211,7 @@ class ResultSet implements Iterator
      */
     function table()
     {
-        return $this->base_table;
+        return $this->select_field;
     }
 
     /**
@@ -197,19 +230,19 @@ class ResultSet implements Iterator
         $joins = array();
         foreach ($this->filters as $filter) {
             foreach ($filter->joins() as $join) {
-                $joins[ $join->join_table->name() ] = $join;
+                $joins[$join->join_table->name()] = $join;
             }
         }
-        
+
         if ($this->order_by) {
             foreach ($this->order_by->joins() as $join) {
-                $joins[ $join->join_table->name() ] = $join;
+                $joins[$join->join_table->name()] = $join;
             }
         }
 
         return $joins;
     }
-    
+
     private function get_where_sql()
     {
         $sql = array();

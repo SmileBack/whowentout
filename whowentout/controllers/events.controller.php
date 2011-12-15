@@ -10,14 +10,17 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $dan = db()->table('users')->where('first_name', 'Dan')->first();
-        $checkin = db()->table('checkins')->row(92);
+        $user_id = 5;
+        $users_table = db()->table('users');
+        $checkins_table = db()->table('checkins');
+        $events_table = db()->table('events');
 
-        $checkins = db()->table('checkins')->where('user.id', $dan->id);
-        
-        foreach ($checkins as $checkin) {
-            krumo::dump($checkin->event->name);
-        }
+        $result_set = new ResultSet($users_table);
+        $result_set = $result_set->where('name', 'woo');
+
+        print '<pre>';
+        print $result_set->to_sql();
+        print '</pre>';
     }
 
     function test_fb()

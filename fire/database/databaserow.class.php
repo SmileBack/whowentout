@@ -76,18 +76,16 @@ class DatabaseRow
         if ($this->is_one_to_one_reference($field)) {
             return $this->resolve_one_to_one_reference($field);
         }
-        elseif ($this->is_one_to_many_reference($field)) {
-            
-        }
 
         return null;
     }
 
     private function is_one_to_one_reference($field)
     {
-        return $this->table()->has_column($field . '_id')
-               && $this->table()->has_foreign_key($field . '_id')
-               && isset($this->values[$field . '_id']);
+        $fk = $field . '_id';
+        return $this->table()->has_column($fk)
+               && $this->table()->has_foreign_key($fk)
+               && isset($this->values[$fk]);
     }
 
     private function resolve_one_to_one_reference($field)
@@ -95,12 +93,6 @@ class DatabaseRow
         $table_name = $this->table()->get_foreign_key_table_name($field . '_id');
         $fk_id = $this->values[$field . '_id'];
         return $this->table()->database()->table($table_name)->row($fk_id);
-    }
-
-    private function is_one_to_many_reference($field)
-    {
-        $field = new DatabaseField($this->table(), $field);
-        krumo::dump($field->to_sql());
     }
 
     function save()
@@ -116,5 +108,5 @@ class DatabaseRow
         if (!$this->values)
             throw new Exception("Row with id $row_id doesn't exist.");
     }
-
+    
 }
