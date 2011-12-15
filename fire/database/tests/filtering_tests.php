@@ -170,5 +170,5 @@ class Filtering_Tests extends TestGroup
                               ->where('owner.city.name', 'dc');
         $this->assert_equal($dc_bob_fruits->count(), 2);
     }
-    
+
 }

@@ -3,32 +3,31 @@
 class ResultSet implements Iterator
 {
 
-    /**
-     * @var DatabaseField
-     */
-    private $select_field;
+    /* @var DatabaseField */
+    public $select_field;
 
-    /**
-     * @var DatabaseFilter[]
-     */
+    /* @var DatabaseWhereFilter[] */
     private $filters = array();
 
-    /**
-     * @var DatabaseLimit|null
-     */
+    /* @var DatabaseLimit|null */
     private $limit = null;
 
-    /**
-     * @var DatabaseOrderBy|null
-     */
+    /* @var DatabaseOrderBy|null */
     private $order_by = null;
 
+    /* @var $link_resolver DatabaseLinkResolver */
     private $link_resolver;
 
     function __construct(DatabaseTable $base_table)
     {
-        $this->select_field = new DatabaseField($base_table, $base_table->id_column()->name());
+        $this->set_base_table($base_table);
         $this->link_resolver = new DatabaseLinkResolver();
+    }
+
+    function set_base_table(DatabaseTable $base_table)
+    {
+        $id_column_name = $base_table->id_column()->name();
+        $this->select_field = new DatabaseField($base_table, $id_column_name);
     }
 
     /**
@@ -47,7 +46,7 @@ class ResultSet implements Iterator
     {
         $table = $this->select_field->column()->table();
         $field = new DatabaseField($table, $field_name);
-        $this->filters[] = new DatabaseFilter($field, $field_value);
+        $this->filters[] = new DatabaseWhereFilter($field, $field_value);
     }
 
     /**
@@ -124,11 +123,11 @@ class ResultSet implements Iterator
         if (count($this->filters) > 0)
             $sql[] = "\n  " . $this->get_where_sql();
 
-//        if ($this->order_by)
-//            $sql[] = "\n  " . $this->order_by->to_sql();
-//
-//        if ($this->limit)
-//            $sql[] = "\n  " . $this->limit->to_sql();
+        if ($this->order_by)
+            $sql[] = "\n  " . $this->order_by->to_sql();
+
+        if ($this->limit)
+            $sql[] = "\n  " . $this->limit->to_sql();
 
         return implode('', $sql);
     }
@@ -142,16 +141,41 @@ class ResultSet implements Iterator
         return $params;
     }
 
+    function __clone()
+    {
+        $this->select_field = clone $this->select_field;
+
+        foreach ($this->filters as &$filter) {
+            $filter = clone $filter;
+        }
+    }
+
     function __get($field_name)
     {
-        $field = new DatabaseField($this->select_field, $field_name);
-        if ($field->is_valid()) {
+        $field = new DatabaseField($this->table(), $field_name);
+        if ($field->is_table_field()) {
+            $reversed_link_path = $field->link_path->reverse();
 
+            $set = clone $this;
+            $set->select_field = new DatabaseField($field->table(), $field->table()->id_column()->name());
+            foreach ($set->filters as &$filter) {
+                $filter->field->link_path = $reversed_link_path->add_link_path( $filter->field->link_path );
+            }
+            return $set;
+            /**
+             * New result set has
+             *   - select_column
+             *      - [new table].[id] --check!
+             *   - all fields
+             *      - prepend link reversed link path
+             */
         }
         else {
             return null;
         }
     }
+
+
 
     /**
      * @return DatabaseRow|null

@@ -1,9 +1,7 @@
 <?php
 
-class DatabaseFilter extends QueryPart
+class DatabaseWhereFilter extends QueryPart
 {
-
-
 
     /* @var $field DatabaseField */
     public $field;
@@ -18,6 +16,11 @@ class DatabaseFilter extends QueryPart
         $this->value = $value;
         
         $this->unique_id = uniqid('field__');
+    }
+
+    function __clone()
+    {
+        $this->field = clone $this->field;
     }
     
     function to_sql()

@@ -11,6 +11,13 @@ class DatabaseLinkPath
         $this->add_links($links);
     }
 
+    function __clone()
+    {
+        foreach ($this->links as &$link) {
+            $link = clone $link;
+        }
+    }
+
     /**
      * @return DatabaseLinkPath
      */
@@ -19,7 +26,7 @@ class DatabaseLinkPath
         $link_path = clone $this;
         $link_path->links = array_reverse($link_path->links);
         /* @var $link DatabaseTableLink */
-        foreach ($link_path->links as $k => &$link) {
+        foreach ($link_path->links as &$link) {
             $link = $link->reverse();
         }
         return $link_path;
@@ -31,7 +38,7 @@ class DatabaseLinkPath
     function add_link_path(DatabaseLinkPath $path)
     {
         $sum = clone $this;
-        $sum->add_links($path);
+        $sum->add_links($path->links);
         return $sum;
     }
 
