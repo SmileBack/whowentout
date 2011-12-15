@@ -54,6 +54,7 @@ class DatabaseLinkResolver
             $left_column = $right_table->get_foreign_key_column($right_column_name);
             return new DatabaseTableLink($left_column, $right_column);
         }
+
         else {
             return null;
         }

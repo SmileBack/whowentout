@@ -97,8 +97,8 @@ class Filtering_Tests extends TestGroup
     function test_basic_where()
     {
         $food = array();
-        $set = $this->db->table('food')->where('name', 'orange');
-        foreach ($this->db->table('food')->where('name', 'orange') as $id => $orange) {
+        $oranges = $this->db->table('food')->where('name', 'orange');
+        foreach ($oranges as $id => $orange) {
             $food[] = $orange->name;
         }
         $this->assert_equal($food[0], 'orange');
@@ -157,7 +157,7 @@ class Filtering_Tests extends TestGroup
                                 ->where('owner.name', 'bob');
         $this->assert_equal($bobs_fruits->count(), 2);
     }
-    
+
     function test_complex_multi_table_filter()
     {
         $ny_bob_fruits = $this->db->table('food')

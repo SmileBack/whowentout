@@ -39,11 +39,11 @@ class ResultSet implements Iterator
     function where($field_name, $field_value)
     {
         $set = clone $this;
-        $set->set_where($field_name, $field_value);
+        $set->add_where($field_name, $field_value);
         return $set;
     }
 
-    function set_where($field_name, $field_value)
+    function add_where($field_name, $field_value)
     {
         $table = $this->select_field->column()->table();
         $field = new DatabaseField($table, $field_name);
@@ -85,40 +85,50 @@ class ResultSet implements Iterator
         $this->limit = new DatabaseLimit($n);
     }
 
+    /**
+     * @return DatabaseTableLink[]
+     */
+    function get_required_links()
+    {
+        $links = array();
+
+        foreach ($this->select_field->link_path->links as $link) {
+            if ($link instanceof DatabaseTableLink)
+                $links[ $link->left_table->name() ] = $link;
+        }
+
+        foreach ($this->filters as $filter) {
+            foreach ($filter->field->link_path->links as $link) {
+                if ($link instanceof DatabaseTableLink)
+                    $links[ $link->left_table->name() ] = $link;
+            }
+        }
+
+        return $links;
+    }
+
     function to_sql()
     {
         $sql = array();
 
-        $sql[] = $this->select_field->to_sql() . ' AS id FROM ' . $this->select_field->column()->table()->name();
+        $sql[] = 'SELECT ' . $this->select_field->to_sql() . ' AS id FROM ' . $this->select_field->column()->table()->name();
 
-        foreach ($this->select_field->link_path->links as $link) {
-            if ($link instanceof DatabaseTableLink) {
-                /* @var $link DatabaseTableLink */
-                $sql[] = "  INNER JOIN " . $link->right_table->name()
-                         . " ON " . $link->left_table->name() . '.' . $link->left_column->name()
-                         . " = " . $link->right_table->name() . '.' . $link->right_column->name();
-            }
+        $links = $this->get_required_links();
+
+        foreach ($links as $link) {
+            $sql[] = "\n  INNER JOIN " . $link->right_table->name()
+                    . " ON " . $link->left_table->name() . "." . $link->left_column->name()
+                    . " = " . $link->right_table->name() . "." . $link->right_column->name();
         }
 
-//        foreach ($this->filters as $filter) {
-//            foreach ($filter->field->link_path->links as $link) {
-//                if ($link instanceof DatabaseTableLink) {
-//                    /* @var $link DatabaseTableLink */
-//                    $sql[] = "  INNER JOIN " . $link->right_table->name()
-//                             . " ON " . $link->left_table->name() . '.' . $link->left_column->name()
-//                             . " = " . $link->right_table->name() . '.' . $link->right_column->name();
-//                }
-//            }
-//        }
-        //
-        //        if (count($this->filters) > 0)
-        //            $sql[] = "\n  " . $this->get_where_sql();
-        //
-        //        if ($this->order_by)
-        //            $sql[] = "\n  " . $this->order_by->to_sql();
-        //
-        //        if ($this->limit)
-        //            $sql[] = "\n  " . $this->limit->to_sql();
+        if (count($this->filters) > 0)
+            $sql[] = "\n  " . $this->get_where_sql();
+
+//        if ($this->order_by)
+//            $sql[] = "\n  " . $this->order_by->to_sql();
+//
+//        if ($this->limit)
+//            $sql[] = "\n  " . $this->limit->to_sql();
 
         return implode('', $sql);
     }
@@ -211,7 +221,7 @@ class ResultSet implements Iterator
      */
     function table()
     {
-        return $this->select_field;
+        return $this->select_field->column()->table();
     }
 
     /**

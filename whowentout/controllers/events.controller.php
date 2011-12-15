@@ -15,8 +15,8 @@ class Events_Controller extends Controller
         $checkins_table = db()->table('checkins');
         $events_table = db()->table('events');
 
-        $result_set = new ResultSet($users_table);
-        $result_set = $result_set->where('name', 'woo');
+        $result_set = new ResultSet($checkins_table);
+        $result_set = $result_set->where('event.place.name', 'woo');
 
         print '<pre>';
         print $result_set->to_sql();

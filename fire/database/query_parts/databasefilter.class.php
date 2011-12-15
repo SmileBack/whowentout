@@ -31,8 +31,9 @@ class DatabaseFilter extends QueryPart
         $params = array();
 
         $column = $this->field->column();
+        $this->field->column();
         $filter_placeholder = $this->get_filter_placeholder();
-        $database_value = $column->to_database_value($this->field_value);
+        $database_value = $column->to_database_value($this->value);
         
         $params[$filter_placeholder] = $database_value;
 

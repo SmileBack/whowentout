@@ -23,6 +23,9 @@ class DatabaseField extends QueryPart
         return null;
     }
 
+    /**
+     * @return DatabaseColumn|null
+     */
     function column()
     {
         $count = count($this->link_path->links);
