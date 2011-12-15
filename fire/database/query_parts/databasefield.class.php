@@ -28,6 +28,9 @@ class DatabaseField extends QueryPart
      */
     function is_column_field()
     {
+        if (!$this->is_valid())
+            return null;
+
         return $this->column() != null;
     }
 
@@ -36,6 +39,9 @@ class DatabaseField extends QueryPart
      */
     function is_table_field()
     {
+        if (!$this->is_valid())
+            return null;
+
         return !$this->is_column_field()
              && $this->table() != null;
     }

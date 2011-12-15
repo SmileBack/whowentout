@@ -54,15 +54,25 @@ class DatabaseRow
 
     function __get($field)
     {
-        if (isset($this->changes[$field]))
+        if (isset($this->changes[$field])) {
             $value = $this->changes[$field];
-        elseif (isset($this->values[$field]))
+            $converted_value = $this->column($field)->from_database_value($value);
+            return $converted_value;
+        }
+        elseif (isset($this->values[$field])) {
             $value = $this->values[$field];
-        else
+            $converted_value = $this->column($field)->from_database_value($value);
+            return $converted_value;
+        }
+        elseif ($this->is_one_to_one_reference($field)) {
+            return $this->resolve_one_to_one_reference($field);
+        }
+        elseif ($this->is_reference($field)) {
             return $this->resolve_reference($field);
-
-        $converted_value = $this->column($field)->from_database_value($value);
-        return $converted_value;
+        }
+        else {
+            return null;
+        }
     }
 
     function __set($field, $value)
@@ -71,13 +81,17 @@ class DatabaseRow
         $this->changes[$field] = $converted_value;
     }
 
-    function resolve_reference($field)
+    private function is_reference($field)
     {
-        if ($this->is_one_to_one_reference($field)) {
-            return $this->resolve_one_to_one_reference($field);
-        }
+        return $this->resolve_reference($field) != null;
+    }
 
-        return null;
+    private function resolve_reference($field)
+    {
+        $id_column = $this->table()->id_column()->name();
+        $result_set = new ResultSet($this->table());
+        $result_set = $result_set->where($id_column, $this->$id_column);
+        return $result_set->$field;
     }
 
     private function is_one_to_one_reference($field)

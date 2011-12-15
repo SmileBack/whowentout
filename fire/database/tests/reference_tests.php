@@ -133,10 +133,10 @@ class Reference_Tests extends TestGroup
     function test_foreign_key_by_table_name()
     {
         $names = array();
-//        foreach ($this->venkat->checkins as $checkin) {
-//            $names[] = $checkin->event->name;
-//        }
-//        sort($names);
+        foreach ($this->venkat->checkins as $checkin) {
+            $names[] = $checkin->event->name;
+        }
+        sort($names);
         $this->assert_equal(implode(',', $names), 'mcfaddens,public');
     }
 
@@ -152,5 +152,4 @@ class Reference_Tests extends TestGroup
         $this->assert_equal(implode(',', $venkats_networks), 'maryland,stanford');
     }
     */
-
 }
