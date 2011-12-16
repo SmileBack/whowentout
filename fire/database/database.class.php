@@ -194,4 +194,14 @@ class Database
         return $statement;
     }
 
+
+    function destroy_all_tables()
+    {
+        $this->execute('SET foreign_key_checks = 0');
+        foreach ($this->list_table_names() as $table_name) {
+            $this->destroy_table($table_name);
+        }
+        $this->execute('SET foreign_key_checks = 1');
+    }
+
 }

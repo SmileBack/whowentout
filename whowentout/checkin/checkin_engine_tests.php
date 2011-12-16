@@ -1,6 +1,6 @@
 <?php
 
-class Checkin_Engine_Tests extends TestGroup
+class Checkin_Engine_Tests extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -34,27 +34,19 @@ class Checkin_Engine_Tests extends TestGroup
     private $shadowroom_event;
     private $eden_event;
 
-    function setup()
+    function setUp()
     {
         $this->factory = factory('checkin_engine_tests');
-        $this->db = $this->factory->build('test_database');
 
-        $this->clear_database();
+        $this->db = $this->factory->build('test_database');
+        $this->db->destroy_all_tables();
+
         $this->create_database_schema();
 
         $this->create_users();
         $this->create_events();
 
         $this->checkin_engine = $this->factory->build('checkin_engine');
-    }
-
-    function clear_database()
-    {
-        $this->db->execute('SET foreign_key_checks = 0');
-        foreach ($this->db->list_table_names() as $table_name) {
-            $this->db->destroy_table($table_name);
-        }
-        $this->db->execute('SET foreign_key_checks = 1');
     }
 
     function create_database_schema()
@@ -111,23 +103,23 @@ class Checkin_Engine_Tests extends TestGroup
 
     function test_basic_checkin()
     {
-        $this->assert_true(!$this->checkin_engine->user_has_checked_into_event($this->ven, $this->mcfaddens_event));
+        $this->assertTrue(!$this->checkin_engine->user_has_checked_into_event($this->ven, $this->mcfaddens_event));
 
         $this->checkin_engine->checkin_user_to_event($this->ven, $this->mcfaddens_event);
-        $this->assert_true($this->checkin_engine->user_has_checked_into_event($this->ven, $this->mcfaddens_event));
+        $this->assertTrue($this->checkin_engine->user_has_checked_into_event($this->ven, $this->mcfaddens_event));
 
         $this->checkin_engine->remove_checkin_on_date($this->ven, $this->mcfaddens_event->date);
-        $this->assert_true(!$this->checkin_engine->user_has_checked_into_event($this->ven, $this->mcfaddens_event));
+        $this->assertTrue(!$this->checkin_engine->user_has_checked_into_event($this->ven, $this->mcfaddens_event));
     }
     
     function test_switch_checkin()
     {
         $this->checkin_engine->checkin_user_to_event($this->dan, $this->shadowroom_event);
-        $this->assert_true($this->checkin_engine->user_has_checked_into_event($this->dan, $this->shadowroom_event));
+        $this->assertTrue($this->checkin_engine->user_has_checked_into_event($this->dan, $this->shadowroom_event));
 
         $this->checkin_engine->checkin_user_to_event($this->dan, $this->eden_event);
-        $this->assert_true($this->checkin_engine->user_has_checked_into_event($this->dan, $this->eden_event));
-        $this->assert_true(!$this->checkin_engine->user_has_checked_into_event($this->dan, $this->shadowroom_event));
+        $this->assertTrue($this->checkin_engine->user_has_checked_into_event($this->dan, $this->eden_event));
+        $this->assertTrue(!$this->checkin_engine->user_has_checked_into_event($this->dan, $this->shadowroom_event));
     }
     
 }

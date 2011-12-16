@@ -157,7 +157,9 @@ class ResultSet implements Iterator
             $reversed_link_path = $field->link_path->reverse();
 
             $set = clone $this;
+            // make select field the newly referenced table
             $set->select_field = new DatabaseField($field->table(), $field->table()->id_column()->name());
+            // extend link path so it is still connected to the base table
             foreach ($set->filters as &$filter) {
                 $filter->field->link_path = $reversed_link_path->add_link_path( $filter->field->link_path );
             }

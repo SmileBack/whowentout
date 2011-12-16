@@ -1,22 +1,22 @@
 <?php
 
-class Reference_Tests extends TestGroup
+class Reference_Tests extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Database
      */
     private $db;
 
-    function setup()
+    function setUp()
     {
         $this->db = factory()->build('test_database');
+        $this->db->destroy_all_tables();
 
-        $this->clear_database($this->db);
-        $this->create_tables();
-        $this->seed_data();
+        $this->createTables();
+        $this->seedData();
     }
 
-    function create_tables()
+    function createTables()
     {
         $this->db->create_table('users', array(
                                               'id' => array('type' => 'id'),
@@ -50,7 +50,7 @@ class Reference_Tests extends TestGroup
         $this->db->table('user_networks')->create_foreign_key('network_id', 'networks', 'id');
     }
 
-    function seed_data()
+    function seedData()
     {
         $this->venkat = $this->db->table('users')->create_row(array(
                                                                    'name' => 'venkat',
@@ -126,8 +126,8 @@ class Reference_Tests extends TestGroup
 
     function test_local_foreign_key()
     {
-        $this->assert_equal($this->venkat_mcfaddens_checkin->user->name, 'venkat');
-        $this->assert_equal($this->venkat_mcfaddens_checkin->event->name, 'mcfaddens');
+        $this->assertEquals($this->venkat_mcfaddens_checkin->user->name, 'venkat');
+        $this->assertEquals($this->venkat_mcfaddens_checkin->event->name, 'mcfaddens');
     }
 
     function test_foreign_key_by_table_name()
@@ -137,7 +137,7 @@ class Reference_Tests extends TestGroup
             $names[] = $checkin->event->name;
         }
         sort($names);
-        $this->assert_equal(implode(',', $names), 'mcfaddens,public');
+        $this->assertEquals(implode(',', $names), 'mcfaddens,public');
     }
 
     function test_foreign_key_with_joining_table()
@@ -148,7 +148,7 @@ class Reference_Tests extends TestGroup
         }
         sort($venkats_networks);
 
-        $this->assert_equal(implode(',', $venkats_networks), 'maryland,stanford');
+        $this->assertEquals(implode(',', $venkats_networks), 'maryland,stanford');
     }
 
 }

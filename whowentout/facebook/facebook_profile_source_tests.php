@@ -1,6 +1,6 @@
 <?php
 
-class Facebook_Profile_Source_Tests extends TestGroup
+class Facebook_Profile_Source_Tests extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -16,7 +16,7 @@ class Facebook_Profile_Source_Tests extends TestGroup
     private $venkat_facebook_id = '776200121';
 
 
-    function setup()
+    function setUp()
     {
         $factory = factory('profile_source_tests', array(
                                                           'facebook' => array(
@@ -37,26 +37,26 @@ class Facebook_Profile_Source_Tests extends TestGroup
         $first_name = $this->profile_source->get_first_name();
         $last_name = $this->profile_source->get_last_name();
 
-        $this->assert_equal($first_name, 'Venkat');
-        $this->assert_equal($last_name, 'Dinavahi');
+        $this->assertEquals($first_name, 'Venkat');
+        $this->assertEquals($last_name, 'Dinavahi');
     }
 
     function test_get_birthday()
     {
         $birthday = $this->profile_source->get_birthday();
-        $this->assert_equal($birthday->format('Y-m-d'), '1988-10-06');
+        $this->assertEquals($birthday->format('Y-m-d'), '1988-10-06');
     }
 
     function test_get_gender()
     {
         $gender = $this->profile_source->get_gender();
-        $this->assert_equal($gender, 'M');
+        $this->assertEquals($gender, 'M');
     }
     
     function test_get_hometown()
     {
         $hometown = $this->profile_source->get_hometown();
-        $this->assert_equal($hometown, 'Severna Park, Maryland');
+        $this->assertEquals($hometown, 'Severna Park, Maryland');
     }
 
     function test_get_networks()
@@ -72,7 +72,7 @@ class Facebook_Profile_Source_Tests extends TestGroup
 
         $intersect = array_intersect($expected_network_ids, $actual_network_ids);
 
-        $this->assert_equal(count($intersect), 2, 'maryland and stanford networks are present');
+        $this->assertEquals(count($intersect), 2, 'maryland and stanford networks are present');
     }
 
 }
