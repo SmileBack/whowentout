@@ -11,10 +11,14 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $user_id = 5;
+        $user_id = 9;
         $users_table = db()->table('users');
-        $checkins_table = db()->table('checkins');
-        $events_table = db()->table('events');
+        $ven = $users_table->row($user_id);
+
+        $facebook = factory()->build('facebook');
+        $facebook_id = $ven->facebook_id;
+        $friend_source = new FacebookFriendSource($facebook, $facebook_id);
+
     }
 
     function index($date = null)
