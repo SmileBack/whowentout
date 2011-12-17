@@ -14,16 +14,18 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
         $this->db->destroy_all_tables();
 
         $this->db->create_table('data', array(
-                                             'id' => array('type' => 'id'),
-                                             'name' => array('type' => 'string'),
-                                        ));
+            'id' => array('type' => 'id'),
+            'name' => array('type' => 'string'),
+        ));
 
-        $this->db->create_table('data_no_pk', array(
-                                                'name' => array('type' => 'string'),
-                                              ));
+        $this->db->create_table('unique_data', array(
+            'id' => array('type' => 'id'),
+            'name' => array('type' => 'string'),
+            'school' => array('type' => 'string'),
+            'credits' => array('type' => 'integer'),
+        ));
+        $this->db->table('unique_data')->create_unique_index('name', 'school');
     }
-
-
 
     function test_insert()
     {
@@ -78,9 +80,9 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
         $this->db->table('data')->create_column('my_date', array('type' => 'time'));
         $date = new DateTime('2011-12-02', new DateTimeZone('UTC'));
         $row = $this->db->table('data')->create_row(array(
-                                                         'name' => 'woo a date name',
-                                                         'my_date' => $date,
-                                                    ));
+            'name' => 'woo a date name',
+            'my_date' => $date,
+        ));
 
         $same_date = clone $date;
         $this->assertEquals($row->my_date, $same_date);
@@ -97,22 +99,33 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
         $this->assertTrue($updated_row == $row_a, 'correct row was updated');
 
         $row_b = $table->create_or_update_row(array(
-                                                  'name' => 'row b',
-                                              ));
+            'name' => 'row b',
+        ));
 
         $this->assertEquals($row_b->name, 'row b', 'row was successfully created');
-        
+
         $this->assertTrue($row_a->id != $row_b->id);
     }
 
-//    function test_insert_no_pk()
-//    {
-//        $table = $this->db->table('data_no_pk');
-//        $row = $table->create_row(array(
-//                               'name' => 'woo',
-//                           ));
-//
-//        $this->assert_true($table->where('name', 'woo')->first() != null);
-//    }
+    function test_create_or_update_with_unique_table()
+    {
+        $table = $this->db->table('unique_data');
+        $row = $table->create_or_update_row(array(
+            'name' => 'ven',
+            'school' => 'md',
+            'credits' => 90,
+        ));
+        $this->assertEquals($row->name, 'ven');
+        $this->assertEquals($row->credits, 90);
+
+        $updated_row = $table->create_or_update_row(array(
+            'name' => 'ven',
+            'school' => 'md',
+            'credits' => 94,
+        ));
+        $this->assertEquals($updated_row, $row, 'same row is updated');
+        $this->assertEquals($row->credits, 94);
+        $this->assertEquals($updated_row->credits, 94);
+    }
 
 }

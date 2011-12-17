@@ -17,8 +17,11 @@ class Events_Controller extends Controller
 
         $facebook = factory()->build('facebook');
         $facebook_id = $ven->facebook_id;
-        $friend_source = new FacebookFriendSource($facebook, $facebook_id);
 
+        $friend_source = new FacebookFriendSource($facebook, $facebook_id);
+        $friends = $friend_source->fetch_facebook_friends();
+
+        krumo::dump($friends);
     }
 
     function index($date = null)

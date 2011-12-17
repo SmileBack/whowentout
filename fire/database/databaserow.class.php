@@ -14,7 +14,7 @@ class DatabaseRow
     function __construct(DatabaseTable $table, $id)
     {
         $this->table = $table;
-        $this->load_values($id);
+        $this->_load_values($id);
     }
 
     function values()
@@ -116,7 +116,7 @@ class DatabaseRow
         $this->table->_persist_row_changes($this->$id_column, $changes);
     }
 
-    private function load_values($row_id)
+    function _load_values($row_id)
     {
         $this->values = $this->table->_fetch_row_values($row_id);
         if (!$this->values)

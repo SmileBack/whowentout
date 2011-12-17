@@ -57,7 +57,7 @@ class DatabaseTable implements Iterator
     {
         if (!$this->id_column())
             return null;
-        
+
         return $this->_fetch_row_values($row_id) != null;
     }
 
@@ -74,28 +74,31 @@ class DatabaseTable implements Iterator
         return $this->row($row_id);
     }
 
+    /**
+     * @param array $values
+     * @return DatabaseRow|null
+     */
     function create_or_update_row($values = array())
     {
-        $id_column_name = $this->id_column()->name();
-        $row_id = isset($values[$id_column_name]) ? $values[$id_column_name] : null;
-        $row = $row_id ? $this->row($row_id) : null;
-        if ($row) {
-            foreach ($values as $k => $v) {
-                $row->$k = $v;
-            }
-            $row->save();
-            return $row;
-        }
-        else {
-            return $this->create_row($values);
-        }
+        $query = $this->create_or_update_row_query($values);
+        $query->execute();
+
+        $row_id = $this->database->last_insert_id();
+
+        $this->refresh_row($row_id);
+        return $this->row($row_id);
+    }
+
+    function refresh_row($row_id)
+    {
+        $this->row($row_id)->_load_values($row_id);
     }
 
     function destroy_row($id)
     {
         $query = $this->destroy_row_query($id);
         $query->execute();
-        
+
         unset($this->rows[$id]);
     }
 
@@ -269,7 +272,7 @@ class DatabaseTable implements Iterator
         $key_name = $this->get_foreign_key_name($column);
         return isset($this->schema['foreign_keys'][$key_name]);
     }
-    
+
     function destroy_foreign_key($column)
     {
         if ($this->has_foreign_key($column)) {
@@ -300,7 +303,7 @@ class DatabaseTable implements Iterator
         $fk_column_name = $this->get_foreign_key_column_name($column_name);
         return $column_name ? $this->get_foreign_key_table($column_name)->column($fk_column_name) : null;
     }
-    
+
     function get_foreign_key_table_name($column_name)
     {
         if ($this->has_foreign_key($column_name)) {
@@ -419,7 +422,7 @@ class DatabaseTable implements Iterator
         $result_set = new ResultSet($this);
         return $result_set->limit($n);
     }
-    
+
     /* Iterator Methods */
     /**
      * @var TableQueryIterator
@@ -545,13 +548,47 @@ class DatabaseTable implements Iterator
         return $this->database->query_statement($sql, $values);
     }
 
+    private function create_or_update_row_query(array $values)
+    {
+        $values = $this->format_values_for_database($values);
+
+        $id_column_name = $this->id_column()->name();
+
+        $columns = array_keys($values);
+        $columns_sql = implode(', ', $columns);
+
+        $values_sql = array();
+        foreach ($columns as $column) {
+            $values_sql[] = ":$column";
+        }
+        $values_sql = implode(', ', $values_sql);
+
+        //build update statements
+        $updates_sql = array();
+        foreach ($columns as $column) {
+            //we have a special update for the id column
+            if ($column == $id_column_name) {
+                $updates_sql[] = "$column = LAST_INSERT_ID($column)";
+            }
+            else {
+                $updates_sql[] = "$column = :update_{$column}";
+                $values['update_' . $column] = $values[$column];
+            }
+        }
+
+        $sql = "INSERT INTO $this->name ($columns_sql) VALUES ($values_sql)";
+        $sql .= "\n  ON DUPLICATE KEY UPDATE " . implode(', ', $updates_sql);
+
+        return $this->database->query_statement($sql, $values);
+    }
+
     private function format_values_for_database($values)
     {
         foreach ($values as $column_name => &$column_value) {
             $column = $this->column($column_name);
             if (!$column)
                 throw new Exception("Column $column_name is missing.");
-            
+
             $column_value = $column->to_database_value($column_value);
         }
         return $values;
