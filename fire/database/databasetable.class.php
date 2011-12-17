@@ -81,6 +81,8 @@ class DatabaseTable implements Iterator
     function create_or_update_row($values = array())
     {
         $query = $this->create_or_update_row_query($values);
+        krumo::dump($values);
+        krumo::dump($query->queryString);
         $query->execute();
 
         $row_id = $this->database->last_insert_id();
@@ -485,7 +487,7 @@ class DatabaseTable implements Iterator
             return 'boolean';
         elseif ($mysql_type == 'varchar')
             return 'string';
-        elseif ($mysql_type == 'int')
+        elseif ($mysql_type == 'int' || $mysql_type == 'bigint')
             return 'integer';
         elseif ($mysql_type == 'text')
             return 'text';
@@ -568,16 +570,19 @@ class DatabaseTable implements Iterator
         foreach ($columns as $column) {
             //we have a special update for the id column
             if ($column == $id_column_name) {
-                $updates_sql[] = "$column = LAST_INSERT_ID($column)";
+                continue;
             }
             else {
                 $updates_sql[] = "$column = :update_{$column}";
                 $values['update_' . $column] = $values[$column];
             }
         }
+        $updates_sql[] = "$id_column_name = LAST_INSERT_ID($id_column_name)";
 
         $sql = "INSERT INTO $this->name ($columns_sql) VALUES ($values_sql)";
         $sql .= "\n  ON DUPLICATE KEY UPDATE " . implode(', ', $updates_sql);
+
+        krumo::dump($values);
 
         return $this->database->query_statement($sql, $values);
     }

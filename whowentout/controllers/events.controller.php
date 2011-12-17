@@ -6,22 +6,23 @@ class Events_Controller extends Controller
 
     function __construct()
     {
-        app()->clock()->set_time('2011-12-08');
     }
 
     function test()
     {
-        $user_id = 9;
-        $users_table = db()->table('users');
-        $ven = $users_table->row($user_id);
-
-        $facebook = factory()->build('facebook');
-        $facebook_id = $ven->facebook_id;
-
-        $friend_source = new FacebookFriendSource($facebook, $facebook_id);
-        $friends = $friend_source->fetch_facebook_friends();
-
-        krumo::dump($friends);
+        db()->destroy_all_tables();
+//        $user_id = 9;
+//        $users_table = db()->table('users');
+//        $ven = $users_table->row($user_id);
+//
+//        $facebook = factory()->build('facebook');
+//        $facebook_id = $ven->facebook_id;
+//
+//        $friend_source = new FacebookFriendSource($facebook, $facebook_id);
+//
+//        $updater = new FacebookFriendsUpdater(db(), $friend_source);
+//
+//        $updater->update_facebook_friends($ven);
     }
 
     function index($date = null)

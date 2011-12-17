@@ -19,7 +19,11 @@ class Admin_Packages_Controller extends Controller
 
     function info($package_name)
     {
-        $this->installer->update($package_name);
+        if ($this->installer->is_installed($package_name))
+            $this->installer->update($package_name);
+        else
+            $this->installer->install($package_name);
+
         redirect('admin_packages');
     }
     

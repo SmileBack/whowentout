@@ -9,7 +9,8 @@ class IdColumnType extends ColumnType
 
     function to_sql()
     {
-        $sql = array('INTEGER', 'UNSIGNED');
+        $type = $this->get_type();
+        $sql = array($type, 'UNSIGNED');
 
         if ($this->options['auto_increment'])
             $sql[] = 'AUTO_INCREMENT';
@@ -20,5 +21,13 @@ class IdColumnType extends ColumnType
 
         return implode(' ', $sql);
     }
-    
+
+    private function get_type()
+    {
+        if (isset($this->options['length']) && $this->options['length'] == 'big')
+            return 'BIGINT';
+        else
+            return 'INTEGER';
+    }
+
 }
