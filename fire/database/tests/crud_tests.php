@@ -25,6 +25,11 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
             'credits' => array('type' => 'integer'),
         ));
         $this->db->table('unique_data')->create_unique_index('name', 'school');
+
+        $this->db->create_table('no_autoinc', array(
+            'id' => array('type' => 'id', 'auto_increment' => false),
+            'name' => array('type' => 'string'),
+        ));
     }
 
     function test_insert()
@@ -126,6 +131,24 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
         $this->assertEquals($updated_row, $row, 'same row is updated');
         $this->assertEquals($row->credits, 94);
         $this->assertEquals($updated_row->credits, 94);
+    }
+
+    function test_create_or_update_with_non_autoincrement_table()
+    {
+        $table = $this->db->table('no_autoinc');
+
+        $row = $table->create_or_update_row(array(
+            'id' => 5,
+            'name' => 'ven',
+        ));
+
+        $same_row = $table->create_or_update_row(array(
+            'id' => 5,
+            'name' => 'venicii',
+        ));
+
+        $this->assertEquals($row, $same_row, 'the updated row references the same object');
+        $this->assertEquals($row->name, 'venicii');
     }
 
 }

@@ -10,19 +10,6 @@ class Events_Controller extends Controller
 
     function test()
     {
-        db()->destroy_all_tables();
-//        $user_id = 9;
-//        $users_table = db()->table('users');
-//        $ven = $users_table->row($user_id);
-//
-//        $facebook = factory()->build('facebook');
-//        $facebook_id = $ven->facebook_id;
-//
-//        $friend_source = new FacebookFriendSource($facebook, $facebook_id);
-//
-//        $updater = new FacebookFriendsUpdater(db(), $friend_source);
-//
-//        $updater->update_facebook_friends($ven);
     }
 
     function index($date = null)

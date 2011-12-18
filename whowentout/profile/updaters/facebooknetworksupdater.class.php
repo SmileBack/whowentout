@@ -27,7 +27,7 @@ class FacebookNetworksUpdater
                 'name' => $network->name,
             ));
 
-            $this->database->table('user_networks')->create_row(array(
+            $this->database->table('user_networks')->create_or_update_row(array(
                 'user_id' => $user_id,
                 'network_id' => $network->id,
             ));

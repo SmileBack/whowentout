@@ -34,15 +34,22 @@ abstract class DatabaseColumn
     abstract function from_database_value($value);
 
     abstract function to_database_value($value);
-    
+
+    /**
+     * @return bool
+     */
     function is_primary_key()
     {
-        return $this->options['primary key'];
+        return $this->options['primary_key'];
     }
 
+    /**
+     * @return bool
+     */
     function auto_increment()
     {
-        return $this->options['auto increment'];
+        return isset($this->options['auto_increment'])
+             && $this->options['auto_increment'] == true;
     }
 
     function _set_name($name)

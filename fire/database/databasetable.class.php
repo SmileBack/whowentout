@@ -81,11 +81,14 @@ class DatabaseTable implements Iterator
     function create_or_update_row($values = array())
     {
         $query = $this->create_or_update_row_query($values);
-        krumo::dump($values);
-        krumo::dump($query->queryString);
         $query->execute();
 
-        $row_id = $this->database->last_insert_id();
+        if ($this->id_column()->auto_increment()) {
+            $row_id = $this->database->last_insert_id();
+        }
+        else {
+            $row_id = $values[ $this->id_column()->name() ];
+        }
 
         $this->refresh_row($row_id);
         return $this->row($row_id);
@@ -567,6 +570,7 @@ class DatabaseTable implements Iterator
 
         //build update statements
         $updates_sql = array();
+        $updates_sql[] = "$id_column_name = LAST_INSERT_ID($id_column_name)";
         foreach ($columns as $column) {
             //we have a special update for the id column
             if ($column == $id_column_name) {
@@ -577,12 +581,9 @@ class DatabaseTable implements Iterator
                 $values['update_' . $column] = $values[$column];
             }
         }
-        $updates_sql[] = "$id_column_name = LAST_INSERT_ID($id_column_name)";
 
         $sql = "INSERT INTO $this->name ($columns_sql) VALUES ($values_sql)";
         $sql .= "\n  ON DUPLICATE KEY UPDATE " . implode(', ', $updates_sql);
-
-        krumo::dump($values);
 
         return $this->database->query_statement($sql, $values);
     }

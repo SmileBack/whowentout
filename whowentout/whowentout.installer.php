@@ -25,6 +25,7 @@ class WhoWentOut extends Package
                                                     'facebook_id' => array('type' => 'string'),
                                                     'hometown' => array('type' => 'string'),
                                                     'gender' => array('type' => 'string'),
+                                                    'date_of_birth' => array('type' => 'date'),
                                                ));
         $this->database->table('users')->create_unique_index('facebook_id');
     }
