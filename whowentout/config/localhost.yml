@@ -78,8 +78,22 @@ package_installer:
   database: database
   class_loader: class_loader
 
+test_package_installer:
+  type: PackageInstaller
+  database: test_database
+  class_loader: class_loader
+
 checkin_engine:
   type: CheckinEngine
   database: database
   clock: clock
-  
+
+invite_engine:
+  type: InviteEngine
+  database: database
+  clock: clock
+
+test_invite_engine:
+  type: InviteEngine
+  database: test_database
+  clock: clock

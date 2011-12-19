@@ -287,4 +287,15 @@ class Schema_Tests extends PHPUnit_Framework_TestCase
         $this->assertTrue($exception_thrown, 'exception thrown when table is missing');
     }
 
+    /**
+     * @expectedException IdColumnMissingException
+     */
+    function test_id_column_missing()
+    {
+        $table = $this->db->create_table('table_with_no_id_column', array(
+            'name' => array('type' => 'string'),
+        ));
+        $table->id_column();
+    }
+
 }

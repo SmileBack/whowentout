@@ -144,7 +144,7 @@ class DatabaseTable implements Iterator
             return $this->column($pk);
         }
         else {
-            return null;
+            throw new IdColumnMissingException("ID column is missing for the table " . $this->name() . '.');
         }
     }
 
@@ -541,7 +541,7 @@ class DatabaseTable implements Iterator
         $values = $this->format_values_for_database($values);
 
         $columns = array_keys($values);
-        $columns_sql = implode(',', $columns);
+        $columns_sql = implode(', ', $columns);
 
         $values_sql = array();
         foreach ($columns as $column) {

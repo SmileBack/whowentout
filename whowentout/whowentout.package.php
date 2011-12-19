@@ -1,6 +1,6 @@
 <?php
 
-class WhoWentOut extends Package
+class WhoWentOutPackage extends Package
 {
 
     public $version = '0.2.4';
@@ -10,7 +10,6 @@ class WhoWentOut extends Package
         $this->create_users_table();
         $this->create_places_table();
         $this->create_events_table();
-        $this->create_checkins_table();
         $this->create_profile_pictures_table();
         $this->create_networks_table();
     }
@@ -49,20 +48,6 @@ class WhoWentOut extends Package
         ));
 
         $this->database->table('events')->create_foreign_key('place_id', 'places', 'id');
-    }
-
-    function create_checkins_table()
-    {
-        $this->database->create_table('checkins', array(
-            'id' => array('type' => 'id'),
-            'user_id' => array('type' => 'integer'),
-            'event_id' => array('type' => 'integer'),
-            'time' => array('type' => 'time'),
-        ));
-
-        $this->database->table('checkins')->create_foreign_key('user_id', 'users', 'id');
-        $this->database->table('checkins')->create_foreign_key('event_id', 'events', 'id');
-        $this->database->table('checkins')->create_unique_index('user_id', 'event_id');
     }
 
     function create_profile_pictures_table()
@@ -132,7 +117,6 @@ class WhoWentOut extends Package
     {
         $this->database->destroy_table('networks');
         $this->database->destroy_table('profile_pictures');
-        $this->database->destroy_table_if_exists('checkins');
         $this->database->destroy_table_if_exists('events');
         $this->database->destroy_table_if_exists('places');
         $this->database->destroy_table_if_exists('users');

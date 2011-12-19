@@ -173,7 +173,6 @@ class Reference_Tests extends PHPUnit_Framework_TestCase
             $venkats_networks[] = $network->name;
         }
         sort($venkats_networks);
-
         $this->assertEquals(implode(',', $venkats_networks), 'maryland,stanford');
     }
 

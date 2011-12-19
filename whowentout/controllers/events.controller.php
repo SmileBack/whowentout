@@ -10,15 +10,7 @@ class Events_Controller extends Controller
 
     function test()
     {
-//        set_time_limit(0);
-//        $facebook = factory()->build('facebook');
-        $venkat = db()->table('users')->where('first_name', 'Venkat')->first();
-        krumo::dump($venkat->friends->to_sql());
-//        $facebook_id = $venkat->facebook_id;
-//
-//        $friend_source = new FacebookFriendSource($facebook, $facebook_id);
-//        $updater = new FacebookFriendsUpdater(db(), $friend_source);
-//        $updater->update_facebook_friends($venkat);
+        db()->table('invites')->where('user_id', 5);
     }
 
     function index($date = null)
