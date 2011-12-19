@@ -1,0 +1,6 @@
+test_database:
+  type: Database
+  host: localhost
+  database: fire_test
+  username: root
+  password: root

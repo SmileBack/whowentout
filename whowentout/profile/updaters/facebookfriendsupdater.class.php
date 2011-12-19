@@ -20,7 +20,7 @@ class FacebookFriendsUpdater
      */
     function update_facebook_friends($user)
     {
-        $friends = $this->friend_source->fetch_facebook_friends();
+        $friends = $this->friend_source->fetch_facebook_friends($user->facebook_id);
 
         // insert all users from $friends who aren't already in the users table
         foreach ($friends as $friend) {
@@ -30,6 +30,11 @@ class FacebookFriendsUpdater
                 'gender' => $friend->gender,
                 'first_name' => $friend->first_name,
                 'last_name' => $friend->last_name,
+            ));
+
+            $user_friend_association_row = $this->database->table('user_friends')->create_or_update_row(array(
+                'user_id' => $user->id,
+                'friend_id' => $friend_row->id,
             ));
 
             foreach ($friend->networks as $network) {
@@ -46,6 +51,7 @@ class FacebookFriendsUpdater
                 ));
 
             }
+
         }
     }
 

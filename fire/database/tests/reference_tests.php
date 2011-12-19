@@ -19,109 +19,135 @@ class Reference_Tests extends PHPUnit_Framework_TestCase
     function createTables()
     {
         $this->db->create_table('users', array(
-                                              'id' => array('type' => 'id'),
-                                              'name' => array('type' => 'string'),
-                                         ));
+            'id' => array('type' => 'id'),
+            'name' => array('type' => 'string'),
+        ));
 
         $this->db->create_table('events', array(
-                                               'id' => array('type' => 'id'),
-                                               'name' => array('type' => 'string'),
-                                          ));
+            'id' => array('type' => 'id'),
+            'name' => array('type' => 'string'),
+        ));
 
         $this->db->create_table('checkins', array(
-                                                 'id' => array('type' => 'id'),
-                                                 'user_id' => array('type' => 'integer'),
-                                                 'event_id' => array('type' => 'integer'),
-                                            ));
+            'id' => array('type' => 'id'),
+            'user_id' => array('type' => 'integer'),
+            'event_id' => array('type' => 'integer'),
+        ));
         $this->db->table('checkins')->create_foreign_key('user_id', 'users', 'id');
         $this->db->table('checkins')->create_foreign_key('event_id', 'events', 'id');
 
         $this->db->create_table('networks', array(
-                                                 'id' => array('type' => 'id'),
-                                                 'name' => array('type' => 'string'),
-                                            ));
+            'id' => array('type' => 'id'),
+            'name' => array('type' => 'string'),
+        ));
 
         $this->db->create_table('user_networks', array(
-                                                      'id' => array('type' => 'id'),
-                                                      'user_id' => array('type' => 'integer'),
-                                                      'network_id' => array('type' => 'integer'),
-                                                 ));
+            'id' => array('type' => 'id'),
+            'user_id' => array('type' => 'integer'),
+            'network_id' => array('type' => 'integer'),
+        ));
         $this->db->table('user_networks')->create_foreign_key('user_id', 'users', 'id');
         $this->db->table('user_networks')->create_foreign_key('network_id', 'networks', 'id');
+
+        $this->db->create_table('user_friends', array(
+            'id' => array('type' => 'id'),
+            'user_id' => array('type' => 'integer'),
+            'friend_id' => array('type' => 'integer'),
+        ));
+        $this->db->table('user_friends')->create_foreign_key('user_id', 'users', 'id');
+        $this->db->table('user_friends')->create_foreign_key('friend_id', 'users', 'id');
     }
 
     function seedData()
     {
         $this->venkat = $this->db->table('users')->create_row(array(
-                                                                   'name' => 'venkat',
-                                                              ));
+            'name' => 'venkat',
+        ));
 
         $this->dan = $this->db->table('users')->create_row(array(
-                                                                'name' => 'dan',
-                                                           ));
+            'name' => 'dan',
+        ));
+
+        $this->kate = $this->db->table('users')->create_row(array(
+            'name' => 'kate',
+        ));
+
+        $this->dustin = $this->db->table('users')->create_row(array(
+            'name' => 'dustin',
+        ));
 
         $this->mcfaddens = $this->db->table('events')->create_row(array(
-                                                                       'name' => 'mcfaddens',
-                                                                  ));
+            'name' => 'mcfaddens',
+        ));
 
         $this->shadowroom = $this->db->table('events')->create_row(array(
-                                                                        'name' => 'shadowroom',
-                                                                   ));
+            'name' => 'shadowroom',
+        ));
 
         $this->public = $this->db->table('events')->create_row(array(
-                                                                    'name' => 'public',
-                                                               ));
+            'name' => 'public',
+        ));
 
         $this->venkat_mcfaddens_checkin = $this->db->table('checkins')->create_row(array(
-                                                                                        'user_id' => $this->venkat->id,
-                                                                                        'event_id' => $this->mcfaddens->id,
-                                                                                   ));
+            'user_id' => $this->venkat->id,
+            'event_id' => $this->mcfaddens->id,
+        ));
 
         $this->venkat_public_checkin = $this->db->table('checkins')->create_row(array(
-                                                                                        'user_id' => $this->venkat->id,
-                                                                                        'event_id' => $this->public->id,
-                                                                                   ));
+            'user_id' => $this->venkat->id,
+            'event_id' => $this->public->id,
+        ));
 
         $this->stanford = $this->db->table('networks')->create_row(array(
-                                                                       'name' => 'stanford',
-                                                                   ));
+            'name' => 'stanford',
+        ));
 
         $this->maryland = $this->db->table('networks')->create_row(array(
-                                                                       'name' => 'maryland',
-                                                                   ));
+            'name' => 'maryland',
+        ));
 
         $this->gwu = $this->db->table('networks')->create_row(array(
-                                                                  'name' => 'gwu',
-                                                              ));
+            'name' => 'gwu',
+        ));
 
         $this->cornell = $this->db->table('networks')->create_row(array(
-                                                                      'name' => 'cornell',
-                                                                  ));
+            'name' => 'cornell',
+        ));
 
         $this->db->table('user_networks')->create_row(array(
-                                                          'user_id' => $this->venkat->id,
-                                                          'network_id' => $this->stanford->id,
-                                                      ));
+            'user_id' => $this->venkat->id,
+            'network_id' => $this->stanford->id,
+        ));
 
         $this->db->table('user_networks')->create_row(array(
-                                                          'user_id' => $this->venkat->id,
-                                                          'network_id' => $this->maryland->id,
-                                                      ));
+            'user_id' => $this->venkat->id,
+            'network_id' => $this->maryland->id,
+        ));
 
         $this->db->table('user_networks')->create_row(array(
-                                                          'user_id' => $this->dan->id,
-                                                          'network_id' => $this->stanford->id,
-                                                      ));
+            'user_id' => $this->dan->id,
+            'network_id' => $this->stanford->id,
+        ));
 
         $this->db->table('user_networks')->create_row(array(
-                                                          'user_id' => $this->dan->id,
-                                                          'network_id' => $this->cornell->id,
-                                                      ));
+            'user_id' => $this->dan->id,
+            'network_id' => $this->cornell->id,
+        ));
 
         $this->db->table('user_networks')->create_row(array(
-                                                          'user_id' => $this->dan->id,
-                                                          'network_id' => $this->gwu->id,
-                                                      ));
+            'user_id' => $this->dan->id,
+            'network_id' => $this->gwu->id,
+        ));
+
+        $this->db->table('user_friends')->create_row(array(
+            'user_id' => $this->venkat->id,
+            'friend_id' => $this->dan->id,
+        ));
+
+        $this->db->table('user_friends')->create_row(array(
+            'user_id' => $this->venkat->id,
+            'friend_id' => $this->kate->id,
+        ));
     }
 
     function test_local_foreign_key()
@@ -150,5 +176,17 @@ class Reference_Tests extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(implode(',', $venkats_networks), 'maryland,stanford');
     }
+
+    /*
+    function test_foreign_key_with_self_join_table()
+    {
+        $venkat_friends = array();
+        foreach ($this->venkat->friends as $friend) {
+            $venkat_friends[] = $friend->name;
+        }
+        sort($venkat_friends);
+        $this->assertEquals(implode(',', $venkat_friends), 'kate,dan');
+    }
+    */
 
 }

@@ -2,7 +2,9 @@
 
 abstract class Auth
 {
-    
+
+
+
     abstract function current_user();
 
     /**

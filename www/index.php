@@ -16,5 +16,5 @@ require_once FIREPATH . 'core/core.functions.php';
 //    array($session_handler, 'gc')
 //);
 //session_start();
-
+app()->clock()->set_time(new DateTime('2011-12-08'));
 route_uri_request();

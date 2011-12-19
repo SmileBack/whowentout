@@ -13,6 +13,14 @@ $profile_pic = factory()->build('profile_picture', $user);
         <legend>Basic Info</legend>
         <div>Name: <?= $user->first_name . ' ' . $user->last_name ?></div>
         <div>Age: <?= $age ?></div>
+        <div>
+            <div>Colleges</div>
+            <ul>
+                <?php foreach ($user->networks->where('type', 'college') as $network): ?>
+                <li><?= $network->name ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     </fieldset>
     <fieldset>
         <legend>Profile Pic</legend>

@@ -8,82 +8,62 @@ class FacebookProfileSource
      */
     private $facebook;
 
-    private $facebook_id;
-
-    private $basic_info;
-
-    function __construct(Facebook $facebook, $facebook_id)
+    function __construct(Facebook $facebook)
     {
         $this->facebook = $facebook;
-        $this->facebook_id = $facebook_id;
-
-        $this->load_data();
-        $this->get_networks();
     }
 
-    function load_data()
+    /**
+     * @param FacebookProfile
+     */
+    function fetch_profile($facebook_id)
     {
-        $this->basic_info = $this->facebook->api('/' . $this->facebook_id);
+        $basic_info = $this->facebook->api('/' . $facebook_id);
+
+        $profile = new FacebookProfile();
+
+        $profile->id = $basic_info['id'];
+        $profile->first_name = $basic_info['first_name'];
+        $profile->last_name = $basic_info['last_name'];
+        $profile->email = $basic_info['email'];
+
+        $profile->gender = $this->get_gender($basic_info);
+        $profile->hometown = $basic_info['hometown']['name'];
+        $profile->birthday = $this->get_birthday($basic_info);
+
+        $profile->networks = $this->get_networks($facebook_id);
+
+        return $profile;s
     }
 
-    function get_facebook_id()
-    {
-        return $this->basic_info['id'];
-    }
-
-    function get_first_name()
-    {
-        return $this->basic_info['first_name'];
-    }
-
-    function get_last_name()
-    {
-        return $this->basic_info['last_name'];
-    }
-
-    function get_email()
-    {
-        return $this->basic_info['email'];
-    }
-
-    function get_gender()
+    private function get_gender(array $basic_info)
     {
         $map = array('male' => 'M', 'female' => 'F');
-        $gender = $this->basic_info['gender'];
+        $gender = $basic_info['gender'];
         return isset($map[$gender]) ? $map[$gender] : null;
     }
 
-    function get_hometown()
-    {
-        return $this->basic_info['hometown']['name'];
-    }
-
-    function get_location()
-    {
-        return $this->basic_info['location']['name'];
-    }
-    
     /**
      * @return DateTime|null
      */
-    function get_birthday()
+    private function get_birthday(array $basic_info)
     {
-        if (!isset($this->basic_info['birthday']))
+        if (!isset($basic_info['birthday']))
             return null;
         
-        return DateTime::createFromFormat('m/d/Y H:i:s', $this->basic_info['birthday'] . ' 00:00:00', new DateTimeZone('UTC'));
+        return DateTime::createFromFormat('m/d/Y H:i:s', $basic_info['birthday'] . ' 00:00:00', new DateTimeZone('UTC'));
     }
 
     /**
      * @return FacebookNetwork[]
      */
-    function get_networks()
+    private function get_networks($facebook_id)
     {
         $networks = array();
 
         $result = $this->facebook->api(array(
                                             'method' => 'fql.query',
-                                            'query' => "SELECT affiliations FROM user WHERE uid = $this->facebook_id",
+                                            'query' => "SELECT affiliations FROM user WHERE uid = $facebook_id",
                                        ));
 
         foreach ($result[0]['affiliations'] as $network_data) {

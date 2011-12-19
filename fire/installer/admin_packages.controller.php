@@ -14,7 +14,9 @@ class Admin_Packages_Controller extends Controller
     function index()
     {
         $packages = $this->installer->list_packages();
-        print r::admin_packages(array('packages' => $packages));
+        print r::page(array(
+            'content' => r::admin_packages(array('packages' => $packages)),
+        ));
     }
 
     function info($package_name)

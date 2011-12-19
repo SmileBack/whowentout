@@ -13,6 +13,8 @@ class FacebookAuth extends Auth
      */
     private $database;
 
+    private $admin_facebook_ids = array('776200121');
+
     /**
      * @var array
      */
@@ -33,6 +35,12 @@ class FacebookAuth extends Auth
                 ->first();
     }
 
+    function is_admin()
+    {
+        return $this->logged_in()
+                && in_array($this->current_user()->facebook_id, $this->admin_facebook_ids);
+    }
+
     /**
      * @return DatabaseRow
      */
@@ -40,19 +48,20 @@ class FacebookAuth extends Auth
     {
         if ($this->current_user() == null) {
             $facebook_id = $this->facebook->getUser();
-            $profile_source = new FacebookProfileSource($this->facebook, $facebook_id);
+            $profile_source = new FacebookProfileSource($this->facebook);
+            $profile = $profile_source->fetch_profile($facebook_id);
             $user = $this->database->table('users')->create_row(array(
-                                                                    'first_name' => $profile_source->get_first_name(),
-                                                                    'last_name' => $profile_source->get_last_name(),
-                                                                    'gender' => $profile_source->get_gender(),
-                                                                    'email' => $profile_source->get_email(),
-                                                                    'facebook_id' => $profile_source->get_facebook_id(),
-                                                                    'date_of_birth' => $profile_source->get_birthday(),
-                                                                    'hometown' => $profile_source->get_hometown(),
+                                                                    'first_name' => $profile->first_name,
+                                                                    'last_name' => $profile->last_name,
+                                                                    'gender' => $profile->gender,
+                                                                    'email' => $profile->email,
+                                                                    'facebook_id' => $profile->id,
+                                                                    'date_of_birth' => $profile->birthday,
+                                                                    'hometown' => $profile->hometown,
                                                                ));
             
             $this->create_user_profile_pic($user);
-            $this->update_facebook_networks($user, $profile_source->get_networks());
+            $this->update_facebook_networks($user, $profile->networks);
             
             return $user;
         }

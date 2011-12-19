@@ -32,7 +32,12 @@
         <?= a('profile/edit', 'Edit Profile') ?>
     <?php endif; ?>
 
+    <?php if (auth()->is_admin()): ?>
+        <?= a('admin', 'Admin') ?>
+    <?php endif; ?>
+
     <?= auth()->get_login_link() ?>
+
 </nav>
 
 <div id="page">

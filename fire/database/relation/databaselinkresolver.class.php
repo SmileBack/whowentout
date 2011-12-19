@@ -79,7 +79,7 @@ class DatabaseLinkResolver
     {
         $left_column = $left_table->column($field_name . '_id');
         $right_column = $left_table->get_foreign_key_column($field_name . '_id');
-        return array( new DatabaseTableLink($left_column, $right_column) );
+        return array(new DatabaseTableLink($left_column, $right_column));
     }
 
     function is_direct_table_link(DatabaseTable $left_table, $field_name)
@@ -111,15 +111,15 @@ class DatabaseLinkResolver
         $right_column_name = Inflect::singularize($left_table->name()) . '_id';
         $right_column = $right_table->column($right_column_name);
         $left_column = $right_table->get_foreign_key_column($right_column_name);
-        return array( new DatabaseTableLink($left_column, $right_column) );
+        return array(new DatabaseTableLink($left_column, $right_column));
     }
 
     function is_join_table_link(DatabaseTable $left_table, $field_name)
     {
         $db = $left_table->database();
         $left_table_name = $left_table->name();
-        $table_name = Inflect::singularize($left_table_name) . '_' . $field_name;
-        if (!$db->has_table($table_name))
+        $join_table_name = Inflect::singularize($left_table_name) . '_' . $field_name;
+        if (!$db->has_table($join_table_name))
             return false;
 
         return true;
@@ -127,26 +127,27 @@ class DatabaseLinkResolver
 
     function get_join_table_link(DatabaseTable $left_table, $field_name)
     {
+        // left_table (left_column) -> (left_join_column) join_table
+        // join_table (right_join_column) -> (right_column) right_table
+
         $links = array();
 
         $db = $left_table->database();
 
-        $left_table_name = $left_table->name();
-
-        $right_table_name = $field_name;
-        $right_table = $db->table($right_table_name);
-
-        $join_table_name = Inflect::singularize($left_table_name) . '_' . $field_name;
+        $join_table_name = Inflect::singularize($left_table->name()) . '_' . $field_name;
         $join_table = $db->table($join_table_name);
 
-        $left_join_column_name = Inflect::singularize($left_table_name) . '_id';
+        $left_join_column_name = Inflect::singularize($left_table->name()) . '_id';
         $left_join_column = $join_table->column($left_join_column_name);
 
         $right_join_column_name = Inflect::singularize($field_name) . '_id';
         $right_join_column = $join_table->column($right_join_column_name);
 
-        $links[] = new DatabaseTableLink($left_table->id_column(), $left_join_column);
-        $links[] = new DatabaseTableLink($right_join_column, $right_table->id_column());
+        $left_column = $join_table->get_foreign_key_column($left_join_column_name);
+        $right_column = $join_table->get_foreign_key_column($right_join_column_name);
+
+        $links[] = new DatabaseTableLink($left_column, $left_join_column);
+        $links[] = new DatabaseTableLink($right_join_column, $right_column);
 
         return $links;
     }
