@@ -18,9 +18,6 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
     /* @var $invite_engine InviteEngine */
     private $invite_engine;
 
-    /* @var $checkin_engine CheckinEngine */
-    private $checkin_engine;
-
     function setUp()
     {
         $this->db = factory()->build('test_database');
@@ -34,7 +31,6 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
 
         /* @var $invite_engine InviteEngine */
         $this->invite_engine = factory()->build('test_invite_engine');
-        $this->checkin_engine = factory()->build('test_checkin_engine');
 
         $this->create_users();
         $this->create_events();
@@ -107,35 +103,39 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan));
     }
 
-    function test_invited_twice()
+    function test_get_invite_sender()
     {
-        $this->assertFalse($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan));
+        $this->assertNull($this->invite_engine->get_invite_sender($this->mcfaddens_event, $this->dan), 'no invite was sent to dan');
 
         $this->invite_engine->send_invite($this->mcfaddens_event, $this->venkat, $this->dan);
-        $this->invite_engine->send_invite($this->mcfaddens_event, $this->kate, $this->dan);
+        $this->assertEquals($this->venkat, $this->invite_engine->get_invite_sender($this->mcfaddens_event, $this->dan), 'venkat invited dan to shadowroom');
 
-        $this->assertTrue($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'dan is invited to mcfaddens');
+        $this->assertNull($this->invite_engine->get_invite_sender($this->shadowroom_event, $this->dan), 'no one invited dan to shadowroom');
+
+        $this->invite_engine->send_invite($this->shadowroom_event, $this->kate, $this->dan);
+        $this->assertEquals($this->kate, $this->invite_engine->get_invite_sender($this->shadowroom_event, $this->dan), 'kate invited dan to shadowroom');
+        $this->assertEquals($this->venkat, $this->invite_engine->get_invite_sender($this->mcfaddens_event, $this->dan), 'dan is invited to shadowroom by kate');
 
         $this->invite_engine->destroy_invite($this->mcfaddens_event, $this->venkat, $this->dan);
-        $this->assertTrue($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'dan is still invited');
+        $this->assertNull($this->invite_engine->get_invite_sender($this->mcfaddens_event, $this->dan), 'dan is no longer invited to mcfaddens');
+        $this->assertEquals($this->kate, $this->invite_engine->get_invite_sender($this->shadowroom_event, $this->dan), 'dan is still invited to shadowroom by kate');
 
-        $this->invite_engine->destroy_invite($this->mcfaddens_event, $this->kate, $this->dan);
-        $this->assertFalse($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'dan is no longer invited');
+        $this->invite_engine->destroy_invite($this->shadowroom_event, $this->kate, $this->dan);
+        $this->assertNull($this->invite_engine->get_invite_sender($this->shadowroom_event, $this->dan), 'dan is no longer invited to shadowroom');
     }
 
-    function test_accept_invite()
+    function test_send_duplicate_invite()
     {
-        // send an invite to dan for mcfaddens
-        $this->invite_engine->send_invite($this->mcfaddens_event, $this->venkat, $this->dan);
+        $this->invite_engine->send_invite($this->eden_event, $this->venkat, $this->dan);
+        $this->invite_engine->send_invite($this->eden_event, $this->venkat, $this->dan);
 
-        // check that the dan has been invited to mcfaddens
-        $this->assertTrue($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan));
+        $this->invite_engine->send_invite($this->eden_event, $this->kate, $this->dan);
 
-        // make dan accept the mcfaddens invite
+        $this->assertEquals($this->venkat, $this->invite_engine->get_invite_sender($this->eden_event, $this->dan), 'venkats invite prevails');
 
-        // check that the dan has accepted mcfaddens invite
+        $this->invite_engine->destroy_invite($this->eden_event, $this->venkat, $this->dan);
 
-        // check that dan has been checked into mcfaddens
+        $this->assertFalse($this->invite_engine->is_invited($this->eden_event, $this->dan));
     }
 
 }

@@ -18,7 +18,7 @@
     <script src="/js/less.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/page.js"></script>
+    <script type="text/javascript" src="/js/page.0000000001.js"></script>
 </head>
 
 <body>

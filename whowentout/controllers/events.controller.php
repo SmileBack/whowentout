@@ -55,10 +55,14 @@ class Events_Controller extends Controller
         return app()->clock()->today();
     }
 
-    function invite()
+    function invite($event_id)
     {
+        $event = db()->table('events')->row($event_id);
+
         print r::page(array(
-                           'content' => r::event_invite(),
+                           'content' => r::event_invite(array(
+                               'event' => $event,
+                           )),
                       ));
     }
 

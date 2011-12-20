@@ -1,66 +1,44 @@
 <?php
-$names = "
-Jessica W.
-Ashley L.
-Brittany R.
-Michael B.
-Chris C.
-Amanda G.
-Matt H.
-Samantha D.
-Sarah B.
-Josh M.
-Daniel A.
-David S.
-Stephanie C.
-Andrew E.
-James W.
-Joseph R.
-Jennifer T.
-John Y.
-Brian Z.
-Ryan B.
-Lauren G.
-Megan H.
-Robert J.
-Anthony N.
-William M.
-Emily K.
-Nicole L.
-Kyle P.
-Rebecca C.
-Michelle S.
-Tiffany T.
-Chelsea B.
-Christina R.
-Katherine B.
-Eric V.
-Katie D.
-Steven K.";
-$names = preg_split('/\s*\n\s*/', $names);
+/* @var $invite_engine InviteEngine */
+$invite_engine = factory()->build('invite_engine');
+
+/* @var $checkin_engine CheckinEngine */
+$checkin_engine = factory()->build('checkin_engine');
+
+$current_user = auth()->current_user();
+$friends = db()->table('users')->limit(50);
 ?>
+<form class="event_invite" method="post" action="/invites/create">
+    <input type="hidden" name="event_id" value="<?= $event->id ?>" />
+    <fieldset>
+        <legend>
+            <h1>Invite your friends to the party.</h1>
+        </legend>
+        <ul>
+            <?php foreach ($friends as $friend): ?>
+                <li>
+                    <label>
+                        <?= r::user_thumb(array('user' => $friend)) ?>
 
-<?php srand(1) ?>
-<fieldset class="event_invite">
-    <legend>
-        <h1>Tell your Friends about the Deal!</h1>
-    </legend>
-    <ul>
-        <?php for ($n = 19; $n <= 37; $n++): ?>
-        <?php $image_url = "/images/mockup_profiles/thumb{$n}.jpg" ?>
-        <li>
-            <img src="<?= $image_url ?>"/>
-            <div class="user_full_name"><?= $names[$n] ?></div>
-            <?php $toss = rand(0, 5) ?>
-            <?php if ($toss == 2): ?>
-                <a class="event_invited_badge" href="/yea">invited</a>
-            <?php elseif ($toss == 1): ?>
-                <a class="event_attending_badge" href="/yea">attending</a>
-            <?php else: ?>
-                <a class="event_invite_link" href="/yea">invite</a>
-            <?php endif; ?>
+                        <div class="invite_status">
+                            <?php if ($invite_engine->is_invited($event, $friend)): ?>
+                                invited
+                            <?php elseif ($checkin_engine->user_has_checked_into_event($friend, $event)): ?>
+                                attending
+                            <?php else: ?>
+                            &nbsp;
+                            <?php endif; ?>
+                        </div>
 
-        </li>
-        <?php endfor; ?>
-    </ul>
-</fieldset>
+                        <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
+                        <?= $friend->first_name ?>
+                        <?= substr($friend->last_name, 0, 1) ?>
+                    </label>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <input type="submit" class="send_invites_button" value="Send Invites" />
+    </fieldset>
+</form>

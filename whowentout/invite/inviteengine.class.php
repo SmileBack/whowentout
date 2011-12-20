@@ -12,20 +12,20 @@ class InviteEngine
     /* @var $clock Clock */
     private $clock;
 
-    /* @var $checkin_engine CheckinEngine */
-    private $checkin_engine;
-
-    function __construct(Database $database, Clock $clock, CheckinEngine $checkin_engine)
+    function __construct(Database $database, Clock $clock)
     {
         $this->database = $database;
         $this->clock = $clock;
-        $this->checkin_engine = $checkin_engine;
 
         $this->invites = $this->database->table('invites');
     }
 
     function send_invite($event, $sender, $receiver)
     {
+        // already been invited so don't do it
+        if ($this->is_invited($event, $receiver))
+            return;
+
         $invite = array(
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
@@ -38,9 +38,9 @@ class InviteEngine
     function destroy_invite($event, $sender, $receiver)
     {
         $this->invites->where('event_id', $event->id)
-                      ->where('sender_id', $sender->id)
-                      ->where('receiver_id', $receiver->id)
-                      ->destroy();
+                ->where('sender_id', $sender->id)
+                ->where('receiver_id', $receiver->id)
+                ->destroy();
     }
 
     /**
@@ -52,20 +52,23 @@ class InviteEngine
      */
     function is_invited($event, $user)
     {
-        return $this->invites
-                ->where('event_id', $event->id)
+        return $this->invites->where('event_id', $event->id)
                 ->where('receiver_id', $user->id)
                 ->count() > 0;
     }
 
     /**
      * @param $event
-     * @param $user
-     * @return bool
+     * @param $receiver
+     * @return DatabaseRow|null
      */
-    function is_going_to_event($event, $user)
+    function get_invite_sender($event, $receiver)
     {
-        return $this->checkin_engine->user_has_checked_into_event($user, $event);
+        $invite = $this->invites->where('event_id', $event->id)
+                                ->where('receiver_id', $receiver->id)
+                                ->first();
+
+        return $invite ? $invite->sender : null;
     }
 
 }

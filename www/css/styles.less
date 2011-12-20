@@ -124,6 +124,20 @@ td {
     }
 }
 
+.comma_separated {
+    > li { display: inline; }
+    > li:after {
+        content: ",";
+    }
+    > li:last-child:after {
+        content: "";
+    }
+}
+
+.profile_networks {
+    .comma_separated;
+}
+
 .event_list {
     width: 600px;
     margin: 0 84px;
@@ -176,12 +190,21 @@ td {
     }
 }
 
-.event_invite {
+.user_thumb {
+    overflow: hidden;
+    height: 100px;
+    width: 100px;
+    img {
+        min-width: 100px;
+        min-height: 100px;
+    }
+}
+
+.event_invite fieldset {
     width: 600px;
     border: 1px solid #333;
     margin: 20px;
     padding: 20px;
-    img { width: 75px; }
     text-align: center;
     li {
         text-align: center;
@@ -189,38 +212,11 @@ td {
         border: 1px solid grey;
         margin: 15px;
         padding: 15px;
+        &.selected {
+            background-color: #FFEC8B;
+        }
     }
-    .event_badge {
-        display: block;
-        border: 1px solid #CCC;
-        padding: 3px 0px;
-        width: 100%;
-        text-decoration: none;
-        border-radius: 2px;
-    }
-    .event_invite_link {
-        .event_badge;
-        background-color: #5d9ddd;
-        color: white;
-    }
-    .event_invited_badge {
-        .event_badge;
-        background-color: #eeb44f;
-        color: white;
-    }
-    .event_attending_badge {
-        .event_badge;
-        background-color: #5cb811;
-        color: white;
-    }
-}
-
-.comma_separated {
-    > li { display: inline; }
-    > li:after {
-        content: ",";
-    }
-    > li:last-child:after {
-        content: "";
+    .send_invites_button {
+        padding: 8px;
     }
 }
