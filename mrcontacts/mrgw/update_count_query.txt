@@ -1,5 +1,0 @@
-UPDATE queries
-  SET num_in_db = 
-    (SELECT COUNT(*) FROM students 
-      WHERE name LIKE ('%' || queries.value || '%')
-      OR name = (queries.value || '@gwu.edu'))

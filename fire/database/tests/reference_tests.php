@@ -176,7 +176,6 @@ class Reference_Tests extends PHPUnit_Framework_TestCase
         $this->assertEquals(implode(',', $venkats_networks), 'maryland,stanford');
     }
 
-    /*
     function test_foreign_key_with_self_join_table()
     {
         $venkat_friends = array();
@@ -186,6 +185,5 @@ class Reference_Tests extends PHPUnit_Framework_TestCase
         sort($venkat_friends);
         $this->assertEquals(implode(',', $venkat_friends), 'kate,dan');
     }
-    */
 
 }

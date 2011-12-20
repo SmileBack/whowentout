@@ -6,7 +6,9 @@ $invite_engine = factory()->build('invite_engine');
 $checkin_engine = factory()->build('checkin_engine');
 
 $current_user = auth()->current_user();
-$friends = db()->table('users')->limit(50);
+$friends = db()->table('users')
+               ->order_by('first_name', 'asc')
+               ->limit(50);
 ?>
 <form class="event_invite" method="post" action="/invites/create">
     <input type="hidden" name="event_id" value="<?= $event->id ?>" />
@@ -21,7 +23,9 @@ $friends = db()->table('users')->limit(50);
                         <?= r::user_thumb(array('user' => $friend)) ?>
 
                         <div class="invite_status">
-                            <?php if ($invite_engine->is_invited($event, $friend)): ?>
+                            <?php if ($invite_engine->invite_is_sent($event, $current_user, $friend)): ?>
+                                invited by you
+                            <?php elseif ($invite_engine->is_invited($event, $friend)): ?>
                                 invited
                             <?php elseif ($checkin_engine->user_has_checked_into_event($friend, $event)): ?>
                                 attending

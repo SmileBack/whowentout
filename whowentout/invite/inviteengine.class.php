@@ -35,6 +35,14 @@ class InviteEngine
         $this->invites->create_row($invite);
     }
 
+    function invite_is_sent($event, $sender, $receiver)
+    {
+        return $this->invites->where('event_id', $event->id)
+                             ->where('sender_id', $sender->id)
+                             ->where('receiver_id', $receiver->id)
+                             ->count() > 0;
+    }
+
     function destroy_invite($event, $sender, $receiver)
     {
         $this->invites->where('event_id', $event->id)
