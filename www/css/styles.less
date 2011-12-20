@@ -214,3 +214,13 @@ td {
         color: white;
     }
 }
+
+.comma_separated {
+    > li { display: inline; }
+    > li:after {
+        content: ",";
+    }
+    > li:last-child:after {
+        content: "";
+    }
+}

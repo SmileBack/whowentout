@@ -2,12 +2,24 @@
 
 class InviteEngine_Tests extends PHPUnit_Framework_TestCase
 {
+    private $mcfaddens_place;
+    private $shadowroom_place;
+    private $eden_place;
+    private $venkat;
+    private $dan;
+    private $kate;
+    private $mcfaddens_event;
+    private $shadowroom_event;
+    private $eden_event;
 
     /* @var $database Database */
     private $db;
 
     /* @var $invite_engine InviteEngine */
     private $invite_engine;
+
+    /* @var $checkin_engine CheckinEngine */
+    private $checkin_engine;
 
     function setUp()
     {
@@ -22,6 +34,7 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
 
         /* @var $invite_engine InviteEngine */
         $this->invite_engine = factory()->build('test_invite_engine');
+        $this->checkin_engine = factory()->build('test_checkin_engine');
 
         $this->create_users();
         $this->create_events();
@@ -41,6 +54,13 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
             'last_name' => 'Berenholtz',
             'email' => 'berenholtzdan@gmail.com',
             'gender' => 'M',
+        ));
+
+        $this->kate = $this->db->table('users')->create_row(array(
+            'first_name' => 'Kate',
+            'last_name' => 'Smith',
+            'email' => 'katesmith@gmail.com',
+            'gender' => 'F',
         ));
     }
 
@@ -75,32 +95,47 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
 
     function test_send_basic_invite()
     {
-        $this->assertFalse($this->invite_engine->was_invited($this->mcfaddens_event, $this->dan), 'user is not invited by default');
+        $this->assertFalse($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'user is not invited by default');
 
         $this->invite_engine->send_invite($this->mcfaddens_event, $this->venkat, $this->dan);
 
-        $this->assertTrue($this->invite_engine->was_invited($this->mcfaddens_event, $this->dan), 'user invited after invitation sent');
-        $this->assertFalse($this->invite_engine->was_invited($this->shadowroom_event, $this->dan), 'user not invited other events');
+        $this->assertTrue($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'user invited after invitation sent');
+        $this->assertFalse($this->invite_engine->is_invited($this->shadowroom_event, $this->dan), 'user not invited other events');
+
+        $this->invite_engine->destroy_invite($this->mcfaddens_event, $this->venkat, $this->dan);
+
+        $this->assertFalse($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan));
     }
 
     function test_invited_twice()
     {
-        // send an invite from two different users for an event
+        $this->assertFalse($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan));
 
-        // check that the user has been invited
+        $this->invite_engine->send_invite($this->mcfaddens_event, $this->venkat, $this->dan);
+        $this->invite_engine->send_invite($this->mcfaddens_event, $this->kate, $this->dan);
+
+        $this->assertTrue($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'dan is invited to mcfaddens');
+
+        $this->invite_engine->destroy_invite($this->mcfaddens_event, $this->venkat, $this->dan);
+        $this->assertTrue($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'dan is still invited');
+
+        $this->invite_engine->destroy_invite($this->mcfaddens_event, $this->kate, $this->dan);
+        $this->assertFalse($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'dan is no longer invited');
     }
 
     function test_accept_invite()
     {
-        // send an invite
+        // send an invite to dan for mcfaddens
+        $this->invite_engine->send_invite($this->mcfaddens_event, $this->venkat, $this->dan);
 
-        // check that the user has been invited
+        // check that the dan has been invited to mcfaddens
+        $this->assertTrue($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan));
 
-        // accept the invite
+        // make dan accept the mcfaddens invite
 
-        // check that the user has accepted the invite
+        // check that the dan has accepted mcfaddens invite
 
-        // check that the user has checked into the event
+        // check that dan has been checked into mcfaddens
     }
 
 }

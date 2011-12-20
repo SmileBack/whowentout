@@ -15,7 +15,7 @@ $profile_pic = factory()->build('profile_picture', $user);
         <div>Age: <?= $age ?></div>
         <div>
             <div>Colleges</div>
-            <ul>
+            <ul class="comma_separated">
                 <?php foreach ($user->networks->where('type', 'college') as $network): ?>
                 <li><?= $network->name ?></li>
                 <?php endforeach; ?>

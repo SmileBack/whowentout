@@ -12,10 +12,14 @@ class InviteEngine
     /* @var $clock Clock */
     private $clock;
 
-    function __construct(Database $database, Clock $clock)
+    /* @var $checkin_engine CheckinEngine */
+    private $checkin_engine;
+
+    function __construct(Database $database, Clock $clock, CheckinEngine $checkin_engine)
     {
         $this->database = $database;
         $this->clock = $clock;
+        $this->checkin_engine = $checkin_engine;
 
         $this->invites = $this->database->table('invites');
     }
@@ -31,6 +35,14 @@ class InviteEngine
         $this->invites->create_row($invite);
     }
 
+    function destroy_invite($event, $sender, $receiver)
+    {
+        $this->invites->where('event_id', $event->id)
+                      ->where('sender_id', $sender->id)
+                      ->where('receiver_id', $receiver->id)
+                      ->destroy();
+    }
+
     /**
      * Returns whether $user was invited to $event.
      *
@@ -38,7 +50,7 @@ class InviteEngine
      * @param $user
      * @return bool
      */
-    function was_invited($event, $user)
+    function is_invited($event, $user)
     {
         return $this->invites
                 ->where('event_id', $event->id)
@@ -46,9 +58,14 @@ class InviteEngine
                 ->count() > 0;
     }
 
+    /**
+     * @param $event
+     * @param $user
+     * @return bool
+     */
     function is_going_to_event($event, $user)
     {
-        return false;
+        return $this->checkin_engine->user_has_checked_into_event($user, $event);
     }
 
 }

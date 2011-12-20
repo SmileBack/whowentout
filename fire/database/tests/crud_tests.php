@@ -148,7 +148,7 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals($row, $same_row, 'the updated row references the same object');
-        $this->assertEquals($row->name, 'venicii');
+        $this->assertEquals($row->name, 'venicii', 'row field was properly updated');
     }
 
 }

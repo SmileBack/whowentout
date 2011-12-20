@@ -88,6 +88,11 @@ checkin_engine:
   database: database
   clock: clock
 
+test_checkin_engine:
+  type: CheckinEngine
+  database: test_database
+  clock: clock
+
 invite_engine:
   type: InviteEngine
   database: database
