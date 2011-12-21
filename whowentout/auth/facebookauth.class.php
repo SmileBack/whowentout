@@ -41,6 +41,12 @@ class FacebookAuth extends Auth
                 && in_array($this->current_user()->facebook_id, $this->admin_facebook_ids);
     }
 
+    function require_admin()
+    {
+        if (!$this->is_admin())
+            throw new Exception("You must be an admin");
+    }
+
     /**
      * @return DatabaseRow
      */

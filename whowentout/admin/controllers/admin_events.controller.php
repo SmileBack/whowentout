@@ -5,6 +5,8 @@ class Admin_Events_Controller extends Controller
 
     function index()
     {
+        auth()->require_admin();
+
         print r::page(array(
                            'content' => r::admin_events(array(
                                                        'events' => app()->database()->table('events'),
@@ -15,6 +17,8 @@ class Admin_Events_Controller extends Controller
 
     function create()
     {
+        auth()->require_admin();
+
         $place_attributes = $_POST['event'];
 
         $place_attributes['date'] = $this->parse_date($place_attributes['date']);
@@ -25,6 +29,8 @@ class Admin_Events_Controller extends Controller
 
     function destroy($event_id)
     {
+        auth()->require_admin();
+
         app()->database()->table('events')->destroy_row($event_id);
         redirect('admin_events');
     }
