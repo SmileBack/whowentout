@@ -11,7 +11,7 @@ class CreateStudentsTable < ActiveRecord::Migration
     end
 
     add_index :students, :name
-    add_index :students, :email, :unique => true
+    add_index :students, :email
   end
   
   def self.down

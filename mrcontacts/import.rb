@@ -4,10 +4,13 @@ require './database'
 
 require './lib/event'
 require './lib/directory_importer'
-require './lib/import_logger'
+
+require './lib/directory_logger'
+require './lib/directory_importer_logger'
 
 require './directories/gwu_directory'
 require './directories/georgetown_directory'
+require './directories/cua_directory'
 
 def get_college_directory(college)
   if college == 'gwu'
@@ -16,6 +19,8 @@ def get_college_directory(college)
     return directory
   elsif college == 'georgetown'
     GeorgetownDirectory.new
+  elsif college == 'cua'
+    CUADirectory.new
   end
 end
 
@@ -23,15 +28,15 @@ def begin_import(college)
   connect_to_database(college)
 
   directory = get_college_directory(college)
-  importer = DirectoryImporter.new(directory)
-  logger = ImportLogger.new(directory, importer)
+  directory_importer = DirectoryImporter.new(directory)
 
-  ('aaa'..'zzz').each do |combination|
-    importer.import combination
+  directory_logger = DirectoryLogger.new(directory)
+  directory_importer_logger = DirectoryImporterLogger.new(directory_importer)
+
+  ('aa'..'zz').each do |combination|
+    directory_importer.import combination
   end
 end
 
 college = ARGV[0]
 begin_import(college)
-
-
