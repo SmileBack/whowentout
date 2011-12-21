@@ -9,6 +9,12 @@ end
 namespace :db do
   task :environment do
     require './database'
+
+    if ENV['college'].nil?
+      raise "You must specify the college"
+    end
+
+    connect_to_database(ENV['college'])
   end
   
   desc "Migrate the sqlite database."

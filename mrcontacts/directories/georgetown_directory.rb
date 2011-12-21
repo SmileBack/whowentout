@@ -1,13 +1,29 @@
 require 'rubygems'
 require 'mechanize'
-require 'yaml'
+require 'cgi'
+require 'uri'
 
 class GeorgetownDirectory
+  include EventPublisher
 
-  def search(query)
+  event :on_login
+  event :on_search
+  event :on_load_page
+
+  def initialize
+    @agent = Mechanize.new
+  end
+
+  def search(keywords)
     students = []
-    doc = load_doc(query)
+
+    page = load_search_result_page(keywords)
+    doc = page.root
+
+    @num_reported_results = extract_num_results(page)
+
     rows = doc.xpath('//tr[@class="ListPrimary" or @class="ListAlternate"]').to_a
+    trigger :on_search, keywords, num_reported_results, 1
 
     rows.each do |row|
       student = {}
@@ -26,33 +42,32 @@ class GeorgetownDirectory
     return students
   end
 
+  def num_reported_results
+    @num_reported_results
+  end
+
   private
 
   def fetch_email(student_link)
-    agent = Mechanize.new
-    agent.get(student_link)
-
-    link = agent.page.link_with :href => /^mailto:/
-
-    return link.nil? ? nil : link.text.strip
+    params = CGI.parse(URI.parse(student_link).query)
+    return params["NetID"].first + '@georgetown.edu'
   end
 
-  def load_doc(query)
-    agent = Mechanize.new
-    agent.get(search_url)
+  def load_search_result_page(keywords)
+    @agent.get(search_url)
 
-    search_form = agent.page.form_with :action => search_action
+    search_form = @agent.page.form_with :action => search_action
 
     search_form['FirstNameMatch']= 'starts'
     search_form.checkbox_with(:name => 'SearchAffiliation', :value => 'Employee').uncheck
 
-    search_form['FirstName'] = query
+    search_form['FirstName'] = keywords
 
-    agent.submit search_form
+    @agent.submit search_form
 
-    doc = agent.page.root
+    trigger :on_load_page, keywords, '[main]'
 
-    return doc
+    return @agent.page
   end
 
   def base_url
@@ -65,6 +80,24 @@ class GeorgetownDirectory
 
   def search_action
     'index.cfm?Action=SearchResults&RequestTimeout=30'
+  end
+
+  def has_no_matches(page)
+    try_again_link = page.link_with :text => /try again/
+    return !try_again_link.nil?
+  end
+
+  def extract_num_results(page)
+    doc = page.root
+
+    return 0 if has_no_matches(page)
+
+    normal = page.root.at_xpath('//text()[contains(., "directory entries match your search")]')
+    if ! normal.nil?
+      count = normal.content.scan(/\d+/).first.to_i
+      count *= -1 if count == 500
+      return count
+    end
   end
 
 end

@@ -1,9 +1,12 @@
-require './common'
 
-require 'sqlite3'
-require 'active_record'
+def connect_to_database(college)
+  require 'sqlite3'
+  require 'active_record'
 
-ActiveRecord::Base.establish_connection(config('database'))
+  require './models/query'
+  require './models/student'
 
-require './models/query'
-require './models/student'
+  config = {:adapter => 'sqlite3'}
+  config[:database] = "data/#{college}_students.db"
+  ActiveRecord::Base.establish_connection(config)
+end

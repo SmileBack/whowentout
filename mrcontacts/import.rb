@@ -1,41 +1,37 @@
 require 'rubygems'
-require 'mechanize'
 
-require '../common/event.rb'
-require '../common/directory_importer.rb'
+require './database'
 
-require './directories/gwu_directory.rb'
+require './lib/event'
+require './lib/directory_importer'
+require './lib/import_logger'
 
-dir = GWUDirectory.new
+require './directories/gwu_directory'
+require './directories/georgetown_directory'
 
-dir.subscribe :on_login do |username, password|
-  puts "logged in as #{username}"
+def get_college_directory(college)
+  if college == 'gwu'
+    directory = GWUDirectory.new
+    directory.login('dberen27', 'Apple12345678!')
+    return directory
+  elsif college == 'georgetown'
+    GeorgetownDirectory.new
+  end
 end
 
-dir.subscribe :on_search do |keywords, num_results, pages|
-  puts "searched for #{keywords} and got #{num_results} results with #{pages} pages"
+def begin_import(college)
+  connect_to_database(college)
+
+  directory = get_college_directory(college)
+  importer = DirectoryImporter.new(directory)
+  logger = ImportLogger.new(directory, importer)
+
+  ('aaa'..'zzz').each do |combination|
+    importer.import combination
+  end
 end
 
-dir.subscribe :on_load_page do |keywords, page|
-  puts "loaded page #{page} for '#{keywords}'"
-end
+college = ARGV[0]
+begin_import(college)
 
-importer = DirectoryImporter.new(dir)
 
-importer.subscribe :on_skip do |query|
-  puts "skipped query #{query}"
-end
-
-importer.subscribe :on_save_student do |student|
-  puts "saved #{student.name}, #{student.email}"
-end
-
-importer.subscribe :on_save_students do |students|
-  puts "saved #{students.length} students to db"
-end
-
-dir.login('dberen27', 'Apple12345678!')
-
-#('aaa'..'zzz').each do |combination|
-#  importer.import combination
-#end

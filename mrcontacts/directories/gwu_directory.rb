@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'mechanize'
-require 'yaml'
 
 class GWUDirectory
   include EventPublisher
@@ -18,6 +17,8 @@ class GWUDirectory
 
     # goto directory page
     @agent.get(base_url)
+
+    trigger :on_load_page, keywords, '[first page]'
 
     search_form = @agent.page.form_with :action => 'index.cfm'
     search_form['keywords'] = keywords
@@ -77,7 +78,7 @@ class GWUDirectory
   def extract_num_results(page)
     doc = page.root
 
-    return 0 if has_no_matches(doc)
+    return 0 if has_no_matches(page)
 
     normal = doc.at_xpath('//text()[contains(., "resulted in a total of")]')
     if ! normal.nil?
@@ -90,7 +91,8 @@ class GWUDirectory
     end
   end
 
-  def has_no_matches(doc)
+  def has_no_matches(page)
+    doc = page.root
     div = doc.at_xpath("//div[@class='alertMsg']")
     return false if div.nil?
     return div.content.include?('returned no matches')

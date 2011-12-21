@@ -7,6 +7,8 @@ class CreateQueriesTable < ActiveRecord::Migration
       table.column :num_results, :integer
       table.column :value, :string
       table.column :status, :string
+
+      table.column :data, :text
     end
 
     add_index :queries, :value

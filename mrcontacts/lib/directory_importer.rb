@@ -1,9 +1,11 @@
 class DirectoryImporter
   include EventPublisher
 
-  event :on_skip
+  event :on_skip_query
+
   event :on_save_students
   event :on_save_student
+  event :on_skip_student
 
   def initialize(dir)
     @dir = dir
@@ -11,7 +13,7 @@ class DirectoryImporter
 
   def import(query)
     if query_exists?(query)
-      trigger :on_skip, query
+      trigger :on_skip_query, query
       return nil
     end
 
@@ -29,7 +31,7 @@ class DirectoryImporter
       q = Query.create :value => query, :num_results => num_results, :status => 'incomplete'
 
       students.each do |student_data|
-        student = save_student(student_data[:name], student_data[:email])
+        student = save_student(student_data)
         q.students << student
       end
 
@@ -47,12 +49,20 @@ class DirectoryImporter
     query.destroy
   end
 
-  def save_student(name, email)
-    student = Student.find_by_email(email)
+  def save_student(student_data)
+    student = Student.find_by_email(student_data[:email])
+
     if student.nil?
-      student = Student.create(:name => name, :email => email)
+      student = Student.create(:name => student_data[:name],
+                               :email => student_data[:email],
+                               :data => student_data)
+
       trigger :on_save_student, student
+    else
+
+      trigger :on_skip_student, student
     end
+
     return student
   end
 

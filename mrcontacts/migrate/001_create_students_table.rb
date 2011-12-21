@@ -6,8 +6,8 @@ class CreateStudentsTable < ActiveRecord::Migration
 
       table.column :email, :string
       table.column :name, :string
-      table.column :role, :string
-      table.column :link, :text
+
+      table.column :data, :text
     end
 
     add_index :students, :name
