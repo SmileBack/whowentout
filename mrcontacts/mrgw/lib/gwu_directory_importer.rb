@@ -25,14 +25,26 @@ class GWUDirectoryImporter
       raise "Query #{query} already exists."
     end
 
-    q = Query.create :value => query, :num_results => num_results
+    Query.transaction do
+      q = Query.create :value => query, :num_results => num_results, :status => 'incomplete'
 
-    students.each do |student_data|
-      student = save_student(student_data[:name], student_data[:email])
-      q.students << student
+      students.each do |student_data|
+        student = save_student(student_data[:name], student_data[:email])
+        q.students << student
+      end
+
+      q.update_attributes :status => 'complete'
+
+      trigger :on_save_students, students
     end
+  end
 
-    trigger :on_save_students, students
+  def destroy_query(query)
+    query = Query.where(:value => query).first
+    unless query.nil?
+      query.students.each { |s| s.destroy }
+    end
+    query.destroy
   end
 
   def save_student(name, email)

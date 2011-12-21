@@ -6,7 +6,11 @@ class CreateQueriesTable < ActiveRecord::Migration
 
       table.column :num_results, :integer
       table.column :value, :string
+      table.column :status, :string
     end
+
+    add_index :queries, :value
+    add_index :queries, :status
   end
 
   def self.down

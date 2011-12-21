@@ -36,4 +36,7 @@ importer.subscribe :on_save_students do |students|
 end
 
 dir.login('dberen27', 'Apple12345678!')
-importer.import ARGV[0]
+
+('aaa'..'zzz').each do |combination|
+  importer.import combination
+end

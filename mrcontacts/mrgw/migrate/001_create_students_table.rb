@@ -9,6 +9,8 @@ class CreateStudentsTable < ActiveRecord::Migration
       table.column :role, :string
       table.column :link, :text
     end
+
+    add_index :students, :name
     add_index :students, :email, :unique => true
   end
   
