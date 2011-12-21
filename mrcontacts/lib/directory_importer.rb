@@ -54,12 +54,13 @@ class DirectoryImporter
 
     if student.nil?
       student = Student.create(:name => student_data[:name],
-                               :email => student_data[:email],
-                               :data => student_data)
+                               :email => student_data[:email])
+
+      student.data = student_data
+      student.save
 
       trigger :on_save_student, student
     else
-
       trigger :on_skip_student, student
     end
 
