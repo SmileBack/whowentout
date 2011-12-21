@@ -1,0 +1,28 @@
+require 'active_record'
+
+#task :default => :migrate
+
+def application_tables
+  ActiveRecord::Base.connection.tables - ['schema_migrations']
+end
+
+namespace :db do
+  task :environment do
+    require './database'
+  end
+  
+  desc "Migrate the sqlite database."
+  task :migrate => :environment do
+    version = ENV["version"] ? ENV["version"].to_i : nil
+    ActiveRecord::Migrator.migrate('migrate', version)
+  end
+  
+  task :truncate => :environment do 
+    application_tables.each do |table|
+      ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+      ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence where name='#{table}'")
+    end         
+    ActiveRecord::Base.connection.execute("VACUUM")
+  end
+  
+end
