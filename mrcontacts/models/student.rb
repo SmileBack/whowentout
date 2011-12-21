@@ -6,5 +6,4 @@ class Student < ActiveRecord::Base
   serialize :data, Hash
   
   validates :name, :presence => true
-  validates :email, :presence => true, :uniqueness => true
 end
