@@ -1,11 +1,10 @@
 require 'rubygems'
 require 'mechanize'
 
-require './event.rb'
-require './database.rb'
+require '../common/event.rb'
+require '../common/directory_importer.rb'
 
-require './lib/gwu_directory.rb'
-require './lib/gwu_directory_importer.rb'
+require './directories/gwu_directory.rb'
 
 dir = GWUDirectory.new
 
@@ -21,7 +20,7 @@ dir.subscribe :on_load_page do |keywords, page|
   puts "loaded page #{page} for '#{keywords}'"
 end
 
-importer = GWUDirectoryImporter.new(dir)
+importer = DirectoryImporter.new(dir)
 
 importer.subscribe :on_skip do |query|
   puts "skipped query #{query}"
@@ -37,6 +36,6 @@ end
 
 dir.login('dberen27', 'Apple12345678!')
 
-('aaa'..'zzz').each do |combination|
-  importer.import combination
-end
+#('aaa'..'zzz').each do |combination|
+#  importer.import combination
+#end

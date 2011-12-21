@@ -26,6 +26,8 @@ class GeorgetownDirectory
     return students
   end
 
+  private
+
   def fetch_email(student_link)
     agent = Mechanize.new
     agent.get(student_link)

@@ -1,4 +1,4 @@
-class GWUDirectoryImporter
+class DirectoryImporter
   include EventPublisher
 
   event :on_skip

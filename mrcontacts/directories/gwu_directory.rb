@@ -124,4 +124,3 @@ class GWUDirectory
   end
 
 end
-
