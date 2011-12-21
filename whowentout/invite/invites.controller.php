@@ -24,6 +24,8 @@ class Invites_Controller extends Controller
             $receiver = db()->table('users')->row($recipient_id);
             $this->invite_engine->send_invite($event, $sender, $receiver);
         }
+
+        app()->goto_event($event);
     }
 
 }

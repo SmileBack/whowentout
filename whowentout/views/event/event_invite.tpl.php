@@ -11,6 +11,8 @@ $friends = db()->table('users')
                ->limit(50);
 ?>
 <form class="event_invite" method="post" action="/invites/create">
+    <?= a(app()->event_link($event, array('class' => 'event_link')), 'Back to Event') ?>
+
     <input type="hidden" name="event_id" value="<?= $event->id ?>" />
     <fieldset>
         <legend>

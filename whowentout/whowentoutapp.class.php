@@ -28,5 +28,20 @@ class WhoWentOutApp extends FireApp
     {
         return $this->clock;
     }
+
+    function event_link($event)
+    {
+        return 'events/index/' . $event->date->format('Ymd');
+    }
+
+    function goto_event($event)
+    {
+        redirect($this->event_link($event));
+    }
+
+    function event_invite_link($event)
+    {
+        return 'events/invite/' . $event->id;
+    }
     
 }

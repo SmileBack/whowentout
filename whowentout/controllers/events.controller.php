@@ -8,11 +8,6 @@ class Events_Controller extends Controller
     {
     }
 
-    function test()
-    {
-        db()->table('invites')->where('user_id', 5);
-    }
-
     function index($date = null)
     {
         $current_user = auth()->current_user();

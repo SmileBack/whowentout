@@ -1,8 +1,7 @@
-<?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Venkat
- * Date: 12/21/11
- * Time: 6:25 PM
- * To change this template use File | Settings | File Templates.
- */
+<?=
+a(app()->event_invite_link($event),
+        'Invite your friends to ' . $event->name . '!',
+    array(
+        'class' => 'event_invite_link',
+    ))
+?>
