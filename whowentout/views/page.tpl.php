@@ -12,19 +12,23 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <link rel="stylesheet/less" type="text/css" href="/css/reset.<?= time() ?>.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/reset.0000000001.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/dialog.0000000001.less">
     <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= time() ?>.less">
 
     <script src="/js/less.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/underscore.js"></script>
 
+    <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/jquery.class.js"></script>
     <script type="text/javascript" src="/js/jquery.entwine.js"></script>
     <script type="text/javascript" src="/js/jquery.body.js"></script>
     <script type="text/javascript" src="/js/jquery.position.js"></script>
-    
-    <script type="text/javascript" src="/js/page.0000000001.js"></script>
+
+    <script type="text/javascript" src="/js/jquery.dialog.0000000002.js"></script>
+
+    <script type="text/javascript" src="/js/page.0000000002.js"></script>
 </head>
 
 <body>

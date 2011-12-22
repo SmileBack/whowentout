@@ -20,6 +20,11 @@ $(function () {
     $('.event_invite input[type=checkbox]').each(function() {
         refresh_check_state(this);
     });
+    
+    var dialog = $.dialog.create({centerInViewport: true});
 
+    dialog.title('woo here is a title');
+    dialog.message('woo here is a message');
+    dialog.showDialog();
 
 });
