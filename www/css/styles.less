@@ -6,6 +6,49 @@ body {
     background-color: @primary_color;
 }
 
+label {
+    font-weight: bold;
+}
+
+input[type="submit"] {
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+#home_page {
+    text-align: center;
+    color: white;
+    padding: 50px;
+    .login_button {
+        text-align: center;
+        display: block;
+        font-size: 35px;
+        color: white;
+        text-decoration: none;
+        &:hover {
+            color: #ffcc66;
+            text-decoration: underline;
+        }
+    }
+    .login_button {
+        @sprite_height: 48px;
+        @sprite_normal_state: 0;
+        @sprite_hover_state: @sprite_height * -1;
+        @sprite_down_state: @sprite_height * -2;
+        background: url(../images/login_button.png) no-repeat;
+        width: 251px;
+        height: @sprite_height;
+        text-indent: -9999px;
+        margin: auto;
+        &:hover {
+            background-position: 0 @sprite_hover_state;
+        }
+        &.mousedown {
+            background-position: 0 @sprite_down_state;
+        }
+    }
+}
+
 #page {
     width: 900px;
     margin-left: @sidebar_width;
@@ -219,4 +262,8 @@ td {
     .send_invites_button {
         padding: 8px;
     }
+}
+
+.deal_dialog {
+    width: 500px;
 }
