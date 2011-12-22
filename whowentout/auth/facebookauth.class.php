@@ -118,7 +118,7 @@ class FacebookAuth extends Auth
 
     function get_logout_url()
     {
-        return url('auth/logout');
+        return url('logout');
     }
 
     function get_login_url()

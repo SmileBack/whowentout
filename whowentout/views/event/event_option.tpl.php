@@ -5,7 +5,7 @@
            <?= $selected ? 'checked="checked"' : '' ?> />
     
     <div class="place">
-        <?= $event->place->name ?>
+        <?= $event->name ?>
     </div>
     <div class="deal">
         <?= $event->deal ?>

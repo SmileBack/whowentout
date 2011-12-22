@@ -28,7 +28,7 @@
 
     <script type="text/javascript" src="/js/jquery.dialog.0000000002.js"></script>
 
-    <script type="text/javascript" src="/js/page.0000000002.js"></script>
+    <script type="text/javascript" src="/js/page.0000000006.js"></script>
 </head>
 
 <body>
@@ -36,8 +36,7 @@
 <nav id="nav">
     <div class="logo" href="/"><img src="/images/logo.png"/></div>
     <?= a('events', 'Events') ?>
-    <?= a('messages', 'Messages (3)') ?>
-    
+
     <?php if (auth()->logged_in()): ?>
         <?= a('profile/edit', 'Edit Profile') ?>
     <?php endif; ?>
@@ -58,6 +57,8 @@
 
 </div>
 <!-- page end -->
+
+<?= js() ?>
 
 </body>
 </html>

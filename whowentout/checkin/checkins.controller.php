@@ -21,12 +21,16 @@ class Checkins_Controller extends Controller
             /* @var $checkin_engine CheckinEngine */
             $checkin_engine = factory()->build('checkin_engine');
             $checkin_engine->checkin_user_to_event($current_user, $event);
-            redirect('events/index/' . $event->date->format('Ymd'));
             unset($_SESSION['checkins_create_event_id']);
+
+            //next page should know about this to show deal dialog
+            $_SESSION['checkin_event_id'] = $event->id;
+
+            app()->goto_event($event);
         }
         else {
             $_SESSION['checkins_create_event_id'] = $event->id;
-            redirect('auth/login');
+            redirect('login');
         }
         
     }

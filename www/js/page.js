@@ -1,3 +1,37 @@
+whowentout = {};
+
+whowentout.initDialog = function () {
+    window.dialog = $.dialog.create({centerInViewport:true});
+};
+$(whowentout.initDialog);
+
+whowentout.showDealDialog = function () {
+    $(function () {
+        dialog.title('Claim your Deal');
+        dialog.loadContent('/events/deal', function () {
+            dialog.showDialog('deal_dialog');
+        });
+    });
+
+};
+
+$('a').entwine({
+    onmousedown:function () {
+        this._super();
+        this.addClass('mousedown');
+    },
+    onmouseup:function () {
+        this.removeClass('mousedown');
+    }
+});
+
+$('.edit_cell_phone_number').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        $('.cell_phone_number').removeClass('inline').focus().select();
+    }
+});
+
 $(function () {
 
     $('.event_list :radio').live('click', function () {
@@ -17,14 +51,8 @@ $(function () {
         refresh_check_state(this);
     });
 
-    $('.event_invite input[type=checkbox]').each(function() {
+    $('.event_invite input[type=checkbox]').each(function () {
         refresh_check_state(this);
     });
-    
-    var dialog = $.dialog.create({centerInViewport: true});
-
-    dialog.title('woo here is a title');
-    dialog.message('woo here is a message');
-    dialog.showDialog();
 
 });
