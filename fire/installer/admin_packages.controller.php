@@ -15,7 +15,10 @@ class Admin_Packages_Controller extends Controller
     {
         $packages = $this->installer->list_packages();
         print r::page(array(
-            'content' => r::admin_packages(array('packages' => $packages)),
+            'content' => r::admin_packages(array(
+                'packages' => $packages,
+                'installer' => $this->installer,
+            )),
         ));
     }
 

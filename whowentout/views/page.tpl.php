@@ -18,6 +18,12 @@
     <script src="/js/less.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="/js/jquery.js"></script>
+
+    <script type="text/javascript" src="/js/jquery.class.js"></script>
+    <script type="text/javascript" src="/js/jquery.entwine.js"></script>
+    <script type="text/javascript" src="/js/jquery.body.js"></script>
+    <script type="text/javascript" src="/js/jquery.position.js"></script>
+    
     <script type="text/javascript" src="/js/page.0000000001.js"></script>
 </head>
 
