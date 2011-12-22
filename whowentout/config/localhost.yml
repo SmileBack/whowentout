@@ -5,6 +5,17 @@ app:
   database: database
   clock: clock
 
+route_matcher:
+  type: RouteMatcher
+
+router:
+  type: Router
+  app: app
+  routes:
+    /: home/index
+    logout: auth/logout
+    login: auth/login
+
 facebook:
   type: Facebook
   config:
@@ -68,10 +79,6 @@ test_database:
   database: fire_test
   username: root
   password: root
-
-router:
-  type: Router
-  app: app
 
 package_installer:
   type: PackageInstaller

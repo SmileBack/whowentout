@@ -98,6 +98,18 @@ function auth()
     return factory()->build('auth');
 }
 
+/**
+ * @return JsObject
+ */
+function js()
+{
+    static $js = null;
+    if (!$js && class_exists('JsObject'))
+        $js = new JsObject('window');
+
+    return $js;
+}
+
 function current_url()
 {
     return isset($_SERVER['PATH_INFO'])

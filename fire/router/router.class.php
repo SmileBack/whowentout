@@ -4,14 +4,16 @@ class Router
 {
 
     private $app;
+    private $routes;
 
     private $class;
     private $method;
     private $routed_segments;
 
-    function __construct(FireApp $app)
+    function __construct(FireApp $app, array $routes = array())
     {
         $this->app = $app;
+        $this->routes = $routes;
     }
 
     function route_request()
@@ -59,8 +61,11 @@ class Router
 
         //route the uri if a route exists
         $matcher = new RouteMatcher();
-        $routes = array(); //todo: allow for routes
-        foreach ($routes as $k => $v) {
+        if (isset($this->routes['/'])) {
+            $this->routes[''] = $this->routes['/'];
+            unset($this->routes['/']);
+        }
+        foreach ($this->routes as $k => $v) {
             $matcher->add($k, $v);
         }
         $routed_url = $matcher->route($url);
