@@ -175,9 +175,7 @@ class ResultSet implements Iterator
      */
     function first()
     {
-        $set = clone $this;
-        $set->limit(1);
-        foreach ($set as $item) {
+        foreach ($this->limit(1) as $item) {
             return $item;
         }
         return null;
