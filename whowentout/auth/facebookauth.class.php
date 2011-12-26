@@ -29,10 +29,10 @@ class FacebookAuth extends Auth
 
     function current_user()
     {
-        $facebook_id = $this->facebook->getUser();
+        $facebook_id = $this->get_logged_in_facebook_id();
         return $this->database->table('users')
-                ->where('facebook_id', $facebook_id)
-                ->first();
+                              ->where('facebook_id', $facebook_id)
+                              ->first();
     }
 
     function is_admin()
@@ -57,21 +57,21 @@ class FacebookAuth extends Auth
             $profile_source = new FacebookProfileSource($this->facebook);
             $profile = $profile_source->fetch_profile($facebook_id);
             $user = $this->database->table('users')->create_row(array(
-                                                                    'first_name' => $profile->first_name,
-                                                                    'last_name' => $profile->last_name,
-                                                                    'gender' => $profile->gender,
-                                                                    'email' => $profile->email,
-                                                                    'facebook_id' => $profile->id,
-                                                                    'date_of_birth' => $profile->birthday,
-                                                                    'hometown' => $profile->hometown,
-                                                               ));
-            
+                'first_name' => $profile->first_name,
+                'last_name' => $profile->last_name,
+                'gender' => $profile->gender,
+                'email' => $profile->email,
+                'facebook_id' => $profile->id,
+                'date_of_birth' => $profile->birthday,
+                'hometown' => $profile->hometown,
+            ));
+
             $this->create_user_profile_pic($user);
             $this->update_facebook_networks($user, $profile->networks);
-            
+
             return $user;
         }
-        
+
         return $this->current_user();
     }
 
@@ -83,19 +83,19 @@ class FacebookAuth extends Auth
     function update_facebook_networks($user, $networks)
     {
         $this->database->execute('DELETE FROM user_networks WHERE user_id = :id', array(
-                                                                                    'id' => $user->id,
-                                                                                  ));
+            'id' => $user->id,
+        ));
         foreach ($networks as $network) {
             $this->database->table('networks')->create_or_update_row(array(
-                                                                         'id' => $network->id,
-                                                                         'type' => $network->type,
-                                                                         'name' => $network->name,
-                                                                     ));
-            
+                'id' => $network->id,
+                'type' => $network->type,
+                'name' => $network->name,
+            ));
+
             $this->database->table('user_networks')->create_row(array(
-                                                                    'user_id' => $user->id,
-                                                                    'network_id' => $network->id,
-                                                                ));
+                'user_id' => $user->id,
+                'network_id' => $network->id,
+            ));
         }
     }
 
@@ -113,7 +113,7 @@ class FacebookAuth extends Auth
 
     function logged_in()
     {
-        return $this->facebook->getUser() != null;
+        return $this->get_logged_in_facebook_id() != null;
     }
 
     function get_logout_url()
@@ -124,9 +124,24 @@ class FacebookAuth extends Auth
     function get_login_url()
     {
         return $this->facebook->getLoginUrl(array(
-                                                 'redirect_uri' => site_url('auth/complete'),
-                                                 'scope' => implode(',', $this->facebook_permissions),
-                                            ));
+            'redirect_uri' => site_url('auth/complete'),
+            'scope' => implode(',', $this->facebook_permissions),
+        ));
+    }
+
+    function get_logged_in_facebook_id()
+    {
+        if (isset($_SESSION['fb_user_id'])) {
+            return $_SESSION['fb_user_id'];
+        }
+        else {
+            return $this->facebook->getUser();
+        }
+    }
+
+    function login_as($facebook_id)
+    {
+        $_SESSION['fb_user_id'] = $facebook_id;
     }
 
     function logout()
@@ -137,6 +152,7 @@ class FacebookAuth extends Auth
         foreach ($session_vars as $var) {
             unset($_SESSION["fb_{$app_id}_{$var}"]);
         }
+        unset($_SESSION['fb_user_id']);
     }
 
 }

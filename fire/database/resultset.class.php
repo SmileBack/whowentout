@@ -125,9 +125,11 @@ class ResultSet implements Iterator
         return $links;
     }
 
-    function get_join_sql()
+    private function get_join_sql()
     {
         $sql = array();
+
+        $already_joined_tables = array();
 
         foreach ($this->get_required_fields() as $field) {
             $right_table_alias = $this->select_field->table_alias();
@@ -138,9 +140,15 @@ class ResultSet implements Iterator
                     $left_table_alias = $right_table_alias;
                     $right_table_alias = $field->link_path->get_link_alias($link);
 
+                    if (isset($already_joined_tables[$right_table_alias])) {
+                        continue;
+                    }
+
                     $sql[] = "\n  INNER JOIN " . $link->right_table->name() . " AS $right_table_alias"
                             . " ON " . $left_table_alias . "." . $link->left_column->name()
                             . " = " . $right_table_alias . "." . $link->right_column->name();
+
+                    $already_joined_tables[$right_table_alias] = true;
                 }
             }
         }
@@ -152,9 +160,9 @@ class ResultSet implements Iterator
     {
         $sql = array();
 
+        $select_field_table_alias = $this->select_field->table_alias();
         $sql[] = 'SELECT ' . $this->select_field->to_sql() . ' AS id FROM '
-                . $this->select_field->column()->table()->name() . ' AS ' . $this->select_field->table_alias();
-
+                . $this->select_field->column()->table()->name() . ' AS ' . $select_field_table_alias;
 
         $sql[] = $this->get_join_sql();
 

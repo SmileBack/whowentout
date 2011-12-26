@@ -9,6 +9,13 @@ class Auth_Controller extends Controller
         header("Location: $facebook_login_url");
     }
 
+    function login_as($facebook_user_id)
+    {
+        auth()->login_as($facebook_user_id);
+
+        redirect('events');
+    }
+
     function complete()
     {
         if (auth()->logged_in())
@@ -21,7 +28,7 @@ class Auth_Controller extends Controller
     {
         auth()->logout();
 
-        redirect('events');
+        redirect('');
     }
 
 }
