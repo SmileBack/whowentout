@@ -51,9 +51,12 @@ class DatabaseWhereFilter extends QueryPart
         return $this->field->joins();
     }
     
-    private function get_filter_placeholder()
+    private function get_filter_placeholder($n = null)
     {
-        return $this->unique_id;
+        if (!$n)
+            return $this->unique_id;
+        else
+            return $this->unique_id . '_' . str_pad($n, 4, '0', STR_PAD_LEFT);
     }
 
     /**

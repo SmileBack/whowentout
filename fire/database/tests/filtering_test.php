@@ -165,4 +165,17 @@ class Filtering_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($dc_bob_fruits->count(), 2);
     }
 
+    function test_where_in()
+    {
+        $celery_kiwi = $this->db->table('food')
+                                ->where('name', array('celery', 'kiwi'));
+        $result = array();
+        foreach ($celery_kiwi as $item) {
+            $result[] = $item->name;
+        }
+        sort($result);
+
+        $this->assertEquals('celery,kiwi', implode(',', $result));
+    }
+
 }
