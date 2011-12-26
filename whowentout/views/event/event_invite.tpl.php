@@ -6,10 +6,9 @@ $invite_engine = factory()->build('invite_engine');
 $checkin_engine = factory()->build('checkin_engine');
 
 $current_user = auth()->current_user();
-$friends = db()->table('users')
-               ->order_by('first_name', 'asc')
-               ->limit(50);
+$friends = $current_user->friends->where('networks.name', 'Stanford');
 ?>
+
 <form class="event_invite" method="post" action="/invites/create">
     <?= a(app()->event_link($event, array('class' => 'event_link')), 'Back to Event') ?>
 

@@ -28,7 +28,7 @@
 
     <script type="text/javascript" src="/js/jquery.dialog.0000000002.js"></script>
 
-    <script type="text/javascript" src="/js/page.0000000006.js"></script>
+    <script type="text/javascript" src="/js/page.0000000007.js"></script>
 </head>
 
 <body>

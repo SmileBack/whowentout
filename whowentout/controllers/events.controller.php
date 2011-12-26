@@ -10,7 +10,7 @@ class Events_Controller extends Controller
     function test()
     {
         $ven = db()->table('users')->where('first_name', 'Venkat')->first();
-        foreach ($ven->friends->where('first_name', 'Alex') as $friend) {
+        foreach ($ven->friends->where('networks.name', 'MIT') as $friend) {
             krumo::dump($friend->first_name . ' ' . $friend->last_name);
         }
     }
@@ -67,10 +67,8 @@ class Events_Controller extends Controller
     {
         $event = db()->table('events')->row($event_id);
 
-        print r::page(array(
-            'content' => r::event_invite(array(
-                'event' => $event,
-            )),
+        print r::event_invite(array(
+            'event' => $event,
         ));
     }
 

@@ -12,7 +12,15 @@ whowentout.showDealDialog = function () {
             dialog.showDialog('deal_dialog');
         });
     });
+};
 
+whowentout.showInviteDialog = function(event_id) {
+    $(function() {
+        dialog.title('');
+        dialog.loadContent('/events/invite/' + event_id, function() {
+            dialog.showDialog('invite_dialog');
+        });
+    });
 };
 
 $('a').entwine({
