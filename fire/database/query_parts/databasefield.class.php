@@ -54,12 +54,20 @@ class DatabaseField extends QueryPart
 
     function to_sql()
     {
-        if ($this->column())
-            return $this->column()->table()->name() . '.' . $this->column()->name();
-        
+        if ($this->column()) {
+            return $this->table_alias() . '.' . $this->column()->name();
+        }
+
         return null;
     }
 
+    /**
+     * @return string
+     */
+    function table_alias()
+    {
+        return $this->link_path->get_link_alias($this->last_link());
+    }
 
     /**
      * @return DatabaseTable|null
@@ -86,13 +94,25 @@ class DatabaseField extends QueryPart
 
         $count = count($this->link_path->links);
         $last_link = $this->link_path->links[$count - 1];
-        
+
         if ($last_link instanceof DatabaseColumnLink) {
             /* @var $last_link DatabaseColumnLink */
             return $last_link->right_column;
         }
-        
+
         return null;
     }
-    
+
+    /**
+     * @return DatabaseLink|null
+     */
+    function last_link()
+    {
+        if (!$this->is_valid())
+            return null;
+
+        $count = count($this->link_path->links);
+        return $this->link_path->links[$count - 1];
+    }
+
 }

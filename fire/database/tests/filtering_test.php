@@ -148,15 +148,16 @@ class Filtering_Test extends PHPUnit_Framework_TestCase
     function test_multi_table_filter()
     {
         $bobs_fruits = $this->db->table('food')
-                ->where('owner.name', 'bob');
+                                ->where('owner.name', 'bob');
         $this->assertEquals($bobs_fruits->count(), 2);
     }
 
     function test_complex_multi_table_filter()
     {
         $ny_bob_fruits = $this->db->table('food')
-                ->where('owner.name', 'bob')
-                ->where('owner.city.name', 'ny');
+                            ->where('owner.name', 'bob')
+                            ->where('owner.city.name', 'ny');
+        print_r($ny_bob_fruits->to_sql());
         $this->assertEquals($ny_bob_fruits->count(), 0);
 
         $dc_bob_fruits = $this->db->table('food')

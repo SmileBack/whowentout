@@ -31,7 +31,7 @@ class DatabaseLinkPath
         }
         return $link_path;
     }
-    
+
     /**
      * @return DatabaseTableLink
      */
@@ -52,6 +52,29 @@ class DatabaseLinkPath
         foreach ($links as $link) {
             $this->add_link($link);
         }
+    }
+
+    function get_link_alias(DatabaseLink $target_link)
+    {
+        $current_path = array();
+        foreach ($this->links as $link) {
+            /* @var $link DatabaseTableLink */
+            if ($link instanceof DatabaseTableLink) {
+                $current_path[] = $link->left_table->name()
+                        . ':' . $link->left_column->name()
+                        . ':' . $link->right_column->name()
+                        . ':' . $link->right_table->name();
+            }
+
+            if ($link == $target_link) {
+                $table_name = $link instanceof DatabaseTableLink
+                                    ? $link->right_table->name()
+                                    : $link->left_table->name();
+                return $table_name . '_' . substr(md5(implode('->', $current_path)), 0, 4);
+            }
+        }
+
+        return null;
     }
 
     function __toString()

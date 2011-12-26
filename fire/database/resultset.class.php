@@ -85,40 +85,78 @@ class ResultSet implements Iterator
     }
 
     /**
+     * @return DatabaseField[]
+     */
+    function get_required_fields()
+    {
+        $fields = array();
+
+        $fields[] = $this->select_field;
+
+        foreach ($this->filters as $filter) {
+            $fields[] = $filter->field;
+        }
+
+        return $fields;
+    }
+
+    /**
      * @return DatabaseTableLink[]
      */
     function get_required_links()
     {
         $links = array();
 
-        foreach ($this->select_field->link_path->links as $link) {
-            if ($link instanceof DatabaseTableLink)
-                $links[ $link->left_table->name() ] = $link;
-        }
-
-        foreach ($this->filters as $filter) {
-            foreach ($filter->field->link_path->links as $link) {
-                if ($link instanceof DatabaseTableLink)
-                    $links[ $link->left_table->name() ] = $link;
+        foreach ($this->get_required_fields() as $field) {
+            $current_path = array();
+            /* @var $link DatabaseTableLink */
+            foreach ($field->link_path->links as $link) {
+                if ($link instanceof DatabaseTableLink) {
+                    $current_path[] = $link->left_table->name()
+                            . ':' . $link->left_column->name()
+                            . ':' . $link->right_table->name()
+                            . ':' . $link->right_column->name();
+                    $current_alias = implode('->', $current_path);
+                    $links[$current_alias] = $link;
+                }
             }
         }
 
         return $links;
     }
 
+    function get_join_sql()
+    {
+        $sql = array();
+
+        foreach ($this->get_required_fields() as $field) {
+            $right_table_alias = $this->select_field->table_alias();
+            /* @var $link DatabaseTableLink */
+            foreach ($field->link_path->links as $link) {
+                if ($link instanceof DatabaseTableLink) {
+
+                    $left_table_alias = $right_table_alias;
+                    $right_table_alias = $field->link_path->get_link_alias($link);
+
+                    $sql[] = "\n  INNER JOIN " . $link->right_table->name() . " AS $right_table_alias"
+                            . " ON " . $left_table_alias . "." . $link->left_column->name()
+                            . " = " . $right_table_alias . "." . $link->right_column->name();
+                }
+            }
+        }
+
+        return implode('', $sql);
+    }
+
     function to_sql()
     {
         $sql = array();
 
-        $sql[] = 'SELECT ' . $this->select_field->to_sql() . ' AS id FROM ' . $this->select_field->column()->table()->name();
+        $sql[] = 'SELECT ' . $this->select_field->to_sql() . ' AS id FROM '
+                . $this->select_field->column()->table()->name() . ' AS ' . $this->select_field->table_alias();
 
-        $links = $this->get_required_links();
 
-        foreach ($links as $link) {
-            $sql[] = "\n  INNER JOIN " . $link->right_table->name()
-                    . " ON " . $link->left_table->name() . "." . $link->left_column->name()
-                    . " = " . $link->right_table->name() . "." . $link->right_column->name();
-        }
+        $sql[] = $this->get_join_sql();
 
         if (count($this->filters) > 0)
             $sql[] = "\n  " . $this->get_where_sql();
@@ -161,7 +199,7 @@ class ResultSet implements Iterator
             $set->select_field = new DatabaseField($field->table(), $field->table()->id_column()->name());
             // extend link path so it is still connected to the base table
             foreach ($set->filters as &$filter) {
-                $filter->field->link_path = $reversed_link_path->add_link_path( $filter->field->link_path );
+                $filter->field->link_path = $reversed_link_path->add_link_path($filter->field->link_path);
             }
             return $set;
         }

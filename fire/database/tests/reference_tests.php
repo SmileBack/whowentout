@@ -183,7 +183,7 @@ class Reference_Tests extends PHPUnit_Framework_TestCase
             $venkat_friends[] = $friend->name;
         }
         sort($venkat_friends);
-        $this->assertEquals(implode(',', $venkat_friends), 'kate,dan');
+        $this->assertEquals(implode(',', $venkat_friends), 'dan,kate');
     }
 
 }
