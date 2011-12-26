@@ -52,7 +52,8 @@ class Checkin_Engine_Tests extends PHPUnit_Framework_TestCase
     function create_database_schema()
     {
         $this->installer = $this->factory->build('package_installer');
-        $this->installer->install('whowentout');
+        $this->installer->install('WhoWentOutPackage');
+        $this->installer->install('CheckinPackage');
     }
 
     function create_users()
