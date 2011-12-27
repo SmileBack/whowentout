@@ -129,7 +129,7 @@ class ResultSet implements Iterator
     {
         $sql = array();
 
-        $already_joined_tables = array();
+        $currently_joined_tables = array();
 
         foreach ($this->get_required_fields() as $field) {
             $right_table_alias = $this->select_field->table_alias();
@@ -140,7 +140,8 @@ class ResultSet implements Iterator
                     $left_table_alias = $right_table_alias;
                     $right_table_alias = $field->link_path->get_link_alias($link);
 
-                    if (isset($already_joined_tables[$right_table_alias])) {
+                    // table has already been joined, so we don't need to join it again
+                    if (isset($currently_joined_tables[$right_table_alias])) {
                         continue;
                     }
 
@@ -148,7 +149,7 @@ class ResultSet implements Iterator
                             . " ON " . $left_table_alias . "." . $link->left_column->name()
                             . " = " . $right_table_alias . "." . $link->right_column->name();
 
-                    $already_joined_tables[$right_table_alias] = true;
+                    $currently_joined_tables[$right_table_alias] = true;
                 }
             }
         }
