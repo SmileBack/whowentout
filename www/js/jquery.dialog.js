@@ -170,12 +170,14 @@ $('.dialog').entwine({
         }
         $.dialog.mask().fadeIn(300);
         this.fadeIn(300);
+        return this;
     },
     hideDialog:function () {
         var self = this;
         $.dialog.mask().fadeOut(300);
         this.fadeOut(300);
         this.clearActions();
+        return this;
     },
 
     getActions:function () {
