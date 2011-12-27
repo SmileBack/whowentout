@@ -9,10 +9,6 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $ven = db()->table('users')->where('first_name', 'Venkat')->first();
-        foreach ($ven->friends->where('networks.name', 'MIT') as $friend) {
-            krumo::dump($friend->first_name . ' ' . $friend->last_name);
-        }
     }
 
     function index($date = null)

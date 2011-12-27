@@ -6,7 +6,8 @@ $invite_engine = factory()->build('invite_engine');
 $checkin_engine = factory()->build('checkin_engine');
 
 $current_user = auth()->current_user();
-$friends = $current_user->friends->where('networks.name', 'Stanford');
+$friends = $current_user->friends->where('networks.name', 'Stanford')
+                                 ->order_by('first_name');
 ?>
 
 <form class="event_invite" method="post" action="/invites/create">

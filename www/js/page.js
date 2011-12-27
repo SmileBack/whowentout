@@ -8,8 +8,8 @@ $(whowentout.initDialog);
 whowentout.showDealDialog = function () {
     $(function () {
         dialog.title('Claim your Deal');
+        dialog.showDialog();
         dialog.loadContent('/events/deal', function () {
-            dialog.showDialog('deal_dialog');
         });
     });
 };
@@ -17,8 +17,8 @@ whowentout.showDealDialog = function () {
 whowentout.showInviteDialog = function(event_id) {
     $(function() {
         dialog.title('');
+        dialog.showDialog();
         dialog.loadContent('/events/invite/' + event_id, function() {
-            dialog.showDialog('invite_dialog');
         });
     });
 };
@@ -40,27 +40,40 @@ $('.edit_cell_phone_number').entwine({
     }
 });
 
-$(function () {
+$('.event_invite_link').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        var eventID = this.eventID();
+        whowentout.showInviteDialog(eventID);
+    },
+    eventID: function() {
+        return this.data('event-id');
+    }
+});
 
-    $('.event_list :radio').live('click', function () {
-        $(this).closest('form').submit();
-    });
-
-    function refresh_check_state(el) {
-        if ($(el).is(':checked')) {
-            $(el).closest('li').addClass('selected');
+$('.event_invite input[type=checkbox]').entwine({
+    onmatch: function(e) {
+        this._super(e);
+        this.refreshCheckState();
+    },
+    onunmatch: function(e) {
+        this._super(e);
+    },
+    onclick: function(e) {
+        this.refreshCheckState();
+    },
+    refreshCheckState: function() {
+        if (this.is(':checked')) {
+            this.closest('li').addClass('selected');
         }
         else {
-            $(el).closest('li').removeClass('selected');
+            this.closest('li').removeClass('selected');
         }
     }
+});
 
-    $('.event_invite input[type=checkbox]').click(function () {
-        refresh_check_state(this);
-    });
-
-    $('.event_invite input[type=checkbox]').each(function () {
-        refresh_check_state(this);
-    });
-
+$('.event_list :radio').entwine({
+    onclick: function() {
+        this.closest('form').submit();
+    }
 });
