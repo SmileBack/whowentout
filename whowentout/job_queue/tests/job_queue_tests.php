@@ -135,17 +135,4 @@ class JobQueue_Tests extends PHPUnit_Framework_TestCase
         $this->job_queue->destroy($job->id);
     }
 
-    function test_first_in_first_out()
-    {
-        // add job C and job D to the job queue
-
-        // run the next job in the job queue
-
-        // check that job C was run
-
-        // run the next job in the job queue
-
-        // check that job D was run
-    }
-
 }
