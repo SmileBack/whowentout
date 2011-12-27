@@ -15,39 +15,34 @@ class ClassLoader
         $this->index = $index;
     }
 
-    function init($class_name, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
+    function init($class_name)
     {
         $this->load($class_name);
-        $num_params = $this->get_num_constructor_parameters($class_name);
 
-        if ($num_params == 0)
-            return new $class_name;
-        else if ($num_params == 1)
-            return new $class_name($arg1);
-        else if ($num_params == 2)
-            return new $class_name($arg1, $arg2);
-        else if ($num_params == 3)
-            return new $class_name($arg1, $arg2, $arg3);
-        else if ($num_params == 4)
-            return new $class_name($arg1, $arg2, $arg3, $arg4);
-        else if ($num_params == 5)
-            return new $class_name($arg1, $arg2, $arg3, $arg4, $arg5);
-        else
-            throw new Exception("Greater than 5 arguments is currently unsupported");
+        $reflection = new ReflectionClass($class_name);
+        $args = array_slice(func_get_args(), 1);
+        $instance = $reflection->newInstanceArgs($args);
+
+        return $instance;
     }
 
-    function init_subclass($superclass, $subclass, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
+    function init_subclass($superclass, $subclass)
     {
         $subclass_name = $this->get_subclass_name($superclass, $subclass);
-        if ($subclass_name)
-            return $this->init($subclass_name, $arg1, $arg2, $arg3, $arg4, $arg5);
-        else
+        if ($subclass_name) {
+            $args = array_slice(func_get_args(), 1);
+            return call_user_func_array(array($this, 'init'), $args);
+        }
+        else {
             return null;
+        }
     }
 
-    function create($key, $class_name, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
+    function create($key, $class_name)
     {
-        $instance = $this->init($class_name, $arg1, $arg2, $arg3, $arg4, $arg5);
+        $args = array_slice(func_get_args(), 1);
+        $instance = call_user_func_array(array($this, 'init'), $args);
+
         $this->register($key, $instance);
         return $this->fetch($key);
     }

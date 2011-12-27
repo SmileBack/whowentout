@@ -33,7 +33,8 @@ class Factory
             $class = $class_config['type'];
 
             $args = $this->get_constructor_arguments($class, $class_config);
-            $this->class_loader->create($key, $class, $args[0], $args[1], $args[2], $args[3], $args[4], $args[5]);
+            $args = array_merge(array($key, $class), $args);
+            call_user_func_array(array($this->class_loader, 'create'), $args);
         }
         
         //factory exists for the item
@@ -54,7 +55,7 @@ class Factory
     
     private function get_constructor_arguments($class, $config)
     {
-        $args = array_fill(0, 6, null);
+        $args = array();
         
         $reflector = new ReflectionClass($class);
         $constructor = $reflector->getConstructor();
