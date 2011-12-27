@@ -9,10 +9,12 @@ class JobQueuePackage extends Package
         $this->database->create_table('jobs', array(
             'id' => array('type' => 'key'),
             'type' => array('type' => 'string'),
+            'status' => array('type' => 'string'),
             'options' => array('type' => 'text'),
         ));
 
         $this->database->table('jobs')->create_index('type');
+        $this->database->table('jobs')->create_index('status');
     }
 
 }

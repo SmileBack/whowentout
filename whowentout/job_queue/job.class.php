@@ -3,7 +3,9 @@
 abstract class Job
 {
 
-    public $options;
+    public $id;
+    public $options = array();
+    public $status = 'pending';
 
     public $required_options = array();
 
