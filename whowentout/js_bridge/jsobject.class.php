@@ -63,9 +63,10 @@ class JsObject
     function script()
     {
         $script = array(
-            '<script>',
+            '<script type="text/javascript">',
             $this->to_js(),
             '</script>',
+            '',
         );
         return implode("\n", $script);
     }
