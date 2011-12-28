@@ -77,6 +77,7 @@ function app()
     if (!$_app) {
         $_app = factory()->build('app');
         $_app->enable_autoload();
+        $_app->trigger('boot', array('app' => $_app));
     }
 
     return $_app;
