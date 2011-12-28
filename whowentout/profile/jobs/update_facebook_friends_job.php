@@ -1,8 +1,16 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Venkat
- * Date: 12/26/11
- * Time: 11:22 PM
- * To change this template use File | Settings | File Templates.
- */
+
+class UpdateFacebookFriendsJob extends Job
+{
+
+    function run()
+    {
+        $user_id = $this->options['user_id'];
+        $user = db()->table('users')->row($user_id);
+
+        /* @var $updater FacebookFriendsUpdater */
+        $updater = factory()->build('facebook_friends_updater');
+        $updater->update_facebook_friends($user);
+    }
+
+}
