@@ -23,6 +23,8 @@ class JobQueue_Tests extends PHPUnit_Framework_TestCase
         $this->installer->install('JobQueuePackage');
 
         $this->job_queue = new JobQueue($this->database);
+
+        $_SERVER['HTTP_HOST'] = 'localhost';
     }
 
     private function get_temp_filepath()
