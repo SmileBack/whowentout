@@ -19,7 +19,7 @@ class Factory
     {
         $this->config_source = $config_source;
         $this->class_loader = $class_loader;
-        
+
         $this->class_loader->register('config_source', $config_source);
         $this->class_loader->register('class_loader', $class_loader);
 
@@ -36,7 +36,7 @@ class Factory
             $args = array_merge(array($key, $class), $args);
             call_user_func_array(array($this->class_loader, 'create'), $args);
         }
-        
+
         //factory exists for the item
         elseif (isset($this->config[$key . '_factory'])) {
             $specialized_factory = $this->build($key . '_factory');
@@ -52,17 +52,17 @@ class Factory
     {
         $this->class_loader->register($key, $object);
     }
-    
+
     private function get_constructor_arguments($class, $config)
     {
         $args = array();
-        
+
         $reflector = new ReflectionClass($class);
         $constructor = $reflector->getConstructor();
-        
+
         if (!$constructor)
             return $args;
-        
+
         $params = $constructor->getParameters();
 
         if (count($params) == 1 && $params[0]->getName() == 'options') {
@@ -72,12 +72,18 @@ class Factory
 
         /* @var $param ReflectionParameter */
         foreach ($params as $param) {
-            $arg_position = $param->getPosition();
-            $arg_value = $config[ $param->getName() ];
-            
             $arg_class = $param->getClass();
-            if ($arg_class)
-                $arg_value = $this->build($arg_value);
+            $arg_position = $param->getPosition();
+            $arg_name = $param->getName();
+
+            if (isset($config[$arg_name])) {
+                $arg_value = $config[$arg_name];
+                if ($arg_class)
+                    $arg_value = $this->build($arg_value);
+            }
+            else {
+                $arg_value = $param->getDefaultValue();
+            }
 
             $args[$arg_position] = $arg_value;
         }
@@ -89,7 +95,7 @@ class Factory
     {
         if (is_array($config_name))
             return $config_name;
-        
+
         return $this->config_source->load($config_name);
     }
 

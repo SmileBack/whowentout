@@ -21,6 +21,7 @@ class ClassLoader
 
         $reflection = new ReflectionClass($class_name);
         $args = array_slice(func_get_args(), 1);
+
         $instance = $reflection->newInstanceArgs($args);
 
         return $instance;
@@ -30,8 +31,10 @@ class ClassLoader
     {
         $subclass_name = $this->get_subclass_name($superclass, $subclass);
         if ($subclass_name) {
-            $args = array_slice(func_get_args(), 1);
-            return call_user_func_array(array($this, 'init'), $args);
+            $args = array_slice(func_get_args(), 2);
+            array_unshift($args, $subclass_name);
+            $instance = call_user_func_array(array($this, 'init'), $args);
+            return $instance;
         }
         else {
             return null;
