@@ -87,7 +87,8 @@ class JobQueue
     function run_in_background($job_id)
     {
         $run_job_url = $this->run_job_url($job_id);
-        $this->post_async($run_job_url);
+        $this->post_async_pusher($run_job_url);
+//        $this->post_async($run_job_url);
     }
 
     private function run_job_url($job_id)
@@ -111,9 +112,18 @@ class JobQueue
         return sha1(microtime(true) . mt_rand(10000, 90000));
     }
 
+    private function post_async_pusher($url, $params = array())
+    {
+        /* @var $pusher Pusher */
+        $pusher = factory()->build('pusher');
+        $pusher->trigger('job_queue', 'new_job', array(
+            'url' => $url,
+            'params' => $params,
+        ));
+    }
+
     private function post_async($url, $params = array())
     {
-        print_r($url);
         $post_params = array();
         foreach ($params as $key => &$val) {
             if (is_array($val)) $val = implode(',', $val);

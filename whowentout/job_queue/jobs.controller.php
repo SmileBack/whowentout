@@ -11,6 +11,10 @@ class Jobs_Controller extends Controller
         parent::__construct();
 
         $this->job_queue = factory()->build('job_queue');
+
+        js()->pusher_settings = array(
+            'key' => '1234567',
+        );
     }
 
     function test()
@@ -32,6 +36,11 @@ class Jobs_Controller extends Controller
 
         print json_encode(array('success' => TRUE));
         exit;
+    }
+
+    function client()
+    {
+        print r::job_client();
     }
 
 }
