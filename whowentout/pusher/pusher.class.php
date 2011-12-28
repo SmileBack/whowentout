@@ -171,5 +171,4 @@ class Pusher
 		return $this->socket_auth($channel, $socket_id, json_encode($user_data) );
 	}
 
-
 }

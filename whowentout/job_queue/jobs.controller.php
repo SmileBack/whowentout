@@ -19,15 +19,7 @@ class Jobs_Controller extends Controller
 
     function test()
     {
-        $path = 'C:\\test.txt';
-        $job = new TestJob(array(
-            'path' => $path,
-            'data' => 'oranges',
-        ));
-        $this->job_queue->add($job);
 
-        // run the job in the background
-        $this->job_queue->run_in_background($job->id);
     }
 
     function run($job_id)

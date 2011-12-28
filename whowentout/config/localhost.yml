@@ -104,3 +104,25 @@ test_invite_engine:
   type: InviteEngine
   database: test_database
   clock: clock
+
+job_queue:
+  type: JobQueue
+  database: database
+  pusher: pusher
+
+pusher:
+  type: Pusher
+  auth_key: 805af8a6919abc9fb047
+  secret: 66d4d08ba68b3da6a60f
+  app_id: 10138
+  debug: true
+  timeout: 10
+
+facebook_friend_source:
+  type: FacebookFriendSource
+  facebook: facebook
+
+facebook_friends_updater:
+  type: FacebookFriendsUpdater
+  database: database
+  friend_source: facebook_friend_source
