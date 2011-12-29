@@ -12,10 +12,10 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <link rel="stylesheet/less" type="text/css" href="/css/reset.0000000001.less" />
-    <link rel="stylesheet/less" type="text/css" href="/css/dialog.0000000001.less" />
-    <link rel="stylesheet/less" type="text/css" href="/css/jquery.jcrop.less" />
-    <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= time() ?>.less" />
+    <link rel="stylesheet/less" type="text/css" href="/css/reset.0000000001.less"/>
+    <link rel="stylesheet/less" type="text/css" href="/css/dialog.0000000001.less"/>
+    <link rel="stylesheet/less" type="text/css" href="/css/jquery.jcrop.less"/>
+    <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= time() ?>.less"/>
 
     <script src="/js/less.js" type="text/javascript"></script>
     <script src="/js/head.load.min.js" type="text/javascript"></script>
@@ -36,18 +36,22 @@
 <body>
 
 <nav id="nav">
-    <div class="logo" href="/"><img src="/images/logo.png"/></div>
-    <?= a('events', 'Events') ?>
 
-    <?php if (auth()->logged_in()): ?>
+    <a class="logo" href="/"><img src="/images/logo.png"/></a>
+
+    <div class="tabs">
+        <?= a('events', 'Events') ?>
+
+        <?php if (auth()->logged_in()): ?>
         <?= a('profile/edit', 'My Profile') ?>
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <?php if (auth()->is_admin()): ?>
+        <?php if (auth()->is_admin()): ?>
         <?= a('admin', 'Admin') ?>
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <?= auth()->get_login_link() ?>
+        <?= auth()->get_login_link() ?>
+    </div>
 
 </nav>
 

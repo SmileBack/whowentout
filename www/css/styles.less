@@ -83,9 +83,10 @@ input.inline {
     background-color: @primary_color;
     font-size: 20px;
     .logo {
+        display: block;
         margin: 30px 20px;
     }
-    a {
+    .tabs a {
         display: block;
         float: right;
         width: 150px;
@@ -96,10 +97,10 @@ input.inline {
         &:hover { background-color: white; color: #444; }
         border-top-left-radius: 8px;
         border-bottom-left-radius: 8px;
-    }
-    .active {
-        background-color: white;
-        color: #444;
+        &.active {
+            background-color: white;
+            color: #444;
+        }
     }
 }
 
@@ -241,7 +242,7 @@ td {
     }
 }
 
-.profile_crop_form .coordinates {
+.profile_pic_crop_form .coordinates {
     display: none;
 }
 
