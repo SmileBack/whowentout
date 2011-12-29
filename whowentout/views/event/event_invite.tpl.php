@@ -22,21 +22,22 @@ $friends = $current_user->friends->where('networks.name', 'Stanford')
                     <label>
                         <?= r::user_thumb(array('user' => $friend)) ?>
 
-                        <div class="invite_status">
-                            <?php if ($invite_engine->invite_is_sent($event, $current_user, $friend)): ?>
-                                invited by you
-                            <?php elseif ($invite_engine->is_invited($event, $friend)): ?>
-                                invited
-                            <?php elseif ($checkin_engine->user_has_checked_into_event($friend, $event)): ?>
-                                attending
+                            <?php if ($invite_engine->invite_is_sent($event, $current_user, $friend)): //invited by you ?>
+                                <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
+                            <?php elseif ($invite_engine->is_invited($event, $friend)): //invited by someone else ?>
+                                <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
+                            <?php elseif ($checkin_engine->user_has_checked_into_event($friend, $event)): //attending event ?>
+                                <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
                             <?php else: ?>
-                            &nbsp;
+                                <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
                             <?php endif; ?>
-                        </div>
 
-                        <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
-                        <?= $friend->first_name ?>
-                        <?= substr($friend->last_name, 0, 1) ?>
+                        <div class="user_first_name">
+                            <?= $friend->first_name ?>
+                        </div>
+                        <div class="user_last_name">
+                            <?= $friend->last_name ?>
+                        </div>
                     </label>
                 </li>
             <?php endforeach; ?>

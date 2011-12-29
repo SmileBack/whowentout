@@ -39,7 +39,7 @@ class InviteEngine
     {
         return $this->invites->where('event_id', $event->id)
                              ->where('sender_id', $sender->id)
-                             ->where('receiver_id', 1)
+                             ->where('receiver_id', $receiver->id)
                              ->count() > 0;
     }
 

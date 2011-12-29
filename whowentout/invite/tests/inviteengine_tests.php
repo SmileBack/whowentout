@@ -138,4 +138,13 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->invite_engine->is_invited($this->eden_event, $this->dan));
     }
 
+    function test_invite_is_sent_condition()
+    {
+        $this->invite_engine->send_invite($this->eden_event, $this->kate, $this->dan);
+        $this->assertTrue($this->invite_engine->invite_is_sent($this->eden_event, $this->kate, $this->dan), 'kate invited dan');
+
+        $this->invite_engine->destroy_invite($this->eden_event, $this->kate, $this->dan);
+        $this->assertFalse($this->invite_engine->invite_is_sent($this->eden_event, $this->kate, $this->dan), 'kate no longer invited dan');
+    }
+
 }
