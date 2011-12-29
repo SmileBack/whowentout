@@ -24,7 +24,9 @@ class Checkins_Controller extends Controller
             unset($_SESSION['checkins_create_event_id']);
 
             //show deal dialog and notice
-            js()->whowentout->showDealDialog($event->id);
+            if ($event->deal)
+                js()->whowentout->showDealDialog($event->id);
+            
             flash::message("You checked into " . $event->name . '.');
 
             app()->goto_event($event);
