@@ -22,6 +22,8 @@ class Profile_Controller extends Controller
         $profile_picture = $this->get_profile_picture();
         $profile_picture->set_to_facebook();
 
+        flash::message('Set your profile pic to your Facebook one');
+
         redirect('profile/edit');
     }
 
@@ -30,13 +32,17 @@ class Profile_Controller extends Controller
         $profile_picture = $this->get_profile_picture();
         $profile_picture->set_to_upload('pic');
 
-        redirect('profile');
+        flash::message('Uploaded a profile pic');
+
+        redirect('profile/edit');
     }
 
     function crop()
     {
         $profile_picture = $this->get_profile_picture();
         $profile_picture->crop($_POST['x'], $_POST['y'], $_POST['width'], $_POST['height']);
+
+        flash::message('Cropped your profile pic');
 
         redirect('profile/edit');
     }

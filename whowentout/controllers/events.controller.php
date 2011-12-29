@@ -3,15 +3,6 @@
 class Events_Controller extends Controller
 {
 
-    function __construct()
-    {
-    }
-
-    function test()
-    {
-
-    }
-
     function index($date = null)
     {
         $current_user = auth()->current_user();
@@ -31,12 +22,6 @@ class Events_Controller extends Controller
 
         $checkin = $checkin_engine->get_checkin_on_date($current_user, $date);
         $selected_event = $checkin ? $checkin->event : null;
-
-        if (isset($_SESSION['checkin_event_id'])) {
-            $event_id = $_SESSION['checkin_event_id'];
-            js()->whowentout->showDealDialog($event_id);
-            unset($_SESSION['checkin_event_id']);
-        }
 
         print r::page(array(
             'content' => r::events_view(array(

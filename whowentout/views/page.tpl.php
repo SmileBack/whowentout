@@ -64,7 +64,7 @@
 </div>
 <!-- page end -->
 
-<?= flash::message('hello there') ?>
+<?= flash::message() ?>
 
 <?= js() ?>
 
