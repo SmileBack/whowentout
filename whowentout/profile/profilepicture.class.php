@@ -30,7 +30,8 @@ class ProfilePicture
 
     function url($size)
     {
-        return $this->image_repository->url($this->user->id, $size);
+        $version = $this->row->version;
+        return $this->image_repository->url($this->user->id, $size) . "?version=$version";
     }
 
     function set_to_upload($field_name)

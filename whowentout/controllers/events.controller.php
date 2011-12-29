@@ -9,6 +9,7 @@ class Events_Controller extends Controller
 
     function test()
     {
+
     }
 
     function index($date = null)

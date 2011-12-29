@@ -95,7 +95,7 @@ class ImageRepository
 
     private function get_upload_filepath($field_name)
     {
-        $file = $_FILES['upload_pic'];
+        $file = $_FILES[$field_name];
         $filepath = $file['tmp_name'];
         return $filepath;
     }

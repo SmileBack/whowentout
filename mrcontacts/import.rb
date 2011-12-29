@@ -56,7 +56,9 @@ def begin_import(college)
   end
 end
 
-college = ARGV[0]
-begin_import(college)
+
+
+#college = ARGV[0]
+#begin_import(college)
 
 

@@ -213,18 +213,23 @@ class Index
 
     private function requires_rebuild()
     {
-        return !$this->cache_exists('index')
-               || $this->fetch_cached_version() < $this->fetch_real_version();
+        if (!$this->cache_exists('index'))
+            return true;
+
+        $cached_version = $this->fetch_cached_version();
+        $real_version = $this->fetch_real_version();
+
+        return version_compare($cached_version, $real_version, '<');
     }
 
     private function fetch_real_version()
     {
-        return intval(@file_get_contents($this->root . 'version.txt'));
+        return @file_get_contents($this->root . 'version.txt');
     }
 
     private function fetch_cached_version()
     {
-        return intval($this->cache_get('version'));
+        return $this->cache_get('version');
     }
 
     private function cache_key()
