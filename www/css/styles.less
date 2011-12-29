@@ -64,7 +64,7 @@ input.inline {
     #content {
         background-color: white;
         overflow: hidden;
-        padding: 10px 60px;
+        padding: 10px 10px;
         min-height: 900px;
         > * {
           float: left;
@@ -150,42 +150,57 @@ td {
     }
 }
 
-#dates {
+#events_date_selector {
     margin-bottom: 25px;
+    width: 100%;
 }
 
-#dates > a {
-    float: left;
-    text-align: center;
-    display: block;
-    width: 90px;
-    height: 70px;
-    overflow: hidden;
-    background: url(../images/calendar.png) no-repeat center;
-    margin: 0 8px;
-    text-decoration: none;
-    .day { margin-top: 25px; }
-    .date { font-weight: bold; font-size: 16px; }
-    &:hover {
-        background-image: url(../images/calendar_selected.png);
+#events_date_selector {
+    a {
+        float: left;
+        display: block;
+        text-align: center;
+        width: 90px;
+        height: 70px;
+        overflow: hidden;
+        margin: 0 6px;
+        text-decoration: none;
     }
-    &.active {
-        background-image: url(../images/calendar_selected.png);
-    }
-    &.prev, &.next {
+    .prev, .next {
         padding: 0;
         margin-top: 6px;
         text-indent: -9999px;
         width: 48px;
         height: 65px;
         background-repeat: no-repeat;
+        background-position: center;
         border: none;
     }
-    &.prev {
+    .prev {
         background-image: url(../images/arrow_left.png);
     }
-    &.next {
+    .next {
         background-image: url(../images/arrow_right.png);
+    }
+    .scrollable {
+        float: left;
+        width: 715px;
+        overflow: hidden;
+        .items {
+            float: left;
+            width: 20000em;
+        }
+        a {
+            background: url(../images/calendar.png) no-repeat center;
+            .day { margin-top: 25px; }
+            .date { font-weight: bold; font-size: 16px; }
+            &:hover {
+                background-image: url(../images/calendar_selected.png);
+            }
+            &.active {
+                background-image: url(../images/calendar_selected.png);
+            }
+        }
     }
 }
 
@@ -205,7 +220,7 @@ td {
 
 .event_list {
     width: 600px;
-    margin: 0 84px;
+    margin: 0 130px;
     float: left;
     clear: both;
     fieldset {
@@ -234,7 +249,7 @@ td {
 }
 
 .checkin_gallery {
-    margin-top: 20px;
+    margin: 20px 40px;
     > ul > li {
         display: inline-block;
     }

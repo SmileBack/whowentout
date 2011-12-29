@@ -1,17 +1,25 @@
-<?php $date = app()->clock()->today(); ?>
-
-<div id="dates">
+<?php
+/* @var $selected_date XDateTime */
+$capacity = 28;
+$start_index = $capacity - 3; //-3 puts it in the middle
+?>
+<div id="events_date_selector">
     <a href="/" class="prev">Prev</a>
-    <?php for ($n = 0; $n < 6; $n++): ?>
-        <?php $url = url('events/index/' . $date->format('Ymd')); ?>
-        <?= a_open('events/index/' . $date->format('Ymd')) ?>
+
+    <div class="scrollable" data-index="<?= $start_index ?>">
+        <div class="items">
+            <?php for ($n = -$capacity; $n <= +$capacity; $n++): ?>
+            <?php $cur_date = $selected_date->getDay($n); ?>
+            <?php $url = url('events/index/' . $cur_date->format('Ymd')); ?>
+            <?= a_open('events/index/' . $cur_date->format('Ymd')) ?>
             <div class="day">
-                <?= $n == 0 ? 'Today' : $date->format('D') ?>
+                <?= $n == 0 ? 'Today' : $cur_date->format('D') ?>
             </div>
-            <div class="date"><?= $date->format('j') ?></div>
-        <?= a_close() ?>
-        <?php $date->modify('+1 day') ?>
-    <?php endfor; ?>
+            <div class="date"><?= $cur_date->format('j') ?></div>
+            <?= a_close() ?>
+            <?php endfor; ?>
+        </div>
+    </div>
+
     <a href="/" class="next">Next</a>
 </div>
-        

@@ -7,6 +7,7 @@ $checkins = db()->table('checkins')
 ?>
 
 <div class="checkin_gallery">
+    <?= r::event_invite_link(array('event' => $event)) ?>
     <ul>
         <?php foreach ($checkins as $checkin): ?>
         <li>

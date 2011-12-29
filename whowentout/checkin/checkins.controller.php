@@ -26,7 +26,7 @@ class Checkins_Controller extends Controller
             //show deal dialog and notice
             if ($event->deal)
                 js()->whowentout->showDealDialog($event->id);
-            
+
             flash::message("You checked into " . $event->name . '.');
 
             app()->goto_event($event);

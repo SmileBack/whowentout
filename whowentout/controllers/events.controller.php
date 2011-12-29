@@ -10,10 +10,13 @@ class Events_Controller extends Controller
         if (isset($_SESSION['checkins_create_event_id']))
             redirect('checkins/create');
 
-        if ($date == null)
+        if ($date == null) {
             $date = app()->clock()->today();
+            redirect('events/index/' . $date->format('Ymd'));
+        }
         else {
             $date = DateTime::createFromFormat('Ymd', $date);
+            $date = new XDateTime($date->format('Y-m-d'));
             $date->setTime(0, 0, 0);
         }
 
