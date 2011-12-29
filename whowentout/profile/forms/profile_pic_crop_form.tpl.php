@@ -11,5 +11,5 @@ $box = $profile_picture->get_crop_box();
         <input type="text" name="height" value="<?= $box->height ?>"/>
     </div>
 
-    <input type="submit" value="Update"/>
+    <input type="submit" value="Crop"/>
 </form>

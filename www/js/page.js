@@ -44,6 +44,22 @@ $.fn.hiddenDimensions = function(includeMargin) {
     });
 };
 
+(function($) {
+    if ($.browser.msie == false)
+        return;
+
+    //fileinputs in satans browser require a blur to trigger a change event
+    $('input[type=file]').live('click', function(e) {
+        var self = this;
+        var blur = function() {
+            $(self).blur();
+        }
+        setTimeout(blur, 0);
+    });
+
+
+})(jQuery);
+
 $('.scrollable').entwine({
     onmatch: function() {
         var index = this.getIndex() || 0;
@@ -151,6 +167,17 @@ whowentout.showInviteDialog = function (event_id) {
     });
 };
 
+whowentout.showProfileEditDialog = function() {
+    $(function() {
+        whowentout.initDialog();
+        dialog.title('');
+        dialog.showDialog();
+        dialog.loadContent('/profile/edit', function() {
+            $('.profile_pic_crop_form').initCropper();
+        });
+    });
+};
+
 $('#flash_message').entwine({
     onmatch: function() {
         var flashMessage = this;
@@ -162,43 +189,61 @@ $('#flash_message').entwine({
     }
 });
 
-$(function () {
-    var api = null;
-
-    var crop_form = $('.profile_pic_crop_form');
-
-    function get_crop_box() {
-        var vals = crop_form.serializeArray();
+$('.profile_pic_crop_form').entwine({
+    onmatch: function() {
+//        this.initCropper();
+    },
+    onunmatch: function() {},
+    getCropBox: function() {
+        var vals = this.serializeArray();
         var box = {};
         for (var i = 0; i < vals.length; i++) {
             box[ vals[i].name ] = parseInt(vals[i].value);
         }
         return box;
+    },
+    setCropBox: function(x, y, width, height) {
+        this.find('input[name=x]').val(x);
+        this.find('input[name=y]').val(y);
+        this.find('input[name=width]').val(width);
+        this.find('input[name=height]').val(height);
+    },
+    initCropper: function() {
+        var self = this;
+
+        function onInit() {
+            var api = this;
+        }
+
+        function onCoordsChange(coords) {
+            self.setCropBox(coords.x, coords.y, coords.w, coords.h);
+        }
+
+        var box = this.getCropBox();
+        var options = {
+            aspectRatio: 0.75,
+            boxWith: 250,
+            boxHeight: 250,
+            setSelect: [box.x, box.y, box.x + box.width, box.y + box.height],
+            onChange: onCoordsChange,
+            onSelect: onCoordsChange
+        };
+
+        $('.profile_pic_source').Jcrop(options, onInit);
     }
+});
 
-    function on_jcrop_init() {
-        api = this;
+$('.edit_profile_link').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        whowentout.showProfileEditDialog();
     }
+});
 
-    function on_jcrop_coords_change(coords) {
-        crop_form.find('input[name=x]').val(coords.x);
-        crop_form.find('input[name=y]').val(coords.y);
-        crop_form.find('input[name=width]').val(coords.w);
-        crop_form.find('input[name=height]').val(coords.h);
+$('.profile_pic_upload_form input[type=file]').entwine({
+    onchange: function() {
+        this.closest('form').submit();
     }
-
-    var box = get_crop_box();
-    var jcrop_options = {
-        aspectRatio:0.75,
-        boxWith:250,
-        boxHeight:250,
-        setSelect:[box.x, box.y, box.x + box.width, box.y + box.height],
-        onChange:on_jcrop_coords_change,
-        onSelect:on_jcrop_coords_change,
-    };
-
-    $('.profile_pic_source').Jcrop(jcrop_options, on_jcrop_init);
-
 });
 
 $('a').entwine({

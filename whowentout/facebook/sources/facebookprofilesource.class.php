@@ -33,7 +33,7 @@ class FacebookProfileSource
 
         $profile->networks = $this->get_networks($facebook_id);
 
-        return $profile;s
+        return $profile;
     }
 
     private function get_gender(array $basic_info)

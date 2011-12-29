@@ -30,7 +30,7 @@
 
     <script type="text/javascript" src="/js/jquery.jcrop.js"></script>
 
-    <script type="text/javascript" src="/js/page.0000000010.js"></script>
+    <script type="text/javascript" src="/js/page.0000000011.js"></script>
 </head>
 
 <body>
@@ -43,7 +43,7 @@
         <?= a('events', 'Events') ?>
 
         <?php if (auth()->logged_in()): ?>
-        <?= a('profile/edit', 'My Profile') ?>
+        <?= a('profile/view', 'My Profile') ?>
         <?php endif; ?>
 
         <?php if (auth()->is_admin()): ?>

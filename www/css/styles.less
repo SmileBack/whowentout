@@ -3,6 +3,19 @@
 @yellow: #ffcc66;
 @sidebar_width: 300px;
 
+
+.opacity(@opacity: 1) {
+  /* Sensible browsers */
+  opacity: @opacity;
+  /* Netscape */
+  -moz-opacity: @opacity;
+  /* Safari 1.x */
+  -khtml-opacity: @opacity;
+  /* Satanic browsers */
+  -ms-filter: %('alpha(opacity=%s)', @opacity * 100); // some IE versions
+  filter: e(%('alpha(opacity=%s)', @opacity * 100));  // most other IE versions
+}
+
 body {
     background-color: @primary_color;
 }
@@ -11,9 +24,13 @@ label {
     font-weight: bold;
 }
 
-input[type="submit"] {
+.button {
     padding: 8px 12px;
     font-weight: bold;
+}
+
+input[type="submit"], button {
+    .button;
 }
 
 input.inline {
@@ -255,6 +272,41 @@ td {
     }
 }
 
+.profile {
+    margin: 15px;
+    padding: 15px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    width: 250px;
+    overflow: hidden;
+    .profile_pic {
+        float: left;
+        overflow: hidden;
+    }
+    .profile_info {
+        float: right;
+        width: 130px;
+        overflow: hidden;
+    }
+    .edit_profile_link {
+        display: block;
+        text-align: center;
+    }
+}
+
+.profile_edit_picture {
+    .profile_pic {
+        float: left;
+    }
+    .profile_pic_options {
+        float: right;
+        width: 200px;
+        li {
+            margin: 50px 50px;
+        }
+    }
+}
+
 .profile_small {
     margin: 15px;
     padding: 15px;
@@ -272,6 +324,22 @@ td {
 
 .profile_pic_crop_form .coordinates {
     display: none;
+}
+
+.file_input {
+    position: relative;
+    input[type="file"] {
+        position: relative;
+        text-align: right;
+        z-index: 2;
+        .opacity(0);
+    }
+    button {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
 }
 
 .user_thumb {
