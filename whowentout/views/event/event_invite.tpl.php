@@ -11,8 +11,6 @@ $friends = $current_user->friends->where('networks.name', 'Stanford')
 ?>
 
 <form class="event_invite" method="post" action="/invites/create">
-    <?= a(app()->event_link($event, array('class' => 'event_link')), 'Back to Event') ?>
-
     <input type="hidden" name="event_id" value="<?= $event->id ?>" />
     <fieldset>
         <legend>
@@ -45,6 +43,7 @@ $friends = $current_user->friends->where('networks.name', 'Stanford')
         </ul>
     </fieldset>
     <fieldset>
-        <input type="submit" class="send_invites_button" value="Send Invites" />
+        <input type="submit" class="send_invites_button" name="send" value="Send Invites" />
+        <?= a(app()->event_link($event, array('class' => 'event_link')), 'Cancel') ?>
     </fieldset>
 </form>

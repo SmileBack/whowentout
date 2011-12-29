@@ -18,14 +18,26 @@ class Invites_Controller extends Controller
         $event_id = $_POST['event_id'];
         $event = db()->table('events')->row($event_id);
 
-        $sender = auth()->current_user();
+        if (isset($_POST['send'])) {
+            $sender = auth()->current_user();
 
-        foreach ($_POST['recipients'] as $recipient_id) {
-            $receiver = db()->table('users')->row($recipient_id);
-            $this->invite_engine->send_invite($event, $sender, $receiver);
+            foreach ($this->get_recipients() as $receiver) {
+                $this->invite_engine->send_invite($event, $sender, $receiver);
+                flash::message('Sent invites');
+            }
         }
 
         app()->goto_event($event);
+    }
+
+    private function get_recipients()
+    {
+        $recipients = array();
+        foreach ($_POST['recipients'] as $receiver_id) {
+            $receiver = db()->table('users')->row($receiver_id);
+            $recipients[] = $receiver;
+        }
+        return $recipients;
     }
 
 }
