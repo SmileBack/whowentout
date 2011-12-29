@@ -23,6 +23,17 @@ whowentout.showInviteDialog = function (event_id) {
     });
 };
 
+$('#flash_message').entwine({
+    onmatch: function() {
+        var flashMessage = this;
+        setTimeout(function() {
+            flashMessage.fadeOut();
+        }, 3000);
+    },
+    onunmatch: function() {
+    }
+});
+
 $(function () {
     var api = null;
 
@@ -50,12 +61,12 @@ $(function () {
 
     var box = get_crop_box();
     var jcrop_options = {
-        aspectRatio: 0.75,
-        boxWith: 250,
-        boxHeight: 250,
-        setSelect: [box.x, box.y, box.x + box.width, box.y + box.height],
-        onChange: on_jcrop_coords_change,
-        onSelect: on_jcrop_coords_change,
+        aspectRatio:0.75,
+        boxWith:250,
+        boxHeight:250,
+        setSelect:[box.x, box.y, box.x + box.width, box.y + box.height],
+        onChange:on_jcrop_coords_change,
+        onSelect:on_jcrop_coords_change,
     };
 
     $('.profile_pic_source').Jcrop(jcrop_options, on_jcrop_init);

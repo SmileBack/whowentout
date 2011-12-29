@@ -100,13 +100,13 @@ function auth()
 }
 
 /**
- * @return JsObject
+ * @return JsWindowObject
  */
 function js()
 {
     static $js = null;
-    if (!$js && class_exists('JsObject'))
-        $js = new JsObject('window');
+    if (!$js && class_exists('JsWindowObject'))
+        $js = new JsWindowObject();
 
     return $js;
 }

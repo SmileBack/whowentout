@@ -30,7 +30,7 @@
 
     <script type="text/javascript" src="/js/jquery.jcrop.js"></script>
 
-    <script type="text/javascript" src="/js/page.0000000009.js"></script>
+    <script type="text/javascript" src="/js/page.0000000010.js"></script>
 </head>
 
 <body>
@@ -63,6 +63,8 @@
 
 </div>
 <!-- page end -->
+
+<?= flash::message('hello there') ?>
 
 <?= js() ?>
 
