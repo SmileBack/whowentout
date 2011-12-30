@@ -149,12 +149,12 @@ whowentout.initDialog = function () {
         window.dialog = $.dialog.create({centerInViewport:true});
 };
 
-whowentout.showDealDialog = function () {
+whowentout.showDealDialog = function (event_id) {
     $(function () {
         whowentout.initDialog();
         dialog.title('Claim your Deal');
         dialog.showDialog();
-        dialog.loadContent('/events/deal', function() {
+        dialog.loadContent('/events/deal/' + event_id, function() {
             $(".cell_phone_number").mask("(999) 999-9999");
         });
     });

@@ -7,6 +7,9 @@
         <label>
             Enter your cell phone number so we can send you deal
         </label>
+
+        <input type="hidden" name="event_id" value="<?= $event_id ?>" />
+
         <input type="text" class="cell_phone_number" name="user[cell_phone_number]" value="<?= $user->cell_phone_number ?>"/>
         <?php else: ?>
             <h3>

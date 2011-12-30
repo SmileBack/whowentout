@@ -57,20 +57,24 @@ class Events_Controller extends Controller
         ));
     }
 
-    function deal()
+    function deal($event_id)
     {
         print r::deal_popup(array(
             'user' => auth()->current_user(),
+            'event_id' => $event_id,
         ));
     }
 
     function deal_confirm()
     {
         $cell_phone_number = $_POST['user']['cell_phone_number'];
+        $event_id = $_POST['event_id'];
+        $event = db()->table('events')->row($event_id);
+
         auth()->current_user()->cell_phone_number = $this->format_phone_number($cell_phone_number);
         auth()->current_user()->save();
 
-        redirect('events');
+        app()->goto_event($event);
     }
 
     private function format_phone_number($phone_number)
