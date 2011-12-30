@@ -20,5 +20,5 @@ if (db()->has_table('sessions')) {
 
 session_start();
 
-app()->clock()->set_time(new DateTime('2011-12-08'));
+app()->clock()->set_time(new DateTime('2011-12-09'));
 route_uri_request();

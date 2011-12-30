@@ -179,6 +179,16 @@ class ResultSet implements Iterator
         return implode('', $sql);
     }
 
+    function to_array()
+    {
+        $array = array();
+        $set = clone $this;
+        foreach ($set as $result) {
+            $array[] = $result;
+        }
+        return $array;
+    }
+
     function parameters()
     {
         $params = array();

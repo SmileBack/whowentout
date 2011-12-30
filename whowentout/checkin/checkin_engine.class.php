@@ -70,7 +70,7 @@ class CheckinEngine
 
     function get_checkins_for_event($event)
     {
-        return $this->checkins->where('event_id', $event->id);
+        return $this->checkins->where('event_id', $event->id)->to_array();
     }
     
 }

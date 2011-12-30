@@ -53,9 +53,9 @@ $.dialog = {
 
         if (options.centerInViewport) {
             d.anchor('viewport', 'c'); //keeps the dialog box in the center
-            $(window).bind('scroll resize', _.debounce(function () {
+            setInterval(function() {
                 d.refreshPosition();
-            }, 250));
+            }, 250);
         }
 
         return d;

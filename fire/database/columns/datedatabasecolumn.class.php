@@ -5,7 +5,7 @@ class DateDatabaseColumn extends DatabaseColumn
 
     function from_database_value($value)
     {
-        return new DateTime($value, new DateTimeZone('UTC'));
+        return new XDateTime($value, new DateTimeZone('UTC'));
     }
 
     function to_database_value($value)
