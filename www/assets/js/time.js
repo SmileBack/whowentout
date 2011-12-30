@@ -90,12 +90,6 @@ $('.current_time').entwine({
 
 })();
 
-$('.time_counter').entwine({
-    getCurrentTime: function() {
-        return current_time();
-    }
-});
-
 jQuery(function($) {
     //this method prevents browsers with an incorrect time form providing incorrect results
     TimePassedEvent.GetCurrentTime = current_time;

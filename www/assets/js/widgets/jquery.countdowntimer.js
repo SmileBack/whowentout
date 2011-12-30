@@ -61,7 +61,10 @@
             return new Date(parseInt(target) * 1000);
         },
         getCurrentTime: function() {
-            return new Date();
+            if (window.current_time)
+                return window.current_time();
+            else
+                return new Date();
         },
         updateTimer: function(instant) {
             if (this.targetTime() == null)
