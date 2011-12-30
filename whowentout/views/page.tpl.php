@@ -27,10 +27,11 @@
     <script type="text/javascript" src="/js/jquery.position.js"></script>
     <script type="text/javascript" src="/js/jquery.body.js"></script>
     <script type="text/javascript" src="/js/jquery.dialog.js"></script>
+    <script type="text/javascript" src="/js/jquery.maskedinput.js"></script>
 
     <script type="text/javascript" src="/js/jquery.jcrop.js"></script>
 
-    <script type="text/javascript" src="/js/page.0000000011.js"></script>
+    <script type="text/javascript" src="/js/page.0000000012.js"></script>
 </head>
 
 <body>

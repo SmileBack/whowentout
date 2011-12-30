@@ -36,7 +36,7 @@ function get_days_checkins_for_event($event, $current_user, $checkin_engine)
                 if ($checkin->user_id != $current_user->id)
                     $days_checkins[] = $checkin;
                 else
-                    array_unshift($days_checkins, $checkin); // you are on the beginning 
+                    array_unshift($days_checkins, $checkin); // you are on the beginning
             }
         }
 

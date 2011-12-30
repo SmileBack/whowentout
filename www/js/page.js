@@ -53,7 +53,7 @@ $.fn.hiddenDimensions = function(includeMargin) {
         var self = this;
         var blur = function() {
             $(self).blur();
-        }
+        };
         setTimeout(blur, 0);
     });
 
@@ -154,7 +154,9 @@ whowentout.showDealDialog = function () {
         whowentout.initDialog();
         dialog.title('Claim your Deal');
         dialog.showDialog();
-        dialog.loadContent('/events/deal');
+        dialog.loadContent('/events/deal', function() {
+            $(".cell_phone_number").mask("(999) 999-9999");
+        });
     });
 };
 
