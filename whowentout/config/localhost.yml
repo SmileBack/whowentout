@@ -22,6 +22,20 @@ facebook:
     appId: 161054327279516
     secret: 8b1446580556993a34880a831ee36856
 
+facebook_profile_source:
+  type: FacebookProfileSource
+  facebook: facebook
+
+facebook_networks_updater:
+  type: FacebookNetworksUpdater
+  database: database
+  profile_source: FacebookProfileSource
+
+facebook_friends_updater:
+  type: FacebookFriendsUpdater
+  database: database
+
+
 auth:
   type: FacebookAuth
   facebook: facebook

@@ -1,4 +1,5 @@
 <form class="deal_popup" method="post" action="/events/deal_confirm">
+    <input type="hidden" name="event_id" value="<?= $event_id ?>" />
 
     <img alt="sample deal" src="/images/deal_popup.png"/>
 
@@ -7,8 +8,6 @@
         <label>
             Enter your cell phone number so we can send you deal
         </label>
-
-        <input type="hidden" name="event_id" value="<?= $event_id ?>" />
 
         <input type="text" class="cell_phone_number" name="user[cell_phone_number]" value="<?= $user->cell_phone_number ?>"/>
         <?php else: ?>

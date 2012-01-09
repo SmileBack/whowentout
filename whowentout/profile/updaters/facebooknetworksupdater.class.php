@@ -3,19 +3,28 @@
 class FacebookNetworksUpdater
 {
 
+    /* @var $database Database */
     private $database;
 
-    function __construct(Database $database)
+    /* @var $profile_source FacebookProfileSource */
+    private $profile_source;
+
+    function __construct(Database $database, FacebookProfileSource $profile_source)
     {
         $this->database = $database;
+        $this->profile_source = $profile_source;
     }
 
     /**
      * @param $user_id
      * @param $networks FacebookNetwork[]
      */
-    function save_networks($user_id, $networks)
+    function save_networks($user_id)
     {
+        $user = $this->database->table('users')->row($user_id);
+        $profile = $this->profile_source->fetch_profile($user->facebook_id);
+        $networks = $profile->networks;
+
         $this->database->execute('DELETE FROM user_networks WHERE user_id = :id', array(
             'id' => $user_id,
         ));

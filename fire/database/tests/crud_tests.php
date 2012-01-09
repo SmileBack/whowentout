@@ -83,7 +83,7 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
     function test_create_row_with_time()
     {
         $this->db->table('data')->create_column('my_date', array('type' => 'time'));
-        $date = new DateTime('2011-12-02', new DateTimeZone('UTC'));
+        $date = new XDateTime('2011-12-02', new DateTimeZone('UTC'));
         $row = $this->db->table('data')->create_row(array(
             'name' => 'woo a date name',
             'my_date' => $date,

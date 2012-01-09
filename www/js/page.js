@@ -224,8 +224,8 @@ $('.profile_pic_crop_form').entwine({
         var box = this.getCropBox();
         var options = {
             aspectRatio: 0.75,
-            boxWith: 250,
-            boxHeight: 250,
+            boxWith: 400,
+            boxHeight: 400,
             setSelect: [box.x, box.y, box.x + box.width, box.y + box.height],
             onChange: onCoordsChange,
             onSelect: onCoordsChange
