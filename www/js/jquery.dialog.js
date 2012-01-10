@@ -5,8 +5,7 @@
 
 $('#mask').entwine({
     onclick:function () {
-        if ($.dialog.hideMaskOnClick())
-            $('.dialog:visible').hideDialog();
+        $('.dialog').trigger('maskclick');
     }
 });
 
@@ -36,9 +35,6 @@ $.dialog = {
         else {
             this._hideMaskOnClick = v;
         }
-    },
-    mask:function () {
-        return $('#mask');
     },
     create:function (options) {
         var defaults = {};
@@ -88,6 +84,13 @@ $.dialog = {
 };
 
 $('.dialog').entwine({
+    onmaskclick: function() {
+        if ($.dialog.hideMaskOnClick())
+            $('.dialog:visible').hideDialog();
+    },
+    backgroundMask: function() {
+        return $('#mask');
+    },
     title:function (text) {
         if (text === undefined) {
             return this.find('h1').text();
@@ -110,8 +113,7 @@ $('.dialog').entwine({
     },
     loadContent:function (path, complete) {
         var self = this;
-        complete = complete || function () {
-        };
+        complete = complete || function () {};
 
         this.message('loading...');
         this.find('.dialog_body').load(path, function () {
@@ -168,13 +170,12 @@ $('.dialog').entwine({
         if (data != null) {
             this.data('dialog_data', data);
         }
-        $.dialog.mask().fadeIn(300);
+        this.backgroundMask().fadeIn(300);
         this.fadeIn(300);
         return this;
     },
     hideDialog:function () {
-        var self = this;
-        $.dialog.mask().fadeOut(300);
+        this.backgroundMask().fadeOut(300);
         this.fadeOut(300);
         this.clearActions();
         return this;

@@ -1,10 +1,10 @@
-$.fn.whenShown = function(fn) {
-    var props = { position: 'absolute', visibility: 'hidden', display: 'block' },
+$.fn.whenShown = function (fn) {
+    var props = { position:'absolute', visibility:'hidden', display:'block' },
     hiddenParents = $(this).parents().andSelf().not(':visible');
 
     //set style for hidden elements that allows computing
     var oldProps = [];
-    hiddenParents.each(function() {
+    hiddenParents.each(function () {
         var old = {};
 
         for (var name in props) {
@@ -18,7 +18,7 @@ $.fn.whenShown = function(fn) {
     var result = fn.call($(this));
 
     //reset styles
-    hiddenParents.each(function(i) {
+    hiddenParents.each(function (i) {
         var old = oldProps[i];
         for (var name in props) {
             this.style[ name ] = old[ name ];
@@ -28,30 +28,30 @@ $.fn.whenShown = function(fn) {
     return result;
 };
 
-$.fn.hiddenDimensions = function(includeMargin) {
-    return this.whenShown(function() {
+$.fn.hiddenDimensions = function (includeMargin) {
+    return this.whenShown(function () {
         return {
-            width: this.width(),
-            outerWidth: this.outerWidth(includeMargin),
-            innerWidth: this.innerWidth(),
-            height: this.height(),
-            innerHeight: this.innerHeight(),
-            outerHeight: this.outerHeight(includeMargin),
-            margin: $.fn.margin ? this.margin() : null,
-            padding: $.fn.padding ? this.padding() : null,
-            border: $.fn.border ? this.border() : null
+            width:this.width(),
+            outerWidth:this.outerWidth(includeMargin),
+            innerWidth:this.innerWidth(),
+            height:this.height(),
+            innerHeight:this.innerHeight(),
+            outerHeight:this.outerHeight(includeMargin),
+            margin:$.fn.margin ? this.margin() : null,
+            padding:$.fn.padding ? this.padding() : null,
+            border:$.fn.border ? this.border() : null
         };
     });
 };
 
-(function($) {
+(function ($) {
     if ($.browser.msie == false)
         return;
 
     //fileinputs in satans browser require a blur to trigger a change event
-    $('input[type=file]').live('click', function(e) {
+    $('input[type=file]').live('click', function (e) {
         var self = this;
-        var blur = function() {
+        var blur = function () {
             $(self).blur();
         };
         setTimeout(blur, 0);
@@ -61,48 +61,55 @@ $.fn.hiddenDimensions = function(includeMargin) {
 })(jQuery);
 
 $('.scrollable').entwine({
-    onmatch: function() {
+    onmatch:function () {
         var index = this.getIndex() || 0;
         this.setIndex(index);
     },
-    onunmatch: function() {},
-    animateToIndex: function(index, onComplete) {
+    onunmatch:function () {
+    },
+    animateToIndex:function (index, onComplete) {
         var self = this;
-        onComplete = onComplete || function() {};
+        onComplete = onComplete || function () {
+        };
+
         var x = this._indexToX(index);
-        this._animateToX(x, function() {
+        this._animateToX(x, function () {
             self.data('index', index);
             onComplete.call(self);
         });
     },
-    animateOffset: function(offset) {
+    animateOffset:function (offset, onComplete) {
         var index = this.getIndex() + offset;
-        this.animateToIndex(index);
+        this.animateToIndex(index, onComplete);
     },
-    setIndex: function(index) {
+    setIndex:function (index) {
         var x = this._indexToX(index);
         this._setX(x);
     },
-    getIndex: function() {
+    getIndex:function () {
         return this.data('index');
     },
-    _setX: function(x) {
-        this.find('> .items').css({'margin-left': -x + 'px'});
+    getCenterEl:function () {
+        var index = this.getIndex();
+        return this.getElAtIndex(index + 3);
     },
-    _animateToX: function(x, onComplete) {
+    _setX:function (x) {
+        this.find('> .items').css({'margin-left':-x + 'px'});
+    },
+    _animateToX:function (x, onComplete) {
         var self = this;
-        this.find('> .items').animate({'margin-left': -x + 'px'}, {
-            duration: 300,
-            complete: onComplete
+        this.find('> .items').animate({'margin-left':-x + 'px'}, {
+            duration:300,
+            complete:onComplete
         });
     },
-    _getElAtIndex: function(index) {
+    getElAtIndex:function (index) {
         return this.find('> .items > *').eq(index);
     },
-    _indexToX: function(index) {
+    _indexToX:function (index) {
         var width = 0;
-        var elementsBefore = this._getElAtIndex(index).prevAll();
-        elementsBefore.each(function() {
+        var elementsBefore = this.getElAtIndex(index).prevAll();
+        elementsBefore.each(function () {
             var dimensions = $(this).hiddenDimensions(true);
             width += dimensions.outerWidth;
         });
@@ -111,33 +118,39 @@ $('.scrollable').entwine({
 });
 
 $('#events_date_selector .items a').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         var index = this.index();
         var href = this.attr('href');
         this.closest('#events_date_selector')
-            .find('.scrollable').animateToIndex(index - 3, function() {
+        .find('.scrollable').animateToIndex(index - 3, function () {
             window.location = href;
         });
     }
 });
 
 $('#events_date_selector .prev').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
-        this.scrollableEl().animateOffset(-1);
+        var scrollable = this.scrollableEl();
+        scrollable.animateOffset(-1, function () {
+            window.location = scrollable.getCenterEl().attr('href');
+        });
     },
-    scrollableEl: function() {
+    scrollableEl:function () {
         return this.closest('#events_date_selector').find('.scrollable');
     }
 });
 
 $('#events_date_selector .next').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
-        this.scrollableEl().animateOffset(+1);
+        var scrollable = this.scrollableEl();
+        scrollable.animateOffset(+1, function () {
+            window.location = scrollable.getCenterEl().attr('href');
+        });
     },
-    scrollableEl: function() {
+    scrollableEl:function () {
         return this.closest('#events_date_selector').find('.scrollable');
     }
 });
@@ -154,8 +167,10 @@ whowentout.showDealDialog = function (event_id) {
         whowentout.initDialog();
         dialog.title('Claim your Deal');
         dialog.showDialog();
-        dialog.loadContent('/events/deal/' + event_id, function() {
-            $(".cell_phone_number").mask("(999) 999-9999");
+        dialog.loadContent('/events/deal/' + event_id, function () {
+            head.js('/js/jquery.maskedinput.js', function() {
+                $(".cell_phone_number").backgroundMask("(999) 999-9999");
+            });
         });
     });
 };
@@ -169,34 +184,59 @@ whowentout.showInviteDialog = function (event_id) {
     });
 };
 
-whowentout.showProfileEditDialog = function() {
-    $(function() {
+whowentout.showProfileEditDialog = function () {
+    $(function () {
         whowentout.initDialog();
         dialog.title('');
         dialog.showDialog();
-        dialog.loadContent('/profile/edit', function() {
+        dialog.loadContent('/profile/edit', function () {
             $('.profile_pic_crop_form').initCropper();
         });
     });
 };
 
+$(function () {
+    whowentout.router = Backbone.Router.extend({
+        routes:{
+            '': 'index',
+            'deal/:id':'showDealDialog',
+            'invite/:id':'showInviteDialog'
+        },
+        index: function () {
+            $('.dialog').hideDialog();
+        },
+        showDealDialog:function (event_id) {
+            whowentout.showDealDialog(event_id);
+        },
+        showInviteDialog:function (event_id) {
+            whowentout.showInviteDialog(event_id);
+        },
+        defaultRoute:function () {
+        }
+    });
+    whowentout.router = new whowentout.router();
+    
+    Backbone.history.start();
+});
+
 $('#flash_message').entwine({
-    onmatch: function() {
+    onmatch:function () {
         var flashMessage = this;
-        setTimeout(function() {
+        setTimeout(function () {
             flashMessage.fadeOut();
         }, 3000);
     },
-    onunmatch: function() {
+    onunmatch:function () {
     }
 });
 
 $('.profile_pic_crop_form').entwine({
-    onmatch: function() {
+    onmatch:function () {
 //        this.initCropper();
     },
-    onunmatch: function() {},
-    getCropBox: function() {
+    onunmatch:function () {
+    },
+    getCropBox:function () {
         var vals = this.serializeArray();
         var box = {};
         for (var i = 0; i < vals.length; i++) {
@@ -204,46 +244,47 @@ $('.profile_pic_crop_form').entwine({
         }
         return box;
     },
-    setCropBox: function(x, y, width, height) {
+    setCropBox:function (x, y, width, height) {
         this.find('input[name=x]').val(x);
         this.find('input[name=y]').val(y);
         this.find('input[name=width]').val(width);
         this.find('input[name=height]').val(height);
     },
-    initCropper: function() {
+    initCropper:function () {
         var self = this;
+        head.js('/js/jquery.jcrop.js', function () {
+            function onInit() {
+                var api = this;
+            }
 
-        function onInit() {
-            var api = this;
-        }
+            function onCoordsChange(coords) {
+                self.setCropBox(coords.x, coords.y, coords.w, coords.h);
+            }
 
-        function onCoordsChange(coords) {
-            self.setCropBox(coords.x, coords.y, coords.w, coords.h);
-        }
+            var box = self.getCropBox();
+            var options = {
+                aspectRatio:0.75,
+                boxWith:400,
+                boxHeight:400,
+                setSelect:[box.x, box.y, box.x + box.width, box.y + box.height],
+                onChange:onCoordsChange,
+                onSelect:onCoordsChange
+            };
 
-        var box = this.getCropBox();
-        var options = {
-            aspectRatio: 0.75,
-            boxWith: 400,
-            boxHeight: 400,
-            setSelect: [box.x, box.y, box.x + box.width, box.y + box.height],
-            onChange: onCoordsChange,
-            onSelect: onCoordsChange
-        };
-
-        $('.profile_pic_source').Jcrop(options, onInit);
+            $('.profile_pic_source').Jcrop(options, onInit);
+        });
     }
 });
 
 $('.edit_profile_link').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         whowentout.showProfileEditDialog();
     }
 });
 
 $('.profile_pic_upload_form input[type=file]').entwine({
-    onchange: function() {
+    onchange:function () {
         this.closest('form').submit();
     }
 });

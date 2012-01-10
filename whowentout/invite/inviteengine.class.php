@@ -43,6 +43,13 @@ class InviteEngine
                              ->count() > 0;
     }
 
+    function has_sent_invites($event, $sender)
+    {
+        return $this->invites->where('event_id', $event->id)
+                             ->where('sender_id', $sender->id)
+                             ->count() > 0;
+    }
+
     function destroy_invite($event, $sender, $receiver)
     {
         $this->invites->where('event_id', $event->id)

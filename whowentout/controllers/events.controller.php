@@ -3,9 +3,39 @@
 class Events_Controller extends Controller
 {
 
+    /* @var $db Database */
+    private $db;
+
+    /* @var $auth FacebookAuth */
+    private $auth;
+
+    /* @var $checkin_engine CheckinEngine */
+    private $checkin_engine;
+
+    /* @var $invite_engine InviteEngine */
+    private $invite_engine;
+
+    function __construct()
+    {
+        $this->db = db();
+        $this->auth = factory()->build('auth');
+        $this->checkin_engine = factory()->build('checkin_engine');
+        $this->invite_engine = factory()->build('invite_engine');
+    }
+
+    function test()
+    {
+        $current_user = $this->auth->current_user();
+        $event = $this->db->table('events')->row(4);
+
+        $result = $this->invite_engine->has_sent_invites($event, $current_user);
+
+        krumo::dump($result);
+    }
+
     function index($date = null)
     {
-        $current_user = auth()->current_user();
+        $current_user = $this->auth->current_user();
 
         if (isset($_SESSION['checkins_create_event_id']))
             redirect('checkins/create');
@@ -20,10 +50,7 @@ class Events_Controller extends Controller
             $date->setTime(0, 0, 0);
         }
 
-        /* @var $checkin_engine CheckinEngine */
-        $checkin_engine = factory()->build('checkin_engine');
-
-        $checkin = $checkin_engine->get_checkin_on_date($current_user, $date);
+        $checkin = $this->checkin_engine->get_checkin_on_date($current_user, $date);
         $selected_event = $checkin ? $checkin->event : null;
 
         print r::page(array(
@@ -35,14 +62,6 @@ class Events_Controller extends Controller
         ));
     }
 
-    /**
-     * @return CheckinEngine
-     */
-    private function checkin_engine()
-    {
-        return factory()->build('checkin_engine');
-    }
-
     private function default_date()
     {
         return app()->clock()->today();
@@ -50,7 +69,7 @@ class Events_Controller extends Controller
 
     function invite($event_id)
     {
-        $event = db()->table('events')->row($event_id);
+        $event = $this->db->table('events')->row($event_id);
 
         print r::event_invite(array(
             'event' => $event,
@@ -59,22 +78,32 @@ class Events_Controller extends Controller
 
     function deal($event_id)
     {
+        $event = $this->db->table('events')->row($event_id);
+        $current_user = $this->auth->current_user();
+        $has_invited = $this->invite_engine->has_sent_invites($event, $current_user);
+
         print r::deal_popup(array(
-            'user' => auth()->current_user(),
+            'user' => $current_user,
             'event_id' => $event_id,
+            'has_invited' => $has_invited,
         ));
     }
 
     function deal_confirm()
     {
         $cell_phone_number = $_POST['user']['cell_phone_number'];
+
         $event_id = $_POST['event_id'];
-        $event = db()->table('events')->row($event_id);
+        $event = $this->db->table('events')->row($event_id);
+        $current_user = $this->auth->current_user();
 
-        auth()->current_user()->cell_phone_number = $this->format_phone_number($cell_phone_number);
-        auth()->current_user()->save();
+        $current_user->cell_phone_number = $this->format_phone_number($cell_phone_number);
+        $current_user->save();
 
-        app()->goto_event($event);
+        if ($this->invite_engine->has_sent_invites($event, $current_user))
+            app()->goto_event($event); // skip over invite dialog
+        else
+            app()->goto_event($event, "#invite/$event->id"); // show invite dialog
     }
 
     private function format_phone_number($phone_number)
