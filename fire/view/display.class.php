@@ -8,7 +8,7 @@ class Display
     private $template_file_resource;
     private $vars = array();
 
-    function __construct($template_name)
+    function __construct($template_name, $options = array())
     {
         $this->load($template_name);
     }
@@ -52,6 +52,11 @@ class Display
         @ob_end_clean();
         
         return $rendered_template;
+    }
+
+    function __toString()
+    {
+        return $this->render();
     }
 
 }
