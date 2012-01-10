@@ -2,7 +2,7 @@
 
 require_once 'template.functions.php';
 
-class Template
+class Display
 {
 
     private $template_file_resource;

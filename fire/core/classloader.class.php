@@ -66,8 +66,10 @@ class ClassLoader
     {
         $candidate_subclass_names = array($subclass, "$subclass$superclass", "{$subclass}_{$superclass}");
         foreach ($candidate_subclass_names as $class_name) {
-            if ( $this->is_subclass($superclass, $class_name) )
-                return $class_name;
+            if ( $this->is_subclass($superclass, $class_name) ) {
+                $class_metadata = $this->get_class_metadata($class_name);
+                return $class_metadata['name']; // class name with correct capitalization
+            }
         }
         return null;
     }
