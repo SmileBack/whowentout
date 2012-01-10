@@ -166,7 +166,7 @@ whowentout.showDealDialog = function (event_id) {
     $(function () {
         whowentout.initDialog();
         dialog.title('Claim your Deal');
-        dialog.showDialog();
+        dialog.showDialog('deal_dialog');
         dialog.loadContent('/events/deal/' + event_id, function () {
             head.js('/js/jquery.maskedinput.js', function() {
                 $(".cell_phone_number").backgroundMask("(999) 999-9999");
@@ -179,10 +179,22 @@ whowentout.showInviteDialog = function (event_id) {
     $(function () {
         whowentout.initDialog();
         dialog.title('');
-        dialog.showDialog();
+        dialog.showDialog('invite_dialog');
         dialog.loadContent('/events/invite/' + event_id);
     });
 };
+$('.dialog.deal_dialog').entwine({
+    onmaskclick: function() {
+        this.find('form').submit();
+    }
+});
+
+$('.dialog.invite_dialog').entwine({
+    onmaskclick: function() {
+        var link = this.find('.cancel_link').attr('href');
+        window.location = link;
+    }
+});
 
 whowentout.showProfileEditDialog = function () {
     $(function () {

@@ -5,7 +5,10 @@
 
 $('#mask').entwine({
     onclick:function () {
-        $('.dialog').trigger('maskclick');
+        $('.dialog').trigger({
+            type: 'maskclick',
+            mask: this
+        });
     }
 });
 
@@ -27,15 +30,6 @@ jQuery(function ($) {
 });
 
 $.dialog = {
-    _hideMaskOnClick:true,
-    hideMaskOnClick:function (v) {
-        if (v === undefined) {
-            return this._hideMaskOnClick;
-        }
-        else {
-            this._hideMaskOnClick = v;
-        }
-    },
     create:function (options) {
         var defaults = {};
         options = $.extend({}, defaults, options);
@@ -85,8 +79,7 @@ $.dialog = {
 
 $('.dialog').entwine({
     onmaskclick: function() {
-        if ($.dialog.hideMaskOnClick())
-            $('.dialog:visible').hideDialog();
+        this.hideDialog();
     },
     backgroundMask: function() {
         return $('#mask');

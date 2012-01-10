@@ -45,6 +45,6 @@ $friends = $current_user->friends->where('networks.name', 'Stanford')
     </fieldset>
     <fieldset>
         <input type="submit" class="send_invites_button" name="send" value="Send Invites" />
-        <?= a(app()->event_link($event, array('class' => 'event_link')), 'Cancel') ?>
+        <?= a(app()->event_link($event), 'Cancel', array('class' => 'cancel_link')) ?>
     </fieldset>
 </form>
