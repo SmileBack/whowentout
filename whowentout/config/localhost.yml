@@ -66,6 +66,16 @@ profile_picture_factory:
   database: database
   image_repository: profile_pic_repository
 
+ticket_file_repository:
+  type: FileRepository
+  driver: local
+  path: tickets
+  base_url: http://localhost/
+
+ticket_repository:
+  type: ImageRepository
+  file_repository: ticket_file_repository
+
 timezone:
   type: DateTimeZone
   timezone: UTC

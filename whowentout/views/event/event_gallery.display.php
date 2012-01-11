@@ -24,7 +24,11 @@ class Event_Gallery extends Display
     function process()
     {
         $this->checkin = $this->checkin_engine->get_checkin_on_date($this->user, $this->date);
-        $this->checkins = $this->get_days_checkins_for_event($this->date, $this->user, $this->checkin_engine);
+
+        if ($this->checkin)
+            $this->checkins = $this->get_days_checkins_for_event($this->date, $this->user, $this->checkin_engine);
+
+        $this->hidden = ($this->checkin == null);
     }
 
     private function get_days_checkins_for_event()

@@ -15,6 +15,7 @@ cache/*
 
 # pics
 www/pics
+!www/pics/.htaccess
 
 # mr contacts data
 mrcontacts/data/*
