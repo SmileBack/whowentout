@@ -10,7 +10,7 @@ class XDateTime extends DateTime
         else
             parent::__construct($time, $timezone);
     }
-    
+
     function getDay($offset = 0)
     {
         $day = clone $this;

@@ -62,7 +62,14 @@ class Display
 
     function __toString()
     {
-        return $this->render();
+        try {
+            $rendered_html = $this->render();
+        }
+        catch (Exception $e) {
+            trigger_error(strval($e));
+        }
+
+        return $rendered_html;
     }
 
 }
