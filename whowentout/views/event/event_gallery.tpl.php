@@ -6,12 +6,12 @@
  * @var $checkins DatabaseRow[]
  */
 ?>
-<div class="checkin_gallery">
+<div class="event_gallery">
 
     <?php if ($checkin): ?>
         <?= r::event_invite_link(array('event' => $checkin->event)) ?>
     <?php else: ?>
-        <img class="checkin_gallery_message" src="/images/checkin_gallery_message.png" align="checkin to see who's going out" />
+        <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
     <?php endif; ?>
 
     <ul>
@@ -26,8 +26,13 @@
         <?php else: ?>
             <?php foreach ($checkins as $checkin): ?>
                 <li>
-                    <?= r::profile_small(array('user' => $checkin->user, 'hidden' => false)) ?>
-                    <div>attending <?= $checkin->event->name ?></div>
+                    <?=
+                    r::profile_small(array(
+                        'caption' => $checkin->event->name,
+                        'user' => $checkin->user,
+                        'hidden' => false)
+                    )
+                    ?>
                 </li>
             <?php endforeach; ?>
         <?php endif; ?>

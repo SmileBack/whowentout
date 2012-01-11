@@ -17,5 +17,8 @@ cache/*
 www/pics
 !www/pics/.htaccess
 
+# tickets
+www/tickets
+
 # mr contacts data
 mrcontacts/data/*

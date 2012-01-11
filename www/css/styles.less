@@ -16,6 +16,12 @@
   filter: e(%('alpha(opacity=%s)', @opacity * 100));  // most other IE versions
 }
 
+.shadow (@x: 1px, @y: 1px, @blur: 3px, @spread: 1px, @color: #dedede) {
+  -webkit-box-shadow: @x @y @blur @spread @color;
+  -moz-box-shadow: @x @y @blur @spread @color;
+  box-shadow: @x @y @blur @spread @color;
+}
+
 body {
     background-color: @primary_color;
 }
@@ -81,7 +87,6 @@ input.inline {
     #content {
         background-color: white;
         overflow: hidden;
-        padding: 10px 10px;
         min-height: 900px;
         > * {
           float: left;
@@ -168,11 +173,7 @@ td {
 }
 
 #events_date_selector {
-    margin-bottom: 25px;
-    width: 100%;
-}
-
-#events_date_selector {
+    margin: 10px 30px 20px 30px;
     a {
         float: left;
         display: block;
@@ -235,11 +236,15 @@ td {
     .comma_separated;
 }
 
+.event_list_wrapper {
+    width: 100%;
+    text-align: center;
+}
+
 .event_list {
     width: 600px;
-    margin: 0 130px;
-    float: left;
-    clear: both;
+    margin: auto;
+    text-align: left;
     fieldset {
         border: 1px solid grey;
     }
@@ -265,17 +270,25 @@ td {
     }
 }
 
-.checkin_gallery {
-    margin: 20px 40px;
+.event_gallery {
     position: relative;
-    .checkin_gallery_message {
+    width: 100%;
+    text-align: center;
+    border-top: 2px dotted grey;
+    margin-top: 15px;
+    padding-top: 15px;
+    background-color: #fafafa;
+    min-height: 600px;
+    .event_gallery_message {
         position: absolute;
         top: 45px;
         left: 50%;
-        margin-left: -270px;
+        margin-left: -205px;
     }
     > ul > li {
         display: inline-block;
+        margin: 15px;
+        background-color: white;
     }
 }
 
@@ -315,16 +328,13 @@ td {
 }
 
 .profile_small {
-    margin: 15px;
     padding: 15px;
-    border: 1px solid grey;
-    border-radius: 3px;
-    img {
-      display: block;
-    }
+    text-align: center;
+    width: 130px;
+    overflow: hidden;
+    .shadow;
     .profile_name {
       margin-top: 8px;
-      text-align: center;
       font-weight: bold;
     }
 }

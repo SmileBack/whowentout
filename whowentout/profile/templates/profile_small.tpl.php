@@ -5,6 +5,10 @@ $hidden = isset($hidden) ? $hidden : false;
 ?>
 
 <div class="profile_small">
+    <div class="profile_caption">
+        <?= $caption ?>
+    </div>
+
     <?php if ($hidden): ?>
         <?= img('/images/profile_anonymous.png'); ?>
     <?php else: ?>
@@ -15,7 +19,7 @@ $hidden = isset($hidden) ? $hidden : false;
         <?php if ($hidden): ?>
             &nbsp;
         <?php else: ?>
-            <?= $user->first_name . ' ' . substr($user->last_name, 0, 1) . '.' ?>
+            <?= $user->first_name . ' ' . $user->last_name ?>
         <?php endif; ?>
     </div>
 
