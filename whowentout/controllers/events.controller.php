@@ -25,13 +25,19 @@ class Events_Controller extends Controller
 
     function test()
     {
-//        $job = new UpdateFacebookNetworksJob(array(
-//            'user_id' => auth()->current_user()->id,
-//        ));
-        $job = new UpdateFacebookFriendsJob(array(
-            'user_id' => auth()->current_user()->id,
+        /* @var $profile_picture ProfilePicture */
+        $user = auth()->current_user();
+        $venue = 'McFaddens';
+        $deal = "Buy one beer get 2 free";
+        $date = '5.11.2012';
+        $profile_picture = factory()->build('profile_picture', $user);
+
+        $gen = new DealCouponGenerator();
+        $gen->generate($user, $profile_picture, $venue, $deal, $date);
+
+        print r::page(array(
+            'content' => sprintf('<img src="%s" />', '/images/woo.png?version=' . time()),
         ));
-        $job->run();
     }
 
     function index($date = null)
