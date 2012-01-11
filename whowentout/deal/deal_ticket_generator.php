@@ -1,8 +1,17 @@
 <?php
 
-class DealCouponGenerator
+class DealTicketGenerator
 {
 
+    /**
+     * @param DatabaseRow $user
+     * @param ProfilePicture $picture
+     * @param $venue
+     * @param $deal
+     * @param $date
+     *
+     * @return WideImage_Image
+     */
     function generate(DatabaseRow $user, ProfilePicture $picture, $venue, $deal, $date)
     {
         $ticket = $this->blank_ticket();
@@ -18,7 +27,7 @@ class DealCouponGenerator
 
         $this->print_date($ticket, $date);
 
-        $ticket->saveToFile('./images/woo.png');
+        return $ticket;
     }
 
     private function print_picture(WideImage_Image &$ticket, $picture)
