@@ -189,6 +189,16 @@ $('.dialog.deal_dialog').entwine({
     }
 });
 
+whowentout.showNetworkRequiredDialog = function() {
+    $(function() {
+        whowentout.initDialog();
+        dialog.title('Required Network');
+        dialog.showDialog('network_required_dialog');
+        dialog.setButtons('ok');
+        dialog.loadContent('/home/network_required');
+    });
+};
+
 $('.dialog.invite_dialog').entwine({
     onmaskclick: function() {
         var link = this.find('.cancel_link').attr('href');

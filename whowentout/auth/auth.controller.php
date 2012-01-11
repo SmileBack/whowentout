@@ -21,6 +21,10 @@ class Auth_Controller extends Controller
         if (auth()->logged_in())
             auth()->create_user();
 
+        app()->trigger('login', array(
+            'user' => auth()->current_user(),
+        ));
+
         redirect('events');
     }
 

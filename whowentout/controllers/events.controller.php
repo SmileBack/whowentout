@@ -23,26 +23,6 @@ class Events_Controller extends Controller
         $this->invite_engine = factory()->build('invite_engine');
     }
 
-    function test()
-    {
-        /* @var $profile_picture ProfilePicture */
-        $event = db()->table('events')->row(2);
-        $user = auth()->current_user();
-        $venue = $event->place->name;
-        $deal = $event->deal;
-        $date = $event->date->format('m.d.Y');
-        $profile_picture = factory()->build('profile_picture', $user);
-
-        $gen = new DealTicketGenerator();
-        $ticket = $gen->generate($user, $profile_picture, $venue, $deal, $date);
-
-        $ticket->saveToFile('./images/woo.png');
-
-        print r::page(array(
-            'content' => sprintf('<img src="%s" />', '/images/woo.png?version=' . time()),
-        ));
-    }
-
     function index($date = null)
     {
         $current_user = $this->auth->current_user();

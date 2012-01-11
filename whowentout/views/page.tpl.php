@@ -31,7 +31,7 @@
     <script type="text/javascript" src="/js/jquery.body.js"></script>
     <script type="text/javascript" src="/js/jquery.dialog.js"></script>
 
-    <script type="text/javascript" src="/js/page.0000000023.js"></script>
+    <script type="text/javascript" src="/js/page.0000000025.js"></script>
 </head>
 
 <body>

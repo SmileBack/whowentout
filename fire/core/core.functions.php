@@ -143,11 +143,12 @@ function is_active($path)
     return string_starts_with($path, $current_url);
 }
 
-function conjunct($words)
+function conjunct($words, $join = 'and')
 {
     $last_word = array_pop($words);
+    $comma = count($words) > 2 ? ',' : '';
     return empty($words) ? $last_word
-            : implode(', ', $words) . ", and $last_word";
+            : implode(', ', $words) . "$comma $join $last_word";
 }
 
 function check_required_options($options_to_check, $required_options)
@@ -169,6 +170,7 @@ function redirect($destination)
 {
     $url = site_url($destination);
     header("Location: $url");
+    exit;
 }
 
 function run_command($args)

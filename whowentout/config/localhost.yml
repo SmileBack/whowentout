@@ -149,3 +149,11 @@ facebook_friends_updater:
   type: FacebookFriendsUpdater
   database: database
   friend_source: facebook_friend_source
+
+network_blocker:
+  type: NetworkBlocker
+  database: database
+  allowed_networks:
+    #- 16777270 #gwu
+    - 16777219 #stanford
+    #- 16777224 #mit
