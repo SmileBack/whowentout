@@ -5,9 +5,12 @@ class XDateTime extends DateTime
 
     function __construct($time = 'now', $timezone = NULL)
     {
-        parent::__construct($time, $timezone);
+        if (func_num_args() == 1)
+            parent::__construct($time);
+        else
+            parent::__construct($time, $timezone);
     }
-
+    
     function getDay($offset = 0)
     {
         $day = clone $this;
