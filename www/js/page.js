@@ -165,11 +165,11 @@ whowentout.initDialog = function () {
 whowentout.showDealDialog = function (event_id) {
     $(function () {
         whowentout.initDialog();
-        dialog.title('Claim your Deal');
+        dialog.title('');
         dialog.showDialog('deal_dialog');
         dialog.loadContent('/events/deal/' + event_id, function () {
             head.js('/js/jquery.maskedinput.js', function() {
-                $(".cell_phone_number").backgroundMask("(999) 999-9999");
+                $(".cell_phone_number").mask("(999) 999-9999").trigger('focus');
             });
         });
     });

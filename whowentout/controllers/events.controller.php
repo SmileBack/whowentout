@@ -85,7 +85,7 @@ class Events_Controller extends Controller
 
         print r::deal_popup(array(
             'user' => $current_user,
-            'event_id' => $event_id,
+            'event' => $event,
             'has_invited' => $has_invited,
         ));
     }

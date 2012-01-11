@@ -23,6 +23,7 @@ class Event_Gallery extends Display
 
     function process()
     {
+        $this->checkin = $this->checkin_engine->get_checkin_on_date($this->user, $this->date);
         $this->checkins = $this->get_days_checkins_for_event($this->date, $this->user, $this->checkin_engine);
     }
 
@@ -33,7 +34,6 @@ class Event_Gallery extends Display
         $events_on_date = db()->table('events')
                               ->where('date', $this->date);
 
-        $this->checkin = $this->checkin_engine->get_checkin_on_date($this->user, $this->date);
         $checkin_count = array();
 
         foreach ($events_on_date as $cur_event) {
@@ -43,7 +43,7 @@ class Event_Gallery extends Display
                 $days_checkins[] = $checkin;
             }
         }
-        
+
         $this->checkin_count = $checkin_count;
         usort($days_checkins, array($this, 'checkin_sort_comparison'));
 
