@@ -25,6 +25,7 @@ class FacebookNetworksUpdater
         $profile = $this->profile_source->fetch_profile($user->facebook_id);
         $networks = $profile->networks;
 
+        $this->database->begin_transaction();
         $this->database->execute('DELETE FROM user_networks WHERE user_id = :id', array(
             'id' => $user_id,
         ));
@@ -41,6 +42,7 @@ class FacebookNetworksUpdater
                 'network_id' => $network->id,
             ));
         }
+        $this->database->commit_transaction();
 
     }
 

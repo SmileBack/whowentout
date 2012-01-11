@@ -25,12 +25,13 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $current_user = $this->auth->current_user();
-        $event = $this->db->table('events')->row(4);
-
-        $result = $this->invite_engine->has_sent_invites($event, $current_user);
-
-        krumo::dump($result);
+//        $job = new UpdateFacebookNetworksJob(array(
+//            'user_id' => auth()->current_user()->id,
+//        ));
+        $job = new UpdateFacebookFriendsJob(array(
+            'user_id' => auth()->current_user()->id,
+        ));
+        $job->run();
     }
 
     function index($date = null)

@@ -29,12 +29,11 @@ facebook_profile_source:
 facebook_networks_updater:
   type: FacebookNetworksUpdater
   database: database
-  profile_source: FacebookProfileSource
+  profile_source: facebook_profile_source
 
 facebook_friends_updater:
   type: FacebookFriendsUpdater
   database: database
-
 
 auth:
   type: FacebookAuth

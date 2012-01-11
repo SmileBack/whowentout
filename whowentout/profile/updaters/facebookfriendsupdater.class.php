@@ -20,8 +20,8 @@ class FacebookFriendsUpdater
      */
     function update_facebook_friends($user)
     {
+        set_time_limit(5 * 60);
         $friends = $this->friend_source->fetch_facebook_friends($user->facebook_id);
-
         // insert all users from $friends who aren't already in the users table
         foreach ($friends as $friend) {
 

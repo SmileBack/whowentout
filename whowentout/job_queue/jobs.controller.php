@@ -17,11 +17,6 @@ class Jobs_Controller extends Controller
         );
     }
 
-    function test()
-    {
-
-    }
-
     function run($job_id)
     {
         $this->job_queue->run($job_id);

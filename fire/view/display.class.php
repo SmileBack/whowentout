@@ -34,7 +34,7 @@ class Display
 
     function __get($var_name)
     {
-        return $this->vars[$var_name];
+        return isset($this->vars[$var_name]) ? $this->vars[$var_name] : null;
     }
 
     function __set($var_name, $var_value)
@@ -42,10 +42,16 @@ class Display
         $this->set($var_name, $var_value);
     }
 
+    // to be overridden
+    function process()
+    {
+    }
+
     function render()
     {
-        extract($this->vars);
+        $this->process();
 
+        extract($this->vars);
         ob_start();
         include( $this->template_file_resource['filepath'] );
         $rendered_template = ob_get_contents();

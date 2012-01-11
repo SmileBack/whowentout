@@ -15,7 +15,7 @@ class r
 
         $display = $class_loader->init($display_class, $view_name);
         $display->set($vars);
-        
+
         return $display;
     }
     
