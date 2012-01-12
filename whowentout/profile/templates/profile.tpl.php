@@ -35,7 +35,7 @@
 
         <ul class="profile_mutual_friends">
            <?php foreach ($mutual_friends as $friend): ?>
-                <li><?= r::profile_small(array('user' => $friend)) ?></li>
+                <li><?= r::profile_small(array('user' => $friend, 'show_networks' => true)) ?></li>
            <?php endforeach; ?>
         </ul>
     </section>

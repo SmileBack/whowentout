@@ -32,8 +32,15 @@ class Events_Controller extends Controller
         $dan = db()->table('users')->where('last_name', 'Berenholtz')->first();
         $ven = db()->table('users')->where('last_name', 'Dinavahi')->first();
 
-        $calc = new EntourageCalculator(db());
-        $calc->compute($ven->id);
+        /* @var $source FacebookFriendSource */
+        $source = factory()->build('facebook_friend_source');
+
+        /* @var $updater FacebookFriendsUpdater */
+        $updater = factory()->build('facebook_friends_updater');
+
+//        $friends = $source->fetch_facebook_friends($ven->facebook_id);
+        $updater->update_facebook_friends($ven);
+//        krumo::dump($friends);
     }
 
     function index($date = null)
