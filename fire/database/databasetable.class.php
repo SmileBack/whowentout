@@ -397,14 +397,21 @@ class DatabaseTable implements Iterator
     }
 
     /**
+     * @return ResultSet
+     */
+    function all()
+    {
+        return new ResultSet($this);
+    }
+
+    /**
      * @param  $field_name string
      * @param  $value mixed
      * @return ResultSet
      */
     function where($field_name, $value)
     {
-        $result_set = new ResultSet($this);
-        return $result_set->where($field_name, $value);
+        return $this->all()->where($field_name, $value);
     }
 
     /**
@@ -414,8 +421,7 @@ class DatabaseTable implements Iterator
      */
     function order_by($field_name, $order = 'asc')
     {
-        $result_set = new ResultSet($this);
-        return $result_set->order_by($field_name, $order);
+        return $this->all()->order_by($field_name, $order);
     }
 
     /**
@@ -424,8 +430,7 @@ class DatabaseTable implements Iterator
      */
     function limit($n)
     {
-        $result_set = new ResultSet($this);
-        return $result_set->limit($n);
+        return $this->all()->limit($n);
     }
 
     /* Iterator Methods */
