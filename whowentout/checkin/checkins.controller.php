@@ -36,11 +36,11 @@ class Checkins_Controller extends Controller
             flash::message("You checked into " . $event->name . '.');
 
             if ($event->deal)
-                app()->goto_event($event, "#deal/$event->id");
+                app()->goto_event($event, "/deal/$event->id");
             elseif ($this->invite_engine->has_sent_invites($event, $current_user))
                 app()->goto_event($event); // skip invite dialog
             else
-                app()->goto_event($event, "#invite/$event->id"); // show invite dialog
+                app()->goto_event($event, "/invite/$event->id"); // show invite dialog
         }
         else {
             $_SESSION['checkins_create_event_id'] = $event->id;

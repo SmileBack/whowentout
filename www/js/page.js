@@ -1,4 +1,4 @@
-$.fn.whenShown = function (fn) {
+ $.fn.whenShown = function (fn) {
     var props = { position:'absolute', visibility:'hidden', display:'block' },
     hiddenParents = $(this).parents().andSelf().not(':visible');
 
@@ -221,24 +221,29 @@ $(function () {
     whowentout.router = Backbone.Router.extend({
         routes:{
             '': 'index',
-            'deal/:id':'showDealDialog',
-            'invite/:id':'showInviteDialog'
+            'events/index/:date/deal/:id':'showDealDialog',
+            'events/index/:date/invite/:id':'showInviteDialog',
+            'events/index/:date': 'displayDate'
         },
         index: function () {
             $('.dialog').hideDialog();
         },
-        showDealDialog:function (event_id) {
+        displayDate: function(date) {
+
+        },
+        showDealDialog:function (date, event_id) {
             whowentout.showDealDialog(event_id);
         },
-        showInviteDialog:function (event_id) {
+        showInviteDialog:function (date, event_id) {
             whowentout.showInviteDialog(event_id);
         },
         defaultRoute:function () {
         }
     });
+
     whowentout.router = new whowentout.router();
     
-    Backbone.history.start();
+    Backbone.history.start({pushState: true});
 });
 
 $('#flash_message').entwine({
