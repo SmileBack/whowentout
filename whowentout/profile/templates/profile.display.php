@@ -18,6 +18,8 @@ class Profile_Display extends Display
         /* @var $entourage_calc EntourageCalculator */
         $entourage_calc = factory()->build('entourage_calculator');
         $this->entourage = $entourage_calc->compute($this->user->id);
+
+        $this->your_profile = ($this->user == $this->current_user);
     }
 
 }

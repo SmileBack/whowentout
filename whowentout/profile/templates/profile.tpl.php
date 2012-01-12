@@ -7,7 +7,10 @@
     <div class="profile_main">
         <div class="profile_pic">
             <?= img($profile_picture_url) ?>
+            
+            <?php if ($your_profile): ?>
             <a href="/profile/edit" class="edit_profile_link">Change</a>
+            <?php endif; ?>
         </div>
 
         <div class="profile_info">

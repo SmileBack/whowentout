@@ -33,6 +33,7 @@
                     'caption' => $checkin->event->name,
                     'user' => $checkin->user,
                     'link_to_profile' => true,
+                    'show_networks' => true,
                     'hidden' => false,
                 ))
                 ?>
