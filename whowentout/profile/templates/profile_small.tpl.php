@@ -1,11 +1,3 @@
-<?php
-/* @var $profile_picture ProfilePicture */
-$profile_picture = factory()->build('profile_picture', $user);
-$hidden = isset($hidden) ? $hidden : false;
-$show_networks = isset($show_networks) ? $show_networks : false;
-$link_to_profile = isset($link_to_profile) ? $link_to_profile : false;
-?>
-
 <div class="profile_small">
     <?php if (isset($caption)): ?>
     <div class="profile_caption">
@@ -18,10 +10,12 @@ $link_to_profile = isset($link_to_profile) ? $link_to_profile : false;
     <?php else: ?>
 
         <?php if ($link_to_profile): ?>
-            <?= a_open(
-            "profile/view/$user->id") ?>
+            <?= a_open("profile/view/$user->id") ?>
         <?php endif; ?>
-            <?= img($profile_picture->url('thumb')) ?>
+
+        <div class="gallery_thumb">
+            <?= img($profile_picture_url) ?>
+        </div>
 
         <?php if ($link_to_profile): ?>
             <?= a_close() ?>

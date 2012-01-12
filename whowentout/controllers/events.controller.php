@@ -32,15 +32,14 @@ class Events_Controller extends Controller
         $dan = db()->table('users')->where('last_name', 'Berenholtz')->first();
         $ven = db()->table('users')->where('last_name', 'Dinavahi')->first();
 
-        /* @var $source FacebookFriendSource */
-        $source = factory()->build('facebook_friend_source');
+        /* @var $profile_picture_factory ProfilePictureFactory */
+        $profile_picture_factory = factory()->build('profile_picture_factory');
+        $profile_picture = $profile_picture_factory->build($ven);
 
-        /* @var $updater FacebookFriendsUpdater */
-        $updater = factory()->build('facebook_friends_updater');
-
-//        $friends = $source->fetch_facebook_friends($ven->facebook_id);
-        $updater->update_facebook_friends($ven);
-//        krumo::dump($friends);
+        $src = $profile_picture->url('facebook.medium');
+        print r::page(array(
+            'content' => sprintf('<img src="%s" />', $src),
+        ));
     }
 
     function index($date = null)

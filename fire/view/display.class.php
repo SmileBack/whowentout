@@ -8,6 +8,8 @@ class Display
     private $template_file_resource;
     private $vars = array();
 
+    protected $defaults = array();
+
     function __construct($template_name, $options = array())
     {
         $this->load($template_name);
@@ -42,6 +44,16 @@ class Display
         $this->set($var_name, $var_value);
     }
 
+    function __isset($var_name)
+    {
+        return isset($this->vars[$var_name]);
+    }
+
+    function __unset($var_name)
+    {
+        unset($this->vars[$var_name]);
+    }
+
     // to be overridden
     function process()
     {
@@ -49,6 +61,7 @@ class Display
 
     function render()
     {
+        $this->apply_default_variables();
         $this->process();
 
         extract($this->vars);
@@ -70,6 +83,14 @@ class Display
         }
 
         return $rendered_html;
+    }
+
+    protected function apply_default_variables()
+    {
+        foreach ($this->defaults as $var_name => $var_value) {
+            if (!isset($this->$var_name))
+                $this->$var_name = $var_value;
+        }
     }
 
 }

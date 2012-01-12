@@ -22,22 +22,12 @@
 
     <section class="entourage_section">
         <h3>Entourage</h3>
-
-        <ul class="entourage">
-            <?php foreach ($entourage as $user): ?>
-                <li><?= r::profile_small(array('user' => $user)) ?></li>
-            <?php endforeach; ?>
-        </ul>
+        <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb')) ?>
     </section>
 
     <section class="mutual_friends_section">
         <h3>Mutual Friends</h3>
-
-        <ul class="profile_mutual_friends">
-           <?php foreach ($mutual_friends as $friend): ?>
-                <li><?= r::profile_small(array('user' => $friend, 'show_networks' => true)) ?></li>
-           <?php endforeach; ?>
-        </ul>
+        <?= r::profile_gallery(array('users' => $mutual_friends, 'preset' => 'facebook.normal', 'show_networks' => true)); ?>
     </section>
 
 </div>

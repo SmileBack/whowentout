@@ -453,14 +453,23 @@ td {
     }
 }
 
-.user_thumb {
+.thumb(@width, @height) {
     overflow: hidden;
-    height: 100px;
-    width: 100px;
-    img {
-        min-width: 100px;
-        min-height: 100px;
+    width: @width;
+    height: @height;
+    > img {
+        min-width: @width;
+        min-height: @height;
     }
+}
+
+.user_thumb {
+    .thumb(100px, 100px);
+}
+
+.gallery_thumb {
+    .thumb(105px, 140px);
+    margin: auto;
 }
 
 .event_invite fieldset {

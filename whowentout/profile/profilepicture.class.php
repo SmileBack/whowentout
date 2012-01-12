@@ -31,7 +31,13 @@ class ProfilePicture
     function url($size)
     {
         $version = $this->row->version;
-        return $this->image_repository->url($this->user->id, $size) . "?version=$version";
+        if (string_starts_with('facebook.', $size)) {
+            $type = string_after_first('facebook.', $size);
+            return $this->get_facebook_image_url($this->user, $type);
+        }
+        else {
+            return $this->image_repository->url($this->user->id, $size) . "?version=$version";
+        }
     }
 
     function set_to_upload($field_name)
@@ -105,10 +111,10 @@ class ProfilePicture
         $this->update_version();
     }
 
-    private function get_facebook_image_url($user)
+    private function get_facebook_image_url($user, $type = 'large')
     {
         $facebook_id = $user->facebook_id;
-        return "https://graph.facebook.com/$facebook_id/picture?type=large";
+        return "https://graph.facebook.com/$facebook_id/picture?type=$type";
     }
 
     function set_default_crop_box()
