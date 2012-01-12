@@ -1,4 +1,4 @@
- $.fn.whenShown = function (fn) {
+$.fn.whenShown = function (fn) {
     var props = { position:'absolute', visibility:'hidden', display:'block' },
     hiddenParents = $(this).parents().andSelf().not(':visible');
 
@@ -91,7 +91,7 @@ $('.scrollable').entwine({
     },
     getCenterEl:function () {
         var index = this.getIndex();
-        return this.getElAtIndex(index + 3);
+        return this.indexToEl(index + 3);
     },
     _setX:function (x) {
         this.find('> .items').css({'margin-left':-x + 'px'});
@@ -103,12 +103,12 @@ $('.scrollable').entwine({
             complete:onComplete
         });
     },
-    getElAtIndex:function (index) {
+    indexToEl:function (index) {
         return this.find('> .items > *').eq(index);
     },
     _indexToX:function (index) {
         var width = 0;
-        var elementsBefore = this.getElAtIndex(index).prevAll();
+        var elementsBefore = this.indexToEl(index).prevAll();
         elementsBefore.each(function () {
             var dimensions = $(this).hiddenDimensions(true);
             width += dimensions.outerWidth;
@@ -117,41 +117,37 @@ $('.scrollable').entwine({
     }
 });
 
+$('#events_date_selector').entwine({
+    setActiveLink: function(link) {
+        this.find('.active').removeClass('active');
+        link.addClass('active');
+        return this;
+    }
+});
+
 $('#events_date_selector .items a').entwine({
     onclick:function (e) {
         e.preventDefault();
         var index = this.index();
-        var href = this.attr('href');
+
+        whowentout.router.navigate(this.attr('href'), true);
         this.closest('#events_date_selector')
-        .find('.scrollable').animateToIndex(index - 3, function () {
-            window.location = href;
-        });
+            .setActiveLink(this)
+            .find('.scrollable').animateToIndex(index - 3);
     }
 });
 
 $('#events_date_selector .prev').entwine({
     onclick:function (e) {
         e.preventDefault();
-        var scrollable = this.scrollableEl();
-        scrollable.animateOffset(-1, function () {
-            window.location = scrollable.getCenterEl().attr('href');
-        });
-    },
-    scrollableEl:function () {
-        return this.closest('#events_date_selector').find('.scrollable');
+        this.closest('#events_date_selector').find('a.active').prev().click();
     }
 });
 
 $('#events_date_selector .next').entwine({
     onclick:function (e) {
         e.preventDefault();
-        var scrollable = this.scrollableEl();
-        scrollable.animateOffset(+1, function () {
-            window.location = scrollable.getCenterEl().attr('href');
-        });
-    },
-    scrollableEl:function () {
-        return this.closest('#events_date_selector').find('.scrollable');
+        this.closest('#events_date_selector').find('a.active').next().click();
     }
 });
 
@@ -168,7 +164,7 @@ whowentout.showDealDialog = function (event_id) {
         dialog.title('');
         dialog.showDialog('deal_dialog');
         dialog.loadContent('/events/deal/' + event_id, function () {
-            head.js('/js/jquery.maskedinput.js', function() {
+            head.js('/js/jquery.maskedinput.js', function () {
                 $(".cell_phone_number").mask("(999) 999-9999").trigger('focus');
             });
         });
@@ -184,13 +180,13 @@ whowentout.showInviteDialog = function (event_id) {
     });
 };
 $('.dialog.deal_dialog').entwine({
-    onmaskclick: function() {
+    onmaskclick:function () {
         this.find('form').submit();
     }
 });
 
-whowentout.showNetworkRequiredDialog = function() {
-    $(function() {
+whowentout.showNetworkRequiredDialog = function () {
+    $(function () {
         whowentout.initDialog();
         dialog.title('Required Network');
         dialog.showDialog('network_required_dialog');
@@ -200,7 +196,7 @@ whowentout.showNetworkRequiredDialog = function() {
 };
 
 $('.dialog.invite_dialog').entwine({
-    onmaskclick: function() {
+    onmaskclick:function () {
         var link = this.find('.cancel_link').attr('href');
         window.location = link;
     }
@@ -220,16 +216,16 @@ whowentout.showProfileEditDialog = function () {
 $(function () {
     whowentout.router = Backbone.Router.extend({
         routes:{
-            '': 'index',
+            '':'index',
             'events/index/:date/deal/:id':'showDealDialog',
             'events/index/:date/invite/:id':'showInviteDialog',
-            'events/index/:date': 'displayDate'
+            'events/index/:date':'displayDate'
         },
-        index: function () {
+        index:function () {
             $('.dialog').hideDialog();
         },
-        displayDate: function(date) {
-
+        displayDate:function (date) {
+            $('.event_day').updateDate(date);
         },
         showDealDialog:function (date, event_id) {
             whowentout.showDealDialog(event_id);
@@ -242,8 +238,8 @@ $(function () {
     });
 
     whowentout.router = new whowentout.router();
-    
-    Backbone.history.start({pushState: true});
+
+    Backbone.history.start({pushState:true});
 });
 
 $('#flash_message').entwine({
@@ -368,5 +364,34 @@ $('.event_invite input[type=checkbox]').entwine({
 $('.event_list :radio').entwine({
     onclick:function () {
         this.closest('form').submit();
+    }
+});
+
+$('.event_day').entwine({
+    updateDate:function (date) {
+        var self = this;
+
+        if (this.getCurrentDate() == date) // no update necessary
+            return;
+
+        var pHtml = this.getUpdatedHtml(date);
+        $.when(pHtml).then(function(html) {
+            var nEl = $(html);
+            var date = $(nEl).attr('data-date');
+            self.replaceWith(html);
+        });
+    },
+    getCurrentDate: function() {
+        return this.attr('data-date');
+    },
+    getUpdatedHtml:function (date) {
+        var url = '/events/index_ajax/' + date;
+        return $.ajax({
+            url:url,
+            type:'post',
+            success:function (html) {
+                console.log(html);
+            }
+        });
     }
 });

@@ -23,25 +23,6 @@ class Events_Controller extends Controller
         $this->invite_engine = factory()->build('invite_engine');
     }
 
-    function test()
-    {
-        /* @var $updater FacebookFriendsUpdater */
-//        $updater = factory()->build('facebook_friends_updater');
-//        $updater->update_facebook_friends($dan);
-
-        $dan = db()->table('users')->where('last_name', 'Berenholtz')->first();
-        $ven = db()->table('users')->where('last_name', 'Dinavahi')->first();
-
-        /* @var $profile_picture_factory ProfilePictureFactory */
-        $profile_picture_factory = factory()->build('profile_picture_factory');
-        $profile_picture = $profile_picture_factory->build($ven);
-
-        $src = $profile_picture->url('facebook.medium');
-        print r::page(array(
-            'content' => sprintf('<img src="%s" />', $src),
-        ));
-    }
-
     function index($date = null)
     {
         $current_user = $this->auth->current_user();
@@ -59,17 +40,29 @@ class Events_Controller extends Controller
             $date->setTime(0, 0, 0);
         }
 
-        $checkin = $this->checkin_engine->get_checkin_on_date($current_user, $date);
-        $selected_event = $checkin ? $checkin->event : null;
-
         print r::page(array(
-            'content' => r::events_view(array(
-                'date' => $date,
-                'checkin' => $checkin,
-                'selected_event' => $selected_event,
-            )),
+            'content' => r::events_date_selector(array('selected_date' => $date))
+                       . r::event_day(array(
+                           'checkin_engine' => $this->checkin_engine,
+                           'current_user' => auth()->current_user(),
+                           'date' => $date,
+                       )),
         ));
     }
+
+    function index_ajax($date)
+    {
+        $date = DateTime::createFromFormat('Ymd', $date);
+        $date = new XDateTime($date->format('Y-m-d'));
+        $date->setTime(0, 0, 0);
+
+        print r::event_day(array(
+            'checkin_engine' => $this->checkin_engine,
+            'current_user' => auth()->current_user(),
+            'date' => $date,
+        ));
+    }
+
 
     private function default_date()
     {
