@@ -44,7 +44,7 @@
         <?= a('events', 'Events') ?>
 
         <?php if (auth()->logged_in()): ?>
-        <?= a('profile/view', 'My Profile') ?>
+        <?= a('profile/view/me', 'My Profile') ?>
         <?php endif; ?>
 
         <?php if (auth()->is_admin()): ?>
