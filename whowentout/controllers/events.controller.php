@@ -23,6 +23,13 @@ class Events_Controller extends Controller
         $this->invite_engine = factory()->build('invite_engine');
     }
 
+    function test()
+    {
+        print r::page(array(
+            'content' => r::test(),
+        ));
+    }
+
     function index($date = null)
     {
         $current_user = $this->auth->current_user();
@@ -44,7 +51,7 @@ class Events_Controller extends Controller
             'content' => r::events_date_selector(array('selected_date' => $date))
                        . r::event_day(array(
                            'checkin_engine' => $this->checkin_engine,
-                           'current_user' => auth()->current_user(),
+                           'current_user' => $current_user,
                            'date' => $date,
                        )),
         ));

@@ -80,6 +80,34 @@
     }
 }
 
+.arrow(@color: black, @size: 20px) {
+    background: transparent;
+    border-color: RGBa(0, 0, 0, 0) RGBa(0, 0, 0, 0) @color RGBa(0, 0, 0, 0);
+    border-width: @size;
+    border-style: solid;
+    display: inline-block;
+}
+
+.date_tip {
+    width: 150px;
+    text-align: center;
+    position: relative;
+    background-color: #333;
+    color: white;
+    font-size: 18px;
+    .date_arrow {
+        .arrow(#333, 10px);
+        position: absolute;
+        left: 50%;
+        top: 0;
+        margin-top: -20px;
+        margin-left: -10px;
+    }
+    .date_content {
+        padding: 4px;
+    }
+}
+
 body {
     background-color: @primary_color;
 }
@@ -232,7 +260,7 @@ td {
 }
 
 #events_date_selector {
-    margin: 10px 30px 20px 30px;
+    margin: 10px 30px 12px 30px;
     a {
         float: left;
         display: block;
@@ -297,7 +325,12 @@ td {
 
 .event_list_wrapper {
     width: 100%;
+    margin-top: 15px;
     text-align: center;
+}
+
+.event_day .date_tip {
+    margin: 0 auto;
 }
 
 .event_list {
@@ -460,12 +493,12 @@ td {
     }
 }
 
-.thumb(@width, @height) {
+.thumb(@size, @height) {
     overflow: hidden;
-    width: @width;
+    width: @size;
     height: @height;
     > img {
-        min-width: @width;
+        min-width: @size;
         min-height: @height;
     }
 }
