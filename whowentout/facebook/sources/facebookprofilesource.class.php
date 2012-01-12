@@ -25,10 +25,10 @@ class FacebookProfileSource
         $profile->id = $basic_info['id'];
         $profile->first_name = $basic_info['first_name'];
         $profile->last_name = $basic_info['last_name'];
-        $profile->email = $basic_info['email'];
+        $profile->email = isset($basic_info['email']) ? $basic_info['email'] : null;
 
         $profile->gender = $this->get_gender($basic_info);
-        $profile->hometown = $basic_info['hometown']['name'];
+        $profile->hometown = isset($basic_info['hometown']) ? $basic_info['hometown']['name'] : null;
         $profile->birthday = $this->get_birthday($basic_info);
 
         $profile->networks = $this->get_networks($facebook_id);
