@@ -1,14 +1,14 @@
-# Netbeans project files
+# netbeans project files
 nbproject
 # PhpStorm project files
 .idea
 
-# Temp files
+# temp files
 tmp/*
 # Except for the .htaccess that blocks public access to temp files
 !tmp/.htaccess
 
-# Cache files
+# cache files
 cache/*
 # Except for the .htaccess that blocks public access to the cache
 !cache/.htaccess

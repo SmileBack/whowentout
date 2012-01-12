@@ -3,16 +3,18 @@
 class Profile_Controller extends Controller
 {
 
-    function view()
+    function view($user_id = null)
     {
         if (!auth()->logged_in())
             show_404();
 
         $current_user = auth()->current_user();
+        $user = isset($user_id) ? db()->table('users')->row($user_id) : auth()->current_user();
 
         print r::page(array(
             'content' => r::profile(array(
-                'user' => $current_user,
+                'user' => $user,
+                'current_user' => $current_user,
             )),
         ));
     }

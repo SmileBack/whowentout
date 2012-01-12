@@ -22,6 +22,64 @@
   box-shadow: @x @y @blur @spread @color;
 }
 
+.green_button_style {
+    background-color: #7FBF4D;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7fbf4d), color-stop(100%, #63a62f));
+    background-image: -webkit-linear-gradient(top, #7fbf4d, #63a62f);
+    background-image: -moz-linear-gradient(top, #7fbf4d, #63a62f);
+    background-image: -ms-linear-gradient(top, #7fbf4d, #63a62f);
+    background-image: -o-linear-gradient(top, #7fbf4d, #63a62f);
+    background-image: linear-gradient(top, #7fbf4d, #63a62f);
+    border: 1px solid #63A62F;
+    border-bottom: 1px solid #5B992B;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 0 0 #96ca6d;
+    -moz-box-shadow: inset 0 1px 0 0 #96ca6d;
+    -ms-box-shadow: inset 0 1px 0 0 #96ca6d;
+    -o-box-shadow: inset 0 1px 0 0 #96ca6d;
+    box-shadow: inset 0 1px 0 0 #96ca6d;
+    color: white;
+    font: bold 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    line-height: 1;
+    padding: 5px 0 6px 0;
+    text-align: center;
+    text-shadow: 0 -1px 0 #4C9021;
+    width: 150px;
+    border-image: initial;
+    &:hover {
+        background-color: #76B347;
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #76b347), color-stop(100%, #5e9e2e));
+        background-image: -webkit-linear-gradient(top, #76b347, #5e9e2e);
+        background-image: -moz-linear-gradient(top, #76b347, #5e9e2e);
+        background-image: -ms-linear-gradient(top, #76b347, #5e9e2e);
+        background-image: -o-linear-gradient(top, #76b347, #5e9e2e);
+        background-image: linear-gradient(top, #76b347, #5e9e2e);
+        -webkit-box-shadow: inset 0 1px 0 0 #8dbf67;
+        -moz-box-shadow: inset 0 1px 0 0 #8dbf67;
+        -ms-box-shadow: inset 0 1px 0 0 #8dbf67;
+        -o-box-shadow: inset 0 1px 0 0 #8dbf67;
+        box-shadow: inset 0 1px 0 0 #8dbf67;
+        cursor: pointer;
+    }
+}
+
+.gallery {
+    width: 100%;
+    text-align: center;
+    > ul {
+        clear: both;
+    }
+    > ul > li {
+        display: inline-block;
+        margin: 15px;
+        background-color: white;
+    }
+}
+
 body {
     background-color: @primary_color;
 }
@@ -266,47 +324,78 @@ td {
       input { float: left; margin: 10px; }
       .place { width: 150px; float: left; margin: 10px; font-weight: bold; }
       .deal { width: 200px; float: left; margin: 10px; }
-      .help { width: 50px; float: left; margin: 10px; color: #b5b5b5; font-size: 12px; }
+      .checkin_button {
+          .green_button_style;
+          width: 100px;
+          float: left;
+          font-size: 12px;
+          margin-top: 5px;
+      }
     }
 }
 
 .event_gallery {
+    .gallery;
     position: relative;
-    width: 100%;
     text-align: center;
     border-top: 2px dotted grey;
     margin-top: 15px;
     padding-top: 15px;
-    background-color: #fafafa;
     min-height: 600px;
+    background-color: #fafafa;
     .event_gallery_message {
         position: absolute;
         top: 45px;
         left: 50%;
         margin-left: -205px;
     }
-    > ul > li {
-        display: inline-block;
-        margin: 15px;
-        background-color: white;
+    .event_invite_link {
+        .green_button_style;
+        font-size: 18px;
+        margin-top: 15px;
+        color: white;
+        text-decoration: none;
+        display: block;
+        float: right;
+        margin-right: 30px;
+        &:active, &:visited {
+            color: white;
+        }
     }
 }
 
 .profile {
-    margin: 15px;
-    padding: 15px;
-    border: 1px solid grey;
-    border-radius: 3px;
-    width: 250px;
+    margin: 30px 80px;
+    width: 80%;
+    float: left;
     overflow: hidden;
+    section {
+        float: left;
+        clear: both;
+        width: 100%;
+        margin-top: 20px;
+        > h3 {
+            width: 100%;
+            border-bottom: 1px solid grey;
+            text-align: left;
+        }
+    }
+    .mutual_friends_section {
+        .gallery;
+    }
+    .entourage_section {
+        .gallery;
+    }
     .profile_pic {
         float: left;
         overflow: hidden;
+        margin: 15px;
     }
     .profile_info {
-        float: right;
-        width: 130px;
+        float: left;
         overflow: hidden;
+        margin: 15px;
+
     }
     .edit_profile_link {
         display: block;
@@ -333,6 +422,11 @@ td {
     width: 130px;
     overflow: hidden;
     .shadow;
+    .profile_caption {
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
     .profile_name {
       margin-top: 8px;
       font-weight: bold;

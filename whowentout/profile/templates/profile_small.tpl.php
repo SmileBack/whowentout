@@ -2,17 +2,31 @@
 /* @var $profile_picture ProfilePicture */
 $profile_picture = factory()->build('profile_picture', $user);
 $hidden = isset($hidden) ? $hidden : false;
+$show_networks = isset($show_networks) ? $show_networks : false;
+$link_to_profile = isset($link_to_profile) ? $link_to_profile : false;
 ?>
 
 <div class="profile_small">
+    <?php if (isset($caption)): ?>
     <div class="profile_caption">
         <?= $caption ?>
     </div>
+    <?php endif; ?>
 
     <?php if ($hidden): ?>
         <?= img('/images/profile_anonymous.png'); ?>
     <?php else: ?>
-        <?= img($profile_picture->url('thumb')) ?>
+
+        <?php if ($link_to_profile): ?>
+            <?= a_open(
+            "profile/view/$user->id") ?>
+        <?php endif; ?>
+            <?= img($profile_picture->url('thumb')) ?>
+
+        <?php if ($link_to_profile): ?>
+            <?= a_close() ?>
+        <?php endif; ?>
+
     <?php endif; ?>
 
     <div class="profile_name">
@@ -23,9 +37,7 @@ $hidden = isset($hidden) ? $hidden : false;
         <?php endif; ?>
     </div>
 
-    <?php if ($hidden): ?>
-        &nbsp;
-    <?php else: ?>
+    <?php if (!$hidden && $show_networks): ?>
         <?= r::profile_networks(array('user' => $user)) ?>
     <?php endif; ?>
 </div>

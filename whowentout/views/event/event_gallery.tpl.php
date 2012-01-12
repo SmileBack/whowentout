@@ -9,31 +9,34 @@
 <div class="event_gallery">
 
     <?php if ($checkin): ?>
-        <?= r::event_invite_link(array('event' => $checkin->event)) ?>
-    <?php else: ?>
-        <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
+    <?= r::event_invite_link(array('event' => $checkin->event)) ?>
+    <?php endif; ?>
+
+    <?php if (!$checkin): ?>
+    <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out"/>
     <?php endif; ?>
 
     <ul>
 
         <?php if ($hidden): ?>
-            <?php for ($n = 0; $n < 4 * 3; $n++): ?>
-                <li>
-                    <?= r::profile_anonymous() ?>
-                </li>
+        <?php for ($n = 0; $n < 4 * 3; $n++): ?>
+            <li>
+                <?= r::profile_anonymous() ?>
+            </li>
             <?php endfor; ?>
 
         <?php else: ?>
-            <?php foreach ($checkins as $checkin): ?>
-                <li>
-                    <?=
-                    r::profile_small(array(
-                        'caption' => $checkin->event->name,
-                        'user' => $checkin->user,
-                        'hidden' => false)
-                    )
-                    ?>
-                </li>
+        <?php foreach ($checkins as $checkin): ?>
+            <li>
+                <?=
+                r::profile_small(array(
+                    'caption' => $checkin->event->name,
+                    'user' => $checkin->user,
+                    'link_to_profile' => true,
+                    'hidden' => false,
+                ))
+                ?>
+            </li>
             <?php endforeach; ?>
         <?php endif; ?>
 

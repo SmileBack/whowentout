@@ -23,6 +23,19 @@ class Events_Controller extends Controller
         $this->invite_engine = factory()->build('invite_engine');
     }
 
+    function test()
+    {
+        /* @var $updater FacebookFriendsUpdater */
+//        $updater = factory()->build('facebook_friends_updater');
+//        $updater->update_facebook_friends($dan);
+
+        $dan = db()->table('users')->where('last_name', 'Berenholtz')->first();
+        $ven = db()->table('users')->where('last_name', 'Dinavahi')->first();
+
+        $calc = new EntourageCalculator(db());
+        $calc->compute($ven->id);
+    }
+
     function index($date = null)
     {
         $current_user = $this->auth->current_user();

@@ -22,9 +22,9 @@ class FacebookFriendsUpdater
     {
         set_time_limit(5 * 60);
         $friends = $this->friend_source->fetch_facebook_friends($user->facebook_id);
+
         // insert all users from $friends who aren't already in the users table
         foreach ($friends as $friend) {
-
             $friend_row = $this->database->table('users')->create_or_update_row(array(
                 'facebook_id' => $friend->id,
                 'gender' => $friend->gender,

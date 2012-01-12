@@ -31,10 +31,6 @@ facebook_networks_updater:
   database: database
   profile_source: facebook_profile_source
 
-facebook_friends_updater:
-  type: FacebookFriendsUpdater
-  database: database
-
 auth:
   type: FacebookAuth
   facebook: facebook
@@ -149,6 +145,14 @@ facebook_friends_updater:
   type: FacebookFriendsUpdater
   database: database
   friend_source: facebook_friend_source
+
+mutual_friends_calculator:
+  type: MutualFriendsCalculator
+  database: database
+
+entourage_calculator:
+  type: EntourageCalculator
+  database: database
 
 network_blocker:
   type: NetworkBlocker

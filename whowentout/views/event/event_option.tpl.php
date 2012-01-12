@@ -10,7 +10,7 @@
     <div class="deal">
         <?= $event->deal ?>
     </div>
-    <div class="help">
+    <div class="checkin_button">
         check-in
     </div>
 </label>
