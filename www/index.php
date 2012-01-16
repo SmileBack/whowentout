@@ -12,7 +12,9 @@ print '<br/>';
 require_once FIREPATH . 'debug/krumo.class.php';
 require_once FIREPATH . 'core/core.functions.php';
 
+print "<h1>before env</h1>";
 print "<h1> env = " . environment() . "</h1>";
+print "<h1>after env</h1>";
 
 print "<h1>got here (require core woo yea) </h1>";
 
