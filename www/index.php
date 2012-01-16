@@ -6,6 +6,9 @@ define('APPPATH', dirname(__FILE__) . '/../');
 require_once FIREPATH . 'debug/krumo.class.php';
 require_once FIREPATH . 'core/core.functions.php';
 
+print "<h1>got here </h1>";
+exit;
+
 if (db()->has_table('sessions')) {
     $session_handler = factory()->build('session_handler');
     session_set_save_handler(
