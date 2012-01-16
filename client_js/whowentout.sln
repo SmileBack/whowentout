@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "whowentout", "whowentout\whowentout.csproj", "{78EA835C-53F3-4B0D-93AD-D86D6CEE9D13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCore", "WebCore\WebCore.csproj", "{2F710632-F36F-4ABB-B9C4-D306DE421EB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{0CCCF7E1-BCD1-41B7-9FE2-ACF5BFFAC71F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78EA835C-53F3-4B0D-93AD-D86D6CEE9D13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78EA835C-53F3-4B0D-93AD-D86D6CEE9D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78EA835C-53F3-4B0D-93AD-D86D6CEE9D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78EA835C-53F3-4B0D-93AD-D86D6CEE9D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F710632-F36F-4ABB-B9C4-D306DE421EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F710632-F36F-4ABB-B9C4-D306DE421EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F710632-F36F-4ABB-B9C4-D306DE421EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F710632-F36F-4ABB-B9C4-D306DE421EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CCCF7E1-BCD1-41B7-9FE2-ACF5BFFAC71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CCCF7E1-BCD1-41B7-9FE2-ACF5BFFAC71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CCCF7E1-BCD1-41B7-9FE2-ACF5BFFAC71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CCCF7E1-BCD1-41B7-9FE2-ACF5BFFAC71F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

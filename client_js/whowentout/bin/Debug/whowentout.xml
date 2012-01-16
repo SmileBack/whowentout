@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>whowentout</name>
+    </assembly>
+    <members>
+        <member name="F:PusherApi.ConnectionState.Initialized">
+            <summary>
+            Initial state. No event is emitted in this state.
+            </summary>
+        </member>
+        <member name="F:PusherApi.ConnectionState.Connecting">
+            <summary>
+            All dependencies have been loaded and Pusher is trying to connect.
+            The connection will also enter this state when it is trying to reconnect after a connection failure.
+            </summary>
+        </member>
+        <member name="F:PusherApi.ConnectionState.Connected">
+            <summary>
+            The connection to Pusher is open and authenticated with your app.
+            </summary>
+        </member>
+        <member name="F:PusherApi.ConnectionState.Unavailable">
+            <summary>
+            The connection is temporarily unavailable. In most cases this means
+            that there is no internet connection. It could also mean that Pusher is down,
+            or some intermediary is blocking the connection. In this state, Pusher will 
+            automatically retry the connection every ten seconds.
+            </summary>
+        </member>
+        <member name="F:PusherApi.ConnectionState.Failed">
+            <summary>
+            Pusher is not supported by the browser. This implies that Flash is not available, 
+            since that is the only fallback in browsers that do not natively support WebSockets.
+            </summary>
+        </member>
+        <member name="F:PusherApi.ConnectionState.Disconnected">
+            <summary>
+            The Pusher connection was previously connected and has now intentionally been closed.
+            </summary>
+        </member>
+        <member name="P:whowentout.lib.JobQueue.Count">
+            <summary>
+            The number of Jobs remaining in the queue.
+            The job currently being executed is not included.
+            </summary>
+        </member>
+    </members>
+</doc>

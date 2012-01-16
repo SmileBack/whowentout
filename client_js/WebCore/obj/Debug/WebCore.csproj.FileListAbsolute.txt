@@ -1,0 +1,4 @@
+C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\WebCore\bin\Debug\WebCore.xml
+C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\WebCore\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\WebCore\obj\Debug\WebCore.dll
+C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\WebCore\obj\Debug\WebCore.pdb

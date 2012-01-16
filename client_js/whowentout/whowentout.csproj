@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{78EA835C-53F3-4B0D-93AD-D86D6CEE9D13}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <NoStdLib>True</NoStdLib>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <LangVersion>ISO-2</LangVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>whowentout</RootNamespace>
+    <AssemblyName>whowentout</AssemblyName>
+    <TemplateFile>Properties\whowentout.script</TemplateFile>
+    <CodeAnalysisRuleSet>Properties\whowentout.ruleset</CodeAnalysisRuleSet>
+    <ReferencePath>$(ProgramFiles)\ScriptSharp\v1.0\Framework\</ReferencePath>
+    <DeploymentPath>..\..\..\..\..\..\..\wamp\site\www\js\scriptsharp</DeploymentPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;SCRIPTSHARP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0028, 1591, 1684</NoWarn>
+    <DocumentationFile>bin\Debug\whowentout.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;SCRIPTSHARP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0028, 1591, 1684</NoWarn>
+    <DocumentationFile>bin\Release\whowentout.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib, Version=0.7.0.0, Culture=neutral, PublicKeyToken=8fc0e3af5abcb6c4, processorArchitecture=MSIL" />
+    <Reference Include="Script.jQuery, Version=0.7.0.0, Culture=neutral, PublicKeyToken=8fc0e3af5abcb6c4, processorArchitecture=MSIL" />
+    <Reference Include="Script.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="pusher\Channel.cs" />
+    <Compile Include="pusher\Connection.cs" />
+    <Compile Include="pusher\PusherClient.cs" />
+    <Content Include="Properties\whowentout.ruleset" />
+    <Content Include="Properties\whowentout.script" />
+    <Compile Include="bridge\whowentout.cs" />
+    <Compile Include="ConsoleLogJob.cs" />
+    <Compile Include="CountJob.cs" />
+    <Compile Include="lib\Job.cs" />
+    <Compile Include="lib\JobQueue.cs" />
+    <Compile Include="MainPage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebCore\WebCore.csproj">
+      <Project>{2F710632-F36F-4ABB-B9C4-D306DE421EB0}</Project>
+      <Name>WebCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebUI\WebUI.csproj">
+      <Project>{0CCCF7E1-BCD1-41B7-9FE2-ACF5BFFAC71F}</Project>
+      <Name>WebUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(ProgramFiles)\ScriptSharp\v1.0\ScriptSharp.targets" />
+</Project>
