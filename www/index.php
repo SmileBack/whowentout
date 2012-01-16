@@ -7,8 +7,7 @@ print "<h1>got here (define paths)</h1>";
 print '<h2>' . FIREPATH . '</h2>';
 print '<br/>';
 print '<h2>' . APPPATH . '</h2>';
-
-exit;
+print '<br/>';
 
 require_once FIREPATH . 'debug/krumo.class.php';
 require_once FIREPATH . 'core/core.functions.php';
