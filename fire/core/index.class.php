@@ -123,11 +123,12 @@ class Index
 
     private function rebuild()
     {
+        krumo::dump('begin rebuild');
         $this->data = array(
             'root' => realpath($this->root),
         );
 
-        krumo::dump('begin rebuild');
+        krumo::dump('before foreach');
         foreach ($this->resource_types as $type) {
             krumo::dump("$type start");
             $indexer = $this->get_indexer($type);
