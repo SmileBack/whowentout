@@ -91,6 +91,7 @@ class Index
             return false;
 
         if (count($this->data['aliases'][$alias]) > 1) {
+            krumo::dump($this->data());
             throw new Exception("Ambiguous alias $alias.");
         }
 
