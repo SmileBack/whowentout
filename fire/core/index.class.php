@@ -21,9 +21,11 @@ class Index
         $this->cache = $cache;
 
         if ($this->requires_rebuild()) {
+            krumo::dump('requires rebuild');
             $this->rebuild();
         }
         else {
+            krumo::dump('load from cache');
             $this->load_from_cache();
         }
     }
