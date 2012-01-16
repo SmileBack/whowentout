@@ -2,7 +2,7 @@ database:
   type: Database
   host: db01-share
   database: whowasout_com
-  username: Custom App-24725
+  username: Custom App-24732
   password: MySQL4668
 
 facebook:
