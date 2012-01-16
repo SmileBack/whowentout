@@ -18,8 +18,14 @@ print "<h1>after env</h1>";
 
 print "<h1>got here (require core woo yea) </h1>";
 
+
 print "<h1>before db</h1>";
-db();
+mysql_connect(
+  $server = "db01-share",
+  $username = "Custom App-18359",
+  $password = 'MySQL4668');
+mysql_select_db("whowasout_com");
+//db();
 print "<h1>after db</h1>";
 
 if (db()->has_table('sessions')) {
