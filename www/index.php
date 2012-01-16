@@ -23,7 +23,7 @@ print "<h1>before db</h1>";
 mysql_connect(
   $server = "db01-share",
   $username = "Custom App-18359",
-  $password = 'MySQL4668');
+  $password = 'MySQL4669');
 mysql_select_db("whowasout_com");
 //db();
 print "<h1>after db</h1>";
