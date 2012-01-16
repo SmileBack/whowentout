@@ -120,7 +120,7 @@ class ClassLoader
     function get_class_metadata($class_name)
     {
         $class_name = strtolower($class_name);
-        return $this->index->get_resource_metadata("$class_name class");
+        return $this->index->get_metadata("$class_name class");
     }
 
     private function get_class_filepath($class_name)
@@ -129,7 +129,7 @@ class ClassLoader
         if (!$class_metadata)
             return null;
 
-        $file_metadata = $this->index->get_resource_metadata($class_metadata['file']);
+        $file_metadata = $this->index->get_metadata($class_metadata['file']);
         return $file_metadata['filepath'];
     }
 

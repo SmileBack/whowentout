@@ -30,12 +30,14 @@ function site_url($path = '')
 /**
  * @return Factory
  */
-function factory($key = null, $config = null)
+function factory($environment = null)
 {
     global $_factories;
+    if (!$_factories)
+        $_factories = array();
 
-    if ($key == null)
-        $key = environment();
+    if ($environment == null)
+        $environment = environment();
 
     if (!defined('FIREPATH'))
         throw new Exception('You must define FIREPATH in your index.php file');
@@ -43,10 +45,7 @@ function factory($key = null, $config = null)
     if (!defined('APPPATH'))
         throw new Exception('You must define APPPATH in your index.php file');
 
-    if (!$_factories)
-        $_factories = array();
-
-    if (!isset($_factories[$key])) {
+    if (!isset($_factories[$environment])) {
         require_once COREPATH . 'filesystemcache.class.php';
         require_once COREPATH . 'index.class.php';
         require_once COREPATH . 'classloader.class.php';
@@ -57,13 +56,14 @@ function factory($key = null, $config = null)
         $class_loader = new ClassLoader($index);
         $class_loader->enable_autoload();
 
+        krumo::dump($index->get_resources_of_type('config'));
+
         $config_source = new ConfigSource($index);
 
-        $config = is_array($config) ? $config : $key;
-        $_factories[$key] = new Factory($config_source, $class_loader, $config);
+        $_factories[$environment] = new Factory($config_source, $class_loader);
     }
 
-    return $_factories[$key];
+    return $_factories[$environment];
 }
 
 /**

@@ -6,6 +6,8 @@ define('APPPATH', dirname(__FILE__) . '/../');
 require_once FIREPATH . 'debug/krumo.class.php';
 require_once FIREPATH . 'core/core.functions.php';
 
+factory();
+/*
 if (db()->has_table('sessions')) {
     $session_handler = factory()->build('session_handler');
     session_set_save_handler(
@@ -22,3 +24,4 @@ session_start();
 
 app()->clock()->set_time(new DateTime('2011-12-09'));
 route_uri_request();
+*/

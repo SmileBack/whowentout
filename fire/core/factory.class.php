@@ -15,7 +15,7 @@ class Factory
 
     protected $config;
 
-    function __construct(ConfigSource $config_source, ClassLoader $class_loader, $config_name)
+    function __construct(ConfigSource $config_source, ClassLoader $class_loader)
     {
         $this->config_source = $config_source;
         $this->class_loader = $class_loader;
@@ -23,7 +23,7 @@ class Factory
         $this->class_loader->register('config_source', $config_source);
         $this->class_loader->register('class_loader', $class_loader);
 
-        $this->config = $this->load_config($config_name);
+        $this->config = $this->config_source->load();
     }
 
     function build($key)
@@ -89,14 +89,6 @@ class Factory
         }
 
         return $args;
-    }
-
-    private function load_config($config_name)
-    {
-        if (is_array($config_name))
-            return $config_name;
-
-        return $this->config_source->load($config_name);
     }
 
 }

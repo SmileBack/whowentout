@@ -1,0 +1,163 @@
+# TODO: deny access to these directories using .htaccess
+app:
+  type: WhoWentOutApp
+  class_loader: class_loader
+  database: database
+  clock: clock
+
+route_matcher:
+  type: RouteMatcher
+
+router:
+  type: Router
+  app: app
+  routes:
+    /: home/index
+    logout: auth/logout
+    login: auth/login
+
+facebook:
+  type: Facebook
+  config:
+    appId: 161054327279516
+    secret: 8b1446580556993a34880a831ee36856
+
+facebook_profile_source:
+  type: FacebookProfileSource
+  facebook: facebook
+
+facebook_networks_updater:
+  type: FacebookNetworksUpdater
+  database: database
+  profile_source: facebook_profile_source
+
+auth:
+  type: FacebookAuth
+  facebook: facebook
+  database: database
+  facebook_permissions:
+    - user_birthday
+    - user_education_history
+    - user_hometown
+    - user_events
+    - email
+    - offline_access
+    - publish_stream
+    - user_location
+    - friends_events
+    - friends_education_history
+
+profile_pic_file_repository:
+  type: FileRepository
+  driver: local
+  path: pics
+  base_url: http://localhost/
+
+profile_pic_repository:
+  type: ImageRepository
+  file_repository: profile_pic_file_repository
+
+profile_picture_factory:
+  type: ProfilePictureFactory
+  database: database
+  image_repository: profile_pic_repository
+
+ticket_file_repository:
+  type: FileRepository
+  driver: local
+  path: tickets
+  base_url: http://localhost/
+
+ticket_repository:
+  type: ImageRepository
+  file_repository: ticket_file_repository
+
+timezone:
+  type: DateTimeZone
+  timezone: UTC
+
+clock:
+  type: Clock
+  timezone: timezone
+
+database:
+  type: Database
+  host: localhost
+  database: wwo
+  username: root
+  password: root
+
+session_handler:
+  type: DatabaseSessionHandler
+  database: database
+  clock: clock
+
+test_database:
+  type: Database
+  host: localhost
+  database: fire_test
+  username: root
+  password: root
+
+package_installer:
+  type: PackageInstaller
+  database: database
+  class_loader: class_loader
+
+test_package_installer:
+  type: PackageInstaller
+  database: test_database
+  class_loader: class_loader
+
+checkin_engine:
+  type: CheckinEngine
+  database: database
+  clock: clock
+
+invite_engine:
+  type: InviteEngine
+  database: database
+  clock: clock
+
+test_invite_engine:
+  type: InviteEngine
+  database: test_database
+  clock: clock
+
+job_queue:
+  type: JobQueue
+  database: database
+  pusher: pusher
+
+pusher:
+  type: Pusher
+  auth_key: 805af8a6919abc9fb047
+  secret: 66d4d08ba68b3da6a60f
+  app_id: 10138
+  debug: true
+  timeout: 10
+
+facebook_friend_source:
+  type: FacebookFriendSource
+  facebook: facebook
+
+facebook_friends_updater:
+  type: FacebookFriendsUpdater
+  database: database
+  friend_source: facebook_friend_source
+
+mutual_friends_calculator:
+  type: MutualFriendsCalculator
+  database: database
+
+entourage_calculator:
+  type: EntourageCalculator
+  database: database
+
+network_blocker:
+  type: NetworkBlocker
+  database: database
+  allowed_networks:
+    #- 16777270 #gwu
+    - 16777219 #stanford
+    #- 16777224 #mit

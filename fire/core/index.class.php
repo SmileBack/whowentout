@@ -1,6 +1,17 @@
 <?php
 
-require_once 'indexers/phpfileindexer.class.php';
+require_once 'indexers/class_indexer.class.php';
+
+require_once 'meta/metadata.class.php';
+require_once 'meta/directory_metadata.class.php';
+require_once 'meta/file_metadata.class.php';
+require_once 'meta/class_metadata.class.php';
+require_once 'meta/config_metadata.class.php';
+
+require_once 'indexers/indexer.class.php';
+require_once 'indexers/directory_indexer.class.php';
+require_once 'indexers/file_indexer.class.php';
+require_once 'indexers/class_indexer.class.php';
 
 class Index
 {
@@ -10,6 +21,7 @@ class Index
      * @var \FilesystemCache
      */
     private $cache;
+
     private $data = array();
 
     function __construct($root, FilesystemCache $cache)
@@ -35,19 +47,48 @@ class Index
         return $this->data['root'];
     }
 
-    function get_resource_metadata($name)
+    /**
+     * @param $type
+     * @return Metadata[]
+     */
+    function get_resources_of_type($type)
     {
-        $alias_path = $this->get_alias_path($name);
+        $resources = array();
+
+        $meta_class = $type . 'metadata';
+
+        foreach ($this->data['resources'] as $meta)
+            if ($meta instanceof $meta_class)
+                $resources[] = $meta;
+
+        return $resources;
+    }
+
+    /**
+     * @param $resource_name
+     *
+     * @return Metadata|null
+     */
+    function get_metadata($resource_name)
+    {
+        $alias_path = $this->get_alias_path($resource_name);
         if ($alias_path) {
             $resource_path = $alias_path;
         }
         else {
-            $resource_path = $name;
+            $resource_path = $resource_name;
         }
 
-        return isset($this->data['resources'][$resource_path])
+        $data = isset($this->data['resources'][$resource_path])
                 ? $this->data['resources'][$resource_path]
                 : null;
+
+        return $data;
+    }
+
+    function set_resource_metadata($path, Metadata $metadata)
+    {
+        $this->data['resources'][$path] = $metadata;
     }
 
     function get_alias_path($alias)
@@ -61,11 +102,6 @@ class Index
         }
 
         return $this->data['aliases'][$alias][0];
-    }
-
-    function set_resource_metadata($resource_path, $resource_metadata)
-    {
-        $this->data['resources'][$resource_path] = $resource_metadata;
     }
 
     private function save_to_cache()
@@ -88,78 +124,62 @@ class Index
         $this->index_directories();
         $this->index_files();
         $this->index_php_files();
+        $this->index_config_files();
 
         $this->save_to_cache();
         
         return $this->data;
     }
 
-    private function clear_index($path)
-    {
-        foreach ($this->data['resources'] as $resource_path => $resource_meta) {
-            if ($this->string_starts_with($path . '/', $resource_path))
-                unset($this->data['resources'][$resource_path]);
-        }
-
-        foreach ($this->data['aliases'] as $alias => $linked_resource_paths) {
-            foreach ($linked_resource_paths as $k => $resource_path) {
-                if (!isset($this->data['resources'][$resource_path])) {
-                    unset($this->data['aliases'][$alias][$k]);
-                }
-            }
-
-            if (empty($this->data['aliases'][$alias])) {
-                unset($this->data['aliases'][$alias]);
-            }
-            else {
-                $this->data['aliases'][$alias] = array_values($this->data['aliases'][$alias]);
-            }
-        }
-    }
-
-    function add_resource_alias($alias, $path)
+    function create_alias($alias, Metadata $metadata)
     {
         $alias = strtolower($alias);
-        $this->data['aliases'][$alias][] = $path;
+        $this->data['aliases'][$alias][] = $metadata->path;
     }
 
     private function index_directories()
     {
-        $directories = $this->scan_directories($this->root(), true);
-        foreach ($directories as $directory) {
-            $this->index_directory($directory);
+        $indexer = new DirectoryIndexer($this);
+        $indexer->run();
+    }
+
+    private function index_config_files()
+    {
+        foreach ($this->data['resources'] as $resource) {
+            if ($resource->type == 'file' && $this->is_config_file($resource)) {
+                $this->index_config_file($resource);
+            }
         }
     }
 
-    private function index_directory($dirpath)
+    private function index_config_file(FileMetadata $file_metadata)
     {
-        $root = realpath($this->root());
-        $path = realpath($dirpath);
-        $resource_path = $this->string_after_first($root, $path);
-        $resource_path = str_replace('\\', '/', $resource_path);
-        $resource_path = substr($resource_path, 1);
+        $meta = new ConfigMetadata();
+        $meta->type = 'config';
+        $meta->path = $file_metadata->path;
+        $meta->filepath = $file_metadata->filepath;
+        $meta->filename = $file_metadata->filename;
+        $meta->extension = $file_metadata->extension;
+        $meta->data = array(1, 2, 3);
 
-        $dir_metadata = array();
+        $this->set_resource_metadata($meta->path, $meta);;
+    }
 
-        $dir_metadata['type'] = 'directory';
-        $dir_metadata['path'] = $resource_path;
-        $dir_metadata['directorypath'] = $dirpath;
-        
-        $this->set_resource_metadata($dir_metadata['path'], $dir_metadata);
+    private function is_config_file($file_metadata)
+    {
+        return $this->string_ends_with('.yml', $file_metadata->filepath);
     }
 
     private function index_files()
     {
-        $files = $this->scan_files($this->root(), true);
-        foreach ($files as $filepath) {
-            $this->index_file($filepath);
-        }
+        $file_indexer = new FileIndexer($this);
+        $file_indexer->run();
     }
 
     private function index_php_files()
     {
         foreach ($this->data['resources'] as $resource) {
-            if ($resource['type'] == 'file' && $this->is_php_file($resource)) {
+            if ($resource->type == 'file' && $this->is_php_file($resource)) {
                 $this->index_php_file($resource);
             }
         }
@@ -170,39 +190,19 @@ class Index
     private function index_php_class_heirarchy()
     {
         foreach ($this->data['resources'] as &$resource) {
-            if ($resource['type'] == 'class' && isset($resource['parent'])) {
-                $superclass_resource_path = $this->get_alias_path($resource['parent'] . ' class');
+            if ($resource->type == 'class' && isset($resource->parent)) {
+                $superclass_resource_path = $this->get_alias_path($resource->parent . ' class');
                 if ($superclass_resource_path) {
                     $superclass_resource_metadata =& $this->data['resources'][$superclass_resource_path];
-                    $superclass_resource_metadata['subclasses'][] = $resource['name'];
+                    $superclass_resource_metadata->subclasses[] = $resource->name;
                 }
             }
         }
     }
 
-    private function index_file($filepath)
-    {
-        $root = realpath($this->root());
-        $filepath = realpath($filepath);
-        $resource_path = $this->string_after_first($root, $filepath);
-        $resource_path = str_replace('\\', '/', $resource_path);
-        $resource_path = substr($resource_path, 1);
-
-        $file_metadata = array();
-        $file_metadata['type'] = 'file';
-        $file_metadata['path'] = $resource_path;
-
-        $file_metadata['filepath'] = $filepath;
-        $file_metadata['filename'] = basename($filepath);
-        $file_metadata['extension'] = $this->string_after_last('.', $file_metadata['filename']);
-
-        $this->set_resource_metadata($resource_path, $file_metadata);
-        $this->add_resource_alias($file_metadata['filename'], $resource_path);
-    }
-
     private function is_php_file($file_metadata)
     {
-        return $this->string_ends_with('.php', $file_metadata['filepath']);
+        return $this->string_ends_with('.php', $file_metadata->filepath);
     }
 
     private function index_php_file($file_metadata)
@@ -255,75 +255,6 @@ class Index
         return $this->cache->exists($namespaced_cache_key);
     }
 
-    private function scan_files($path, $include_subdirectories = false)
-    {
-        if (!is_dir($path))
-            return false;
-
-        $files = array();
-
-        $iterator = $this->get_directory_iterator($path, $include_subdirectories);
-
-        foreach ($iterator as $file) {
-            // isDot method is only available in DirectoryIterator items
-            // isDot check skips '.' and '..'
-            if (method_exists($file, 'isDot') && $file->isDot())
-                continue;
-
-            // Standardize to forward slashes
-            $filepath = str_replace('\\', '/', $file->getPathName());
-
-            if ($file->isFile()) {
-                $files[] = $filepath;
-            }
-        }
-
-        return $files;
-    }
-
-    private function scan_directories($path, $include_subdirectories = false)
-    {
-        if (!is_dir($path))
-            return false;
-
-        $folders = array();
-
-        $iterator = $this->get_directory_iterator($path, $include_subdirectories);
-
-        foreach ($iterator as $file) {
-            // isDot method is only available in DirectoryIterator items
-            // isDot check skips '.' and '..'
-            if (method_exists($file, 'isDot') && $file->isDot())
-                continue;
-
-            // Standardize to forward slashes
-            $filepath = str_replace('\\', '/', $file->getPathName());
-
-            if ($file->isDir()) {
-                $folders[] = $filepath;
-            }
-        }
-
-        return $folders;
-    }
-
-    private function get_directory_iterator($path, $include_subdirectories)
-    {
-        if ($include_subdirectories) {
-            return new RecursiveIteratorIterator(
-                new IgnoreFilesRecursiveFilterIterator(
-                    new RecursiveDirectoryIterator($path)
-                ),
-                RecursiveIteratorIterator::SELF_FIRST
-            );
-        }
-        else {
-            return new IgnoreFilesIterator(
-                new DirectoryIterator($path)
-            );
-        }
-    }
-
     private function string_ends_with($end_of_string, $string)
     {
         return substr($string, -strlen($end_of_string)) === $end_of_string;
@@ -374,33 +305,4 @@ class Index
         }
     }
 
-}
-
-class IgnoreFilesRecursiveFilterIterator extends RecursiveFilterIterator
-{
-    public function accept()
-    {
-        /* @var $current_file SplFileInfo */
-        $current_file = $this->current();
-        $filename = $current_file->getFilename();
-        if ($current_file->isDir() && substr($filename, 0, 1) == '.')
-            return false;
-        else
-            return true;
-    }
-}
-
-class IgnoreFilesIterator extends FilterIterator
-{
-    public function accept()
-    {
-        /* @var $current_file SplFileInfo */
-        $current_file = $this->current();
-        $filename = $current_file->getFilename();
-        var_dump($filename);
-        if ($current_file->isDir() && substr($filename, 0, 1) == '.')
-            return false;
-        else
-            return true;
-    }
 }
