@@ -7,12 +7,16 @@ class ClassIndexer extends Indexer
 
     function run()
     {
+        krumo::dump('get php file resources');
         $file_resources = $this->get_php_file_resources();
+        krumo::dump('foreach file resource');
         foreach ($file_resources as $file_meta) {
             $this->index_php_file($file_meta);
         }
 
+        krumo::dump('index class heirarchy');
         $this->index_php_class_heirarchy();
+        krumo::dump('finished');
     }
 
     private function index_php_file(FileMetadata $file_metadata)
