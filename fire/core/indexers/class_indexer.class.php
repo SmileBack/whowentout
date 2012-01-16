@@ -51,8 +51,10 @@ class ClassIndexer extends Indexer
             if (isset($class_meta->parent)) {
                 krumo::dump('has parent');
                 $superclass_resource_path = $this->index->get_alias_path("$class_meta->parent class");
+                krumo::dump($superclass_resource_path);
                 if ($superclass_resource_path) {
                     $superclass_meta = $this->index->get_metadata($superclass_resource_path);
+                    krumo::dump($superclass_meta);
                     $superclass_meta->subclasses[] = $class_meta->name;
                     krumo::dump($superclass_meta);
                 }
