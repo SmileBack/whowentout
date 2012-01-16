@@ -13,7 +13,6 @@ require_once FIREPATH . 'debug/krumo.class.php';
 require_once FIREPATH . 'core/core.functions.php';
 
 print "<h1>got here (require core) </h1>";
-exit;
 
 if (db()->has_table('sessions')) {
     $session_handler = factory()->build('session_handler');
@@ -26,6 +25,9 @@ if (db()->has_table('sessions')) {
         array($session_handler, 'gc')
     );
 }
+
+print "<h1>got here (before session)</h1>";
+exit;
 
 session_start();
 
