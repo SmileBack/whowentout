@@ -68,7 +68,7 @@ class ClassLoader
         foreach ($candidate_subclass_names as $class_name) {
             if ( $this->is_subclass($superclass, $class_name) ) {
                 $class_metadata = $this->get_class_metadata($class_name);
-                return $class_metadata['name']; // class name with correct capitalization
+                return $class_metadata->name; // class name with correct capitalization
             }
         }
         return null;
@@ -111,12 +111,16 @@ class ClassLoader
         if (!$superclass_metadata)
             return array();
 
-        if (!isset($superclass_metadata['subclasses']))
+        if (!isset($superclass_metadata->subclasses))
             return array();
 
-        return $superclass_metadata['subclasses'];
+        return $superclass_metadata->subclasses;
     }
 
+    /**
+     * @param $class_name
+     * @return ClassMetadata|null
+     */
     function get_class_metadata($class_name)
     {
         $class_name = strtolower($class_name);
@@ -129,8 +133,8 @@ class ClassLoader
         if (!$class_metadata)
             return null;
 
-        $file_metadata = $this->index->get_metadata($class_metadata['file']);
-        return $file_metadata['filepath'];
+        $file_metadata = $this->index->get_metadata($class_metadata->file);
+        return $file_metadata->filepath;
     }
 
     private function get_num_constructor_parameters($class)

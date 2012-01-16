@@ -56,7 +56,7 @@ function factory($environment = null)
         $class_loader = new ClassLoader($index);
         $class_loader->enable_autoload();
 
-        krumo::dump($index->get_resources_of_type('config'));
+        krumo::dump($index->data());
 
         $config_source = new ConfigSource($index);
 

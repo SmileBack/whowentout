@@ -1,18 +1,5 @@
 <?php
 
-require_once 'indexers/class_indexer.class.php';
-
-require_once 'meta/metadata.class.php';
-require_once 'meta/directory_metadata.class.php';
-require_once 'meta/file_metadata.class.php';
-require_once 'meta/class_metadata.class.php';
-require_once 'meta/config_metadata.class.php';
-
-require_once 'indexers/indexer.class.php';
-require_once 'indexers/directory_indexer.class.php';
-require_once 'indexers/file_indexer.class.php';
-require_once 'indexers/class_indexer.class.php';
-
 class Index
 {
 
@@ -26,6 +13,8 @@ class Index
 
     function __construct($root, FilesystemCache $cache)
     {
+        $this->load_requirements();
+
         $this->root = $root;
         $this->cache = $cache;
 
@@ -35,6 +24,21 @@ class Index
         else {
             $this->load_from_cache();
         }
+    }
+
+    private function load_requirements()
+    {
+        require_once 'meta/metadata.class.php';
+        require_once 'meta/directory_metadata.class.php';
+        require_once 'meta/file_metadata.class.php';
+        require_once 'meta/class_metadata.class.php';
+        require_once 'meta/config_metadata.class.php';
+
+        require_once 'indexers/indexer.class.php';
+        require_once 'indexers/directory_indexer.class.php';
+        require_once 'indexers/file_indexer.class.php';
+        require_once 'indexers/class_indexer.class.php';
+        require_once 'indexers/config_indexer.class.php';
     }
 
     function data()
@@ -121,94 +125,31 @@ class Index
             'root' => realpath($this->root),
         );
 
-        $this->index_directories();
-        $this->index_files();
-        $this->index_php_files();
-        $this->index_config_files();
+        $resource_types = array('directory', 'file', 'class', 'config');
+        foreach ($resource_types as $type) {
+            $indexer = $this->get_indexer($type);
+            $indexer->run();
+        }
 
         $this->save_to_cache();
         
         return $this->data;
     }
 
+    /**
+     * @param $resource_type
+     * @return Indexer
+     */
+    private function get_indexer($resource_type)
+    {
+        $class_name = $resource_type . 'indexer';
+        return new $class_name($this);
+    }
+
     function create_alias($alias, Metadata $metadata)
     {
         $alias = strtolower($alias);
         $this->data['aliases'][$alias][] = $metadata->path;
-    }
-
-    private function index_directories()
-    {
-        $indexer = new DirectoryIndexer($this);
-        $indexer->run();
-    }
-
-    private function index_config_files()
-    {
-        foreach ($this->data['resources'] as $resource) {
-            if ($resource->type == 'file' && $this->is_config_file($resource)) {
-                $this->index_config_file($resource);
-            }
-        }
-    }
-
-    private function index_config_file(FileMetadata $file_metadata)
-    {
-        $meta = new ConfigMetadata();
-        $meta->type = 'config';
-        $meta->path = $file_metadata->path;
-        $meta->filepath = $file_metadata->filepath;
-        $meta->filename = $file_metadata->filename;
-        $meta->extension = $file_metadata->extension;
-        $meta->data = array(1, 2, 3);
-
-        $this->set_resource_metadata($meta->path, $meta);;
-    }
-
-    private function is_config_file($file_metadata)
-    {
-        return $this->string_ends_with('.yml', $file_metadata->filepath);
-    }
-
-    private function index_files()
-    {
-        $file_indexer = new FileIndexer($this);
-        $file_indexer->run();
-    }
-
-    private function index_php_files()
-    {
-        foreach ($this->data['resources'] as $resource) {
-            if ($resource->type == 'file' && $this->is_php_file($resource)) {
-                $this->index_php_file($resource);
-            }
-        }
-
-        $this->index_php_class_heirarchy();
-    }
-
-    private function index_php_class_heirarchy()
-    {
-        foreach ($this->data['resources'] as &$resource) {
-            if ($resource->type == 'class' && isset($resource->parent)) {
-                $superclass_resource_path = $this->get_alias_path($resource->parent . ' class');
-                if ($superclass_resource_path) {
-                    $superclass_resource_metadata =& $this->data['resources'][$superclass_resource_path];
-                    $superclass_resource_metadata->subclasses[] = $resource->name;
-                }
-            }
-        }
-    }
-
-    private function is_php_file($file_metadata)
-    {
-        return $this->string_ends_with('.php', $file_metadata->filepath);
-    }
-
-    private function index_php_file($file_metadata)
-    {
-        $php_file_indexer = new PHPFileIndexer($this);
-        $php_file_indexer->index($file_metadata);
     }
 
     private function requires_rebuild()
@@ -253,56 +194,6 @@ class Index
     {
         $namespaced_cache_key = $this->cache_key() . '_' . $key;
         return $this->cache->exists($namespaced_cache_key);
-    }
-
-    private function string_ends_with($end_of_string, $string)
-    {
-        return substr($string, -strlen($end_of_string)) === $end_of_string;
-    }
-
-    private function string_starts_with($start_of_string, $source)
-    {
-        return strncmp($source, $start_of_string, strlen($start_of_string)) == 0;
-    }
-
-    private function string_after_first($needle, $haystack)
-    {
-        $pos = strpos($haystack, $needle);
-        if ($pos === false) {
-            return false;
-        } else {
-            return substr($haystack, $pos + strlen($needle));
-        }
-    }
-
-    private function string_before_first($needle, $haystack)
-    {
-        $pos = strpos($haystack, $needle);
-        if ($pos === false) {
-            return false;
-        } else {
-            return substr($haystack, 0, $pos);
-        }
-    }
-
-    private function string_after_last($needle, $haystack)
-    {
-        $pos = strrpos($haystack, $needle);
-        if ($pos === false) {
-            return false;
-        } else {
-            return substr($haystack, $pos + strlen($needle));
-        }
-    }
-
-    private function string_before_last($needle, $haystack)
-    {
-        $pos = strrpos($haystack, $needle);
-        if ($pos === false) {
-            return false;
-        } else {
-            return substr($haystack, 0, $pos);
-        }
     }
 
 }
