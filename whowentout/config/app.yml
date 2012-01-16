@@ -43,7 +43,7 @@ auth:
 
 profile_pic_repository:
   type: ImageRepository
-  file_repository: profile_pic_file_repository
+  file_repository: profile_pic_storage
 
 profile_picture_factory:
   type: ProfilePictureFactory
@@ -52,7 +52,7 @@ profile_picture_factory:
 
 ticket_repository:
   type: ImageRepository
-  file_repository: ticket_file_repository
+  file_repository: ticket_storage
 
 timezone:
   type: DateTimeZone

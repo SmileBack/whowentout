@@ -4,13 +4,13 @@ facebook:
     appId: 161054327279516
     secret: 8b1446580556993a34880a831ee36856
 
-profile_pic_file_repository:
+profile_pic_storage:
   type: FileRepository
   driver: local
   path: pics
   base_url: http://localhost/
 
-ticket_file_repository:
+ticket_storage:
   type: FileRepository
   driver: local
   path: tickets

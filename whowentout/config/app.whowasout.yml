@@ -1,18 +1,3 @@
-# TODO: deny access to these directories using .htaccess
-app:
-  type: WhoWentOutApp
-  class_loader: class_loader
-  database: database
-  clock: clock
-
-timezone:
-  type: DateTimeZone
-  timezone: UTC
-
-clock:
-  type: Clock
-  timezone: timezone
-
 database:
   type: Database
   host: db01-share
@@ -20,23 +5,38 @@ database:
   username: Custom App-18359
   password: MySQL4668
 
-session_handler:
-  type: DatabaseSessionHandler
+facebook:
+  type: Facebook
+  config:
+    appId: 183435348401103
+    secret: 2a9ecc98d06840a80c21646cc185eca4
+
+profile_pic_storage:
+  type: FileRepository
+  driver: s3
+  bucket: whowasout_pics
+  amazon_public_key: 0N83TDC3E416BETER2R2
+  amazon_secret_key: sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK
+
+ticket_storage:
+  type: FileRepository
+  driver: s3
+  bucket: whowasout_tickets
+  amazon_public_key: 0N83TDC3E416BETER2R2
+  amazon_secret_key: sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK
+
+pusher:
+  type: Pusher
+  auth_key: cc920ca581a4b74b17dd
+  secret: b9c27ae2c8d15615336c
+  app_id: 10140
+  debug: true
+  timeout: 10
+
+network_blocker:
+  type: NetworkBlocker
   database: database
-  clock: clock
-
-test_database:
-  type: Database
-  host: localhost
-  database: fire_test
-  username: root
-  password: root
-
-router:
-  type: Router
-  app: app
-
-package_installer:
-  type: PackageInstaller
-  database: database
-  class_loader: class_loader
+  allowed_networks:
+    - 16777270 #gwu
+    - 16777219 #stanford
+    - 16777224 #mit
