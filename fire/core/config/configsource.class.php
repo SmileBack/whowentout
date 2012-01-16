@@ -11,8 +11,11 @@ class ConfigSource
 
     function __construct(Index $index, $environment)
     {
+        krumo::dump('before set index woo');
         $this->index = $index;
+        krumo::dump('before set env woo');
         $this->environment = $environment;
+        krumo::dump('after set env woo');
     }
 
     function load()

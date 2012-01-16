@@ -62,7 +62,6 @@ function factory($environment = null)
 
         krumo::dump('before instantiate config source woo');
         $config_source = new ConfigSource($index, $environment);
-
         krumo::dump('config source wooo');
 
         $_factories[$environment] = new Factory($config_source, $class_loader);
