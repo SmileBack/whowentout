@@ -27,9 +27,16 @@ if (db()->has_table('sessions')) {
 }
 
 print "<h1>got here (before session)</h1>";
-exit;
+
+print "<h1>environment = " . environment() . "</h1>";
 
 session_start();
 
 app()->clock()->set_time(new DateTime('2011-12-09'));
+
+print "<h1>got here (after set time)</h1>";
+
 route_uri_request();
+
+print "<h1>got here (after routing uri request)</h1>";
+
