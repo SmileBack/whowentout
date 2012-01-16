@@ -21,11 +21,9 @@ class Index
         $this->cache = $cache;
 
         if ($this->requires_rebuild()) {
-            krumo::dump('requires rebuild');
             $this->rebuild();
         }
         else {
-            krumo::dump('doesnt require rebuild');
             $this->load_from_cache();
         }
     }
@@ -129,9 +127,12 @@ class Index
             'root' => realpath($this->root),
         );
 
+        krumo::dump('begin rebuild');
         foreach ($this->resource_types as $type) {
+            krumo::dump("$type start");
             $indexer = $this->get_indexer($type);
             $indexer->run();
+            krumo::dump("$type finish");
         }
 
         $this->save_to_cache();

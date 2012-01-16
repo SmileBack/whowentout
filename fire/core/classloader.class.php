@@ -89,9 +89,7 @@ class ClassLoader
         if (!$class_filepath)
             return;
 
-        krumo::dump($class_filepath);
         require_once $class_filepath;
-        krumo::dump('done require_once');
     }
 
     function enable_autoload()
