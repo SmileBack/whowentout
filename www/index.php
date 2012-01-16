@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL);
+
 define('FIREPATH', dirname(__FILE__) . '/../fire/');
 define('APPPATH', dirname(__FILE__) . '/../');
 
