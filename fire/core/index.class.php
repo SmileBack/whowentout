@@ -84,21 +84,13 @@ class Index
 
     function get_alias_path($alias)
     {
-        krumo::dump('get alias path start');
         $alias = strtolower($alias);
         if (!isset($this->data['aliases'][$alias]))
             return false;
 
-        krumo::dump("before check ambiguous");
-
-        krumo::dump($this->data['aliases'][$alias]);
-
         if (count($this->data['aliases'][$alias]) > 1) {
-            krumo::dump("ambiguous alias $alias");
             throw new Exception("Ambiguous alias $alias.");
         }
-
-        krumo::dump('get alias path');
 
         return $this->data['aliases'][$alias][0];
     }
@@ -131,18 +123,13 @@ class Index
 
     private function rebuild()
     {
-        krumo::dump('begin rebuild');
         $this->data = array(
             'root' => realpath($this->root),
         );
 
-        krumo::dump('before foreach');
         foreach ($this->resource_types as $type) {
-            krumo::dump("$type get indexer");
             $indexer = $this->get_indexer($type);
-            krumo::dump("$type run");
             $indexer->run();
-            krumo::dump("$type finish");
         }
 
         $this->save_to_cache();

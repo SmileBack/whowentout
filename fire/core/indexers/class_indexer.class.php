@@ -7,16 +7,12 @@ class ClassIndexer extends Indexer
 
     function run()
     {
-        krumo::dump('get php file resources');
         $file_resources = $this->get_php_file_resources();
-        krumo::dump('foreach file resource');
         foreach ($file_resources as $file_meta) {
             $this->index_php_file($file_meta);
         }
 
-        krumo::dump('index class heirarchy');
         $this->index_php_class_heirarchy();
-        krumo::dump('finished');
     }
 
     private function index_php_file(FileMetadata $file_metadata)
@@ -47,19 +43,13 @@ class ClassIndexer extends Indexer
     {
         /* @var $file_meta FileMetadata */
         foreach ($this->index->get_resources_of_type('class') as $class_meta) {
-            krumo::dump($class_meta->path);
             if (isset($class_meta->parent)) {
-                krumo::dump('has parenttttt');
                 $superclass_resource_path = $this->index->get_alias_path("$class_meta->parent class");
-                krumo::dump($superclass_resource_path);
                 if ($superclass_resource_path) {
                     $superclass_meta = $this->index->get_metadata($superclass_resource_path);
-                    krumo::dump($superclass_meta);
                     $superclass_meta->subclasses[] = $class_meta->name;
-                    krumo::dump($superclass_meta);
                 }
             }
-            krumo::dump('finishhh');
         }
     }
 
