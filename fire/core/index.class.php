@@ -89,7 +89,12 @@ class Index
         if (!isset($this->data['aliases'][$alias]))
             return false;
 
+        krumo::dump("before check ambiguous");
+
+        krumo::dump($this->data['aliases'][$alias]);
+
         if (count($this->data['aliases'][$alias]) > 1) {
+            krumo::dump("ambiguous alias $alias");
             throw new Exception("Ambiguous alias $alias.");
         }
 
