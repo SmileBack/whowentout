@@ -12,7 +12,7 @@ print '<br/>';
 require_once FIREPATH . 'debug/krumo.class.php';
 require_once FIREPATH . 'core/core.functions.php';
 
-print "<h1>got here (require core woo) </h1>";
+print "<h1>got here (require core woo yea) </h1>";
 
 if (db()->has_table('sessions')) {
     $session_handler = factory()->build('session_handler');
