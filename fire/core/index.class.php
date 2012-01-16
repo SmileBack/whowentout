@@ -92,6 +92,8 @@ class Index
             throw new Exception("Ambiguous alias $alias.");
         }
 
+        krumo::dump('get alias path');
+
         return $this->data['aliases'][$alias][0];
     }
 

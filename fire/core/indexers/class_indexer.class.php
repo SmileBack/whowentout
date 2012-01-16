@@ -49,7 +49,7 @@ class ClassIndexer extends Indexer
         foreach ($this->index->get_resources_of_type('class') as $class_meta) {
             krumo::dump($class_meta->path);
             if (isset($class_meta->parent)) {
-                krumo::dump('has parent');
+                krumo::dump('has parenttttt');
                 $superclass_resource_path = $this->index->get_alias_path("$class_meta->parent class");
                 krumo::dump($superclass_resource_path);
                 if ($superclass_resource_path) {
@@ -59,7 +59,7 @@ class ClassIndexer extends Indexer
                     krumo::dump($superclass_meta);
                 }
             }
-            krumo::dump('finish');
+            krumo::dump('finishhh');
         }
     }
 
