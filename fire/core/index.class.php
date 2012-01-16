@@ -21,11 +21,9 @@ class Index
         $this->cache = $cache;
 
         if ($this->requires_rebuild()) {
-            krumo::dump('requires rebuild');
             $this->rebuild();
         }
         else {
-            krumo::dump('load from cache');
             $this->load_from_cache();
         }
     }
@@ -91,8 +89,6 @@ class Index
             return false;
 
         if (count($this->data['aliases'][$alias]) > 1) {
-            krumo::dump($this->data['aliases'][$alias]);
-            krumo::dump($this->data());
             throw new Exception("Ambiguous alias $alias.");
         }
 
