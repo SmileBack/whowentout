@@ -43,7 +43,6 @@ class S3FileRepositoryDriver extends FileRepositoryDriver
     private function s3()
     {
         if ($this->s3 == NULL) {
-            require_once APPPATH . 'third_party/aws/sdk.class.php';
             $this->s3 = new AmazonS3($this->options['amazon_public_key'], $this->options['amazon_secret_key']);
             $this->s3()->use_ssl = false;
         }
