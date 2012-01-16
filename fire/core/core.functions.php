@@ -53,8 +53,6 @@ function factory($environment = null)
         $index_cache = new FilesystemCache(APPPATH . 'cache');
         $index = new Index(APPPATH, $index_cache);
 
-        krumo::dump($index->data());exit;
-
         $class_loader = new ClassLoader($index);
         $class_loader->enable_autoload();
 
