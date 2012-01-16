@@ -114,6 +114,7 @@ class Index
     {
         $this->cache_set('index', $this->data);
         $this->cache_set('version', $this->fetch_real_version());
+        krumo::dump('save to cache');
     }
 
     private function load_from_cache()
@@ -160,8 +161,6 @@ class Index
 
         $cached_version = $this->fetch_cached_version();
         $real_version = $this->fetch_real_version();
-
-        krumo::dump(array($cached_version, $real_version));
 
         return version_compare($cached_version, $real_version, '!=');
     }
