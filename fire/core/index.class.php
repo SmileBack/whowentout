@@ -84,6 +84,7 @@ class Index
 
     function get_alias_path($alias)
     {
+        krumo::dump('get alias path start');
         $alias = strtolower($alias);
         if (!isset($this->data['aliases'][$alias]))
             return false;
