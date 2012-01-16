@@ -18,14 +18,73 @@ class ConfigSource
     function load()
     {
         if (!$this->config) {
-            $config_file_name = "app.$this->environment.yml";
-
-            /* @var $config_meta ConfigMetadata */
-            $config_meta = $this->index->get_metadata($config_file_name);
-            $this->config = $config_meta->data;
+            $this->config = $this->load_config_from_files();
         }
 
         return $this->config;
+    }
+
+    private function load_config_from_files()
+    {
+        $config = array();
+
+        $resources = $this->get_config_resources();
+        foreach ($resources as $r) {
+            $config = array_merge($r->data, $config);
+        }
+
+        return $config;
+    }
+
+    /**
+     * @return ConfigMetadata[]
+     */
+    private function get_config_resources()
+    {
+        $resources = $this->index->get_resources_of_type('config');
+        usort($resources, array($this, 'priority_sort_asc'));
+
+        foreach ($resources as $k => $resource) {
+            if ($this->get_priority($resource) == 0)
+                unset($resources[$k]);
+        }
+
+        return array_values($resources);
+    }
+
+    private function priority_sort_asc(ConfigMetadata $a, ConfigMetadata $b)
+    {
+        return -1 * ($this->get_priority($b) - $this->get_priority($a));
+    }
+
+    private function get_priority(ConfigMetadata $meta)
+    {
+        if ($this->is_environment_specific($meta) && $this->is_for_current_environment($meta))
+            return 2;
+        elseif (!$this->is_environment_specific($meta)) {
+            return 1;
+        }
+        elseif ($this->is_environment_specific($meta) && !$this->is_for_current_environment($meta)) {
+            return 0; //doesn't even belong here
+        }
+
+        throw new Exception("Invalid priority for config");
+    }
+
+    private function is_for_current_environment(ConfigMetadata $meta)
+    {
+        return $this->get_config_environment($meta) == $this->environment;
+    }
+
+    private function get_config_environment(ConfigMetadata $meta)
+    {
+        preg_match('/\w+\.(\w+)\.yml/', $meta->filename, $m);
+        return isset($m[1]) ? $m[1] : null;
+    }
+
+    private function is_environment_specific(ConfigMetadata $meta)
+    {
+        return preg_match('/\w+\.\w+\.yml/', $meta->filename);
     }
 
 }

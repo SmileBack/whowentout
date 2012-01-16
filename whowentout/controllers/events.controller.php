@@ -25,7 +25,6 @@ class Events_Controller extends Controller
 
     function test()
     {
-        print filemtime('./css/styles.less');
     }
 
     function index($date = null)
@@ -47,11 +46,11 @@ class Events_Controller extends Controller
 
         print r::page(array(
             'content' => r::events_date_selector(array('selected_date' => $date))
-                       . r::event_day(array(
-                           'checkin_engine' => $this->checkin_engine,
-                           'current_user' => $current_user,
-                           'date' => $date,
-                       )),
+                    . r::event_day(array(
+                        'checkin_engine' => $this->checkin_engine,
+                        'current_user' => $current_user,
+                        'date' => $date,
+                    )),
         ));
     }
 
