@@ -47,6 +47,7 @@ class ClassIndexer extends Indexer
     {
         /* @var $file_meta FileMetadata */
         foreach ($this->index->get_resources_of_type('class') as $class_meta) {
+            krumo::dump($class_meta->path);
             if (isset($class_meta->parent)) {
                 $superclass_resource_path = $this->index->get_alias_path("$class_meta->parent class");
                 if ($superclass_resource_path) {
@@ -54,6 +55,7 @@ class ClassIndexer extends Indexer
                     $superclass_meta->subclasses[] = $class_meta->name;
                 }
             }
+            krumo::dump('finish');
         }
     }
 
