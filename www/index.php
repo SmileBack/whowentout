@@ -3,10 +3,17 @@
 define('FIREPATH', dirname(__FILE__) . '/../fire/');
 define('APPPATH', dirname(__FILE__) . '/../');
 
+print "<h1>got here (define paths)</h1>";
+print '<h2>' . FIREPATH . '</h2>';
+print '<br/>';
+print '<h2>' . APPPATH . '</h2>';
+
+exit;
+
 require_once FIREPATH . 'debug/krumo.class.php';
 require_once FIREPATH . 'core/core.functions.php';
 
-print "<h1>got here </h1>";
+print "<h1>got here (require core) </h1>";
 exit;
 
 if (db()->has_table('sessions')) {
