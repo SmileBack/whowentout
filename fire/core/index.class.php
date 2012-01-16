@@ -161,7 +161,7 @@ class Index
         $cached_version = $this->fetch_cached_version();
         $real_version = $this->fetch_real_version();
 
-        return version_compare($cached_version, $real_version, '<');
+        return version_compare($cached_version, $real_version, '!=');
     }
 
     private function fetch_real_version()
