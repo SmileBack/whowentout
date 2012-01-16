@@ -21,6 +21,8 @@ class ConfigSource
             $this->config = $this->load_config_from_files();
         }
 
+        krumo::dump($this->config);
+
         return $this->config;
     }
 
