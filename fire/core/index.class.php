@@ -161,6 +161,8 @@ class Index
         $cached_version = $this->fetch_cached_version();
         $real_version = $this->fetch_real_version();
 
+        krumo::dump(array($cached_version, $real_version));
+
         return version_compare($cached_version, $real_version, '!=');
     }
 
