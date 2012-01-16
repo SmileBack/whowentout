@@ -24,6 +24,7 @@ class Factory
         $this->class_loader->register('class_loader', $class_loader);
 
         $this->config = $this->config_source->load();
+        krumo::dump($this->config);
     }
 
     function build($key)
