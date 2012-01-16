@@ -1,3 +1,10 @@
+database:
+  type: Database
+  host: localhost
+  database: wwo
+  username: root
+  password: root
+
 facebook:
   type: Facebook
   config:
@@ -15,13 +22,6 @@ ticket_storage:
   driver: local
   path: tickets
   base_url: http://localhost/
-
-database:
-  type: Database
-  host: localhost
-  database: wwo
-  username: root
-  password: root
 
 pusher:
   type: Pusher
