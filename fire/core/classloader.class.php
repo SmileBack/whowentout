@@ -18,11 +18,13 @@ class ClassLoader
     function init($class_name)
     {
         krumo::dump(func_get_args());
-        
+
         $this->load($class_name);
 
         $reflection = new ReflectionClass($class_name);
         $args = array_slice(func_get_args(), 1);
+
+        krumo::dump($args);
 
         $instance = $reflection->newInstanceArgs($args);
 
