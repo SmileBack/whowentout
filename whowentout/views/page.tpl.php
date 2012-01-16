@@ -33,7 +33,7 @@
 
     <script type="text/javascript" src="/js/page.0000000027.js"></script>
 
-    <?php if (true): ?>
+    <?php if (false): ?>
         <script type="text/javascript" src="http://js.pusher.com/1.11/pusher.js"></script>
         <script type="text/javascript" src="/js/scriptsharp/mscorlib.debug.js"></script>
         <script type="text/javascript" src="/js/scriptsharp/WebUI.debug.<?= filemtime('./js/scriptsharp/WebUI.debug.js') ?>.js"></script>

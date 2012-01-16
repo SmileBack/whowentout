@@ -11,6 +11,8 @@ class Index
 
     private $data = array();
 
+    private $resource_types = array('directory', 'file', 'class', 'config');
+
     function __construct($root, FilesystemCache $cache)
     {
         $this->load_requirements();
@@ -24,21 +26,6 @@ class Index
         else {
             $this->load_from_cache();
         }
-    }
-
-    private function load_requirements()
-    {
-        require_once 'meta/metadata.class.php';
-        require_once 'meta/directory_metadata.class.php';
-        require_once 'meta/file_metadata.class.php';
-        require_once 'meta/class_metadata.class.php';
-        require_once 'meta/config_metadata.class.php';
-
-        require_once 'indexers/indexer.class.php';
-        require_once 'indexers/directory_indexer.class.php';
-        require_once 'indexers/file_indexer.class.php';
-        require_once 'indexers/class_indexer.class.php';
-        require_once 'indexers/config_indexer.class.php';
     }
 
     function data()
@@ -108,6 +95,21 @@ class Index
         return $this->data['aliases'][$alias][0];
     }
 
+    private function load_requirements()
+    {
+        require_once 'meta/metadata.class.php';
+        require_once 'meta/directory_metadata.class.php';
+        require_once 'meta/file_metadata.class.php';
+        require_once 'meta/class_metadata.class.php';
+        require_once 'meta/config_metadata.class.php';
+
+        require_once 'indexers/indexer.class.php';
+        require_once 'indexers/directory_indexer.class.php';
+        require_once 'indexers/file_indexer.class.php';
+        require_once 'indexers/class_indexer.class.php';
+        require_once 'indexers/config_indexer.class.php';
+    }
+
     private function save_to_cache()
     {
         $this->cache_set('index', $this->data);
@@ -125,8 +127,7 @@ class Index
             'root' => realpath($this->root),
         );
 
-        $resource_types = array('directory', 'file', 'class', 'config');
-        foreach ($resource_types as $type) {
+        foreach ($this->resource_types as $type) {
             $indexer = $this->get_indexer($type);
             $indexer->run();
         }

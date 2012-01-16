@@ -66,7 +66,7 @@ class Display
 
         extract($this->vars);
         ob_start();
-        include( $this->template_file_resource['filepath'] );
+        include( $this->template_file_resource->filepath );
         $rendered_template = ob_get_contents();
         @ob_end_clean();
         
