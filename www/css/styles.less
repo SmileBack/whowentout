@@ -3,90 +3,7 @@
 @yellow: #ffcc66;
 @sidebar_width: 300px;
 
-
-.opacity(@opacity: 1) {
-  /* Sensible browsers */
-  opacity: @opacity;
-  /* Netscape */
-  -moz-opacity: @opacity;
-  /* Safari 1.x */
-  -khtml-opacity: @opacity;
-  /* Satanic browsers */
-  -ms-filter: %('alpha(opacity=%s)', @opacity * 100); // some IE versions
-  filter: e(%('alpha(opacity=%s)', @opacity * 100));  // most other IE versions
-}
-
-.shadow (@x: 1px, @y: 1px, @blur: 3px, @spread: 1px, @color: #dedede) {
-  -webkit-box-shadow: @x @y @blur @spread @color;
-  -moz-box-shadow: @x @y @blur @spread @color;
-  box-shadow: @x @y @blur @spread @color;
-}
-
-.green_button_style {
-    background-color: #7FBF4D;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7fbf4d), color-stop(100%, #63a62f));
-    background-image: -webkit-linear-gradient(top, #7fbf4d, #63a62f);
-    background-image: -moz-linear-gradient(top, #7fbf4d, #63a62f);
-    background-image: -ms-linear-gradient(top, #7fbf4d, #63a62f);
-    background-image: -o-linear-gradient(top, #7fbf4d, #63a62f);
-    background-image: linear-gradient(top, #7fbf4d, #63a62f);
-    border: 1px solid #63A62F;
-    border-bottom: 1px solid #5B992B;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-box-shadow: inset 0 1px 0 0 #96ca6d;
-    -moz-box-shadow: inset 0 1px 0 0 #96ca6d;
-    -ms-box-shadow: inset 0 1px 0 0 #96ca6d;
-    -o-box-shadow: inset 0 1px 0 0 #96ca6d;
-    box-shadow: inset 0 1px 0 0 #96ca6d;
-    color: white;
-    font: bold 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-    line-height: 1;
-    padding: 5px 0 6px 0;
-    text-align: center;
-    text-shadow: 0 -1px 0 #4C9021;
-    width: 150px;
-    border-image: initial;
-    &:hover {
-        background-color: #76B347;
-        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #76b347), color-stop(100%, #5e9e2e));
-        background-image: -webkit-linear-gradient(top, #76b347, #5e9e2e);
-        background-image: -moz-linear-gradient(top, #76b347, #5e9e2e);
-        background-image: -ms-linear-gradient(top, #76b347, #5e9e2e);
-        background-image: -o-linear-gradient(top, #76b347, #5e9e2e);
-        background-image: linear-gradient(top, #76b347, #5e9e2e);
-        -webkit-box-shadow: inset 0 1px 0 0 #8dbf67;
-        -moz-box-shadow: inset 0 1px 0 0 #8dbf67;
-        -ms-box-shadow: inset 0 1px 0 0 #8dbf67;
-        -o-box-shadow: inset 0 1px 0 0 #8dbf67;
-        box-shadow: inset 0 1px 0 0 #8dbf67;
-        cursor: pointer;
-    }
-}
-
-.gallery {
-    width: 100%;
-    text-align: center;
-    > ul {
-        clear: both;
-    }
-    > ul > li {
-        display: inline-block;
-        margin: 15px;
-        background-color: white;
-    }
-}
-
-.arrow(@color: black, @size: 20px) {
-    background: transparent;
-    border-color: RGBa(0, 0, 0, 0) RGBa(0, 0, 0, 0) @color RGBa(0, 0, 0, 0);
-    border-width: @size;
-    border-style: solid;
-    display: inline-block;
-}
+@import 'elements.less';
 
 .date_tip {
     width: 150px;
@@ -108,6 +25,8 @@
     }
 }
 
+/* global */
+
 body {
     background-color: @primary_color;
 }
@@ -125,9 +44,7 @@ input[type="submit"], button {
     .button;
 }
 
-input.inline {
-    border: none;
-}
+
 
 .cell_phone_number {
     width: 125px;
@@ -309,16 +226,6 @@ td {
     }
 }
 
-.comma_separated {
-    > li { display: inline; }
-    > li:after {
-        content: ",";
-    }
-    > li:last-child:after {
-        content: "";
-    }
-}
-
 .profile_networks {
     .comma_separated;
 }
@@ -399,10 +306,13 @@ td {
 }
 
 .profile {
-    margin: 30px 80px;
     width: 80%;
     float: left;
     overflow: hidden;
+    .profile_inner {
+        margin: 25px 50px;
+        overflow: hidden;
+    }
     section {
         float: left;
         clear: both;
@@ -475,32 +385,6 @@ td {
 
 .profile_pic_crop_form .coordinates {
     display: none;
-}
-
-.file_input {
-    position: relative;
-    input[type="file"] {
-        position: relative;
-        text-align: right;
-        z-index: 2;
-        .opacity(0);
-    }
-    button {
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: 0;
-    }
-}
-
-.thumb(@size, @height) {
-    overflow: hidden;
-    width: @size;
-    height: @height;
-    > img {
-        min-width: @size;
-        min-height: @height;
-    }
 }
 
 .user_thumb {

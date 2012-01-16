@@ -31,7 +31,9 @@ jQuery(function ($) {
 
 $.dialog = {
     create:function (options) {
-        var defaults = {};
+        var defaults = {
+            centerInViewport: true
+        };
         options = $.extend({}, defaults, options);
 
         var d = $('<div class="dialog"> '

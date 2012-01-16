@@ -9,11 +9,15 @@ class Auth_Controller extends Controller
         header("Location: $facebook_login_url");
     }
 
-    function login_as($facebook_user_id)
+    function login_as($facebook_user_id = null)
     {
-        auth()->login_as($facebook_user_id);
-
-        redirect('events');
+        if (!$facebook_user_id) {
+            print r::login_as();
+        }
+        else {
+            auth()->login_as($facebook_user_id);
+            redirect('events');
+        }
     }
 
     function complete()

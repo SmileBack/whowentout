@@ -25,9 +25,7 @@ class Events_Controller extends Controller
 
     function test()
     {
-        print r::page(array(
-            'content' => r::test(),
-        ));
+        print filemtime('./css/styles.less');
     }
 
     function index($date = null)

@@ -15,7 +15,7 @@
     <link rel="stylesheet/less" type="text/css" href="/css/reset.0000000001.less"/>
     <link rel="stylesheet/less" type="text/css" href="/css/dialog.0000000001.less"/>
     <link rel="stylesheet/less" type="text/css" href="/css/jquery.jcrop.less"/>
-    <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= time() ?>.less"/>
+    <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= filemtime('./css/styles.less') ?>.less"/>
 
     <script src="/js/less.js" type="text/javascript"></script>
     <script src="/js/head.load.min.js" type="text/javascript"></script>
@@ -32,6 +32,13 @@
     <script type="text/javascript" src="/js/jquery.dialog.js"></script>
 
     <script type="text/javascript" src="/js/page.0000000027.js"></script>
+
+    <?php if (true): ?>
+        <script type="text/javascript" src="http://js.pusher.com/1.11/pusher.js"></script>
+        <script type="text/javascript" src="/js/scriptsharp/mscorlib.debug.js"></script>
+        <script type="text/javascript" src="/js/scriptsharp/WebUI.debug.<?= filemtime('./js/scriptsharp/WebUI.debug.js') ?>.js"></script>
+        <script type="text/javascript" src="/js/scriptsharp/whowentout.debug.<?= filemtime('./js/scriptsharp/whowentout.debug.js') ?>.js"></script>
+    <?php endif; ?>
 </head>
 
 <body>

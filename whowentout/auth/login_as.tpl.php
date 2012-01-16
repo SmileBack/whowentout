@@ -1,8 +1,3 @@
-<?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Venkat
- * Date: 1/12/12
- * Time: 5:37 PM
- * To change this template use File | Settings | File Templates.
- */
+<?php foreach (db()->table('users')->limit(100) as $user): ?>
+    <li><?= r::profile_small(array('user' => $user, 'preset' => 'facebook.square')) ?></li>
+<?php endforeach; ?>

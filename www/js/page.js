@@ -390,7 +390,6 @@ $('.event_day').entwine({
             url:url,
             type:'post',
             success:function (html) {
-                console.log(html);
             }
         });
     }
