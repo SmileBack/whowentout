@@ -1,3 +1,6 @@
+//= require queue.js
+//= require component.js
+
 $(function () {
     var queue = new Queue();
 

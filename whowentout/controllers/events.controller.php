@@ -25,14 +25,13 @@ class Events_Controller extends Controller
 
     function test()
     {
-        /* @var $class_loader ClassLoader */
-        $class_loader = build('class_loader');
-        $names = $class_loader->get_subclass_names('Indexer');
+        /* @var $asset Asset */
+        $asset = build('asset');
+        $asset->load_js('jquery.dialog.js');
+        $asset->load_js('queue.js');
+        $js = $asset->get_loaded_js();
+        krumo::dump($js);
 
-        krumo::dump($names);
-
-        $resources = app()->index()->get_resources_of_type('js');
-        krumo::dump($resources);
     }
 
     function index($date = null)

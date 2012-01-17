@@ -1,3 +1,5 @@
+//= require jquery.js
+
 /*
 	Masked Input plugin for jQuery
 	Copyright (c) 2007-2011 Josh Bush (digitalbush.com)

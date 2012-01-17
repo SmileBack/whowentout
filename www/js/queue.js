@@ -1,4 +1,4 @@
-//= component.js
+//= require component.js
 
 (function($) {
 
