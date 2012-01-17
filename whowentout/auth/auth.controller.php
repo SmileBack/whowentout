@@ -29,6 +29,9 @@ class Auth_Controller extends Controller
             'user' => auth()->current_user(),
         ));
 
+        auth()->current_user()->last_login = app()->clock()->get_time();
+        auth()->current_user()->save();
+
         redirect('events');
     }
 

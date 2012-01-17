@@ -3,7 +3,7 @@
 class WhoWentOutPackage extends Package
 {
 
-    public $version = '0.2.5';
+    public $version = '0.2.6';
 
     function install()
     {
@@ -18,6 +18,7 @@ class WhoWentOutPackage extends Package
     {
         $this->database->create_table('users', array(
             'id' => array('type' => 'id'),
+            'last_login' => array('type' => 'time'),
             'first_name' => array('type' => 'string'),
             'last_name' => array('type' => 'string'),
             'email' => array('type' => 'string'),
@@ -118,6 +119,13 @@ class WhoWentOutPackage extends Package
     {
         $this->database->table('users')->create_column('cell_phone_number', array(
             'type' => 'string'
+        ));
+    }
+
+    function update_0_2_6()
+    {
+        $this->database->table('users')->create_column('last_login', array(
+            'type' => 'time',
         ));
     }
 
