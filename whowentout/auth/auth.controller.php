@@ -16,7 +16,7 @@ class Auth_Controller extends Controller
         }
         else {
             auth()->login_as($facebook_user_id);
-            redirect('events');
+            redirect('/');
         }
     }
 
@@ -32,14 +32,14 @@ class Auth_Controller extends Controller
         auth()->current_user()->last_login = app()->clock()->get_time();
         auth()->current_user()->save();
 
-        redirect('events');
+        redirect('/');
     }
 
     function logout()
     {
         auth()->logout();
 
-        redirect('');
+        redirect('/');
     }
 
 }
