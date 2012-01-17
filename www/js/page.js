@@ -153,6 +153,38 @@ $('#events_date_selector .next').entwine({
 
 var whowentout = window.whowentout = {};
 
+whowentout.showColorOptions = function() {
+    whowentout.initDialog();
+    $(function() {
+        $('#mask').css('opacity', '0');
+        dialog.title('Pick your Colors');
+        dialog.showDialog('color_options_dialog');
+        dialog.setButtons('close');
+        dialog.loadContent('/color/options');
+    });
+}
+
+$('.color_options :submit').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+
+        var values = this.closest('form').serializeArray();
+        var vars = {};
+        for (var i = 0; i < values.length; i++) {
+            vars['@' + values[i].name] = values[i].value;
+        }
+
+        less.modifyVars(vars);
+    }
+});
+
+$('.show_color_option_link').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        whowentout.showColorOptions();
+    }
+});
+
 whowentout.initDialog = function () {
     if (!window.dialog)
         window.dialog = $.dialog.create({centerInViewport:true});

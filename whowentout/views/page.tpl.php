@@ -45,9 +45,12 @@
 
 <nav id="nav">
 
-    <a class="logo" href="/"><img src="/images/logo.png"/></a>
+    <a class="logo" href="/"><img src="/images/logo.transparent.png"/></a>
+
+    <?= a('colors', 'change colors', array('class' => 'show_color_option_link')) ?>
 
     <div class="tabs">
+
         <?= a('events', 'Events') ?>
 
         <?php if (auth()->logged_in()): ?>
