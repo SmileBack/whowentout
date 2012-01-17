@@ -36,7 +36,5 @@ pusher:
 network_blocker:
   type: NetworkBlocker
   database: database
-  allowed_networks:
-    - 16777270 #gwu
-    - 16777219 #stanford
-    - 16777224 #mit
+  allowed_networks: []
+  
