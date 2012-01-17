@@ -13,16 +13,17 @@
  */
 class TopologicalSort
 {
-    var $nodes = array();
+
+    private $nodes = array();
 
     /**
      * Dependency pairs are a list of arrays in the form
      * $name => $val where $key must come before $val in load order.
      *
      */
-    function TopologicalSort($dependencies = array(), $parse = false)
+    function TopologicalSort(array $dependencies)
     {
-        if ($parse) $dependencies = $this->parseDependencyList($dependencies);
+        $dependencies = $this->parseDependencyList($dependencies);
         // turn pairs into double-linked node tree
         foreach ($dependencies as $key => $dpair) {
             list($module, $dependency) = each($dpair);
@@ -44,11 +45,9 @@ class TopologicalSort
      * Default is  $this->nodes created in constructor.
      * @return sorted array
      */
-    function tsort($nodes = array())
+    function tsort()
     {
-        // use this->nodes if it is populated and no param passed
-        if (!@count($nodes) && count($this->nodes))
-            $nodes = $this->nodes;
+        $nodes = $this->nodes;
 
         // get nodes without parents
         $root_nodes = array_values($this->getRootNodes($nodes));
@@ -84,6 +83,7 @@ class TopologicalSort
             // nodes.Remove(n);
             unset($nodes[$n->name]);
         }
+
         return $sorted;
     }
 
@@ -93,7 +93,7 @@ class TopologicalSort
      * @param array $nodes array of node objects
      * @return array of node objects
      */
-    function getRootNodes($nodes)
+    private function getRootNodes($nodes)
     {
         $output = array();
         foreach ($nodes as $name => $node)
@@ -114,13 +114,14 @@ class TopologicalSort
      * @param array $dlist Array of dependency pairs for use as parameter in tsort method
      * @return array
      */
-    function parseDependencyList($dlist = array())
+    private function parseDependencyList($dlist = array())
     {
         $output = array();
         foreach ($dlist as $name => $dependencies)
             foreach ($dependencies as $d) array_push($output, array($d => $name));
         return $output;
     }
+
 }
 
 /**
