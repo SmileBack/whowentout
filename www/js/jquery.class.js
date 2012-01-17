@@ -1,4 +1,4 @@
-//= require lib/jquery.js
+//= require jquery.js
 
 (function( $ ) {
 	// Several of the methods in this plugin use code adapated from Prototype

@@ -1,5 +1,5 @@
-//= require lib/jquery.js
-//= require lib/jquery.entwine.js
+//= require jquery.js
+//= require jquery.entwine.js
 
 (function() {
   

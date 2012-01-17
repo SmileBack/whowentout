@@ -1,5 +1,5 @@
-//= require lib/jquery.js
-//= require lib/jquery.class.js
+//= require jquery.js
+//= require jquery.class.js
 
 $.Class.extend('Component', {
     init: function() {},
