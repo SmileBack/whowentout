@@ -7,11 +7,9 @@ class JsIndexer extends Indexer
 
     public function run()
     {
-        foreach ($this->get_js_file_resources() as $file_metadata) {
+        foreach ($this->get_file_resources() as $file_metadata) {
             $this->index_file($file_metadata);
         }
-
-        $this->index_all_dependencies();
     }
 
     function index_file(FileMetadata $file_meta)
@@ -22,22 +20,11 @@ class JsIndexer extends Indexer
         }
 
         $js_meta->type = 'js';
-        $js_meta->direct_dependencies = $this->direct_dependencies($file_meta);
+        $js_meta->direct_dependencies = $this->extract_direct_dependencies($file_meta);
         $this->index->set_resource_metadata($js_meta->path, $js_meta);
     }
 
-    private function index_all_dependencies()
-    {
-        $dependencies = array();
-        /* @var $js_meta JsMetadata */
-        foreach ($this->get_js_file_resources() as $js_meta) {
-            $dependencies[$js_meta->filename] = $js_meta->direct_dependencies;
-        }
-
-        $topological_sort = new TopologicalSort($dependencies);
-    }
-
-    private function direct_dependencies(FileMetadata $file_meta)
+    private function extract_direct_dependencies(FileMetadata $file_meta)
     {
         $dependencies = array();
 
@@ -56,7 +43,7 @@ class JsIndexer extends Indexer
     /**
      * @return FileMetadata[]
      */
-    private function get_js_file_resources()
+    private function get_file_resources()
     {
         $resources = array();
         /* @var $file_meta FileMetadata */

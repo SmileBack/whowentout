@@ -14,6 +14,7 @@
 class TopologicalSort
 {
 
+    private $dependencies = array();
     private $nodes = array();
 
     /**
@@ -23,19 +24,34 @@ class TopologicalSort
      */
     function TopologicalSort(array $dependencies)
     {
-        $dependencies = $this->parseDependencyList($dependencies);
-        // turn pairs into double-linked node tree
-        foreach ($dependencies as $key => $dpair) {
-            list($module, $dependency) = each($dpair);
-            if (!isset($this->nodes[$module]))
-                $this->nodes[$module] = new TSNode($module);
-            if (!isset($this->nodes[$dependency]))
-                $this->nodes[$dependency] = new TSNode($dependency);
-            if (!in_array($dependency, $this->nodes[$module]->children))
-                $this->nodes[$module]->children[] = $dependency;
-            if (!in_array($module, $this->nodes[$dependency]->parents))
-                $this->nodes[$dependency]->parents[] = $module;
+        $this->dependencies = $dependencies;
+        $this->nodes = $this->build_node_tree($dependencies);
+    }
+
+    function dependencies_of($item)
+    {
+        $sorted_dependencies = $this->sorted_dependencies();
+
+        if (!$sorted_dependencies) //circular dependency
+            return false;
+
+        $visited = $this->visit_dependencies($item);
+
+        foreach ($sorted_dependencies as $k => $dependency) {
+            if (!isset($visited[$dependency]))
+                unset($sorted_dependencies[$k]);
         }
+
+        return $sorted_dependencies;
+    }
+
+    private $sorted_dependencies = null;
+    function sorted_dependencies()
+    {
+        if ($this->sorted_dependencies === null) // false means circular dependency
+            $this->sorted_dependencies = $this->compute_topological_sort();
+
+        return $this->sorted_dependencies;
     }
 
     /**
@@ -45,12 +61,12 @@ class TopologicalSort
      * Default is  $this->nodes created in constructor.
      * @return sorted array
      */
-    function sort()
+    function compute_topological_sort()
     {
         $nodes = $this->nodes;
 
         // get nodes without parents
-        $root_nodes = array_values($this->getRootNodes($nodes));
+        $root_nodes = array_values($this->get_root_nodes($nodes));
 
         // begin algorithm
         $sorted = array();
@@ -87,13 +103,52 @@ class TopologicalSort
         return $sorted;
     }
 
+    private function visit_dependencies($item)
+    {
+        $unvisited = is_string($item) ? array($item) : $item;
+        $visited = array();
+
+        while (count($unvisited) > 0) {
+            $cur = array_pop($unvisited);
+
+            if (isset($visited[$cur])) //already visisted
+                continue;
+
+            $cur_dependencies = isset($this->dependencies[$cur]) ? $this->dependencies[$cur] : array();
+            $unvisited = array_merge($unvisited, $cur_dependencies);
+
+            $visited[$cur] = true;
+        }
+
+        return $visited;
+    }
+
+    private function build_node_tree(array $dependencies)
+    {
+        $nodes = array();
+        $dependency_pairs = $this->build_dependency_pairs($dependencies);
+        // turn pairs into double-linked node tree
+        foreach ($dependency_pairs as $key => $dpair) {
+            list($module, $dependency) = each($dpair);
+            if (!isset($nodes[$module]))
+                $nodes[$module] = new TSNode($module);
+            if (!isset($nodes[$dependency]))
+                $nodes[$dependency] = new TSNode($dependency);
+            if (!in_array($dependency, $nodes[$module]->children))
+                $nodes[$module]->children[] = $dependency;
+            if (!in_array($module, $nodes[$dependency]->parents))
+                $nodes[$dependency]->parents[] = $module;
+        }
+        return $nodes;
+    }
+
     /**
      * Returns a list of node objects that do not have parents
      *
      * @param array $nodes array of node objects
      * @return array of node objects
      */
-    private function getRootNodes($nodes)
+    private function get_root_nodes($nodes)
     {
         $output = array();
         foreach ($nodes as $name => $node)
@@ -114,7 +169,7 @@ class TopologicalSort
      * @param array $dlist Array of dependency pairs for use as parameter in tsort method
      * @return array
      */
-    private function parseDependencyList($dlist = array())
+    private function build_dependency_pairs($dlist = array())
     {
         $output = array();
         foreach ($dlist as $name => $dependencies)
@@ -130,9 +185,9 @@ class TopologicalSort
  */
 class TSNode
 {
-    var $name;
-    var $children = array();
-    var $parents = array();
+    public $name;
+    public $children = array();
+    public $parents = array();
 
     function TSNode($name = "")
     {
