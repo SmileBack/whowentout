@@ -11,8 +11,8 @@ class Checkins_Controller extends Controller
 
     function __construct()
     {
-        $this->checkin_engine = factory()->build('checkin_engine');
-        $this->invite_engine = factory()->build('invite_engine');
+        $this->checkin_engine = build('checkin_engine');
+        $this->invite_engine = build('invite_engine');
     }
 
     function create()

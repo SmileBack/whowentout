@@ -13,7 +13,7 @@ class Profile_Small_Display extends Display
     function process()
     {
         /* @var $profile_picture ProfilePicture */
-        $profile_picture = factory()->build('profile_picture', $this->user);
+        $profile_picture = build('profile_picture', $this->user);
         $this->profile_picture_url = $profile_picture->url($this->preset);
     }
 

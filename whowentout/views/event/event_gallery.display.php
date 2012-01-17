@@ -17,7 +17,7 @@ class Event_Gallery extends Display
     {
         parent::__construct($template_name, $options);
 
-        $this->checkin_engine = factory()->build('checkin_engine');
+        $this->checkin_engine = build('checkin_engine');
         $this->db = db();
     }
 

@@ -10,7 +10,7 @@
                 <?= img($profile_picture_url) ?>
 
                 <?php if ($your_profile): ?>
-                <a href="/profile/edit" class="edit_profile_link">Change</a>
+                <a href="/profile/edit/picture" class="profile_edit_picture_link">Change</a>
                 <?php endif; ?>
             </div>
 

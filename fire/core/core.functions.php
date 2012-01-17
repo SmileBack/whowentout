@@ -64,6 +64,11 @@ function factory($environment = null)
     return $_factories[$environment];
 }
 
+function build($item_name, $param1 = null, $param2 = null)
+{
+    return call_user_func_array(array(factory(), 'build'), func_get_args());
+}
+
 /**
  * @return WhoWentOutApp
  */

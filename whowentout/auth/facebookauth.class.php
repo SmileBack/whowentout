@@ -106,7 +106,7 @@ class FacebookAuth extends Auth
     private function create_user_profile_pic($user)
     {
         /* @var $profile_picture ProfilePicture */
-        $profile_picture = factory()->build('profile_picture', $user);
+        $profile_picture = build('profile_picture', $user);
         $profile_picture->set_to_facebook();
         return $profile_picture;
     }

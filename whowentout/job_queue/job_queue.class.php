@@ -115,7 +115,7 @@ class JobQueue
     private function post_async_pusher($url, $params = array())
     {
         /* @var $pusher Pusher */
-        $pusher = factory()->build('pusher');
+        $pusher = build('pusher');
         $pusher->trigger('job_queue', 'new_job', array(
             'url' => $url,
             'params' => $params,

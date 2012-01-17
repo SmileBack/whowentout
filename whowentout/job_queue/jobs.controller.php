@@ -10,7 +10,7 @@ class Jobs_Controller extends Controller
     {
         parent::__construct();
 
-        $this->job_queue = factory()->build('job_queue');
+        $this->job_queue = build('job_queue');
 
         js()->pusher_settings = array(
             'key' => '1234567',

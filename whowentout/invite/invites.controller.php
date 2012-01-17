@@ -10,7 +10,7 @@ class Invites_Controller extends Controller
     {
         parent::__construct();
 
-        $this->invite_engine = factory()->build('invite_engine');
+        $this->invite_engine = build('invite_engine');
     }
 
     function create()

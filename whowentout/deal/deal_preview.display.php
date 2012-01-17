@@ -10,7 +10,7 @@ class Deal_Preview_Display extends Display
     function process()
     {
         /* @var $repo ImageRepository */
-        $repo = factory()->build('ticket_repository');
+        $repo = build('ticket_repository');
 
         $event = $this->event;
         $user = $this->user;
@@ -18,7 +18,7 @@ class Deal_Preview_Display extends Display
         $venue = $event->name;
         $deal = $event->deal;
         $date = $event->date->format('m.d.Y');
-        $profile_picture = factory()->build('profile_picture', $user);
+        $profile_picture = build('profile_picture', $user);
 
         $gen = new DealTicketGenerator();
         $ticket = $gen->generate($user, $profile_picture, $venue, $deal, $date);

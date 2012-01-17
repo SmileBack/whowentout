@@ -18,9 +18,9 @@ class Events_Controller extends Controller
     function __construct()
     {
         $this->db = db();
-        $this->auth = factory()->build('auth');
-        $this->checkin_engine = factory()->build('checkin_engine');
-        $this->invite_engine = factory()->build('invite_engine');
+        $this->auth = build('auth');
+        $this->checkin_engine = build('checkin_engine');
+        $this->invite_engine = build('invite_engine');
     }
 
     function test()

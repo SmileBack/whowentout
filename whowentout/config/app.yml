@@ -13,6 +13,7 @@ router:
   app: app
   routes:
     /: home/index
+    "profile/edit/picture": profile/view/me
     logout: auth/logout
     login: auth/login
 

@@ -14,7 +14,7 @@ class UpdateFacebookNetworksJob extends Job
         parent::__construct($options);
 
         $this->db = db();
-        $this->updater = factory()->build('facebook_networks_updater');
+        $this->updater = build('facebook_networks_updater');
     }
 
     function run()

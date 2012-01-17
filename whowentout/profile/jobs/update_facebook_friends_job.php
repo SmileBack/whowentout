@@ -14,7 +14,7 @@ class UpdateFacebookFriendsJob extends Job
         parent::__construct($options);
 
         $this->db = db();
-        $this->updater = factory()->build('facebook_friends_updater');
+        $this->updater = build('facebook_friends_updater');
     }
 
     function run()

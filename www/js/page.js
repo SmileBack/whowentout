@@ -239,7 +239,7 @@ whowentout.showProfileEditDialog = function () {
         whowentout.initDialog();
         dialog.title('');
         dialog.showDialog();
-        dialog.loadContent('/profile/edit', function () {
+        dialog.loadContent('/profile/dialog/picture', function () {
             $('.profile_pic_crop_form').initCropper();
         });
     });
@@ -249,21 +249,25 @@ $(function () {
     whowentout.router = Backbone.Router.extend({
         routes:{
             '':'index',
-            'events/index/:date/deal/:id':'showDealDialog',
-            'events/index/:date/invite/:id':'showInviteDialog',
-            'events/index/:date':'displayDate'
+            'events/index/:date/deal/:id': 'showDealDialog',
+            'events/index/:date/invite/:id': 'showInviteDialog',
+            'events/index/:date': 'displayDate',
+            'profile/edit/picture': 'showEditProfilePictureDialog'
         },
-        index:function () {
+        index: function() {
             $('.dialog').hideDialog();
         },
-        displayDate:function (date) {
+        displayDate: function(date) {
             $('.event_day').updateDate(date);
         },
-        showDealDialog:function (date, event_id) {
+        showDealDialog: function(date, event_id) {
             whowentout.showDealDialog(event_id);
         },
-        showInviteDialog:function (date, event_id) {
+        showInviteDialog: function(date, event_id) {
             whowentout.showInviteDialog(event_id);
+        },
+        showEditProfilePictureDialog: function() {
+            whowentout.showProfileEditDialog();
         },
         defaultRoute:function () {
         }
@@ -331,13 +335,6 @@ $('.profile_pic_crop_form').entwine({
     }
 });
 
-$('.edit_profile_link').entwine({
-    onclick:function (e) {
-        e.preventDefault();
-        whowentout.showProfileEditDialog();
-    }
-});
-
 $('.profile_pic_upload_form input[type=file]').entwine({
     onchange:function () {
         this.closest('form').submit();
@@ -369,6 +366,13 @@ $('.event_invite_link').entwine({
     },
     eventID:function () {
         return this.data('event-id');
+    }
+});
+
+$('.profile_edit_picture_link').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        whowentout.router.navigate('/profile/edit/picture', true);
     }
 });
 

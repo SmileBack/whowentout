@@ -8,7 +8,7 @@ class Home_Controller extends Controller
 
     function __construct()
     {
-        $this->blocker = factory()->build('network_blocker');
+        $this->blocker = build('network_blocker');
     }
 
     function index()

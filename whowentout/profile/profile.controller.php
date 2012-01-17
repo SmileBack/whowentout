@@ -25,20 +25,22 @@ class Profile_Controller extends Controller
         ));
     }
 
-    function edit()
+    function dialog($type)
     {
         if (!auth()->logged_in())
-                    show_404();
+            show_404();
 
-        print r::profile_edit_picture(array(
-            'profile_picture' => $this->get_profile_picture(),
-        ));
+        if ($type == 'picture') {
+            print r::profile_edit_picture(array(
+                'profile_picture' => $this->get_profile_picture(),
+            ));
+        }
     }
 
     function set_to_facebook()
     {
         if (!auth()->logged_in())
-                    show_404();
+            show_404();
 
         $profile_picture = $this->get_profile_picture();
         $profile_picture->set_to_facebook();
@@ -51,7 +53,7 @@ class Profile_Controller extends Controller
     function set_to_upload()
     {
         if (!auth()->logged_in())
-                    show_404();
+            show_404();
 
         $profile_picture = $this->get_profile_picture();
         $profile_picture->set_to_upload('pic');
@@ -64,7 +66,7 @@ class Profile_Controller extends Controller
     function crop()
     {
         if (!auth()->logged_in())
-                    show_404();
+            show_404();
 
         $profile_picture = $this->get_profile_picture();
         $profile_picture->crop($_POST['x'], $_POST['y'], $_POST['width'], $_POST['height']);
@@ -84,7 +86,7 @@ class Profile_Controller extends Controller
 
         $current_user = auth()->current_user();
 
-        $profile_picture = factory()->build('profile_picture', $current_user);
+        $profile_picture = build('profile_picture', $current_user);
         return $profile_picture;
     }
 

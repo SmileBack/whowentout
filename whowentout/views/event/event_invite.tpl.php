@@ -1,9 +1,9 @@
 <?php
 /* @var $invite_engine InviteEngine */
-$invite_engine = factory()->build('invite_engine');
+$invite_engine = build('invite_engine');
 
 /* @var $checkin_engine CheckinEngine */
-$checkin_engine = factory()->build('checkin_engine');
+$checkin_engine = build('checkin_engine');
 
 $current_user = auth()->current_user();
 $friends = $current_user->friends->where('networks.name', 'Stanford')

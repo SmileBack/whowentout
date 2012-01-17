@@ -11,8 +11,8 @@ class NetworkBlockerPlugin extends Plugin
 
     function on_login($e)
     {
-        $this->networks_updater = factory()->build('facebook_networks_updater');
-        $this->blocker = factory()->build('network_blocker');
+        $this->networks_updater = build('facebook_networks_updater');
+        $this->blocker = build('network_blocker');
 
         $user = $e->user;
 
