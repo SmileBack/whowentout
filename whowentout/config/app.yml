@@ -45,14 +45,14 @@ profile_pic_repository:
   type: ImageRepository
   file_repository: profile_pic_storage
 
+ticket_repository:
+  type: ImageRepository
+  file_repository: ticket_storage
+
 profile_picture_factory:
   type: ProfilePictureFactory
   database: database
   image_repository: profile_pic_repository
-
-ticket_repository:
-  type: ImageRepository
-  file_repository: ticket_storage
 
 timezone:
   type: DateTimeZone

@@ -11,18 +11,11 @@ facebook:
     appId: 161054327279516
     secret: 8b1446580556993a34880a831ee36856
 
-#profile_pic_storage:
-#  type: FileRepository
-#  driver: local
-#  path: pics
-#  base_url: http://localhost/
-
 profile_pic_storage:
   type: FileRepository
-  driver: s3
-  bucket: whowentout_development_pics
-  amazon_public_key: 0N83TDC3E416BETER2R2
-  amazon_secret_key: sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK
+  driver: local
+  path: pics
+  base_url: http://localhost/
 
 ticket_storage:
   type: FileRepository
