@@ -3,8 +3,8 @@
 
 <div class="event_list_wrapper">
     <form method="post" action="/checkins/create" class="event_list">
+        <h1>Check-in. See where everyone's going. Claim your deal.</h1>
         <fieldset>
-            <legend>Check-in to claim your deal and see who else is going!</legend>
             <ul>
                 <?php foreach ($events as $k => $event): ?>
                 <li class="<?= $n++ == 0 ? 'first' : '' ?>">

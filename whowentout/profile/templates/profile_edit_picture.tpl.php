@@ -2,9 +2,6 @@
 
     <div class="profile_pic">
         <?= img($profile_picture->url('source'), array('class' => 'profile_pic_source')) ?>
-        <?= r::profile_pic_crop_form(array(
-            'profile_picture' => $profile_picture,
-        )) ?>
     </div>
 
     <div class="profile_pic_options">
@@ -13,5 +10,9 @@
             <li><?= r::profile_pic_facebook_form() ?></li>
         </ul>
     </div>
+
+    <?= r::profile_pic_crop_form(array(
+        'profile_picture' => $profile_picture,
+    )) ?>
 
 </div>

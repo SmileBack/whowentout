@@ -47,7 +47,7 @@ class Profile_Controller extends Controller
 
         flash::message('Set your profile pic to your Facebook one');
 
-        redirect('profile/view/me');
+        redirect('profile/edit/picture');
     }
 
     function set_to_upload()
@@ -60,7 +60,7 @@ class Profile_Controller extends Controller
 
         flash::message('Uploaded a profile pic');
 
-        redirect('profile/view/me');
+        redirect('profile/edit/picture');
     }
 
     function crop()

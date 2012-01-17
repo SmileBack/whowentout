@@ -1,4 +1,4 @@
-@primary_color: #7d1729;
+@primary_color: #104e8b;
 @button_color: #528036;
 @yellow: #ffcc66;
 @sidebar_width: 300px;
@@ -131,7 +131,12 @@ input[type="submit"], button {
     }
 }
 
-h1 { font-size: 20px; }
+h1 {
+    font-size: 24px;
+    font-family: Helvetica, Arial;
+    color: #333;
+    text-shadow: white 1px 1px 0px;
+}
 h2 { font-size: 18px; }
 h3 { font-size: 16px; }
 h4 { font-size: 14px; }
@@ -241,30 +246,42 @@ td {
 }
 
 .event_list {
-    width: 600px;
+    @border_color: #b5b5b5;
+    width: 670px;
     margin: auto;
     text-align: left;
+    .shadow(0.9px, 2px, 3px, 1px, #989898);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid @border_color;
+    h1 {
+        height: 70px;
+        line-height: 70px;
+        text-align: center;
+        background: url(/images/h1_bg.png) repeat-x;
+        border-bottom: 1px solid @border_color;
+    }
     fieldset {
-        border: 1px solid grey;
+        border: none;
+        padding: 0;
     }
     ul {
         height: 190px;
         overflow-y: scroll;
         overflow-x: hidden;
     }
-    li { width: 98%; }
-    li:hover { background-color: #F9EDBE; }
-    li.first label {
-        border-top: 1px solid #b0b0b0;
+    li {
+        border-bottom: 1px solid #b0b0b0;
+        &:hover { background-color: #F9EDBE }
     }
     label {
       overflow:  hidden;
       display: block;
+      margin: 0 25px;
       width: 100%;
-      border-bottom: 1px solid #b0b0b0;
       input { float: left; margin: 10px; }
-      .place { width: 150px; float: left; margin: 10px; font-weight: bold; }
-      .deal { width: 200px; float: left; margin: 10px; }
+      .place { width: 170px; float: left; margin: 10px; font-weight: bold; }
+      .deal { width: 250px; float: left; margin: 10px; font-weight: normal; }
       .checkin_button {
           .green_button_style;
           width: 100px;
@@ -357,6 +374,12 @@ td {
         li {
             margin: 50px 50px;
         }
+    }
+    .profile_pic_crop_form {
+        float: left;
+        clear: both;
+        width: 100%;
+        margin-top: 15px;
     }
 }
 
