@@ -7,12 +7,12 @@ class ConfigIndexer extends Indexer
 
     function run()
     {
-        foreach ($this->get_config_file_resources() as $file_metadata) {
-            $this->index_config_file($file_metadata);
+        foreach ($this->get_file_resources() as $file_metadata) {
+            $this->index_file($file_metadata);
         }
     }
 
-    private function index_config_file(FileMetadata $file_metadata)
+    private function index_file(FileMetadata $file_metadata)
     {
         $meta = new ConfigMetadata();
         $meta->type = 'config';
@@ -29,7 +29,7 @@ class ConfigIndexer extends Indexer
     /**
      * @return FileMetadata[]
      */
-    private function get_config_file_resources()
+    private function get_file_resources()
     {
         $resources = array();
         /* @var $file_meta FileMetadata */

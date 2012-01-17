@@ -7,15 +7,15 @@ class ClassIndexer extends Indexer
 
     function run()
     {
-        $file_resources = $this->get_php_file_resources();
+        $file_resources = $this->get_file_resources();
         foreach ($file_resources as $file_meta) {
-            $this->index_php_file($file_meta);
+            $this->index_file($file_meta);
         }
 
         $this->index_php_class_heirarchy();
     }
 
-    private function index_php_file(FileMetadata $file_metadata)
+    private function index_file(FileMetadata $file_metadata)
     {
         $parser = new PHPClassParser();
 
@@ -56,7 +56,7 @@ class ClassIndexer extends Indexer
     /**
      * @return FileMetadata[]
      */
-    private function get_php_file_resources()
+    private function get_file_resources()
     {
         $resources = array();
         /* @var $file_meta FileMetadata */

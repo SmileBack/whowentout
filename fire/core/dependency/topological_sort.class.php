@@ -45,7 +45,7 @@ class TopologicalSort
      * Default is  $this->nodes created in constructor.
      * @return sorted array
      */
-    function tsort()
+    function sort()
     {
         $nodes = $this->nodes;
 

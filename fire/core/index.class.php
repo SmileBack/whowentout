@@ -11,7 +11,7 @@ class Index
 
     private $data = array();
 
-    private $resource_types = array('directory', 'file', 'class', 'config');
+    private $resource_types = array('directory', 'file', 'class', 'config', 'js');
 
     function __construct($root, FilesystemCache $cache)
     {
@@ -102,12 +102,14 @@ class Index
         require_once 'meta/file_metadata.class.php';
         require_once 'meta/class_metadata.class.php';
         require_once 'meta/config_metadata.class.php';
+        require_once 'meta/js_metadata.class.php';
 
         require_once 'indexers/indexer.class.php';
         require_once 'indexers/directory_indexer.class.php';
         require_once 'indexers/file_indexer.class.php';
         require_once 'indexers/class_indexer.class.php';
         require_once 'indexers/config_indexer.class.php';
+        require_once 'indexers/js_indexer.class.php';
     }
 
     private function save_to_cache()

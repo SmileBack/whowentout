@@ -25,14 +25,14 @@ class Events_Controller extends Controller
 
     function test()
     {
-        $deps = array(
-            'a' => array('b', 'c', 'd'),
-            'c' => array('d', 'b'),
-            'b' => array('yo'),
-        );
-        $ts = new TopologicalSort($deps);
-        $sorted = $ts->tsort();
-        krumo::dump($sorted);
+        /* @var $class_loader ClassLoader */
+        $class_loader = build('class_loader');
+        $names = $class_loader->get_subclass_names('Indexer');
+
+        krumo::dump($names);
+
+        $resources = app()->index()->get_resources_of_type('js');
+        krumo::dump($resources);
     }
 
     function index($date = null)
