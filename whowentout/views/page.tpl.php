@@ -18,20 +18,13 @@
     <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= filemtime('./css/styles.less') ?>.less"/>
 
     <script src="/js/less.js" type="text/javascript"></script>
-    <script src="/js/head.load.min.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="/js/underscore.js"></script>
-
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/backbone.js"></script>
-
-    <script type="text/javascript" src="/js/jquery.class.js"></script>
-    <script type="text/javascript" src="/js/jquery.entwine.js"></script>
-    <script type="text/javascript" src="/js/jquery.position.js"></script>
-    <script type="text/javascript" src="/js/jquery.body.js"></script>
-    <script type="text/javascript" src="/js/jquery.dialog.js"></script>
-
-    <script type="text/javascript" src="/js/page.0000000027.js"></script>
+    <?php
+        /* @var $asset Asset */
+        $asset = build('asset');
+        $asset->load_js('page.js');
+    ?>
+    <?= $asset->scripts() ?>
 
     <?php if (false): ?>
         <script type="text/javascript" src="http://js.pusher.com/1.11/pusher.js"></script>

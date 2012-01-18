@@ -1,3 +1,5 @@
+//= require underscore.js
+
 //     Backbone.js 0.5.3
 //     (c) 2010-2011 Jeremy Ashkenas, DocumentCloud Inc.
 //     Backbone may be freely distributed under the MIT license.
