@@ -14,14 +14,17 @@ class FacebookFriendSource
     /**
      * @return FacebookFriend[]
      */
-    function fetch_facebook_friends($facebook_id)
+    function fetch_facebook_friends($user)
     {
         $friends = array();
+
+        $prev_access_token = $this->facebook->getAccessToken();
+        $this->facebook->setAccessToken($user->facebook_access_token);
 
         $results = $this->facebook->api(array(
             'method' => 'fql.query',
             'query' => "SELECT uid, first_name, last_name, sex, affiliations FROM user
-                                                WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $facebook_id)" // AND is_app_user = 1
+                                                WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = $user->facebook_id)" // AND is_app_user = 1
         ));
 
         foreach ($results as $result) {
@@ -35,6 +38,8 @@ class FacebookFriendSource
 
             $friends[] = $friend;
         }
+
+        $this->facebook->setAccessToken($prev_access_token);
 
         return $friends;
     }

@@ -2,3 +2,7 @@ C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\whowentout\bin\
 C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\whowentout\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\whowentout\obj\Debug\whowentout.dll
 C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\whowentout\obj\Debug\whowentout.pdb
+C:\wamp\site\client_js\whowentout\bin\Debug\whowentout.xml
+C:\wamp\site\client_js\whowentout\obj\Debug\ResolveAssemblyReference.cache
+C:\wamp\site\client_js\whowentout\obj\Debug\whowentout.dll
+C:\wamp\site\client_js\whowentout\obj\Debug\whowentout.pdb

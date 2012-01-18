@@ -27,11 +27,19 @@ class Events_Controller extends Controller
     {
         /* @var $asset Asset */
         $asset = build('asset');
-        $asset->load_js('jquery.dialog.js');
-        $asset->load_js('queue.js');
-        $js = $asset->get_loaded_js();
-        krumo::dump($js);
 
+        /* @var $facebook_friends_updater FacebookFriendsUpdater */
+//        $facebook_friends_updater = build('facebook_friends_updater');
+//        $user = auth()->current_user();
+//        $facebook_friends_updater->update_facebook_friends($user);
+
+        /* @var $job_queue JobQueue */
+        $job_queue = build('job_queue');
+        $job = $job_queue->add(new UpdateFacebookFriendsJob(array(
+            'user_id' => auth()->current_user()->id,
+        )));
+
+        $job_queue->run_in_background($job->id);
     }
 
     function index($date = null)

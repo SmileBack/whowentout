@@ -16,7 +16,7 @@ class NetworkBlockerPlugin extends Plugin
 
         $user = $e->user;
 
-        $this->networks_updater->save_networks($user->id);
+        $this->networks_updater->update_networks($user->id);
 
         if ($this->blocker->is_blocked($user))
             redirect('/');

@@ -20,7 +20,6 @@ class PackageInstaller
     {
         $this->database = $database;
         $this->class_loader = $class_loader;
-
         $this->_create_table_if_missing();
     }
 

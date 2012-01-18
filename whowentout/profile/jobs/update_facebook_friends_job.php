@@ -9,6 +9,8 @@ class UpdateFacebookFriendsJob extends Job
     /* @var $updater FacebookFriendsUpdater */
     private $updater;
 
+    public $required_options = array('user_id');
+
     function __construct($options = array())
     {
         parent::__construct($options);

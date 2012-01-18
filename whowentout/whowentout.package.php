@@ -3,7 +3,7 @@
 class WhoWentOutPackage extends Package
 {
 
-    public $version = '0.2.6';
+    public $version = '0.2.7';
 
     function install()
     {
@@ -23,6 +23,7 @@ class WhoWentOutPackage extends Package
             'last_name' => array('type' => 'string'),
             'email' => array('type' => 'string'),
             'facebook_id' => array('type' => 'string'),
+            'facebook_access_token' => array('type' => 'string', 'length' => 512),
             'hometown' => array('type' => 'string'),
             'gender' => array('type' => 'string'),
             'date_of_birth' => array('type' => 'date'),
@@ -126,6 +127,14 @@ class WhoWentOutPackage extends Package
     {
         $this->database->table('users')->create_column('last_login', array(
             'type' => 'time',
+        ));
+    }
+
+    function update_0_2_7()
+    {
+        $this->database->table('users')->create_column('facebook_access_token', array(
+            'type' => 'string',
+            'length' => 255,
         ));
     }
 

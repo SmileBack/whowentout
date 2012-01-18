@@ -30,11 +30,11 @@ namespace PusherApi
             private set { _connection = value; }
         }
 
-        public void Subscribe(string channelName)
+        public Channel Subscribe(string channelName)
         {
             console.log(string.Format("subscribing to {0}", channelName));
             this._pusherJs.Subscribe(channelName);
-            GetChannel(channelName);
+            return GetChannel(channelName);
         }
 
         public void Unsubscribe(string channelName)

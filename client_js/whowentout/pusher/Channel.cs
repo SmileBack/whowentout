@@ -12,6 +12,9 @@ namespace PusherApi
     public class Channel
     {
 
+        public event EventHandler SubscriptionSucceeded;
+        public event EventHandler SubscriptionFailed;
+
         private PusherChannelJs _channelJs;
 
         public Channel(PusherChannelJs channelJs)
@@ -20,12 +23,14 @@ namespace PusherApi
 
             _channelJs.Bind("pusher:subscription_succeeded", delegate(object e)
             {
-                console.log("succeeded****");
+                if (SubscriptionSucceeded != null)
+                    SubscriptionSucceeded(this, EventArgs.Empty);
             });
 
             _channelJs.Bind("pusher:subscription_failed", delegate(object e)
             {
-                console.log("failed***");
+                if (SubscriptionFailed != null)
+                    SubscriptionFailed(this, EventArgs.Empty);
             });
         }
 

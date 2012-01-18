@@ -20,7 +20,7 @@ class UpdateFacebookNetworksJob extends Job
     function run()
     {
         $user_id = $this->options['user_id'];
-        $this->updater->save_networks($user_id);
+        $this->updater->update_networks($user_id);
     }
 
 }

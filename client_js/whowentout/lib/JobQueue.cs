@@ -5,13 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Html;
 using jQueryApi;
+using WebCore;
+using System.Runtime.CompilerServices;
 
 namespace whowentout.lib
 {
 
+    [NamedValues]
     public enum JobQueueStatus
     {
+        [ScriptName("idle")]
         Idle = 1,
+
+        [ScriptName("busy")]
         Busy = 2
     }
 
@@ -68,6 +74,8 @@ namespace whowentout.lib
         public void Add(Job job)
         {
             _tasks.Enqueue(job);
+
+            Run();
         }
 
         public void Run()

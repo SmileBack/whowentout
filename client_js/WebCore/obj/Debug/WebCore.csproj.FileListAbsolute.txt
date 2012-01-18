@@ -2,3 +2,7 @@ C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\WebCore\bin\Deb
 C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\WebCore\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\WebCore\obj\Debug\WebCore.dll
 C:\Users\Venkat\Documents\Visual Studio 2010\Projects\whowentout\WebCore\obj\Debug\WebCore.pdb
+C:\wamp\site\client_js\WebCore\bin\Debug\WebCore.xml
+C:\wamp\site\client_js\WebCore\obj\Debug\ResolveAssemblyReference.cache
+C:\wamp\site\client_js\WebCore\obj\Debug\WebCore.dll
+C:\wamp\site\client_js\WebCore\obj\Debug\WebCore.pdb

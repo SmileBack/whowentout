@@ -48,6 +48,7 @@
     <Compile Include="pusher\Channel.cs" />
     <Compile Include="pusher\Connection.cs" />
     <Compile Include="pusher\PusherClient.cs" />
+    <Compile Include="SendRequestJob.cs" />
     <Content Include="Properties\whowentout.ruleset" />
     <Content Include="Properties\whowentout.script" />
     <Compile Include="bridge\whowentout.cs" />

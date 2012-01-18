@@ -21,7 +21,7 @@ class FacebookFriendsUpdater
     function update_facebook_friends($user)
     {
         set_time_limit(5 * 60);
-        $friends = $this->friend_source->fetch_facebook_friends($user->facebook_id);
+        $friends = $this->friend_source->fetch_facebook_friends($user);
 
         $this->database->begin_transaction();
         // insert all users from $friends who aren't already in the users table
@@ -33,13 +33,12 @@ class FacebookFriendsUpdater
                 'last_name' => $friend->last_name,
             ));
 
-            $user_friend_association_row = $this->database->table('user_friends')->create_or_update_row(array(
+            $this->database->table('user_friends')->create_or_update_row(array(
                 'user_id' => $user->id,
                 'friend_id' => $friend_row->id,
             ));
 
             foreach ($friend->networks as $network) {
-
                 $network_row = $this->database->table('networks')->create_or_update_row(array(
                     'id' => $network->id,
                     'type' => $network->type,
@@ -50,7 +49,6 @@ class FacebookFriendsUpdater
                     'user_id' => $friend_row->id,
                     'network_id' => $network_row->id,
                 ));
-
             }
         }
         $this->database->commit_transaction();

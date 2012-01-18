@@ -19,7 +19,7 @@ class FacebookNetworksUpdater
      * @param $user_id
      * @param $networks FacebookNetwork[]
      */
-    function save_networks($user_id)
+    function update_networks($user_id)
     {
         $user = $this->database->table('users')->row($user_id);
         $profile = $this->profile_source->fetch_profile($user->facebook_id);

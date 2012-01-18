@@ -77,18 +77,33 @@ class JobQueue
         $job = $this->fetch($job_id);
 
         if ($job->status == 'pending') {
-            $job->run();
-            $job->status = 'complete';
+            $job->status = 'running';
+            $this->update($job);
 
+            try {
+                $job->run();
+            }
+            catch (Exception $e) {
+                $job->status = 'error';
+                $this->update($job);
+                return;
+            }
+
+            $job->status = 'complete';
             $this->update($job);
         }
     }
 
-    function run_in_background($job_id)
+    function run_in_background($job_id, $method = 'pusher')
     {
         $run_job_url = $this->run_job_url($job_id);
-        $this->post_async_pusher($run_job_url);
-//        $this->post_async($run_job_url);
+
+        if ($method == 'pusher')
+            $this->post_async_pusher($run_job_url);
+        elseif ($method =='curl')
+            $this->post_async_curl($run_job_url);
+        else
+            throw new Exception("Unknown method $method.");
     }
 
     private function run_job_url($job_id)
@@ -122,7 +137,7 @@ class JobQueue
         ));
     }
 
-    private function post_async($url, $params = array())
+    private function post_async_curl($url, $params = array())
     {
         $post_params = array();
         foreach ($params as $key => &$val) {
