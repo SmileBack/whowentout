@@ -10,8 +10,14 @@
     <div class="deal">
         <?= $event->deal ?>
     </div>
-    <div class="checkin_button">
+
+<div class="checkin_button <?= $selected ? 'attending' : '' ?>">
+    <?php if ($selected): ?>
+        attending
+    <?php else: ?>
         check-in
-    </div>
+    <?php endif; ?>
+</div>
+
 </label>
     

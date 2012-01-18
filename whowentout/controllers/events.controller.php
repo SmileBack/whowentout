@@ -25,11 +25,6 @@ class Events_Controller extends Controller
 
     function test()
     {
-//        $user = auth()->current_user();
-//        $user->facebook_friends_last_update = null;
-//        $user->save();
-//        krumo::dump($user->facebook_friends_last_update);
-        print 'hola';
     }
 
     function index($date = null)

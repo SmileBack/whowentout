@@ -7,7 +7,8 @@
         <fieldset>
             <ul>
                 <?php foreach ($events as $k => $event): ?>
-                <li class="<?= $n++ == 0 ? 'first' : '' ?>">
+                <?php $selected = ($selected_event == $event); ?>
+                <li class="<?= $selected ? 'selected' : '' ?>">
                     <?=
                     r::event_option(array(
                         'event' => $event,

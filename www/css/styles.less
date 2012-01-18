@@ -272,7 +272,8 @@ td {
     }
     li {
         border-bottom: 1px solid #b0b0b0;
-        &:hover { background-color: #F9EDBE }
+        &.selected { background-color: #F9EDBE; }
+        &:hover { background-color: #F9EDBE; }
     }
     label {
       overflow:  hidden;
@@ -288,6 +289,11 @@ td {
           float: left;
           font-size: 12px;
           margin-top: 5px;
+          &.attending {
+              background: none;
+              background-color: lighten(#7FBF4D, 10%);
+              border: 1px solid lighten(#7FBF4D, 10%);
+          }
       }
     }
 }

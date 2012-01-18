@@ -10,10 +10,26 @@
   filter: e(%('alpha(opacity=%s)', @opacity * 100));  // most other IE versions
 }
 
-.shadow (@x: 1px, @y: 1px, @blur: 3px, @spread: 1px, @color: #dedede) {
+.shadow(@x: 1px, @y: 1px, @blur: 3px, @spread: 1px, @color: #dedede) {
   -webkit-box-shadow: @x @y @blur @spread @color;
  -moz-box-shadow: @x @y @blur @spread @color;
   box-shadow: @x @y @blur @spread @color;
+}
+
+.shadow_inset(@x, @y, @blur, @spread, @color) {
+    -webkit-box-shadow: inset @x @y @blur @spread @color;
+    -moz-box-shadow: inset @x @y @blur @spread @color;
+    -ms-box-shadow: inset @x @y @blur @spread @color;
+    -o-box-shadow: inset @x @y @blur @spread @color;
+    box-shadow: inset @x @y @blur @spread @color;
+}
+
+.border_radius(@r) {
+    -webkit-border-radius: @r;
+    -moz-border-radius: @r;
+    -ms-border-radius: @r;
+    -o-border-radius: @r;
+    border-radius: @r;
 }
 
 .green_button_style {
@@ -26,16 +42,10 @@
     background-image: linear-gradient(top, #7fbf4d, #63a62f);
     border: 1px solid #63A62F;
     border-bottom: 1px solid #5B992B;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-box-shadow: inset 0 1px 0 0 #96ca6d;
-    -moz-box-shadow: inset 0 1px 0 0 #96ca6d;
-    -ms-box-shadow: inset 0 1px 0 0 #96ca6d;
-    -o-box-shadow: inset 0 1px 0 0 #96ca6d;
-    box-shadow: inset 0 1px 0 0 #96ca6d;
+
+    .shadow_inset(0, 1px, 0, 0, #96cad);
+    .border_radius(3px);
+
     color: white;
     font: bold 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
     line-height: 1;
