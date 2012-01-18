@@ -1,7 +1,6 @@
 //= require jquery.js
 //= require jquery.entwine.js
 //= require jquery.position.js
-//= require underscore.js
 
 $('#mask').entwine({
     onclick:function () {

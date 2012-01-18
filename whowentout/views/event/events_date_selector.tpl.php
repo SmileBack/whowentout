@@ -1,7 +1,7 @@
 <?php
 /* @var $selected_date XDateTime */
 $capacity = 28;
-$start_index = $capacity; //-3 puts it in the middle
+$start_index = $capacity;
 $today = app()->clock()->today();
 ?>
 <div id="events_date_selector">

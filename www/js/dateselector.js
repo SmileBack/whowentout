@@ -69,6 +69,9 @@ $('.scrollable').entwine({
         var index = this.getIndex() + offset;
         this.animateToIndex(index, onComplete);
     },
+    refreshScrollPosition: function() {
+        this.setIndex(this.getIndex());
+    },
     setIndex: function(index) {
         var x = this._indexToX(index);
         this._setX(x);
