@@ -12,7 +12,7 @@ class Filtering_Test extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->db = factory()->build('test_database');
+        $this->db = build('database');
 
         $this->db->destroy_all_tables();
 

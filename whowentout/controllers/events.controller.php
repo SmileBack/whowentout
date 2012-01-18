@@ -25,21 +25,11 @@ class Events_Controller extends Controller
 
     function test()
     {
-        /* @var $asset Asset */
-        $asset = build('asset');
-
-        /* @var $facebook_friends_updater FacebookFriendsUpdater */
-//        $facebook_friends_updater = build('facebook_friends_updater');
 //        $user = auth()->current_user();
-//        $facebook_friends_updater->update_facebook_friends($user);
-
-        /* @var $job_queue JobQueue */
-        $job_queue = build('job_queue');
-        $job = $job_queue->add(new UpdateFacebookFriendsJob(array(
-            'user_id' => auth()->current_user()->id,
-        )));
-
-        $job_queue->run_in_background($job->id);
+//        $user->facebook_friends_last_update = null;
+//        $user->save();
+//        krumo::dump($user->facebook_friends_last_update);
+        print 'hola';
     }
 
     function index($date = null)

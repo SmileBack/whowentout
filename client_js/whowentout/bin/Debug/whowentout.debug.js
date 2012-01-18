@@ -3,6 +3,194 @@
 
 (function() {
 
+Type.registerNamespace('whowentout');
+
+////////////////////////////////////////////////////////////////////////////////
+// whowentout.JobRelay
+
+whowentout.JobRelay = function whowentout_JobRelay() {
+    /// <field name="_queue" type="whowentout.lib.JobQueue">
+    /// </field>
+    /// <field name="_pusher" type="PusherApi.PusherClient">
+    /// </field>
+    /// <field name="_channel" type="PusherApi.Channel">
+    /// </field>
+    /// <field name="_started" type="Boolean">
+    /// </field>
+}
+whowentout.JobRelay.prototype = {
+    _queue: null,
+    _pusher: null,
+    _channel: null,
+    _started: false,
+    
+    _start: function whowentout_JobRelay$_start() {
+        if (this._started) {
+            return;
+        }
+        this._started = true;
+        this._queue = new whowentout.lib.JobQueue();
+        this._queue.add_jobStart(ss.Delegate.create(this, this._queue_JobStart));
+        this._queue.add_jobComplete(ss.Delegate.create(this, this._queue_JobComplete));
+        this._queue.add_statusChanged(ss.Delegate.create(this, this._queue_StatusChanged));
+        this._pusher = new PusherApi.PusherClient('805af8a6919abc9fb047');
+        this._pusher.get_connection().add_stateChange(ss.Delegate.create(this, this._connection_StateChange));
+        this._channel = this._pusher.subscribe('job_queue');
+        this._channel.add_subscriptionSucceeded(ss.Delegate.create(this, this._channel_SubscriptionSucceeded));
+        this._channel.add_subscriptionFailed(ss.Delegate.create(this, this._channel_SubscriptionFailed));
+        this._channel.bind('new_job', ss.Delegate.create(this, this._onNewJobReceived));
+    },
+    
+    _onNewJobReceived: function whowentout_JobRelay$_onNewJobReceived(jobObject) {
+        /// <param name="jobObject" type="Object">
+        /// </param>
+        var url = jobObject.url;
+        var job = new whowentout.SendRequestJob(url);
+        this._queue.add(job);
+        console.log(String.format('queued job [{0} jobs]', this._queue.get_count()));
+        console.log(jobObject);
+    },
+    
+    _queue_StatusChanged: function whowentout_JobRelay$_queue_StatusChanged(sender, e) {
+        /// <param name="sender" type="Object">
+        /// </param>
+        /// <param name="e" type="whowentout.lib.JobQueueStatusChangedEventArgs">
+        /// </param>
+        console.log(String.format('JOB QUEUE : {0} -> {1}', e.get_oldStatus(), e.get_newStatus()));
+    },
+    
+    _queue_JobComplete: function whowentout_JobRelay$_queue_JobComplete(sender, e) {
+        /// <param name="sender" type="Object">
+        /// </param>
+        /// <param name="e" type="whowentout.lib.JobEventArgs">
+        /// </param>
+        console.log(String.format('job complete [{0} jobs]', this._queue.get_count()));
+    },
+    
+    _queue_JobStart: function whowentout_JobRelay$_queue_JobStart(sender, e) {
+        /// <param name="sender" type="Object">
+        /// </param>
+        /// <param name="e" type="whowentout.lib.JobEventArgs">
+        /// </param>
+        console.log('job start');
+    },
+    
+    _channel_SubscriptionFailed: function whowentout_JobRelay$_channel_SubscriptionFailed(sender, e) {
+        /// <param name="sender" type="Object">
+        /// </param>
+        /// <param name="e" type="ss.EventArgs">
+        /// </param>
+        console.log('subscription failed');
+    },
+    
+    _channel_SubscriptionSucceeded: function whowentout_JobRelay$_channel_SubscriptionSucceeded(sender, e) {
+        /// <param name="sender" type="Object">
+        /// </param>
+        /// <param name="e" type="ss.EventArgs">
+        /// </param>
+        console.log('subscription succeeded');
+    },
+    
+    _connection_StateChange: function whowentout_JobRelay$_connection_StateChange(sender, e) {
+        /// <param name="sender" type="Object">
+        /// </param>
+        /// <param name="e" type="PusherApi.StateChangeEventArgs">
+        /// </param>
+        console.log(String.format('PUSHER : {0} -> {1}', e.get_previous(), e.get_current()));
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// whowentout.SendRequestJob
+
+whowentout.SendRequestJob = function whowentout_SendRequestJob(url) {
+    /// <param name="url" type="String">
+    /// </param>
+    /// <field name="_url$1" type="String">
+    /// </field>
+    whowentout.SendRequestJob.initializeBase(this);
+    this._url$1 = url;
+}
+whowentout.SendRequestJob.prototype = {
+    _url$1: null,
+    
+    run: function whowentout_SendRequestJob$run() {
+        /// <returns type="Object"></returns>
+        return $.ajax(this._url$1);
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// whowentout.ConsoleLogJob
+
+whowentout.ConsoleLogJob = function whowentout_ConsoleLogJob(message) {
+    /// <param name="message" type="String">
+    /// </param>
+    /// <field name="_message$1" type="String">
+    /// </field>
+    whowentout.ConsoleLogJob.initializeBase(this);
+    this._message$1 = message;
+}
+whowentout.ConsoleLogJob.prototype = {
+    _message$1: null,
+    
+    run: function whowentout_ConsoleLogJob$run() {
+        /// <returns type="Object"></returns>
+        console.log(this._message$1);
+        return null;
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// whowentout.CountJob
+
+whowentout.CountJob = function whowentout_CountJob(name, n) {
+    /// <param name="name" type="String">
+    /// </param>
+    /// <param name="n" type="Number" integer="true">
+    /// </param>
+    /// <field name="_target$1" type="Number" integer="true">
+    /// </field>
+    /// <field name="_cur$1" type="Number" integer="true">
+    /// </field>
+    /// <field name="_name$1" type="String">
+    /// </field>
+    whowentout.CountJob.initializeBase(this);
+    this._name$1 = name;
+    this._target$1 = n;
+    this._cur$1 = 0;
+}
+whowentout.CountJob.prototype = {
+    _target$1: 0,
+    _cur$1: 0,
+    _name$1: null,
+    
+    run: function whowentout_CountJob$run() {
+        /// <returns type="Object"></returns>
+        var dfd = $.Deferred();
+        var id = 0;
+        id = window.setInterval(ss.Delegate.create(this, function() {
+            console.log(String.format('{0}: {1}', this._name$1, this._cur$1));
+            console.log(String.format('cur = {0}, target = {1}', this._cur$1, this._target$1));
+            this._cur$1++;
+            if (this._cur$1 > this._target$1) {
+                window.clearInterval(id);
+                dfd.resolve();
+            }
+        }), 100);
+        return dfd;
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// whowentout._mainPage
+
+
+
 Type.registerNamespace('PusherApi');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -308,140 +496,6 @@ PusherApi.PusherClient.prototype = {
 }
 
 
-Type.registerNamespace('whowentout');
-
-////////////////////////////////////////////////////////////////////////////////
-// whowentout.SendRequestJob
-
-whowentout.SendRequestJob = function whowentout_SendRequestJob(url) {
-    /// <param name="url" type="String">
-    /// </param>
-    /// <field name="_url$1" type="String">
-    /// </field>
-    whowentout.SendRequestJob.initializeBase(this);
-    this._url$1 = url;
-}
-whowentout.SendRequestJob.prototype = {
-    _url$1: null,
-    
-    run: function whowentout_SendRequestJob$run() {
-        /// <returns type="Object"></returns>
-        return $.ajax(this._url$1);
-    }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// whowentout.ConsoleLogJob
-
-whowentout.ConsoleLogJob = function whowentout_ConsoleLogJob(message) {
-    /// <param name="message" type="String">
-    /// </param>
-    /// <field name="_message$1" type="String">
-    /// </field>
-    whowentout.ConsoleLogJob.initializeBase(this);
-    this._message$1 = message;
-}
-whowentout.ConsoleLogJob.prototype = {
-    _message$1: null,
-    
-    run: function whowentout_ConsoleLogJob$run() {
-        /// <returns type="Object"></returns>
-        console.log(this._message$1);
-        return null;
-    }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// whowentout.CountJob
-
-whowentout.CountJob = function whowentout_CountJob(name, n) {
-    /// <param name="name" type="String">
-    /// </param>
-    /// <param name="n" type="Number" integer="true">
-    /// </param>
-    /// <field name="_target$1" type="Number" integer="true">
-    /// </field>
-    /// <field name="_cur$1" type="Number" integer="true">
-    /// </field>
-    /// <field name="_name$1" type="String">
-    /// </field>
-    whowentout.CountJob.initializeBase(this);
-    this._name$1 = name;
-    this._target$1 = n;
-    this._cur$1 = 0;
-}
-whowentout.CountJob.prototype = {
-    _target$1: 0,
-    _cur$1: 0,
-    _name$1: null,
-    
-    run: function whowentout_CountJob$run() {
-        /// <returns type="Object"></returns>
-        var dfd = $.Deferred();
-        var id = 0;
-        id = window.setInterval(ss.Delegate.create(this, function() {
-            console.log(String.format('{0}: {1}', this._name$1, this._cur$1));
-            console.log(String.format('cur = {0}, target = {1}', this._cur$1, this._target$1));
-            this._cur$1++;
-            if (this._cur$1 > this._target$1) {
-                window.clearInterval(id);
-                dfd.resolve();
-            }
-        }), 100);
-        return dfd;
-    }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// whowentout._mainPage
-
-window._queue_StatusChanged = function whowentout__mainPage$_queue_StatusChanged(sender, e) {
-    /// <param name="sender" type="Object">
-    /// </param>
-    /// <param name="e" type="whowentout.lib.JobQueueStatusChangedEventArgs">
-    /// </param>
-    console.log(String.format('JOB QUEUE : {0} -> {1}', e.get_oldStatus(), e.get_newStatus()));
-}
-window._queue_JobComplete = function whowentout__mainPage$_queue_JobComplete(sender, e) {
-    /// <param name="sender" type="Object">
-    /// </param>
-    /// <param name="e" type="whowentout.lib.JobEventArgs">
-    /// </param>
-    console.log('job complete');
-}
-window._queue_JobStart = function whowentout__mainPage$_queue_JobStart(sender, e) {
-    /// <param name="sender" type="Object">
-    /// </param>
-    /// <param name="e" type="whowentout.lib.JobEventArgs">
-    /// </param>
-    console.log('job start');
-}
-window._channel_SubscriptionFailed = function whowentout__mainPage$_channel_SubscriptionFailed(sender, e) {
-    /// <param name="sender" type="Object">
-    /// </param>
-    /// <param name="e" type="ss.EventArgs">
-    /// </param>
-    console.log('subscription failed');
-}
-window._channel_SubscriptionSucceeded = function whowentout__mainPage$_channel_SubscriptionSucceeded(sender, e) {
-    /// <param name="sender" type="Object">
-    /// </param>
-    /// <param name="e" type="ss.EventArgs">
-    /// </param>
-    console.log('subscription succeeded');
-}
-window._connection_StateChange = function whowentout__mainPage$_connection_StateChange(sender, e) {
-    /// <param name="sender" type="Object">
-    /// </param>
-    /// <param name="e" type="PusherApi.StateChangeEventArgs">
-    /// </param>
-    console.log(String.format('PUSHER : {0} -> {1}', e.get_previous(), e.get_current()));
-}
-
-
 Type.registerNamespace('whowentout.lib');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -660,34 +714,22 @@ whowentout.lib.JobQueueStatusChangedEventArgs.prototype = {
 }
 
 
-PusherApi.Channel.registerClass('PusherApi.Channel');
-PusherApi.Connection.registerClass('PusherApi.Connection');
-PusherApi.StateChangeEventArgs.registerClass('PusherApi.StateChangeEventArgs', ss.EventArgs);
-PusherApi.PusherClient.registerClass('PusherApi.PusherClient');
+whowentout.JobRelay.registerClass('whowentout.JobRelay');
 whowentout.lib.Job.registerClass('whowentout.lib.Job');
 whowentout.SendRequestJob.registerClass('whowentout.SendRequestJob', whowentout.lib.Job);
 whowentout.ConsoleLogJob.registerClass('whowentout.ConsoleLogJob', whowentout.lib.Job);
 whowentout.CountJob.registerClass('whowentout.CountJob', whowentout.lib.Job);
+PusherApi.Channel.registerClass('PusherApi.Channel');
+PusherApi.Connection.registerClass('PusherApi.Connection');
+PusherApi.StateChangeEventArgs.registerClass('PusherApi.StateChangeEventArgs', ss.EventArgs);
+PusherApi.PusherClient.registerClass('PusherApi.PusherClient');
 whowentout.lib.JobQueue.registerClass('whowentout.lib.JobQueue');
 whowentout.lib.JobEventArgs.registerClass('whowentout.lib.JobEventArgs', ss.EventArgs);
 whowentout.lib.JobQueueStatusChangedEventArgs.registerClass('whowentout.lib.JobQueueStatusChangedEventArgs', ss.EventArgs);
 (function () {
     $(function() {
-        var queue = new whowentout.lib.JobQueue();
-        queue.add_jobStart(_queue_JobStart);
-        queue.add_jobComplete(_queue_JobComplete);
-        queue.add_statusChanged(_queue_StatusChanged);
-        var p = new PusherApi.PusherClient('805af8a6919abc9fb047');
-        p.get_connection().add_stateChange(_connection_StateChange);
-        var c = p.subscribe('job_queue');
-        c.add_subscriptionSucceeded(_channel_SubscriptionSucceeded);
-        c.add_subscriptionFailed(_channel_SubscriptionFailed);
-        c.bind('new_job', function(jobObj) {
-            console.log(jobObj);
-            var url = jobObj.url;
-            var job = new whowentout.SendRequestJob(url);
-            queue.add(job);
-        });
+        var relay = new whowentout.JobRelay();
+        relay._start();
     });
 })();
 })();

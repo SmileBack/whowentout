@@ -39,7 +39,7 @@ class FireApp
         return $js;
     }
         
-    function trigger($event_name, $event_data)
+    function trigger($event_name, $event_data = array())
     {
         $this->load_plugins_if_not_loaded();
         $e = $this->cast_event($event_name, $event_data);

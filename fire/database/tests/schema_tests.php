@@ -13,19 +13,11 @@ class Schema_Tests extends PHPUnit_Framework_TestCase
      */
     private $db2;
 
-    private function create_database_connection()
-    {
-        return new Database(array(
-            'host' => 'localhost',
-            'username' => 'root',
-            'password' => 'root',
-            'database' => 'fire_test',
-        ));
-    }
-
     function setUp()
     {
-        $this->db = factory()->build('test_database');
+        $this->db = build('database');
+        $this->db2 = build('second_database');
+
         $this->db->destroy_all_tables();
     }
 
@@ -66,11 +58,13 @@ class Schema_Tests extends PHPUnit_Framework_TestCase
     function test_table_persistance()
     {
         $db = $this->db;
+        $db2 = $this->db2;
+
         $db->create_table('uncached_table', array(
             'id' => array('type' => 'id'),
         ));
+        $this->assertTrue($db->table('uncached_table') != null);
 
-        $db2 = $this->create_database_connection();
         $table = $db2->table('uncached_table', 'table persists between database sessions');
         $this->assertTrue($table != null);
         $this->assertTrue($db2->has_table('uncached_table'));

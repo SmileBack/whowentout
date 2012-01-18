@@ -52,6 +52,9 @@ class FacebookFriendsUpdater
             }
         }
         $this->database->commit_transaction();
+
+        $user->facebook_friends_last_update = app()->clock()->get_time();
+        $user->save();
     }
 
 }

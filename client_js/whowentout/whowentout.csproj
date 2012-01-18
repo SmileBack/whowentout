@@ -45,6 +45,7 @@
     <Reference Include="Script.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JobRelay.cs" />
     <Compile Include="pusher\Channel.cs" />
     <Compile Include="pusher\Connection.cs" />
     <Compile Include="pusher\PusherClient.cs" />

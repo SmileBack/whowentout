@@ -9,7 +9,7 @@ class Reference_Tests extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->db = factory()->build('test_database');
+        $this->db = factory()->build('database');
         $this->db->destroy_all_tables();
 
         $this->createTables();

@@ -10,7 +10,7 @@ class TimeDatabaseColumn extends DatabaseColumn
 
     function to_database_value($value)
     {
-        return $value->format('Y-m-d H:i:s');
+        return $value ? $value->format('Y-m-d H:i:s') : null;
     }
 
 }

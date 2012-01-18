@@ -10,7 +10,7 @@ class DateDatabaseColumn extends DatabaseColumn
 
     function to_database_value($value)
     {
-        return $value->format('Y-m-d');
+        return $value ? $value->format('Y-m-d') : null;
     }
 
 }

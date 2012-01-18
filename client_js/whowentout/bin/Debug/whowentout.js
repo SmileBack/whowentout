@@ -1,5 +1,14 @@
 // whowentout.js
 (function(){
+Type.registerNamespace('whowentout');whowentout.JobRelay=function(){}
+whowentout.JobRelay.prototype={$0:null,$1:null,$2:null,$3:false,$4:function(){if(this.$3){return;}this.$3=true;this.$0=new whowentout.lib.JobQueue();this.$0.add_jobStart(ss.Delegate.create(this,this.$8));this.$0.add_jobComplete(ss.Delegate.create(this,this.$7));this.$0.add_statusChanged(ss.Delegate.create(this,this.$6));this.$1=new PusherApi.PusherClient('805af8a6919abc9fb047');this.$1.get_connection().add_stateChange(ss.Delegate.create(this,this.$B));this.$2=this.$1.subscribe('job_queue');this.$2.add_subscriptionSucceeded(ss.Delegate.create(this,this.$A));this.$2.add_subscriptionFailed(ss.Delegate.create(this,this.$9));this.$2.bind('new_job',ss.Delegate.create(this,this.$5));},$5:function($p0){var $0=$p0.url;var $1=new whowentout.SendRequestJob($0);this.$0.add($1);console.log(String.format('queued job [{0} jobs]',this.$0.get_count()));console.log($p0);},$6:function($p0,$p1){console.log(String.format('JOB QUEUE : {0} -> {1}',$p1.get_oldStatus(),$p1.get_newStatus()));},$7:function($p0,$p1){console.log(String.format('job complete [{0} jobs]',this.$0.get_count()));},$8:function($p0,$p1){console.log('job start');},$9:function($p0,$p1){console.log('subscription failed');},$A:function($p0,$p1){console.log('subscription succeeded');},$B:function($p0,$p1){console.log(String.format('PUSHER : {0} -> {1}',$p1.get_previous(),$p1.get_current()));}}
+whowentout.SendRequestJob=function(url){whowentout.SendRequestJob.initializeBase(this);this.$0=url;}
+whowentout.SendRequestJob.prototype={$0:null,run:function(){return $.ajax(this.$0);}}
+whowentout.ConsoleLogJob=function(message){whowentout.ConsoleLogJob.initializeBase(this);this.$0=message;}
+whowentout.ConsoleLogJob.prototype={$0:null,run:function(){console.log(this.$0);return null;}}
+whowentout.CountJob=function(name,n){whowentout.CountJob.initializeBase(this);this.$2=name;this.$0=n;this.$1=0;}
+whowentout.CountJob.prototype={$0:0,$1:0,$2:null,run:function(){var $0=$.Deferred();var $1=0;$1=window.setInterval(ss.Delegate.create(this,function(){
+console.log(String.format('{0}: {1}',this.$2,this.$1));console.log(String.format('cur = {0}, target = {1}',this.$1,this.$0));this.$1++;if(this.$1>this.$0){window.clearInterval($1);$0.resolve();}}),100);return $0;}}
 Type.registerNamespace('PusherApi');PusherApi.ConnectionState=function(){};PusherApi.ConnectionState.prototype = {initialized:'initialized',connecting:'connecting',connected:'connected',unavailable:'unavailable',failed:'failed',disconnected:'disconnected'}
 PusherApi.ConnectionState.registerEnum('PusherApi.ConnectionState',false);PusherApi.Channel=function(channelJs){this.$2=channelJs;this.$2.bind('pusher:subscription_succeeded',ss.Delegate.create(this,function($p1_0){
 if(this.$0!=null){this.$0(this,ss.EventArgs.Empty);}}));this.$2.bind('pusher:subscription_failed',ss.Delegate.create(this,function($p1_0){
@@ -11,19 +20,6 @@ PusherApi.StateChangeEventArgs=function(previous,current){PusherApi.StateChangeE
 PusherApi.StateChangeEventArgs.prototype={$1_0:null,get_previous:function(){return this.$1_0;},set_previous:function(value){this.$1_0=value;return value;},$1_1:null,get_current:function(){return this.$1_1;},set_current:function(value){this.$1_1=value;return value;}}
 PusherApi.PusherClient=function(applicationKey){this.$1={};this.$0=new Pusher(applicationKey);this.set_connection(new PusherApi.Connection(this.$0.connection));}
 PusherApi.PusherClient.prototype={$0:null,$2:null,get_connection:function(){return this.$2;},set_connection:function(value){this.$2=value;return value;},subscribe:function(channelName){console.log(String.format('subscribing to {0}',channelName));this.$0.subscribe(channelName);return this.$3(channelName);},unsubscribe:function(channelName){this.$0.unsubscribe(channelName);delete this.$1[channelName];},$3:function($p0){var $0=this.$0.channel($p0);if($0==null){return null;}if(!Object.keyExists(this.$1,$p0)){this.$1[$p0]=new PusherApi.Channel($0);}return this.$1[$p0];},get_item:function(channelName){return this.$3(channelName);}}
-Type.registerNamespace('whowentout');whowentout.SendRequestJob=function(url){whowentout.SendRequestJob.initializeBase(this);this.$0=url;}
-whowentout.SendRequestJob.prototype={$0:null,run:function(){return $.ajax(this.$0);}}
-whowentout.ConsoleLogJob=function(message){whowentout.ConsoleLogJob.initializeBase(this);this.$0=message;}
-whowentout.ConsoleLogJob.prototype={$0:null,run:function(){console.log(this.$0);return null;}}
-whowentout.CountJob=function(name,n){whowentout.CountJob.initializeBase(this);this.$2=name;this.$0=n;this.$1=0;}
-whowentout.CountJob.prototype={$0:0,$1:0,$2:null,run:function(){var $0=$.Deferred();var $1=0;$1=window.setInterval(ss.Delegate.create(this,function(){
-console.log(String.format('{0}: {1}',this.$2,this.$1));console.log(String.format('cur = {0}, target = {1}',this.$1,this.$0));this.$1++;if(this.$1>this.$0){window.clearInterval($1);$0.resolve();}}),100);return $0;}}
-window.$0=function($p0,$p1){console.log(String.format('JOB QUEUE : {0} -> {1}',$p1.get_oldStatus(),$p1.get_newStatus()));}
-window.$1=function($p0,$p1){console.log('job complete');}
-window.$2=function($p0,$p1){console.log('job start');}
-window.$3=function($p0,$p1){console.log('subscription failed');}
-window.$4=function($p0,$p1){console.log('subscription succeeded');}
-window.$5=function($p0,$p1){console.log(String.format('PUSHER : {0} -> {1}',$p1.get_previous(),$p1.get_current()));}
 Type.registerNamespace('whowentout.lib');whowentout.lib.JobQueueStatus=function(){};whowentout.lib.JobQueueStatus.prototype = {idle:'idle',busy:'busy'}
 whowentout.lib.JobQueueStatus.registerEnum('whowentout.lib.JobQueueStatus',false);whowentout.lib.Job=function(){}
 whowentout.lib.JobQueue=function(){this.$3=[];this.$5='idle';}
@@ -33,7 +29,6 @@ whowentout.lib.JobEventArgs=function(job){whowentout.lib.JobEventArgs.initialize
 whowentout.lib.JobEventArgs.prototype={$1_0:null,get_job:function(){return this.$1_0;}}
 whowentout.lib.JobQueueStatusChangedEventArgs=function(oldStatus,newStatus){whowentout.lib.JobQueueStatusChangedEventArgs.initializeBase(this);this.$1_0=oldStatus;this.$1_1=newStatus;}
 whowentout.lib.JobQueueStatusChangedEventArgs.prototype={$1_0:null,$1_1:null,get_oldStatus:function(){return this.$1_0;},get_newStatus:function(){return this.$1_1;}}
-PusherApi.Channel.registerClass('PusherApi.Channel');PusherApi.Connection.registerClass('PusherApi.Connection');PusherApi.StateChangeEventArgs.registerClass('PusherApi.StateChangeEventArgs',ss.EventArgs);PusherApi.PusherClient.registerClass('PusherApi.PusherClient');whowentout.lib.Job.registerClass('whowentout.lib.Job');whowentout.SendRequestJob.registerClass('whowentout.SendRequestJob',whowentout.lib.Job);whowentout.ConsoleLogJob.registerClass('whowentout.ConsoleLogJob',whowentout.lib.Job);whowentout.CountJob.registerClass('whowentout.CountJob',whowentout.lib.Job);whowentout.lib.JobQueue.registerClass('whowentout.lib.JobQueue');whowentout.lib.JobEventArgs.registerClass('whowentout.lib.JobEventArgs',ss.EventArgs);whowentout.lib.JobQueueStatusChangedEventArgs.registerClass('whowentout.lib.JobQueueStatusChangedEventArgs',ss.EventArgs);(function(){$(function(){
-var $1_0=new whowentout.lib.JobQueue();$1_0.add_jobStart($2);$1_0.add_jobComplete($1);$1_0.add_statusChanged($0);var $1_1=new PusherApi.PusherClient('805af8a6919abc9fb047');$1_1.get_connection().add_stateChange($5);var $1_2=$1_1.subscribe('job_queue');$1_2.add_subscriptionSucceeded($4);$1_2.add_subscriptionFailed($3);$1_2.bind('new_job',function($p2_0){
-console.log($p2_0);var $2_0=$p2_0.url;var $2_1=new whowentout.SendRequestJob($2_0);$1_0.add($2_1);});});})();
+whowentout.JobRelay.registerClass('whowentout.JobRelay');whowentout.lib.Job.registerClass('whowentout.lib.Job');whowentout.SendRequestJob.registerClass('whowentout.SendRequestJob',whowentout.lib.Job);whowentout.ConsoleLogJob.registerClass('whowentout.ConsoleLogJob',whowentout.lib.Job);whowentout.CountJob.registerClass('whowentout.CountJob',whowentout.lib.Job);PusherApi.Channel.registerClass('PusherApi.Channel');PusherApi.Connection.registerClass('PusherApi.Connection');PusherApi.StateChangeEventArgs.registerClass('PusherApi.StateChangeEventArgs',ss.EventArgs);PusherApi.PusherClient.registerClass('PusherApi.PusherClient');whowentout.lib.JobQueue.registerClass('whowentout.lib.JobQueue');whowentout.lib.JobEventArgs.registerClass('whowentout.lib.JobEventArgs',ss.EventArgs);whowentout.lib.JobQueueStatusChangedEventArgs.registerClass('whowentout.lib.JobQueueStatusChangedEventArgs',ss.EventArgs);(function(){$(function(){
+var $1_0=new whowentout.JobRelay();$1_0.$4();});})();
 })();// This script was generated using Script# v0.7.4.0

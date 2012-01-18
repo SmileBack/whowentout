@@ -10,7 +10,7 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->db = factory()->build('test_database');
+        $this->db = build('database');
         $this->db->destroy_all_tables();
 
         $this->db->create_table('data', array(
@@ -91,6 +91,11 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
 
         $same_date = clone $date;
         $this->assertEquals($row->my_date, $same_date);
+
+        $row->my_date = null;
+        $row->save();
+
+        $this->assertEquals($row->my_date, null);
     }
 
     function test_create_or_update_row()

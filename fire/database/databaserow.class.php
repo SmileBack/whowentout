@@ -114,6 +114,7 @@ class DatabaseRow
         $id_column = $this->table()->id_column()->name();
         $changes = $this->changes();
         $this->table->_persist_row_changes($this->$id_column, $changes);
+        $this->_load_values($this->$id_column);
     }
 
     function _load_values($row_id)

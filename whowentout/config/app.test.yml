@@ -1,0 +1,13 @@
+database:
+  type: Database
+  host: localhost
+  database: fire_test
+  username: root
+  password: root
+
+second_database:
+  type: Database
+  host: localhost
+  database: fire_test
+  username: root
+  password: root

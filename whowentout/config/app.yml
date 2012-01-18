@@ -85,13 +85,6 @@ package_installer:
   database: database
   class_loader: class_loader
 
-test_database:
-  type: Database
-  host: localhost
-  database: fire_test
-  username: root
-  password: root
-
 test_package_installer:
   type: PackageInstaller
   database: test_database
