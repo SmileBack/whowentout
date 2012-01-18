@@ -3,11 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-define('FIREPATH', dirname(__FILE__) . '/../fire/');
-define('APPPATH', dirname(__FILE__) . '/../');
-
-require_once FIREPATH . 'debug/krumo.class.php';
-require_once FIREPATH . 'core/core.functions.php';
+require_once '../fire/core/boot.php';
 
 if (db()->has_table('sessions')) {
     $session_handler = factory()->build('session_handler');
