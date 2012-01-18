@@ -20,5 +20,6 @@
             </ul>
         </fieldset>
     </form>
+
+    <?= a(app()->event_link($selected_event) . "/deal/$selected_event->id", "View Your Deal") ?>
 </div>
-    

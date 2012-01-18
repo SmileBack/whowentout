@@ -109,7 +109,7 @@ class Events_Controller extends Controller
         if ($this->invite_engine->has_sent_invites($event, $current_user))
             app()->goto_event($event); // skip over invite dialog
         else
-            app()->goto_event($event, "#invite/$event->id"); // show invite dialog
+            app()->goto_event($event, "/invite/$event->id"); // show invite dialog
     }
 
     private function format_phone_number($phone_number)
