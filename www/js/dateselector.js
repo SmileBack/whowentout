@@ -80,6 +80,17 @@ $('.scrollable').entwine({
         var index = this.getIndex();
         return this.indexToEl(index + 3);
     },
+    indexToEl:function (index) {
+        return this.find('> .items > *').eq(index);
+    },
+    getCapacity: function() {
+        var capacity = this.width() / this.find('a:first').outerWidth();
+        return Math.floor(capacity);
+    },
+    setCapacity: function(c) {
+        var width = this.find('a:first').outerWidth() * c;
+        this.css('width', width);
+    },
     _setX:function (x) {
         this.find('> .items').css({'margin-left':-x + 'px'});
     },
@@ -90,11 +101,8 @@ $('.scrollable').entwine({
             complete: onComplete
         });
     },
-    indexToEl:function (index) {
-        return this.find('> .items > *').eq(index);
-    },
     _getIndexOffset: function() {
-        return 3;
+        return Math.floor(this.getCapacity() / 2);
     },
     _indexToX:function (index) {
         index -= this._getIndexOffset();
@@ -141,5 +149,3 @@ $('#events_date_selector .next').entwine({
         this.closest('#events_date_selector').find('a.active').next().click();
     }
 });
-
-
