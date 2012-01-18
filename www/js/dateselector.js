@@ -48,13 +48,13 @@ $.fn.hiddenDimensions = function (includeMargin) {
 };
 
 $('.scrollable').entwine({
-    onmatch:function () {
+    onmatch: function () {
         var index = this.getIndex() || 0;
         this.setIndex(index);
     },
-    onunmatch:function () {
+    onunmatch: function () {
     },
-    animateToIndex:function (index, onComplete) {
+    animateToIndex: function (index, onComplete) {
         var self = this;
         onComplete = onComplete || function () {
         };
@@ -65,15 +65,15 @@ $('.scrollable').entwine({
             onComplete.call(self);
         });
     },
-    animateOffset:function (offset, onComplete) {
+    animateOffset: function(offset, onComplete) {
         var index = this.getIndex() + offset;
         this.animateToIndex(index, onComplete);
     },
-    setIndex:function (index) {
+    setIndex: function(index) {
         var x = this._indexToX(index);
         this._setX(x);
     },
-    getIndex:function () {
+    getIndex: function() {
         return this.data('index');
     },
     getCenterEl:function () {
@@ -86,14 +86,18 @@ $('.scrollable').entwine({
     _animateToX:function (x, onComplete) {
         var self = this;
         this.find('> .items').animate({'margin-left':-x + 'px'}, {
-            duration:300,
-            complete:onComplete
+            duration: 300,
+            complete: onComplete
         });
     },
     indexToEl:function (index) {
         return this.find('> .items > *').eq(index);
     },
+    _getIndexOffset: function() {
+        return 3;
+    },
     _indexToX:function (index) {
+        index -= this._getIndexOffset();
         var width = 0;
         var elementsBefore = this.indexToEl(index).prevAll();
         elementsBefore.each(function () {
@@ -120,7 +124,7 @@ $('#events_date_selector .items a').entwine({
         whowentout.router.navigate(this.attr('href'), true);
         this.closest('#events_date_selector')
             .setActiveLink(this)
-            .find('.scrollable').animateToIndex(index - 3);
+            .find('.scrollable').animateToIndex(index);
     }
 });
 
