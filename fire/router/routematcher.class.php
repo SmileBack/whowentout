@@ -7,7 +7,8 @@ class RouteMatcher
 
     function add($src, $dest = null)
     {
-        // TODO: Validate the routes?
+        if ($src == '/')
+            $src = '';
 
         if (is_array($src)) {
             foreach ($src as $key => $val) {

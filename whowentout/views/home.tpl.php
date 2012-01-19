@@ -36,7 +36,7 @@
 
 <body id="home_page">
 
-    <img src="/images/home.png?version=4" />
+    <img src="/images/home.png?version=5" />
 
     <a href="/login" class="login_button">Login with Facebook</a>
 

@@ -11,7 +11,7 @@ route_matcher:
 router:
   type: ActionRouter
   routes:
-    "": ViewHomepage
+    "/": ViewHomepage
     "today": ViewDay
     "day/(:num)": ViewDay/$1
     "day/(:num)/ajax": ViewDayAjax/$1
