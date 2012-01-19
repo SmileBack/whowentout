@@ -38,7 +38,7 @@
 
     <img src="/images/home.png?version=4" />
 
-    <a href="/auth/login" class="login_button">Login with Facebook</a>
+    <a href="/login" class="login_button">Login with Facebook</a>
 
     <?= js() ?>
 </body>

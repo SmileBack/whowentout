@@ -124,7 +124,7 @@ class FacebookAuth extends Auth
     function get_login_url()
     {
         return $this->facebook->getLoginUrl(array(
-            'redirect_uri' => site_url('auth/complete'),
+            'redirect_uri' => site_url('login/complete'),
             'scope' => implode(',', $this->facebook_permissions),
         ));
     }

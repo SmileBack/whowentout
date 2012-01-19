@@ -9,13 +9,28 @@ route_matcher:
   type: RouteMatcher
 
 router:
-  type: Router
-  app: app
+  type: ActionRouter
   routes:
-    /: home/index
-    "profile/edit/picture": profile/view/me
-    logout: auth/logout
-    login: auth/login
+    "": ViewHomepage
+    "today": ViewDay
+    "day/(:num)": ViewDay/$1
+    "day/(:num)/ajax": ViewDayAjax/$1
+    "login": Login
+    "logout": Logout
+    "login/complete": LoginComplete
+    "login/as/(:num)": LoginAs
+    "events/(:num)/invite/ajax": ViewInviteDialog
+    "events/(:num)/invite/submit": SendInvites
+    "events/(:num)/deal/ajax": ViewDealDialog
+    "deal/confirm": ConfirmDeal
+    "checkin": Checkin
+    "admin": AdminView
+    "admin/places": AdminViewPlaces
+    "admin/places/create": AdminCreatePlace
+    "admin/places/(:num)/destroy": AdminDestroyPlace/$1
+    "admin/events": AdminViewEvents
+    "admin/events/create": AdminCreateEvent
+    "admin/events/(:num)/destroy": AdminDestroyEvent/$1
 
 js_storage:
   type: FileRepository

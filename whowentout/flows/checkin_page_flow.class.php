@@ -1,6 +1,5 @@
 <?php
 
-
 class CheckinPageFlow extends PageFlow
 {
 
@@ -79,7 +78,5 @@ class CheckinPageFlow extends PageFlow
         else
             return CheckinPageFlow::INVITE;
     }
-
-
 
 }

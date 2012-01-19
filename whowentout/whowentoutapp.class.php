@@ -31,7 +31,7 @@ class WhoWentOutApp extends FireApp
 
     function event_link($event)
     {
-        return 'events/index/' . $event->date->format('Ymd');
+        return 'day/' . $event->date->format('Ymd');
     }
 
     function goto_event($event, $fragment = '')
@@ -41,7 +41,7 @@ class WhoWentOutApp extends FireApp
 
     function event_invite_link($event)
     {
-        return 'events/invite/' . $event->id;
+        return "events/$event->id/invite";
     }
     
 }

@@ -65,7 +65,7 @@ whowentout.showDealDialog = function (event_id) {
         whowentout.initDialog();
         dialog.title('');
         dialog.showDialog('deal_dialog');
-        dialog.loadContent('/events/deal/' + event_id, function () {
+        dialog.loadContent('/events/' + event_id + '/deal/ajax', function () {
             head.js('/js/jquery.maskedinput.js', function () {
                 $(".cell_phone_number").mask("(999) 999-9999").trigger('focus');
             });
@@ -78,9 +78,10 @@ whowentout.showInviteDialog = function (event_id) {
         whowentout.initDialog();
         dialog.title('');
         dialog.showDialog('invite_dialog');
-        dialog.loadContent('/events/invite/' + event_id);
+        dialog.loadContent('/events/' + event_id + '/invite/ajax');
     });
 };
+
 $('.dialog.deal_dialog').entwine({
     onmaskclick:function () {
         this.find('form').submit();
@@ -119,9 +120,9 @@ $(function () {
     whowentout.router = Backbone.Router.extend({
         routes:{
             '':'index',
-            'events/index/:date/deal/:id': 'showDealDialog',
-            'events/index/:date/invite/:id': 'showInviteDialog',
-            'events/index/:date': 'displayDate',
+            'events/:id/deal': 'showDealDialog',
+            'events/:id/invite': 'showInviteDialog',
+            'day/:date': 'displayDate',
             'profile/edit/picture': 'showEditProfilePictureDialog'
         },
         index: function() {
@@ -130,10 +131,10 @@ $(function () {
         displayDate: function(date) {
             $('.event_day').updateDate(date);
         },
-        showDealDialog: function(date, event_id) {
+        showDealDialog: function(event_id) {
             whowentout.showDealDialog(event_id);
         },
-        showInviteDialog: function(date, event_id) {
+        showInviteDialog: function(event_id) {
             whowentout.showInviteDialog(event_id);
         },
         showEditProfilePictureDialog: function() {
@@ -239,6 +240,15 @@ $('.event_invite_link').entwine({
     }
 });
 
+$('.show_deal_link').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+
+        var href = this.attr('href');
+        whowentout.router.navigate(href, true);
+    }
+});
+
 $('.profile_edit_picture_link').entwine({
     onclick: function(e) {
         e.preventDefault();
@@ -291,7 +301,7 @@ $('.event_day').entwine({
         return this.attr('data-date');
     },
     getUpdatedHtml:function (date) {
-        var url = '/events/index_ajax/' + date;
+        var url = '/day/' + date + '/ajax';
         return $.ajax({
             url:url,
             type:'post',
@@ -305,4 +315,3 @@ whowentout.refreshDateSelector = _.debounce(function() {
     $('#events_date_selector .scrollable').refreshScrollPosition();
 }, 250);
 $(window).resize(whowentout.refreshDateSelector);
-

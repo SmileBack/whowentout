@@ -1,4 +1,4 @@
-<form class="deal_popup" method="post" action="/events/deal_confirm">
+<form class="deal_popup" method="post" action="/deal/confirm">
     <h1>The deal will be sent to your phone on <?= $event->date->format('l') ?>!</h1>
     <h4><span style="font-size: 20px;">&darr;</span> Show this to the bartender <span
             style="font-size: 20px;">&darr;</span></h4>

@@ -1,4 +1,4 @@
-<form action="/admin_places/create" method="post">
+<form action="/admin/places/create" method="post">
     <fieldset>
         <legend>Create Place</legend>
 
@@ -19,7 +19,7 @@
         <td><?= $place->id ?></td>
         <td><?= $place->name ?></td>
         <td>
-            <?= a("admin_places/destroy/$place->id", 'destroy') ?>
+            <?= a("admin/places/destroy/$place->id", 'destroy') ?>
         </td>
     </tr>
     <?php endforeach; ?>

@@ -11,8 +11,8 @@ $today = app()->clock()->today();
         <div class="items">
             <?php for ($n = -$capacity; $n <= +$capacity; $n++): ?>
             <?php $cur_date = $selected_date->getDay($n); ?>
-            <?php $url = url('events/index/' . $cur_date->format('Ymd')); ?>
-            <?= a_open('events/index/' . $cur_date->format('Ymd')) ?>
+            <?php $url = 'day/' . $cur_date->format('Ymd'); ?>
+            <?= a_open($url) ?>
             <div class="day">
                 <?= $today == $cur_date ? 'Today' : $cur_date->format('D') ?>
             </div>

@@ -1,4 +1,4 @@
-<form action="/admin_events/create" method="post">
+<form action="/admin/events/create" method="post">
     <fieldset>
         <legend>Create Event</legend>
 
@@ -47,7 +47,7 @@
         <td><?= $event->place->name ?></td>
         <td><?= $event->deal ?></td>
         <td>
-            <?= a("admin_events/destroy/$event->id", 'destroy') ?>
+            <?= a("admin/events/$event->id/destroy", 'destroy') ?>
         </td>
     </tr>
     <?php endforeach; ?>

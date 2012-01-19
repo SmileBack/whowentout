@@ -124,8 +124,11 @@ function current_url()
 
 function route_uri_request()
 {
-    /* @var $router Router */
-    $router = factory()->build('router');
+//    $router = factory()->build('router');
+//    $router->route_request();
+
+    /* @var $router ActionRouter */
+    $router = build('router');
     $router->route_request();
 }
 

@@ -74,6 +74,10 @@ class PHPClassParser
                 $method = $this->get_method($tokens, $i);
                 $class['methods'][$method['name']] = $method;
             }
+//            elseif ($this->is_var($tokens, $i)) {
+//                $var = $this->get_var($tokens, $i);
+//                $class['vars'][$var['name']] = $var;
+//            }
 
             $i++;
 
@@ -93,6 +97,38 @@ class PHPClassParser
     private function is_closed_bracket($tokens, $i)
     {
         return $tokens[$i] == '}';
+    }
+
+    private function is_var($tokens, $i)
+    {
+        return $tokens[$i][0] == T_VARIABLE;
+    }
+
+    private function get_var($tokens, &$i)
+    {
+        $var = array();
+        $var['name'] = $tokens[$i][1];
+
+        $value_str = '';
+
+        while ($tokens[$i] != '=')
+            $i++;
+
+        $i++;
+
+        while ($tokens[$i] != ';') {
+            $value_str .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
+            $i++;
+        }
+
+        $i++;
+
+        $value = null;
+        eval('$value = ' . $value_str . ';');
+
+        $var['value'] = $value;
+
+        return $var;
     }
 
     private function is_method($tokens, $i)

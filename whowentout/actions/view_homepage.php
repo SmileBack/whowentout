@@ -1,6 +1,6 @@
 <?php
 
-class Home_Controller extends Controller
+class ViewHomepage extends Action
 {
 
     /* @var $network_blocker NetworkBlocker */
@@ -11,7 +11,7 @@ class Home_Controller extends Controller
         $this->blocker = build('network_blocker');
     }
 
-    function index()
+    function execute()
     {
         if (!auth()->logged_in()) {
             print r::home();
@@ -21,7 +21,7 @@ class Home_Controller extends Controller
             print r::home();
         }
         else {
-            redirect('events');
+            redirect('today');
         }
     }
 

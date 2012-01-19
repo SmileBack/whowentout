@@ -10,7 +10,7 @@ $friends = $current_user->friends->where('networks.name', 'Stanford')
                                  ->order_by('first_name');
 ?>
 
-<form class="event_invite" method="post" action="/invites/create">
+<form class="event_invite" method="post" action="/events/<?= $event->id ?>/invite/submit">
     <input type="hidden" name="event_id" value="<?= $event->id ?>" />
     <fieldset>
         <legend>

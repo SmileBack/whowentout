@@ -2,7 +2,7 @@
 <?php $n = 0; ?>
 
 <div class="event_list_wrapper">
-    <form method="post" action="/checkins/create" class="event_list">
+    <form method="post" action="/checkin" class="event_list">
         <h1>Check-in. See where everyone's going. Claim your deal.</h1>
         <fieldset>
             <ul>
@@ -22,7 +22,7 @@
     </form>
 
     <?php if ($selected_event): ?>
-        <?php $show_deal_link = app()->event_link($selected_event) . "/deal/$selected_event->id?show=true" ?>
+        <?php $show_deal_link = "events/$selected_event->id/deal"; ?>
         <?= a($show_deal_link, "View Your Deal", array('class' => 'show_deal_link')) ?>
     <?php endif; ?>
 

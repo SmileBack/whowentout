@@ -1,6 +1,6 @@
 <?php
 
-class Checkins_Controller extends Controller
+class CheckinAction extends Action
 {
 
     /* @var $checkin_engine CheckinEngine */
@@ -15,7 +15,7 @@ class Checkins_Controller extends Controller
         $this->invite_engine = build('invite_engine');
     }
 
-    function create()
+    function execute()
     {
         $current_user = auth()->current_user();
 
