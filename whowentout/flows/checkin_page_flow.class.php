@@ -9,6 +9,7 @@ class CheckinPageFlow extends PageFlow
 
     const SHOW_DEAL = 'deal_dialog';
     const INVITE = 'invite';
+    const EDIT_PIC = 'edit_pic';
 
     public function current()
     {
@@ -62,7 +63,6 @@ class CheckinPageFlow extends PageFlow
     }
 
     // TRANSITIONS
-
     protected function after_start()
     {
         $event = $this->get_event();
@@ -79,5 +79,7 @@ class CheckinPageFlow extends PageFlow
         else
             return CheckinPageFlow::INVITE;
     }
+
+
 
 }

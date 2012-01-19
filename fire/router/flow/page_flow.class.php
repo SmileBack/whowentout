@@ -9,7 +9,10 @@ abstract class PageFlow
 
     abstract function current();
 
-    abstract function set_state($state);
+    public function set_state($state)
+    {
+        $this->current_state = $state;
+    }
 
     abstract function get_next();
 

@@ -1,12 +1,10 @@
 <?php
 
-class DealPageFlow extends PageFlow
+class EditPictureFlow extends PageFlow
 {
-    public $event_id;
 
-    function __construct($event_id)
+    function __construct()
     {
-        $this->event_id = $event_id;
     }
 
     public function current()
@@ -18,16 +16,15 @@ class DealPageFlow extends PageFlow
     {
         $state = $this->current();
 
-        if ($state == DealPageFlow::START)
-            return DealPageFlow::END;
+        if ($state == EditPictureFlow::START)
+            return EditPictureFlow::END;
         else
             return null;
     }
 
     protected function execute_end()
     {
-        $event = $this->get_event();
-        app()->goto_event($event);
+        redirect('profile/view/me');
     }
 
     private function get_event()
