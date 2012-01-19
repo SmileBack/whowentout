@@ -19,34 +19,28 @@ class Checkins_Controller extends Controller
     {
         $current_user = auth()->current_user();
 
-        $event_id = isset($_SESSION['checkins_create_event_id'])
-                    ? $_SESSION['checkins_create_event_id']
-                    : $_POST['event_id'];
+        $event_id = $_POST['event_id'];
 
         $event = db()->table('events')->row($event_id);
 
         if (!$event)
             show_404();
 
-        if ($current_user) {
-            /* @var $checkin_engine CheckinEngine */
-            $this->checkin_engine->checkin_user_to_event($current_user, $event);
-            unset($_SESSION['checkins_create_event_id']);
+        if (!$current_user)
+            show_404();
 
-            flash::message("You checked into " . $event->name . '.');
+        $flow = new CheckinPageFlow();
 
-            if ($event->deal)
-                app()->goto_event($event, "/deal/$event->id");
-            elseif ($this->invite_engine->has_sent_invites($event, $current_user))
-                app()->goto_event($event); // skip invite dialog
-            else
-                app()->goto_event($event, "/invite/$event->id"); // show invite dialog
-        }
-        else {
-            $_SESSION['checkins_create_event_id'] = $event->id;
-            redirect('login');
-        }
-        
+        /* @var $checkin_engine CheckinEngine */
+        $this->checkin_engine->checkin_user_to_event($current_user, $event);
+
+        flash::message("You checked into " . $event->name . '.');
+
+        $flow->event_id = $event->id;
+        $flow->has_sent_invite = $this->invite_engine->has_sent_invites($event, $current_user);
+
+        PageFlow::start($flow);
+        PageFlow::transition();
     }
 
 }

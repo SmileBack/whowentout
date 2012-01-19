@@ -27,7 +27,7 @@ class Invites_Controller extends Controller
             }
         }
 
-        app()->goto_event($event);
+        PageFlow::transition();
     }
 
     private function get_recipients()

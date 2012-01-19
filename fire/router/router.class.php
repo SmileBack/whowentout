@@ -37,6 +37,7 @@ class Router
             $this->app->trigger('after_controller_request', array(
                                                             'url' => $this->get_url(),
                                                        ));
+
         }
         else {
             print "<h1>404 page not found</h1>";

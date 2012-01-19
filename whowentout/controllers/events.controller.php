@@ -25,6 +25,12 @@ class Events_Controller extends Controller
 
     function test()
     {
+        /* @var $flow PageFlow */
+        $flow = $_SESSION['flow'];
+        //        $flow->event_id = 2;
+        $flow->set_state(CheckinPageFlow::CHECKIN);
+
+        PageFlow::transition();
     }
 
     function index($date = null)
@@ -77,6 +83,8 @@ class Events_Controller extends Controller
     {
         $event = $this->db->table('events')->row($event_id);
 
+        PageFlow::start(new InvitePageFlow($event->id));
+
         print r::event_invite(array(
             'event' => $event,
         ));
@@ -87,6 +95,10 @@ class Events_Controller extends Controller
         $event = $this->db->table('events')->row($event_id);
         $current_user = $this->auth->current_user();
         $has_invited = $this->invite_engine->has_sent_invites($event, $current_user);
+
+        if (isset($_GET['show']) && $_GET['show'] == 'true') {
+            PageFlow::start(new DealPageFlow($event->id));
+        }
 
         print r::deal_popup(array(
             'user' => $current_user,
@@ -106,10 +118,7 @@ class Events_Controller extends Controller
         $current_user->cell_phone_number = $this->format_phone_number($cell_phone_number);
         $current_user->save();
 
-        if ($this->invite_engine->has_sent_invites($event, $current_user))
-            app()->goto_event($event); // skip over invite dialog
-        else
-            app()->goto_event($event, "/invite/$event->id"); // show invite dialog
+        PageFlow::transition();
     }
 
     private function format_phone_number($phone_number)

@@ -22,6 +22,8 @@
     </form>
 
     <?php if ($selected_event): ?>
-        <?= a(app()->event_link($selected_event) . "/deal/$selected_event->id", "View Your Deal") ?>
+        <?php $show_deal_link = app()->event_link($selected_event) . "/deal/$selected_event->id?show=true" ?>
+        <?= a($show_deal_link, "View Your Deal", array('class' => 'show_deal_link')) ?>
     <?php endif; ?>
+
 </div>
