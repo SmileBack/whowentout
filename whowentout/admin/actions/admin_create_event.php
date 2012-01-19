@@ -3,7 +3,7 @@
 class AdminCreateEventAction extends Action
 {
 
-    function create()
+    function execute()
     {
         auth()->require_admin();
 

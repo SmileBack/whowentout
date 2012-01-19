@@ -47,7 +47,7 @@
 
     <div class="tabs">
 
-        <?= a('events', 'Events') ?>
+        <?= a('today', 'Events') ?>
 
         <?php if (auth()->logged_in()): ?>
         <?= a('profile/view/me', 'My Profile') ?>

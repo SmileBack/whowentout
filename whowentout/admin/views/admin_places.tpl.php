@@ -19,7 +19,7 @@
         <td><?= $place->id ?></td>
         <td><?= $place->name ?></td>
         <td>
-            <?= a("admin/places/destroy/$place->id", 'destroy') ?>
+            <?= a("admin/places/$place->id/destroy", 'destroy') ?>
         </td>
     </tr>
     <?php endforeach; ?>
