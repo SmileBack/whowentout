@@ -60,7 +60,6 @@ class ViewDayAction extends Action
                         'date' => $date,
                     )),
         ));
-
     }
 
 }

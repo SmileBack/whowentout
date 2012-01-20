@@ -2,7 +2,7 @@
 /* @var $profile_picture ProfilePicture */
 $box = $profile_picture->get_crop_box();
 ?>
-<form method="post" action="/profile/crop" class="profile_pic_crop_form">
+<form method="post" action="/profile/picture/crop" class="profile_pic_crop_form">
 
     <div class="coordinates">
         <input type="text" name="x" value="<?= $box->x ?>"/>

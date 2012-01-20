@@ -20,6 +20,9 @@ router:
     "login/as/(:num)": LoginAs
     "profile/(:num)": ViewProfile/$1
     "profile/picture/edit": ViewEditProfilePictureDialog
+    "profile/picture/facebook": SetProfilePictureToFacebook
+    "profile/picture/upload": UploadProfilePicture
+    "profile/picture/crop": CropProfilePicture
     "events/(:num)/invite": ViewInviteDialog/$1
     "events/(:num)/invite/submit": SendInvites
     "events/(:num)/deal": ViewDealDialog/$1

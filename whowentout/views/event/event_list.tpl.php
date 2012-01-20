@@ -27,7 +27,7 @@
 
     <?php if ($selected_event): ?>
         <?php $show_deal_link = "events/$selected_event->id/deal"; ?>
-        <?= a($show_deal_link, "View Your Deal", array('class' => 'show_dialog show_deal_link')) ?>
+        <?= a($show_deal_link, "View Your Deal", array('class' => 'action show_deal_link')) ?>
     <?php endif; ?>
 
 </div>

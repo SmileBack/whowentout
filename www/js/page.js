@@ -98,26 +98,16 @@ whowentout.showNetworkRequiredDialog = function () {
     });
 };
 
-whowentout.showDialog = function(url, title) {
-    $(function() {
+whowentout.showProfileEditDialog = function () {
+    $(function () {
         whowentout.initDialog();
-
-        dialog.title(title);
-        dialog.showDialog();
-        dialog.loadContent(url);
+        dialog.title('');
+        dialog.showDialog('profile_edit_dialog');
+        dialog.loadContent('/profile/picture/edit', function () {
+            $('.profile_pic_crop_form').initCropper();
+        });
     });
-}
-
-$('.show_dialog').entwine({
-    onclick: function(e) {
-        e.preventDefault();
-
-        var url = this.attr('href');
-        var title = this.attr('title');
-
-        whowentout.showDialog(url, title);
-    }
-});
+};
 
 $('.dialog.invite_dialog').entwine({
     onmaskclick:function () {
@@ -126,17 +116,6 @@ $('.dialog.invite_dialog').entwine({
     }
 });
 
-whowentout.showProfileEditDialog = function () {
-    $(function () {
-        whowentout.initDialog();
-        dialog.title('');
-        dialog.showDialog();
-        dialog.loadContent('/profile/dialog/picture', function () {
-            $('.profile_pic_crop_form').initCropper();
-        });
-    });
-};
-
 $(function () {
     whowentout.router = Backbone.Router.extend({
         routes:{
@@ -144,7 +123,7 @@ $(function () {
             'events/:id/deal': 'showDealDialog',
             'events/:id/invite': 'showInviteDialog',
             'day/:date': 'displayDate',
-            'profile/edit/picture': 'showEditProfilePictureDialog'
+            'profile/picture/edit': 'showEditProfilePictureDialog'
         },
         index: function() {
             $('.dialog').hideDialog();
@@ -168,6 +147,14 @@ $(function () {
     whowentout.router = new whowentout.router();
 
     Backbone.history.start({pushState:true});
+});
+
+$('.action').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        var href = this.attr('href');
+        whowentout.router.navigate(href, true);
+    }
 });
 
 $('#flash_message').entwine({
@@ -247,17 +234,6 @@ $('.edit_cell_phone_number').entwine({
     onclick:function (e) {
         e.preventDefault();
         $('.cell_phone_number').removeClass('inline').focus().select();
-    }
-});
-
-$('.event_invite_link').entwine({
-    onclick:function (e) {
-        e.preventDefault();
-        var eventID = this.eventID();
-        whowentout.showInviteDialog(eventID);
-    },
-    eventID:function () {
-        return this.data('event-id');
     }
 });
 

@@ -50,7 +50,7 @@
         <?= a('today', 'Events', array('class' => 'events_link')) ?>
 
         <?php if (auth()->logged_in()): ?>
-        <?= a('profile/view/me', 'My Profile', array('class' => 'profile_link')) ?>
+        <?= a('profile/' . auth()->current_user()->id, 'My Profile', array('class' => 'profile_link')) ?>
         <?php endif; ?>
 
         <?php if (auth()->is_admin()): ?>

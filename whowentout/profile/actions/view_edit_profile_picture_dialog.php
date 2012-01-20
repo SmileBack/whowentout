@@ -8,6 +8,26 @@ class ViewEditProfilePictureDialog extends Action
         if (!auth()->logged_in())
             show_404();
 
+        if ($this->is_ajax())
+            return $this->execute_ajax();
+        else
+            return $this->execute_page();
+    }
+
+    function execute_page()
+    {
+        $current_user = auth()->current_user();
+
+        print r::page(array(
+            'content' => r::profile(array(
+                'user' => $current_user,
+                'current_user' => $current_user,
+            )),
+        ));
+    }
+
+    function execute_ajax()
+    {
         print r::profile_edit_picture(array(
             'profile_picture' => $this->get_profile_picture(),
         ));
