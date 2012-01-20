@@ -91,7 +91,6 @@ session_handler:
   database: database
   clock: clock
 
-
 package_installer:
   type: PackageInstaller
   database: database
