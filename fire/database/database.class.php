@@ -13,6 +13,8 @@ class Database
     
     function __construct(array $options)
     {
+        if ($options['username'] == 'root')
+            krumo::backtrace();
         $this->connect($options);
         $this->load_tables();
     }
