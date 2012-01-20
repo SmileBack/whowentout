@@ -10,7 +10,7 @@
     <?php else: ?>
 
         <?php if ($link_to_profile): ?>
-            <?= a_open("profile/view/$user->id") ?>
+            <?= a_open("profile/$user->id") ?>
         <?php endif; ?>
 
         <div class="gallery_thumb">

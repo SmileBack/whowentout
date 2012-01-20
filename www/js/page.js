@@ -65,7 +65,7 @@ whowentout.showDealDialog = function (event_id) {
         whowentout.initDialog();
         dialog.title('');
         dialog.showDialog('deal_dialog');
-        dialog.loadContent('/events/' + event_id + '/deal/ajax', function () {
+        dialog.loadContent('/events/' + event_id + '/deal', function () {
             head.js('/js/jquery.maskedinput.js', function () {
                 $(".cell_phone_number").mask("(999) 999-9999").trigger('focus');
             });
@@ -78,7 +78,7 @@ whowentout.showInviteDialog = function (event_id) {
         whowentout.initDialog();
         dialog.title('');
         dialog.showDialog('invite_dialog');
-        dialog.loadContent('/events/' + event_id + '/invite/ajax');
+        dialog.loadContent('/events/' + event_id + '/invite');
     });
 };
 
@@ -97,6 +97,27 @@ whowentout.showNetworkRequiredDialog = function () {
         dialog.loadContent('/home/network_required');
     });
 };
+
+whowentout.showDialog = function(url, title) {
+    $(function() {
+        whowentout.initDialog();
+
+        dialog.title(title);
+        dialog.showDialog();
+        dialog.loadContent(url);
+    });
+}
+
+$('.show_dialog').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+
+        var url = this.attr('href');
+        var title = this.attr('title');
+
+        whowentout.showDialog(url, title);
+    }
+});
 
 $('.dialog.invite_dialog').entwine({
     onmaskclick:function () {
@@ -240,22 +261,6 @@ $('.event_invite_link').entwine({
     }
 });
 
-$('.show_deal_link').entwine({
-    onclick: function(e) {
-        e.preventDefault();
-
-        var href = this.attr('href');
-        whowentout.router.navigate(href, true);
-    }
-});
-
-$('.profile_edit_picture_link').entwine({
-    onclick: function(e) {
-        e.preventDefault();
-        whowentout.router.navigate('/profile/edit/picture', true);
-    }
-});
-
 $('.event_invite input[type=checkbox]').entwine({
     onmatch:function (e) {
         this._super(e);
@@ -301,7 +306,7 @@ $('.event_day').entwine({
         return this.attr('data-date');
     },
     getUpdatedHtml:function (date) {
-        var url = '/day/' + date + '/ajax';
+        var url = '/day/' + date;
         return $.ajax({
             url:url,
             type:'post',

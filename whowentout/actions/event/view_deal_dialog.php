@@ -25,8 +25,6 @@ class ViewDealDialogAction extends Action
         $current_user = $this->auth->current_user();
         $has_invited = $this->invite_engine->has_sent_invites($event, $current_user);
 
-        PageFlow::start(new DealPageFlow($event->id));
-
         print r::deal_popup(array(
             'user' => $current_user,
             'event' => $event,

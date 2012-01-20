@@ -33,8 +33,6 @@ class SendInvitesAction extends Action
                 flash::message('Sent invites');
             }
         }
-
-        PageFlow::transition();
     }
 
     private function get_recipients()

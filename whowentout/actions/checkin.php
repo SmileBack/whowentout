@@ -38,9 +38,6 @@ class CheckinAction extends Action
 
         $flow->event_id = $event->id;
         $flow->has_sent_invite = $this->invite_engine->has_sent_invites($event, $current_user);
-
-        PageFlow::start($flow);
-        PageFlow::transition();
     }
 
 }

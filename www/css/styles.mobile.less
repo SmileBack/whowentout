@@ -1,10 +1,86 @@
-#events_date_selector {
-    a {
-        margin: 0 2px;
-    }
-     .scrollable {
+@content_width: 320px;
+
+#nav {
+    width: @content_width;
+    position: relative;
+    float: left;
+    .logo {
         float: left;
-        width: 285px;
+        margin: 6px 0 0px 6px;
+    }
+    .logo img {
+        width: 150px;
+        height: auto;
+    }
+    .tabs {
         overflow: hidden;
+        float: right;
+        .events_link, .profile_link, .admin_link {
+            display: none;
+        }
+    }
+    .tabs a {
+        margin: 12px 6px;
+        padding: 0;
+        font-size: 12px;
+        float: left;
+        width: auto;
+    }
+}
+
+#page {
+    width: @content_width;
+    float: left;
+    clear: both;
+    margin: 0;
+}
+
+#events_date_selector {
+    margin: 0;
+    a {
+        margin: 0;
+    }
+    .items a {
+        width: 75px;
+        background-size: 75px;
+    }
+    .scrollable {
+      float: left;
+      width: 225px;
+      overflow: hidden;
+    }
+    .prev, .next {
+        width: 45px;
+    }
+}
+
+.event_list {
+    width: 100%;
+    h1 {
+        height: 65px;
+        font-size: 16px;
+        line-height: 21px;
+        padding: 0;
+        > span {
+            display: block;
+        }
+    }
+    ul {
+        height: auto;
+        overflow-x: visible;
+        overflow-y: visible;
+    }
+    label {
+        margin: 0;
+        .place {
+            margin: 8px 0 4px 8px;
+        }
+        .deal {
+            width: 170px;
+            margin: 8px 0 4px 8px;
+        }
+        .checkin_button {
+            float: right;
+        }
     }
 }

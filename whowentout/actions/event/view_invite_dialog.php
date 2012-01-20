@@ -15,8 +15,6 @@ class ViewInviteDialogAction extends Action
     {
         $event = $this->db->table('events')->row($event_id);
 
-        PageFlow::start(new InvitePageFlow($event->id));
-
         print r::event_invite(array(
             'event' => $event,
         ));

@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <div class="profile">
     <div class="profile_inner">
 
@@ -10,7 +6,7 @@
                 <?= img($profile_picture_url) ?>
 
                 <?php if ($your_profile): ?>
-                <a href="/profile/edit/picture" class="profile_edit_picture_link">Change</a>
+                <a title="Edit Profile" href="/profile/picture/edit" class="show_dialog profile_edit_picture_link">Change</a>
                 <?php endif; ?>
             </div>
 

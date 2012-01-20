@@ -14,14 +14,15 @@ router:
     "/": ViewHomepage
     "today": ViewDay
     "day/(:num)": ViewDay/$1
-    "day/(:num)/ajax": ViewDayAjax/$1
     "login": Login
     "logout": Logout
     "login/complete": LoginComplete
     "login/as/(:num)": LoginAs
-    "events/(:num)/invite/ajax": ViewInviteDialog
+    "profile/(:num)": ViewProfile/$1
+    "profile/picture/edit": ViewEditProfilePictureDialog
+    "events/(:num)/invite": ViewInviteDialog/$1
     "events/(:num)/invite/submit": SendInvites
-    "events/(:num)/deal/ajax": ViewDealDialog
+    "events/(:num)/deal": ViewDealDialog/$1
     "deal/confirm": ConfirmDeal
     "checkin": Checkin
     "admin": AdminView

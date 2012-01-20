@@ -3,27 +3,6 @@
 class Profile_Controller extends Controller
 {
 
-    function view($user_id)
-    {
-        if (!auth()->logged_in())
-            show_404();
-
-        $current_user = auth()->current_user();
-
-        if ($user_id == 'me')
-            $user_id = $current_user->id;
-        elseif ($user_id == $current_user->id)
-            redirect("profile/view/me");
-
-        $user = db()->table('users')->row($user_id);
-
-        print r::page(array(
-            'content' => r::profile(array(
-                'user' => $user,
-                'current_user' => $current_user,
-            )),
-        ));
-    }
 
     function dialog($type)
     {
@@ -76,18 +55,5 @@ class Profile_Controller extends Controller
         redirect('profile/view/me');
     }
 
-    /**
-     * @return ProfilePicture|null
-     */
-    private function get_profile_picture()
-    {
-        if (!auth()->logged_in())
-            show_404();
-
-        $current_user = auth()->current_user();
-
-        $profile_picture = build('profile_picture', $current_user);
-        return $profile_picture;
-    }
 
 }

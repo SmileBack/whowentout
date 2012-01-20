@@ -25,8 +25,6 @@ class ConfirmDealAction extends Action
 
         $current_user->cell_phone_number = $this->format_phone_number($cell_phone_number);
         $current_user->save();
-
-        PageFlow::transition();
     }
 
     private function format_phone_number($phone_number)

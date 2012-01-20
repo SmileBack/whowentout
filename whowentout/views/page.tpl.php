@@ -47,14 +47,14 @@
 
     <div class="tabs">
 
-        <?= a('today', 'Events') ?>
+        <?= a('today', 'Events', array('class' => 'events_link')) ?>
 
         <?php if (auth()->logged_in()): ?>
-        <?= a('profile/view/me', 'My Profile') ?>
+        <?= a('profile/view/me', 'My Profile', array('class' => 'profile_link')) ?>
         <?php endif; ?>
 
         <?php if (auth()->is_admin()): ?>
-        <?= a('admin', 'Admin') ?>
+        <?= a('admin', 'Admin', array('class' => 'admin_link')) ?>
         <?php endif; ?>
 
         <?= auth()->get_login_link() ?>
