@@ -54,6 +54,11 @@
     }
 }
 
+.date_tip {
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .event_list {
     width: 100%;
     h1 {
@@ -70,17 +75,29 @@
         overflow-x: visible;
         overflow-y: visible;
     }
+    li {
+        position: relative;
+    }
     label {
         margin: 0;
         .place {
-            margin: 8px 0 4px 8px;
+            margin: 8px 0 0 8px;
         }
         .deal {
             width: 170px;
-            margin: 8px 0 4px 8px;
+            margin: 4px 0 4px 8px;
         }
         .checkin_button {
-            float: right;
+            margin: 0;
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            width: 75px;
         }
     }
+}
+
+.event_gallery .event_gallery_message {
+    margin-left: -150px;
+    width: 300px;
 }
