@@ -7,8 +7,8 @@
     <meta name="description" content=""/>
     <meta name="author" content="">
     <meta name="viewport" content="width=320px, initial-scale=1, maximum-scale=1">
-
-
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico">
@@ -48,8 +48,6 @@
 <nav id="nav">
 
     <a class="logo" href="/"><img src="/images/logo.transparent.png"/></a>
-
-    <?= a('colors', 'change colors', array('class' => 'show_color_option_link')) ?>
 
     <div class="tabs">
 
