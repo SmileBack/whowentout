@@ -5,4 +5,7 @@ ini_set('display_errors', '1');
 
 require_once '../fire/core/boot.php';
 boot();
+
+krumo::dump(app()->index()->get_resources_of_type('config'));
+
 ?>
