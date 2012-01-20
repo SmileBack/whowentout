@@ -1,4 +1,5 @@
 //= require underscore.js
+//= require jquery.js
 
 //     Backbone.js 0.5.3
 //     (c) 2010-2011 Jeremy Ashkenas, DocumentCloud Inc.

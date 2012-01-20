@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=320px, initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    
+
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico">
@@ -34,13 +34,6 @@
     ?>
 
     <?= $asset->scripts() ?>
-
-    <?php if (false): ?>
-        <script type="text/javascript" src="http://js.pusher.com/1.11/pusher.js"></script>
-        <script type="text/javascript" src="/js/scriptsharp/mscorlib.debug.js"></script>
-        <script type="text/javascript" src="/js/scriptsharp/WebUI.debug.<?= filemtime('./js/scriptsharp/WebUI.debug.js') ?>.js"></script>
-        <script type="text/javascript" src="/js/scriptsharp/whowentout.debug.<?= filemtime('./js/scriptsharp/whowentout.debug.js') ?>.js"></script>
-    <?php endif; ?>
 </head>
 
 <body>
