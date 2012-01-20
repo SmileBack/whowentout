@@ -36,16 +36,9 @@ router:
     "admin/events/create": AdminCreateEvent
     "admin/events/(:num)/destroy": AdminDestroyEvent/$1
 
-js_storage:
-  type: FileRepository
-  driver: local
-  path: js.output
-  base_url: http://localhost/
-
 asset:
   type: Asset
   index: index
-  storage: js_storage
 
 facebook_profile_source:
   type: FacebookProfileSource

@@ -38,3 +38,9 @@ network_blocker:
     #- 16777270 #gwu
     - 16777219 #stanford
     #- 16777224 #mit
+
+js_storage:
+  type: FileRepository
+  driver: local
+  path: js.output
+  base_url: http://localhost/

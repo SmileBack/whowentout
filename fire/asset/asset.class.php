@@ -8,17 +8,11 @@ class Asset
      */
     private $index;
 
-    /**
-     * @var FileRepository
-     */
-    private $storage;
-
     private $js = array();
 
-    function __construct(Index $index, FileRepository $storage)
+    function __construct(Index $index)
     {
         $this->index = $index;
-        $this->storage = $storage;
     }
 
     function load_js($js_name)
