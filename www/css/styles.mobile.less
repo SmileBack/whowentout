@@ -1,7 +1,8 @@
 @content_width: 320px;
 
 #nav {
-    width: @content_width;
+    width: 100%;
+    min-width: 320px;
     position: relative;
     float: left;
     .logo {
@@ -29,7 +30,8 @@
 }
 
 #page {
-    width: @content_width;
+    width: 100%;
+    min-width: @content_width;
     float: left;
     clear: both;
     margin: 0;
@@ -81,11 +83,12 @@
     label {
         margin: 0;
         .place {
-            margin: 8px 0 0 8px;
+            margin: 8px 0 0 0;
         }
         .deal {
             width: 170px;
-            margin: 4px 0 4px 8px;
+            margin: 0px 0 4px 35px;
+            clear: left;
         }
         .checkin_button {
             margin: 0;
