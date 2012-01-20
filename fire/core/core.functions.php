@@ -60,6 +60,8 @@ function factory($environment = null)
 
         $config_source = new ConfigSource($index, $environment);
 
+        krumo::dump($config_source->load());
+
         $_factories[$environment] = new Factory($config_source, $class_loader);
     }
 
