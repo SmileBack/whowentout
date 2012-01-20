@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="description" content=""/>
     <meta name="author" content="">
+    <meta name=”viewport” content=”width=320″ />
 
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
