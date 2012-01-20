@@ -49,6 +49,7 @@ $.fn.hiddenDimensions = function (includeMargin) {
 
 $('.scrollable').entwine({
     onmatch: function () {
+        var self = this, items = this.find('.items');
         var index = this.getIndex() || 0;
         this.setIndex(index);
     },
@@ -93,6 +94,9 @@ $('.scrollable').entwine({
     setCapacity: function(c) {
         var width = this.find('a:first').outerWidth() * c;
         this.css('width', width);
+    },
+    _getX: function() {
+        return -1 * parseInt(this.find('> .items').css('margin-left'));
     },
     _setX:function (x) {
         this.find('> .items').css({'margin-left':-x + 'px'});

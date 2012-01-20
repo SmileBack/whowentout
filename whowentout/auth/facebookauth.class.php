@@ -139,8 +139,9 @@ class FacebookAuth extends Auth
         }
     }
 
-    function login_as($facebook_id)
+    function login_as($user_id)
     {
+        $facebook_id = $this->database->table('users')->row($user_id)->facebook_id;
         $_SESSION['fb_user_id'] = $facebook_id;
     }
 

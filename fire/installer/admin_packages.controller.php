@@ -8,7 +8,7 @@ class Admin_Packages_Controller extends Controller
 
     function __construct()
     {
-        $this->installer = factory()->build('package_installer');
+        $this->installer = build('package_installer');
     }
 
     function index()

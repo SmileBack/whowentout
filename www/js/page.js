@@ -129,6 +129,7 @@ $(function () {
             $('.dialog').hideDialog();
         },
         displayDate: function(date) {
+            $('.dialog').hideDialog();
             $('.event_day').updateDate(date);
         },
         showDealDialog: function(event_id) {

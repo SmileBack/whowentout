@@ -7,11 +7,13 @@ class ViewProfileAction extends Action
         if (!auth()->logged_in())
             show_404();
 
+
+        $user = db()->table('users')->row($user_id);
         $current_user = auth()->current_user();
 
         print r::page(array(
             'content' => r::profile(array(
-                'user' => $current_user,
+                'user' => $user,
                 'current_user' => $current_user,
             )),
         ));

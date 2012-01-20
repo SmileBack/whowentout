@@ -29,15 +29,10 @@ class CheckinAction extends Action
         if (!$current_user)
             show_404();
 
-        $flow = new CheckinPageFlow();
-
         /* @var $checkin_engine CheckinEngine */
         $this->checkin_engine->checkin_user_to_event($current_user, $event);
 
         flash::message("You checked into " . $event->name . '.');
-
-        $flow->event_id = $event->id;
-        $flow->has_sent_invite = $this->invite_engine->has_sent_invites($event, $current_user);
     }
 
 }

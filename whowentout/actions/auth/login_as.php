@@ -2,13 +2,13 @@
 
 class LoginAsAction extends Action
 {
-    function execute($facebook_user_id)
+    function execute($user_id)
     {
-        if (!$facebook_user_id) {
+        if (!$user_id) {
             print r::login_as();
         }
         else {
-            auth()->login_as($facebook_user_id);
+            auth()->login_as($user_id);
             redirect('/');
         }
     }

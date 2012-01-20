@@ -17,7 +17,7 @@ router:
     "login": Login
     "logout": Logout
     "login/complete": LoginComplete
-    "login/as/(:num)": LoginAs
+    "login/as/(:num)": LoginAs/$1
     "profile/(:num)": ViewProfile/$1
     "profile/picture/edit": ViewEditProfilePictureDialog
     "profile/picture/facebook": SetProfilePictureToFacebook
