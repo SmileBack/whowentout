@@ -15,7 +15,11 @@ class CropProfilePictureAction extends Action
 
         flash::message('Cropped your profile pic');
 
-        if (flow::name() == 'checkin') {
+        if (flow::get() instanceof CheckinFlow) {
+            $event_id = flow::get()->event_id;
+            redirect("events/$event_id/deal");
+        }
+        elseif (flow::get() instanceof DealDialogFlow) {
             $event_id = flow::get()->event_id;
             redirect("events/$event_id/deal");
         }

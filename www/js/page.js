@@ -83,8 +83,14 @@ whowentout.showInviteDialog = function (event_id) {
 };
 
 $('.dialog.deal_dialog').entwine({
-    onmaskclick:function () {
+    onmaskclick: function() {
         this.find('form').submit();
+    }
+});
+
+$('.dialog.profile_edit_dialog').entwine({
+    onmaskclick: function() {
+        this.find('.profile_pic_crop_form').submit();
     }
 });
 

@@ -35,6 +35,9 @@ class ViewDealDialogAction extends Action
     {
         $event = $this->db->table('events')->row($event_id);
 
+        if (Flow::get() == null)
+            Flow::set(new DealDialogFlow($event->id));
+
         print r::page(array(
             'content' => r::events_date_selector(array('selected_date' => $event->date))
                     . r::event_day(array(
@@ -50,6 +53,10 @@ class ViewDealDialogAction extends Action
         $event = $this->db->table('events')->row($event_id);
         $current_user = $this->auth->current_user();
         $has_invited = $this->invite_engine->has_sent_invites($event, $current_user);
+
+        if (Flow::get() == null) {
+            Flow::set(new DealDialogFlow($event->id));
+        }
 
         print r::deal_popup(array(
             'user' => $current_user,
