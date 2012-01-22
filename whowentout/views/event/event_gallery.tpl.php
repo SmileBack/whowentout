@@ -8,7 +8,7 @@
 ?>
 <div class="event_gallery">
 
-    <?php if ($checkin): ?>
+    <?php if ($checkin && browser::is_desktop()): ?>
     <?= r::event_invite_link(array('event' => $checkin->event)) ?>
     <?php endif; ?>
 

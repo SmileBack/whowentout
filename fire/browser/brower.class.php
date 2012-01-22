@@ -12,6 +12,11 @@ class browser
             return false;
     }
 
+    static function is_desktop()
+    {
+        return !static::is_mobile();
+    }
+
 }
 
 

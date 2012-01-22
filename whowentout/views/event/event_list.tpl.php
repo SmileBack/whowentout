@@ -2,6 +2,11 @@
 <?php $n = 0; ?>
 
 <div class="event_list_wrapper">
+
+    <?php if (browser::is_mobile()): ?>
+    <?= r::show_deal_link(array('event' => $selected_event)); ?>
+    <?php endif; ?>
+
     <form method="post" action="/checkin" class="event_list">
         <h1>
             <span>Check-in.</span>
@@ -25,9 +30,8 @@
         </fieldset>
     </form>
 
-    <?php if ($selected_event): ?>
-        <?php $show_deal_link = "events/$selected_event->id/deal"; ?>
-        <?= a($show_deal_link, "View Your Deal", array('class' => 'action show_deal_link')) ?>
+    <?php if (browser::is_desktop()): ?>
+    <?= r::show_deal_link(array('event' => $selected_event)); ?>
     <?php endif; ?>
 
 </div>
