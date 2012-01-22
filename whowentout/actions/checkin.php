@@ -17,6 +17,8 @@ class CheckinAction extends Action
 
     function execute()
     {
+        flow::set('checkin');
+
         $current_user = auth()->current_user();
 
         $event_id = $_POST['event_id'];
@@ -33,6 +35,15 @@ class CheckinAction extends Action
         $this->checkin_engine->checkin_user_to_event($current_user, $event);
 
         flash::message("You checked into " . $event->name . '.');
+
+        $has_sent_invites = $this->invite_engine->has_sent_invites($event, $current_user);
+
+        if ($event->deal != null)
+            redirect("events/$event->id/deal");
+        elseif (!$has_sent_invites)
+            redirect("events/$event->id/invite");
+        else
+            app()->goto_event($event);
     }
 
 }

@@ -19,6 +19,8 @@ class ViewDayAction extends Action
 
     function execute($date = null)
     {
+        flow::end();
+
         if ($this->is_ajax())
             return $this->execute_ajax($date);
         else

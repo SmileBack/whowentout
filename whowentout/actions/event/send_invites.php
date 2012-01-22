@@ -33,6 +33,8 @@ class SendInvitesAction extends Action
                 flash::message('Sent invites');
             }
         }
+
+        app()->goto_event($event);
     }
 
     private function get_recipients()
