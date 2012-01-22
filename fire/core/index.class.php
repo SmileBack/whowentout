@@ -135,8 +135,6 @@ class Index
             $indexer->run();
         }
 
-        krumo::dump($this->data);
-
         $this->save_to_cache();
         
         return $this->data;

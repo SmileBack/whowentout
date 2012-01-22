@@ -7,6 +7,7 @@ class ConfigIndexer extends Indexer
 
     function run()
     {
+        krumo::dump($this->get_file_resources());
         foreach ($this->get_file_resources() as $file_metadata) {
             $this->index_file($file_metadata);
         }
@@ -22,6 +23,8 @@ class ConfigIndexer extends Indexer
         $meta->extension = $file_metadata->extension;
 
         $meta->data = Spyc::YAMLLoad($meta->filepath);
+        krumo::dump($meta->filepath);
+        krumo::dump($meta->data);
 
         $this->index->set_resource_metadata($meta->path, $meta);
     }
