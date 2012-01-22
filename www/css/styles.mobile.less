@@ -1,6 +1,8 @@
 @content_width: 320px;
 @content_margin: 5px;
 
+@import 'elements.0000000001.less';
+
 #nav {
     width: 100%;
     min-width: 320px;
@@ -63,6 +65,12 @@
     }
 }
 
+@media screen and (orientation:portrait) {
+    .dialog.deal_dialog .deal_preview .ticket {
+        .rotate(90deg);
+    }
+}
+
 .date_tip {
     font-size: 15px;
     font-weight: bold;
@@ -117,6 +125,9 @@
     height: 100%;
     width: 100%;
     padding: 0;
+    .deal_popup {
+        .rotate(90deg);
+    }
     .deal_preview {
         position: static;
         .phone {
