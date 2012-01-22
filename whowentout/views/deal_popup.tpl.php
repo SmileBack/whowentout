@@ -1,10 +1,16 @@
 <form class="deal_popup" method="post" action="/deal/confirm">
-    <h1>The deal will be sent to your phone on <?= $event->date->format('l') ?>!</h1>
-    <h4><span style="font-size: 20px;">&darr;</span> Show this to the bartender <span
-            style="font-size: 20px;">&darr;</span></h4>
+
     <input type="hidden" name="event_id" value="<?= $event->id ?>"/>
 
+    <?php if (!browser::is_mobile()): ?>
+        <h1>The deal will be sent to your phone on <?= $event->date->format('l') ?>!</h1>
+        <h4><span style="font-size: 20px;">&darr;</span> Show this to the bartender <span
+                style="font-size: 20px;">&darr;</span></h4>
+    <?php endif; ?>
+
     <?= r::deal_preview(array('user' => $user, 'event' => $event)) ?>
+
+    <?php if (!browser::is_mobile()): ?>
 
     <?= a('profile/picture/edit', 'Edit Pic') ?>
 
@@ -25,6 +31,7 @@
         </h3>
         <?php endif; ?>
     </div>
+    <?php endif; ?>
 
     <input type="submit" value="Continue"/>
 
