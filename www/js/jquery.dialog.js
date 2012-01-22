@@ -47,6 +47,9 @@ $.dialog = {
             setInterval(function() {
                 d.refreshPosition();
             }, 250);
+            $(window).bind('orientationchange', function() {
+                d.refreshPosition();
+            });
         }
 
         return d;
