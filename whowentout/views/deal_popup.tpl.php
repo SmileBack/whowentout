@@ -6,6 +6,8 @@
 
     <?= r::deal_preview(array('user' => $user, 'event' => $event)) ?>
 
+    <?= a('profile/picture/edit', 'Edit Pic') ?>
+
     <div class="phone_number_field">
         <?php if ($user->cell_phone_number == null): ?>
         <label>

@@ -1,16 +1,27 @@
 <?php
 
-class flow
+class Flow
 {
 
+    public $name;
+
+    /**
+     * @static
+     * @return Flow|null
+     */
     public static function get()
     {
-        return isset($_SESSION['__flow']);
+        return isset($_SESSION['__flow']) ? $_SESSION['__flow'] : null;
     }
 
-    public static function set($value)
+    public static function name()
     {
-        $_SESSION['__flow'] = $value;
+        return static::get() ? static::get()->name : null;
+    }
+
+    public static function set(Flow $flow)
+    {
+        $_SESSION['__flow'] = $flow;
     }
 
     public static function end()
@@ -19,4 +30,3 @@ class flow
     }
 
 }
-

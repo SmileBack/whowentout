@@ -125,7 +125,6 @@ class Index
 
     private function rebuild()
     {
-        krumo::dump('rebuilding');
         $this->data = array(
             'root' => realpath($this->root),
         );
@@ -163,9 +162,6 @@ class Index
 
         $cached_version = $this->fetch_cached_version();
         $real_version = $this->fetch_real_version();
-
-        krumo::dump("cached version = $cached_version");
-        krumo::dump("real version = $real_version");
 
         return version_compare($cached_version, $real_version, '!=');
     }

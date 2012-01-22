@@ -32,7 +32,7 @@ class ConfirmDealAction extends Action
 
         $has_sent_invites = $this->invite_engine->has_sent_invites($event, $current_user);
 
-        if (flow::get() == 'checkin' && !$has_sent_invites)
+        if (flow::name() == 'checkin' && !$has_sent_invites)
             redirect("events/$event->id/invite");
         else
             app()->goto_event($event);

@@ -17,8 +17,6 @@ class CheckinAction extends Action
 
     function execute()
     {
-        flow::set('checkin');
-
         $current_user = auth()->current_user();
 
         $event_id = $_POST['event_id'];
@@ -30,6 +28,8 @@ class CheckinAction extends Action
 
         if (!$current_user)
             show_404();
+
+        Flow::set(new CheckinFlow($event->id));
 
         /* @var $checkin_engine CheckinEngine */
         $this->checkin_engine->checkin_user_to_event($current_user, $event);
