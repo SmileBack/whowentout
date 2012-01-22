@@ -6,8 +6,8 @@ ini_set('display_errors', '1');
 require_once '../fire/core/boot.php';
 boot();
 
-$contents_yml = file_get_contents('./checkin/tests/checkin_engine_tests.yml');
-$contents_php = file_get_contents('./checkin/tests/checkin_engine_tests.php');
+$contents_yml = file_get_contents(APPPATH . 'whowentout/checkin/tests/checkin_engine_tests.yml');
+$contents_php = file_get_contents(APPPATH . 'whowentout/checkin/tests/checkin_engine_tests.php');
 ?>
 <pre>
     <?= $contents_yml ?>
