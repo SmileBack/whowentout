@@ -114,7 +114,8 @@
 }
 
 .dialog.deal_dialog {
-    width: auto;
+    height: 100%;
+    width: 100%;
     padding: 0;
     .deal_preview {
         position: static;
@@ -122,8 +123,9 @@
             display: none;
         }
         .ticket {
-            position: static;
+            height: 100%;
             width: auto;
+            position: static;
             z-index: 2;
         }
     }
@@ -131,9 +133,12 @@
         display: none;
     }
     input[type="submit"] {
+        width: 80px;
         padding: 4px 6px;
         position: absolute;
         right: 0;
+        left: 50%;
+        margin-left: -40px;
         bottom: 2px;
     }
 }
