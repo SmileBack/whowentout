@@ -132,6 +132,7 @@ class Index
 
         foreach ($this->resource_types as $type) {
             $indexer = $this->get_indexer($type);
+            krumo::dump($indexer);
             $indexer->run();
         }
 
