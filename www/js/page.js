@@ -303,3 +303,9 @@ whowentout.refreshDateSelector = _.debounce(function() {
     $('#events_date_selector .scrollable').refreshScrollPosition();
 }, 250);
 $(window).resize(whowentout.refreshDateSelector);
+
+$(function() {
+    setTimeout(function() {
+        window.scrollTo(0, 1);
+    }, 0);
+});
