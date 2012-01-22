@@ -27,21 +27,24 @@ class DealTicketGenerator
 
         $this->print_date($ticket, $date);
 
+        $this->print_show_to_bartender_message($ticket);
+
         return $ticket;
     }
 
-    private function print_picture(WideImage_Image &$ticket, $picture)
+    private function print_picture(WideImage_Image &$ticket, WideImage_Image $picture)
     {
-        $ticket = $ticket->merge($picture, 25, 40);
+        $picture = $picture->resize(90);
+        $ticket = $ticket->merge($picture, 25, 55);
     }
 
-    private function print_lines(WideImage_Image $image, array $lines)
+    private function print_lines(WideImage_Image &$ticket, array $lines)
     {
-        $canvas = $image->getCanvas();
-        $canvas->useFont('../designs/fonts/Futura Medium.ttf', 16, $image->allocateColor(255, 255, 255));
+        $canvas = $ticket->getCanvas();
+        $canvas->useFont('../designs/fonts/Futura Medium.ttf', 16, $ticket->allocateColor(255, 255, 255));
 
-        $x = 145;
-        $y = 40;
+        $x = 130;
+        $y = 55;
 
         foreach ($lines as $current_line) {
             $canvas->writeText($x, $y, $current_line);
@@ -49,11 +52,18 @@ class DealTicketGenerator
         }
     }
 
-    private function print_date(WideImage_Image $image, $date)
+    private function print_date(WideImage_Image &$ticket, $date)
     {
-        $canvas = $image->getCanvas();
-        $canvas->useFont('../designs/fonts/Futura Medium.ttf', 12, $image->allocateColor(255, 255, 255));
+        $canvas = $ticket->getCanvas();
+        $canvas->useFont('../designs/fonts/Futura Medium.ttf', 10, $ticket->allocateColor(255, 255, 255));
         $canvas->writeText('right - 12', 'top + 12', $date);
+    }
+
+    private function print_show_to_bartender_message(WideImage_Image &$ticket)
+    {
+        $canvas = $ticket->getCanvas();
+        $canvas->useFont('../designs/fonts/Futura Medium.ttf', 13, $ticket->allocateColor(255, 255, 0));
+        $canvas->writeText(105, 15, 'SHOW TO BARTENDER');
     }
 
     private function blank_ticket()
