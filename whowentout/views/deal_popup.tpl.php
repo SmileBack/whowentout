@@ -8,7 +8,8 @@
                 style="font-size: 20px;">&darr;</span></h4>
     <?php endif; ?>
 
-    <?= r::deal_preview(array('user' => $user, 'event' => $event)) ?>
+    <?= r::deal_preview(array('user' => $user, 'event' => $event, 'orientation' => 'portrait')) ?>
+    <?= r::deal_preview(array('user' => $user, 'event' => $event, 'orientation' => 'landscape')) ?>
 
     <?php if (!browser::is_mobile()): ?>
 

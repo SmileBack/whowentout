@@ -63,9 +63,17 @@
     #events_date_selector .scrollable {
         width: 377px;
     }
+    .deal_preview {
+        &.landscape { display: block; }
+        &.portrait { display: none; }
+    }
 }
 
 @media screen and (orientation:portrait) {
+    .deal_preview {
+        &.landscape { display: none; }
+        &.portrait { display: block; }
+    }
 }
 
 .date_tip {
@@ -142,8 +150,8 @@
         width: 80px;
         padding: 4px 6px;
         position: absolute;
-        right: 0;
-        left: 50%;
+        top: 0;
+        left: 0;
         margin-left: -40px;
         bottom: 2px;
     }
