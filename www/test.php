@@ -6,4 +6,6 @@ ini_set('display_errors', '1');
 require_once '../fire/core/boot.php';
 boot();
 
+unlink(APPPATH . 'whowentout/checkin/tests/checkin_engine_tests.yml');
+
 ?>
