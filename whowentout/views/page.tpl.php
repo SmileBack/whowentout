@@ -44,7 +44,7 @@
 
     <div class="tabs">
 
-        <?= a('today', 'Events', array('class' => 'events_link')) ?>
+        <?= a('day', 'Events', array('class' => 'events_link')) ?>
 
         <?php if (auth()->logged_in()): ?>
         <?= a('profile/' . auth()->current_user()->id, 'My Profile', array('class' => 'profile_link')) ?>

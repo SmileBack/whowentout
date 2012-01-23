@@ -12,7 +12,7 @@ router:
   type: ActionRouter
   routes:
     "/": ViewHomepage
-    "today": ViewDay
+    "day": ViewDay
     "day/(:num)": ViewDay/$1
     "login": Login
     "logout": Logout
