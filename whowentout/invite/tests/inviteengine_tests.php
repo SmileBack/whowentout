@@ -20,17 +20,17 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->db = build('test_database');
+        $this->db = build('database');
         $this->db->destroy_all_tables();
 
         /* @var $installer PackageInstaller */
-        $installer = build('test_package_installer');
+        $installer = build('package_installer');
 
         $installer->install('WhoWentOutPackage');
         $installer->install('InvitePackage');
 
         /* @var $invite_engine InviteEngine */
-        $this->invite_engine = build('test_invite_engine');
+        $this->invite_engine = build('invite_engine');
 
         $this->create_users();
         $this->create_events();
