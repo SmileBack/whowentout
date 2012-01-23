@@ -14,12 +14,10 @@ class JobQueue_Tests extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $factory = factory();
-
-        $this->database = $factory->build('test_database');
+        $this->database = build('database');
         $this->database->destroy_all_tables();
-        $this->installer = $factory->build('test_package_installer');
 
+        $this->installer = build('package_installer');
         $this->installer->install('JobQueuePackage');
 
         $this->job_queue = new JobQueue($this->database);
