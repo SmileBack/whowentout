@@ -36,9 +36,7 @@ class Checkin_Engine_Tests extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->factory = factory('checkin_engine_tests');
-
-        $this->db = $this->factory->build('test_database');
+        $this->db = build('database');
         $this->db->destroy_all_tables();
 
         $this->create_database_schema();
@@ -46,12 +44,12 @@ class Checkin_Engine_Tests extends PHPUnit_Framework_TestCase
         $this->create_users();
         $this->create_events();
 
-        $this->checkin_engine = $this->factory->build('checkin_engine');
+        $this->checkin_engine = build('checkin_engine');
     }
 
     function create_database_schema()
     {
-        $this->installer = $this->factory->build('package_installer');
+        $this->installer = build('package_installer');
         $this->installer->install('WhoWentOutPackage');
         $this->installer->install('CheckinPackage');
     }
