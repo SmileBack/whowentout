@@ -13,6 +13,12 @@ class ViewHomepage extends Action
 
     function execute()
     {
+        if (auth()->logged_in()) {
+            /* @var $updater FacebookNetworksUpdater */
+            $updater = build('facebook_networks_updater');
+            $updater->update_networks(auth()->current_user()->id);
+        }
+
         if (!auth()->logged_in()) {
             print r::home();
         }
