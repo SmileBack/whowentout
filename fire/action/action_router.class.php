@@ -3,11 +3,15 @@
 class ActionRouter
 {
 
+    /* @var $app FireApp */
+    private $app;
+
     /* @var $route_matcher RouteMatcher */
     private $route_matcher;
 
-    function __construct($routes = array())
+    function __construct(FireApp $app, $routes = array())
     {
+        $this->app = $app;
         $this->route_matcher = new RouteMatcher();
         foreach ($routes as $url => $action) {
             $this->add($url, $action);
@@ -38,8 +42,13 @@ class ActionRouter
         $args = array_slice($parts, 1);
 
         /* @var $action Action */
-        $action = app()->class_loader()->init_subclass('Action', $action_class);
-        return call_user_func_array(array($action, 'execute'), $args);
+        $action = $this->app->class_loader()->init_subclass('Action', $action_class);
+
+        $this->app->trigger('before_request', array('url' => $url));
+        $result = call_user_func_array(array($action, 'execute'), $args);
+        $this->app->trigger('after_request', array('url' => $url));
+
+        return $result;
     }
 
     function get_url()

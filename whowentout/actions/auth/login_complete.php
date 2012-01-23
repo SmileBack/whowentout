@@ -19,7 +19,7 @@ class LoginComplete extends Action
         auth()->current_user()->facebook_access_token = $facebook->getAccessToken();
         auth()->current_user()->save();
 
-        redirect('today');
+        redirect('/');
     }
 
 }

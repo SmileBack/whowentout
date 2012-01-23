@@ -27,7 +27,7 @@ class ViewHomepage extends Action
             print r::home();
         }
         else {
-            redirect('today');
+            redirect('day');
         }
     }
 

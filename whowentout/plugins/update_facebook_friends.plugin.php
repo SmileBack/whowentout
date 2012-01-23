@@ -3,7 +3,7 @@
 class UpdateFacebookFriendsPlugin extends Plugin
 {
 
-    function on_before_controller_request($e)
+    function on_before_request($e)
     {
         if (string_starts_with('jobs/', $e->url)) // don't want infinite recursion !
             return;

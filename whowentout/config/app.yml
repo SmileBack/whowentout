@@ -10,6 +10,7 @@ route_matcher:
 
 router:
   type: ActionRouter
+  app: app
   routes:
     "/": ViewHomepage
     "day": ViewDay
@@ -39,6 +40,8 @@ router:
     "admin/packages": ViewPackages
     "admin/packages/(:alnum)/install": InstallPackage/$1
     "admin/packages/(:alnum)/update": UpdatePackage/$1
+    "jobs/run/(:alnum)": RunJob/$1
+    "jobs/client": ViewJobsClient
 
 asset:
   type: Asset

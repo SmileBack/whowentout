@@ -32,7 +32,7 @@ pusher:
   timeout: 10
 
 network_blocker:
-  type: NetworkBlocker
+  type: NetworkPassThrough
   database: database
   allowed_networks:
     #- 16777270 #gwu
