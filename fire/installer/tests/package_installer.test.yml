@@ -1,7 +1,4 @@
-/**
- * Created by JetBrains PhpStorm.
- * User: Venkat
- * Date: 1/23/12
- * Time: 1:20 PM
- * To change this template use File | Settings | File Templates.
- */
+package_installer:
+  type: PackageInstaller
+  database: database
+  class_loader: class_loader

@@ -19,23 +19,9 @@ class PackageInstaller_Tests extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $factory = factory('package_installer_test', array(
-                                                          'package_installer' => array(
-                                                              'type' => 'PackageInstaller',
-                                                              'database' => 'database',
-                                                              'class_loader' => 'class_loader',
-                                                          ),
-                                                          'database' => array(
-                                                              'type' => 'Database',
-                                                              'host' => 'localhost',
-                                                              'database' => 'fire_test',
-                                                              'username' => 'root',
-                                                              'password' => 'root',
-                                                          ),
-                                                     ));
-        $this->db = $factory->build('database');
+        $this->db = build('database');
         $this->db->destroy_all_tables();
-        $this->installer = $factory->build('package_installer');
+        $this->installer = build('package_installer');
     }
 
     function test_list_packages()
