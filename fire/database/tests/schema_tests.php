@@ -55,6 +55,7 @@ class Schema_Tests extends PHPUnit_Framework_TestCase
         $this->assertTrue($exception_thrown);
     }
 
+    /*
     function test_table_persistance()
     {
         $db = $this->db;
@@ -69,6 +70,7 @@ class Schema_Tests extends PHPUnit_Framework_TestCase
         $this->assertTrue($table != null);
         $this->assertTrue($db2->has_table('uncached_table'));
     }
+    */
 
     function test_destroy_table()
     {
