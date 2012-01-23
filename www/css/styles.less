@@ -3,7 +3,7 @@
 @yellow: #ffcc66;
 @sidebar_width: 300px;
 
-@import 'elements.0000000001.less';
+@import 'elements.0000000002.less';
 
 .date_tip {
     width: 150px;
@@ -125,8 +125,7 @@ input[type="submit"], button {
         color: white;
         text-decoration: none;
         &:hover { background-color: white; color: #444; }
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
+        .border_radius_multi(0, 0, 8px, 8px);
         &.active {
             background-color: white;
             color: #444;

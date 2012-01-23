@@ -40,6 +40,29 @@
     border-radius: @r;
 }
 
+// Multiple Border-Radii (CB) (all corners may have different radii)
+.border_radius_multi(@topright: 10px, @bottomright: 10px, @bottomleft: 10px, @topleft: 10px) {
+	-khtml-border-top-right-radius: @topright;
+	-khtml-border-bottom-right-radius: @bottomright;
+	-khtml-border-bottom-left-radius: @bottomleft;
+	-khtml-border-top-left-radius: @topleft;
+
+	-moz-border-top-right-radius: @topright;
+	-moz-border-bottom-right-radius: @bottomright;
+	-moz-border-bottom-left-radius: @bottomleft;
+	-moz-border-top-left-radius: @topleft;
+
+	-webkit-border-top-right-radius: @topright;
+	-webkit-border-bottom-right-radius: @bottomright;
+	-webkit-border-bottom-left-radius: @bottomleft;
+	-webkit-border-top-left-radius: @topleft;
+
+	border-top-right-radius: @topright;
+	border-bottom-right-radius: @bottomright;
+	border-bottom-left-radius: @bottomleft;
+	border-top-left-radius: @topleft;
+}
+
 .green_button_style {
     background-color: #7FBF4D;
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7fbf4d), color-stop(100%, #63a62f));
