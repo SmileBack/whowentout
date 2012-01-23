@@ -100,7 +100,7 @@ whowentout.showNetworkRequiredDialog = function () {
         dialog.title('Required Network');
         dialog.showDialog('network_required_dialog');
         dialog.setButtons('ok');
-        dialog.loadContent('/home/network_required');
+        dialog.loadContent('/networks_required');
     });
 };
 

@@ -13,6 +13,7 @@ router:
   routes:
     "/": ViewHomepage
     "day": ViewDay
+    "networks_required": ViewNetworksRequiredDialog
     "day/(:num)": ViewDay/$1
     "login": Login
     "logout": Logout

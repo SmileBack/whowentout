@@ -34,5 +34,7 @@ pusher:
   timeout: 10
 
 network_blocker:
-  type: NetworkPassThrough
+  type: NetworkBlocker
   database: database
+  allowed_networks:
+    - 16777219 #stanford
