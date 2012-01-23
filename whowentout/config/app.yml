@@ -12,6 +12,7 @@ router:
   type: ActionRouter
   routes:
     "/": ViewHomepage
+    "networks_required": ViewNetworksRequiredDialog
     "today": ViewDay
     "day/(:num)": ViewDay/$1
     "login": Login
