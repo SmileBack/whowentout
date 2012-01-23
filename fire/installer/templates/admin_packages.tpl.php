@@ -20,7 +20,13 @@
         <td><?= $package_name ?></td>
         <td><?= $installer->get_installed_version($package_name) ?></td>
         <td><?= $installer->get_available_version($package_name) ?></td>
-        <td><?=  a("admin_packages/info/$package_name", $installer->is_installed($package_name) ? 'upgrade' : 'install') ?></td>
+        <td>
+            <?php if ($installer->is_installed($package_name)): ?>
+                <?= a("admin/packages/$package_name/update", 'update') ?>
+            <?php else: ?>
+            <?= a("admin/packages/$package_name/install", 'install') ?>
+            <?php endif; ?>
+        </td>
     </tr>
         <?php endforeach; ?>
     </tbody>

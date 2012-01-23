@@ -35,6 +35,9 @@ router:
     "admin/events": AdminViewEvents
     "admin/events/create": AdminCreateEvent
     "admin/events/(:num)/destroy": AdminDestroyEvent/$1
+    "admin/packages": ViewPackages
+    "admin/packages/(:alnum)/install": InstallPackage/$1
+    "admin/packages/(:alnum)/update": UpdatePackage/$1
 
 asset:
   type: Asset

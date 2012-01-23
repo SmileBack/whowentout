@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Packages_Controller extends Controller
+class ViewPackagesAction extends Action
 {
 
     /* @var $installer PackageInstaller */
@@ -11,7 +11,7 @@ class Admin_Packages_Controller extends Controller
         $this->installer = build('package_installer');
     }
 
-    function index()
+    function execute()
     {
         $packages = $this->installer->list_packages();
         print r::page(array(
@@ -22,14 +22,5 @@ class Admin_Packages_Controller extends Controller
         ));
     }
 
-    function info($package_name)
-    {
-        if ($this->installer->is_installed($package_name))
-            $this->installer->update($package_name);
-        else
-            $this->installer->install($package_name);
-
-        redirect('admin_packages');
-    }
-    
 }
+
