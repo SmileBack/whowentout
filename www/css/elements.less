@@ -10,6 +10,14 @@
   filter: e(%('alpha(opacity=%s)', @opacity * 100));  // most other IE versions
 }
 
+.rotate(@deg:5deg){
+  -o-transform: rotate(@deg);
+  -webkit-transform: rotate(@deg);
+  -moz-transform: rotate(@deg);
+  -ms-transform: rotate(@deg);
+  transform: rotate(@deg);
+}
+
 .shadow(@x: 1px, @y: 1px, @blur: 3px, @spread: 1px, @color: #dedede) {
   -webkit-box-shadow: @x @y @blur @spread @color;
  -moz-box-shadow: @x @y @blur @spread @color;

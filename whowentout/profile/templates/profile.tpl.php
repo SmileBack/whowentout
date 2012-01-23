@@ -5,7 +5,7 @@
             <div class="profile_pic">
                 <?= img($profile_picture_url) ?>
 
-                <?php if ($your_profile): ?>
+                <?php if ($your_profile && browser::is_desktop()): ?>
                 <a title="Edit Profile" href="/profile/picture/edit" class="action profile_edit_picture_link">Change</a>
                 <?php endif; ?>
             </div>
