@@ -137,6 +137,11 @@ $(function () {
         displayDate: function(date) {
             $('.dialog').hideDialog();
             $('.event_day').updateDate(date);
+
+            var href = '/day/' + date;
+            var scrollable = $('#events_date_selector .scrollable');
+            var link = scrollable.getElByHref(href);
+            scrollable.markSelected(link);
         },
         showDealDialog: function(event_id) {
             whowentout.showDealDialog(event_id);
@@ -280,10 +285,64 @@ $('.event_day').entwine({
 
         var pHtml = this.getUpdatedHtml(date);
         $.when(pHtml).then(function(html) {
-            var nEl = $(html);
-            var date = $(nEl).attr('data-date');
-            self.replaceWith(html);
+            self.replaceHtml(html);
         });
+    },
+    animateOutOfPage: function(direction) {
+        var d = $.Deferred();
+
+        var width = this.outerWidth();
+        var exitMargin = direction == 'left' ? '-' + width + 'px' : width + 'px';
+
+        this.animate({marginLeft: exitMargin}, {
+            duration: 250,
+            complete: function() {
+                d.resolve();
+            }
+        });
+
+        return d.promise();
+    },
+    animateOntoPage: function(direction, html) {
+        var d = $.Deferred();
+
+        var nEl = $(html);
+        var width = this.outerWidth();
+        var enterMargin = direction == 'left' ? width + 'px' : '-' + width + 'px';
+
+        nEl.css('margin-left', enterMargin);
+
+        this.replaceWith(nEl);
+        nEl.animate({marginLeft: 0}, {
+            duration: 125,
+            complete: function() {
+                d.resolve();
+            }
+        });
+
+        return d.promise();
+    },
+    replaceHtml: function(html) {
+        this.replaceWith(html);
+    },
+    replaceHtmlAnimated: function(html) {
+        var self = this;
+        var d = $.Deferred();
+
+        var width = this.outerWidth(true);
+        var nEl = $(html);
+
+        var oldDate = self.attr('data-date');
+        var newDate = $(nEl).attr('data-date');
+
+        var direction = newDate > oldDate ? 'left' : 'right';
+        $.when(this.animateOutOfPage(direction)).then(function() {
+            $.when(self.animateOntoPage(direction, html)).then(function() {
+                d.resolve();
+            });
+        });
+
+        return d.promise();
     },
     getCurrentDate: function() {
         return this.attr('data-date');

@@ -1,6 +1,22 @@
 //= require jquery.js
 //= require jquery.entwine.js
 
+var format = (function()
+{
+    var replacer = function(context)
+    {
+        return function(s, name)
+        {
+            return context[name];
+        };
+    };
+
+    return function(input, context)
+    {
+        return input.replace(/:(\w+)/g, replacer(context));
+    };
+})();
+
 $.fn.whenShown = function (fn) {
     var props = { position:'absolute', visibility:'hidden', display:'block' },
     hiddenParents = $(this).parents().andSelf().not(':visible');
@@ -49,51 +65,52 @@ $.fn.hiddenDimensions = function (includeMargin) {
 
 $('.scrollable').entwine({
     onmatch: function () {
-        var self = this, items = this.find('.items');
-        var index = this.getIndex() || 0;
-        this.setIndex(index);
+        this.refreshScrollPosition();
     },
     onunmatch: function () {
     },
-    animateToIndex: function (index, onComplete) {
-        var self = this;
-        onComplete = onComplete || function () {
-        };
+    markSelected: function(el, animate) {
+        if (el instanceof $) {
+            if (!el.hasClass('active')) {
+                this.find('.active').removeClass('active');
+                el.addClass('active');
+            }
 
-        var x = this._indexToX(index);
+            if (animate === false) {
+                this._jumpToEl(el);
+            }
+            else {
+                this._animateToEl(el);
+            }
+        }
+        else if ($.isNumeric(el)) {
+            el = this.find('a').eq(el);
+            return this.markSelected(el);
+        }
+    },
+    getSelected: function() {
+        return this.find('.active');
+    },
+    getElByHref: function(href) {
+        return this.find('a').filter(function() {
+            return $(this).attr('href') == href;
+        });
+    },
+    refreshScrollPosition: function() {
+        this.markSelected(this.getSelected(), false);
+    },
+    _animateToEl: function(el, onComplete) {
+        var self = this;
+        onComplete = onComplete || function () {};
+
+        var x = this._elToX(el);
         this._animateToX(x, function () {
-            self.data('index', index);
             onComplete.call(self);
         });
     },
-    animateOffset: function(offset, onComplete) {
-        var index = this.getIndex() + offset;
-        this.animateToIndex(index, onComplete);
-    },
-    refreshScrollPosition: function() {
-        this.setIndex(this.getIndex());
-    },
-    setIndex: function(index) {
-        var x = this._indexToX(index);
+    _jumpToEl: function(el) {
+        var x = this._elToX(el);
         this._setX(x);
-    },
-    getIndex: function() {
-        return this.data('index');
-    },
-    getCenterEl:function () {
-        var index = this.getIndex();
-        return this.indexToEl(index + 3);
-    },
-    indexToEl:function (index) {
-        return this.find('> .items > *').eq(index);
-    },
-    getCapacity: function() {
-        var capacity = this.width() / this.find('a:first').outerWidth();
-        return Math.floor(capacity);
-    },
-    setCapacity: function(c) {
-        var width = this.find('a:first').outerWidth() * c;
-        this.css('width', width);
     },
     _getX: function() {
         return -1 * parseInt(this.find('> .items').css('margin-left'));
@@ -108,26 +125,15 @@ $('.scrollable').entwine({
             complete: onComplete
         });
     },
-    _getIndexOffset: function() {
-        return Math.floor(this.getCapacity() / 2);
-    },
-    _indexToX:function (index) {
-        index -= this._getIndexOffset();
+    _elToX: function(el) {
         var width = 0;
-        var elementsBefore = this.indexToEl(index).prevAll();
+        var elementsBefore = el.prevAll();
         elementsBefore.each(function () {
-            var dimensions = $(this).hiddenDimensions(true);
+                    var dimensions = $(this).hiddenDimensions(true);
             width += dimensions.outerWidth;
         });
-        return width;
-    }
-});
 
-$('#events_date_selector').entwine({
-    setActiveLink: function(link) {
-        this.find('.active').removeClass('active');
-        link.addClass('active');
-        return this;
+        return width - this.width() / 2 + $(el).outerWidth(true) / 2;
     }
 });
 
@@ -137,9 +143,6 @@ $('#events_date_selector .items a').entwine({
         var index = this.index();
 
         whowentout.router.navigate(this.attr('href'), true);
-        this.closest('#events_date_selector')
-            .setActiveLink(this)
-            .find('.scrollable').animateToIndex(index);
     }
 });
 
