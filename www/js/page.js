@@ -222,8 +222,8 @@ $('.profile_pic_crop_form').entwine({
 });
 
 $('.profile_pic_upload_form input[type=file]').entwine({
-    onchange:function () {
-        this.closest('form').submit();
+    onchange: function (e) {
+//        this.closest('form').submit();
     }
 });
 
