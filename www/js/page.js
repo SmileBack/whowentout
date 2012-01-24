@@ -223,7 +223,7 @@ $('.profile_pic_crop_form').entwine({
 
 $('.profile_pic_upload_form input[type=file]').entwine({
     onchange: function (e) {
-//        this.closest('form').submit();
+        this.closest('form').submit();
     }
 });
 
