@@ -8,10 +8,14 @@
         <?= $event->name ?>
     </div>
     <div class="deal">
-        <?= $event->deal ?>
+        <?php if ($selected && $event->deal): ?>
+            <?= r::show_deal_link(array('event' => $event)); ?>
+        <?php else: ?>
+            <?= $event->deal ?>
+        <?php endif; ?>
     </div>
 
-<div class="checkin_button <?= $selected ? 'attending' : '' ?>">
+<div class="checkin_button <?= $selected ? 'active' : '' ?>">
     <?php if ($selected): ?>
         attending
     <?php else: ?>

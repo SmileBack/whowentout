@@ -30,8 +30,4 @@
         </fieldset>
     </form>
 
-    <?php if (browser::is_desktop()): ?>
-    <?= r::show_deal_link(array('event' => $selected_event)); ?>
-    <?php endif; ?>
-
 </div>

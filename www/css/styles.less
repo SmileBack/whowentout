@@ -4,7 +4,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000003.less';
+@import 'elements.0000000004.less';
 
 .date_tip {
     width: 150px;
@@ -45,7 +45,60 @@ input[type="submit"], button {
     .button;
 }
 
+.vertical_gradient(@start: #000, @stop: #FFF) {
+    background: (@start + @stop) / 2;
+    background: -webkit-gradient(linear, left top, left bottom, from(@start), to(@stop));
+    background: -moz-linear-gradient(center top, @start 0%, @stop 100%);
+    background: -moz-gradient(center top, @start 0%, @stop 100%);
+}
 
+.paint_button(@text_color, @border_color, @a, @b, @c, @d, @e, @f) {
+    color: @text_color;
+    border: solid 1px @border_color;
+    .vertical_gradient(@a, @b);
+    &:visited {
+        color: @text_color;
+    }
+    &:hover {
+        .vertical_gradient(@c, @d);
+    }
+    &:active {
+        .vertical_gradient(@e, @f);
+    }
+}
+
+.orange_button {
+    .paint_button(#fef4e9, #da7c0c, #faa51a, #f47a20, #f88e11, #f06015, #f47a20, #faa51a);
+}
+
+.green_button {
+    .paint_button(white, #538312, #7db72f, #4e7d0e, #6b9d28, #436b0c, #4e7d0e, #7db72f);
+}
+
+.blue_button {
+    .paint_button(white, #0076a3, #00adee, #0078a5, #0095cc, #00678e, #0078a5, #00adee);
+}
+
+.button_style {
+    .green_button;
+    font: 14px/100% Arial, Helvetica, sans-serif;
+    font-weight: bold;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    .border_radius(0.3em);
+    .shadow(0 1px 2px rgba(0,0,0,.2));
+   	&:hover {
+   	    text-decoration: none;
+   	}
+   	&:active {
+   	    position: relative;
+   	    top: 1px;
+   	}
+}
 
 .cell_phone_number {
     width: 125px;
@@ -175,19 +228,6 @@ td {
     }
 }
 
-.button_style {
-    text-decoration: none;
-    text-align: center;
-    padding: 10px;
-    margin-left: 15px;
-    font-size: 14px;
-    background-color: @button_color;
-    color: white;
-    &:hover {
-        background-color: lighten(@button_color, 10%)
-    }
-}
-
 #events_date_selector {
     margin: 10px 30px 12px 30px;
     a {
@@ -289,26 +329,27 @@ td {
       width: 100%;
       input { float: left; margin: 10px; }
       .place { width: 170px; float: left; margin: 10px; font-weight: bold; }
-      .deal { width: 250px; float: left; margin: 10px; font-weight: normal; }
+      .deal {
+          width: 250px;
+          float: left;
+          margin: 6px 10px;
+          font-weight: normal;
+      }
       .checkin_button {
-          .green_button_style;
-          width: 100px;
+          .button_style;
+          width: 75px;
           float: left;
           font-size: 12px;
           margin-top: 5px;
-          &.attending {
-              background: none;
-              background-color: lighten(#7FBF4D, 10%);
-              border: 1px solid lighten(#7FBF4D, 10%);
-          }
       }
     }
 }
 
 .show_deal_link {
+    .button_style;
+    font-size: 12px;
     display: block;
-    margin: 20px;
-    font-size: 20px;
+    width: 100px;
 }
 
 .event_gallery {
@@ -327,7 +368,7 @@ td {
         margin-left: -205px;
     }
     .event_invite_link {
-        .green_button_style;
+        .button_style;
         font-size: 18px;
         margin-top: 15px;
         color: white;
@@ -409,7 +450,7 @@ td {
     text-align: center;
     width: 130px;
     overflow: hidden;
-    .shadow;
+    .shadow(0, 1px, 2px, rgba(0,0,0,.15));
     .profile_caption {
         font-size: 15px;
         font-weight: bold;

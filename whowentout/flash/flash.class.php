@@ -12,7 +12,7 @@ class flash
             );
         }
         else {
-            $message = isset($_SESSION['flash_message']) ? $_SESSION['flash_message'] : '';
+            $message = isset($_SESSION['flash_message']) ? $_SESSION['flash_message'] : array('message' => '', 'type' => '');
             unset($_SESSION['flash_message']);
         }
         return r::flash_message(array('message' => $message['message'], 'type' => $message['type']));
