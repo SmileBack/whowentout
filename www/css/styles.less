@@ -1,6 +1,7 @@
 @primary_color: #104e8b;
 @button_color: #528036;
 @yellow: #ffcc66;
+@red: #ff6a6a;
 @sidebar_width: 300px;
 
 @import 'elements.0000000003.less';
@@ -168,6 +169,10 @@ td {
     text-align: center;
     font-size: 18px;
     padding: 12px;
+    &.error {
+        background-color: @red;
+        color: white;
+    }
 }
 
 .button_style {

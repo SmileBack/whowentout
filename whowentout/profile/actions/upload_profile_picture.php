@@ -9,9 +9,14 @@ class UploadProfilePictureAction extends Action
             show_404();
 
         $profile_picture = $this->get_profile_picture();
-        $profile_picture->set_to_upload('pic');
 
-        flash::message('Uploaded a profile pic');
+        try {
+            $profile_picture->set_to_upload('pic');
+            flash::message('Uploaded a profile pic');
+        }
+        catch (InvalidImageException $e) {
+            flash::error('Invalid image uploaded.');
+        }
 
         redirect('profile/picture/edit');
     }
