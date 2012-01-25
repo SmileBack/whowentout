@@ -45,11 +45,15 @@ input[type="submit"], button {
     .button;
 }
 
+.site_shadow {
+    .shadow(0, 1px, 2px, rgba(0,0,0,.15));
+}
+
 .vertical_gradient(@start: #000, @stop: #FFF) {
-    background: (@start + @stop) / 2;
-    background: -webkit-gradient(linear, left top, left bottom, from(@start), to(@stop));
-    background: -moz-linear-gradient(center top, @start 0%, @stop 100%);
-    background: -moz-gradient(center top, @start 0%, @stop 100%);
+    background-color: (@start + @stop) / 2;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(@start), to(@stop));
+    background-image: -moz-linear-gradient(center top, @start 0%, @stop 100%);
+    background-image: -moz-gradient(center top, @start 0%, @stop 100%);
 }
 
 .paint_button(@text_color, @border_color, @a, @b, @c, @d, @e, @f) {
@@ -62,7 +66,7 @@ input[type="submit"], button {
     &:hover {
         .vertical_gradient(@c, @d);
     }
-    &:active {
+    &:active, &.pressed {
         .vertical_gradient(@e, @f);
     }
 }
@@ -335,21 +339,28 @@ td {
           margin: 6px 10px;
           font-weight: normal;
       }
-      .checkin_button {
-          .button_style;
+      .badge {
+          width: 75px;
+          float: left;
+          margin-top: 5px;
+          > * {
+              .button_style;
+              font-size: 12px;
+              width: 100%;
+          }
+      }
+      .attending_badge {
+      }
+      .show_deal_link {
+          .orange_button;
           width: 75px;
           float: left;
           font-size: 12px;
-          margin-top: 5px;
       }
     }
 }
 
-.show_deal_link {
-    .button_style;
-    font-size: 12px;
-    display: block;
-    width: 100px;
+.event_list.event_selected .checkin_badge {
 }
 
 .event_gallery {
@@ -369,7 +380,7 @@ td {
     }
     .event_invite_link {
         .button_style;
-        font-size: 18px;
+        font-size: 12px;
         margin-top: 15px;
         color: white;
         text-decoration: none;
@@ -408,8 +419,10 @@ td {
         .gallery;
     }
     .profile_pic {
+        .site_shadow;
         float: left;
         overflow: hidden;
+        padding: 15px;
         margin: 15px;
     }
     .profile_info {
@@ -450,7 +463,7 @@ td {
     text-align: center;
     width: 130px;
     overflow: hidden;
-    .shadow(0, 1px, 2px, rgba(0,0,0,.15));
+    .site_shadow;
     .profile_caption {
         font-size: 15px;
         font-weight: bold;

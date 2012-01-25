@@ -7,7 +7,7 @@
     <?= r::show_deal_link(array('event' => $selected_event)); ?>
     <?php endif; ?>
 
-    <form method="post" action="/checkin" class="event_list">
+    <form method="post" action="/checkin" class="event_list <?= $selected_event ? 'event_selected' : '' ?>">
         <h1>
             <span>Check-in.</span>
             <span>See where everyone's going.</span>
