@@ -66,8 +66,11 @@ input[type="submit"], button {
     &:hover {
         .vertical_gradient(@c, @d);
     }
-    &:active, &.pressed {
-        .vertical_gradient(@e, @f);
+    &:active {
+        .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
+    }
+    &.pressed {
+        .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
     }
 }
 
