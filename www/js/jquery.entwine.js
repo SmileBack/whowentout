@@ -1180,7 +1180,7 @@ catch (e) {
 	}
 
 	// Register core DOM manipulation methods
-	registerMutateFunction('append', 'prepend', 'after', 'before', 'wrap', 'removeAttr', 'addClass', 'removeClass', 'toggleClass', 'empty', 'remove');
+	registerMutateFunction('html', 'append', 'prepend', 'after', 'before', 'wrap', 'removeAttr', 'addClass', 'removeClass', 'toggleClass', 'empty', 'remove');
 	registerSetterGetterFunction('attr');
 
 	// And on DOM ready, trigger matching once
