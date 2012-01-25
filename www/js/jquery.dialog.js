@@ -105,11 +105,14 @@ $('.dialog').entwine({
             return this;
         }
     },
+    showLoadingMessage: function() {
+        this.message('<div class="dialog_loading">Loading...</div>');
+    },
     loadContent:function (path, complete) {
         var self = this;
         complete = complete || function () {};
 
-        this.message('loading...');
+        this.showLoadingMessage();
         this.find('.dialog_body').load(path, function () {
             self.refreshPosition();
             $(this).bind('imageload', function (e) {
@@ -117,7 +120,6 @@ $('.dialog').entwine({
             });
             complete.call(self);
         });
-
     },
     setButtons:function (buttons) {
         var self = this;

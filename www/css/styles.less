@@ -107,8 +107,26 @@ input[type="submit"], button {
    	}
 }
 
-.cell_phone_number {
-    width: 125px;
+.dialog {
+    padding: 0;
+    > h1 {
+        background-color: @primary_color;
+        border-bottom: 2px solid lighten(@primary_color, -5%);
+        color: white;
+        padding: 8px;
+        .shadow(black, 0, 0px, 5px);
+    }
+    .dialog_body {
+        margin: 15px 45px;
+    }
+    .dialog_loading {
+        text-indent: -9999px;
+        background: no-repeat url(/images/loading-message.gif) center center;
+        width: 100px;
+        height: 100px;
+        padding: 25px;
+        margin: auto;
+    }
 }
 
 #home_page {
@@ -198,8 +216,8 @@ h1 {
     font-size: 24px;
     font-family: Helvetica, Arial;
     color: #333;
-    text-shadow: white 1px 1px 0px;
 }
+
 h2 { font-size: 18px; }
 h3 { font-size: 16px; }
 h4 { font-size: 14px; }
@@ -532,16 +550,13 @@ td {
 }
 
 .dialog.deal_dialog {
-    width: 500px;
-    padding-bottom: 0px;
-    h4 {
-        margin-top: 15px;
-    }
-    .dialog_body {
-        margin: 0;
-    }
+    width: auto;
     .phone_number_field {
         margin: 15px 0;
+        input {
+            width: 150px;
+            font-size: 20px;
+        }
     }
 }
 
@@ -553,10 +568,21 @@ td {
     }
     .ticket {
         position: absolute;
-        width: 195px;
-        left: 150px;
-        top: 15px;
+        left: 91px;
+        top: 26px;
         z-index: 2;
+    }
+    .edit_pic_link {
+        position: absolute;
+        background-color: white;
+        font-weight: bold;
+        left: 117px;
+        top: 81px;
+        padding: 4px;
+        z-index: 3;
+        &:hover {
+            background-color: @yellow;
+        }
     }
 }
 
