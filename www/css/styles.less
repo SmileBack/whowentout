@@ -528,6 +528,9 @@ td {
     .dialog_body {
         margin: 0;
     }
+    .dialog_buttons {
+        display: none;
+    }
 }
 
 .event_invite {
@@ -561,9 +564,10 @@ td {
     .user_first_name, .user_last_name, input {
         display: inline-block;
     }
-    &.buttons {
-        padding-top: 15px;
+    .buttons {
+        padding: 15px;
         border-top: 1px solid grey;
+        .shadow(black, 0, 0px, 5px);
     }
     .send_invites_button {
         padding: 8px;
