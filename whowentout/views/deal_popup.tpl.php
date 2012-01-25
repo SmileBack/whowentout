@@ -21,14 +21,13 @@
 
         <?php else: ?>
 
-        <h3>
-            The deal will be sent to
+            <label>The deal will be sent to</label>
+
             <div class="phone_number_field">
                 <input type="text" class="cell_phone_number inline" name="user[cell_phone_number]"
                        value="<?= $user->cell_phone_number ?>"/>
                 <a href="#edit" class="edit_cell_phone_number">change</a>
             </div>
-        </h3>
 
         <?php endif; ?>
 
