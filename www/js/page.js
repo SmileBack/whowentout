@@ -76,7 +76,7 @@ whowentout.showDealDialog = function (event_id) {
 whowentout.showInviteDialog = function (event_id) {
     $(function () {
         whowentout.initDialog();
-        dialog.title('');
+        dialog.title('Invite your Friends');
         dialog.showDialog('invite_dialog');
         dialog.loadContent('/events/' + event_id + '/invite');
     });
@@ -249,7 +249,7 @@ $('.edit_cell_phone_number').entwine({
     }
 });
 
-$('.event_invite input[type=checkbox]').entwine({
+$('.event_invite :checkbox').entwine({
     onmatch:function (e) {
         this._super(e);
         this.refreshCheckState();

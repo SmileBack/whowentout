@@ -1,4 +1,5 @@
 @primary_color: #104e8b;
+@light_color: #fafafa;
 @button_color: #528036;
 @yellow: #ffcc66;
 @red: #ff6a6a;
@@ -109,6 +110,7 @@ input[type="submit"], button {
 
 .dialog {
     padding: 0;
+    background-color: @light_color;
     > h1 {
         background-color: @primary_color;
         border-bottom: 2px solid lighten(@primary_color, -5%);
@@ -399,7 +401,7 @@ td {
     margin-top: 15px;
     padding-top: 15px;
     min-height: 600px;
-    background-color: #fafafa;
+    background-color: @light_color;
     .event_gallery_message {
         position: absolute;
         top: 45px;
@@ -522,27 +524,46 @@ td {
     margin: auto;
 }
 
-.event_invite fieldset {
-    width: 600px;
-    border: 1px solid #333;
-    margin: 20px;
-    padding: 20px;
-    text-align: center;
-    ul {
-        height: 400px;
-        overflow-x: hidden;
-        overflow-y: scroll;
+.dialog.invite_dialog {
+    .dialog_body {
+        margin: 0;
     }
-    li {
+}
+
+.event_invite {
+    width: 770px;
+    fieldset {
         text-align: center;
-        display: inline-block;
-        vertical-align: top;
-        border: 1px solid grey;
-        margin: 15px;
-        padding: 15px;
-        &.selected {
-            background-color: #FFEC8B;
+        border: none;
+        padding: 0;
+        ul {
+            height: 400px;
+            overflow-x: hidden;
+            overflow-y: scroll;
         }
+        li {
+            .site_shadow;
+            margin: 10px;
+            padding: 10px 5px;
+            width: 140px;
+            background-color: white;
+            text-align: center;
+            display: inline-block;
+            vertical-align: top;
+            &.selected {
+                background-color: #FFEC8B;
+            }
+        }
+    }
+    .user_thumb {
+        margin: 6px auto;
+    }
+    .user_first_name, .user_last_name, input {
+        display: inline-block;
+    }
+    &.buttons {
+        padding-top: 15px;
+        border-top: 1px solid grey;
     }
     .send_invites_button {
         padding: 8px;
