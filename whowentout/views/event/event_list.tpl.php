@@ -4,7 +4,7 @@
 <div class="event_list_wrapper">
 
     <?php if (browser::is_mobile()): ?>
-    <?= r::show_deal_link(array('event' => $selected_event)); ?>
+    <?= r::show_deal_link(array('event' => $selected_event, 'class' => 'mobile')); ?>
     <?php endif; ?>
 
     <form method="post" action="/checkin" class="event_list <?= $selected_event ? 'event_selected' : '' ?>">
