@@ -72,7 +72,14 @@
 @media screen and (orientation:portrait) {
     .deal_preview {
         &.landscape { display: none; }
-        &.portrait { display: block; }
+        &.portrait {
+            display: block;
+        }
+    }
+    .dialog.deal_dialog input[type="submit"] {
+        left: auto;
+        top: 8px;
+        right: 8px;
     }
 }
 
@@ -129,9 +136,15 @@
 }
 
 .dialog.deal_dialog {
-    height: 100%;
-    width: 100%;
+    height: auto;
+    width: auto;
     padding: 0;
+    h1, .phone_number_field, p, .edit_pic_link {
+        display: none;
+    }
+    .dialog_body {
+        margin: 0;
+    }
     .deal_preview {
         position: static;
         overflow: hidden;
@@ -149,12 +162,14 @@
         display: none;
     }
     input[type="submit"] {
-        width: 80px;
-        padding: 4px 6px;
+        @size: 48px;
+        width: @size;
+        height: @size;
+        top: 8px;
+        left: 8px;
+        border: none;
+        background: url(/images/x.png) no-repeat center;
+        text-indent: -9999px;
         position: absolute;
-        top: 0;
-        left: 0;
-        margin-left: -40px;
-        bottom: 2px;
     }
 }

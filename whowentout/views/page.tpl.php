@@ -19,11 +19,10 @@
     <link rel="stylesheet/less" type="text/css" href="/css/jquery.jcrop.less"/>
     <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= filemtime('./css/styles.less') ?>.less"/>
 
-    <link rel="stylesheet/less" type="text/css" media="only screen and (max-device-width: 480px)"
-          href="/css/styles.mobile.<?= filemtime('./css/styles.mobile.less') ?>.less"/>
-
-    <!--<link rel="stylesheet/less" type="text/css" media="screen and (max-width: 800px)"
+    <!--<link rel="stylesheet/less" type="text/css" media="only screen and (max-device-width: 480px)"
           href="/css/styles.mobile.<?= filemtime('./css/styles.mobile.less') ?>.less"/>-->
+
+    <link rel="stylesheet/less" type="text/css" href="/css/styles.mobile.<?= filemtime('./css/styles.mobile.less') ?>.less"/>
 
     <script src="/js/less.js" type="text/javascript"></script>
 
@@ -36,7 +35,7 @@
     <?= $asset->scripts() ?>
 </head>
 
-<body>
+<body class="<?= browser::classes() ?>">
 
 <nav id="nav">
 

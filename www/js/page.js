@@ -73,6 +73,19 @@ whowentout.showDealDialog = function (event_id) {
     });
 };
 
+$('.mobile .deal_preview').entwine({
+    onmatch: function() {
+        this.css('cursor', 'pointer');
+    },
+    onunmatch: function() {
+        this.css('cursor', '');
+    },
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('form').submit();
+    }
+});
+
 whowentout.showInviteDialog = function (event_id) {
     $(function () {
         whowentout.initDialog();
