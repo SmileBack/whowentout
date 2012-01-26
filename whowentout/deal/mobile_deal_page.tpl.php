@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content=""/>
         <meta name="author" content="">
-        <meta name="viewport" content="width=320px, initial-scale=1, maximum-scale=1">
+        <meta name="viewport" content="width=320px, initial-scale=1, maximum-scale=1, user-scalable=0">
         <meta name="apple-mobile-web-app-capable" content="yes" />
 
         <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
@@ -24,6 +24,13 @@
             $asset->load_js('mobile_deal_page.js');
         ?>
         <?= $asset->scripts() ?>
+
+        <style>
+            html, body {
+                height: 100%;
+                overflow: hidden;
+            }
+        </style>
 
     </head>
 
