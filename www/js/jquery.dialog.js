@@ -199,8 +199,8 @@ $('.dialog').entwine({
     expandToViewport: function() {
         var box = $('body').getViewportBox();
         this.css({
-            left: box.left,
-            top: box.top,
+            left: 0,
+            top: 0,
             width: box.width,
             height: box.height
         });

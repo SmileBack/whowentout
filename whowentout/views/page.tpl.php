@@ -19,7 +19,7 @@
     <link rel="stylesheet/less" type="text/css" href="/css/jquery.jcrop.less"/>
     <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= filemtime('./css/styles.less') ?>.less"/>
 
-    <?php if (browser::is_mobile()): ?>
+    <?php if (browser::is_desktop()): ?>
         <link rel="stylesheet/less" type="text/css" href="/css/styles.mobile.<?= filemtime('./css/styles.mobile.less') ?>.less"/>
     <?php endif; ?>
 
@@ -34,7 +34,7 @@
     <?= $asset->scripts() ?>
 </head>
 
-<body class="<?= browser::classes() ?>">
+<body class="mobile <?= browser::classes() ?>">
 
 <nav id="nav">
 
