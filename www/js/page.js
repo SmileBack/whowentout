@@ -186,6 +186,13 @@ $('.action').entwine({
     }
 });
 
+$('.mobile .show_deal_link').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        window.location = this.attr('href');
+    }
+});
+
 $('#flash_message').entwine({
     onmatch:function () {
         var flashMessage = this;
