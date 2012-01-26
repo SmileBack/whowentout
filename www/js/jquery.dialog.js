@@ -53,8 +53,10 @@ $.dialog = {
         };
         refresh_position = _.debounce(refresh_position, 100);
 
-        //setInterval(refresh_position, 250);
-        $(window).bind('resize', refresh_position);
+        setInterval(refresh_position, 250);
+        $(window).bind('resize', function() {
+            setTimeout(refresh_position, 250);
+        });
 
         return d;
     },
