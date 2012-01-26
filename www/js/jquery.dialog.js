@@ -1,6 +1,7 @@
 //= require jquery.js
 //= require jquery.entwine.js
 //= require jquery.position.js
+//= require underscore.js
 
 $('#mask').entwine({
     onclick:function () {
@@ -43,13 +44,17 @@ $.dialog = {
         $('body').append(d);
 
         d.anchor('viewport', 'c'); //keeps the dialog box in the center
-        setInterval(function() {
 
+        var refresh_position = function() {
             if (options.expandToViewport)
                 d.expandToViewport();
             else
                 d.refreshPosition();
-        }, 250);
+        };
+        refresh_position = _.debounce(refresh_position, 100);
+
+        //setInterval(refresh_position, 250);
+        $(window).bind('resize', refresh_position);
 
         return d;
     },
