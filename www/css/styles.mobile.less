@@ -1,5 +1,6 @@
 @content_width: 320px;
 @content_margin: 5px;
+@primary_color: #104e8b;
 
 @import 'elements.0000000001.less';
 
@@ -59,30 +60,6 @@
     }
 }
 
-@media screen and (orientation:landscape) {
-    #events_date_selector .scrollable {
-        width: 377px;
-    }
-    .deal_preview {
-        &.landscape { display: block; }
-        &.portrait { display: none; }
-    }
-}
-
-@media screen and (orientation:portrait) {
-    .deal_preview {
-        &.landscape { display: none; }
-        &.portrait {
-            display: block;
-        }
-    }
-    .dialog.deal_dialog input[type="submit"] {
-        left: auto;
-        top: 8px;
-        right: 8px;
-    }
-}
-
 .date_tip {
     font-size: 15px;
     font-weight: bold;
@@ -136,8 +113,6 @@
 }
 
 .dialog.deal_dialog {
-    height: auto;
-    width: auto;
     padding: 0;
     h1, .phone_number_field, p, .edit_pic_link {
         display: none;
@@ -145,15 +120,19 @@
     .dialog_body {
         margin: 0;
     }
+    .deal_popup {
+        background-color: @primary_color;
+    }
     .deal_preview {
+        width: 100%;
         position: static;
         overflow: hidden;
         .phone {
             display: none;
         }
         .ticket {
-            width: 100%;
-            height: auto;
+            width: auto;
+            height: 100%;
             position: static;
             z-index: 2;
         }
@@ -173,3 +152,28 @@
         position: absolute;
     }
 }
+
+@media screen and (orientation:landscape) {
+    #events_date_selector .scrollable {
+        width: 377px;
+    }
+    .deal_preview {
+        &.landscape { display: block; }
+        &.portrait { display: none; }
+    }
+}
+
+@media screen and (orientation:portrait) {
+    .deal_preview {
+        &.landscape { display: none; }
+        &.portrait {
+            display: block;
+        }
+    }
+    .dialog.deal_dialog input[type="submit"] {
+        left: auto;
+        top: 8px;
+        right: 8px;
+    }
+}
+

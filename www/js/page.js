@@ -56,9 +56,13 @@ $('.show_color_option_link').entwine({
 });
 
 whowentout.initDialog = function () {
-    if (!window.dialog)
-        window.dialog = $.dialog.create({centerInViewport:true});
-};
+    if (!window.dialog) {
+        var options = {
+            expandToViewport: $('body').hasClass('mobile')
+        };
+        window.dialog = $.dialog.create(options);
+    }
+}
 
 whowentout.showDealDialog = function (event_id) {
     $(function () {

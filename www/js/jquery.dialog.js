@@ -42,12 +42,14 @@ $.dialog = {
         + '</div>');
         $('body').append(d);
 
-        if (options.centerInViewport) {
-            d.anchor('viewport', 'c'); //keeps the dialog box in the center
-            setInterval(function() {
-                d.refreshPosition();
-            }, 250);
-        }
+        d.anchor('viewport', 'c'); //keeps the dialog box in the center
+        setInterval(function() {
+
+            if (options.expandToViewport)
+                d.expandToViewport();
+
+            d.refreshPosition();
+        }, 250);
 
         return d;
     },
@@ -176,7 +178,6 @@ $('.dialog').entwine({
         this.clearActions();
         return this;
     },
-
     getActions:function () {
         return this.data('dialogActions') || {};
     },
@@ -194,6 +195,13 @@ $('.dialog').entwine({
         var dialogData = this.data('dialog_data');
 
         return actionCallback.call(this, dialogData);
+    },
+    expandToViewport: function() {
+        var box = $('body').getViewportBox();
+        this.css({
+            width: box.width,
+            height: box.height
+        });
     }
 });
 
