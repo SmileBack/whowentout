@@ -42,6 +42,5 @@ $('.ticket').entwine({
            marginLeft: this.outerWidth() / -2 + 'px',
            marginTop: this.outerHeight() / -2 + 'px'
         });
-        this.stopRefreshing();
     }
 });
