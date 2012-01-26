@@ -6,6 +6,7 @@
                 'user' => $user,
                 'show_networks' => $show_networks,
                 'preset' => $preset,
+                'link_to_profile' => $link_to_profile,
             ))
             ?>
         </li>

@@ -70,7 +70,12 @@ class CheckinEngine
 
     function get_checkins_for_event($event)
     {
-        return $this->checkins->where('event_id', $event->id)->to_array();
+        return $event->checkins->order_by('time', 'desc')->to_array();
+    }
+
+    function get_checkins_for_user($user)
+    {
+        return $user->checkins->order_by('event.date', 'asc')->to_array();
     }
     
 }

@@ -22,7 +22,12 @@
 
         <section class="entourage_section">
             <h3>Entourage</h3>
-            <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb')) ?>
+            <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>
+        </section>
+
+        <section class="checkins_section">
+            <h3>Checkins</h3>
+            <?= r::profile_checkins(array('user' => $user)); ?>
         </section>
 
         <?php if (!$your_profile): ?>
