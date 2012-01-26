@@ -25,13 +25,6 @@
         ?>
         <?= $asset->scripts() ?>
 
-        <style>
-            html, body {
-                height: 100%;
-                overflow: hidden;
-            }
-        </style>
-
     </head>
 
     <body class="<?= browser::classes() ?>">
