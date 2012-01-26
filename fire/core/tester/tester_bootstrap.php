@@ -1,7 +1,7 @@
 <?php
 
-define('FIREPATH', dirname(__FILE__) . '/../');
-define('APPPATH', dirname(__FILE__) . '/../../');
+define('FIREPATH', dirname(__FILE__) . '/../../');
+define('APPPATH', dirname(__FILE__) . '/../../../');
 
 putenv('environment=test');
 

@@ -12,6 +12,7 @@ router:
   type: ActionRouter
   app: app
   routes:
+    "test": TestAction
     "/": ViewHomepage
     "day": ViewDay
     "networks_required": ViewNetworksRequiredDialog
