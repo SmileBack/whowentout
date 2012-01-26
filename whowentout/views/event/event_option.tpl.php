@@ -1,5 +1,6 @@
-<label>
+<label class="event_option">
     <input type="radio"
+           class="radio"
            name="event_id"
            value="<?= $event->id ?>"
            <?= $selected ? 'checked="checked"' : '' ?> />

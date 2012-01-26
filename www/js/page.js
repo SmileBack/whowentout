@@ -272,7 +272,8 @@ $('.event_invite :checkbox').entwine({
 
 $('.event_list :radio').entwine({
     onclick:function () {
-        this.closest('form').submit();
+        if (this.val() != 'new')
+            this.closest('form').submit();
     }
 });
 
@@ -355,6 +356,41 @@ $('.event_day').entwine({
             success:function (html) {
             }
         });
+    }
+});
+
+$('.inline_label').entwine({
+    onmatch: function() {
+        this.showLabelText();
+        var label = this;
+
+        this.closest('form').bind('submit', function(e) {
+            label.hideLabelText();
+        });
+    },
+    onunmatch: function() {
+    },
+    isEmpty: function() {
+        var val = this.val();
+        return val == '' || val == this.attr('title');
+    },
+    showLabelText: function() {
+        if (this.isEmpty()) {
+            this.val(this.attr('title'));
+            this.css('color', 'grey');
+        }
+    },
+    hideLabelText: function() {
+        if (this.isEmpty()) {
+            this.val('');
+            this.css('color', '');
+        }
+    },
+    onfocusin: function() {
+        this.hideLabelText();
+    },
+    onfocusout: function() {
+        this.showLabelText();
     }
 });
 

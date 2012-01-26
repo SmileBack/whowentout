@@ -8,6 +8,7 @@
     <?php endif; ?>
 
     <form method="post" action="/checkin" class="event_list <?= $selected_event ? 'event_selected' : '' ?>">
+        <input type="hidden" name="date" value="<?= $date->format('Y-m-d') ?>" />
         <h1>
             <span>Check-in.</span>
             <span>See where everyone's going.</span>
@@ -26,6 +27,11 @@
                     ?>
                 </li>
                 <?php endforeach; ?>
+
+                <li>
+                    <?= r::event_add_form(array('date' => $date)); ?>
+                </li>
+
             </ul>
         </fieldset>
     </form>

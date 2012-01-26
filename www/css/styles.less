@@ -5,7 +5,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000004.less';
+@import 'elements.0000000005.less';
 
 .date_tip {
     width: 150px;
@@ -15,7 +15,7 @@
     color: white;
     font-size: 18px;
     .date_arrow {
-        .arrow(#333, 10px);
+        .arrow_up(#333, 10px);
         position: absolute;
         left: 50%;
         top: 0;
@@ -356,12 +356,12 @@ td {
         &.selected { background-color: #F9EDBE; }
         &:hover { background-color: #F9EDBE; }
     }
-    label {
+    .event_option {
       overflow:  hidden;
       display: block;
       margin: 0 25px;
       width: 100%;
-      input { float: left; margin: 10px; }
+      .radio { float: left; margin: 10px; }
       .place { width: 170px; float: left; margin: 10px; font-weight: bold; }
       .deal {
           width: 250px;
@@ -370,13 +370,19 @@ td {
           font-weight: normal;
       }
       .badge {
-          width: 75px;
-          float: left;
+          float: right;
           margin-top: 5px;
+          margin-right: 30px;
           > * {
               .button_style;
+              display: block;
               font-size: 12px;
-              width: 100%;
+              width: 75px;
+              padding: 6px 12px;
+              margin: 0;
+          }
+          > input {
+              width: 100px;
           }
       }
       .attending_badge {
@@ -387,9 +393,6 @@ td {
           font-size: 12px;
       }
     }
-}
-
-.event_list.event_selected .checkin_badge {
 }
 
 .event_gallery {
@@ -440,6 +443,9 @@ td {
             border-bottom: 1px solid grey;
             text-align: left;
         }
+    }
+    .checkins_section {
+        font-size: 1.3em;
     }
     .mutual_friends_section {
         .gallery;

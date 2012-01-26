@@ -116,9 +116,33 @@
     }
 }
 
-.arrow(@color: black, @size: 20px) {
+.arrow_up(@color: black, @size: 20px) {
     background: transparent;
     border-color: transparent transparent @color transparent;
+    border-width: @size;
+    border-style: solid;
+    display: inline-block;
+}
+
+.arrow_right(@color: black, @size: 20px) {
+    background: transparent;
+    border-color: transparent @color transparent transparent;
+    border-width: @size;
+    border-style: solid;
+    display: inline-block;
+}
+
+.arrow_down(@color: black, @size: 20px) {
+    background: transparent;
+    border-color: @color transparent transparent transparent;
+    border-width: @size;
+    border-style: solid;
+    display: inline-block;
+}
+
+.arrow_left(@color: black, @size: 20px) {
+    background: transparent;
+    border-color: transparent transparent transparent @color;
     border-width: @size;
     border-style: solid;
     display: inline-block;
