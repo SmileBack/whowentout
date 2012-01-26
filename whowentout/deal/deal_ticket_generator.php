@@ -19,11 +19,12 @@ class DealTicketGenerator
         $pic = WideImage::load($picture->url('thumb'));
         $this->print_picture($ticket, $pic);
 
-        $this->print_lines($ticket, array(
-            $user->first_name . ' ' . $user->last_name,
-            $venue,
-            $deal,
-        ));
+        $lines = array();
+        $lines[] = $user->first_name . ' ' . $user->last_name;
+        $lines[] = $venue;
+        $lines = array_merge($lines, explode("\\n", $deal));
+
+        $this->print_lines($ticket, $lines);
 
         $this->print_date($ticket, $date);
 
