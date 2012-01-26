@@ -18,7 +18,6 @@
         setTimeout(blur, 0);
     });
 
-
 })(jQuery);
 
 var whowentout = window.whowentout = {};
@@ -34,32 +33,9 @@ whowentout.showColorOptions = function() {
     });
 }
 
-$('.color_options :submit').entwine({
-    onclick: function(e) {
-        e.preventDefault();
-
-        var values = this.closest('form').serializeArray();
-        var vars = {};
-        for (var i = 0; i < values.length; i++) {
-            vars['@' + values[i].name] = values[i].value;
-        }
-
-        less.modifyVars(vars);
-    }
-});
-
-$('.show_color_option_link').entwine({
-    onclick: function(e) {
-        e.preventDefault();
-        whowentout.showColorOptions();
-    }
-});
-
 whowentout.initDialog = function () {
     if (!window.dialog) {
-        var options = {
-            expandToViewport: $('body').hasClass('mobile')
-        };
+        var options = {};
         window.dialog = $.dialog.create(options);
     }
 }
