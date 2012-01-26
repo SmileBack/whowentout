@@ -46,13 +46,9 @@ $.dialog = {
         d.anchor('viewport', 'c'); //keeps the dialog box in the center
 
         var refresh_position = function() {
-            if (options.expandToViewport)
-                d.expandToViewport();
-            else
                 d.refreshPosition();
         };
         refresh_position = _.debounce(refresh_position, 100);
-
         setInterval(refresh_position, 250);
         $(window).bind('resize', function() {
             setTimeout(refresh_position, 250);

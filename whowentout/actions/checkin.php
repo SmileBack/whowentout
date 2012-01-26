@@ -38,6 +38,8 @@ class CheckinAction extends Action
 
         $has_sent_invites = $this->invite_engine->has_sent_invites($event, $current_user);
 
+        if ($event->deal == null && browser::is_mobile())
+            app()->goto_event($event);
         if ($event->deal != null)
             redirect("events/$event->id/deal");
         elseif (!$has_sent_invites)
