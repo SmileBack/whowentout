@@ -128,15 +128,12 @@
         .phone {
             display: none;
         }
-        .ticket {
+        &.landscape .ticket {
             position: static;
-            width: auto;
-            height: auto;
-        }
-        &.landscape {
             width: 300px;
         }
-        &.portrait {
+        &.portrait .ticket {
+            position: static;
             height: 300px;
         }
     }
