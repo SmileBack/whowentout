@@ -32,15 +32,15 @@ jQuery(function ($) {
 $.dialog = {
     create:function (options) {
         var defaults = {
-            centerInViewport: true
+            expandToViewport: false
         };
         options = $.extend({}, defaults, options);
 
         var d = $('<div class="dialog"> '
-        + '<h1></h1>'
-        + '<div class="dialog_body"></div>'
-        + '<div class="dialog_buttons"></div>'
-        + '</div>');
+                + '<h1></h1>'
+                + '<div class="dialog_body"></div>'
+                + '<div class="dialog_buttons"></div>'
+                + '</div>');
         $('body').append(d);
 
         d.anchor('viewport', 'c'); //keeps the dialog box in the center
