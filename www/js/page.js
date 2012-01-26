@@ -274,6 +274,10 @@ $('.event_list :radio').entwine({
     onclick:function () {
         if (this.val() != 'new')
             this.closest('form').submit();
+        else {
+            this.closest('form').find('.selected').removeClass('selected');
+            this.closest('li').addClass('selected');
+        }
     }
 });
 
