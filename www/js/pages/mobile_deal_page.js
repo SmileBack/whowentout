@@ -45,4 +45,7 @@ $('.ticket').entwine({
     }
 });
 
-$('body').scrollTop(1);
+$(function() {
+    $('body').scrollTop(1);
+});
+
