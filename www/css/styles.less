@@ -577,36 +577,58 @@ td {
 .dialog.deal_dialog {
     width: auto;
     .phone_number_field {
-        margin: 15px 0;
+        margin: 25px 0;
         input {
-            width: 150px;
-            font-size: 20px;
+            text-align: center;
+            width: 136px;
+            font-size: 18px;
         }
+    }
+    .have_number {
+        h2, .phone_number_field, .edit_cell_phone_number {
+            display: inline-block;
+            vertical-align: bottom;
+        }
+    }
+    .edit_cell_phone_number {
+        font-size: 12px;
+    }
+    h2 {
+    }
+    p {
+        margin: 15px 5px;
     }
 }
 
 .deal_preview {
     position: relative;
+    width: 450px;
     &.landscape { display: block; }
     &.portrait { display: none; }
     .phone {
+        width: 100%;
     }
     .ticket {
         position: absolute;
-        left: 91px;
-        top: 26px;
+        width: 300px;
+        left: 70px;
+        top: 20px;
         z-index: 2;
     }
     .edit_pic_link {
-        position: absolute;
-        background-color: white;
-        font-weight: bold;
-        left: 117px;
-        top: 81px;
+        left: 90px;
+        top: 136px;
+        width: 63px;
         padding: 4px;
+        font-weight: bold;
+        font-size: 12px;
+        position: absolute;
         z-index: 3;
+        color: white;
+        background-color: #333;
         &:hover {
             background-color: @yellow;
+            color: #333;
         }
     }
 }
