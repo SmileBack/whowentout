@@ -1,4 +1,5 @@
 @primary_color: #104e8b;
+@light_color: #fafafa;
 @button_color: #528036;
 @yellow: #ffcc66;
 @red: #ff6a6a;
@@ -107,8 +108,27 @@ input[type="submit"], button {
    	}
 }
 
-.cell_phone_number {
-    width: 125px;
+.dialog {
+    padding: 0;
+    background-color: @light_color;
+    > h1 {
+        background-color: @primary_color;
+        border-bottom: 2px solid lighten(@primary_color, -5%);
+        color: white;
+        padding: 8px;
+        .shadow(black, 0, 0px, 5px);
+    }
+    .dialog_body {
+        margin: 15px 45px;
+    }
+    .dialog_loading {
+        text-indent: -9999px;
+        background: no-repeat url(/images/loading-message.gif) center center;
+        width: 100px;
+        height: 100px;
+        padding: 25px;
+        margin: auto;
+    }
 }
 
 #home_page {
@@ -198,8 +218,8 @@ h1 {
     font-size: 24px;
     font-family: Helvetica, Arial;
     color: #333;
-    text-shadow: white 1px 1px 0px;
 }
+
 h2 { font-size: 18px; }
 h3 { font-size: 16px; }
 h4 { font-size: 14px; }
@@ -380,7 +400,7 @@ td {
     margin-top: 15px;
     padding-top: 15px;
     min-height: 600px;
-    background-color: #fafafa;
+    background-color: @light_color;
     .event_gallery_message {
         position: absolute;
         top: 45px;
@@ -503,27 +523,50 @@ td {
     margin: auto;
 }
 
-.event_invite fieldset {
-    width: 600px;
-    border: 1px solid #333;
-    margin: 20px;
-    padding: 20px;
-    text-align: center;
-    ul {
-        height: 400px;
-        overflow-x: hidden;
-        overflow-y: scroll;
+.dialog.invite_dialog {
+    .dialog_body {
+        margin: 0;
     }
-    li {
+    .dialog_buttons {
+        display: none;
+    }
+}
+
+.event_invite {
+    width: 770px;
+    fieldset {
         text-align: center;
-        display: inline-block;
-        vertical-align: top;
-        border: 1px solid grey;
-        margin: 15px;
-        padding: 15px;
-        &.selected {
-            background-color: #FFEC8B;
+        border: none;
+        padding: 0;
+        ul {
+            height: 400px;
+            overflow-x: hidden;
+            overflow-y: scroll;
         }
+        li {
+            .site_shadow;
+            margin: 10px;
+            padding: 10px 5px;
+            width: 140px;
+            background-color: white;
+            text-align: center;
+            display: inline-block;
+            vertical-align: top;
+            &.selected {
+                background-color: #FFEC8B;
+            }
+        }
+    }
+    .user_thumb {
+        margin: 6px auto;
+    }
+    .user_first_name, .user_last_name, input {
+        display: inline-block;
+    }
+    .buttons {
+        padding: 15px;
+        border-top: 1px solid grey;
+        .shadow(black, 0, 0px, 5px);
     }
     .send_invites_button {
         padding: 8px;
@@ -531,31 +574,61 @@ td {
 }
 
 .dialog.deal_dialog {
-    width: 500px;
-    padding-bottom: 0px;
-    h4 {
-        margin-top: 15px;
-    }
-    .dialog_body {
-        margin: 0;
-    }
+    width: auto;
     .phone_number_field {
-        margin: 15px 0;
+        margin: 25px 0;
+        input {
+            text-align: center;
+            width: 136px;
+            font-size: 18px;
+        }
+    }
+    .have_number {
+        h2, .phone_number_field, .edit_cell_phone_number {
+            display: inline-block;
+            vertical-align: bottom;
+        }
+    }
+    .edit_cell_phone_number {
+        font-size: 12px;
+    }
+    h2 {
+    }
+    p {
+        margin: 15px 5px;
     }
 }
 
 .deal_preview {
     position: relative;
+    width: 450px;
     &.landscape { display: block; }
     &.portrait { display: none; }
     .phone {
+        width: 100%;
     }
     .ticket {
         position: absolute;
-        width: 195px;
-        left: 150px;
-        top: 15px;
+        width: 300px;
+        left: 70px;
+        top: 20px;
         z-index: 2;
+    }
+    .edit_pic_link {
+        left: 90px;
+        top: 136px;
+        width: 63px;
+        padding: 4px;
+        font-weight: bold;
+        font-size: 12px;
+        position: absolute;
+        z-index: 3;
+        color: white;
+        background-color: #333;
+        &:hover {
+            background-color: @yellow;
+            color: #333;
+        }
     }
 }
 

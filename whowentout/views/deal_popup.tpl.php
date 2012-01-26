@@ -1,37 +1,40 @@
+<?php $have_number = $user->cell_phone_number != null; ?>
 <form class="deal_popup" method="post" action="/deal/confirm">
 
     <input type="hidden" name="event_id" value="<?= $event->id ?>"/>
 
     <?php if (!browser::is_mobile()): ?>
-        <h1>The deal will be sent to your phone on <?= $event->date->format('l') ?>!</h1>
-        <h4><span style="font-size: 20px;">&darr;</span> Show this to the bartender <span
-                style="font-size: 20px;">&darr;</span></h4>
-    <?php endif; ?>
+
+    <div class="phone_number_field <?= $have_number ? 'have_number' : 'missing_number' ?>">
+        <?php if (!$have_number): ?>
+
+            <h2>
+                Type your number below so we can send you the
+                deal.</h1>
+            </h2>
+
+                <input type="text" class="cell_phone_number" name="user[cell_phone_number]"
+                       value="<?= $user->cell_phone_number ?>" autocomplete="off"/>
+
+            <?php else: ?>
+
+                <h2>The deal will be sent to</h2>
+
+                <input type="text" class="cell_phone_number inline" name="user[cell_phone_number]"
+                       value="<?= $user->cell_phone_number ?>" autocomplete="off"/>
+
+                <a href="#edit" class="edit_cell_phone_number">change</a>
+
+            <?php endif; ?>
+
+        <?php endif; ?>
+    </div>
 
     <?= r::deal_preview(array('user' => $user, 'event' => $event, 'orientation' => 'portrait')) ?>
     <?= r::deal_preview(array('user' => $user, 'event' => $event, 'orientation' => 'landscape')) ?>
 
     <?php if (!browser::is_mobile()): ?>
-
-    <?= a('profile/picture/edit', 'Edit Pic') ?>
-
-    <div class="phone_number_field">
-        <?php if ($user->cell_phone_number == null): ?>
-        <label>
-            Enter your number so we can send you the deal:
-        </label>
-
-        <input type="text" class="cell_phone_number" name="user[cell_phone_number]"
-               value="<?= $user->cell_phone_number ?>"/>
-        <?php else: ?>
-        <h3>
-            The deal will be sent to
-            <input type="text" class="cell_phone_number inline" name="user[cell_phone_number]"
-                   value="<?= $user->cell_phone_number ?>"/>
-            <a href="#edit" class="edit_cell_phone_number">change</a>
-        </h3>
-        <?php endif; ?>
-    </div>
+        <p>(You can also access this deal by going to whowentout.com on your phone.)</p>
     <?php endif; ?>
 
     <input type="submit" value="Continue"/>

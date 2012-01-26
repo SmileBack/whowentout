@@ -63,7 +63,7 @@ whowentout.initDialog = function () {
 whowentout.showDealDialog = function (event_id) {
     $(function () {
         whowentout.initDialog();
-        dialog.title('');
+        dialog.title('Redeem the deal with your phone!');
         dialog.showDialog('deal_dialog');
         dialog.loadContent('/events/' + event_id + '/deal', function () {
             head.js('/js/jquery.maskedinput.js', function () {
@@ -76,7 +76,7 @@ whowentout.showDealDialog = function (event_id) {
 whowentout.showInviteDialog = function (event_id) {
     $(function () {
         whowentout.initDialog();
-        dialog.title('');
+        dialog.title('Invite your Friends');
         dialog.showDialog('invite_dialog');
         dialog.loadContent('/events/' + event_id + '/invite');
     });
@@ -107,7 +107,7 @@ whowentout.showNetworkRequiredDialog = function () {
 whowentout.showProfileEditDialog = function () {
     $(function () {
         whowentout.initDialog();
-        dialog.title('');
+        dialog.title('Your Profile Pic');
         dialog.showDialog('profile_edit_dialog');
         dialog.loadContent('/profile/picture/edit', function () {
             $('.profile_pic_crop_form').initCropper();
@@ -249,7 +249,7 @@ $('.edit_cell_phone_number').entwine({
     }
 });
 
-$('.event_invite input[type=checkbox]').entwine({
+$('.event_invite :checkbox').entwine({
     onmatch:function (e) {
         this._super(e);
         this.refreshCheckState();
