@@ -47,8 +47,8 @@ $.dialog = {
 
             if (options.expandToViewport)
                 d.expandToViewport();
-
-            d.refreshPosition();
+            else
+                d.refreshPosition();
         }, 250);
 
         return d;
@@ -199,6 +199,8 @@ $('.dialog').entwine({
     expandToViewport: function() {
         var box = $('body').getViewportBox();
         this.css({
+            left: box.left,
+            top: box.top,
             width: box.width,
             height: box.height
         });
