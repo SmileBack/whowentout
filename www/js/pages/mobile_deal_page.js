@@ -46,6 +46,7 @@ $('.ticket').entwine({
 });
 
 
+
 function hideAddressBar()
 {
   if(!window.location.hash)
@@ -58,9 +59,6 @@ function hideAddressBar()
       setTimeout( function(){ window.scrollTo(0, 1); }, 50 );
   }
 }
-$(window).bind('load', function() {
-    if(!window.pageYOffset)
-        hideAddressBar();
-});
-$(window).bind('orientationchange', hideAddressBar);
-window.addEventListener("orientationchange", hideAddressBar);
+window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
+window.addEventListener("orientationchange", hideAddressBar );
+
