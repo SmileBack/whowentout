@@ -3,12 +3,11 @@
 class DatabaseOrderBy extends QueryPart
 {
 
-    private $allowed_orders = array('asc', 'desc');
-
     /* @var $base_table DatabaseField*/
-    private $field;
+    public $field;
+
+    private $allowed_orders = array('asc', 'desc');
     private $order;
-    
 
     function __construct(DatabaseField $field, $order = 'asc')
     {
@@ -20,6 +19,14 @@ class DatabaseOrderBy extends QueryPart
     function to_sql()
     {
         return "ORDER BY " . $this->field->to_sql() . ' ' . $this->order;
+    }
+
+    /**
+     * @return DatabaseTableJoin[]
+     */
+    function joins()
+    {
+        return $this->field->joins();
     }
 
     private function validate_order()

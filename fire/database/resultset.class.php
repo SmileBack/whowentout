@@ -97,6 +97,9 @@ class ResultSet implements Iterator
             $fields[] = $filter->field;
         }
 
+        if ($this->order_by)
+            $fields[] = $this->order_by->field;
+
         return $fields;
     }
 
@@ -201,6 +204,9 @@ class ResultSet implements Iterator
     function __clone()
     {
         $this->select_field = clone $this->select_field;
+
+        if ($this->order_by)
+            $this->order_by = clone $this->order_by;
 
         foreach ($this->filters as &$filter) {
             $filter = clone $filter;

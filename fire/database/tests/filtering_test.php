@@ -165,6 +165,18 @@ class Filtering_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($dc_bob_fruits->count(), 2);
     }
 
+    function test_order_by_related()
+    {
+        $users = $this->db->table('users')
+                          ->order_by('city.name', 'desc');
+        $this->assertEquals($users->count(), 2);
+
+        $users = $users->to_array();
+
+        $this->assertEquals($users[0]->name, 'joe');
+        $this->assertEquals($users[1]->name, 'bob');
+    }
+
     /*
     function test_where_in()
     {
