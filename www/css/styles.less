@@ -1,6 +1,7 @@
 @primary_color: #104e8b;
 @light_color: #fafafa;
 @button_color: #528036;
+@selected_item_color: #F9EDBE;
 @yellow: #ffcc66;
 @red: #ff6a6a;
 @sidebar_width: 300px;
@@ -353,8 +354,8 @@ td {
     }
     li {
         border-bottom: 1px solid #b0b0b0;
-        &.selected { background-color: #F9EDBE; }
-        &:hover { background-color: #F9EDBE; }
+        &.selected { background-color: @selected_item_color; }
+        &:hover { background-color: @selected_item_color; }
     }
     .event_option {
       overflow:  hidden;
@@ -372,7 +373,7 @@ td {
       .deal {
           width: 250px;
           float: left;
-          margin: 6px 10px;
+          margin: 10px;
           font-weight: normal;
       }
       .badge {
@@ -451,7 +452,23 @@ td {
         }
     }
     .checkins_section {
-        font-size: 1.3em;
+        font-size: 1em;
+        li {
+            .site_shadow;
+            margin: 16px 8px;
+            overflow: hidden;
+            &:hover { background-color: @selected_item_color; }
+        }
+        .date {
+            width: 80px;
+            font-weight: bold;
+            border-right: 1px solid grey;
+        }
+        .date, .event {
+            margin: 8px;
+            float: left;
+            display: block;
+        }
     }
     .mutual_friends_section {
         .gallery;
