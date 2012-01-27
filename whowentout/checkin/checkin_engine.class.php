@@ -75,7 +75,7 @@ class CheckinEngine
 
     function get_checkins_for_user($user)
     {
-        return $user->checkins->order_by('event.date', 'asc')->to_array();
+        return $user->checkins->order_by('event.date', 'desc')->to_array();
     }
     
 }
