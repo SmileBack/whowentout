@@ -8,13 +8,22 @@ class CropProfilePictureAction extends Action
         if (!auth()->logged_in())
             show_404();
 
-        $current_user = auth()->current_user();
-
         $profile_picture = $this->get_profile_picture();
-        $profile_picture->crop($_POST['x'], $_POST['y'], $_POST['width'], $_POST['height']);
 
-        flash::message('Cropped your profile pic');
+        try {
+            $profile_picture->crop($_POST['x'], $_POST['y'], $_POST['width'], $_POST['height']);
+            flash::message('Cropped your profile pic');
+        }
+        catch (CropOutOfBoundsException $e) {
+            flash::error("Invalid pic boundaries.");
+        }
 
+        $this->goto_destination();
+    }
+
+    private function goto_destination()
+    {
+        $current_user = auth()->current_user();
         if (flow::get() instanceof CheckinFlow) {
             $event_id = flow::get()->event_id;
             redirect("events/$event_id/deal");
