@@ -123,10 +123,15 @@ class FacebookAuth extends Auth
 
     function get_login_url()
     {
-        return $this->facebook->getLoginUrl(array(
+        $url = $this->facebook->getLoginUrl(array(
             'redirect_uri' => site_url('login/complete'),
             'scope' => implode(',', $this->facebook_permissions),
         ));
+
+        if (browser::is_mobile())
+            $url .= '&display=touch';
+
+        return $url;
     }
 
     function get_logged_in_facebook_id()
