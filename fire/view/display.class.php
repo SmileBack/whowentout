@@ -10,6 +10,20 @@ class Display
 
     protected $defaults = array();
 
+    public static function r($view_name, $vars = array())
+    {
+        $class_loader = app()->class_loader();
+
+        $display_class = $class_loader->get_subclass_name('Display', $view_name);
+        if (!$display_class)
+            $display_class = 'Display';
+
+        $display = $class_loader->init($display_class, $view_name);
+        $display->set($vars);
+
+        return $display;
+    }
+
     function __construct($template_name, $options = array())
     {
         $this->load($template_name);
