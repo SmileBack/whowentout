@@ -21,16 +21,18 @@ class InviteEngine
     }
 
     private $event_invites = array();
-    private function load_event_cache_if_needed($event)
+    private function load_event_cache_if_missing($event)
     {
         if (!isset($this->event_invites[$event->id]))
-            $this->load_event_invites_into_cache($event);
+            $this->load_event_cache($event);
     }
-    private function load_event_invites_into_cache($event)
+
+    private function load_event_cache($event)
     {
         $this->event_invites[$event->id] = $this->invites->where('event_id', $event->id)->to_array();
     }
-    private function clear_event_invites_cache($event)
+
+    private function clear_event_cache($event)
     {
         unset($this->event_invites[$event->id]);
     }
@@ -49,12 +51,12 @@ class InviteEngine
         );
         $this->invites->create_row($invite);
 
-        $this->clear_event_invites_cache($event);
+        $this->clear_event_cache($event);
     }
 
     function invite_is_sent($event, $sender, $receiver)
     {
-        $this->load_event_cache_if_needed($event);
+        $this->load_event_cache_if_missing($event);
 
         foreach ($this->event_invites[$event->id] as $invite)
             if ($invite->sender_id == $sender->id && $invite->receiver_id == $receiver->id)
@@ -65,7 +67,7 @@ class InviteEngine
 
     function has_sent_invites($event, $sender)
     {
-        $this->load_event_cache_if_needed($event);
+        $this->load_event_cache_if_missing($event);
 
         foreach ($this->event_invites[$event->id] as $invite)
             if ($invite->sender_id == $sender->id)
@@ -81,7 +83,7 @@ class InviteEngine
                 ->where('receiver_id', $receiver->id)
                 ->destroy();
 
-        $this->clear_event_invites_cache($event);
+        $this->clear_event_cache($event);
     }
 
     /**
@@ -93,7 +95,7 @@ class InviteEngine
      */
     function is_invited($event, $user)
     {
-        $this->load_event_cache_if_needed($event);
+        $this->load_event_cache_if_missing($event);
 
         foreach ($this->event_invites[$event->id] as $invite)
             if ($invite->receiver_id == $user->id)
