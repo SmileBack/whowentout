@@ -27,15 +27,18 @@ class CheckinEngine
     }
 
     private $event_checkins = array();
+
     private function load_event_cache_if_missing($event)
     {
         if (!isset($this->event_checkins[$event->id]))
             $this->load_event_cache($event);
     }
+
     private function load_event_cache($event)
     {
         $this->event_checkins[$event->id] = $this->checkins->where('event_id', $event->id)->to_array();
     }
+
     private function clear_event_cache($event)
     {
         unset($this->event_checkins[$event->id]);
