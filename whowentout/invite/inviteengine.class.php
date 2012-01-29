@@ -20,6 +20,21 @@ class InviteEngine
         $this->invites = $this->database->table('invites');
     }
 
+    private $event_invites = array();
+    private function load_event_cache_if_needed($event)
+    {
+        if (!isset($this->event_invites[$event->id]))
+            $this->load_event_invites_into_cache($event);
+    }
+    private function load_event_invites_into_cache($event)
+    {
+        $this->event_invites[$event->id] = $this->invites->where('event_id', $event->id)->to_array();
+    }
+    private function clear_event_invites_cache($event)
+    {
+        unset($this->event_invites[$event->id]);
+    }
+
     function send_invite($event, $sender, $receiver)
     {
         // already been invited so don't do it
@@ -33,21 +48,30 @@ class InviteEngine
             'created_at' => $this->clock->get_time(),
         );
         $this->invites->create_row($invite);
+
+        $this->clear_event_invites_cache($event);
     }
 
     function invite_is_sent($event, $sender, $receiver)
     {
-        return $this->invites->where('event_id', $event->id)
-                             ->where('sender_id', $sender->id)
-                             ->where('receiver_id', $receiver->id)
-                             ->count() > 0;
+        $this->load_event_cache_if_needed($event);
+
+        foreach ($this->event_invites[$event->id] as $invite)
+            if ($invite->sender_id == $sender->id && $invite->receiver_id == $receiver->id)
+                return true;
+
+        return false;
     }
 
     function has_sent_invites($event, $sender)
     {
-        return $this->invites->where('event_id', $event->id)
-                             ->where('sender_id', $sender->id)
-                             ->count() > 0;
+        $this->load_event_cache_if_needed($event);
+
+        foreach ($this->event_invites[$event->id] as $invite)
+            if ($invite->sender_id == $sender->id)
+                return true;
+
+        return false;
     }
 
     function destroy_invite($event, $sender, $receiver)
@@ -56,6 +80,8 @@ class InviteEngine
                 ->where('sender_id', $sender->id)
                 ->where('receiver_id', $receiver->id)
                 ->destroy();
+
+        $this->clear_event_invites_cache($event);
     }
 
     /**
@@ -67,9 +93,13 @@ class InviteEngine
      */
     function is_invited($event, $user)
     {
-        return $this->invites->where('event_id', $event->id)
-                ->where('receiver_id', $user->id)
-                ->count() > 0;
+        $this->load_event_cache_if_needed($event);
+
+        foreach ($this->event_invites[$event->id] as $invite)
+            if ($invite->receiver_id == $user->id)
+                return true;
+
+        return false;
     }
 
     /**
