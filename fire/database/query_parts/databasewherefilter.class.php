@@ -25,20 +25,65 @@ class DatabaseWhereFilter extends QueryPart
     
     function to_sql()
     {
+        if (is_array($this->value))
+            return $this->to_sql_in();
+        else
+            return $this->to_sql_equals();
+    }
+
+    private function to_sql_equals()
+    {
         $filter_placeholder = $this->get_filter_placeholder();
         return $this->field->to_sql() . " = :$filter_placeholder";
     }
 
+    private function to_sql_in()
+    {
+        $values = array();
+        $n = 1;
+        foreach ($this->value as $k => $v) {
+            $values[] = ':' . $this->get_filter_placeholder($n);
+            $n++;
+        }
+        $values_sql = implode(',', $values);
+
+        $sql = $this->field->to_sql() . " IN ($values_sql)";
+        return $sql;
+    }
+
     function parameters()
+    {
+        if (is_array($this->value))
+            return $this->parameters_in();
+        else
+            return $this->parameters_equals();
+    }
+
+    private function parameters_equals()
     {
         $params = array();
 
         $column = $this->field->column();
-        $this->field->column();
         $filter_placeholder = $this->get_filter_placeholder();
         $database_value = $column->to_database_value($this->value);
-        
+
         $params[$filter_placeholder] = $database_value;
+
+        return $params;
+    }
+
+    private function parameters_in()
+    {
+        $params = array();
+
+        $column = $this->field->column();
+
+        $n = 1;
+        foreach ($this->value as $k => $v) {
+            $placeholder = $this->get_filter_placeholder($n);
+            $params[$placeholder] = $column->to_database_value($v);
+            $n++;
+        }
 
         return $params;
     }
