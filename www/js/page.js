@@ -249,6 +249,38 @@ $('.edit_cell_phone_number').entwine({
     }
 });
 
+$('.event_invite').entwine({
+    applySearchFilter: _.debounce(function(keywords) {
+
+        function isMatch(text, keywords) {
+            text = text.toLowerCase();
+            var parts = keywords.toLowerCase().split(/\W+/);
+            for (var i = 0; i < parts.length; i++) {
+                if (text.indexOf(parts[i]) == -1) {
+                    return false;
+                }
+            }
+            // match every keyword
+            return true;
+        }
+
+        this.find('li').each(function() {
+            var text = $(this).text();
+            if (isMatch(text, keywords))
+                $(this).show();
+            else
+                $(this).hide();
+        });
+    }, 250)
+});
+
+$('.event_invite .search').entwine({
+    onkeyup: function(e) {
+        var keywords = this.val();
+        this.closest('.event_invite').applySearchFilter(keywords);
+    }
+});
+
 $('.event_invite :checkbox').entwine({
     onmatch:function (e) {
         this._super(e);

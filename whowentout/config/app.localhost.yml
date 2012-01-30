@@ -34,7 +34,7 @@ pusher:
 allowed_networks:
   type: Config
   networks:
-    - 16777274 #maryland
+    #- 16777274 #maryland
     - 16777219 #stanford
 
 network_blocker:

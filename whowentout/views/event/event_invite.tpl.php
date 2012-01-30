@@ -9,6 +9,8 @@
 <form class="event_invite" method="post" action="/events/<?= $event->id ?>/invite/submit">
     <input type="hidden" name="event_id" value="<?= $event->id ?>" />
 
+    <input type="text" class="search" />
+
     <fieldset>
     <ul>
         <?php foreach ($friends as $friend): ?>
