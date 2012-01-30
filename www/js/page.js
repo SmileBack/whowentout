@@ -271,7 +271,7 @@ $('.event_invite').entwine({
             else
                 $(this).hide();
         });
-    }, 250)
+    }, 200)
 });
 
 $('.event_invite .search').entwine({

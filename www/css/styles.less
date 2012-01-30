@@ -563,14 +563,23 @@ td {
 
 .event_invite {
     width: 770px;
+    .search {
+        width: 250px;
+        margin: 8px 55px;
+        padding: 4px;
+        float: right;
+        background: url(/images/search.png) no-repeat center right;
+    }
     fieldset {
         text-align: center;
         border: none;
         padding: 0;
         ul {
+            clear: both;
             height: 400px;
             overflow-x: hidden;
             overflow-y: scroll;
+            border-top: 1px solid #e5e5e5;
         }
         li {
             .site_shadow;
