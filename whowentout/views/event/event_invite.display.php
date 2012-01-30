@@ -2,6 +2,7 @@
 
 class Event_Invite_Display extends Display
 {
+
     function process()
     {
         /* @var $invite_engine InviteEngine */
@@ -11,7 +12,15 @@ class Event_Invite_Display extends Display
         $this->checkin_engine = build('checkin_engine');
 
         $this->current_user = auth()->current_user();
-        $this->friends = $this->current_user->friends->where('networks.name', 'Stanford')
+
+        $this->friends = $this->current_user->friends->where('networks.id', $this->get_allowed_networks())
                                                      ->order_by('first_name');
     }
+
+    private function get_allowed_networks()
+    {
+        $config = build('allowed_networks');
+        return $config['networks'];
+    }
+
 }

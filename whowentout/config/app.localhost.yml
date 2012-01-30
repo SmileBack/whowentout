@@ -31,10 +31,13 @@ pusher:
   debug: true
   timeout: 10
 
+allowed_networks:
+  type: Config
+  networks:
+    - 16777274 #maryland
+    - 16777219 #stanford
+
 network_blocker:
   type: NetworkPassThrough
   database: database
-  allowed_networks:
-    #- 16777270 #gwu
-    - 16777219 #stanford
-    #- 16777224 #mit
+
