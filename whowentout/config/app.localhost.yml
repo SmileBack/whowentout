@@ -40,4 +40,3 @@ allowed_networks:
 network_blocker:
   type: NetworkPassThrough
   database: database
-
