@@ -15,7 +15,17 @@
             <span>Claim your deal.</span>
         </h1>
         <fieldset>
+            <div class="filter">
+                <a href="all" class="selected all">all</a>
+                <a href="bar club" class="bar club">bars/clubs</a>
+                <a href="other" class="other">parties</a>
+            </div>
             <ul>
+
+                <li>
+                    <?= r::event_add_form(array('date' => $date)); ?>
+                </li>
+
                 <?php foreach ($events as $k => $event): ?>
                 <?php $selected = ($selected_event == $event); ?>
                 <li class="<?= $selected ? 'selected' : '' ?>">
@@ -27,10 +37,6 @@
                     ?>
                 </li>
                 <?php endforeach; ?>
-
-                <li>
-                    <?= r::event_add_form(array('date' => $date)); ?>
-                </li>
 
             </ul>
         </fieldset>

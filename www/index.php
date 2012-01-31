@@ -6,7 +6,7 @@ ini_set('display_errors', '1');
 require_once '../fire/core/boot.php';
 
 if (db()->has_table('sessions')) {
-    $session_handler = factory()->build('session_handler');
+    $session_handler = build('session_handler');
     session_set_save_handler(
         array($session_handler, 'open'),
         array($session_handler, 'close'),
@@ -19,7 +19,7 @@ if (db()->has_table('sessions')) {
 
 session_start();
 
-app()->clock()->set_time(new DateTime('2011-01-15'));
+app()->clock()->set_time(new DateTime('2012-01-15'));
 app()->trigger('boot');
 
 route_uri_request();

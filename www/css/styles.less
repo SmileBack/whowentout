@@ -343,6 +343,22 @@ td {
         background: url(/images/h1_bg.png) repeat-x;
         border-bottom: 1px solid @border_color;
     }
+    .filter {
+        padding: 5px 20px;
+        width: 100%;
+        a {
+            display: inline-block;
+            text-align: center;
+            width: 75px;
+            padding: 4px 2px;
+            .border_radius(3px);
+            &.selected {
+                background-color: @primary_color;
+                color: white;
+            }
+        }
+        .site_shadow;
+    }
     fieldset {
         border: none;
         padding: 0;

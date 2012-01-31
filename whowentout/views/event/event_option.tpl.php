@@ -1,4 +1,4 @@
-<label class="event_option">
+<label class="event_option all <?= $event->place->type ?>">
     <input type="radio"
            class="radio"
            name="event_id"

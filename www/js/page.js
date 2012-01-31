@@ -302,6 +302,40 @@ $('.event_invite :checkbox').entwine({
     }
 });
 
+$('.event_list .filter').entwine({
+    applyFilter: function(type) {
+        var eventList = this.closest('.event_list');
+
+        function isMatch(el, type) {
+            var parts = type.split(/\s+/);
+            console.log(parts);
+            for (var i = 0; i < parts.length; i++)
+                if (el.hasClass(parts[i]))
+                    return true;
+
+            return false;
+        }
+
+        eventList.find('.event_option').each(function() {
+            var el = $(this);
+            if (isMatch(el, type))
+                el.parent().show();
+            else
+                el.parent().hide();
+        });
+    }
+});
+
+$('.event_list .filter a').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        var type = this.attr('href');
+        this.closest('.event_list').find('.filter').applyFilter(type);
+        this.closest('.filter').find('.selected').removeClass('selected');
+        this.addClass('selected');
+    }
+});
+
 $('.event_list :radio').entwine({
     onclick:function () {
         if (this.val() != 'new')
