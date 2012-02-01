@@ -1,0 +1,3 @@
+entourage_engine:
+  type: EntourageEngine
+  database: database
