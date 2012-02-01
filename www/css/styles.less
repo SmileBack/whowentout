@@ -68,10 +68,7 @@ input[type="submit"], button {
     &:hover {
         .vertical_gradient(@c, @d);
     }
-    &:active {
-        .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
-    }
-    &.pressed {
+    &:active, &.pressed {
         .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
     }
 }
@@ -86,6 +83,10 @@ input[type="submit"], button {
 
 .blue_button {
     .paint_button(white, #0076a3, #00adee, #0078a5, #0095cc, #00678e, #0078a5, #00adee);
+}
+
+.white_button {
+    .paint_button(#606060, #b7b7b7, #fff, #ededed, #fff, #dcdcdc, #ededed, #fff);
 }
 
 .button_style {
@@ -492,6 +493,9 @@ td {
     .entourage_section {
         .gallery;
     }
+    .entourage_requests_section {
+        .gallery;
+    }
     .profile_pic {
         .site_shadow;
         float: left;
@@ -508,6 +512,18 @@ td {
     .profile_edit_picture_link {
         display: block;
         text-align: center;
+    }
+}
+
+.entourage_requests .entourage_request_accept {
+    margin-top: 8px;
+    .accept, .ignore {
+        .button_style;
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    .ignore {
+        .white_button;
     }
 }
 

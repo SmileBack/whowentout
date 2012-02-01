@@ -43,6 +43,8 @@ router:
     "admin/packages/(:alnum)/update": UpdatePackage/$1
     "jobs/run/(:alnum)": RunJob/$1
     "jobs/client": ViewJobsClient
+    "entourage/accept": AcceptEntourageRequest
+    "entourage/invite": ViewEntourageRequestDialog
 
 asset:
   type: Asset
@@ -118,6 +120,10 @@ invite_engine:
   type: InviteEngine
   database: database
   clock: clock
+
+entourage_engine:
+  type: EntourageEngine
+  database: database
 
 test_invite_engine:
   type: InviteEngine

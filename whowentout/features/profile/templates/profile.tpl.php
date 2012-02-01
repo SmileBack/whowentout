@@ -20,6 +20,13 @@
             </div>
         </div>
 
+        <?php if ($your_profile): ?>
+        <section class="entourage_requests_section">
+            <h3>Entourage Requests</h3>
+            <?= r::entourage_requests(); ?>
+        </section>
+        <?php endif; ?>
+
         <section class="entourage_section">
             <h3>Entourage</h3>
             <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>

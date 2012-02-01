@@ -29,6 +29,11 @@ class WhoWentOutApp extends FireApp
         return $this->clock;
     }
 
+    function profile_link($user)
+    {
+        return 'profile/' . $user->id;
+    }
+
     function event_link($event)
     {
         return 'day/' . $event->date->format('Ymd');

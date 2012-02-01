@@ -6,7 +6,7 @@
 /* @var $event */
 /* @var $current_user */
 ?>
-<form class="event_invite" method="post" action="/events/<?= $event->id ?>/invite/submit">
+<form class="event_invite invite" method="post" action="/events/<?= $event->id ?>/invite/submit">
     <input type="hidden" name="event_id" value="<?= $event->id ?>" />
 
     <fieldset>

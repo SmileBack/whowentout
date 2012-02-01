@@ -87,6 +87,16 @@ $('.dialog.profile_edit_dialog').entwine({
     }
 });
 
+whowentout.showEntourageRequestDialog = function() {
+    $(function() {
+        whowentout.initDialog();
+
+        dialog.title('Entourage Request');
+        dialog.showDialog('invite_dialog');
+        dialog.loadContent('/entourage/invite');
+    });
+};
+
 whowentout.showNetworkRequiredDialog = function () {
     $(function () {
         whowentout.initDialog();
