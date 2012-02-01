@@ -341,7 +341,7 @@ $('.event_list :radio').entwine({
         if (this.val() != 'new')
             this.closest('form').submit();
         else {
-            this.closest('form').find('.selected').removeClass('selected');
+            this.closest('form').find('ul .selected').removeClass('selected');
             this.closest('li').addClass('selected');
         }
     }
