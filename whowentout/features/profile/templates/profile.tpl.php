@@ -20,6 +20,10 @@
             </div>
         </div>
 
+        <?php if ($your_profile): ?>
+            <?= r::received_entourage_requests_section(array('user' => $user)); ?>
+        <?php endif; ?>
+
         <?= r::entourage_section(array('user' => $user, 'show_invite_link' => $your_profile)); ?>
 
         <section class="checkins_section">

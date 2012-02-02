@@ -21,10 +21,14 @@
                         <?php if ($in_entourage): ?>
                             <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" disabled="disabled" />
                             <div class="note">in entourage</div>
-                        <?php elseif ($request_was_sent): ?>
+                        <?php endif; ?>
+
+                        <?php if (!$in_entourage && $request_was_sent): ?>
                             <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
                             <div class="note">sent request</div>
-                        <?php else: ?>
+                        <?php endif; ?>
+
+                        <?php if (!$request_was_sent && !$in_entourage): ?>
                             <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
                         <?php endif; ?>
 
