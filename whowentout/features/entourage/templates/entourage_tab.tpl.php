@@ -6,5 +6,7 @@ $n = count($entourage);
 ?>
 
 <?php if (auth()->logged_in()): ?>
-    <?= a('entourage', "My Entourage ($n)", array('class' => 'entourage_link')); ?>
+    <?= a_open('entourage', array('class' => 'entourage_link')); ?>
+        <?= "My Entourage ($n)" ?>
+    <?= a_close(); ?>
 <?php endif; ?>

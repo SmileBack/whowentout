@@ -189,6 +189,17 @@ input[type="submit"], button {
     }
 }
 
+@note_height: 20px;
+.note {
+    font-size: 12px;
+    line-height: @note_height;
+    padding: 0px 12px;
+    font-weight: bold;
+    background-color: #faa51a;
+    color: white;
+    .border_radius(@note_height / 2);
+}
+
 #nav {
     width: @sidebar_width;
     position: fixed;
@@ -212,6 +223,12 @@ input[type="submit"], button {
         &.active {
             background-color: white;
             color: #444;
+        }
+
+        position: relative;
+        .note {
+            position: absolute;
+            top: @note_height / -2;
         }
     }
 }
