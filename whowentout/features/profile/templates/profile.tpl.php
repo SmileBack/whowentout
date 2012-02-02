@@ -20,21 +20,6 @@
             </div>
         </div>
 
-        <?php if ($your_profile && $entourage_request_count > 0): ?>
-        <section class="entourage_requests_section">
-            <h3>Entourage Requests</h3>
-            <?= r::entourage_requests(); ?>
-        </section>
-        <?php endif; ?>
-
-        <section class="entourage_section">
-            <h3>
-                <span>Entourage</span>
-                <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>
-            </h3>
-            <?= r::entourage(array('user' => $user)) ?>
-        </section>
-
         <section class="checkins_section">
             <h3>Checkins</h3>
             <?= r::profile_checkins(array('user' => $user)); ?>

@@ -44,9 +44,9 @@
 
         <?= a('day', 'Events', array('class' => 'events_link')) ?>
 
-        <?php if (auth()->logged_in()): ?>
-        <?= a('profile/' . auth()->current_user()->id, 'My Profile', array('class' => 'profile_link')) ?>
-        <?php endif; ?>
+        <?= r::profile_tab(); ?>
+
+        <?= r::entourage_tab(); ?>
 
         <?php if (auth()->is_admin()): ?>
         <?= a('admin', 'Admin', array('class' => 'admin_link')) ?>

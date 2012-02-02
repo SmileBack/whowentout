@@ -64,6 +64,13 @@ class EntourageEngine
                               ->where('status', 'pending')->to_array();
     }
 
+    function get_pending_outgoing_requests($user)
+    {
+        return $this->database->table('entourage_requests')
+                              ->where('sender_id', $user->id)
+                              ->where('status', 'pending')->to_array();
+    }
+
     function get_entourage_users($user)
     {
         return $this->database->table('entourage')

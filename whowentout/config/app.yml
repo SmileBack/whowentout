@@ -43,6 +43,7 @@ router:
     "admin/packages/(:alnum)/update": UpdatePackage/$1
     "jobs/run/(:alnum)": RunJob/$1
     "jobs/client": ViewJobsClient
+    "entourage": ViewEntourage
     "entourage/accept": AcceptEntourageRequest
     "entourage/invite": ViewEntourageRequestDialog
     "entourage/invite/submit": SendEntourageRequests

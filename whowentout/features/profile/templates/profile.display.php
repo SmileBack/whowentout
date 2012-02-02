@@ -14,9 +14,9 @@ class Profile_Display extends Display
         $this->profile_picture = build('profile_picture', $this->user);
         $this->profile_picture_url = $this->profile_picture->url('thumb');
 
-        /* @var $friends_calc MutualFriendsCalculator */
-        $friends_calc = build('mutual_friends_calculator');
-        $this->mutual_friends = $friends_calc->compute($this->current_user->id, $this->user->id);
+        /* @var $mutual_friends_calculator MutualFriendsCalculator */
+        $mutual_friends_calculator = build('mutual_friends_calculator');
+        $this->mutual_friends = $mutual_friends_calculator->compute($this->current_user->id, $this->user->id);
 
         $this->entourage_engine = build('entourage_engine');
 
