@@ -8,13 +8,7 @@
         </section>
         <?php endif; ?>
 
-        <section class="entourage gallery">
-            <h3>
-                <span>Entourage</span>
-                <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>
-            </h3>
-            <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>
-        </section>
+        <?= r::entourage_section(array('user' => $user, 'show_invite_link' => true)); ?>
 
         <?php if (count($sent_entourage_requests) > 0): ?>
         <section class="entourage_outgoing_requests gallery">

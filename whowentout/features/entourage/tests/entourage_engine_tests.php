@@ -71,7 +71,7 @@ class EntourageEngineTests extends PHPUnit_Framework_TestCase
         $request = $this->entourage_engine->get_request_between($this->ven, $this->kat);
         $this->assertEquals($request->status, 'pending');
 
-        $this->assertTrue(count($this->entourage_engine->get_entourage_users($this->kat)) == 0, 'no entourage before accepting');
+        $this->assertTrue(count($this->entourage_engine->get_entourage($this->kat)) == 0, 'no entourage before accepting');
 
         $this->entourage_engine->accept_request($request);
         $this->assertEquals($request->status, 'accepted');
@@ -79,10 +79,10 @@ class EntourageEngineTests extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->entourage_engine->in_entourage($this->ven, $this->kat), 'kat is in vens entourage');
         $this->assertTrue($this->entourage_engine->in_entourage($this->kat, $this->ven), 'ven is in kats entourage');
 
-        $kats_entourage = $this->entourage_engine->get_entourage_users($this->kat);
+        $kats_entourage = $this->entourage_engine->get_entourage($this->kat);
         $this->assertEquals($kats_entourage[0]->first_name, 'Venkat');
 
-        $venkats_entourage = $this->entourage_engine->get_entourage_users($this->ven);
+        $venkats_entourage = $this->entourage_engine->get_entourage($this->ven);
         $this->assertEquals($venkats_entourage[0]->first_name, 'Kat');
     }
 

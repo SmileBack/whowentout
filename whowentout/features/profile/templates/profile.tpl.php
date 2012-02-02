@@ -20,6 +20,8 @@
             </div>
         </div>
 
+        <?= r::entourage_section(array('user' => $user, 'show_invite_link' => $your_profile)); ?>
+
         <section class="checkins_section">
             <h3>Checkins</h3>
             <?= r::profile_checkins(array('user' => $user)); ?>
