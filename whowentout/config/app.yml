@@ -45,6 +45,7 @@ router:
     "jobs/client": ViewJobsClient
     "entourage/accept": AcceptEntourageRequest
     "entourage/invite": ViewEntourageRequestDialog
+    "entourage/invite/submit": SendEntourageRequests
 
 asset:
   type: Asset

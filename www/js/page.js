@@ -132,7 +132,8 @@ $(function () {
             'events/:id/deal': 'showDealDialog',
             'events/:id/invite': 'showInviteDialog',
             'day/:date': 'displayDate',
-            'profile/picture/edit': 'showEditProfilePictureDialog'
+            'profile/picture/edit': 'showEditProfilePictureDialog',
+            'entourage/invite': 'showEntourageRequestDialog'
         },
         index: function() {
             $('.dialog').hideDialog();
@@ -154,6 +155,9 @@ $(function () {
         },
         showEditProfilePictureDialog: function() {
             whowentout.showProfileEditDialog();
+        },
+        showEntourageRequestDialog: function() {
+            whowentout.showEntourageRequestDialog();
         },
         defaultRoute:function () {
         }

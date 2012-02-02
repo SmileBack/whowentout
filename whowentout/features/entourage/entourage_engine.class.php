@@ -13,10 +13,16 @@ class EntourageEngine
 
     function send_request($sender, $receiver)
     {
-        if ($this->request_was_sent($sender, $receiver))
+        $request = $this->get_request_between($receiver, $sender);
+        if ($request && $request->status == 'accepted') // already sent a request that was accepted
             return;
 
-        $this->database->table('entourage_requests')->create_row(array(
+        if ($request && $request->status == 'pending') {
+            $this->accept_request($request);
+            return;
+        }
+
+        $this->database->table('entourage_requests')->create_or_update_row(array(
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
             'status' => 'pending',
@@ -47,6 +53,8 @@ class EntourageEngine
 
     function ignore_request($request)
     {
+        $request->status = 'ignored';
+        $request->save();
     }
 
     function get_pending_requests($user)
@@ -61,6 +69,14 @@ class EntourageEngine
         return $this->database->table('entourage')
                               ->where('user_id', $user->id)
                               ->friend->to_array();
+    }
+
+    function in_entourage($user, $friend)
+    {
+        return $this->database->table('entourage')
+                              ->where('user_id', $user->id)
+                              ->where('friend_id', $friend->id)
+                              ->count() > 0;
     }
 
     function get_request($id)

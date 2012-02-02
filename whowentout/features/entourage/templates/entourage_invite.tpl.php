@@ -3,7 +3,7 @@
 /* @var $friends */
 /* @var $current_user */
 ?>
-<form class="event_invite invite" method="post" action="/entourage/invite">
+<form class="event_invite invite" method="post" action="/entourage/invite/submit">
 
     <fieldset>
         <input type="text" class="search inline_label" title="Type a friend's name" />
@@ -31,7 +31,7 @@
     </fieldset>
 
     <fieldset class="buttons">
-        <input type="submit" class="send_invites_button" name="send" value="Send Invites" />
+        <input type="submit" class="send_invites_button" name="send" value="Send Requests" />
         <?= a(app()->profile_link(auth()->current_user()), 'Cancel', array('class' => 'cancel_link')) ?>
     </fieldset>
 
