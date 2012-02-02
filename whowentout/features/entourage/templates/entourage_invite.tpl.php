@@ -10,11 +10,23 @@
 
         <ul>
             <?php foreach ($friends as $friend): ?>
+                <?php
+                $in_entourage = $entourage_engine->in_entourage($current_user, $friend);
+                $request_was_sent = $entourage_engine->request_was_sent($current_user, $friend);
+                ?>
                 <li>
                     <label>
                         <?= r::user_thumb(array('user' => $friend)) ?>
 
-                        <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
+                        <?php if ($in_entourage): ?>
+                            <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" disabled="disabled" />
+                            <div class="note">in entourage</div>
+                        <?php elseif ($request_was_sent): ?>
+                            <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
+                            <div class="note">requested</div>
+                        <?php else: ?>
+                            <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
+                        <?php endif; ?>
 
                         <div class="user_first_name">
                             <?= $friend->first_name ?>
