@@ -15,22 +15,24 @@
 
     <ul>
         <?php foreach ($friends as $friend): ?>
+            <?php
+            $invite_is_sent = $invite_engine->invite_is_sent($event, $current_user, $friend);
+            $is_invited = $invite_engine->is_invited($event, $friend);
+            $user_has_checked_in = $checkin_engine->user_has_checked_into_event($friend, $event);
+            ?>
             <li>
                 <label>
                     <?= r::user_thumb(array('user' => $friend)) ?>
 
-                    <?php
-                    $invite_is_sent = $invite_engine->invite_is_sent($event, $current_user, $friend);
-                    $is_invited = $invite_engine->is_invited($event, $friend);
-                    $user_has_checked_in = $checkin_engine->user_has_checked_into_event($friend, $event);
-                    ?>
-
                     <?php if ($invite_is_sent): //invited by you ?>
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
+                        <div class="note">invited</div>
                     <?php elseif ($is_invited): //invited by someone else ?>
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
+                        <div class="note">invited</div>
                     <?php elseif ($user_has_checked_in): //attending event ?>
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
+                        <div class="note">attending</div>
                     <?php else: ?>
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
                     <?php endif; ?>

@@ -13,4 +13,5 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
         <?php endif; ?>
     </h3>
     <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>
+
 </section>
