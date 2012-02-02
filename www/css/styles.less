@@ -466,6 +466,7 @@ td {
             width: 100%;
             border-bottom: 1px solid grey;
             text-align: left;
+            padding-bottom: 4px;
         }
     }
     .checkins_section {
@@ -492,13 +493,20 @@ td {
     }
     .entourage_section {
         .gallery;
+        h3 {
+            position: relative;
+        }
+        .entourage_request_link {
+            .button_style;
+            .border_radius(0);
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 2px 12px;
+        }
     }
     .entourage_requests_section {
         .gallery;
-        .entourage_request_link {
-            .button_style;
-            float: right;
-        }
     }
     .profile_pic {
         .site_shadow;

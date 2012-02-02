@@ -24,4 +24,5 @@ class SendEntourageRequestsAction extends Action
 
         redirect(app()->profile_link($current_user));
     }
+
 }
