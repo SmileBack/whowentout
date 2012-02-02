@@ -150,6 +150,12 @@ mutual_friends_calculator:
   type: MutualFriendsCalculator
   database: database
 
-entourage_calculator:
-  type: EntourageCalculator
-  database: database
+emailer:
+  type: Emailer
+  driver: swift
+  server: smtp.gmail.com
+  port: 465
+  encryption: ssl
+  username: notifications@whowentout.com
+  password: WWO12345
+  from: WhoWentOut
