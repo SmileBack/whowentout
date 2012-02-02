@@ -17,12 +17,6 @@ class Profile_Display extends Display
         /* @var $mutual_friends_calculator MutualFriendsCalculator */
         $mutual_friends_calculator = build('mutual_friends_calculator');
         $this->mutual_friends = $mutual_friends_calculator->compute($this->current_user->id, $this->user->id);
-
-        $this->entourage_engine = build('entourage_engine');
-
-        $this->entourage_request_count = $this->entourage_engine->get_pending_request_count($this->user);
-        $this->entourage_count = $this->entourage_engine->get_entourage_count($this->user);
-
         $this->your_profile = ($this->user == $this->current_user);
     }
 

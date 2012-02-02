@@ -1,9 +1,3 @@
-<?php
-$current_user = auth()->current_user();
-/* @var $entourage_engine EntourageEngine */
-$entourage_engine = build('entourage_engine');
-$requests = $entourage_engine->get_pending_requests($current_user);
-?>
 <ul class="entourage_requests">
    <?php foreach ($requests as $request): ?>
         <li>

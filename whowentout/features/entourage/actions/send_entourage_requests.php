@@ -22,7 +22,7 @@ class SendEntourageRequestsAction extends Action
 
         flash::message("Sent $entourage_requests.");
 
-        redirect(app()->profile_link($current_user));
+        redirect('entourage');
     }
 
 }

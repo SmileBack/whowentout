@@ -36,7 +36,7 @@ class AcceptEntourageRequestAction extends Action
             flash::message("Ignored {$request->sender->first_name} {$request->sender->last_name}'s request to be in your entourage.");
         }
 
-        redirect("profile/$current_user->id");
+        redirect("entourage");
     }
 
 }

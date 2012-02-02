@@ -78,19 +78,6 @@ class EntourageEngine
                               ->friend->to_array();
     }
 
-    function get_entourage_count($user)
-    {
-        return $this->database->table('entourage')
-                              ->where('user_id', $user->id)->count();
-    }
-
-    function get_pending_request_count($user)
-    {
-        return $this->database->table('entourage_requests')
-                              ->where('receiver_id', $user->id)
-                              ->where('status', 'pending')->count();
-    }
-
     function in_entourage($user, $friend)
     {
         return $this->database->table('entourage')
