@@ -18,9 +18,9 @@ class SendEntourageRequestsAction extends Action
             $n++;
         }
 
-        $requests = Inflect::pluralize_if($n, 'request');
+        $entourage_requests = Inflect::pluralize_if($n, 'entourage request');
 
-        flash::message("Sent $n entourage $requests.");
+        flash::message("Sent $entourage_requests.");
 
         redirect(app()->profile_link($current_user));
     }
