@@ -41,6 +41,9 @@ router:
     "admin/packages": ViewPackages
     "admin/packages/(:alnum)/install": InstallPackage/$1
     "admin/packages/(:alnum)/update": UpdatePackage/$1
+    "admin/emails": AdminViewUnsentEmails
+    "admin/emails/update": AdminUpdateEmail
+    "admin/emails/run_job": AdminRunEmailJob
     "jobs/run/(:alnum)": RunJob/$1
     "jobs/client": ViewJobsClient
     "entourage": ViewEntourage
