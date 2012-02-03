@@ -14,11 +14,9 @@ class ViewPackagesAction extends Action
     function execute()
     {
         $packages = $this->installer->list_packages();
-        print r::page(array(
-            'content' => r::admin_packages(array(
-                'packages' => $packages,
-                'installer' => $this->installer,
-            )),
+        print r::admin_packages(array(
+            'packages' => $packages,
+            'installer' => $this->installer,
         ));
     }
 
