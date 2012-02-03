@@ -41,8 +41,15 @@ router:
     "admin/packages": ViewPackages
     "admin/packages/(:alnum)/install": InstallPackage/$1
     "admin/packages/(:alnum)/update": UpdatePackage/$1
+    "admin/emails": AdminViewUnsentEmails
+    "admin/emails/update": AdminUpdateEmail
+    "admin/emails/run_job": AdminRunEmailJob
     "jobs/run/(:alnum)": RunJob/$1
     "jobs/client": ViewJobsClient
+    "entourage": ViewEntourage
+    "entourage/accept": AcceptEntourageRequest
+    "entourage/invite": ViewEntourageRequestDialog
+    "entourage/invite/submit": SendEntourageRequests
 
 asset:
   type: Asset
@@ -119,6 +126,10 @@ invite_engine:
   database: database
   clock: clock
 
+entourage_engine:
+  type: EntourageEngine
+  database: database
+
 test_invite_engine:
   type: InviteEngine
   database: test_database
@@ -142,6 +153,12 @@ mutual_friends_calculator:
   type: MutualFriendsCalculator
   database: database
 
-entourage_calculator:
-  type: EntourageCalculator
-  database: database
+emailer:
+  type: Emailer
+  driver: swift
+  server: smtp.gmail.com
+  port: 465
+  encryption: ssl
+  username: notifications@whowentout.com
+  password: WWO12345
+  from: WhoWentOut

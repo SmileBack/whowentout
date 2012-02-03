@@ -1,0 +1,16 @@
+<div class="profile">
+    <div class="profile_inner">
+
+        <?= r::received_entourage_requests_section(array('user' => $user)); ?>
+
+        <?= r::entourage_section(array('user' => $user, 'show_invite_link' => true)); ?>
+
+        <?php if (count($sent_entourage_requests) > 0): ?>
+        <section class="entourage_outgoing_requests gallery">
+            <h3>Entourage Requests Sent</h3>
+            <?= r::entourage_outgoing_requests(); ?>
+        </section>
+        <?php endif; ?>
+
+    </div>
+</div>

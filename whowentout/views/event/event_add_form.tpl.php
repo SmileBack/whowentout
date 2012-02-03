@@ -1,4 +1,4 @@
-<label class="event_option new_event">
+<label class="event_option new_event all other">
 
     <input type="radio"
            class="radio"

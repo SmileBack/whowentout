@@ -68,10 +68,7 @@ input[type="submit"], button {
     &:hover {
         .vertical_gradient(@c, @d);
     }
-    &:active {
-        .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
-    }
-    &.pressed {
+    &:active, &.pressed {
         .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
     }
 }
@@ -86,6 +83,10 @@ input[type="submit"], button {
 
 .blue_button {
     .paint_button(white, #0076a3, #00adee, #0078a5, #0095cc, #00678e, #0078a5, #00adee);
+}
+
+.white_button {
+    .paint_button(#606060, #b7b7b7, #fff, #ededed, #fff, #dcdcdc, #ededed, #fff);
 }
 
 .button_style {
@@ -188,6 +189,16 @@ input[type="submit"], button {
     }
 }
 
+@note_height: 20px;
+.note {
+    font-size: 12px;
+    line-height: @note_height;
+    font-weight: bold;
+    background-color: #faa51a;
+    color: white;
+    .border_radius(@note_height / 2);
+}
+
 #nav {
     width: @sidebar_width;
     position: fixed;
@@ -201,7 +212,7 @@ input[type="submit"], button {
     .tabs a {
         display: block;
         float: right;
-        width: 150px;
+        width: 170px;
         padding: 20px 0 20px 20px;
         margin-bottom: 25px;
         color: white;
@@ -211,6 +222,12 @@ input[type="submit"], button {
         &.active {
             background-color: white;
             color: #444;
+        }
+
+        position: relative;
+        .note {
+            position: absolute;
+            top: @note_height / -2;
         }
     }
 }
@@ -343,6 +360,22 @@ td {
         background: url(/images/h1_bg.png) repeat-x;
         border-bottom: 1px solid @border_color;
     }
+    .filter {
+        padding: 5px 20px;
+        width: 100%;
+        a {
+            display: inline-block;
+            text-align: center;
+            width: 75px;
+            padding: 4px 2px;
+            .border_radius(3px);
+            &.selected {
+                background-color: @primary_color;
+                color: white;
+            }
+        }
+        .site_shadow;
+    }
     fieldset {
         border: none;
         padding: 0;
@@ -449,6 +482,7 @@ td {
             width: 100%;
             border-bottom: 1px solid grey;
             text-align: left;
+            padding-bottom: 4px;
         }
     }
     .checkins_section {
@@ -473,7 +507,10 @@ td {
     .mutual_friends_section {
         .gallery;
     }
-    .entourage_section {
+    .entourage_requests_section {
+        .gallery;
+    }
+    .entourage_outgoing_requests_section {
         .gallery;
     }
     .profile_pic {
@@ -492,6 +529,33 @@ td {
     .profile_edit_picture_link {
         display: block;
         text-align: center;
+    }
+}
+
+section.entourage {
+    .gallery;
+    h3 {
+        position: relative;
+    }
+    .entourage_request_link {
+        .button_style;
+        .border_radius(0);
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 2px 12px;
+    }
+}
+
+.entourage_requests .entourage_request_accept {
+    margin-top: 8px;
+    .accept, .ignore {
+        .button_style;
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    .ignore {
+        .white_button;
     }
 }
 
@@ -592,6 +656,14 @@ td {
             vertical-align: top;
             &.selected {
                 background-color: #FFEC8B;
+            }
+            position: relative;
+            .note {
+                position: absolute;
+                top: 20px;
+                left: 50%;
+                margin-left: -45px;
+                width: 90px;
             }
         }
     }

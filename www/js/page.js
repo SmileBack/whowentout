@@ -87,6 +87,16 @@ $('.dialog.profile_edit_dialog').entwine({
     }
 });
 
+whowentout.showEntourageRequestDialog = function() {
+    $(function() {
+        whowentout.initDialog();
+
+        dialog.title('Entourage Request');
+        dialog.showDialog('invite_dialog');
+        dialog.loadContent('/entourage/invite');
+    });
+};
+
 whowentout.showNetworkRequiredDialog = function () {
     $(function () {
         whowentout.initDialog();
@@ -122,7 +132,8 @@ $(function () {
             'events/:id/deal': 'showDealDialog',
             'events/:id/invite': 'showInviteDialog',
             'day/:date': 'displayDate',
-            'profile/picture/edit': 'showEditProfilePictureDialog'
+            'profile/picture/edit': 'showEditProfilePictureDialog',
+            'entourage/invite': 'showEntourageRequestDialog'
         },
         index: function() {
             $('.dialog').hideDialog();
@@ -144,6 +155,9 @@ $(function () {
         },
         showEditProfilePictureDialog: function() {
             whowentout.showProfileEditDialog();
+        },
+        showEntourageRequestDialog: function() {
+            whowentout.showEntourageRequestDialog();
         },
         defaultRoute:function () {
         }
@@ -302,12 +316,46 @@ $('.event_invite :checkbox').entwine({
     }
 });
 
+$('.event_list .filter').entwine({
+    applyFilter: function(type) {
+        var eventList = this.closest('.event_list');
+
+        function isMatch(el, type) {
+            var parts = type.split(/\s+/);
+            console.log(parts);
+            for (var i = 0; i < parts.length; i++)
+                if (el.hasClass(parts[i]))
+                    return true;
+
+            return false;
+        }
+
+        eventList.find('.event_option').each(function() {
+            var el = $(this);
+            if (isMatch(el, type))
+                el.parent().show();
+            else
+                el.parent().hide();
+        });
+    }
+});
+
+$('.event_list .filter a').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        var type = this.attr('href');
+        this.closest('.event_list').find('.filter').applyFilter(type);
+        this.closest('.filter').find('.selected').removeClass('selected');
+        this.addClass('selected');
+    }
+});
+
 $('.event_list :radio').entwine({
     onclick:function () {
         if (this.val() != 'new')
             this.closest('form').submit();
         else {
-            this.closest('form').find('.selected').removeClass('selected');
+            this.closest('form').find('ul .selected').removeClass('selected');
             this.closest('li').addClass('selected');
         }
     }

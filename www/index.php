@@ -6,7 +6,7 @@ ini_set('display_errors', '1');
 require_once '../fire/core/boot.php';
 
 if (db()->has_table('sessions')) {
-    $session_handler = factory()->build('session_handler');
+    $session_handler = build('session_handler');
     session_set_save_handler(
         array($session_handler, 'open'),
         array($session_handler, 'close'),

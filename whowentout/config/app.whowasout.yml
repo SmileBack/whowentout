@@ -42,5 +42,3 @@ allowed_networks:
 network_blocker:
   type: NetworkPassThrough
   database: database
-  allowed_networks:
-    - 16777219 #stanford
