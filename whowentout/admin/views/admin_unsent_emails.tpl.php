@@ -43,6 +43,11 @@ $jobs = db()->table('jobs')
                         <?= "$user->first_name $user->last_name" ?>
                     </dd>
 
+                    <dt>facebook id</dt>
+                    <dd>
+                        <?= $user->facebook_id ?>
+                    </dd>
+
                     <dt>email</dt>
                     <dd>
                         <form method="post" action="/admin/emails/update">
@@ -55,8 +60,10 @@ $jobs = db()->table('jobs')
                     <dt>subject</dt>
                     <dd><?= $subject ?></dd>
 
-                    <dt>body</dt>
-                    <dd><?= $body ?></dd>
+                    <?php if (false): ?>
+                        <dt>body</dt>
+                        <dd><?= $body ?></dd>
+                    <?php endif; ?>
                 </dl>
 
                 <form method="post" action="/admin/emails/run_job">
