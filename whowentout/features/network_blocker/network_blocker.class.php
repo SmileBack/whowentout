@@ -12,6 +12,7 @@ class NetworkBlocker
     {
         $this->database = $database;
         $this->allowed_networks = $allowed_networks;
+        krumo::dump($this->allowed_networks);
     }
 
     function is_blocked($user)
