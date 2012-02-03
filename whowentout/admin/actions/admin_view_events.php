@@ -6,11 +6,9 @@ class AdminViewEventsAction extends Action
     {
         auth()->require_admin();
 
-        print r::page(array(
-                           'content' => r::admin_events(array(
-                                                       'events' => app()->database()->table('events'),
-                                                       'places' => app()->database()->table('places'),
-                                                  )),
-                      ));
+        print r::admin_events(array(
+            'events' => app()->database()->table('events'),
+            'places' => app()->database()->table('places'),
+        ));
     }
 }
