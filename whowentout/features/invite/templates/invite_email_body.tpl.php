@@ -1,0 +1,1 @@
+Login to <a href="<?= site_url('/') ?>">WhoWentOut.com</a> to check-in to <?= $invite->event->name ?> and see where everyone's going out!
