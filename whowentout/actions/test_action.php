@@ -3,32 +3,30 @@
 class TestAction extends Action
 {
 
-    function execute_asdfds()
+    function execute()
     {
+
         $invite = db()->table('invites')->row(15);
-        print r::event_invite_email(array(
-            'invite' => $invite,
-        ));
+        $request = db()->table('entourage_requests')->row(47);
+
+
     }
 
-    function execute()
+    function send_email_for_entourage_request($request)
     {
         /* @var $queue JobQueue */
         $queue = build('job_queue');
 
-        $invite = db()->table('invites')->row(15);
-
-        $title = r::invite_email_title(array(
-            'invite' => $invite,
+        $subject = r::entourage_invite_email_subject(array(
+            'request' => $request,
         ))->render();
 
         $job = new SendEmailJob(array(
-            'user_id' => 1,//8482,
-            'subject' => $title,
+            'user_id' => $request->receiver->id,
+            'subject' => $subject,
             'body' => r::email(array(
-                'title' => "<h1>$title</h1>",
-                'body' => r::invite_email_body(array(
-                    'invite' => $invite,
+                'body' => r::entourage_invite_email(array(
+                    'request' => $request,
                 )),
             ))->render(),
         ));

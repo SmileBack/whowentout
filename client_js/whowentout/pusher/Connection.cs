@@ -58,7 +58,7 @@ namespace PusherApi
                 case "disconnected":
                     return ConnectionState.Disconnected;
                 default:
-                    throw new Exception("Invalid state.");
+                    throw new Exception("Invalid state " + s + ".");
             }
         }
 

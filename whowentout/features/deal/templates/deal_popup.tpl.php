@@ -8,8 +8,7 @@
             <?php if (!$have_number): ?>
 
                 <h2>
-                    Type your number below so we can send you the
-                    deal.
+                    Type your number below so we can send you the deal.
                 </h2>
 
                 <input type="text" class="cell_phone_number" name="user[cell_phone_number]"

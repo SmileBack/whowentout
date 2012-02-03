@@ -377,7 +377,7 @@ PusherApi.Connection.prototype = {
             case 'disconnected':
                 return 'disconnected';
             default:
-                throw new Error('Invalid state.');
+                throw new Error('Invalid state ' + s + '.');
         }
     }
 }

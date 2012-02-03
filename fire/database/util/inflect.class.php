@@ -162,4 +162,23 @@ class Inflect
         else
             return $count . " " . self::pluralize($string);
     }
+
+    static $gender_words = array(
+        'he' => 'she',
+        'him' => 'her',
+        'his' => 'her',
+    );
+
+    public static function genderize($gender, $word)
+    {
+        $gender = strtolower(substr($gender, 0, 1));
+
+        foreach (static::$gender_words as $male => $female) {
+            if ($word == $female || $word == $male)
+                return $gender == 'm' ? $male : $female;
+        }
+
+        return $word;
+    }
+
 }
