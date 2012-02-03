@@ -22,6 +22,9 @@ class NetworkBlocker
         krumo::dump($networks_ids);
 
         $permitted_user_networks = array_intersect($this->allowed_networks, $networks_ids);
+
+        krumo::dump($permitted_user_networks);
+
         return empty($permitted_user_networks);
     }
 
