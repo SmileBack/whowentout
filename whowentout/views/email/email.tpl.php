@@ -372,66 +372,11 @@
                 </tr>
 
                 <tr>
-                    <td class="w640" width="640">
-                        <table id="top-bar" class="w640" width="640" cellpadding="0" cellspacing="0" border="0"
-                               bgcolor="#104e8b">
-                            <tbody>
-                            <tr>
-                                <td class="w15" width="15"></td>
-                                <td class="w325" width="350" valign="middle" align="left">
-                                    <table class="w325" width="350" cellpadding="0" cellspacing="0" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td class="w325" width="350" height="8"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <table class="w325" width="350" cellpadding="0" cellspacing="0" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td class="w325" width="350" height="8"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td class="w30" width="30"></td>
-                                <td class="w255" width="255" valign="middle" align="right">
-                                    <table class="w255" width="255" cellpadding="0" cellspacing="0" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td class="w255" width="255" height="8"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <table cellpadding="0" cellspacing="0" border="0">
-                                        <tbody>
-                                        <tr>
-
-
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <table class="w255" width="255" cellpadding="0" cellspacing="0" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td class="w255" width="255" height="8"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td class="w15" width="15"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                    </td>
-                </tr>
-                <tr>
                     <td id="header" class="w640" width="640" align="center" bgcolor="#104e8b">
 
                         <div align="center" style="text-align: center">
                             <img id="customHeaderImage" src="<?= site_url('images/logo.transparent.png') ?>"
-                                 class="w640" border="0" align="top" style="display: inline">
+                                 class="w640" border="0" align="top" style="display: inline; width: 180px; margin: 5px; ">
                         </div>
 
 

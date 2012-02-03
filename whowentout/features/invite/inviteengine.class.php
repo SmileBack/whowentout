@@ -49,9 +49,12 @@ class InviteEngine
             'event_id' => $event->id,
             'created_at' => $this->clock->get_time(),
         );
-        $this->invites->create_row($invite);
-
+        $invite = $this->invites->create_row($invite);
         $this->clear_event_cache($event);
+
+        app()->trigger('event_invite_sent', array(
+            'invite' => $invite,
+        ));
     }
 
     function invite_is_sent($event, $sender, $receiver)

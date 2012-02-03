@@ -1,0 +1,1 @@
+<?= $invite->sender->first_name ?> <?= $invite->sender->last_name ?> wants you to attend <?= $invite->event->name ?> on <?= $invite->event->date->format('l') ?>

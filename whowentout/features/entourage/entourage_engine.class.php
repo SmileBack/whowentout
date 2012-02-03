@@ -22,11 +22,17 @@ class EntourageEngine
             return;
         }
 
-        $this->database->table('entourage_requests')->create_or_update_row(array(
+        $request = $this->database->table('entourage_requests')->create_or_update_row(array(
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
             'status' => 'pending',
         ));
+
+        app()->trigger('entourage_request_sent', array(
+            'request' => $request,
+        ));
+
+        return $request;
     }
 
     function request_was_sent($sender, $receiver)
