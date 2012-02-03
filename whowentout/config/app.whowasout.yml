@@ -43,5 +43,5 @@ network_blocker:
   type: NetworkBlocker
   database: database
   allowed_networks:
-    - 1677219
+    - 16777219
     

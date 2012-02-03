@@ -18,12 +18,7 @@ class NetworkBlocker
     {
         $networks_ids = $this->get_network_ids($user);
 
-        krumo::dump($this->allowed_networks);
-        krumo::dump($networks_ids);
-
         $permitted_user_networks = array_intersect($this->allowed_networks, $networks_ids);
-
-        krumo::dump($permitted_user_networks);
 
         return empty($permitted_user_networks);
     }
@@ -35,7 +30,6 @@ class NetworkBlocker
             $name = $this->database->table('networks')->row($id)->name;
             $names[] = $name;
         }
-        krumo::dump($names);
         return $names;
     }
 
