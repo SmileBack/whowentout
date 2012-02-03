@@ -12,13 +12,14 @@ class NetworkBlocker
     {
         $this->database = $database;
         $this->allowed_networks = $allowed_networks;
-        krumo::dump($this->allowed_networks);
     }
 
     function is_blocked($user)
     {
-
         $networks_ids = $this->get_network_ids($user);
+
+        krumo::dump($this->allowed_networks);
+        krumo::dump($networks_ids);
 
         $permitted_user_networks = array_intersect($this->allowed_networks, $networks_ids);
         return empty($permitted_user_networks);
@@ -31,6 +32,7 @@ class NetworkBlocker
             $name = $this->database->table('networks')->row($id)->name;
             $names[] = $name;
         }
+        krumo::dump($names);
         return $names;
     }
 
