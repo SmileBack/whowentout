@@ -5,7 +5,7 @@
 
     <title>Job Client</title>
 
-    <script src="/js/less.js" type="text/javascript"></script>
+    <script src="/js/less-1.2.1.js" type="text/javascript"></script>
 
     <script src="http://js.pusherapp.com/1.10/pusher.js"></script>
 

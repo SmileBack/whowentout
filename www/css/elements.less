@@ -102,6 +102,81 @@
     }
 }
 
+
+
+.arrow(@direction, @color, @size) when (@direction = up) {
+    border-color: transparent transparent @color transparent;
+}
+
+.arrow(@direction, @color, @size) when (@direction = down) {
+    border-color: @color transparent transparent transparent;
+}
+
+.arrow(@direction, @color, @size) when (@direction = left) {
+    border-color: transparent @color transparent transparent;
+}
+
+.arrow(@direction, @color, @size) when (@direction = right) {
+    border-color: transparent transparent transparent @color;
+}
+
+.arrow(@direction, @color: black, @size: 20px) {
+    background: transparent;
+    border-width: @size;
+    border-style: solid;
+    display: inline-block;
+}
+
+.tip(@direction, @background_color: #333, @color: white, @arrow_size: 8px) {
+    text-align: center;
+    position: relative;
+    background-color: @background_color;
+    color: @color;
+    .tip_arrow {
+        .arrow(@direction, @background_color, @arrow_size);
+        position: absolute;
+    }
+    .tip_content {
+        padding: 4px;
+    }
+}
+
+.tip(@direction, @background_color, @color, @arrow_size) when (@direction = up) {
+    .tip_arrow {
+        left: 50%;
+        top: 0;
+        margin-top: -2 * @arrow_size;
+        margin-left: -1 * @arrow_size;
+    }
+}
+
+.tip(@direction, @background_color, @color, @arrow_size) when (@direction = down) {
+    .tip_arrow {
+        left: 50%;
+        bottom: 0;
+        margin-bottom: -2 * @arrow_size;
+        margin-left: -1 * @arrow_size;
+    }
+}
+
+.tip(@direction, @background_color, @color, @arrow_size) when (@direction = left) {
+    .tip_arrow {
+        left: 0;
+        top: 50%;
+        margin-top: -1 * @arrow_size;
+        margin-left: -2 * @arrow_size;
+    }
+}
+
+.tip(@direction, @background_color, @color, @arrow_size) when (@direction = right) {
+    .tip_arrow {
+        right: 0;
+        top: 50%;
+        margin-top: -1 * @arrow_size;
+        margin-right: -2 * @arrow_size;
+    }
+}
+
 .gallery {
     width: 100%;
     text-align: center;
@@ -116,37 +191,6 @@
     }
 }
 
-.arrow_up(@color: black, @size: 20px) {
-    background: transparent;
-    border-color: transparent transparent @color transparent;
-    border-width: @size;
-    border-style: solid;
-    display: inline-block;
-}
-
-.arrow_right(@color: black, @size: 20px) {
-    background: transparent;
-    border-color: transparent @color transparent transparent;
-    border-width: @size;
-    border-style: solid;
-    display: inline-block;
-}
-
-.arrow_down(@color: black, @size: 20px) {
-    background: transparent;
-    border-color: @color transparent transparent transparent;
-    border-width: @size;
-    border-style: solid;
-    display: inline-block;
-}
-
-.arrow_left(@color: black, @size: 20px) {
-    background: transparent;
-    border-color: transparent transparent transparent @color;
-    border-width: @size;
-    border-style: solid;
-    display: inline-block;
-}
 
 .comma_separated {
     > li { display: inline; }

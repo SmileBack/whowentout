@@ -443,6 +443,40 @@ $('.event_day').entwine({
     }
 });
 
+$('.tab_tip_wrapper').entwine({
+    onmatch: function() {
+        this.startBouncing();
+    },
+    onunmatch: function() {
+        this.stopBouncing();
+    },
+    isBouncing: function() {
+        return this.data('bounceID') != null;
+    },
+    startBouncing: function() {
+        if (this.isBouncing())
+            return;
+
+        var self = this;
+        var id = setInterval(function() {
+            self.bounceOnce();
+        }, 4000);
+        this.data('bounceID', id);
+    },
+    stopBouncing: function() {
+        var id = this.data('bounceID');
+        clearInterval(id);
+        this.removeData('bounceID');
+    },
+    bounceOnce: function() {
+        var rightMarginStart = this.margin().right;
+        var rightMarginEnd = rightMarginStart - 8;
+        this.animate({marginRight: rightMarginEnd})
+            .animate({marginRight: rightMarginStart});
+        return this;
+    }
+});
+
 $('.inline_label').entwine({
     onmatch: function() {
         this.showLabelText();

@@ -1,4 +1,5 @@
 <div class="event_day" data-date="<?= $date->format('Ymd') ?>">
+
     <?= r::date_tip(array('date' => $date)) ?>
 
     <?= r::event_list(array('date' => $date, 'selected_event' => $checkin_event)) ?>
@@ -9,4 +10,6 @@
         'user' => $current_user,
     ))
     ?>
+
+
 </div>

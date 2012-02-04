@@ -6,26 +6,29 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000005.less';
+@import 'elements.0000000012.less';
 
 .date_tip {
     width: 150px;
-    text-align: center;
-    position: relative;
-    background-color: #333;
-    color: white;
     font-size: 18px;
-    .date_arrow {
-        .arrow_up(#333, 10px);
-        position: absolute;
-        left: 50%;
-        top: 0;
-        margin-top: -20px;
-        margin-left: -10px;
-    }
-    .date_content {
-        padding: 4px;
-    }
+    .tip(up, #333, white, 8px);
+}
+
+.tab_tip_wrapper {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -11px;
+    margin-right: -106px;
+    z-index: 1000;
+}
+
+.tab_tip {
+    .tip(left, #333, white, 6px);
+    width: 100px;
+    position: relative;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 /* global */
@@ -113,6 +116,7 @@ input[type="submit"], button {
 .invited_by {
     font-size: 12px;
     font-style: italic;
+    color: @red;
 }
 
 .dialog {

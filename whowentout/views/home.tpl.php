@@ -23,7 +23,7 @@
     <!--<link rel="stylesheet/less" type="text/css" media="screen and (max-width: 800px)"
           href="/css/styles.mobile.<?= filemtime('./css/styles.mobile.less') ?>.less"/>-->
 
-    <script src="/js/less.js" type="text/javascript"></script>
+    <script src="/js/less-1.2.1.js" type="text/javascript"></script>
 
     <?php
         /* @var $asset Asset */
