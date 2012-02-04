@@ -11,3 +11,10 @@ second_database:
   database: fire_test
   username: root
   password: root
+
+emailer:
+  type: Emailer
+  driver: empty
+
+job_queue:
+  type: TestJobQueue

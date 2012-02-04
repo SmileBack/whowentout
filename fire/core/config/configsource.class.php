@@ -29,7 +29,8 @@ class ConfigSource
 
         $resources = $this->get_config_resources();
         foreach ($resources as $r) {
-            $config = array_merge($r->data, $config);
+            foreach ($r->data as $k => $v)
+                $config[$k] = $v;
         }
 
         return $config;

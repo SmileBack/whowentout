@@ -14,6 +14,7 @@
             <span>See where everyone's going.</span>
             <span>Claim your deal.</span>
         </h1>
+
         <fieldset>
             <ul>
 
@@ -35,6 +36,7 @@
 
             </ul>
         </fieldset>
+
     </form>
 
 </div>

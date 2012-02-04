@@ -1,3 +1,4 @@
 invite_engine:
+  type: InviteEngine
   database: database
   clock: clock
