@@ -15,11 +15,6 @@
             <span>Claim your deal.</span>
         </h1>
         <fieldset>
-            <div class="filter">
-                <a href="all" class="selected all">all</a>
-                <a href="bar club" class="bar club">bars/clubs</a>
-                <a href="other" class="other">parties</a>
-            </div>
             <ul>
 
                 <li>
