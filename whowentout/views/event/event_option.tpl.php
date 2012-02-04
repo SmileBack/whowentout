@@ -1,3 +1,10 @@
+<?php
+/* @var $invite_engine InviteEngine */
+$invite_engine = build('invite_engine');
+$current_user = auth()->current_user();
+$invite = $invite_engine->get_invite($event, $current_user);
+?>
+
 <label class="event_option all <?= $event->place->type ?>">
     <input type="radio"
            class="radio"
@@ -7,6 +14,11 @@
     
     <div class="place">
         <?= $event->name ?>
+        <?php if ($invite): ?>
+            <div class="invited_by">
+                invited by <?= $invite->sender->first_name ?> <?= $invite->sender->last_name ?>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="deal">

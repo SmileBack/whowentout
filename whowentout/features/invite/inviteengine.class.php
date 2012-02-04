@@ -98,11 +98,22 @@ class InviteEngine
      */
     function is_invited($event, $user)
     {
+        return $this->get_invite($event, $user) != null;
+    }
+
+    /**
+     * Get the invite for the $event that $user was invited to.
+     * @param $event
+     * @param $user
+     * @return Invite or null
+     */
+    function get_invite($event, $user)
+    {
         $this->load_event_cache_if_missing($event);
 
         foreach ($this->event_invites[$event->id] as $invite)
             if ($invite->receiver_id == $user->id)
-                return true;
+                return $invite;
 
         return false;
     }
