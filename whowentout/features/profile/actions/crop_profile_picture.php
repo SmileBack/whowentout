@@ -12,7 +12,7 @@ class CropProfilePictureAction extends Action
 
         try {
             $profile_picture->crop($_POST['x'], $_POST['y'], $_POST['width'], $_POST['height']);
-            flash::message('Cropped your profile pic');
+            flash::message('Saved your profile pic');
         }
         catch (CropOutOfBoundsException $e) {
             flash::error("Invalid pic boundaries.");
