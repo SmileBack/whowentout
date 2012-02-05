@@ -1,5 +1,13 @@
+<?php
+/* @var $entourage_engine EntourageEngine */
+$entourage_engine = build('entourage_engine');
+$entourage = $entourage_engine->get_entourage($user);
+$entourage_count = count($entourage);
+?>
 <div class="profile">
     <div class="profile_inner">
+
+        <h1>You have <?= $entourage_count ?> people in your entourage.</h1>
 
         <?= r::received_entourage_requests_section(array('user' => $user)); ?>
 
