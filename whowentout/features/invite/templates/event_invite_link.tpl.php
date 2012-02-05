@@ -1,6 +1,6 @@
 <?=
 a(app()->event_invite_link($event),
-        'Invite Friends',
+        'invite',
     array(
         'class' => 'action event_invite_link',
     ))

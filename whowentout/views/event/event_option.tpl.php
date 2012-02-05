@@ -18,7 +18,7 @@ $checkin_count = $checkin_engine->get_checkin_count($event);
            name="event_id"
            value="<?= $event->id ?>"
            <?= $is_selected ? 'checked="checked"' : '' ?> />
-    
+
     <div class="place">
         <?= $event->name ?>
 
@@ -38,6 +38,10 @@ $checkin_count = $checkin_engine->get_checkin_count($event);
     </div>
 
     <div class="badge">
+        <?php if ($is_selected && browser::is_desktop()): ?>
+        <?= r::event_invite_link(array('event' => $event)) ?>
+        <?php endif; ?>
+
         <?php if ($is_selected && $event->deal): ?>
             <?= r::show_deal_link(array('event' => $event)) ?>
         <?php elseif ($is_selected && !$event->deal): ?>

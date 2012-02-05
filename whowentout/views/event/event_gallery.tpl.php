@@ -8,10 +8,6 @@
 ?>
 <div class="event_gallery">
 
-    <?php if ($checkin && browser::is_desktop()): ?>
-    <?= r::event_invite_link(array('event' => $checkin->event)) ?>
-    <?php endif; ?>
-
     <?php if (!$checkin): ?>
     <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out"/>
     <?php endif; ?>
