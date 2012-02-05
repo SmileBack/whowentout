@@ -7,7 +7,7 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
 
 <section class="entourage gallery">
     <h3>
-        <span>Entourage</span>
+        <span>Entourage (<?= count($entourage) ?>)</span>
 
         <?php if ($show_invite_link): ?>
             <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>

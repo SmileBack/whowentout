@@ -29,7 +29,7 @@
 
         <?php if (!$your_profile): ?>
         <section class="mutual_friends_section">
-            <h3>Mutual Friends</h3>
+            <h3>Mutual Friends (<?= count($mutual_friends) ?>)</h3>
             <?= r::profile_gallery(array('users' => $mutual_friends, 'preset' => 'facebook.normal', 'show_networks' => true)); ?>
         </section>
         <?php endif; ?>
