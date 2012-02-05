@@ -1,8 +1,15 @@
 <?php
+$current_user = auth()->current_user();
+
 /* @var $invite_engine InviteEngine */
 $invite_engine = build('invite_engine');
-$current_user = auth()->current_user();
+
+/* @var $checkin_engine CheckinEngine */
+$checkin_engine = build('checkin_engine');
+
 $invite = $invite_engine->get_invite($event, $current_user);
+
+$checkin_count = $checkin_engine->get_checkin_count($event);
 ?>
 
 <label class="event_option all <?= $event->place->type ?>">
@@ -10,10 +17,15 @@ $invite = $invite_engine->get_invite($event, $current_user);
            class="radio"
            name="event_id"
            value="<?= $event->id ?>"
-           <?= $selected ? 'checked="checked"' : '' ?> />
+           <?= $is_selected ? 'checked="checked"' : '' ?> />
     
     <div class="place">
         <?= $event->name ?>
+
+        <?php if ($selected_event && $checkin_count > 0): ?>
+            <span>(<?= $checkin_count ?>)</span>
+        <?php endif; ?>
+
         <?php if ($invite): ?>
             <div class="invited_by">
                 invited by <?= $invite->sender->first_name ?> <?= $invite->sender->last_name ?>
@@ -26,9 +38,9 @@ $invite = $invite_engine->get_invite($event, $current_user);
     </div>
 
     <div class="badge">
-        <?php if ($selected && $event->deal): ?>
+        <?php if ($is_selected && $event->deal): ?>
             <?= r::show_deal_link(array('event' => $event)) ?>
-        <?php elseif ($selected && !$event->deal): ?>
+        <?php elseif ($is_selected && !$event->deal): ?>
             <div class="attending_badge pressed">attending</div>
         <?php else: ?>
             <div class="checkin_badge">check-in</div>

@@ -28,7 +28,8 @@
                     <?=
                     r::event_option(array(
                         'event' => $event,
-                        'selected' => $selected_event == $event,
+                        'is_selected' => $selected_event == $event,
+                        'selected_event' => $selected_event,
                     ))
                     ?>
                 </li>
