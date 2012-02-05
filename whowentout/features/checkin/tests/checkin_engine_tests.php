@@ -113,12 +113,19 @@ class Checkin_Engine_Tests extends PHPUnit_Framework_TestCase
     
     function test_switch_checkin()
     {
+        $this->assertEquals(0, $this->checkin_engine->get_checkin_count($this->shadowroom_event));
+
         $this->checkin_engine->checkin_user_to_event($this->dan, $this->shadowroom_event);
         $this->assertTrue($this->checkin_engine->user_has_checked_into_event($this->dan, $this->shadowroom_event));
+        $this->assertEquals(1, $this->checkin_engine->get_checkin_count($this->shadowroom_event));
 
         $this->checkin_engine->checkin_user_to_event($this->dan, $this->eden_event);
+
         $this->assertTrue($this->checkin_engine->user_has_checked_into_event($this->dan, $this->eden_event));
         $this->assertTrue(!$this->checkin_engine->user_has_checked_into_event($this->dan, $this->shadowroom_event));
+
+        $this->assertEquals(0, $this->checkin_engine->get_checkin_count($this->shadowroom_event));
+        $this->assertEquals(1, $this->checkin_engine->get_checkin_count($this->eden_event));
     }
     
 }

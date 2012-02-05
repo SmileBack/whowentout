@@ -11,9 +11,7 @@ class TestAction extends Action
         $event = db()->table('events')->row(32);
         $user = db()->table('users')->row(8212);
 
-        $invite = $invite_engine->get_invite($event, $user);
-
-        print $invite->sender->first_name;
+        print db()->table('events')->order_by('place.name')->to_sql();
     }
 
 }
