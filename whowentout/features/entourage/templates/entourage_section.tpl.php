@@ -4,6 +4,7 @@ $entourage_engine = build('entourage_engine');
 $entourage = $entourage_engine->get_entourage($user);
 $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
 ?>
+
 <section class="entourage gallery">
     <h3>
         <span>Entourage</span>

@@ -4,6 +4,7 @@ $entourage_engine = build('entourage_engine');
 $entourage = $entourage_engine->get_entourage($user);
 $entourage_count = count($entourage);
 ?>
+
 <div class="profile">
     <div class="profile_inner">
 

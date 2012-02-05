@@ -2,18 +2,32 @@
 
 class Event_List_Display extends Display
 {
+
+    /* @var $checkin_engine CheckinEngine */
+    private $checkin_engine;
+
     function process()
     {
-        /* @var $checkin_engine CheckinEngine */
-        $checkin_engine = build('checkin_engine');
+        $this->checkin_engine = build('checkin_engine');
 
-        $events = $checkin_engine->get_events_on_date($this->date);
-        usort($events, function($event_a, $event_b) use($checkin_engine) {
-            $event_a_count = $checkin_engine->get_checkin_count($event_a);
-            $event_b_count = $checkin_engine->get_checkin_count($event_b);
-            return $event_b_count - $event_a_count;
-        });
-
+        $events = $this->checkin_engine->get_events_on_date($this->date);
+        usort($events, array($this, 'compare_events'));
         $this->events = $events;
     }
+
+    function compare_events($event_a, $event_b)
+    {
+        return $this->event_sort_value($event_b) - $this->event_sort_value($event_a);
+    }
+
+    function event_sort_value($event)
+    {
+        $value = $this->checkin_engine->get_checkin_count($event);
+
+        if ($event == $this->selected_event)
+            $value += 1 << 17;
+
+        return $value;
+    }
+
 }

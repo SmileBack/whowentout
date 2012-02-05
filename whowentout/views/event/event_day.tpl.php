@@ -2,7 +2,7 @@
 
     <?= r::date_tip(array('date' => $date)) ?>
 
-    <?= r::event_list(array('date' => $date, 'selected_event' => $checkin_event)) ?>
+    <?= r::event_list(array('date' => $date, 'selected_event' => $checkin_event, 'current_user' => $current_user)) ?>
 
     <?=
     r::event_gallery(array(
@@ -10,6 +10,5 @@
         'user' => $current_user,
     ))
     ?>
-
 
 </div>
