@@ -106,11 +106,19 @@ class CheckinEngine
         return $user->checkins->order_by('event.date', 'desc')->to_array();
     }
 
-    function get_checkins_for_day(DateTime $date)
+    function get_events_on_date(DateTime $date)
+    {
+        $events = $this->database->table('events')
+                              ->where('date', $date)
+                              ->to_array();
+        return $events;
+    }
+
+    function get_checkins_on_date(DateTime $date)
     {
         $days_checkins = array();
 
-        $events_on_date = db()->table('events')->where('date', $date);
+        $events_on_date = $this->get_events_on_date($date);
 
         foreach ($events_on_date as $cur_event) {
             $event_checkins = $this->get_checkins_for_event($cur_event);

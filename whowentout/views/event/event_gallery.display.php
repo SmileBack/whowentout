@@ -26,7 +26,7 @@ class Event_Gallery extends Display
         $this->checkin = $this->checkin_engine->get_checkin_on_date($this->user, $this->date);
 
         if ($this->checkin) {
-            $checkins = $this->checkin_engine->get_checkins_for_day($this->checkin->event->date);
+            $checkins = $this->checkin_engine->get_checkins_on_date($this->checkin->event->date);
             usort($checkins, array($this, 'checkin_sort_comparison'));
             $this->checkins = $checkins;
         }

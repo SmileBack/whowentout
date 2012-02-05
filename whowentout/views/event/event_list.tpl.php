@@ -1,6 +1,3 @@
-<?php $events = db()->table('events')->where('date', $date); ?>
-<?php $n = 0; ?>
-
 <div class="event_list_wrapper">
 
     <?php if (browser::is_mobile()): ?>
