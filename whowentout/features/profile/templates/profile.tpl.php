@@ -27,7 +27,7 @@
                 <?php if ($user == auth()->current_user()): ?>
                     <span>Your Checkins</span>
                 <?php else: ?>
-                    <span><?= "$user->first_name" ?>'s Checkins</span>
+                    <span><?= "$user->first_name" ?>'s Checkins </span>
                 <?php endif; ?>
             </h3>
             <?= r::profile_checkins(array('user' => $user)); ?>

@@ -7,11 +7,8 @@
 
     <div class="place">
         <input type="hidden" name="event[date]" value="<?= $date->format('Y-m-d') ?>" />
-        <input type="text" class="inline_label" name="event[name]" value="" title="Type event name"  autocomplete="off" />
-    </div>
-
-    <div class="deal">
-
+        <input type="text" class="inline_label" name="event[name]" value="" autocomplete="off"
+               title="Going somewhere else? Type place here" />
     </div>
 
     <div class="badge">
