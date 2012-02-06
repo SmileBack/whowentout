@@ -92,7 +92,7 @@ $('.dialog.invite_dialog').entwine({
         var link = this.find('.cancel_link').attr('href');
         if (link.length == 0)
             return;
-        
+
         window.location = link;
     }
 });
@@ -240,6 +240,12 @@ $('.profile_pic_crop_form').entwine({
 
             $('.profile_pic_source').Jcrop(options, onInit);
         });
+    }
+});
+
+$('.profile_pic_upload_form, .profile_pic_facebook_form').entwine({
+    onsubmit: function(e) {
+        this.closest('.dialog').showLoadingMessage();
     }
 });
 
