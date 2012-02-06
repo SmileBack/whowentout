@@ -13,6 +13,22 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
             <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>
         <?php endif; ?>
     </h3>
-    <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>
+    <?php if (count($entourage) > 0): ?>
+        <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>
+    <?php else: ?>
+
+        <div class="definition">
+            <strong class="word">en·tou·rage</strong>
+            <em class="proununciation">[ahn-too-rahzh]</em>
+            <span class="part">noun</span>
+            <ol>
+                <li>The people you roll with</li>
+            </ol>
+        </div>
+
+        <h2>
+            <?= $user->first_name ?> has 0 people in his entourage.
+        </h2>
+    <?php endif; ?>
 
 </section>

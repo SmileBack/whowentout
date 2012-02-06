@@ -256,8 +256,12 @@ dt { font-weight: bold; }
 fieldset { border: 1px solid #333; padding:  20px; }
 legend { font-size: 18px; }
 
-li {
+ul li {
   list-style: none;
+}
+
+ol li {
+  list-style-type: decimal;
 }
 
 td {
@@ -280,6 +284,28 @@ td {
         background-color: @red;
         color: white;
     }
+}
+
+.definition {
+    margin: 8px;
+    padding: 12px 16px;
+    background-color: #fefef2;
+    text-align: left;
+    .word {
+        font-weight: bold;
+    }
+    .pronunciation {
+        font-style: italic;
+    }
+    .part {
+        font-weight: bold;
+        font-style: italic;
+    }
+    ol {
+        margin: 8px 25px 0 25px;
+    }
+    .site_shadow;
+    float: left;
 }
 
 #events_date_selector {
