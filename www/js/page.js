@@ -87,6 +87,16 @@ $('.dialog.profile_edit_dialog').entwine({
     }
 });
 
+$('.dialog.invite_dialog').entwine({
+    onmaskclick:function () {
+        var link = this.find('.cancel_link').attr('href');
+        if (link.length == 0)
+            return;
+        
+        window.location = link;
+    }
+});
+
 whowentout.showEntourageRequestDialog = function() {
     $(function() {
         whowentout.initDialog();
@@ -117,13 +127,6 @@ whowentout.showProfileEditDialog = function () {
         });
     });
 };
-
-$('.dialog.invite_dialog').entwine({
-    onmaskclick:function () {
-        var link = this.find('.cancel_link').attr('href');
-        window.location = link;
-    }
-});
 
 $(function () {
     whowentout.router = Backbone.Router.extend({
