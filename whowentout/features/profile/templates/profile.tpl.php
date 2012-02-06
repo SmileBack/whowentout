@@ -30,7 +30,11 @@
         <?php if (!$your_profile): ?>
         <section class="mutual_friends_section">
             <h3>Mutual Friends (<?= count($mutual_friends) ?>)</h3>
-            <?= r::profile_gallery(array('users' => $mutual_friends, 'preset' => 'facebook.normal', 'show_networks' => true)); ?>
+            <?php if (count($mutual_friends) > 0): ?>
+                <?= r::profile_gallery(array('users' => $mutual_friends, 'preset' => 'facebook.normal', 'show_networks' => true)); ?>
+            <?php else: ?>
+                <h2>You and <?= $user->first_name ?> have no friends in common.</h2>
+            <?php endif; ?>
         </section>
         <?php endif; ?>
 
