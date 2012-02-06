@@ -6,7 +6,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000012.less';
+@import 'elements.0000000014.less';
 
 .date_tip {
     width: 150px;
@@ -39,15 +39,6 @@ body {
 
 label {
     font-weight: bold;
-}
-
-.button {
-    padding: 8px 12px;
-    font-weight: bold;
-}
-
-input[type="submit"], button {
-    .button;
 }
 
 .site_shadow {
@@ -85,11 +76,15 @@ input[type="submit"], button {
 }
 
 .blue_button {
-    .paint_button(white, #0076a3, #00adee, #0078a5, #0095cc, #00678e, #0078a5, #00adee);
+    @darker: 20%;
+    .paint_button(white, darken(#0076a3, @darker), darken(#00adee, @darker),
+                         darken(#0078a5, @darker), darken(#0095cc, @darker),
+                         darken(#00678e, @darker), darken(#0078a5, @darker), darken(#00adee, @darker));
 }
 
 .white_button {
     .paint_button(#606060, #b7b7b7, #fff, #ededed, #fff, #dcdcdc, #ededed, #fff);
+    text-shadow: none;
 }
 
 .button_style {
@@ -100,7 +95,7 @@ input[type="submit"], button {
 	cursor: pointer;
 	text-align: center;
 	text-decoration: none;
-	padding: .5em 2em .55em;
+	padding: 8px;
 	text-shadow: 0 1px 1px rgba(0,0,0,.3);
     .border_radius(0.3em);
     .shadow(0 1px 2px rgba(0,0,0,.2));
@@ -111,6 +106,15 @@ input[type="submit"], button {
    	    position: relative;
    	    top: 1px;
    	}
+}
+
+.button {
+    .button_style;
+    .white_button;
+}
+
+input[type="submit"], button {
+    .button;
 }
 
 .invited_by {
@@ -139,6 +143,13 @@ input[type="submit"], button {
         height: 100px;
         padding: 25px;
         margin: auto;
+    }
+    .buttons input {
+        .blue_button;
+    }
+    .buttons a {
+        .button_style;
+        .white_button;
     }
 }
 
@@ -619,7 +630,7 @@ section.entourage {
         float: right;
         width: 200px;
         li {
-            margin: 30px 50px;
+            margin: 30px;
         }
     }
     .profile_pic_crop_form {
@@ -627,6 +638,12 @@ section.entourage {
         clear: both;
         width: 100%;
         margin-top: 15px;
+    }
+    .profile_pic_upload_form button {
+        width: 160px;
+    }
+    .profile_pic_facebook_form {
+        width: 160px;
     }
 }
 

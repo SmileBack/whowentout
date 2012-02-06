@@ -34,6 +34,8 @@
         <p>(You can also access this deal by going to whowentout.com on your phone.)</p>
     <?php endif; ?>
 
-    <input type="submit" value="Continue"/>
+    <div class="buttons">
+        <input type="submit" value="Continue"/>
+    </div>
 
 </form>
