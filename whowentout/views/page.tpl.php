@@ -42,7 +42,7 @@
 
     <div class="tabs">
 
-        <?= a('day', 'Events', array('class' => 'events_link')) ?>
+        <?= a('day', 'Parties', array('class' => 'events_link')) ?>
 
         <?= r::profile_tab(); ?>
 
