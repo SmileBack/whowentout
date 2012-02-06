@@ -45,6 +45,8 @@
                         <?= $friend->last_name ?>
                     </div>
 
+                    <?= r::profile_networks(array('user' => $friend)) ?>
+
                 </label>
             </li>
         <?php endforeach; ?>
