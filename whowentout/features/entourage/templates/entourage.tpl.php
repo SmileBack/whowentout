@@ -8,7 +8,7 @@ $entourage_count = count($entourage);
 <div class="profile">
     <div class="profile_inner">
 
-        <h1>You have <?= $entourage_count ?> people in your entourage.</h1>
+        <h1>You have <?= Inflect::pluralize_if($entourage_count, 'person') ?> in your entourage.</h1>
 
         <?= r::received_entourage_requests_section(array('user' => $user)); ?>
 

@@ -8,11 +8,7 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
 <section class="entourage gallery">
     <h3>
         <span>
-            <?php if ($user == auth()->current_user()): ?>
-                Your Entourage
-            <?php else: ?>
-                <?= "$user->first_name" ?>'s Entourage
-            <?php endif; ?>
+            <?= ucfirst(format::owner($user)) ?> Entourage
         </span>
         <span>(<?= count($entourage) ?>)</span>
 
@@ -34,7 +30,10 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
         </div>
 
         <h2>
-            <?= $user->first_name ?> has 0 people in his entourage.
+            <?= ucfirst(format::first_name($user)) ?>
+            <?= format::pov('has', $user) ?>
+            0 people in
+            <?= format::pov('his', $user) ?> entourage.
         </h2>
     <?php endif; ?>
 

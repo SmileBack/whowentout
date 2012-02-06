@@ -14,5 +14,5 @@ $checkins = $checkin_engine->get_checkins_for_user($user);
     <?php endforeach; ?>
 </div>
 <?php else: ?>
-    <h2><?= $user->first_name ?> hasn't checked into any parties.</h2>
+    <h2><?= ucfirst(format::first_name($user)) ?> <?= format::pov("hasn't", $user) ?> checked into any parties.</h2>
 <?php endif; ?>

@@ -19,7 +19,7 @@ if (db()->has_table('sessions')) {
 
 session_start();
 
-app()->clock()->set_time(new DateTime('2012-01-15'));
+app()->clock()->set_time(new DateTime('2011-12-08'));
 app()->trigger('boot');
 
 route_uri_request();
