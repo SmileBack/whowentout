@@ -6,7 +6,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000014.less';
+@import 'elements.0000000015.less';
 
 .date_tip {
     width: 150px;
@@ -121,6 +121,17 @@ input[type="submit"], button {
     font-size: 12px;
     font-style: italic;
     color: @red;
+}
+
+.going_to {
+    .border_radius(8px);
+    .site_shadow;
+    margin: 8px;
+    padding: 8px;
+    background-color: #fefef2;
+    color: #333;
+    font-weight: bold;
+    font-size: 12px;
 }
 
 .dialog {
@@ -653,6 +664,7 @@ section.entourage {
     width: 130px;
     overflow: hidden;
     .site_shadow;
+    background-color: white;
     .profile_caption {
         font-size: 15px;
         font-weight: bold;
@@ -720,7 +732,6 @@ section.entourage {
                 margin: 10px;
                 padding: 10px 5px;
                 width: 140px;
-                background-color: white;
                 text-align: center;
                 display: inline-block;
                 vertical-align: top;

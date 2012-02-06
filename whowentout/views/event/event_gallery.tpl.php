@@ -26,13 +26,18 @@
             <li>
                 <?=
                 r::profile_small(array(
-                    'caption' => $checkin->event->name,
                     'user' => $checkin->user,
                     'link_to_profile' => true,
                     'show_networks' => true,
                     'hidden' => false,
                 ))
                 ?>
+
+                <div class="going_to">
+                    <div>Going to:</div>
+                    <div><?= $checkin->event->name ?></div>
+                </div>
+
             </li>
             <?php endforeach; ?>
         <?php endif; ?>
