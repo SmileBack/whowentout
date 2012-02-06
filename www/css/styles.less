@@ -530,11 +530,18 @@ td {
     }
     .checkins_section {
         font-size: 1em;
-        li {
+        .checkin {
             .site_shadow;
+            display: block;
             margin: 16px 8px;
             overflow: hidden;
-            &:hover { background-color: @selected_item_color; }
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            &:hover {
+                background-color: @selected_item_color;
+                text-decoration: underline;
+            }
         }
         .date {
             width: 80px;
