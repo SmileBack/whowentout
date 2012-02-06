@@ -12,7 +12,7 @@
     </div>
 
     <div class="badge">
-        <input type="submit" name="op" class="add_event" value="add event" />
+        <input type="submit" name="op" class="add_event" value="add" />
     </div>
 
 </label>

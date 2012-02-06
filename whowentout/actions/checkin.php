@@ -25,7 +25,7 @@ class CheckinAction extends Action
         $event_id = $_POST['event_id'];
         $date = DateTime::createFromFormat('Y-m-d', $_POST['date']);
 
-        if ($_POST['event_id'] == 'new') {
+        if ($this->is_new_event()) {
             $event = $this->add_event();
         }
         else {
@@ -53,6 +53,11 @@ class CheckinAction extends Action
             redirect("events/$event->id/invite");
         else
             app()->goto_event($event);
+    }
+
+    protected function is_new_event()
+    {
+        return $_POST['event_id'] == 'new' || $_POST['op'] == 'add';
     }
 
     protected function add_event()
