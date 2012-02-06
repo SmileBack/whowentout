@@ -23,7 +23,13 @@
         <?= r::entourage_section(array('user' => $user, 'show_invite_link' => $your_profile)); ?>
 
         <section class="checkins_section">
-            <h3>Checkins</h3>
+            <h3>
+                <?php if ($user == auth()->current_user()): ?>
+                    <span>Your Checkins</span>
+                <?php else: ?>
+                    <span><?= "$user->first_name" ?>'s Checkins</span>
+                <?php endif; ?>
+            </h3>
             <?= r::profile_checkins(array('user' => $user)); ?>
         </section>
 
