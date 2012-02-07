@@ -17,11 +17,18 @@ class PdoDatabaseStatement extends PDOStatement
 
     function execute($input_parameters = array())
     {
-        benchmark::start($this->queryString, 'database');
+        $query = $this->normalizeQuery($this->queryString, $input_parameters);
+
+        benchmark::start($query, 'database');
         $result = call_user_func_array(array($this, 'parent::execute'), func_get_args());
-        benchmark::end($this->queryString, 'database');
+        benchmark::end($query, 'database');
 
         return $result;
+    }
+
+    private function normalizeQuery($query)
+    {
+        return preg_replace('/:\w+/', '?', $query);
     }
 
 }
