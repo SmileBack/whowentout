@@ -7,9 +7,13 @@ $invite_engine = build('invite_engine');
 /* @var $checkin_engine CheckinEngine */
 $checkin_engine = build('checkin_engine');
 
+benchmark::start('get_invite');
 $invite = $invite_engine->get_invite($event, $current_user);
+benchmark::end('get_invite');
 
+benchmark::start('get_checkin_count');
 $checkin_count = $checkin_engine->get_checkin_count($event);
+benchmark::end('get_checkin_count');
 ?>
 
 <label class="event_option all <?= $event->place->type ?>">

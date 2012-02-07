@@ -46,4 +46,3 @@
 
     </ul>
 </div>
-<?php krumo::dump(benchmark::summary()); ?>

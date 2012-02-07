@@ -22,6 +22,7 @@
                 <?php foreach ($events as $k => $event): ?>
                 <?php $selected = ($selected_event == $event); ?>
                 <li class="<?= $selected ? 'selected' : '' ?>">
+                    <?php benchmark::start('event_option'); ?>
                     <?=
                     r::event_option(array(
                         'event' => $event,
@@ -29,6 +30,7 @@
                         'selected_event' => $selected_event,
                     ))
                     ?>
+                    <?php benchmark::end('event_option'); ?>
                 </li>
                 <?php endforeach; ?>
 

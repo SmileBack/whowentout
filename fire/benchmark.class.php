@@ -6,7 +6,7 @@ class benchmark
     public static $blocks = array();
     public static $start_times = array();
 
-    public static function start($marker)
+    public static function  start($marker)
     {
         if (isset(static::$start_times[$marker]))
             throw new Exception("Already started $marker.");
