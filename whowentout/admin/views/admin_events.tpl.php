@@ -23,7 +23,7 @@
 
         <div>
             <label>Deal</label>
-            <input type="text" name="event[deal]" autocomplete="off" />
+            <textarea rows="4" cols="100" name="event[deal]"></textarea>
         </div>
         
         <input type="submit" name="op" value="Create"/>

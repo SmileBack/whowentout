@@ -19,10 +19,11 @@ class Deal_Preview_Display extends Display
 
         $venue = $event->name;
         $deal = $event->deal;
-        $date = $event->date->format('m.d.Y');
+        $date = $event->date->format('M jS');
         $profile_picture = build('profile_picture', $user);
 
         $gen = new DealTicketGenerator();
+
         $ticket = $gen->generate($user, $profile_picture, $venue, $deal, $date);
 
         if ($this->orientation == 'portrait')
