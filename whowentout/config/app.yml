@@ -64,6 +64,10 @@ facebook_networks_updater:
   database: database
   profile_source: facebook_profile_source
 
+network_source:
+  type: NetworkSource
+  database: database
+
 auth:
   type: FacebookAuth
   facebook: facebook

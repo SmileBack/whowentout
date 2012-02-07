@@ -3,7 +3,7 @@
 class WhoWentOutPackage extends Package
 {
 
-    public $version = '0.3.0';
+    public $version = '0.3.1';
 
     function install()
     {
@@ -29,6 +29,7 @@ class WhoWentOutPackage extends Package
             'gender' => array('type' => 'string'),
             'date_of_birth' => array('type' => 'date'),
             'cell_phone_number' => array('type' => 'string'),
+            'college_networks' => array('type' => 'string'),
         ));
         $this->database->table('users')->create_unique_index('facebook_id');
     }
@@ -165,6 +166,11 @@ class WhoWentOutPackage extends Package
             'type' => 'string',
         ));
         $this->database->execute('UPDATE places SET type = :type', array('type' => 'other'));
+    }
+
+    function update_0_3_1()
+    {
+        $this->database->table('users')->create_column('college_networks', array('type' => 'string'));
     }
 
     function uninstall()

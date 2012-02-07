@@ -1,5 +1,10 @@
+<?php
+/* @var $network_source NetworkSource */
+$network_source = build('network_source');
+$networks = $network_source->get_network_names($user->id);
+?>
 <ul class="profile_networks">
-    <?php foreach ($user->networks->where('type', 'college') as $network): ?>
-    <li><?= $network->name ?></li>
+    <?php foreach ($networks as $network): ?>
+    <li><?= $network ?></li>
     <?php endforeach; ?>
 </ul>
