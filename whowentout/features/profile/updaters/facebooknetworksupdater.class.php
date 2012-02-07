@@ -22,6 +22,10 @@ class FacebookNetworksUpdater
     function update_networks($user_id)
     {
         $user = $this->database->table('users')->row($user_id);
+
+        $user->college_networks = null; //clear college network cache
+        $user->save();
+
         $profile = $this->profile_source->fetch_profile($user->facebook_id);
         $networks = $profile->networks;
 
