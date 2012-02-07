@@ -128,6 +128,19 @@ whowentout.showProfileEditDialog = function () {
     });
 };
 
+whowentout.showDisabledOnPhoneDialog = function() {
+    $(function () {
+        whowentout.initDialog();
+        dialog.title('Use Your Computer');
+        dialog.message(
+        '<img src="/images/laptop.png" />'
+        +'<p>This feature is available on your computer.</p>'
+        );
+        dialog.setButtons('ok');
+        dialog.showDialog('disabled_on_phone');
+    });
+};
+
 $(function () {
     whowentout.router = Backbone.Router.extend({
         routes:{
@@ -176,6 +189,13 @@ $('.action').entwine({
         e.preventDefault();
         var href = this.attr('href');
         whowentout.router.navigate(href, true);
+    }
+});
+
+$('.mobile .entourage_request_link').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        whowentout.showDisabledOnPhoneDialog();
     }
 });
 
