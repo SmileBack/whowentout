@@ -19,7 +19,7 @@
             <li>
                 <?= r::profile_anonymous() ?>
             </li>
-            <?php endfor; ?>
+        <?php endfor; ?>
 
         <?php else: ?>
         <?php foreach ($checkins as $checkin): ?>
@@ -35,10 +35,12 @@
                 ?>
                 <?php benchmark::end('profile_small'); ?>
 
+                <?php benchmark::start('going_to'); ?>
                 <div class="going_to">
                     <div>Going to:</div>
                     <div><?= $checkin->event->name ?></div>
                 </div>
+                <?php benchmark::end('going_to'); ?>
 
             </li>
             <?php endforeach; ?>
