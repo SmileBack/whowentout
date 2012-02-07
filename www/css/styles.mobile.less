@@ -18,7 +18,6 @@
         height: auto;
     }
     .tabs {
-        overflow: hidden;
         float: right;
         .events_link, .admin_link {
             display: none;
@@ -26,11 +25,23 @@
     }
     .tabs a {
         margin: 12px 6px;
-        padding: 0;
+        padding: 2px;
         font-size: 12px;
         float: left;
         width: auto;
+        .border_radius(4px);
     }
+}
+
+.mobile .tab_tip_wrapper {
+    bottom: 0;
+    left: 50%;
+    margin-top: 15px;
+    margin-left: -50px;
+}
+
+.mobile .tab_tip {
+    .tip(up, #333, white, 6px);
 }
 
 #page {

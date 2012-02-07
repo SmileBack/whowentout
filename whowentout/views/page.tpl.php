@@ -52,7 +52,9 @@
         <?= a('admin', 'Admin', array('class' => 'admin_link')) ?>
         <?php endif; ?>
 
+        <?php if (browser::is_desktop()): ?>
         <?= auth()->get_login_link() ?>
+        <?php endif; ?>
     </div>
 
 </nav>
@@ -62,6 +64,13 @@
     <div id="content">
         <?= $content ?>
     </div>
+
+
+    <?php if (browser::is_mobile()): ?>
+        <div id="footer">
+        <?= auth()->get_login_link(); ?>
+        </div>
+    <?php endif; ?>
 
 </div>
 <!-- page end -->

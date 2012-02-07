@@ -452,7 +452,7 @@ $('.event_day').entwine({
     }
 });
 
-$('.tab_tip_wrapper').entwine({
+$('.desktop .tab_tip_wrapper').entwine({
     onmatch: function() {
         this.startBouncing();
     },
