@@ -5,10 +5,16 @@
            name="event_id"
            value="new" />
 
+    <?php
+    $title = 'Going somewhere else?';
+    if (browser::is_desktop())
+        $title .= ' Type place here';
+    ?>
+
     <div class="place">
         <input type="hidden" name="event[date]" value="<?= $date->format('Y-m-d') ?>" />
         <input type="text" class="inline_label" name="event[name]" value="" autocomplete="off"
-               title="Going somewhere else? Type place here" />
+               title="<?= $title ?>" />
     </div>
 
     <div class="badge">
