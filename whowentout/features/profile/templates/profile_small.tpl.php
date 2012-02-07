@@ -31,7 +31,10 @@
         <?php endif; ?>
     </div>
 
+    <?php benchmark::start('profile_networks'); ?>
     <?php if (!$hidden && $show_networks): ?>
         <?= r::profile_networks(array('user' => $user)) ?>
     <?php endif; ?>
+    <?php benchmark::end('profile_networks'); ?>
+
 </div>

@@ -24,6 +24,7 @@
         <?php else: ?>
         <?php foreach ($checkins as $checkin): ?>
             <li>
+                <?php benchmark::start('profile_small'); ?>
                 <?=
                 r::profile_small(array(
                     'user' => $checkin->user,
@@ -32,6 +33,7 @@
                     'hidden' => false,
                 ))
                 ?>
+                <?php benchmark::end('profile_small'); ?>
 
                 <div class="going_to">
                     <div>Going to:</div>
@@ -44,3 +46,4 @@
 
     </ul>
 </div>
+<?php krumo::dump(benchmark::summary()); ?>
