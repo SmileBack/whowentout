@@ -11,7 +11,7 @@ $num_requests = count($requests);
 <?php if (auth()->logged_in()): ?>
     <?= a_open('entourage', array('class' => 'entourage_link')); ?>
 
-        <?= "My Entourage ($n)" ?>
+        <?= browser::is_desktop() ? "My Entourage ($n)" : "Entourage ($n)" ?>
 
         <?php if ($num_requests > 0): ?>
             <div class="tab_tip_wrapper">
