@@ -231,6 +231,24 @@ input[type="submit"], button {
     }
 }
 
+.debug_panel {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: white;
+    max-height: 375px;
+    &.collapsed .debug_body {
+        display: none;
+    }
+    &.expanded .debug_body {
+        display: block;
+    }
+    .debug_bar {
+        height: 18px;
+    }
+}
+
 @note_height: 20px;
 .note {
     font-size: 12px;

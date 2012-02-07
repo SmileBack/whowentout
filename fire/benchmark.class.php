@@ -3,54 +3,116 @@
 class benchmark
 {
 
-    public static $blocks = array();
-    public static $start_times = array();
+    /* @var $benchmarkers Benchmarker[] */
+    private static $benchmarkers;
 
-    public static function start($marker)
+    /**
+     * @static
+     * @param string $group
+     * @return Benchmarker
+     */
+    public static function benchmarker($group = 'main')
     {
-        if (isset(static::$start_times[$marker]))
-            throw new Exception("Already started $marker.");
+        if (!isset(static::$benchmarkers[$group]))
+            static::$benchmarkers[$group] = new Benchmarker();
 
-        static::$start_times[$marker] = microtime(true);
+        return static::$benchmarkers[$group];
     }
 
-    public static function end($marker)
+    public static function start($marker, $group = 'main')
     {
-        if (!isset(static::$start_times[$marker]))
+        return static::benchmarker($group)->start($marker);
+    }
+
+    public static function end($marker, $group = 'main')
+    {
+        return static::benchmarker($group)->end($marker, $group);
+    }
+
+    public static function elapsed($marker, $group = 'main')
+    {
+        return static::benchmarker($group)->elapsed($marker);
+    }
+
+    public static function count($marker, $group = 'main')
+    {
+        return static::benchmarker($group)->count($marker);
+    }
+
+    public static function summary($group = 'main')
+    {
+        return static::benchmarker($group)->summary();
+    }
+
+}
+
+class Benchmarker
+{
+
+    private $blocks = array();
+    private $start_times = array();
+
+    function start($marker)
+    {
+        if (isset($this->start_times[$marker]))
+            throw new Exception("Already started $marker.");
+
+        $this->start_times[$marker] = microtime(true);
+    }
+
+    function end($marker)
+    {
+        if (!isset($this->start_times[$marker]))
                     throw new Exception("Never started $marker.");
 
         $block = array(
             'marker' => $marker,
-            'start' => static::$start_times[$marker],
+            'start' => $this->start_times[$marker],
             'end' => microtime(true),
         );
         $block['elapsed'] = $block['end'] - $block['start'];
 
-        unset(static::$start_times[$marker]);
+        unset($this->start_times[$marker]);
 
-        static::$blocks[$marker][] = $block;
+        $this->blocks[$marker][] = $block;
     }
 
-    public static function elapsed($marker)
+    function elapsed($marker)
     {
-        if (!isset(static::$blocks[$marker]))
+        if (!isset($this->blocks[$marker]))
             return 0;
 
         $elasped = 0;
-        foreach (static::$blocks[$marker] as $block)
+        foreach ($this->blocks[$marker] as $block)
             $elasped += $block['elapsed'];
 
         return $elasped;
     }
 
-    public static function summary()
+    function count($marker)
+    {
+        if (!isset($this->blocks[$marker]))
+            return 0;
+
+        return count($this->blocks[$marker]);
+    }
+
+    function summary()
     {
         $summary = array();
-        foreach (static::$blocks as $marker => $blocks) {
-            $summary[$marker] = static::elapsed($marker);
-            $summary[$marker] = round($summary[$marker], 2);
+
+        foreach ($this->blocks as $marker => $blocks) {
+            $summary[] = array(
+                'marker' => $marker,
+                'elapsed' => $this->elapsed($marker),
+                'count' => $this->count($marker),
+            );
         }
-        arsort($summary);
+
+        usort($summary, function($a, $b) {
+            return $b['elapsed'] * 10000 - $a['elapsed'] * 10000;
+        });
+
         return $summary;
     }
 

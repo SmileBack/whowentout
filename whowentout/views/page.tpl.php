@@ -7,7 +7,7 @@
     <meta name="description" content=""/>
     <meta name="author" content="">
     <meta name="viewport" content="width=320px, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
 
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
@@ -20,18 +20,23 @@
     <link rel="stylesheet/less" type="text/css" href="/css/styles.<?= filemtime('./css/styles.less') ?>.less"/>
 
     <?php if (browser::is_mobile()): ?>
-        <link rel="stylesheet/less" type="text/css" href="/css/styles.mobile.<?= filemtime('./css/styles.mobile.less') ?>.less"/>
+    <link rel="stylesheet/less" type="text/css"
+          href="/css/styles.mobile.<?= filemtime('./css/styles.mobile.less') ?>.less"/>
     <?php endif; ?>
 
     <script src="/js/less-1.2.1.js" type="text/javascript"></script>
 
     <?php
-        /* @var $asset Asset */
-        $asset = build('asset');
-        $asset->load_js('page.js');
+    /* @var $asset Asset */
+    $asset = build('asset');
+    $asset->load_js('page.js');
     ?>
 
     <?= $asset->scripts() ?>
+
+    <link rel="stylesheet" type="text/css" href="/css/jquery.datatables.css"/>
+    <script type="text/javascript" src="/js/jquery.datatables.js"></script>
+
 </head>
 
 <body class="<?= browser::classes() ?>">
@@ -67,9 +72,9 @@
 
 
     <?php if (browser::is_mobile()): ?>
-        <div id="footer">
+    <div id="footer">
         <?= auth()->get_login_link(); ?>
-        </div>
+    </div>
     <?php endif; ?>
 
 </div>
@@ -78,6 +83,14 @@
 <?= flash::message() ?>
 
 <?= js() ?>
+
+    <?=
+    r::debug_panel(array(
+        'body' => r::table(array(
+            'rows' => benchmark::summary('database'),
+        ))
+    ))
+    ?>
 
 </body>
 </html>

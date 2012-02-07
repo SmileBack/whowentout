@@ -3,7 +3,7 @@
 class Database
 {
 
-    /* @var PDO */
+    /* @var PdoDatabaseHandle */
     public $dbh = null;
 
     private $config = array();
@@ -22,7 +22,7 @@ class Database
         check_required_options($options, $this->required_options);
         
         $this->config = $options;
-        $this->dbh = new PDO("mysql:host={$options['host']};dbname={$options['database']}",
+        $this->dbh = new PdoDatabaseHandle("mysql:host={$options['host']};dbname={$options['database']}",
                                 $options['username'], $options['password']);
 
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -181,7 +181,7 @@ class Database
      *
      * @param string $sql An SQL query
      * @param array $params If placeholders are used in your sql, place your values in $params.
-     * @return PDOStatement
+     * @return PdoDatabaseStatement
      */
     function query_statement($sql, $params = array())
     {
@@ -193,7 +193,6 @@ class Database
         }
         return $statement;
     }
-
 
     function destroy_all_tables()
     {

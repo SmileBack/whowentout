@@ -560,3 +560,53 @@ function hideAddressBar()
 }
 window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
 window.addEventListener("orientationchange", hideAddressBar );
+
+$('.debug_panel').entwine({
+    onmatch: function() {
+        this.collapse();
+    },
+    onunmatch: function() {
+    },
+    isExpanded: function() {
+        return this.hasClass('expanded');
+    },
+    toggleExpand: function() {
+        if (this.isExpanded())
+            this.collapse();
+        else
+            this.expand();
+
+        return this;
+    },
+    expand: function() {
+        this.removeClass('collapsed').addClass('expanded');
+        return this;
+    },
+    collapse: function() {
+        this.removeClass('expanded').addClass('collapsed');
+        return this;
+    }
+});
+
+$('.debug_panel table').entwine({
+    onmatch: function() {
+        this.dataTable();
+        this.collapse();
+    },
+    onunmatch: function() {
+    }
+});
+
+$('.debug_panel .expand').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('.debug_panel').expand();
+    }
+});
+
+$('.debug_panel .collapse').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('.debug_panel').collapse();
+    }
+});

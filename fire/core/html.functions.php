@@ -1,22 +1,23 @@
 <?php
 
+function html_element_attributes($attributes = array())
+{
+    if (empty($attributes))
+        return '';
+
+    $html = array();
+    foreach ($attributes as $prop => $val) {
+        $html[] = ' ';
+        $html[] = sprintf('%s="%s"', $prop, $val);
+    }
+
+    return implode('', $html);
+}
 
 function html_element_open($tag, $attributes = array())
 {
-    $html = array();
-
-    $html[] = "<$tag";
-
-    if (!empty($attributes)) {
-        $html[] = ' ';
-        foreach ($attributes as $prop => $val) {
-            $html[] = sprintf('%s="%s"', $prop, $val);
-        }
-    }
-
-    $html[] = ">";
-
-    return implode('', $html);
+    $attributes = html_element_attributes($attributes);
+    return "<$tag$attributes>";
 }
 
 function html_element_close($tag)

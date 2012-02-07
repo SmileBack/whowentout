@@ -16,6 +16,4 @@
     ?>
     <?php benchmark::end('event_gallery'); ?>
 
-    <?php krumo::dump(benchmark::summary()); ?>
-
 </div>
