@@ -28,11 +28,43 @@ class EntourageEngine
             'status' => 'pending',
         ));
 
+        $this->clear_cache($sender);
+
         app()->trigger('entourage_request_sent', array(
             'request' => $request,
         ));
 
         return $request;
+    }
+
+    private $outgoing_request_cache = array();
+    private $entourage_cache = array();
+
+    private function load_cache($sender)
+    {
+        $this->outgoing_request_cache[$sender->id] = $this->database->table('entourage_requests')
+                ->where('sender_id', $sender->id)->to_array();
+
+        $this->entourage_cache[$sender->id] = $this->get_entourage($sender);
+    }
+
+    private function load_cache_if_missing($sender)
+    {
+        if ($this->cache_is_missing($sender)) {
+            $this->load_cache($sender);
+        }
+    }
+
+    private function cache_is_missing($sender)
+    {
+        return !isset($this->outgoing_request_cache[$sender->id])
+                || !isset($this->entourage_cache[$sender->id]);
+    }
+
+    private function clear_cache($sender)
+    {
+        unset($this->outgoing_request_cache[$sender->id]);
+        unset($this->entourage_cache[$sender->id]);
     }
 
     function request_was_sent($sender, $receiver)
@@ -55,6 +87,9 @@ class EntourageEngine
             'user_id' => $request->receiver_id,
             'friend_id' => $request->sender_id,
         ));
+
+        $this->clear_cache($request->sender);
+        $this->clear_cache($request->receiver);
     }
 
     function ignore_request($request)
@@ -66,36 +101,38 @@ class EntourageEngine
     function get_pending_requests($user)
     {
         return $this->database->table('entourage_requests')
-                              ->where('receiver_id', $user->id)
-                              ->where('status', 'pending')->to_array();
+                ->where('receiver_id', $user->id)
+                ->where('status', 'pending')->to_array();
     }
 
     function get_pending_outgoing_requests($user)
     {
         return $this->database->table('entourage_requests')
-                              ->where('sender_id', $user->id)
-                              ->where('status', 'pending')->to_array();
+                ->where('sender_id', $user->id)
+                ->where('status', 'pending')->to_array();
     }
 
     function get_entourage($user)
     {
         return $this->database->table('entourage')
-                              ->where('user_id', $user->id)
-                              ->friend->to_array();
+                ->where('user_id', $user->id)
+                ->friend->to_array();
     }
 
     function get_entourage_count($user)
     {
         return $this->database->table('entourage')
-                              ->where('user_id', $user->id)->count();
+                ->where('user_id', $user->id)->count();
     }
 
     function in_entourage($user, $friend)
     {
-        return $this->database->table('entourage')
-                              ->where('user_id', $user->id)
-                              ->where('friend_id', $friend->id)
-                              ->count() > 0;
+        $this->load_cache_if_missing($user);
+        foreach ($this->entourage_cache[$user->id] as $cur)
+            if ($cur == $friend)
+                return true;
+
+        return false;
     }
 
     function get_request($id)
@@ -105,10 +142,12 @@ class EntourageEngine
 
     function get_request_between($sender, $receiver)
     {
-        return $this->database->table('entourage_requests')
-                              ->where('sender_id', $sender->id)
-                              ->where('receiver_id', $receiver->id)
-                              ->first();
+        $this->load_cache_if_missing($sender);
+        foreach ($this->outgoing_request_cache[$sender->id] as $request) {
+            if ($request->receiver_id == $receiver->id)
+                return $request;
+        }
+        return null;
     }
 
 }
