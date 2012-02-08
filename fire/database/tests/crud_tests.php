@@ -30,6 +30,11 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
             'id' => array('type' => 'id', 'auto_increment' => false),
             'name' => array('type' => 'string'),
         ));
+
+        $this->db->create_table('hash', array(
+            'id' => array('type' => 'key'),
+            'name' => array('type' => 'string'),
+        ));
     }
 
     function test_insert()
@@ -96,6 +101,10 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
         $row->save();
 
         $this->assertEquals($row->my_date, null);
+
+        $row->my_date = $date;
+        $row->save();
+        $this->assertEquals($row->my_date, $same_date);
     }
 
     function test_create_or_update_row()
@@ -154,6 +163,31 @@ class Crud_Tests extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($row, $same_row, 'the updated row references the same object');
         $this->assertEquals($row->name, 'venicii', 'row field was properly updated');
+    }
+
+    function test_get_row_from_keyed_table_with_data_present()
+    {
+        $this->db->execute("INSERT INTO hash (id, name) VALUES ('aaa', 'bbb')");
+
+        $row = $this->db->table('hash')->row('aaa');
+        $this->assertEquals('bbb', $row->name);
+    }
+
+    function test_crud_with_keyed_table()
+    {
+        $this->db->table('hash')->create_row(array(
+            'id' => 'foo',
+            'name' => 'keg',
+        ));
+
+        $row = $this->db->table('hash')->row('foo');
+
+        $this->assertEquals('keg', $row->name);
+
+        $row->name = 'waa';
+        $row->save();
+
+        $this->assertEquals('waa', $row->name);
     }
 
 }

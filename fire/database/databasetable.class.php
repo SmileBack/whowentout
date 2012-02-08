@@ -11,6 +11,8 @@ class DatabaseTable implements Iterator
     private $name;
 
     private $schema;
+
+    /* @var $rows DatabaseRow[] */
     private $rows = array();
     public $columns = array();
 
@@ -52,7 +54,7 @@ class DatabaseTable implements Iterator
             if (!$values)
                 $this->rows[$id] = false;
             else
-                $this->rows[$id] = new DatabaseRow($this, $id);
+                $this->init_database_row($id);
         }
 
         return $this->rows[$id];
@@ -74,13 +76,8 @@ class DatabaseTable implements Iterator
     function create_row($values = array())
     {
         $values = $this->format_values_for_database($values);
-
         $id = $this->table_gateway->create($values);
-
-        $this->rows[$id] = new DatabaseRow($this, $id);
-        $this->rows[$id]->_set_values( $this->table_gateway->get($id) );
-
-        return $this->rows[$id];
+        return $this->init_database_row($id);
     }
 
     /**
@@ -93,7 +90,6 @@ class DatabaseTable implements Iterator
         $id = $this->table_gateway->create_or_update($values);
 
         $this->row($id)->_set_values($this->table_gateway->get($id));
-
         return $this->row($id);
     }
 
@@ -116,10 +112,25 @@ class DatabaseTable implements Iterator
         assert($row->table() == $this);
 
         $id_column = $this->id_column()->name();
-        $values = $this->format_values_for_database($row->changes());
+        $values = $row->changes();
 
         $values = $this->table_gateway->update($row->$id_column, $values);
         $row->_set_values($values);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return DatabaseRow
+     */
+    private function init_database_row($id)
+    {
+        assert(!isset($this->rows[$id]));
+
+        $this->rows[$id] = new DatabaseRow($this, $id);
+        $values = $this->table_gateway->get($id);
+        $this->rows[$id]->_set_values($values);
+        return $this->rows[$id];
     }
 
     /**

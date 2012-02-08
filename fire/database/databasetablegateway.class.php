@@ -34,6 +34,11 @@ class DatabaseTableGateway
         $query->execute();
 
         $id = $this->database->last_insert_id();
+
+        if (!$id) { // not an auto-increment column
+            $id = $values[$this->id_column];
+        }
+
         $this->reload($id);
 
         return $id;
@@ -41,9 +46,13 @@ class DatabaseTableGateway
 
     function update($id, $values)
     {
+        assert($id != null);
+
         $query = $this->update_row_query($id, $values);
         $query->execute();
+
         $this->reload($id);
+
         return $this->get($id);
     }
 

@@ -11,9 +11,12 @@ class DatabaseRow
      */
     private $table;
 
-    function    __construct(DatabaseTable $table, $id)
+    function __construct(DatabaseTable $table, $id)
     {
         $this->table = $table;
+
+        if ($this->table()->id_column())
+            $this->values = array($this->table()->id_column()->name() => $id);
     }
 
     function values()
@@ -94,6 +97,7 @@ class DatabaseRow
     {
         $id_column = $this->table()->id_column()->name();
         $result_set = new ResultSet($this->table());
+
         $result_set = $result_set->where($id_column, $this->$id_column);
         return $result_set->$field;
     }
