@@ -43,6 +43,7 @@ class ViewInviteDialogAction extends Action
                         'checkin_engine' => $this->checkin_engine,
                         'current_user' => auth()->current_user(),
                         'date' => $event->date,
+                        'selected_event' => $event,
                     )),
         ));
     }

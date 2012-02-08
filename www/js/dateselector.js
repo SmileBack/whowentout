@@ -97,6 +97,9 @@ $('.scrollable').entwine({
         });
     },
     refreshScrollPosition: function() {
+        if (this.getSelected().length == 0)
+            return;
+
         this.markSelected(this.getSelected(), false);
     },
     _animateToEl: function(el, onComplete) {

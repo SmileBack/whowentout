@@ -43,16 +43,23 @@ class CheckinAction extends Action
             $has_sent_invites = $this->invite_engine->has_sent_invites($event, $current_user);
         }
 
-        if (!$event)
+        if (!$event) {
             redirect("day/" . $date->format('Ymd'));
-        if ($event->deal == null && browser::is_mobile())
+        }
+        elseif ($event->deal == null && browser::is_mobile()) {
             app()->goto_event($event);
-        if ($event->deal != null)
+        }
+        elseif ($event->deal != null) {
+            js()->whowentout->dialogDelay = 5000;
             redirect("events/$event->id/deal");
-        elseif (!$has_sent_invites)
+        }
+        elseif (!$has_sent_invites) {
+            js()->whowentout->dialogDelay = 5000;
             redirect("events/$event->id/invite");
-        else
+        }
+        else {
             app()->goto_event($event);
+        }
     }
 
     protected function is_new_event()

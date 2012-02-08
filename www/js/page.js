@@ -24,97 +24,50 @@ head.css = function (path) {
     $("head").append("<link>");
     var css = $("head").children(":last");
     css.attr({
-        rel: 'stylesheet',
-        type: 'text/css',
-        href: path
+        rel:'stylesheet',
+        type:'text/css',
+        href:path
     });
 };
 
 var whowentout = window.whowentout = {};
-
-whowentout.showColorOptions = function () {
-    whowentout.initDialog();
-    $(function () {
-        $('#mask').css('opacity', '0');
-        dialog.title('Pick your Colors');
-        dialog.showDialog('color_options_dialog');
-        dialog.setButtons('close');
-        dialog.loadContent('/color/options');
-    });
-}
 
 whowentout.initDialog = function () {
     if (!window.dialog) {
         var options = {};
         window.dialog = $.dialog.create(options);
     }
-}
+};
+
+whowentout.showDialog = function (title, url, cls, onComplete) {
+    onComplete = onComplete || function () {};
+    $(function () {
+        var delay = whowentout.dialogDelay || 0;
+        setTimeout(function () {
+            whowentout.initDialog();
+            dialog.title(title);
+            dialog.showDialog(cls);
+            dialog.loadContent(url, onComplete);
+        }, delay);
+    });
+};
 
 whowentout.showDealDialog = function (event_id) {
-    $(function () {
-        whowentout.initDialog();
-        dialog.title('Redeem the deal with your phone!');
-        dialog.showDialog('deal_dialog');
-        dialog.loadContent('/events/' + event_id + '/deal', function () {
-            head.js('/js/jquery.maskedinput.js', function () {
-                $(".cell_phone_number").mask("(999) 999-9999").trigger('focus');
-            });
+    whowentout.showDialog('Redeem the deal with your phone!',
+    '/events/' + event_id + '/deal', 'deal_dialog',
+    function () {
+        head.js('/js/jquery.maskedinput.js', function () {
+            $(".cell_phone_number").mask("(999) 999-9999").trigger('focus');
         });
     });
 };
 
-$('.mobile .deal_preview').entwine({
-    onmatch:function () {
-        this.css('cursor', 'pointer');
-    },
-    onunmatch:function () {
-        this.css('cursor', '');
-    },
-    onclick:function (e) {
-        e.preventDefault();
-        this.closest('form').submit();
-    }
-});
-
 whowentout.showInviteDialog = function (event_id) {
-    $(function () {
-        whowentout.initDialog();
-        dialog.title('Invite your Friends');
-        dialog.showDialog('invite_dialog');
-        dialog.loadContent('/events/' + event_id + '/invite');
-    });
+    whowentout.showDialog('Invite your Friends', '/events/' + event_id + '/invite', 'invite_dialog');
 };
 
-$('.dialog.deal_dialog').entwine({
-    onmaskclick:function () {
-        this.find('form').submit();
-    }
-});
-
-$('.dialog.profile_edit_dialog').entwine({
-    onmaskclick:function () {
-        this.find('.profile_pic_crop_form').submit();
-    }
-});
-
-$('.dialog.invite_dialog').entwine({
-    onmaskclick:function () {
-        var link = this.find('.cancel_link').attr('href');
-        if (link.length == 0)
-            return;
-
-        window.location = link;
-    }
-});
-
 whowentout.showEntourageRequestDialog = function () {
-    $(function () {
-        whowentout.initDialog();
-
-        dialog.title('Entourage Request');
-        dialog.showDialog('invite_dialog');
-        dialog.loadContent('/entourage/invite');
-    });
+    whowentout.showDialog('Entourage Request', '/entourage/invite', 'invite_dialog');
 };
 
 whowentout.showNetworkRequiredDialog = function () {
@@ -151,6 +104,41 @@ whowentout.showDisabledOnPhoneDialog = function () {
     });
 };
 
+$('.mobile .deal_preview').entwine({
+    onmatch:function () {
+        this.css('cursor', 'pointer');
+    },
+    onunmatch:function () {
+        this.css('cursor', '');
+    },
+    onclick:function (e) {
+        e.preventDefault();
+        this.closest('form').submit();
+    }
+});
+
+$('.dialog.deal_dialog').entwine({
+    onmaskclick:function () {
+        this.find('form').submit();
+    }
+});
+
+$('.dialog.profile_edit_dialog').entwine({
+    onmaskclick:function () {
+        this.find('.profile_pic_crop_form').submit();
+    }
+});
+
+$('.dialog.invite_dialog').entwine({
+    onmaskclick:function () {
+        var link = this.find('.cancel_link').attr('href');
+        if (link.length == 0)
+            return;
+
+        window.location = link;
+    }
+});
+
 $(function () {
     whowentout.router = Backbone.Router.extend({
         routes:{
@@ -174,10 +162,10 @@ $(function () {
             scrollable.markSelected(link);
         },
         showDealDialog:function (event_id) {
-            whowentout.showDealDialog(event_id);
+            whowentout.showDealDialog(event_id, 5000);
         },
         showInviteDialog:function (event_id) {
-            whowentout.showInviteDialog(event_id);
+            whowentout.showInviteDialog(event_id, 5000);
         },
         showEditProfilePictureDialog:function () {
             whowentout.showProfileEditDialog();
@@ -221,7 +209,7 @@ $('#flash_message').entwine({
         var flashMessage = this;
         setTimeout(function () {
             flashMessage.fadeOut();
-        }, 3000);
+        }, 5000);
     },
     onunmatch:function () {
     }
@@ -414,7 +402,7 @@ $('.event_day').entwine({
             self.replaceHtml(html);
         });
     },
-    showLoadingMessage: function() {
+    showLoadingMessage:function () {
         this.find('.event_list_wrapper').addClass('loading');
         return this;
     },
@@ -635,30 +623,30 @@ $('.debug_panel .collapse').entwine({
 });
 
 $('.tab_panel').entwine({
-    onmatch: function() {
+    onmatch:function () {
         var key = this.find('.tabs a:first').tabKey();
         this.selectTab(key);
     },
-    onunmatch: function() {
+    onunmatch:function () {
     },
-    selectTab: function(key) {
+    selectTab:function (key) {
         this.find('.pane').hide();
         this.find('.pane').filter('.' + key).show();
     }
 });
 
 $('.tab_panel .tabs a').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         this.closest('.tab_panel').selectTab(this.tabKey());
     },
-    tabKey: function() {
+    tabKey:function () {
         return this.attr('href').replace(/#/g, '');
     }
 });
 
 $('.expandable').entwine({
-    onmatch: function() {
+    onmatch:function () {
         if (this.find('> li').length < 2)
             return;
 
@@ -666,26 +654,26 @@ $('.expandable').entwine({
         this.find('> li:first').append('<a href="#view_more" class="view_more">view more</a>');
         this.find('> li:last').append('<a href="#view_less" class="view_less">view less</a>');
     },
-    onunmatch: function() {
+    onunmatch:function () {
     },
-    firstItem: function() {
+    firstItem:function () {
         return this.find('> li:first');
     },
-    restOfItems: function() {
+    restOfItems:function () {
         return this.firstItem().nextAll();
     },
-    viewMoreLink: function() {
+    viewMoreLink:function () {
         return this.find('> li > .view_more');
     },
-    viewLessLink: function() {
+    viewLessLink:function () {
         return this.find('> li > .view_less');
     },
-    viewMore: function() {
+    viewMore:function () {
         this.viewMoreLink().hide();
         this.viewLessLink().show();
         this.restOfItems().fadeIn();
     },
-    viewLess: function() {
+    viewLess:function () {
         this.viewLessLink().hide();
         this.viewMoreLink().show();
         this.restOfItems().fadeOut();
@@ -693,14 +681,14 @@ $('.expandable').entwine({
 });
 
 $('.expandable .view_more').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         this.closest('.expandable').viewMore();
     }
 });
 
 $('.expandable .view_less').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         this.closest('.expandable').viewLess();
     }
