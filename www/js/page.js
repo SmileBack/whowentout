@@ -627,3 +627,27 @@ $('.debug_panel .collapse').entwine({
         this.closest('.debug_panel').collapse();
     }
 });
+
+$('.tab_panel').entwine({
+    onmatch: function() {
+        var key = this.find('.tabs a:first').tabKey();
+        this.selectTab(key);
+    },
+    onunmatch: function() {
+    },
+    selectTab: function(key) {
+        this.find('.pane').hide();
+        this.find('.pane').filter('.' + key).show();
+    }
+});
+
+$('.tab_panel .tabs a').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('.tab_panel').selectTab(this.tabKey());
+    },
+    tabKey: function() {
+        return this.attr('href').replace(/#/g, '');
+    }
+});
+

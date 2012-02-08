@@ -82,9 +82,14 @@
 
     <?=
     r::debug_panel(array(
-        'body' => r::table(array(
-            'rows' => benchmark::summary('database'),
-        ))
+        'tabs' => array(
+            'main' => r::table(array(
+                'rows' => benchmark::summary('main'),
+            )),
+            'database' => r::table(array(
+                'rows' => benchmark::summary('database'),
+            ))
+        ),
     ))
     ?>
 
