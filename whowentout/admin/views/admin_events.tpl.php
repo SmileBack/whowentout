@@ -34,7 +34,7 @@
             </select>
         </div>
         
-        <input type="submit" name="op" value="Create"/>
+        <input type="submit" name="op" value="Create" />
     </fieldset>
 </form>
 
