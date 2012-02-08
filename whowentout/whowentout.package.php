@@ -3,7 +3,7 @@
 class WhoWentOutPackage extends Package
 {
 
-    public $version = '0.3.1';
+    public $version = '0.3.2';
 
     function install()
     {
@@ -52,6 +52,7 @@ class WhoWentOutPackage extends Package
             'name' => array('type' => 'string'),
             'date' => array('type' => 'date'),
             'deal' => array('type' => 'text'),
+            'deal_type' => array('type' => 'text'),
             'place_id' => array('type' => 'integer'),
             'user_id' => array('type' => 'integer'),
         ));
@@ -171,6 +172,11 @@ class WhoWentOutPackage extends Package
     function update_0_3_1()
     {
         $this->database->table('users')->create_column('college_networks', array('type' => 'string'));
+    }
+
+    function update_0_3_2()
+    {
+        $this->database->table('events')->create_column('deal_type', array('type' => 'string'));
     }
 
     function uninstall()

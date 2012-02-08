@@ -47,6 +47,7 @@
         <td><?= $event->place->name ?></td>
         <td><?= $event->deal ?></td>
         <td>
+            <?= a("admin/events/$event->id/edit", 'edit') ?>
             <?= a("admin/events/$event->id/destroy", 'destroy') ?>
         </td>
     </tr>

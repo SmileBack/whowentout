@@ -7,8 +7,8 @@ class AdminViewEventsAction extends Action
         auth()->require_admin();
 
         print r::admin_events(array(
-            'events' => app()->database()->table('events'),
-            'places' => app()->database()->table('places'),
+            'events' => app()->database()->table('events')->order_by('date', 'desc'),
+            'places' => app()->database()->table('places')->order_by('name'),
         ));
     }
 }

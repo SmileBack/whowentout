@@ -37,6 +37,8 @@ router:
     "admin/places/(:num)/destroy": AdminDestroyPlace/$1
     "admin/events": AdminViewEvents
     "admin/events/create": AdminCreateEvent
+    "admin/events/(:num)/edit": AdminEditEvent/$1
+    "admin/events/update": AdminUpdateEvent
     "admin/events/(:num)/destroy": AdminDestroyEvent/$1
     "admin/packages": ViewPackages
     "admin/packages/(:alnum)/install": InstallPackage/$1
