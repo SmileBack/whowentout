@@ -87,6 +87,15 @@ label {
     text-shadow: none;
 }
 
+.view_more, .view_less {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.view_less {
+    display: block;
+}
+
 .button_style {
     .green_button;
     font: 14px/100% Arial, Helvetica, sans-serif;
@@ -472,15 +481,15 @@ td {
         border: none;
         padding: 0;
     }
-    ul {
+    ul.events {
         height: 226px;
         overflow-y: scroll;
         overflow-x: hidden;
-    }
-    li {
-        border-bottom: 1px solid #b0b0b0;
-        &.selected { background-color: @selected_item_color; }
-        &:hover { background-color: @selected_item_color; }
+        > li {
+            border-bottom: 1px solid #b0b0b0;
+            &.selected { background-color: @selected_item_color; }
+            &:hover { background-color: @selected_item_color; }
+        }
     }
     .event_option {
       overflow:  hidden;

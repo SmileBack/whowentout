@@ -38,7 +38,11 @@ benchmark::end('get_checkin_count');
     </div>
 
     <div class="deal">
-        <?= $event->deal ?>
+        <ul class="expandable">
+           <?php foreach (explode("\n", $event->deal) as $line): ?>
+                <li><?= $line ?></li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 
     <div class="badge">

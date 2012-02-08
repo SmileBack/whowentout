@@ -657,3 +657,52 @@ $('.tab_panel .tabs a').entwine({
     }
 });
 
+$('.expandable').entwine({
+    onmatch: function() {
+        if (this.find('> li').length < 2)
+            return;
+
+        this.restOfItems().hide();
+        this.find('> li:first').append('<a href="#view_more" class="view_more">view more</a>');
+        this.find('> li:last').append('<a href="#view_less" class="view_less">view less</a>');
+    },
+    onunmatch: function() {
+    },
+    firstItem: function() {
+        return this.find('> li:first');
+    },
+    restOfItems: function() {
+        return this.firstItem().nextAll();
+    },
+    viewMoreLink: function() {
+        return this.find('> li > .view_more');
+    },
+    viewLessLink: function() {
+        return this.find('> li > .view_less');
+    },
+    viewMore: function() {
+        this.viewMoreLink().hide();
+        this.viewLessLink().show();
+        this.restOfItems().fadeIn();
+    },
+    viewLess: function() {
+        this.viewLessLink().hide();
+        this.viewMoreLink().show();
+        this.restOfItems().fadeOut();
+    }
+});
+
+$('.expandable .view_more').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('.expandable').viewMore();
+    }
+});
+
+$('.expandable .view_less').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('.expandable').viewLess();
+    }
+});
+

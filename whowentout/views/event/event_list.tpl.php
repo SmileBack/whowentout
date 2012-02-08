@@ -13,7 +13,7 @@
         </h1>
 
         <fieldset>
-            <ul>
+            <ul class="events">
 
                 <li>
                     <?= r::event_add_form(array('date' => $date)); ?>

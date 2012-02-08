@@ -1161,6 +1161,7 @@ catch (e) {
 		$.each(arguments, function(i,func){
 			var old = $.fn[func];
 			$.fn[func] = function() {
+                console.log('mutate ' + func);
 				var rv = old.apply(this, arguments);
 				if (!check_id) check_id = runSoon(triggerEvent, 100);
 				return rv;
