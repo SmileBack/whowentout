@@ -82,7 +82,7 @@
 
 <?= r::debug_summary() ?>
 
-<?php if (browser::is_desktop()): ?>
+<?php if (browser::is_desktop() && environment() != 'whowentout'): ?>
 <?= r::feedback() ?>
 <?php endif; ?>
 

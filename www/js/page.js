@@ -379,8 +379,10 @@ $('.event_list .filter a').entwine({
 
 $('.event_list :radio').entwine({
     onclick:function () {
-        if (this.val() != 'new')
+        if (this.val() != 'new') {
+            this.closest('li').find('.checkin_badge').addClass('loading');
             this.closest('form').submit();
+        }
         else {
             this.closest('form').find('ul .selected').removeClass('selected');
             this.closest('li').addClass('selected');

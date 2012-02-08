@@ -4,7 +4,6 @@ $capacity = 28;
 $start_index = $capacity;
 $today = app()->clock()->today();
 ?>
-<h1><?= $selected_date->format('Y-m-d') ?></h1>
 <div id="events_date_selector">
     <a href="/" class="prev">Prev</a>
 
