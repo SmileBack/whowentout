@@ -11,12 +11,19 @@
         <ul>
             <?php foreach ($friends as $friend): ?>
                 <?php
+                benchmark::start('in_entourage');
                 $in_entourage = $entourage_engine->in_entourage($current_user, $friend);
+                benchmark::end('in_entourage');
+
+                benchmark::start('request_was_sent');
                 $request_was_sent = $entourage_engine->request_was_sent($current_user, $friend);
+                benchmark::end('request_was_sent');
                 ?>
                 <li>
                     <label>
+                        <?php benchmark::start('user_thumb'); ?>
                         <?= r::user_thumb(array('user' => $friend)) ?>
+                        <?php benchmark::end('user_thumb'); ?>
 
                         <?php if ($in_entourage): ?>
                             <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" disabled="disabled" />
@@ -40,7 +47,9 @@
                             <?= $friend->last_name ?>
                         </div>
 
+                        <?php benchmark::start('profile_networks'); ?>
                         <?= r::profile_networks(array('user' => $friend)) ?>
+                        <?php benchmark::end('profile_networks'); ?>
                     </label>
                 </li>
             <?php endforeach; ?>
@@ -53,3 +62,4 @@
     </fieldset>
 
 </form>
+<?= r::debug_summary() ?>
