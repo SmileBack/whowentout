@@ -82,7 +82,9 @@
 
 <?= r::debug_summary() ?>
 
+<?php if (browser::is_desktop()): ?>
 <?= r::feedback() ?>
+<?php endif; ?>
 
 </body>
 </html>
