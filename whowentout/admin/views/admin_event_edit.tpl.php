@@ -29,6 +29,14 @@
             <label>Deal</label>
             <textarea rows="4" cols="100" name="event[deal]"><?= $event->deal ?></textarea>
         </div>
+
+        <div>
+            <label>Deal Type</label>
+            <select name="event[deal_type]">
+                <option value="bar">bar</option>
+                <option value="bar">door</option>
+            </select>
+        </div>
         
         <input type="submit" name="op" value="Save"/>
     </fieldset>

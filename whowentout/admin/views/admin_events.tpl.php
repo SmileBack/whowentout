@@ -25,6 +25,14 @@
             <label>Deal</label>
             <textarea rows="4" cols="100" name="event[deal]"></textarea>
         </div>
+
+        <div>
+            <label>Deal Type</label>
+            <select name="event[deal_type]">
+                <option value="bar">bar</option>
+                <option value="bar">door</option>
+            </select>
+        </div>
         
         <input type="submit" name="op" value="Create"/>
     </fieldset>
@@ -37,6 +45,7 @@
         <th>Date</th>
         <th>Place</th>
         <th>Deal</th>
+        <th>Deal Type</th>
         <th>Actions</th>
     </tr>
     <?php foreach ($events as $event): ?>
@@ -46,6 +55,7 @@
         <td><?= $event->date->format('D. M j, Y') ?></td>
         <td><?= $event->place->name ?></td>
         <td><?= $event->deal ?></td>
+        <td><?= $event->deal_type ?></td>
         <td>
             <?= a("admin/events/$event->id/edit", 'edit') ?>
             <?= a("admin/events/$event->id/destroy", 'destroy') ?>
