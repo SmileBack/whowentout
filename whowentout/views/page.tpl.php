@@ -82,5 +82,7 @@
 
 <?= r::debug_summary() ?>
 
+<?= r::feedback() ?>
+
 </body>
 </html>

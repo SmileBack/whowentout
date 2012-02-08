@@ -417,6 +417,12 @@ td {
     width: 100%;
     margin-top: 15px;
     text-align: center;
+    &.loading {
+        background: url(/images/loading-message.gif) no-repeat center top;
+        > * {
+            visibility: hidden;
+        }
+    }
 }
 
 .event_day .date_tip {

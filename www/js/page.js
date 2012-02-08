@@ -407,10 +407,16 @@ $('.event_day').entwine({
         if (this.getCurrentDate() == date) // no update necessary
             return;
 
+        this.showLoadingMessage();
+
         var pHtml = this.getUpdatedHtml(date);
         $.when(pHtml).then(function (html) {
             self.replaceHtml(html);
         });
+    },
+    showLoadingMessage: function() {
+        this.find('.event_list_wrapper').addClass('loading');
+        return this;
     },
     animateOutOfPage:function (direction) {
         var d = $.Deferred();
