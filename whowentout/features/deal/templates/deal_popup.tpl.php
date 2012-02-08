@@ -8,7 +8,7 @@
             <?php if (!$have_number): ?>
 
                 <h2>
-                    Type your number below so we can send you the deal.
+                    Type your number below so we can send you the deal*
                 </h2>
 
                 <input type="text" class="cell_phone_number" name="user[cell_phone_number]"
@@ -30,8 +30,10 @@
     <?= r::deal_preview(array('user' => $user, 'event' => $event, 'orientation' => 'portrait')) ?>
     <?= r::deal_preview(array('user' => $user, 'event' => $event, 'orientation' => 'landscape')) ?>
 
+    <em>*Deal will be sent to you on <?= $event->date->format('l') ?> evening</em>
+
     <?php if (!browser::is_mobile()): ?>
-        <p>(You can also access this deal by going to whowentout.com on your phone.)</p>
+        <p>(You can also access this deal by going to whowentout.com on your phone)</p>
     <?php endif; ?>
 
     <div class="buttons">
