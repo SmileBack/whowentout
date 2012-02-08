@@ -14,10 +14,15 @@ class DatabaseTable implements Iterator
     private $rows = array();
     public $columns = array();
 
+    /* @var $table_cache DatabaseTableGateway */
+    private $table_gateway;
+
     function __construct(Database $database, $table_name)
     {
         $this->database = $database;
         $this->_load_schema_from_database($table_name);
+
+        $this->table_gateway = new DatabaseTableGateway($this->database(), $this->name(), $this->id_column()->name());
     }
 
     function name()
@@ -39,11 +44,15 @@ class DatabaseTable implements Iterator
      */
     function row($id)
     {
-        if (!$this->row_exists($id))
+        if (!$this->table_gateway->has($id))
             return null;
 
         if (!isset($this->rows[$id])) {
-            $this->rows[$id] = new DatabaseRow($this, $id);
+            $values = $this->table_gateway->get($id);
+            if (!$values)
+                $this->rows[$id] = false;
+            else
+                $this->rows[$id] = new DatabaseRow($this, $id);
         }
 
         return $this->rows[$id];
@@ -55,10 +64,7 @@ class DatabaseTable implements Iterator
      */
     function row_exists($row_id)
     {
-        if (!$this->id_column())
-            return null;
-
-        return $this->_fetch_row_values($row_id) != null;
+        return $this->table_gateway->has($row_id);
     }
 
     /**
@@ -67,11 +73,14 @@ class DatabaseTable implements Iterator
      */
     function create_row($values = array())
     {
-        $query = $this->create_row_query($values);
-        $query->execute();
+        $values = $this->format_values_for_database($values);
 
-        $row_id = $this->database->last_insert_id();
-        return $this->row($row_id);
+        $id = $this->table_gateway->create($values);
+
+        $this->rows[$id] = new DatabaseRow($this, $id);
+        $this->rows[$id]->_set_values( $this->table_gateway->get($id) );
+
+        return $this->rows[$id];
     }
 
     /**
@@ -80,30 +89,17 @@ class DatabaseTable implements Iterator
      */
     function create_or_update_row($values = array())
     {
-        $query = $this->create_or_update_row_query($values);
-        $query->execute();
+        $values = $this->format_values_for_database($values);
+        $id = $this->table_gateway->create_or_update($values);
 
-        if ($this->id_column()->auto_increment()) {
-            $row_id = $this->database->last_insert_id();
-        }
-        else {
-            $row_id = $values[ $this->id_column()->name() ];
-        }
+        $this->row($id)->_set_values($this->table_gateway->get($id));
 
-        $this->refresh_row($row_id);
-        return $this->row($row_id);
-    }
-
-    function refresh_row($row_id)
-    {
-        $this->row($row_id)->_load_values($row_id);
+        return $this->row($id);
     }
 
     function destroy_row($id)
     {
-        $query = $this->destroy_row_query($id);
-        $query->execute();
-
+        $this->table_gateway->destroy($id);
         unset($this->rows[$id]);
     }
 
@@ -114,6 +110,21 @@ class DatabaseTable implements Iterator
         $count = $query->fetch(PDO::FETCH_COLUMN);
         return intval($count);
     }
+
+    function _save(DatabaseRow $row)
+    {
+        assert($row->table() == $this);
+
+        $id_column = $this->id_column()->name();
+        $values = $this->format_values_for_database($row->changes());
+
+        $values = $this->table_gateway->update($row->$id_column, $values);
+        $row->_set_values($values);
+    }
+
+    /**
+     * Schema functions
+     */
 
     /**
      * @param  $name
@@ -521,78 +532,6 @@ class DatabaseTable implements Iterator
         return $num_matches > 0 ? (int)$matches['size'] : false;
     }
 
-    private function update_row_query($id, array $values)
-    {
-        $id_column = $this->id_column()->name();
-
-        $columns = array_keys($values);
-        $set_statements = array();
-        foreach ($columns as $column) {
-            $set_statements[] = "$column = :$column";
-        }
-
-        $set_statements = implode(', ', $set_statements);
-
-        $sql = "UPDATE $this->name SET $set_statements\n";
-        $sql .= " WHERE $id_column = :id";
-
-        $values['id'] = $id;
-
-        return $this->database->query_statement($sql, $values);
-    }
-
-    private function create_row_query(array $values)
-    {
-        $values = $this->format_values_for_database($values);
-
-        $columns = array_keys($values);
-        $columns_sql = implode(', ', $columns);
-
-        $values_sql = array();
-        foreach ($columns as $column) {
-            $values_sql[] = ":$column";
-        }
-        $values_sql = implode(', ', $values_sql);
-
-        $sql = "INSERT INTO $this->name ($columns_sql) VALUES ($values_sql)";
-        return $this->database->query_statement($sql, $values);
-    }
-
-    private function create_or_update_row_query(array $values)
-    {
-        $values = $this->format_values_for_database($values);
-
-        $id_column_name = $this->id_column()->name();
-
-        $columns = array_keys($values);
-        $columns_sql = implode(', ', $columns);
-
-        $values_sql = array();
-        foreach ($columns as $column) {
-            $values_sql[] = ":$column";
-        }
-        $values_sql = implode(', ', $values_sql);
-
-        //build update statements
-        $updates_sql = array();
-        $updates_sql[] = "$id_column_name = LAST_INSERT_ID($id_column_name)";
-        foreach ($columns as $column) {
-            //we have a special update for the id column
-            if ($column == $id_column_name) {
-                continue;
-            }
-            else {
-                $updates_sql[] = "$column = :update_{$column}";
-                $values['update_' . $column] = $values[$column];
-            }
-        }
-
-        $sql = "INSERT INTO $this->name ($columns_sql) VALUES ($values_sql)";
-        $sql .= "\n  ON DUPLICATE KEY UPDATE " . implode(', ', $updates_sql);
-
-        return $this->database->query_statement($sql, $values);
-    }
-
     private function format_values_for_database($values)
     {
         foreach ($values as $column_name => &$column_value) {
@@ -605,32 +544,10 @@ class DatabaseTable implements Iterator
         return $values;
     }
 
-    private function destroy_row_query($row_id)
-    {
-        $id_column = $this->id_column()->name();
-        $sql = "DELETE FROM $this->name WHERE $id_column = :id";
-        return $this->database->query_statement($sql, array('id' => $row_id));
-    }
-
     private function get_column_sql($column_name, $column_config)
     {
         $column_type = app()->class_loader()->init_subclass('columntype', $column_config['type'], $column_config);
         return $column_name . ' ' . $column_type->to_sql();
-    }
-
-    function _persist_row_changes($row_id, $changes)
-    {
-        $query = $this->update_row_query($row_id, $changes);
-        $query->execute();
-    }
-
-    function _fetch_row_values($row_id)
-    {
-        $id_column = $this->id_column()->name();
-        $query = $this->database->query_statement("SELECT * FROM $this->name WHERE $id_column = :id", array('id' => $row_id));
-        $query->execute();
-        $row_count = $query->rowCount();
-        return $row_count > 0 ? (array)$query->fetchObject() : false;
     }
 
 }

@@ -20,11 +20,21 @@
 
 })(jQuery);
 
+head.css = function (path) {
+    $("head").append("<link>");
+    var css = $("head").children(":last");
+    css.attr({
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: path
+    });
+};
+
 var whowentout = window.whowentout = {};
 
-whowentout.showColorOptions = function() {
+whowentout.showColorOptions = function () {
     whowentout.initDialog();
-    $(function() {
+    $(function () {
         $('#mask').css('opacity', '0');
         dialog.title('Pick your Colors');
         dialog.showDialog('color_options_dialog');
@@ -54,13 +64,13 @@ whowentout.showDealDialog = function (event_id) {
 };
 
 $('.mobile .deal_preview').entwine({
-    onmatch: function() {
+    onmatch:function () {
         this.css('cursor', 'pointer');
     },
-    onunmatch: function() {
+    onunmatch:function () {
         this.css('cursor', '');
     },
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         this.closest('form').submit();
     }
@@ -76,13 +86,13 @@ whowentout.showInviteDialog = function (event_id) {
 };
 
 $('.dialog.deal_dialog').entwine({
-    onmaskclick: function() {
+    onmaskclick:function () {
         this.find('form').submit();
     }
 });
 
 $('.dialog.profile_edit_dialog').entwine({
-    onmaskclick: function() {
+    onmaskclick:function () {
         this.find('.profile_pic_crop_form').submit();
     }
 });
@@ -97,8 +107,8 @@ $('.dialog.invite_dialog').entwine({
     }
 });
 
-whowentout.showEntourageRequestDialog = function() {
-    $(function() {
+whowentout.showEntourageRequestDialog = function () {
+    $(function () {
         whowentout.initDialog();
 
         dialog.title('Entourage Request');
@@ -128,13 +138,13 @@ whowentout.showProfileEditDialog = function () {
     });
 };
 
-whowentout.showDisabledOnPhoneDialog = function() {
+whowentout.showDisabledOnPhoneDialog = function () {
     $(function () {
         whowentout.initDialog();
         dialog.title('Use Your Computer');
         dialog.message(
         '<img src="/images/laptop.png" />'
-        +'<p>This feature is available on your computer.</p>'
+        + '<p>This feature is available on your computer.</p>'
         );
         dialog.setButtons('ok');
         dialog.showDialog('disabled_on_phone');
@@ -145,16 +155,16 @@ $(function () {
     whowentout.router = Backbone.Router.extend({
         routes:{
             '':'index',
-            'events/:id/deal': 'showDealDialog',
-            'events/:id/invite': 'showInviteDialog',
-            'day/:date': 'displayDate',
-            'profile/picture/edit': 'showEditProfilePictureDialog',
-            'entourage/invite': 'showEntourageRequestDialog'
+            'events/:id/deal':'showDealDialog',
+            'events/:id/invite':'showInviteDialog',
+            'day/:date':'displayDate',
+            'profile/picture/edit':'showEditProfilePictureDialog',
+            'entourage/invite':'showEntourageRequestDialog'
         },
-        index: function() {
+        index:function () {
             $('.dialog').hideDialog();
         },
-        displayDate: function(date) {
+        displayDate:function (date) {
             $('.dialog').hideDialog();
             $('.event_day').updateDate(date);
 
@@ -163,16 +173,16 @@ $(function () {
             var link = scrollable.getElByHref(href);
             scrollable.markSelected(link);
         },
-        showDealDialog: function(event_id) {
+        showDealDialog:function (event_id) {
             whowentout.showDealDialog(event_id);
         },
-        showInviteDialog: function(event_id) {
+        showInviteDialog:function (event_id) {
             whowentout.showInviteDialog(event_id);
         },
-        showEditProfilePictureDialog: function() {
+        showEditProfilePictureDialog:function () {
             whowentout.showProfileEditDialog();
         },
-        showEntourageRequestDialog: function() {
+        showEntourageRequestDialog:function () {
             whowentout.showEntourageRequestDialog();
         },
         defaultRoute:function () {
@@ -185,7 +195,7 @@ $(function () {
 });
 
 $('.action').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         var href = this.attr('href');
         whowentout.router.navigate(href, true);
@@ -193,14 +203,14 @@ $('.action').entwine({
 });
 
 $('.mobile .entourage_request_link').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         whowentout.showDisabledOnPhoneDialog();
     }
 });
 
 $('.mobile .show_deal_link').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         window.location = this.attr('href');
     }
@@ -264,13 +274,13 @@ $('.profile_pic_crop_form').entwine({
 });
 
 $('.profile_pic_upload_form, .profile_pic_facebook_form').entwine({
-    onsubmit: function(e) {
+    onsubmit:function (e) {
         this.closest('.dialog').showLoadingMessage();
     }
 });
 
 $('.profile_pic_upload_form input[type=file]').entwine({
-    onchange: function (e) {
+    onchange:function (e) {
         this.closest('form').submit();
     }
 });
@@ -293,7 +303,7 @@ $('.edit_cell_phone_number').entwine({
 });
 
 $('.event_invite').entwine({
-    applySearchFilter: _.debounce(function(keywords) {
+    applySearchFilter:_.debounce(function (keywords) {
 
         function isMatch(text, keywords) {
             text = text.toLowerCase();
@@ -307,7 +317,7 @@ $('.event_invite').entwine({
             return true;
         }
 
-        this.find('li').each(function() {
+        this.find('li').each(function () {
             var text = $(this).text();
             if (isMatch(text, keywords))
                 $(this).show();
@@ -318,7 +328,7 @@ $('.event_invite').entwine({
 });
 
 $('.event_invite .search').entwine({
-    onkeyup: function(e) {
+    onkeyup:function (e) {
         var keywords = this.val();
         this.closest('.event_invite').applySearchFilter(keywords);
     }
@@ -346,7 +356,7 @@ $('.event_invite :checkbox').entwine({
 });
 
 $('.event_list .filter').entwine({
-    applyFilter: function(type) {
+    applyFilter:function (type) {
         var eventList = this.closest('.event_list');
 
         function isMatch(el, type) {
@@ -359,7 +369,7 @@ $('.event_list .filter').entwine({
             return false;
         }
 
-        eventList.find('.event_option').each(function() {
+        eventList.find('.event_option').each(function () {
             var el = $(this);
             if (isMatch(el, type))
                 el.parent().show();
@@ -370,7 +380,7 @@ $('.event_list .filter').entwine({
 });
 
 $('.event_list .filter a').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         var type = this.attr('href');
         this.closest('.event_list').find('.filter').applyFilter(type);
@@ -398,26 +408,26 @@ $('.event_day').entwine({
             return;
 
         var pHtml = this.getUpdatedHtml(date);
-        $.when(pHtml).then(function(html) {
+        $.when(pHtml).then(function (html) {
             self.replaceHtml(html);
         });
     },
-    animateOutOfPage: function(direction) {
+    animateOutOfPage:function (direction) {
         var d = $.Deferred();
 
         var width = this.outerWidth();
         var exitMargin = direction == 'left' ? '-' + width + 'px' : width + 'px';
 
-        this.animate({marginLeft: exitMargin}, {
-            duration: 250,
-            complete: function() {
+        this.animate({marginLeft:exitMargin}, {
+            duration:250,
+            complete:function () {
                 d.resolve();
             }
         });
 
         return d.promise();
     },
-    animateOntoPage: function(direction, html) {
+    animateOntoPage:function (direction, html) {
         var d = $.Deferred();
 
         var nEl = $(html);
@@ -427,19 +437,19 @@ $('.event_day').entwine({
         nEl.css('margin-left', enterMargin);
 
         this.replaceWith(nEl);
-        nEl.animate({marginLeft: 0}, {
-            duration: 125,
-            complete: function() {
+        nEl.animate({marginLeft:0}, {
+            duration:125,
+            complete:function () {
                 d.resolve();
             }
         });
 
         return d.promise();
     },
-    replaceHtml: function(html) {
+    replaceHtml:function (html) {
         this.replaceWith(html);
     },
-    replaceHtmlAnimated: function(html) {
+    replaceHtmlAnimated:function (html) {
         var self = this;
         var d = $.Deferred();
 
@@ -450,15 +460,15 @@ $('.event_day').entwine({
         var newDate = $(nEl).attr('data-date');
 
         var direction = newDate > oldDate ? 'left' : 'right';
-        $.when(this.animateOutOfPage(direction)).then(function() {
-            $.when(self.animateOntoPage(direction, html)).then(function() {
+        $.when(this.animateOutOfPage(direction)).then(function () {
+            $.when(self.animateOntoPage(direction, html)).then(function () {
                 d.resolve();
             });
         });
 
         return d.promise();
     },
-    getCurrentDate: function() {
+    getCurrentDate:function () {
         return this.attr('data-date');
     },
     getUpdatedHtml:function (date) {
@@ -473,104 +483,107 @@ $('.event_day').entwine({
 });
 
 $('.desktop .tab_tip_wrapper').entwine({
-    onmatch: function() {
+    onmatch:function () {
         this.startBouncing();
     },
-    onunmatch: function() {
+    onunmatch:function () {
         this.stopBouncing();
     },
-    isBouncing: function() {
+    isBouncing:function () {
         return this.data('bounceID') != null;
     },
-    startBouncing: function() {
+    startBouncing:function () {
         if (this.isBouncing())
             return;
 
         var self = this;
-        var id = setInterval(function() {
+        var id = setInterval(function () {
             self.bounceOnce();
         }, 4000);
         this.data('bounceID', id);
     },
-    stopBouncing: function() {
+    stopBouncing:function () {
         var id = this.data('bounceID');
         clearInterval(id);
         this.removeData('bounceID');
     },
-    bounceOnce: function() {
+    bounceOnce:function () {
         var rightMarginStart = this.margin().right;
         var rightMarginEnd = rightMarginStart - 8;
-        this.animate({marginRight: rightMarginEnd})
-            .animate({marginRight: rightMarginStart});
+        this.animate({marginRight:rightMarginEnd})
+        .animate({marginRight:rightMarginStart});
         return this;
     }
 });
 
 $('.inline_label').entwine({
-    onmatch: function() {
+    onmatch:function () {
         this.showLabelText();
         var label = this;
 
-        this.closest('form').bind('submit', function(e) {
+        this.closest('form').bind('submit', function (e) {
             label.hideLabelText();
         });
     },
-    onunmatch: function() {
+    onunmatch:function () {
     },
-    isEmpty: function() {
+    isEmpty:function () {
         var val = this.val();
         return val == '' || val == this.attr('title');
     },
-    showLabelText: function() {
+    showLabelText:function () {
         if (this.isEmpty()) {
             this.val(this.attr('title'));
             this.css('color', 'grey');
         }
     },
-    hideLabelText: function() {
+    hideLabelText:function () {
         if (this.isEmpty()) {
             this.val('');
             this.css('color', '');
         }
     },
-    onfocusin: function() {
+    onfocusin:function () {
         this.hideLabelText();
     },
-    onfocusout: function() {
+    onfocusout:function () {
         this.showLabelText();
     }
 });
 
-whowentout.refreshDateSelector = _.debounce(function() {
+whowentout.refreshDateSelector = _.debounce(function () {
     $('#events_date_selector .scrollable').refreshScrollPosition();
 }, 250);
 $(window).resize(whowentout.refreshDateSelector);
 
-function hideAddressBar()
-{
-  if(!window.location.hash)
-  {
-      if(document.height < window.outerHeight)
-      {
-          document.body.style.height = (window.outerHeight + 50) + 'px';
-      }
+function hideAddressBar() {
+    if (!window.location.hash) {
+        if (document.height < window.outerHeight) {
+            document.body.style.height = (window.outerHeight + 50) + 'px';
+        }
 
-      setTimeout( function(){ window.scrollTo(0, 1); }, 50 );
-  }
+        setTimeout(function () {
+            window.scrollTo(0, 1);
+        }, 50);
+    }
 }
-window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
-window.addEventListener("orientationchange", hideAddressBar );
+window.addEventListener("load", function () {
+    if (!window.pageYOffset) {
+        hideAddressBar();
+    }
+});
+window.addEventListener("orientationchange", hideAddressBar);
 
 $('.debug_panel').entwine({
-    onmatch: function() {
+    onmatch:function () {
         this.collapse();
     },
-    onunmatch: function() {
+    onunmatch:function () {
     },
-    isExpanded: function() {
+    isExpanded:function () {
         return this.hasClass('expanded');
     },
-    toggleExpand: function() {
+    toggleExpand:function () {
         if (this.isExpanded())
             this.collapse();
         else
@@ -578,34 +591,38 @@ $('.debug_panel').entwine({
 
         return this;
     },
-    expand: function() {
+    expand:function () {
         this.removeClass('collapsed').addClass('expanded');
         return this;
     },
-    collapse: function() {
+    collapse:function () {
         this.removeClass('expanded').addClass('collapsed');
         return this;
     }
 });
 
 $('.debug_panel table').entwine({
-    onmatch: function() {
-        this.dataTable();
+    onmatch:function () {
+        var self = this;
+        head.css('/css/jquery.datatables.css');
+        head.js('/js/jquery.datatables.js', function () {
+            self.dataTable();
+        });
         this.collapse();
     },
-    onunmatch: function() {
+    onunmatch:function () {
     }
 });
 
 $('.debug_panel .expand').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         this.closest('.debug_panel').expand();
     }
 });
 
 $('.debug_panel .collapse').entwine({
-    onclick: function(e) {
+    onclick:function (e) {
         e.preventDefault();
         this.closest('.debug_panel').collapse();
     }

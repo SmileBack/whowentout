@@ -11,15 +11,19 @@ class DatabaseRow
      */
     private $table;
 
-    function __construct(DatabaseTable $table, $id)
+    function    __construct(DatabaseTable $table, $id)
     {
         $this->table = $table;
-        $this->_load_values($id);
     }
 
     function values()
     {
         return $this->values;
+    }
+
+    function _set_values(array $values)
+    {
+        $this->values = $values;
     }
 
     /**
@@ -111,17 +115,7 @@ class DatabaseRow
 
     function save()
     {
-        $id_column = $this->table()->id_column()->name();
-        $changes = $this->changes();
-        $this->table->_persist_row_changes($this->$id_column, $changes);
-        $this->_load_values($this->$id_column);
+        $this->table()->_save($this);
     }
 
-    function _load_values($row_id)
-    {
-        $this->values = $this->table->_fetch_row_values($row_id);
-        if (!$this->values)
-            throw new Exception("Row with id $row_id doesn't exist.");
-    }
-    
 }

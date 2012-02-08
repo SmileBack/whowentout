@@ -33,10 +33,6 @@
     ?>
 
     <?= $asset->scripts() ?>
-
-    <link rel="stylesheet" type="text/css" href="/css/jquery.datatables.css"/>
-    <script type="text/javascript" src="/js/jquery.datatables.js"></script>
-
 </head>
 
 <body class="<?= browser::classes() ?>">
