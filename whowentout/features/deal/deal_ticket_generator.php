@@ -12,7 +12,7 @@ class DealTicketGenerator
      *
      * @return WideImage_Image
      */
-    function generate(DatabaseRow $user, ProfilePicture $picture, $venue, $deal, $date)
+    function generate(DatabaseRow $user, ProfilePicture $picture, $venue, $deal, $deal_type, $date)
     {
         $ticket = $this->blank_ticket();
 
@@ -25,7 +25,10 @@ class DealTicketGenerator
 
         $this->print_venue_and_date($ticket, $venue, $date);
 
-        $this->print_show_to_bartender_message($ticket);
+        if ($deal_type == 'door')
+            $this->print_redeem_message($ticket, 'SHOW AT DOOR (21+ to drink)');
+        elseif ($deal_type == 'bar' || true)
+            $this->print_redeem_message($ticket, 'SHOW TO BARTENDER (21+ to drink)');
 
         return $ticket;
     }
@@ -67,11 +70,11 @@ class DealTicketGenerator
         $canvas->writeText(25, 200, $last_name);
     }
 
-    private function print_show_to_bartender_message(WideImage_Image &$ticket)
+    private function print_redeem_message(WideImage_Image &$ticket, $message)
     {
         $canvas = $ticket->getCanvas();
         $canvas->useFont($this->font_path(), 13, $ticket->allocateColor(255, 255, 0));
-        $canvas->writeText(25, 15, 'SHOW TO BARTENDER (21+ to drink)');
+        $canvas->writeText(25, 15, $message);
     }
 
     private function get_text_width($font_size, $text)

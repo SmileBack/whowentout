@@ -34,7 +34,7 @@
             <label>Deal Type</label>
             <select name="event[deal_type]">
                 <option value="bar">bar</option>
-                <option value="bar">door</option>
+                <option value="door">door</option>
             </select>
         </div>
         
