@@ -11,11 +11,12 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
             <?= ucfirst(format::owner($user)) ?> Entourage
         </span>
         <span>(<?= count($entourage) ?>)</span>
-
-        <?php if ($show_invite_link): ?>
-            <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>
-        <?php endif; ?>
     </h3>
+
+    <?php if ($show_invite_link): ?>
+        <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>
+    <?php endif; ?>
+
     <?php if (count($entourage) > 0): ?>
         <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>
     <?php else: ?>
