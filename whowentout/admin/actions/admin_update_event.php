@@ -7,8 +7,6 @@ class AdminUpdateEventAction extends Action
     {
         auth()->require_admin();
 
-        krumo::dump($_POST);
-
         $event_attributes = $_POST['event'];
 
         $id = $event_attributes['id'];
