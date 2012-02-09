@@ -21,7 +21,6 @@ if (db()->has_table('sessions')) {
         array($session_handler, 'gc')
     );
 }
-
 session_start();
 
 route_uri_request();
