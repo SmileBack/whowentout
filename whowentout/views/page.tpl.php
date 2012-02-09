@@ -92,7 +92,7 @@
 <?= r::feedback() ?>
 <?php endif; ?>
 
-<?php if (environment() == 'whowentout') ?>
+<?php if (environment() == 'whowentout'): ?>
         <?= r::google_analytics() ?>
 <?php endif; ?>
 
