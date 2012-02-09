@@ -42,14 +42,15 @@ whowentout.initDialog = function () {
 whowentout.showDialog = function (title, url, cls, onComplete) {
     onComplete = onComplete || function () {};
     $(function () {
-        var delay = whowentout.dialogDelay || 0;
-        setTimeout(function () {
-            whowentout.initDialog();
-            dialog.title(title);
-            dialog.showDialog(cls);
-            dialog.loadContent(url, onComplete);
-        }, delay);
+        whowentout.initDialog();
+        dialog.title(title);
+        dialog.showDialog(cls);
+        dialog.loadContent(url, onComplete);
     });
+};
+
+whowentout.showCheckinExplanationDialog = function(event_id) {
+    whowentout.showDialog('Checked In', '/checkin/explanation/' + event_id, 'checkin_explanation_dialog');
 };
 
 whowentout.showDealDialog = function (event_id) {
@@ -117,8 +118,8 @@ $('.mobile .deal_preview').entwine({
     }
 });
 
-$('.dialog.deal_dialog').entwine({
-    onmaskclick:function () {
+$('.dialog.deal_dialog, .dialog.checkin_explanation_dialog').entwine({
+    onmaskclick: function () {
         this.find('form').submit();
     }
 });
@@ -145,6 +146,7 @@ $(function () {
             '':'index',
             'events/:id/deal':'showDealDialog',
             'events/:id/invite':'showInviteDialog',
+            'checkin/explanation/:id': 'showCheckinExplanationDialog',
             'day/:date':'displayDate',
             'profile/picture/edit':'showEditProfilePictureDialog',
             'entourage/invite':'showEntourageRequestDialog'
@@ -162,16 +164,19 @@ $(function () {
             scrollable.markSelected(link);
         },
         showDealDialog:function (event_id) {
-            whowentout.showDealDialog(event_id, 5000);
+            whowentout.showDealDialog(event_id);
         },
         showInviteDialog:function (event_id) {
-            whowentout.showInviteDialog(event_id, 5000);
+            whowentout.showInviteDialog(event_id);
         },
         showEditProfilePictureDialog:function () {
             whowentout.showProfileEditDialog();
         },
         showEntourageRequestDialog:function () {
             whowentout.showEntourageRequestDialog();
+        },
+        showCheckinExplanationDialog: function(event_id) {
+            whowentout.showCheckinExplanationDialog(event_id);
         },
         defaultRoute:function () {
         }
@@ -209,7 +214,7 @@ $('#flash_message').entwine({
         var flashMessage = this;
         setTimeout(function () {
             flashMessage.fadeOut();
-        }, 5000);
+        }, 7000);
     },
     onunmatch:function () {
     }
@@ -696,3 +701,6 @@ $('.expandable .view_less').entwine({
     }
 });
 
+$.fn.scrollTo = function() {
+    $('html, body').animate({scrollTop: $(this).offset().top}, 1000);
+};

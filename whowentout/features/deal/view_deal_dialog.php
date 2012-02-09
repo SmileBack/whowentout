@@ -42,8 +42,6 @@ class ViewDealDialogAction extends Action
         if (Flow::get() == null)
             Flow::set(new DealDialogFlow($event->id));
 
-        js()->whowentout->router->navigate("day/" . $event->date->format('Ymd'), true);
-
         print r::page(array(
             'content' => r::events_date_selector(array('selected_date' => $event->date))
                        . r::event_day(array(

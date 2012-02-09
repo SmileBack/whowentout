@@ -8,6 +8,8 @@
 ?>
 <div class="event_gallery">
 
+    <h1>Where is everyone going out?</h1>
+
     <?php if (!$checkin): ?>
     <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out"/>
     <?php endif; ?>

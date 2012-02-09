@@ -6,13 +6,9 @@ class CheckinAction extends Action
     /* @var $checkin_engine CheckinEngine */
     private $checkin_engine;
 
-    /* @var $invite_engine InviteEngine */
-    private $invite_engine;
-
     function __construct()
     {
         $this->checkin_engine = build('checkin_engine');
-        $this->invite_engine = build('invite_engine');
     }
 
     function execute()
@@ -38,28 +34,23 @@ class CheckinAction extends Action
             /* @var $checkin_engine CheckinEngine */
             $this->checkin_engine->checkin_user_to_event($current_user, $event);
 
-            flash::message("You checked into " . $event->name . '.');
-
-            $has_sent_invites = $this->invite_engine->has_sent_invites($event, $current_user);
+            flash::message($this->get_checkin_message($event));
         }
 
         if (!$event) {
             redirect("day/" . $date->format('Ymd'));
         }
-        elseif ($event->deal == null && browser::is_mobile()) {
+        elseif (browser::is_mobile()) {
             app()->goto_event($event);
-        }
-        elseif ($event->deal != null) {
-            js()->whowentout->dialogDelay = 5000;
-            redirect("events/$event->id/deal");
-        }
-        elseif (!$has_sent_invites) {
-            js()->whowentout->dialogDelay = 5000;
-            redirect("events/$event->id/invite");
         }
         else {
-            app()->goto_event($event);
+            redirect("checkin/explanation/$event->id");
         }
+    }
+
+    protected function get_checkin_message($event)
+    {
+        return "You have checked into $event->name.";
     }
 
     protected function is_new_event()
