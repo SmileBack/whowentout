@@ -24,8 +24,8 @@ class Event_List_Display extends Display
     {
         $value = $this->checkin_engine->get_checkin_count($event);
 
-//        if ($event == $this->selected_event)
-//            $value += 1 << 17;
+        if ($event == $this->selected_event)
+            $value += 1 << 17;
 
         return $value;
     }

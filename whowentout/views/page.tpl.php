@@ -80,9 +80,11 @@
 
 <?= js() ?>
 
+<?php if (environment() != 'whowentout'): ?>
 <?= r::debug_summary() ?>
+<?php endif; ?>
 
-<?php if (browser::is_desktop() && environment() != 'whowentout'): ?>
+<?php if (browser::is_desktop()): ?>
 <?= r::feedback() ?>
 <?php endif; ?>
 
