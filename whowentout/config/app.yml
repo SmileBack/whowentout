@@ -157,6 +157,11 @@ facebook_friends_updater:
   database: database
   friend_source: facebook_friend_source
 
+facebook_profile_updater:
+  type: FacebookProfileUpdater
+  database: database
+  profile_source: facebook_profile_source
+
 mutual_friends_calculator:
   type: MutualFriendsCalculator
   database: database
