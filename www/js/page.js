@@ -105,6 +105,22 @@ whowentout.showDisabledOnPhoneDialog = function () {
     });
 };
 
+$('a.coming_soon').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        console.log('coming soon click');
+        whowentout.initDialog();
+        dialog.title('Coming Soon');
+        dialog.message('<p>Coming soon, along with other features!</p>'
+        + '<br/>'
+        + '<p>To suggest features, click the feedback button.</p>'
+        + '<br/>'
+        );
+        dialog.setButtons('ok');
+        dialog.showDialog('coming_soon');
+    }
+});
+
 $('.mobile .deal_preview').entwine({
     onmatch:function () {
         this.css('cursor', 'pointer');
@@ -385,6 +401,7 @@ $('.event_list .filter a').entwine({
 $('.event_list :radio').entwine({
     onclick: function (e) {
         if (this.val() != 'new') {
+            this.closest('.event_option').find('.checkin_badge').text('loading...');
             this.closest('form').submit();
         }
         else {
@@ -567,12 +584,12 @@ function hideAddressBar() {
         }, 50);
     }
 }
-window.addEventListener("load", function () {
+$(window).bind('load', function() {
     if (!window.pageYOffset) {
         hideAddressBar();
     }
 });
-window.addEventListener("orientationchange", hideAddressBar);
+$(window).bind('orientationchange', hideAddressBar);
 
 $('.debug_panel').entwine({
     onmatch:function () {

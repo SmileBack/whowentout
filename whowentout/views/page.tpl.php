@@ -6,8 +6,12 @@
     <meta charset="utf-8">
     <meta name="description" content=""/>
     <meta name="author" content="">
-    <meta name="viewport" content="width=320px, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=320px, initial-scale
+    =1, maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <meta property="og:image" content="http://www.whowentout.com/images/facebook_square.2.png" />
+    <link rel="image_src" href="/images/facebook_square.2.png" />
 
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
@@ -86,6 +90,10 @@
 
 <?php if (browser::is_desktop()): ?>
 <?= r::feedback() ?>
+<?php endif; ?>
+
+<?php if (environment() == 'whowentout'): ?>
+        <?= r::google_analytics() ?>
 <?php endif; ?>
 
 </body>

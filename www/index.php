@@ -19,9 +19,10 @@ if (db()->has_table('sessions')) {
 
 session_start();
 
-if (environment() != 'whowentout') {
+if (environment() != 'whowentout')
     app()->clock()->set_time(new DateTime('2011-12-08'));
-}
+else
+    app()->clock()->set_time(new DateTime('now'));
 
 app()->trigger('boot');
 

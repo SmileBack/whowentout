@@ -8,6 +8,13 @@
 
 @import 'elements.0000000015.less';
 
+.background_size() {
+    -webkit-background-size: @arguments;
+    -moz-background-size: @arguments;
+    -o-background-size: @arguments;
+    background-size: @arguments;
+}
+
 .date_tip {
     width: 150px;
     font-size: 18px;
@@ -179,7 +186,7 @@ input[type="submit"], button {
     color: white;
     overflow: hidden;
     background: black url(/images/background.jpg) no-repeat center;
-    background-size: cover;
+    .background_size(cover);
     .home_center {
         margin-top: 50px;
         padding: 20px;
@@ -462,12 +469,15 @@ td {
     overflow: hidden;
     border: 1px solid @border_color;
     h1 {
-        padding: 16px 0;
+        line-height: 26px;
+        padding: 18px 0 12px 0;
+        font-size: 34px;
         text-align: center;
         background: url(/images/h1_bg.png) repeat-x;
         border-bottom: 1px solid @border_color;
         span {
             font-size: 16px;
+            font-weight: normal;
         }
     }
     .filter {
@@ -515,7 +525,7 @@ td {
       &.new_event .radio {
           margin: 14px 10px;
       }
-      .place { width: 170px; float: left; margin: 10px; font-weight: bold; }
+      .place { width: 140px; float: left; margin: 10px; font-weight: bold; }
       .deal {
           width: 250px;
           float: left;
@@ -579,6 +589,13 @@ td {
     width: 80%;
     float: left;
     overflow: hidden;
+    .send_message_link {
+        margin-top: 10px;
+        .button_style;
+        .white_button;
+        display: block;
+        float: right;
+    }
     .profile_inner {
         margin: 25px 50px;
         overflow: hidden;

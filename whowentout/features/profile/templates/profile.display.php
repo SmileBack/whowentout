@@ -16,7 +16,7 @@ class Profile_Display extends Display
 
         /* @var $mutual_friends_calculator MutualFriendsCalculator */
         $mutual_friends_calculator = build('mutual_friends_calculator');
-        $this->mutual_friends = $mutual_friends_calculator->compute($this->current_user->id, $this->user->id);
+//        $this->mutual_friends = $mutual_friends_calculator->compute($this->current_user->id, $this->user->id);
         $this->your_profile = ($this->user == $this->current_user);
     }
 

@@ -16,4 +16,6 @@
     </tr>
 </table>
 
-<h2>Log onto <a href="<?= site_url("?invite_id=$invite->id") ?>">WhoWentOut.com</a> to check-in to <?= $invite->event->name ?> and see where everyone's going out!</h2>
+<h2>
+    <a href="<?= site_url("?invite_id=$invite->id") ?>">Click here</a> to go to <a href="<?= site_url("?invite_id=$invite->id") ?>">WhoWentOut.com</a> to check-in and see where everyone's going out!
+</h2>
