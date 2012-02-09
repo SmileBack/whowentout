@@ -86,6 +86,7 @@ auth:
     - user_location
     - friends_events
     - friends_education_history
+    - offline_access
 
 profile_pic_repository:
   type: ImageRepository

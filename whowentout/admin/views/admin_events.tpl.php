@@ -58,7 +58,7 @@
     <tr>
         <td><?= $event->id ?></td>
         <td><?= $event->name ?></td>
-        <td><?= $event->date->format('D. M j, Y') ?></td>
+        <td><?= $event->date ? $event->date->format('D. M j, Y') : '' ?></td>
         <td><?= $event->place->name ?></td>
         <td><?= $event->deal ?></td>
         <td><?= $event->deal_type ?></td>

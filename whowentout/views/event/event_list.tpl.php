@@ -9,11 +9,7 @@
         <input type="hidden" name="date" value="<?= $date->format('Y-m-d') ?>"/>
 
         <h1>
-            <?php if (browser::is_desktop()): ?>
-            Where are YOU going out?
-            <?php else: ?>
-            Where are you going out?
-            <?php endif; ?>
+            <div>Where are YOU going out?</div>
             <div>
                 <span>Check-in.</span>
                 <span>See where everyone's going.</span>
