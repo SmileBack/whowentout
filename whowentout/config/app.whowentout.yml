@@ -1,0 +1,45 @@
+database:
+  type: Database
+  host: mysql-shared-02.phpfog.com
+  database: whowentout_com
+  username: Custom App-27847
+  password: MySQL4668
+
+facebook:
+  type: Facebook
+  config:
+    appId: 238686466151268
+    secret: 95a57df105552da2861b6f988bff82e0
+
+profile_pic_storage:
+  type: FileRepository
+  driver: s3
+  bucket: whowentout_pics
+  amazon_public_key: 0N83TDC3E416BETER2R2
+  amazon_secret_key: sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK
+
+ticket_storage:
+  type: FileRepository
+  driver: s3
+  bucket: whowentout_tickets
+  amazon_public_key: 0N83TDC3E416BETER2R2
+  amazon_secret_key: sKpMFrppw9X2KtuvUgJRyZo+O7yvYPluC4ttAwWK
+
+pusher:
+  type: Pusher
+  auth_key: 8d634f5c91dded3c5ba9
+  secret: 7089b317afc31e3d6d66
+  app_id: 10139
+  debug: true
+  timeout: 10
+
+allowed_networks:
+  type: Config
+  data:
+    - 16777231 #georgetown
+    - 16777270 #gwu
+
+network_blocker:
+  type: NetworkBlocker
+  database: database
+  allowed_networks: allowed_networks
