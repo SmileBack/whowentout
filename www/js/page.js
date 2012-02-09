@@ -385,6 +385,7 @@ $('.event_list .filter a').entwine({
 $('.event_list :radio').entwine({
     onclick: function (e) {
         if (this.val() != 'new') {
+            this.closest('.event_option').find('.checkin_badge').text('loading...');
             this.closest('form').submit();
         }
         else {
