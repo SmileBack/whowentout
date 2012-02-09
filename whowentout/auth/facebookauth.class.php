@@ -30,9 +30,14 @@ class FacebookAuth extends Auth
     function current_user()
     {
         $facebook_id = $this->get_logged_in_facebook_id();
-        return $this->database->table('users')
+        $user = $this->database->table('users')
                               ->where('facebook_id', $facebook_id)
                               ->first();
+
+        if (!$user)
+            $this->logout();
+
+        return $user;
     }
 
     function is_admin()
