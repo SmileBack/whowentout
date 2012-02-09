@@ -105,13 +105,13 @@ whowentout.showDisabledOnPhoneDialog = function () {
     });
 };
 
-$('.coming_soon').entwine({
+$('a.coming_soon').entwine({
     onclick: function(e) {
         e.preventDefault();
+        console.log('coming soon click');
         whowentout.initDialog();
         dialog.title('Coming Soon');
-        dialog.message('' +
-        '<p>Coming soon, along with other features!</p>'
+        dialog.message('<p>Coming soon, along with other features!</p>'
         + '<br/>'
         + '<p>To suggest features, click the feedback button.</p>'
         + '<br/>'
