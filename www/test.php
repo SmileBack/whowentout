@@ -16,3 +16,4 @@ var_dump($result);
 
 var_dump(environment());
 
+db();
