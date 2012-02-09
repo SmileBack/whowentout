@@ -29,12 +29,14 @@ class ViewDayAction extends Action
 
     function execute_ajax($date)
     {
-        if (!$date)
+        if (!$date) {
             $date = app()->clock()->today();
-
-        $date = DateTime::createFromFormat('Ymd', $date);
-        $date = new XDateTime($date->format('Y-m-d'));
-        $date->setTime(0, 0, 0);
+        }
+        else {
+            $date = DateTime::createFromFormat('Ymd', $date);
+            $date = new XDateTime($date->format('Y-m-d'));
+            $date->setTime(0, 0, 0);
+        }
 
         print r::event_day(array(
             'checkin_engine' => $this->checkin_engine,
@@ -45,12 +47,9 @@ class ViewDayAction extends Action
 
     function execute_no_ajax($date = null)
     {
-        if (!$date)
-            $date = app()->clock()->today();
-
         $current_user = $this->auth->current_user();
 
-        if ($date == null) {
+        if (!$date) {
             $date = app()->clock()->today();
             redirect('day/' . $date->format('Ymd'));
         }
