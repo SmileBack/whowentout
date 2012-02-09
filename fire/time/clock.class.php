@@ -46,6 +46,7 @@ class Clock
 
     private function actual_time()
     {
+        krumo::backtrace();
         return new XDateTime('now', $this->timezone);
     }
 
