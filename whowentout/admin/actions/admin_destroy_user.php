@@ -29,7 +29,7 @@ class AdminDestroyUserAction extends Action
         db()->table('checkins')->where('user_id', $user_id)->destroy();
 
         // remove events ref
-        db()->execute('UPDATE EVENTS SET user_id = NULL WHERE user_id = :id', array('id' => $user_id));
+        db()->execute('UPDATE events SET user_id = NULL WHERE user_id = :id', array('id' => $user_id));
 
         db()->table('users')->where('id', $user_id)->destroy();
 
