@@ -22,10 +22,14 @@ class Event_List_Display extends Display
 
     function event_sort_value($event)
     {
-        $value = $this->checkin_engine->get_checkin_count($event);
+        $value = 0;
+
+        $value += $event->priority << 0;
+
+        $value += $this->checkin_engine->get_checkin_count($event) << 2;
 
         if ($event == $this->selected_event)
-            $value += 1 << 17;
+            $value += 1 << 19;
 
         return $value;
     }

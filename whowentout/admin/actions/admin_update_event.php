@@ -16,6 +16,7 @@ class AdminUpdateEventAction extends Action
         $event->deal = $event_attributes['deal'];
         $event->deal_type = $event_attributes['deal_type'];
         $event->date = $this->parse_date($event_attributes['date']);
+        $event->priority = intval($event_attributes['priority']);
 
         $event->save();
 
