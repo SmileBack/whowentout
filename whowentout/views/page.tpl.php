@@ -17,7 +17,7 @@
 
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
+    
     <link rel="stylesheet/less" type="text/css" href="/css/reset.0000000001.less"/>
     <link rel="stylesheet/less" type="text/css" href="/css/dialog.0000000003.less"/>
     <link rel="stylesheet/less" type="text/css" href="/css/jquery.jcrop.less"/>
