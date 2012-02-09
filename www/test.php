@@ -14,3 +14,5 @@ mysql_select_db("whowentout_com");
 
 var_dump($result);
 
+var_dump(environment());
+

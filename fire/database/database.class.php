@@ -13,6 +13,7 @@ class Database
     
     function __construct(array $options)
     {
+        krumo::dump($options);
         $this->connect($options);
         $this->load_tables();
     }
