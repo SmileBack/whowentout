@@ -19,7 +19,7 @@
                 </ul>
             </div>
 
-            <?php if (!your_profile): ?>
+            <?php if (!$your_profile): ?>
             <a class="send_message_link coming_soon" href="#send_message">Send Message</a>
             <?php endif; ?>
         </div>
