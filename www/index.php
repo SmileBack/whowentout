@@ -5,11 +5,6 @@ ini_set('display_errors', '1');
 
 require_once '../fire/core/boot.php';
 
-if (environment() != 'whowentout')
-    app()->clock()->set_time(new DateTime('2011-12-08'));
-
-app()->trigger('boot');
-
 if (db()->has_table('sessions')) {
     $session_handler = build('session_handler');
     session_set_save_handler(
@@ -21,6 +16,14 @@ if (db()->has_table('sessions')) {
         array($session_handler, 'gc')
     );
 }
+
 session_start();
+
+if (environment() != 'whowentout')
+    app()->clock()->set_time(new DateTime('2011-12-08'));
+else
+    app()->clock()->set_time(new DateTime('new'));
+
+app()->trigger('boot');
 
 route_uri_request();
