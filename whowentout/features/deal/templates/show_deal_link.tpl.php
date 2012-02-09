@@ -1,6 +1,6 @@
 <?php
 $class = isset($class) ? $class : '';
-$title = isset($title) ? $title : 'view deal';
+$title = isset($title) ? $title : 'claim deal';
 ?>
 
 <?php if ($event && $event->deal): ?>
