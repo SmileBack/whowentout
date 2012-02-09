@@ -14,8 +14,7 @@ class Entourage_Invite_Display extends Display
 
     private function get_allowed_networks()
     {
-        $config = build('allowed_networks');
-        return $config['networks'];
+        return (array)build('allowed_networks');
     }
 
 }
