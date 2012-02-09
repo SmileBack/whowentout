@@ -12,7 +12,7 @@
             <?php if (browser::is_desktop()): ?>
             Where are YOU going out?
             <?php else: ?>
-            Where are you going out?
+            Where are YOU going out?
             <?php endif; ?>
             <div>
                 <span>Check-in.</span>
