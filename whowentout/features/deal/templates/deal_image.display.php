@@ -1,14 +1,7 @@
 <?php
 
-/**
- * @property $event DatabaseRow
- * @property $user DatabaseRow
- */
-class Deal_Preview_Display extends Display
+class Deal_Image_Display extends Display
 {
-
-    protected $defaults = array('orientation' => 'landscape');
-
     function process()
     {
         /* @var $repo ImageRepository */
@@ -35,5 +28,4 @@ class Deal_Preview_Display extends Display
 
         $this->ticket_url = $repo->url($ticket_id);
     }
-
 }

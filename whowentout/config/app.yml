@@ -34,6 +34,7 @@ router:
     "checkin/explanation/(:num)": ViewCheckinExplanation/$1
     "checkin/explanation/confirm": ConfirmCheckinExplanation
     "admin": AdminView
+    "admin/deals": AdminViewDeals
     "admin/places": AdminViewPlaces
     "admin/places/create": AdminCreatePlace
     "admin/places/(:num)/destroy": AdminDestroyPlace/$1
