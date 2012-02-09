@@ -16,4 +16,4 @@
     </tr>
 </table>
 
-<h2>Log onto <a href="<?= site_url('/') ?>">WhoWentOut.com</a> to accept his request!</h2>
+<h2><a href="<?= site_url('/') ?>">Click here</a> to go to <a href="<?= site_url('/') ?>">WhoWentOut.com</a> and accept <?= Inflect::genderize($request->sender->gender, 'his') ?> request!</h2>
