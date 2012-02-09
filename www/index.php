@@ -22,7 +22,7 @@ session_start();
 if (environment() != 'whowentout')
     app()->clock()->set_time(new DateTime('2011-12-08'));
 else
-    app()->clock()->set_time(new DateTime('new'));
+    app()->clock()->set_time(new DateTime('now'));
 
 app()->trigger('boot');
 
