@@ -11,6 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
 
     <meta property="og:image" content="http://www.whowentout.com/images/facebook_square.png" />
+    <link rel="image_src" href="/images/facebook_square.png" />
 
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
