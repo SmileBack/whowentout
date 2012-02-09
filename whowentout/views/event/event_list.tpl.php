@@ -1,15 +1,24 @@
 <div class="event_list_wrapper">
 
     <?php if (browser::is_mobile()): ?>
-    <?= r::show_deal_link(array('event' => $selected_event, 'class' => 'mobile', 'title' => 'claim your deal')); ?>
+    <?= r::show_deal_link(array('event' => $selected_event, 'class' => 'mobile', 'title' => 'claim your deal'))
+    ; ?>
     <?php endif; ?>
 
     <form method="post" action="/checkin" class="event_list <?= $selected_event ? 'event_selected' : '' ?>">
-        <input type="hidden" name="date" value="<?= $date->format('Y-m-d') ?>" />
+        <input type="hidden" name="date" value="<?= $date->format('Y-m-d') ?>"/>
+
         <h1>
-            <span>Check-in.</span>
-            <span>See where everyone's going.</span>
-            <span>Claim your deal.</span>
+            <?php if (browser::is_desktop()): ?>
+            Where are YOU going out tonight?
+            <?php else: ?>
+            Where are you going out?
+            <?php endif; ?>
+            <div>
+                <span>Check-in.</span>
+                <span>See where everyone's going.</span>
+                <span>Claim your deal.</span>
+            </div>
         </h1>
 
         <fieldset>
