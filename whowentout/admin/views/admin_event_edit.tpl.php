@@ -13,7 +13,8 @@
 
         <div>
             <label>Event date</label>
-            <input type="text" name="event[date]" autocomplete="off" value="<?= $event->date->format('Y-m-d') ?>" />
+            <input type="text" name="event[date]" autocomplete="off"
+                   value="<?= $event->date ? $event->date->format('Y-m-d') : '' ?>" />
         </div>
         
         <div>
