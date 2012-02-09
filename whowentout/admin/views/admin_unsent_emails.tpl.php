@@ -48,6 +48,13 @@ $jobs = db()->table('jobs')
                         <?= $user->facebook_id ?>
                     </dd>
 
+                    <dt>networks</dt>
+                    <dd>
+                        <?php foreach ($user->networks->where('type', 'college') as $network): ?>
+                            <span><?= $network->name ?></span>
+                        <?php endforeach; ?>
+                    </dd>
+
                     <dt>email</dt>
                     <dd>
                         <form method="post" action="/admin/emails/update">
