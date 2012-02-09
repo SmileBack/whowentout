@@ -48,6 +48,7 @@ router:
     "admin/emails": AdminViewUnsentEmails
     "admin/emails/update": AdminUpdateEmail
     "admin/emails/run_job": AdminRunEmailJob
+    "admin/users/destroy/(:num)": AdminDestroyUser/$1
     "jobs/run/(:alnum)": RunJob/$1
     "jobs/client": ViewJobsClient
     "entourage": ViewEntourage
