@@ -584,12 +584,12 @@ function hideAddressBar() {
         }, 50);
     }
 }
-window.addEventListener("load", function () {
+$(window).bind('load', function() {
     if (!window.pageYOffset) {
         hideAddressBar();
     }
 });
-window.addEventListener("orientationchange", hideAddressBar);
+$(window).bind('orientationchange', hideAddressBar);
 
 $('.debug_panel').entwine({
     onmatch:function () {
