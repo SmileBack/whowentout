@@ -35,15 +35,15 @@ pusher:
 
 allowed_networks:
   type: Config
-  networks:
+  data:
     - 16777274 #maryland
     - 16777219 #stanford
+    # 16777231 georgetown
+    # 16777270 gwu
 
 network_blocker:
   type: NetworkBlocker
   database: database
-  allowed_networks:
-    - 16777274 #maryland
-    - 16777219 #stanford
+  allowed_networks: allowed_networks
 
     

@@ -18,8 +18,11 @@ namespace whowentout
 
         private bool _started = false;
 
-        public JobRelay()
+        private string _pusherKey;
+
+        public JobRelay(string pusherKey)
         {
+            _pusherKey = pusherKey;
         }
 
         internal void Start()
@@ -34,8 +37,10 @@ namespace whowentout
             queue.JobComplete += new EventHandler<JobEventArgs>(Queue_JobComplete);
             queue.StatusChanged += new EventHandler<JobQueueStatusChangedEventArgs>(Queue_StatusChanged);
 
-            pusher = new PusherClient("805af8a6919abc9fb047");
+            pusher = new PusherClient(_pusherKey);
             pusher.Connection.StateChange += new EventHandler<StateChangeEventArgs>(Connection_StateChange);
+
+            console.log("pusher key = " + _pusherKey);
 
             channel = pusher.Subscribe("job_queue");
             channel.SubscriptionSucceeded += new EventHandler(Channel_SubscriptionSucceeded);

@@ -20,7 +20,8 @@ namespace whowentout
         {
             jQuery.OnDocumentReady(delegate()
             {
-                JobRelay relay = new JobRelay();
+                string pusherKey = (string)Type.GetField(Window.Self, "pusher_key");
+                JobRelay relay = new JobRelay(pusherKey);
                 relay.Start();
             });
         }

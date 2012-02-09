@@ -8,7 +8,9 @@ Type.registerNamespace('whowentout');
 ////////////////////////////////////////////////////////////////////////////////
 // whowentout.JobRelay
 
-whowentout.JobRelay = function whowentout_JobRelay() {
+whowentout.JobRelay = function whowentout_JobRelay(pusherKey) {
+    /// <param name="pusherKey" type="String">
+    /// </param>
     /// <field name="_queue" type="whowentout.lib.JobQueue">
     /// </field>
     /// <field name="_pusher" type="PusherApi.PusherClient">
@@ -17,12 +19,16 @@ whowentout.JobRelay = function whowentout_JobRelay() {
     /// </field>
     /// <field name="_started" type="Boolean">
     /// </field>
+    /// <field name="_pusherKey" type="String">
+    /// </field>
+    this._pusherKey = pusherKey;
 }
 whowentout.JobRelay.prototype = {
     _queue: null,
     _pusher: null,
     _channel: null,
     _started: false,
+    _pusherKey: null,
     
     _start: function whowentout_JobRelay$_start() {
         if (this._started) {
@@ -33,8 +39,9 @@ whowentout.JobRelay.prototype = {
         this._queue.add_jobStart(ss.Delegate.create(this, this._queue_JobStart));
         this._queue.add_jobComplete(ss.Delegate.create(this, this._queue_JobComplete));
         this._queue.add_statusChanged(ss.Delegate.create(this, this._queue_StatusChanged));
-        this._pusher = new PusherApi.PusherClient('805af8a6919abc9fb047');
+        this._pusher = new PusherApi.PusherClient(this._pusherKey);
         this._pusher.get_connection().add_stateChange(ss.Delegate.create(this, this._connection_StateChange));
+        console.log('pusher key = ' + this._pusherKey);
         this._channel = this._pusher.subscribe('job_queue');
         this._channel.add_subscriptionSucceeded(ss.Delegate.create(this, this._channel_SubscriptionSucceeded));
         this._channel.add_subscriptionFailed(ss.Delegate.create(this, this._channel_SubscriptionFailed));
@@ -728,7 +735,8 @@ whowentout.lib.JobEventArgs.registerClass('whowentout.lib.JobEventArgs', ss.Even
 whowentout.lib.JobQueueStatusChangedEventArgs.registerClass('whowentout.lib.JobQueueStatusChangedEventArgs', ss.EventArgs);
 (function () {
     $(function() {
-        var relay = new whowentout.JobRelay();
+        var pusherKey = window.self.pusher_key;
+        var relay = new whowentout.JobRelay(pusherKey);
         relay._start();
     });
 })();

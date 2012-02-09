@@ -33,13 +33,11 @@ pusher:
 
 allowed_networks:
   type: Config
-  networks:
-    #- 16777274 #maryland
+  data:
+    - 16777274 #maryland
     - 16777219 #stanford
 
 network_blocker:
-  type: NetworkPassThrough
+  type: NetworkBlocker
   database: database
-  allowed_networks:
-    - 16777274 #maryland
-    - 16777219 #stanford
+  allowed_networks: allowed_networks

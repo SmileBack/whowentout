@@ -8,10 +8,10 @@ class NetworkBlocker
 
     private $allowed_networks;
 
-    function __construct(Database $database, $allowed_networks)
+    function __construct(Database $database, Config $allowed_networks)
     {
         $this->database = $database;
-        $this->allowed_networks = $allowed_networks;
+        $this->allowed_networks = (array)$allowed_networks;
     }
 
     function is_blocked($user)

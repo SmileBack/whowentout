@@ -11,14 +11,14 @@
 
     <script type="text/javascript" src="/js/jquery.js"></script>
 
+    <?= js() ?>
+
     <script type="text/javascript" src="/js/scriptsharp/mscorlib.debug.js"></script>
     <script type="text/javascript" src="/js/scriptsharp/WebCore.debug.js"></script>
-    <script type="text/javascript" src="/js/scriptsharp/whowentout.debug.js"></script>
+    <script type="text/javascript" src="/js/scriptsharp/whowentout.debug.0000000004.js"></script>
 </head>
 
 <body>
-
-<?= js() ?>
 
 </body>
 </html>
