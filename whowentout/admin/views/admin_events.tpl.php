@@ -33,6 +33,11 @@
                 <option value="door">door</option>
             </select>
         </div>
+
+        <div>
+            <label>Priority</label>
+            <input type="text" name="event[priority]" value="0" />
+        </div>
         
         <input type="submit" name="op" value="Create" />
     </fieldset>
@@ -46,6 +51,7 @@
         <th>Place</th>
         <th>Deal</th>
         <th>Deal Type</th>
+        <th>Priority</th>
         <th>Actions</th>
     </tr>
     <?php foreach ($events as $event): ?>
@@ -56,6 +62,7 @@
         <td><?= $event->place->name ?></td>
         <td><?= $event->deal ?></td>
         <td><?= $event->deal_type ?></td>
+        <td><?= $event->priority ?></td>
         <td>
             <?= a("admin/events/$event->id/edit", 'edit') ?>
             <?= a("admin/events/$event->id/destroy", 'destroy') ?>

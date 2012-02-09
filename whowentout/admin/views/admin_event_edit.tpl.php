@@ -37,6 +37,11 @@
                 <option value="door">door</option>
             </select>
         </div>
+
+        <div>
+            <label>Priority</label>
+            <input type="text" name="event[priority]" value="<?= $event->priority ?>" />
+        </div>
         
         <input type="submit" name="op" value="Save"/>
     </fieldset>
