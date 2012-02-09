@@ -8,6 +8,7 @@ class WhoWentOutPackage extends Package
     function install()
     {
         $this->create_users_table();
+        $this->create_user_friends_table();
         $this->create_places_table();
         $this->create_events_table();
         $this->create_profile_pictures_table();
