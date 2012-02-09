@@ -10,7 +10,7 @@
 
         <h1>
             <?php if (browser::is_desktop()): ?>
-            Where are YOU going out tonight?
+            Where are YOU going out?
             <?php else: ?>
             Where are you going out?
             <?php endif; ?>
