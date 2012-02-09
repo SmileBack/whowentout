@@ -7,8 +7,8 @@
     <meta name="description" content=""/>
     <meta name="author" content="">
 
-    <meta property="og:image" content="http://www.whowentout.com/images/facebook_square.png" />
-    <link rel="image_src" href="/images/facebook_square.png" />
+    <meta property="og:image" content="http://www.whowentout.com/images/facebook_square.2.png" />
+    <link rel="image_src" href="/images/facebook_square.2.png" />
 
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 

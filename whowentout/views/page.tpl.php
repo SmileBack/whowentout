@@ -10,14 +10,14 @@
     =1, maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
 
-    <meta property="og:image" content="http://www.whowentout.com/images/facebook_square.png" />
-    <link rel="image_src" href="/images/facebook_square.png" />
+    <meta property="og:image" content="http://www.whowentout.com/images/facebook_square.2.png" />
+    <link rel="image_src" href="/images/facebook_square.2.png" />
 
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    
+
     <link rel="stylesheet/less" type="text/css" href="/css/reset.0000000001.less"/>
     <link rel="stylesheet/less" type="text/css" href="/css/dialog.0000000003.less"/>
     <link rel="stylesheet/less" type="text/css" href="/css/jquery.jcrop.less"/>
