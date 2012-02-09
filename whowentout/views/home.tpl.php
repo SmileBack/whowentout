@@ -7,6 +7,8 @@
     <meta name="description" content=""/>
     <meta name="author" content="">
 
+    <meta property="og:image" content="http://www.whowentout.com/images/facebook_square.png" />
+
     <title><?=isset($title) ? $title : 'WhoWentOut' ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico">
