@@ -8,6 +8,13 @@
 
 @import 'elements.0000000015.less';
 
+.background_size() {
+    -webkit-background-size: @arguments;
+    -moz-background-size: @arguments;
+    -o-background-size: @arguments;
+    background-size: @arguments;
+}
+
 .date_tip {
     width: 150px;
     font-size: 18px;
@@ -179,7 +186,7 @@ input[type="submit"], button {
     color: white;
     overflow: hidden;
     background: black url(/images/background.jpg) no-repeat center;
-    background-size: cover;
+    .background_size(cover);
     .home_center {
         margin-top: 50px;
         padding: 20px;
