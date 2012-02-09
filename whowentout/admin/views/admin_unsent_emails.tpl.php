@@ -2,6 +2,7 @@
 $jobs = db()->table('jobs')
         ->where('type', 'SendEmailJob')
         ->where('status', array('pending', 'running'));
+$job_count = $jobs->count();
 ?>
 <style type="text/css">
     .admin_unsent_emails {
@@ -18,7 +19,7 @@ $jobs = db()->table('jobs')
     }
 </style>
 <div class="admin_unsent_emails">
-    <h1>Unsent Email Jobs</h1>
+    <h1>Unsent Email Jobs (<?= $job_count ?>)</h1>
     <ul>
         <?php foreach ($jobs as $job): ?>
         <?php
