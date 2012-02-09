@@ -10,7 +10,7 @@ mysql_connect(
   $server = "mysql-shared-02.phpfog.com",
   $username = "Custom App-27847",
   $password = 'MySQL4668');
-$resut = mysql_select_db("whowentout_com");
+$result = mysql_select_db("whowentout_com");
 
 var_dump($result);
 
