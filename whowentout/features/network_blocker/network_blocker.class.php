@@ -16,6 +16,9 @@ class NetworkBlocker
 
     function is_blocked($user)
     {
+        if (auth()->is_admin())
+            return false;
+
         $networks_ids = $this->get_network_ids($user);
 
         $permitted_user_networks = array_intersect($this->allowed_networks, $networks_ids);
