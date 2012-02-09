@@ -1,6 +1,6 @@
 <ul>
     <?php foreach ($checkins as $checkin): ?>
-        <?php if (!$checkin->event->deal) continue; ?>
+        <?php if (!$checkin->event->deal || !$checkin->user->cell_phone_number) continue; ?>
         <li>
             <dl>
                 <dt>Name</dt>
