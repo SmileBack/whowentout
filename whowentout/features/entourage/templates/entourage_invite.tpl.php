@@ -62,4 +62,3 @@
     </fieldset>
 
 </form>
-<?= r::debug_summary() ?>
