@@ -105,6 +105,22 @@ whowentout.showDisabledOnPhoneDialog = function () {
     });
 };
 
+$('.coming_soon').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        whowentout.initDialog();
+        dialog.title('Coming Soon');
+        dialog.message('' +
+        '<p>Coming soon, along with other features!</p>'
+        + '<br/>'
+        + '<p>To suggest features, click the feedback button.</p>'
+        + '<br/>'
+        );
+        dialog.setButtons('ok');
+        dialog.showDialog('coming_soon');
+    }
+});
+
 $('.mobile .deal_preview').entwine({
     onmatch:function () {
         this.css('cursor', 'pointer');

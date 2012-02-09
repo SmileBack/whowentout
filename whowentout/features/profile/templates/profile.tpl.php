@@ -18,6 +18,8 @@
                     <?php endforeach; ?>
                 </ul>
             </div>
+
+            <a class="send_message_link coming_soon" href="#send_message">Send Message</a>
         </div>
 
         <?= r::entourage_section(array('user' => $user, 'show_invite_link' => $your_profile)); ?>
