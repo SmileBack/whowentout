@@ -80,7 +80,7 @@
 
 <?= js() ?>
 
-<?php if (environment() != 'whowentout'): ?>
+<?php if (false): ?>
 <?= r::debug_summary() ?>
 <?php endif; ?>
 
