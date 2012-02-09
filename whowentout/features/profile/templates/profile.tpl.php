@@ -31,7 +31,7 @@
             <?= r::profile_checkins(array('user' => $user)); ?>
         </section>
 
-        <?php if (!$your_profile): ?>
+        <?php if (false && !$your_profile): ?>
         <section class="mutual_friends_section">
             <h3>Mutual Friends (<?= count($mutual_friends) ?>)</h3>
             <?php if (count($mutual_friends) > 0): ?>
