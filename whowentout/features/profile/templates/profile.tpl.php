@@ -19,7 +19,9 @@
                 </ul>
             </div>
 
+            <?php if (!your_profile): ?>
             <a class="send_message_link coming_soon" href="#send_message">Send Message</a>
+            <?php endif; ?>
         </div>
 
         <?= r::entourage_section(array('user' => $user, 'show_invite_link' => $your_profile)); ?>
