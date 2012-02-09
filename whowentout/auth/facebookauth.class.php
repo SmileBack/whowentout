@@ -30,12 +30,14 @@ class FacebookAuth extends Auth
     function current_user()
     {
         $facebook_id = $this->get_logged_in_facebook_id();
-        $user = $this->database->table('users')
-                              ->where('facebook_id', $facebook_id)
-                              ->first();
 
-        if (!$user)
-            $this->logout();
+        $user = $this->database->table('users')
+                               ->where('facebook_id', $facebook_id)
+                               ->first();
+
+        if (!$user) {
+            $user = $this->create_current_user();
+        }
 
         return $user;
     }
@@ -55,29 +57,25 @@ class FacebookAuth extends Auth
     /**
      * @return DatabaseRow
      */
-    function create_user()
+    function create_current_user()
     {
-        if ($this->current_user() == null) {
-            $facebook_id = $this->facebook->getUser();
-            $profile_source = new FacebookProfileSource($this->facebook);
-            $profile = $profile_source->fetch_profile($facebook_id);
-            $user = $this->database->table('users')->create_row(array(
-                'first_name' => $profile->first_name,
-                'last_name' => $profile->last_name,
-                'gender' => $profile->gender,
-                'email' => $profile->email,
-                'facebook_id' => $profile->id,
-                'date_of_birth' => $profile->birthday,
-                'hometown' => $profile->hometown,
-            ));
+        $facebook_id = $this->facebook->getUser();
+        $profile_source = new FacebookProfileSource($this->facebook);
+        $profile = $profile_source->fetch_profile($facebook_id);
+        $user = $this->database->table('users')->create_row(array(
+            'first_name' => $profile->first_name,
+            'last_name' => $profile->last_name,
+            'gender' => $profile->gender,
+            'email' => $profile->email,
+            'facebook_id' => $profile->id,
+            'date_of_birth' => $profile->birthday,
+            'hometown' => $profile->hometown,
+        ));
 
-            $this->create_user_profile_pic($user);
-            $this->update_facebook_networks($user, $profile->networks);
+        $this->create_user_profile_pic($user);
+        $this->update_facebook_networks($user, $profile->networks);
 
-            return $user;
-        }
-
-        return $this->current_user();
+        return $user;
     }
 
     /**

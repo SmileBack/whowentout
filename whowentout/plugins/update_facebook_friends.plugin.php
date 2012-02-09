@@ -3,7 +3,7 @@
 class UpdateFacebookFriendsPlugin extends Plugin
 {
 
-    function on_before_request($e)
+    function on_after_request($e)
     {
         if (string_starts_with('jobs/', $e->url)) // don't want infinite recursion !
             return;
@@ -19,6 +19,7 @@ class UpdateFacebookFriendsPlugin extends Plugin
     {
         /* @var $job_queue JobQueue */
         $job_queue = build('job_queue');
+
         $job = new UpdateFacebookFriendsJob(array(
             'user_id' => auth()->current_user()->id,
         ));

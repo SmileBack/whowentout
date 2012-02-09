@@ -8,6 +8,9 @@ class AdminDestroyUserAction extends Action
         auth()->require_admin();
 
         $user = db()->table('users')->row($user_id);
+
+        $is_current_user = ($user == auth()->current_user());
+
         $full_name = $user->first_name . ' ' . $user->last_name;
 
         db()->table('entourage_requests')->where('sender_id', $user_id)->destroy();
@@ -34,6 +37,10 @@ class AdminDestroyUserAction extends Action
         db()->table('users')->where('id', $user_id)->destroy();
 
         flash::message("Destroyed $full_name.");
+
+        if ($is_current_user) {
+            auth()->logout();
+        }
 
         redirect('/');
     }
