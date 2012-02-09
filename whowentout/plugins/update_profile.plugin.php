@@ -9,8 +9,5 @@ class UpdateProfilePlugin extends Plugin
 
         if (!auth()->logged_in())
             return;
-
-        if ($this->facebook_friends_are_outdated())
-            $this->update_facebook_friend_in_background();
     }
 }
