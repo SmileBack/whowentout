@@ -1,4 +1,5 @@
-<ul>
+<div class="admin_deals">
+    <h1><?= $date->format('m/d/Y l') ?></h1>
     <?php foreach ($checkins as $checkin): ?>
         <?php if (!$checkin->event->deal || !$checkin->user->cell_phone_number) continue; ?>
         <li>
@@ -17,4 +18,4 @@
             </dl>
         </li>
     <?php endforeach; ?>
-</ul>
+</div>
