@@ -13,7 +13,7 @@ class FacebookAuth extends Auth
      */
     private $database;
 
-    private $admin_facebook_ids = array('776200121', '8100231');
+    private $admin_facebook_ids = array('776200121', '8100231', '1185700827');
 
     /**
      * @var array
