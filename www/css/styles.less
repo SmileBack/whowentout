@@ -31,7 +31,9 @@
 }
 
 .tab_tip {
-    .tip(left, #333, white, 6px);
+    @tab_tip_color: #f03d25;
+    .tip(left, @tab_tip_color, white, 6px);
+    background-color: #f03d25;
     width: 100px;
     position: relative;
     font-size: 12px;
