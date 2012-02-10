@@ -9,4 +9,10 @@ if (environment() != 'whowentout')
 else
     app()->clock()->set_time(new DateTime('now'));
 
+$dt = new DateTime('now');
+
+print $dt->format('Y-m-d H:i:s');
+
+print "<br>";
+
 print app()->clock()->today()->format('Y-m-d H:i:s');
