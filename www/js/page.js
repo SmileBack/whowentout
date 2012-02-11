@@ -54,7 +54,7 @@ whowentout.showCheckinExplanationDialog = function(event_id) {
 };
 
 whowentout.showDealDialog = function (event_id) {
-    whowentout.showDialog('Redeem the deal with your phone!',
+    whowentout.showDialog('Claim Your Deal',
     '/events/' + event_id + '/deal', 'deal_dialog',
     function () {
         head.js('/js/jquery.maskedinput.js', function () {

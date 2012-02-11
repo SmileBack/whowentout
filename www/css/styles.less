@@ -835,8 +835,34 @@ section.entourage {
 }
 
 .dialog.deal_dialog {
+    width: 1045px;
+    .dialog_body h1 {
+        margin: 8px 0;
+    }
+    .or {
+        position: relative;
+        font-size: 30px;
+        float: left;
+        width: 100%;
+        .text {
+            background-color: @light_color;
+            padding: 0 8px;
+        }
+        .line {
+            position: absolute;
+            height: 1px;
+            top: 50%;
+            left: 0;
+            right: 0;
+            border-top: 1px solid grey;
+            z-index: -1;
+        }
+    }
+    .claim_deal_screenshot, .deal_preview {
+        float: left;
+    }
     .phone_number_field {
-        margin: 25px 0;
+        margin: 0 0 25px 0;
         input {
             text-align: center;
             width: 136px;
@@ -851,8 +877,6 @@ section.entourage {
     }
     .edit_cell_phone_number {
         font-size: 12px;
-    }
-    h2 {
     }
     p {
         margin: 15px 5px;

@@ -3,37 +3,31 @@
 
     <input type="hidden" name="event_id" value="<?= $event->id ?>"/>
 
-    <?php if (!browser::is_mobile()): ?>
-        <div class="phone_number_field <?= $have_number ? 'have_number' : 'missing_number' ?>">
-            <?php if (!$have_number): ?>
+    <h1>1. You can view the deal on your smartphone:</h1>
 
-                <h2>
-                    Type your number below so we can send you the deal*
-                </h2>
-
-                <input type="text" class="cell_phone_number" name="user[cell_phone_number]"
-                       value="<?= $user->cell_phone_number ?>" autocomplete="off" />
-
-            <?php else: ?>
-
-                <h2>The deal will be sent to</h2>
-
-                <input type="text" class="cell_phone_number inline" name="user[cell_phone_number]"
-                       value="<?= $user->cell_phone_number ?>" autocomplete="off" />
-
-                <a href="#edit" class="edit_cell_phone_number">change</a>
-
-            <?php endif; ?>
-        </div>
+    <?php if (browser::is_desktop()): ?>
+        <img src="/images/claim_deal_screenshot.png" class="claim_deal_screenshot" alt="claim deal"/>
     <?php endif; ?>
 
     <?= r::deal_preview(array('user' => $user, 'event' => $event, 'orientation' => 'portrait')) ?>
     <?= r::deal_preview(array('user' => $user, 'event' => $event, 'orientation' => 'landscape')) ?>
 
-    <em>*Deal will be sent to you on <?= $event->date->format('l') ?> evening</em>
-
-    <?php if (!browser::is_mobile()): ?>
-        <p>(You can also access this deal by going to whowentout.com on your phone)</p>
+    <?php if (browser::is_desktop()): ?>
+    <h1 class="or">
+        <span class="text">OR</span>
+        <div class="line"></div>
+    </h1>
+    <h1>2. We can text it to your phone on <?= $event->date->format('l') ?> evening:</h1>
+    <div class="phone_number_field <?= $have_number ? 'have_number' : 'missing_number' ?>">
+        <?php if (!$have_number): ?>
+            <input type="text" class="cell_phone_number" name="user[cell_phone_number]"
+                   value="<?= $user->cell_phone_number ?>" autocomplete="off" />
+        <?php else: ?>
+            <input type="text" class="cell_phone_number inline" name="user[cell_phone_number]"
+                   value="<?= $user->cell_phone_number ?>" autocomplete="off" />
+            <a href="#edit" class="edit_cell_phone_number">change</a>
+        <?php endif; ?>
+    </div>
     <?php endif; ?>
 
     <div class="buttons">
