@@ -39,7 +39,7 @@
 <body id="home_page">
 
     <div class="home_center">
-        <img src="/images/home.png?version=18" />
+        <img src="/images/home.png?version=19" />
         <a href="/login" class="login_button">Login with Facebook</a>
     </div>
 
