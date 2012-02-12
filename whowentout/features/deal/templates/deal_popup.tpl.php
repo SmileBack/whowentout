@@ -3,7 +3,7 @@
 
     <input type="hidden" name="event_id" value="<?= $event->id ?>"/>
 
-    <h1>1. You can view the deal on your smartphone:</h1>
+    <h1>Go to WhoWentOut.com on your smartphone:</h1>
 
     <?php if (browser::is_desktop()): ?>
         <img src="/images/claim_deal_screenshot.png" class="claim_deal_screenshot" alt="claim deal"/>
@@ -17,7 +17,8 @@
         <span class="text">OR</span>
         <div class="line"></div>
     </h1>
-    <h1>2. We can text it to your phone on <?= $event->date->format('l') ?> evening:</h1>
+
+    <h1>We can text it to your phone on <?= $event->date->format('l') ?> evening:</h1>
     <div class="phone_number_field <?= $have_number ? 'have_number' : 'missing_number' ?>">
         <?php if (!$have_number): ?>
             <input type="text" class="cell_phone_number" name="user[cell_phone_number]"

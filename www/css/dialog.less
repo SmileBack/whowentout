@@ -9,6 +9,19 @@
   background-repeat: initial;
   box-shadow: black 0px 0px 15px;
   -webkit-box-shadow: black 0px 0px 15px;
+  > h1 {
+    text-align: center;
+    margin: 0;
+    &:empty { display: none; }
+  }
+  > h2 {
+    text-align: center;
+    margin: 0;
+    padding: 4px 0;
+    background-color: #fffacd;
+    color: #333;
+    &:empty { display: none; }
+  }
 }
 
 .dialog_buttons {
@@ -20,11 +33,6 @@
   text-decoration: none;
   margin: 0 25px;
   font-weight: bold;
-}
-
-.dialog h1 {
-  text-align: center;
-  margin: 0;
 }
 
 .dialog_body {

@@ -38,6 +38,7 @@ $.dialog = {
 
         var d = $('<div class="dialog"> '
                 + '<h1></h1>'
+                + '<h2></h2>'
                 + '<div class="dialog_body"></div>'
                 + '<div class="dialog_buttons"></div>'
                 + '</div>');
@@ -46,7 +47,7 @@ $.dialog = {
         d.anchor('viewport', 'c'); //keeps the dialog box in the center
 
         var refresh_position = function() {
-                d.refreshPosition();
+            d.refreshPosition();
         };
         refresh_position = _.debounce(refresh_position, 100);
         setInterval(refresh_position, 250);
@@ -96,6 +97,16 @@ $('.dialog').entwine({
         }
         else {
             this.find('h1').text(text);
+            this.refreshPosition();
+            return this;
+        }
+    },
+    subtitle: function (text) {
+        if (text === undefined) {
+            return this.find('h2').text();
+        }
+        else {
+            this.find('h2').text(text);
             this.refreshPosition();
             return this;
         }

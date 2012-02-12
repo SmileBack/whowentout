@@ -39,69 +39,99 @@ whowentout.initDialog = function () {
     }
 };
 
-whowentout.showDialog = function (title, url, cls, onComplete) {
-    onComplete = onComplete || function () {};
+whowentout.showDialog = function (options) {
+    var defaults = {
+        title: '',
+        subtitle: '',
+        message: false,
+        url: '',
+        cls: '',
+        onComplete: function() {},
+        buttons: 'none'
+    };
+    var options = $.extend({}, defaults, options);
+
     $(function () {
         whowentout.initDialog();
-        dialog.title(title);
-        dialog.showDialog(cls);
-        dialog.loadContent(url, onComplete);
+
+        dialog.title(options.title);
+        dialog.subtitle(options.subtitle);
+        dialog.setButtons(options.buttons);
+
+        if (options.message !== false)
+            dialog.message(options.message);
+        else
+            dialog.loadContent(options.url, options.onComplete);
+
+        dialog.showDialog(options.cls);
     });
 };
 
 whowentout.showCheckinExplanationDialog = function(event_id) {
-    whowentout.showDialog('Checked In', '/checkin/explanation/' + event_id, 'checkin_explanation_dialog');
+    whowentout.showDialog({
+        title: 'Checked In',
+        url: '/checkin/explanation/' + event_id,
+        cls: 'checkin_explanation_dialog'
+    });
 };
 
 whowentout.showDealDialog = function (event_id) {
-    whowentout.showDialog('Claim Your Deal',
-    '/events/' + event_id + '/deal', 'deal_dialog',
-    function () {
-        head.js('/js/jquery.maskedinput.js', function () {
-            $(".cell_phone_number").mask("(999) 999-9999").trigger('focus');
-        });
+    whowentout.showDialog({
+        title: 'Claim Your Deal',
+        subtitle: 'You have 2 options to claim your deal',
+        url: '/events/' + event_id + '/deal',
+        cls: 'deal_dialog',
+        onComplete: function() {
+            head.js('/js/jquery.maskedinput.js', function () {
+                $(".cell_phone_number").mask("(999) 999-9999").trigger('focus');
+            });
+        }
     });
 };
 
 whowentout.showInviteDialog = function (event_id) {
-    whowentout.showDialog('Invite your Friends', '/events/' + event_id + '/invite', 'invite_dialog');
+    whowentout.showDialog({
+        title: 'Invite Your Friends',
+        url: '/events/' + event_id + '/invite',
+        cls: 'invite_dialog'
+    });
 };
 
 whowentout.showEntourageRequestDialog = function () {
-    whowentout.showDialog('Entourage Request', '/entourage/invite', 'invite_dialog');
+    whowentout.showDialog({
+        title: 'Entourage Request',
+        url: '/entourage/invite',
+        cls: 'invite_dialog'
+    });
 };
 
 whowentout.showNetworkRequiredDialog = function () {
-    $(function () {
-        whowentout.initDialog();
-        dialog.title('Required Network');
-        dialog.showDialog('network_required_dialog');
-        dialog.setButtons('ok');
-        dialog.loadContent('/networks_required');
+    whowentout.showDialog({
+        title: 'Required Network',
+        cls: 'network_required_dialog',
+        buttons: 'ok',
+        url: '/networks_required'
     });
 };
 
 whowentout.showProfileEditDialog = function () {
-    $(function () {
-        whowentout.initDialog();
-        dialog.title('Your Profile Pic');
-        dialog.showDialog('profile_edit_dialog');
-        dialog.loadContent('/profile/picture/edit', function () {
+    whowentout.showDialog({
+        title: 'Your Profile Pic',
+        cls: 'profile_edit_dialog',
+        url: '/profile/picture/edit',
+        onComplete: function() {
             $('.profile_pic_crop_form').initCropper();
-        });
+        }
     });
 };
 
 whowentout.showDisabledOnPhoneDialog = function () {
-    $(function () {
-        whowentout.initDialog();
-        dialog.title('Use Your Computer');
-        dialog.message(
-        '<img src="/images/laptop.png" />'
-        + '<p>This feature is available on your computer.</p>'
-        );
-        dialog.setButtons('ok');
-        dialog.showDialog('disabled_on_phone');
+    whowentout.showDialog({
+        title: 'Use Your Computer',
+        message: '<img src="/images/laptop.png" />'
+                + '<p>This feature is available on your computer.</p>',
+        buttons: 'ok',
+        cls: 'disabled_on_phone'
     });
 };
 
