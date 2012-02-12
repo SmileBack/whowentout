@@ -98,22 +98,32 @@
     }
     .event_option {
         margin: 0;
-        &.new_event .inline_label {
-            width: 155px;
+        padding: 4px 10px;
+        min-height: 28px;
+        &.new_event {
+            padding-top: 8px;
+            .inline_label {
+                width: 155px;
+            }
+            .badge {
+                top: 6px;
+            }
         }
         .place {
-            margin: 8px 0 0 0;
+            margin: 0;
         }
         .deal {
             width: 170px;
-            margin: 0px 0 4px 35px;
             clear: left;
+            margin: 0 0 0 8px;
+            font-style: italic;
         }
         .badge {
             width: 60px;
             position: absolute;
-            top: 6px;
-            right: 40px;
+            top: 4px;
+            right: 60px;
+            margin: 0;
             > * {
                 padding: .5em 1em .55em;
             }
