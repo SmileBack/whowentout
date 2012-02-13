@@ -10,6 +10,13 @@
   filter: e(%('alpha(opacity=%s)', @opacity * 100));  // most other IE versions
 }
 
+.transition() {
+    -webkit-transition: @arguments;
+    -moz-transition: @arguments;
+    -o-transition: @arguments;
+    -ms-transition: @arguments;
+}
+
 .rotate(@deg:5deg){
   -o-transform: rotate(@deg);
   -webkit-transform: rotate(@deg);

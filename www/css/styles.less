@@ -6,7 +6,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000015.less';
+@import 'elements.0000000016.less';
 
 .background_size() {
     -webkit-background-size: @arguments;
@@ -57,6 +57,13 @@ label {
 #page #content > .page_content {
     width: auto;
     padding: 50px;
+}
+
+#page #content > .mission_statement {
+    font-size: 18px;
+    p {
+        margin: 12px 0;
+    }
 }
 
 .vertical_gradient(@start: #000, @stop: #FFF) {
@@ -477,6 +484,25 @@ td {
      .orange_button;
      display: block;
      margin: 0 20% 15px 20%;
+}
+
+.event_day_summary {
+    .event_name {
+        text-align: right;
+        font-weight: bold;
+    }
+    td {
+        border: none;
+    }
+}
+
+.barchart {
+    height: 16px;
+    width: 250px;
+    .innerbar {
+        height: 100%;
+        background-color: #333;
+    }
 }
 
 .event_list {

@@ -68,18 +68,16 @@
 
     <div id="content">
         <?= $content ?>
-        <div class="footer_links">
-            <?= a('terms', 'Terms') ?>
-            <?= a('mission', 'Mission') ?>
-        </div>
     </div>
 
 
-    <?php if (browser::is_mobile()): ?>
     <div id="footer">
-        <?= auth()->get_login_link(); ?>
+        <?= a('terms', 'Terms') ?>
+        <?= a('mission', 'Mission') ?>
+        <?php if (browser::is_mobile()): ?>
+            <?= auth()->get_login_link(); ?>
+        <?php endif; ?>
     </div>
-    <?php endif; ?>
 
 </div>
 <!-- page end -->

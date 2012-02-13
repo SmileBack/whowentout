@@ -10,6 +10,13 @@
 
     <h1>See where everyone's going out:</h1>
 
+    <?=
+    r::event_day_summary(array(
+        'date' => $date,
+        'user' => $user,
+    ))
+    ?>
+
     <?php if (!$checkin): ?>
     <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out"/>
     <?php endif; ?>
