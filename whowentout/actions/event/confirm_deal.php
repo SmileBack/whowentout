@@ -23,8 +23,7 @@ class ConfirmDealAction extends Action
     {
         $cell_phone_number = $_POST['user']['cell_phone_number'];
 
-        $event_id = $_POST['event_id'];
-        $event = $this->db->table('events')->row($event_id);
+        $event = to::event($_POST['event_id']);
         $current_user = $this->auth->current_user();
 
         $current_user->cell_phone_number = $this->format_phone_number($cell_phone_number);
