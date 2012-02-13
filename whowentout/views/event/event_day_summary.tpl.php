@@ -23,6 +23,7 @@ foreach ($checkins as $checkin) {
             <td class="event_attendance">
                 <div class="barchart">
                     <div class="innerbar" style="width: <?= $summary['count'] * 3 ?>%;"></div>
+                    <span><?= $summary['count'] ?></span>
                 </div>
             </td>
         </tr>
