@@ -1,4 +1,4 @@
-<div class="terms">
+<div class="terms page_content">
 
 
 
