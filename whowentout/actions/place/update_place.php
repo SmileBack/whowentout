@@ -8,8 +8,9 @@ class UpdatePlaceAction extends Action
         auth()->require_admin();
 
         $place_attributes = $_POST['place'];
-        $place = app()->database()->table('places')->row($place_id);
-        redirect('admin_places');
+        $place = to::place($place_id);
+
+        redirect('admin/places');
     }
 
 }

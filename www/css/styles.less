@@ -54,6 +54,11 @@ label {
     .shadow(0, 1px, 2px, rgba(0,0,0,.15));
 }
 
+#page #content > .page_content {
+    width: auto;
+    padding: 50px;
+}
+
 .vertical_gradient(@start: #000, @stop: #FFF) {
     background-color: (@start + @stop) / 2;
     background-image: -webkit-gradient(linear, left top, left bottom, from(@start), to(@stop));
@@ -255,6 +260,15 @@ input[type="submit"], button {
     text-align: center;
     font-weight: bold;
     color: white;
+    a {
+        color: white;
+    }
+}
+
+.footer_links {
+    display: inline-block;
+    text-align: center;
+    background-color: @primary_color;
     a {
         color: white;
     }

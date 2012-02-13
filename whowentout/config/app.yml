@@ -34,6 +34,8 @@ router:
     "checkin/explanation/(:num)": ViewCheckinExplanation/$1
     "checkin/explanation/confirm": ConfirmCheckinExplanation
     "admin": AdminView
+    "terms": ShowPage/terms
+    "mission": ShowPage/mission_statement
     "admin/deals/(:num)/(:num)/(:num)": AdminViewDeals/$1/$2/$3
     "admin/deals": AdminViewDeals
     "admin/places": AdminViewPlaces

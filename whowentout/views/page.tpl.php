@@ -68,6 +68,10 @@
 
     <div id="content">
         <?= $content ?>
+        <div class="footer_links">
+            <?= a('terms', 'Terms') ?>
+            <?= a('mission', 'Mission') ?>
+        </div>
     </div>
 
 

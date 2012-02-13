@@ -9,8 +9,7 @@ class AdminUpdateEventAction extends Action
 
         $event_attributes = $_POST['event'];
 
-        $id = $event_attributes['id'];
-        $event = db()->table('events')->row($id);
+        $event = to::event($event_attributes['id']);
 
         $event->place_id = $event_attributes['place_id'];
         $event->deal = $event_attributes['deal'];
