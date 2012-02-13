@@ -16,6 +16,7 @@ foreach ($checkins as $checkin) {
     $breakdown[$checkin->event->id]['count']++;
 }
 ?>
+
 <table class="event_day_summary">
     <?php foreach ($breakdown as $summary): ?>
         <tr>
