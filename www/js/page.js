@@ -700,26 +700,34 @@ $('.tab_panel .tabs a').entwine({
 
 $('.expandable').entwine({
     onmatch:function () {
-        if (this.find('> li').length < 2)
+        console.log(this);
+        console.log('onmatch expandable');
+        if (this.items().length < 2)
             return;
 
         this.restOfItems().hide();
-        this.find('> li:first').append('<a href="#view_more" class="view_more">view more</a>');
-        this.find('> li:last').append('<a href="#view_less" class="view_less">view less</a>');
+        this.firstItem().append('<a href="#view_more" class="view_more">view more</a>');
+        this.lastItem().append('<a href="#view_less" class="view_less">view less</a>');
     },
     onunmatch:function () {
     },
+    items: function() {
+        return this.find('> li');
+    },
     firstItem:function () {
         return this.find('> li:first');
+    },
+    lastItem: function() {
+        return this.find('> li:last');
     },
     restOfItems:function () {
         return this.firstItem().nextAll();
     },
     viewMoreLink:function () {
-        return this.find('> li > .view_more');
+        return this.find('.view_more');
     },
     viewLessLink:function () {
-        return this.find('> li > .view_less');
+        return this.find('.view_less');
     },
     viewMore:function () {
         this.viewMoreLink().hide();
@@ -730,6 +738,18 @@ $('.expandable').entwine({
         this.viewLessLink().hide();
         this.viewMoreLink().show();
         this.restOfItems().fadeOut();
+    }
+});
+
+$('table.expandable').entwine({
+    firstItem: function() {
+        return this.find('tr:first');
+    },
+    lastItem: function() {
+        return this.find('tr:last');
+    },
+    items: function() {
+        return this.find('tr');
     }
 });
 
