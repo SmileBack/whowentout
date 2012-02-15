@@ -394,6 +394,16 @@ $('.event_invite :checkbox').entwine({
     }
 });
 
+$('.event_list').entwine({
+    collapseEvents: function() {
+        var height = this.find('.selected').outerHeight(true);
+        this.find('.new_event').fadeOut();
+        this.find('.events').animate({
+            height: height + 'px'
+        });
+    }
+});
+
 $('.event_list .filter').entwine({
     applyFilter:function (type) {
         var eventList = this.closest('.event_list');
@@ -700,8 +710,6 @@ $('.tab_panel .tabs a').entwine({
 
 $('.expandable').entwine({
     onmatch:function () {
-        console.log(this);
-        console.log('onmatch expandable');
         if (this.items().length < 2)
             return;
 
