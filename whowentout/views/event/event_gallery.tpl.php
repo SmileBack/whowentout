@@ -11,10 +11,10 @@
     <h1>See where everyone's going out:</h1>
 
     <?=
-    r::event_day_summary(array(
+    environment() != 'whoentout' ? r::event_day_summary(array(
         'date' => $date,
         'user' => $user,
-    ))
+    )) : ''
     ?>
 
     <?php if (!$checkin): ?>
