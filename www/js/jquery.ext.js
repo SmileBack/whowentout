@@ -97,3 +97,4 @@ $.fn.hiddenDimensions = function (includeMargin) {
 		return scrollbarWidth;
 	};
 })(jQuery);
+
