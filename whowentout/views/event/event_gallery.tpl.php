@@ -18,7 +18,7 @@
     ?>
 
     <?php if (!$checkin): ?>
-    <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out"/>
+    <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
     <?php endif; ?>
 
     <ul>

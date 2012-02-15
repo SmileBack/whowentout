@@ -43,4 +43,16 @@ class format
         return auth()->current_user() == $user;
     }
 
+    public static function people($users, $limit = 1)
+    {
+        $names = array();
+
+        $count = 0;
+        foreach ($users as $user) {
+            $names[] = "$user->first_name $user->last_name";
+        }
+
+        return conjunct($names, 'and');
+    }
+
 }
