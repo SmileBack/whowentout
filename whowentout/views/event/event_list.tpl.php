@@ -5,9 +5,7 @@
     ; ?>
     <?php endif; ?>
 
-    <form method="post" action="/checkin" class="event_list <?= $selected_event ? 'event_selected' : '' ?>">
-        <input type="hidden" name="date" value="<?= $date->format('Y-m-d') ?>"/>
-
+    <div class="event_list <?= $selected_event ? 'event_selected' : '' ?>">
         <h1>
             <div>Where are YOU going out?</div>
             <div>
@@ -29,12 +27,14 @@
                 <li class="<?= $selected ? 'selected' : '' ?>">
                     <?php benchmark::start('event_option'); ?>
                     <?=
+
                     r::event_option(array(
                         'event' => $event,
                         'is_selected' => $selected_event == $event,
                         'selected_event' => $selected_event,
                     ))
                     ?>
+
                     <?php benchmark::end('event_option'); ?>
                 </li>
                 <?php endforeach; ?>
@@ -42,6 +42,6 @@
             </ul>
         </fieldset>
 
-    </form>
+    </div>
 
 </div>

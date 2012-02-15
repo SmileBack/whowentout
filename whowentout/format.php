@@ -47,12 +47,27 @@ class format
     {
         $names = array();
 
-        $count = 0;
         foreach ($users as $user) {
             $names[] = "$user->first_name $user->last_name";
         }
 
-        return conjunct($names, 'and');
+        $visible_names = array_slice($names, 0, $limit);
+        $hidden_names = array_slice($names, $limit);
+
+        if (count($hidden_names) > 0)
+            $visible_names[] = static::bunch_names($hidden_names);
+
+        return conjunct($visible_names);
     }
+
+    private static function bunch_names($names)
+    {
+        if (count($names) == 1)
+            return array_pop($names);
+
+        return Inflect::pluralize_if(count($names), 'friend');
+    }
+
+
 
 }

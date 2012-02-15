@@ -16,13 +16,7 @@ $checkin_count = $checkin_engine->get_checkin_count($event);
 benchmark::end('get_checkin_count');
 ?>
 
-<label class="event_option all <?= $event->place->type ?>">
-    <input type="radio"
-           class="radio"
-           name="event_id"
-           value="<?= $event->id ?>"
-           <?= $is_selected ? 'checked="checked"' : '' ?> />
-
+<div class="event_option all <?= $event->place->type ?>">
     <div class="place">
         <?= $event->name ?>
 
@@ -55,9 +49,12 @@ benchmark::end('get_checkin_count');
         <?php elseif ($is_selected && !$event->deal): ?>
             <div class="attending_badge pressed">attending</div>
         <?php else: ?>
-            <div class="checkin_badge">check-in</div>
+            <form method="post" action="/checkin">
+                <input type="hidden" name="event_id" value="<?= $event->id ?>" />
+                <input type="submit" class="checkin_badge" value="check-in" />
+            </form>
         <?php endif; ?>
     </div>
 
-</label>
+</div>
     

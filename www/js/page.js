@@ -4,6 +4,7 @@
 //= require head.load.min.js
 //= require jquery.dialog.js
 //= require dateselector.js
+//= require jquery.easing.js
 
 (function ($) {
     if ($.browser.msie == false)
@@ -397,10 +398,14 @@ $('.event_invite :checkbox').entwine({
 $('.event_list').entwine({
     collapseEvents: function() {
         var height = this.find('.selected').outerHeight(true);
+        var animateOptions = {
+            easing: 'easeOutBounce',
+            duration: 1000
+        };
         this.find('.new_event').fadeOut();
         this.find('.events').animate({
             height: height + 'px'
-        });
+        }, animateOptions);
     }
 });
 

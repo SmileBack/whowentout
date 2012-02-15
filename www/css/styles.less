@@ -568,8 +568,6 @@ td {
         overflow-x: hidden;
         > li {
             border-bottom: 1px solid #b0b0b0;
-            &.selected { background-color: @selected_item_color; }
-            &:hover { background-color: @selected_item_color; }
         }
     }
     .event_option {
@@ -602,8 +600,9 @@ td {
           position: absolute;
           top: 4px;
           right: 30px;
-          > * {
+          .checkin_badge, .attending_badge, .event_invite_link, .add_event, .show_deal_link {
               .button_style;
+              width: 85px !important;
               display: block;
               font-size: 12px;
               width: 60px;
@@ -616,9 +615,6 @@ td {
                   font-size: 12px;
                   padding: 6px 12px;
               }
-          }
-          > input {
-              width: 85px;
           }
       }
       .attending_badge {
@@ -997,4 +993,8 @@ section.entourage {
     li {
         list-style-type: decimal;
     }
+}
+
+#feedbackify .flink {
+    visibility: hidden;
 }
