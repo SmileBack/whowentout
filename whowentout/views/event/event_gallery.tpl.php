@@ -11,7 +11,7 @@
     <h1>See where everyone's going out:</h1>
 
     <?=
-    environment() != 'whoentout' ? r::event_day_summary(array(
+    environment() != 'whowentout' ? r::event_day_summary(array(
         'date' => $date,
         'user' => $user,
     )) : ''
