@@ -21,16 +21,6 @@
 
 })(jQuery);
 
-head.css = function (path) {
-    $("head").append("<link>");
-    var css = $("head").children(":last");
-    css.attr({
-        rel:'stylesheet',
-        type:'text/css',
-        href:path
-    });
-};
-
 var whowentout = window.whowentout = {};
 
 whowentout.initDialog = function () {

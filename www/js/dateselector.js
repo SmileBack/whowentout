@@ -1,67 +1,6 @@
 //= require jquery.js
 //= require jquery.entwine.js
-
-var format = (function()
-{
-    var replacer = function(context)
-    {
-        return function(s, name)
-        {
-            return context[name];
-        };
-    };
-
-    return function(input, context)
-    {
-        return input.replace(/:(\w+)/g, replacer(context));
-    };
-})();
-
-$.fn.whenShown = function (fn) {
-    var props = { position:'absolute', visibility:'hidden', display:'block' },
-    hiddenParents = $(this).parents().andSelf().not(':visible');
-
-    //set style for hidden elements that allows computing
-    var oldProps = [];
-    hiddenParents.each(function () {
-        var old = {};
-
-        for (var name in props) {
-            old[ name ] = this.style[ name ];
-            this.style[ name ] = props[ name ];
-        }
-
-        oldProps.push(old);
-    });
-
-    var result = fn.call($(this));
-
-    //reset styles
-    hiddenParents.each(function (i) {
-        var old = oldProps[i];
-        for (var name in props) {
-            this.style[ name ] = old[ name ];
-        }
-    });
-
-    return result;
-};
-
-$.fn.hiddenDimensions = function (includeMargin) {
-    return this.whenShown(function () {
-        return {
-            width:this.width(),
-            outerWidth:this.outerWidth(includeMargin),
-            innerWidth:this.innerWidth(),
-            height:this.height(),
-            innerHeight:this.innerHeight(),
-            outerHeight:this.outerHeight(includeMargin),
-            margin:$.fn.margin ? this.margin() : null,
-            padding:$.fn.padding ? this.padding() : null,
-            border:$.fn.border ? this.border() : null
-        };
-    });
-};
+//= require jquery.ext.js
 
 $('.scrollable').entwine({
     onmatch: function () {

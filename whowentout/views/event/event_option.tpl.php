@@ -11,18 +11,11 @@ benchmark::start('get_invite');
 $invite = $invite_engine->get_invite($event, $current_user);
 benchmark::end('get_invite');
 
-benchmark::start('get_checkin_count');
-$checkin_count = $checkin_engine->get_checkin_count($event);
-benchmark::end('get_checkin_count');
 ?>
 
 <div class="event_option all <?= $event->place->type ?>">
     <div class="place">
         <?= $event->name ?>
-
-        <?php if ($selected_event && $checkin_count > 0): ?>
-            <span>(<?= $checkin_count ?>)</span>
-        <?php endif; ?>
 
         <?php if ($invite): ?>
             <div class="invited_by">
