@@ -15,7 +15,7 @@ $entourage_count = count($entourage);
         <?= r::entourage_section(array('user' => $user, 'show_invite_link' => true)); ?>
 
         <?php if (count($sent_entourage_requests) > 0): ?>
-        <section class="entourage_outgoing_requests gallery">
+        <section class="entourage_outgoing_requests">
             <h3>Entourage Requests Sent</h3>
             <?= r::entourage_outgoing_requests(); ?>
         </section>

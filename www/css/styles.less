@@ -6,7 +6,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000016.less';
+@import 'elements.0000000017.less';
 
 .background_size() {
     -webkit-background-size: @arguments;
@@ -630,7 +630,6 @@ td {
 }
 
 .event_gallery {
-    .gallery;
     position: relative;
     text-align: center;
     border-top: 1px dotted grey;
@@ -643,6 +642,9 @@ td {
         top: 45px;
         left: 50%;
         margin-left: -205px;
+    }
+    > ul {
+        .gallery;
     }
 }
 
@@ -704,13 +706,9 @@ td {
             display: block;
         }
     }
-    .mutual_friends_section {
-        .gallery;
-    }
-    .entourage_requests_section {
-        .gallery;
-    }
-    .entourage_outgoing_requests_section {
+    .mutual_friends_section > ul,
+    .mutual_friends_section > ul,
+    .entourage_outgoing_requests > ul {
         .gallery;
     }
     .profile_pic {
@@ -733,7 +731,6 @@ td {
 }
 
 section.entourage {
-    .gallery;
     .entourage_request_link {
         .button_style;
         .border_radius(0);
