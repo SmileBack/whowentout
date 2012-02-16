@@ -9,6 +9,7 @@ class Profile_Small_Display extends Display
         'link_to_profile' => false,
         'preset' => 'thumb',
         'is_friend' => false,
+        'class' => '',
     );
 
     function process()

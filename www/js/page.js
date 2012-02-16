@@ -437,14 +437,15 @@ $('.event_list').entwine({
         return this;
     },
     animateToHeight: function(height) {
-        this.find('.events').height(height);return this;
         var animateOptions = {
             easing: 'easeOutBounce',
-            duration: 1000
+            duration: 0
         };
         this.find('.events').animate({
             height: height + 'px'
         }, animateOptions);
+
+        return this;
     }
 });
 
@@ -822,3 +823,11 @@ $('.expandable .view_less').entwine({
 $.fn.scrollTo = function() {
     $('html, body').animate({scrollTop: $(this).offset().top}, 1000);
 };
+
+$('.event_links a').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        var el = $(this.attr('href'));
+        el.scrollTo();
+    }
+});

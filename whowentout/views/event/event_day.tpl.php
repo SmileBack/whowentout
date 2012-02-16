@@ -1,6 +1,5 @@
 <div class="event_day" data-date="<?= $date->format('Ymd') ?>">
 
-
     <?= r::date_tip(array('date' => $date)) ?>
 
     <?php benchmark::start('event_list'); ?>

@@ -45,6 +45,8 @@
 
     <h1>Where everyone's going out:</h1>
 
+    <?= r::event_links(array('date' => $date)) ?>
+
     <ul>
 
         <?php if ($hidden): ?>
@@ -65,6 +67,7 @@
                     'show_networks' => true,
                     'hidden' => false,
                     'is_friend' => isset($friends[$checkin->user->id]),
+                    'class' => "checkin_event_" . $checkin->event->id,
                 ))
                 ?>
                 <?php benchmark::end('profile_small'); ?>
