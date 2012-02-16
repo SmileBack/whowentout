@@ -47,7 +47,7 @@
 
     <?= r::event_links(array('date' => $date)) ?>
 
-    <ul>
+    <ul class="everyone_gallery">
 
         <?php if ($hidden): ?>
         <?php for ($n = 0; $n < 4 * 3; $n++): ?>
