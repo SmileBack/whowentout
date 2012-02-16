@@ -8,12 +8,12 @@
 ?>
 <div class="event_gallery">
 
-    <h1>Where your friends going out:</h1>
-
     <?php if (!$checkin): ?>
     <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
     <?php endif; ?>
 
+    <?php if ($checkin): ?>
+    <h1>Where your friends are going out:</h1>
     <ul>
         <?php foreach ($friend_checkins as $checkin): ?>
         <?php if (!isset($friends[$checkin->user->id])) continue; //skip over non-friends ?>
@@ -42,10 +42,13 @@
         <?php endforeach; ?>
 
     </ul>
+    <?php endif; ?>
 
     <h1>Where everyone's going out:</h1>
 
+    <?php if ($checkin): ?>
     <?= r::event_links(array('date' => $date)) ?>
+    <?php endif; ?>
 
     <ul class="everyone_gallery">
 

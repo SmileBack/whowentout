@@ -8,6 +8,12 @@ class AdminUpdateEmailAction extends Action
 
         $data = $_POST['user'];
 
+        if ($data['email'] == null) {
+            flash::error("You need a non-empty email");
+            redirect('admin/emails');
+        }
+
+
         $user = db()->table('users')->row($data['id']);
         $user->email = $data['email'];
         $user->save();
