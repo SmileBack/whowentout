@@ -44,7 +44,7 @@
     </ul>
     <?php endif; ?>
 
-    <h1>Where is EVERYONE going out?</h1>
+    <h1 class="main_title">Where is EVERYONE going out?</h1>
 
     <?php if ($checkin): ?>
     <?= r::event_links(array('date' => $date)) ?>

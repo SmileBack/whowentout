@@ -534,7 +534,7 @@ td {
 
 .event_list {
     @border_color: #b5b5b5;
-    width: 670px;
+    width: 800px;
     margin: auto;
     text-align: left;
     .shadow(0.9px, 2px, 3px, 1px, #989898);
@@ -640,13 +640,23 @@ td {
 }
 
 .event_gallery {
-    position: relative;
-    text-align: center;
-    border-top: 1px dotted grey;
-    margin-top: 15px;
-    padding-top: 15px;
+    @border_color: #b5b5b5;
+    width: 800px;
     min-height: 600px;
-    background-color: @light_color;
+    margin: 20px auto;
+    text-align: left;
+    .shadow(0.9px, 2px, 3px, 1px, #989898);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid @border_color;
+    .main_title {
+        line-height: 26px;
+        padding: 18px 0 12px 0;
+        font-size: 32px;
+        text-align: center;
+        background: url(/images/h1_bg.png) repeat-x;
+        border-bottom: 1px solid @border_color;
+    }
     h1 {
         font-size: 32px;
     }
@@ -668,10 +678,7 @@ td {
 .event_links {
     font-weight: bold;
     background-color: white;
-    border: 1px solid grey;
-    width: 90%;
-    margin-left: 5%;
-    margin-top: 12px;
+    border-bottom: 1px solid grey;
 }
 
 .profile {
