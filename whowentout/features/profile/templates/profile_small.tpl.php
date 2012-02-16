@@ -1,9 +1,6 @@
 <div class="profile_small">
-    <?php if (isset($caption)): ?>
-    <div class="profile_caption">
-        <?= $caption ?>
-    </div>
-    <?php endif; ?>
+
+    <div class="profile_badge"><?= $is_friend ? 'friend' : '' ?></div>
 
     <?php if ($hidden): ?>
         <?= img('/images/profile_anonymous.png'); ?>

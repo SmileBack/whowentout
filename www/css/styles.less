@@ -615,9 +615,9 @@ td {
                   padding: 6px 12px;
               }
           }
-      }
-      input {
-        width: 85px !important;
+        input {
+          width: 85px !important;
+        }
       }
       .attending_badge {
       }
@@ -786,10 +786,20 @@ section.entourage {
     overflow: hidden;
     .site_shadow;
     background-color: white;
-    .profile_caption {
-        font-size: 15px;
-        font-weight: bold;
-        margin-bottom: 4px;
+    position: relative;
+    .profile_badge {
+        .note;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 50px;
+        background-color: #eee;
+        color: #333;
+        border: 1px solid #bbb;
+        .site_shadow;
+        &:empty {
+            display: none;
+        }
     }
     .profile_name {
         margin-top: 8px;

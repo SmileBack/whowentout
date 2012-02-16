@@ -8,18 +8,42 @@
 ?>
 <div class="event_gallery">
 
-    <h1>See where everyone's going out:</h1>
-
-    <?=
-    r::event_day_summary(array(
-        'date' => $date,
-        'user' => $user,
-    ))
-    ?>
+    <h1>Where your friends going out:</h1>
 
     <?php if (!$checkin): ?>
     <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
     <?php endif; ?>
+
+    <ul>
+        <?php foreach ($friend_checkins as $checkin): ?>
+        <?php if (!isset($friends[$checkin->user->id])) continue; //skip over non-friends ?>
+
+        <li>
+            <?php benchmark::start('profile_small'); ?>
+            <?=
+            r::profile_small(array(
+                'user' => $checkin->user,
+                'link_to_profile' => true,
+                'show_networks' => true,
+                'hidden' => false,
+                'is_friend' => isset($friends[$checkin->user->id]),
+            ))
+            ?>
+            <?php benchmark::end('profile_small'); ?>
+
+            <?php benchmark::start('going_to'); ?>
+            <div class="going_to">
+                <div>Going to:</div>
+                <div><?= $checkin->event->name ?></div>
+            </div>
+            <?php benchmark::end('going_to'); ?>
+
+        </li>
+        <?php endforeach; ?>
+
+    </ul>
+
+    <h1>Where everyone's going out:</h1>
 
     <ul>
 
@@ -40,6 +64,7 @@
                     'link_to_profile' => true,
                     'show_networks' => true,
                     'hidden' => false,
+                    'is_friend' => isset($friends[$checkin->user->id]),
                 ))
                 ?>
                 <?php benchmark::end('profile_small'); ?>

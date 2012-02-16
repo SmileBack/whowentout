@@ -9,14 +9,10 @@ class ConfirmDealAction extends Action
     /* @var $auth FacebookAuth */
     private $auth;
 
-    /* @var $invite_engine InviteEngine */
-    private $invite_engine;
-
     function __construct()
     {
         $this->db = db();
         $this->auth = build('auth');
-        $this->invite_engine = build('invite_engine');
     }
 
     function execute()
@@ -29,14 +25,7 @@ class ConfirmDealAction extends Action
         $current_user->cell_phone_number = $this->format_phone_number($cell_phone_number);
         $current_user->save();
 
-        $has_sent_invites = $this->invite_engine->has_sent_invites($event, $current_user);
-
-        if (browser::is_mobile())
-            app()->goto_event($event);
-        if (flow::get() instanceof CheckinFlow && !$has_sent_invites)
-            redirect("events/$event->id/invite");
-        else
-            app()->goto_event($event);
+        app()->goto_event($event);
     }
 
     private function format_phone_number($phone_number)
