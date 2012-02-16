@@ -81,9 +81,11 @@ label {
         color: @text_color;
     }
     &:hover {
+        color: @text_color;
         .vertical_gradient(@c, @d);
     }
     &:active, &.pressed {
+        color: @text_color;
         .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
     }
 }
@@ -467,6 +469,10 @@ td {
     width: 100%;
     margin-top: 15px;
     text-align: center;
+    .switch {
+        display: inline-block;
+        margin-top: 15px;
+    }
     &.loading {
         background: url(/images/loading-message.gif) no-repeat center top;
         > * {
@@ -519,6 +525,10 @@ td {
         padding-left: 10px;
         float: left;
     }
+}
+
+.switch {
+    .button_style;
 }
 
 .event_list {

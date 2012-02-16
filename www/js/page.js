@@ -385,15 +385,27 @@ $('.event_invite :checkbox').entwine({
     }
 });
 
+$('.event_list_wrapper .switch').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('.event_list_wrapper').find('.event_list').expand();
+    }
+});
+
 $('.event_list').entwine({
     onmatch: function() {
         this.entwineData('expandedHeight', this.find('.events').height());
+
+        this.find('.switch').hide();
 
         if (this.hasClass('collapsed'))
             this.collapse();
     },
     isExpanded: function() {
         return !this.hasClass('collapsed');
+    },
+    switchLink: function() {
+        return this.closest('.event_list_wrapper').find('.switch');
     },
     expand: function() {
         var height = this.entwineData('expandedHeight');
@@ -404,7 +416,10 @@ $('.event_list').entwine({
         });
 
         this.animateToHeight(height);
+
         this.find('.new_event').show();
+        this.switchLink().hide();
+
         return this;
     },
     collapse: function() {
@@ -416,6 +431,8 @@ $('.event_list').entwine({
         });
 
         this.find('.new_event').hide();
+        this.switchLink().show();
+
         this.animateToHeight(height);
         return this;
     },
@@ -425,7 +442,6 @@ $('.event_list').entwine({
             easing: 'easeOutBounce',
             duration: 1000
         };
-        this.find('.new_event').fadeOut();
         this.find('.events').animate({
             height: height + 'px'
         }, animateOptions);
