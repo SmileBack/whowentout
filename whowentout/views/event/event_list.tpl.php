@@ -45,7 +45,7 @@
     </div>
 
     <?php if ($selected_event): ?>
-    <a href="#switch" class="switch">switch party</a>
+        <a href="#switch" class="switch">switch party</a>
     <?php endif; ?>
 
 </div>
