@@ -8,11 +8,13 @@
     <div class="event_list <?= $selected_event ? 'event_selected collapsed' : '' ?>">
         <h1>
             <div>Where are YOU going out?</div>
+            <?php if (!$selected_event): ?>
             <div>
                 <span>Check-in.</span>
                 <span>See where everyone's going.</span>
                 <span>Claim your deal.</span>
             </div>
+            <?php endif; ?>
         </h1>
 
         <ul class="events">
@@ -42,6 +44,8 @@
 
     </div>
 
+    <?php if ($selected_event): ?>
     <a href="#switch" class="switch">switch party</a>
+    <?php endif; ?>
 
 </div>
