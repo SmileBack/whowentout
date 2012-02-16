@@ -386,8 +386,41 @@ $('.event_invite :checkbox').entwine({
 });
 
 $('.event_list').entwine({
-    collapseEvents: function() {
+    onmatch: function() {
+        this.entwineData('expandedHeight', this.find('.events').height());
+
+        if (this.hasClass('collapsed'))
+            this.collapse();
+    },
+    isExpanded: function() {
+        return !this.hasClass('collapsed');
+    },
+    expand: function() {
+        var height = this.entwineData('expandedHeight');
+
+        this.find('.events').css({
+            overflow: '',
+            paddingRight: ''
+        });
+
+        this.animateToHeight(height);
+        this.find('.new_event').show();
+        return this;
+    },
+    collapse: function() {
         var height = this.find('.selected').outerHeight(true);
+
+        this.find('.events').css({
+            overflow: 'hidden',
+            paddingRight: $.getScrollbarWidth() + 'px'
+        });
+
+        this.find('.new_event').hide();
+        this.animateToHeight(height);
+        return this;
+    },
+    animateToHeight: function(height) {
+        this.find('.events').height(height);return this;
         var animateOptions = {
             easing: 'easeOutBounce',
             duration: 1000
