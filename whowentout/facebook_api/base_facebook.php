@@ -1103,6 +1103,7 @@ abstract class BaseFacebook
    *                      by a failed API call.
    */
   protected function throwAPIException($result) {
+      krumo::backtrace();
     $e = new FacebookApiException($result);
     switch ($e->getType()) {
       // OAuth 2.0 Draft 00 style
