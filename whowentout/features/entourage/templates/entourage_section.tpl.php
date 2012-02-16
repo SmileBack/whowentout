@@ -5,7 +5,7 @@ $entourage = $entourage_engine->get_entourage($user);
 $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
 ?>
 
-<section class="entourage gallery">
+<section class="entourage">
     <h3>
         <span>
             <?= ucfirst(format::owner($user)) ?> Entourage
