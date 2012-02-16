@@ -13,6 +13,23 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
         <span>(<?= count($entourage) ?>)</span>
     </h3>
 
+
+    <div class="definition">
+        <strong class="word">en·tou·rage</strong>
+        <em class="proununciation">[ahn-too-rahzh]</em>
+        <span class="part">noun</span>
+        <ol>
+            <li>The people you roll with</li>
+        </ol>
+    </div>
+
+    <h2>
+        <?= ucfirst(format::first_name($user)) ?>
+        <?= format::pov('has', $user) ?>
+        0 people in
+        <?= format::pov('his', $user) ?> entourage.
+    </h2>
+
     <?php if ($show_invite_link): ?>
         <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>
     <?php endif; ?>
@@ -21,21 +38,6 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
         <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>
     <?php else: ?>
 
-        <div class="definition">
-            <strong class="word">en·tou·rage</strong>
-            <em class="proununciation">[ahn-too-rahzh]</em>
-            <span class="part">noun</span>
-            <ol>
-                <li>The people you roll with</li>
-            </ol>
-        </div>
-
-        <h2>
-            <?= ucfirst(format::first_name($user)) ?>
-            <?= format::pov('has', $user) ?>
-            0 people in
-            <?= format::pov('his', $user) ?> entourage.
-        </h2>
     <?php endif; ?>
 
 </section>
