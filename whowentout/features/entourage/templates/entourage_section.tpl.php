@@ -14,6 +14,7 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
     </h3>
 
 
+    <?php if (empty($entourage)): ?>
     <div class="definition">
         <strong class="word">en·tou·rage</strong>
         <em class="proununciation">[ahn-too-rahzh]</em>
@@ -22,13 +23,16 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
             <li>The people you roll with</li>
         </ol>
     </div>
+    <?php endif; ?>
 
+    <?php if (empty($entourage)): ?>
     <h2>
         <?= ucfirst(format::first_name($user)) ?>
         <?= format::pov('has', $user) ?>
         0 people in
         <?= format::pov('his', $user) ?> entourage.
     </h2>
+    <?php endif; ?>
 
     <?php if ($show_invite_link): ?>
         <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>
