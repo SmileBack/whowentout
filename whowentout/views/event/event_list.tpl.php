@@ -1,10 +1,5 @@
 <div class="event_list_wrapper">
 
-    <?php if (browser::is_mobile()): ?>
-    <?= r::show_deal_link(array('event' => $selected_event, 'class' => 'mobile', 'title' => 'claim your deal'))
-    ; ?>
-    <?php endif; ?>
-
     <div class="event_list <?= $selected_event ? 'event_selected collapsed' : '' ?>">
         <h1>
             <div>Where are YOU going out?</div>
