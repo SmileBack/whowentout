@@ -740,6 +740,9 @@ $('.tab_panel').entwine({
     selectTab:function (key) {
         this.find('.pane').hide();
         this.find('.pane').filter('.' + key).show();
+
+        this.find('.tabs a.selected').removeClass('selected');
+        this.find('.tabs a[href=#' + key + ']').addClass('selected');
     }
 });
 
