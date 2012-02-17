@@ -26,6 +26,9 @@ class FacebookAuth extends Auth
         $this->database = $database;
         $this->facebook_permissions = $facebook_permissions;
 
+        if (!$this->logged_in())
+            header("Location: /");
+
         if ($this->logged_in() && $this->has_invalid_access_token())
             $this->redirect_to_login();
     }
