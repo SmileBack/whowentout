@@ -5,7 +5,7 @@
 //= require jquery.dialog.js
 //= require dateselector.js
 //= require jquery.easing.js
-//= require jquery.waypoints.js
+//= require jquery.inview.js
 
 (function ($) {
     if ($.browser.msie == false)
@@ -833,23 +833,6 @@ $.fn.scrollTo = function(complete) {
     $('html, body').animate({scrollTop: $(this).offset().top}, options);
 };
 
-$('.event_links').entwine({
-    onmatch: function() {
-        var self = this;
-        console.log('event links on match');
-        this.waypoint(function(event, direction) {
-            if (direction == 'down') {
-                self.stick();
-            }
-            else if (direction == 'up') {
-                self.unstick();
-            }
-            console.log(event);
-            console.log(direction);
-        });
-    }
-});
-
 $('.event_links a').entwine({
     onclick: function(e) {
         e.preventDefault();
@@ -876,6 +859,25 @@ $('.everyone_gallery').entwine({
     }
 });
 
+$('.event_links').entwine({
+    onmatch: function() {
+        this.bind('inview', function() {});
+    },
+    onunmatch: function() {
+    },
+    oninview: function(e, visible) {
+        if (!visible)
+            this.stick();
+    },
+    onstick: function(e) {
+        var self = this;
+        e.placeholder.bind('inview', function(e, visible) {
+            if (visible)
+                self.unstick();
+        });
+    }
+});
+
 $.fn.stick = function() {
     var ph = this.createPlaceholder();
     var left = ph.offset().left;
@@ -887,6 +889,13 @@ $.fn.stick = function() {
     });
     this.margin({top: 0, right: 0, bottom: 0, left: 0});
     this.width(ph.width());
+
+    this.trigger({
+        type: 'stick',
+        placeholder: ph
+    });
+
+    return this;
 };
 
 $.fn.unstick = function() {
