@@ -5,6 +5,7 @@
 //= require jquery.dialog.js
 //= require dateselector.js
 //= require jquery.easing.js
+//= require jquery.waypoints.js
 
 (function ($) {
     if ($.browser.msie == false)
@@ -832,6 +833,23 @@ $.fn.scrollTo = function(complete) {
     $('html, body').animate({scrollTop: $(this).offset().top}, options);
 };
 
+$('.event_links').entwine({
+    onmatch: function() {
+        var self = this;
+        console.log('event links on match');
+        this.waypoint(function(event, direction) {
+            if (direction == 'down') {
+                self.stick();
+            }
+            else if (direction == 'up') {
+                self.unstick();
+            }
+            console.log(event);
+            console.log(direction);
+        });
+    }
+});
+
 $('.event_links a').entwine({
     onclick: function(e) {
         e.preventDefault();
@@ -846,6 +864,10 @@ $('.everyone_gallery').entwine({
     selectEvent: function(event_id) {
         this.find('.focused').removeClass('focused');
         this.find('.checkin_event_' + event_id).addClass('focused');
+
+        $('.event_links a.selected').removeClass('selected');
+        $('.event_links a[href=' + event_id + ']').addClass('selected');
+
         return this;
     },
     scrollToEvent: function(event_id, complete) {
@@ -853,3 +875,28 @@ $('.everyone_gallery').entwine({
         return this;
     }
 });
+
+$.fn.stick = function() {
+    var ph = this.createPlaceholder();
+    var left = ph.offset().left;
+    this.css({
+        position: 'fixed',
+        top: 0,
+        left: left,
+        zIndex: 100
+    });
+    this.margin({top: 0, right: 0, bottom: 0, left: 0});
+    this.width(ph.width());
+};
+
+$.fn.unstick = function() {
+    this.css({
+        position: '',
+        top: '',
+        left: '',
+        zIndex: '',
+        margin: '',
+        width: ''
+    });
+    this.destroyPlaceholder();
+};

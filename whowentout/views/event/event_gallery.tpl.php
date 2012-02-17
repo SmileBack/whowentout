@@ -15,7 +15,7 @@
 
     <div class="friends pane">
         <?php if ($checkin): ?>
-        <h1>Where your friends are going out:</h1>
+        <h1>Where are YOUR FRIENDS are going out?</h1>
         <ul class="friends_gallery">
             <?php foreach ($friend_checkins as $checkin): ?>
             <?php if (!isset($friends[$checkin->user->id])) continue; //skip over non-friends ?>
@@ -35,7 +35,6 @@
 
                 <?php benchmark::start('going_to'); ?>
                 <div class="going_to">
-                    <div>Going to:</div>
                     <div><?= $checkin->event->name ?></div>
                 </div>
                 <?php benchmark::end('going_to'); ?>
@@ -85,7 +84,6 @@
 
                     <?php benchmark::start('going_to'); ?>
                     <div class="going_to">
-                        <div>Going to:</div>
                         <div><?= $checkin->event->name ?></div>
                     </div>
                     <?php benchmark::end('going_to'); ?>

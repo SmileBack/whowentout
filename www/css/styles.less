@@ -570,7 +570,7 @@ td {
         .site_shadow;
     }
     ul.events {
-        height: 226px;
+        height: 190px;
         overflow-y: scroll;
         overflow-x: hidden;
         > li {
@@ -675,7 +675,7 @@ td {
     }
     .event_gallery_message {
         position: absolute;
-        top: 75px;
+        top: 110px;
         left: 50%;
         margin-left: -205px;
         z-index: 1000;
@@ -689,12 +689,18 @@ td {
     font-weight: bold;
     background-color: white;
     border: 1px solid grey;
-    width: 100%;
+    width: 80%;
+    margin-left: 10%;
     margin-top: 12px;
     li {
         padding: 4px;
         margin: 4px;
         display: inline-block;
+    }
+    a {
+        text-decoration: none;
+        &:hover { text-decoration: underline; }
+        &.selected { text-decoration: underline; }
     }
 }
 

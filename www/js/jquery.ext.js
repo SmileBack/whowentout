@@ -98,3 +98,55 @@ $.fn.hiddenDimensions = function (includeMargin) {
 	};
 })(jQuery);
 
+(function($) {
+    $.fn.allCss = function(){
+        var dom = this.get(0);
+        var style;
+        var returns = {};
+        if(window.getComputedStyle){
+            var camelize = function(a,b){
+                return b.toUpperCase();
+            };
+            style = window.getComputedStyle(dom, null);
+            for(var i = 0, l = style.length; i < l; i++){
+                var prop = style[i];
+                var camel = prop.replace(/\-([a-z])/g, camelize);
+                var val = style.getPropertyValue(prop);
+                returns[camel] = val;
+            };
+            return returns;
+        };
+        if(style = dom.currentStyle){
+            for(var prop in style){
+                returns[prop] = style[prop];
+            };
+            return returns;
+        };
+        return this.css();
+    }
+})(jQuery);
+
+
+$.fn.createPlaceholder = function() {
+    if (this.data('__placeholder'))
+        return this.data('__placeholder');
+
+    var node = $('<div/>');
+    node.css(this.allCss());
+    node.css('opacity', 0.5);
+    this.after(node);
+    this.data('__placeholder', node);
+
+    return node;
+};
+
+$.fn.destroyPlaceholder = function() {
+    var node = this.data('__placeholder');
+
+    if (node)
+        node.remove();
+
+    this.removeData('__placeholder');
+
+    return this;
+};
