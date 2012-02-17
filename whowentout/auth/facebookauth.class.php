@@ -25,9 +25,6 @@ class FacebookAuth extends Auth
         $this->facebook = $facebook;
         $this->database = $database;
         $this->facebook_permissions = $facebook_permissions;
-
-        if ($this->logged_in() && $this->has_invalid_access_token())
-            $this->redirect_to_login();
     }
 
     function current_user()
@@ -55,24 +52,6 @@ class FacebookAuth extends Auth
     {
         if (!$this->is_admin())
             throw new Exception("You must be an admin");
-    }
-
-    function has_invalid_access_token()
-    {
-        $invalid = false;
-        try {
-            $result = $this->facebook->api('/me');
-        }
-        catch (Exception $e) {
-            $invalid = true;
-        }
-        return $invalid;
-    }
-
-    function redirect_to_login()
-    {
-        $url = $this->get_login_url();
-        header("Location: $url");
     }
 
     /**
