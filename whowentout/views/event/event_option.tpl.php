@@ -8,7 +8,7 @@ $invite_engine = build('invite_engine');
 $checkin_engine = build('checkin_engine');
 
 benchmark::start('get_invite');
-$invite = $invite_engine->get_invite($event, $current_user);
+$invite_senders = $invite_engine->get_invite_senders($event, $current_user);
 benchmark::end('get_invite');
 
 ?>
@@ -17,9 +17,9 @@ benchmark::end('get_invite');
     <div class="place">
         <?= $event->name ?>
 
-        <?php if ($invite): ?>
+        <?php if (!empty($invite_senders)): ?>
             <div class="invited_by">
-                invited by <?= $invite->sender->first_name ?> <?= $invite->sender->last_name ?>
+                invited by <?= format::people($invite_senders, 2) ?>
             </div>
         <?php endif; ?>
     </div>

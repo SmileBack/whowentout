@@ -28,7 +28,7 @@
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
                         <div class="note">invited</div>
                     <?php elseif ($is_invited): //invited by someone else ?>
-                        <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
+                        <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
                         <div class="note">invited</div>
                     <?php elseif ($user_has_checked_in): //attending event ?>
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />

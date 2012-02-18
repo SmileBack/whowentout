@@ -39,8 +39,7 @@ class InviteEngine
 
     function send_invite($event, $sender, $receiver)
     {
-        // already been invited so don't do it
-        if ($this->is_invited($event, $receiver))
+        if ($this->invite_is_sent($event, $sender, $receiver))
             return;
 
         $invite = array(
@@ -48,6 +47,7 @@ class InviteEngine
             'receiver_id' => $receiver->id,
             'event_id' => $event->id,
             'created_at' => $this->clock->get_time(),
+            'status' => 'pending',
         );
         $invite = $this->invites->create_row($invite);
         $this->clear_event_cache($event);
@@ -98,38 +98,26 @@ class InviteEngine
      */
     function is_invited($event, $user)
     {
-        return $this->get_invite($event, $user) != null;
-    }
-
-    /**
-     * Get the invite for the $event that $user was invited to.
-     * @param $event
-     * @param $user
-     * @return Invite or null
-     */
-    function get_invite($event, $user)
-    {
-        $this->load_event_cache_if_missing($event);
-
-        foreach ($this->event_invites[$event->id] as $invite)
-            if ($invite->receiver_id == $user->id)
-                return $invite;
-
-        return false;
+        $senders = $this->get_invite_senders($event, $user);
+        return count($senders) > 0;
     }
 
     /**
      * @param $event
      * @param $receiver
-     * @return DatabaseRow|null
+     * @return DatabaseRow[]
      */
-    function get_invite_sender($event, $receiver)
+    function get_invite_senders($event, $receiver)
     {
-        $invite = $this->invites->where('event_id', $event->id)
-                                ->where('receiver_id', $receiver->id)
-                                ->first();
+        $this->load_event_cache_if_missing($event);
 
-        return $invite ? $invite->sender : null;
+        $senders = array();
+        foreach ($this->event_invites[$event->id] as $invite) {
+            if ($invite->receiver_id == $receiver->id)
+                $senders[] = $invite->sender;
+        }
+
+        return $senders;
     }
 
 }
