@@ -6,7 +6,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000017.less';
+@import 'elements.0000000018.less';
 
 .background_size() {
     -webkit-background-size: @arguments;
@@ -442,12 +442,15 @@ td {
     .scrollable {
         float: left;
         width: 715px;
+        height: 80px;
         overflow: hidden;
         .items {
             float: left;
             width: 20000em;
         }
         a {
+            .scale(0.8);
+            .transition(-webkit-transform 300ms ease-in);
             background: url(/images/calendar.png) no-repeat center;
             .day { margin-top: 25px; }
             .date { font-weight: bold; font-size: 16px; }
@@ -455,6 +458,7 @@ td {
                 background-image: url(/images/calendar_selected.png);
             }
             &.active {
+                .scale(1.2);
                 background-image: url(/images/calendar_selected.png);
             }
         }

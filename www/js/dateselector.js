@@ -10,10 +10,8 @@ $('.scrollable').entwine({
     },
     markSelected: function(el, animate) {
         if (el instanceof $) {
-            if (!el.hasClass('active')) {
-                this.find('.active').removeClass('active');
-                el.addClass('active');
-            }
+            this.getSelected().removeClass('active');
+            el.addClass('active');
 
             if (animate === false) {
                 this._jumpToEl(el);
@@ -57,10 +55,10 @@ $('.scrollable').entwine({
     _getX: function() {
         return -1 * parseInt(this.find('> .items').css('margin-left'));
     },
-    _setX:function (x) {
+    _setX: function (x) {
         this.find('> .items').css({'margin-left':-x + 'px'});
     },
-    _animateToX:function (x, onComplete) {
+    _animateToX: function (x, onComplete) {
         var self = this;
         this.find('> .items').animate({'margin-left':-x + 'px'}, {
             duration: 300,
@@ -80,7 +78,7 @@ $('.scrollable').entwine({
 });
 
 $('#events_date_selector .items a').entwine({
-    onclick:function (e) {
+    onclick: function (e) {
         e.preventDefault();
         var index = this.index();
 
@@ -89,14 +87,14 @@ $('#events_date_selector .items a').entwine({
 });
 
 $('#events_date_selector .prev').entwine({
-    onclick:function (e) {
+    onclick: function (e) {
         e.preventDefault();
         this.closest('#events_date_selector').find('a.active').prev().click();
     }
 });
 
 $('#events_date_selector .next').entwine({
-    onclick:function (e) {
+    onclick: function (e) {
         e.preventDefault();
         this.closest('#events_date_selector').find('a.active').next().click();
     }

@@ -17,6 +17,14 @@
     -ms-transition: @arguments;
 }
 
+.scale(@size) {
+    -o-transform: scale(@size);
+    -webkit-transform: scale(@size);
+    -moz-transform: scale(@size);
+    -ms-transform: scale(@size);
+    transform: scale(@size);
+}
+
 .rotate(@deg:5deg){
   -o-transform: rotate(@deg);
   -webkit-transform: rotate(@deg);
