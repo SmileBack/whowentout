@@ -12,10 +12,14 @@ class InviteEngine
     /* @var $clock Clock */
     private $clock;
 
-    function __construct(Database $database, Clock $clock)
+    /* @var $event_dispatcher EventDispathcer */
+    private $event_dispatcher;
+
+    function __construct(Database $database, Clock $clock, EventDispatcher $event_dispatcher)
     {
         $this->database = $database;
         $this->clock = $clock;
+        $this->event_dispatcher = $event_dispatcher;
 
         $this->invites = $this->database->table('invites');
     }
@@ -52,7 +56,7 @@ class InviteEngine
         $invite = $this->invites->create_row($invite);
         $this->clear_event_cache($event);
 
-        app()->trigger('event_invite_sent', array(
+        $this->event_dispatcher->trigger('event_invites_sent', array(
             'invite' => $invite,
         ));
     }
@@ -79,8 +83,17 @@ class InviteEngine
         return false;
     }
 
+    function fetch_invite($event, $sender, $receiver)
+    {
+        return $this->invites->where('event_id', $event->id)
+                             ->where('sender_id', $sender->id)
+                             ->where('receiver_id', $receiver->id)
+                             ->first();
+    }
+
     function destroy_invite($event, $sender, $receiver)
     {
+        $this->fetch_invite($event, $sender, $receiver);
         $this->invites->where('event_id', $event->id)
                 ->where('sender_id', $sender->id)
                 ->where('receiver_id', $receiver->id)

@@ -13,9 +13,9 @@ class WhoWentOutApp extends FireApp
      */
     protected $clock;
 
-    function __construct(ClassLoader $class_loader, Database $database, Clock $clock)
+    function __construct(ClassLoader $class_loader, Database $database, EventDispatcher $event_dispatcher, Clock $clock)
     {
-        parent::__construct($class_loader, $database);
+        parent::__construct($class_loader, $database, $event_dispatcher);
         
         $this->database = $database;
         $this->clock = $clock;

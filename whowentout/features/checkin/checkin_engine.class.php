@@ -13,15 +13,19 @@ class CheckinEngine
      */
     private $clock;
 
+    /* @var $event_dispathcer EventDispatcher */
+    private $event_dispatcher;
+
     /**
      * @var DatabaseTable
      */
     private $checkins;
 
-    function __construct(Database $database, Clock $clock)
+    function __construct(Database $database, Clock $clock, EventDispatcher $event_dispatcher)
     {
         $this->database = $database;
         $this->clock = $clock;
+        $this->event_dispatcher = $event_dispatcher;
 
         $this->checkins = $this->database->table('checkins');
     }
@@ -57,10 +61,14 @@ class CheckinEngine
             $this->remove_checkin_on_date($user, $event->date);
         }
 
-        $this->checkins->create_row(array(
+        $checkin = $this->checkins->create_row(array(
             'time' => $this->clock->get_time(),
             'user_id' => $user->id,
             'event_id' => $event->id,
+        ));
+
+        $this->event_dispatcher->trigger('checkin', array(
+            'checkin' => $checkin,
         ));
 
         $this->clear_event_cache($event);
