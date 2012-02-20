@@ -1,14 +1,11 @@
 <?php
 
 require_once 'core.functions.php';
-require_once 'event.class.php';
 
 class FireApp
 {
 
     public $window_settings = array();
-
-    private $plugins = array();
 
     /**
      * @var ClassLoader
@@ -19,11 +16,17 @@ class FireApp
      * @var Database
      */
     protected $database;
+
+    /**
+     * @var EventDispatcher
+     */
+    protected $event_dispatcher;
     
-    function __construct(ClassLoader $class_loader, Database $database)
+    function __construct(ClassLoader $class_loader, Database $database, EventDispatcher $event_dispatcher)
     {
         $this->class_loader = $class_loader;
         $this->database = $database;
+        $this->event_dispatcher = $event_dispatcher;
     }
 
     function database()
@@ -41,16 +44,7 @@ class FireApp
         
     function trigger($event_name, $event_data = array())
     {
-        $this->load_plugins_if_not_loaded();
-        $e = $this->cast_event($event_name, $event_data);
-        foreach ($this->plugins as $plugin_name => $plugin_instance) {
-            $handler = "on_$event_name";
-            if (method_exists($plugin_instance, $handler)) {
-                $plugin_instance->$handler($e);
-            }
-        }
-        
-        return $e;
+        $this->event_dispatcher->trigger($event_name, $event_data);
     }
 
     /**
@@ -72,37 +66,6 @@ class FireApp
     function enable_autoload()
     {
         $this->class_loader->enable_autoload();
-    }
-
-    private function cast_event($event_name, $event_data = array())
-    {
-        $e = is_object($event_data) ? $event_data : (object)$event_data;
-        $e->type = $event_name;
-        
-        $event_object = $this->class_loader()->init_subclass('FireEvent', $e->type);
-        if (!$event_object)
-            $event_object = $this->class_loader()->init('FireEvent');
-        
-        foreach ($e as $prop => $val)
-            $event_object->$prop = $val;
-
-        return $event_object;
-    }
-
-    private $plugins_loaded = false;
-
-    private function load_plugins_if_not_loaded()
-    {
-        if ($this->plugins_loaded)
-            return;
-
-        $plugin_class_names = app()->class_loader()->get_subclass_names('Plugin');
-        foreach ($plugin_class_names as $class_name) {
-            $plugin_name = strtolower($class_name);
-            $this->plugins[$plugin_name] = app()->class_loader()->init($class_name);
-        }
-
-        $this->plugins_loaded = true;
     }
 
 }
