@@ -187,3 +187,7 @@ emailer:
   username: notifications@whowentout.com
   password: WWO12345
   from: WhoWentOut
+
+invite_leaderboard:
+  type: InviteLeaderboard
+  database: database
