@@ -7,6 +7,11 @@ $items = $board->get_items($date);
     <?php foreach ($items as $item): ?>
     <li>
         <span class="user"><?= $item->user->first_name . ' ' . $item->user->last_name ?></span>
+        <span class="people">
+            <?php foreach ($item->invites as $invite): ?>
+                <span><?= $invite->receiver->first_name . ' ' . $invite->receiver->last_name ?></span>
+            <?php endforeach; ?>
+        </span>
         <span class="score">(<?= $item->score ?>)</span>
     </li>
     <?php endforeach; ?>

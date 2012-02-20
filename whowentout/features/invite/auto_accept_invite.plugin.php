@@ -14,7 +14,9 @@ class AutoAcceptInvitePlugin extends Plugin
         if (!db()->has_table('invites'))
             return;
 
-        $invites = db()->table('invites')->where('event.date', $checkin->event->date);
+        $invites = db()->table('invites')
+                       ->where('event.date', $checkin->event->date)
+                       ->where('receiver_id', $checkin->user->id);
 
         foreach ($invites as $invite) {
             if ($invite->event_id == $checkin->event_id)

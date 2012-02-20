@@ -202,4 +202,23 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
         $this->assertEquals('pending', $ven_invite->status, 'invite is pending after checkin switch');
     }
 
+    function test_invite_multiple_invite_checkins()
+    {
+        $this->invite_engine->send_invite($this->shadowroom_event, $this->venkat, $this->dan);
+        $ven_invite = $this->invite_engine->fetch_invite($this->shadowroom_event, $this->venkat, $this->dan);
+
+        $this->invite_engine->send_invite($this->shadowroom_event, $this->kate, $this->doron);
+        $kate_invite = $this->invite_engine->fetch_invite($this->shadowroom_event, $this->kate, $this->doron);
+
+        $this->assertEquals('pending', $ven_invite->status);
+        $this->assertEquals('pending', $kate_invite->status);
+
+        $this->checkin_engine->checkin_user_to_event($this->dan, $this->shadowroom_event);
+        $this->assertEquals('accepted', $ven_invite->status);
+
+        $this->checkin_engine->checkin_user_to_event($this->doron, $this->shadowroom_event);
+        $this->assertEquals('accepted', $kate_invite->status);
+        $this->assertEquals('accepted', $ven_invite->status);
+    }
+
 }
