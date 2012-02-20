@@ -65,6 +65,7 @@ router:
     "entourage/accept": AcceptEntourageRequest
     "entourage/invite": ViewEntourageRequestDialog
     "entourage/invite/submit": SendEntourageRequests
+    "leaderboard/(:num)/(:num)/(:num)": ViewLeaderboard/$1/$2/$3
 
 asset:
   type: Asset

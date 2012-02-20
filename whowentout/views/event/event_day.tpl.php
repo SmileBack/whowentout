@@ -1,5 +1,9 @@
 <div class="event_day" data-date="<?= $date->format('Ymd') ?>">
 
+    <h2 style="text-align: center;">
+    <?= a('leaderboard/' . $date->format('Y/m/d'), 'Contest Leaderboard', array('class' => 'view_leaderboard')) ?>
+    </h2>
+
     <?php benchmark::start('event_list'); ?>
     <?= r::event_list(array('date' => $date, 'selected_event' => $checkin_event, 'current_user' => $current_user)) ?>
     <?php benchmark::end('event_list'); ?>

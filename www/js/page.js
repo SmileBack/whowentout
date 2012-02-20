@@ -225,6 +225,18 @@ $(function () {
     Backbone.history.start({pushState:true});
 });
 
+$('a.view_leaderboard').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        var href = this.attr('href');
+        whowentout.showDialog({
+            title: 'Leaderboard',
+            url: href,
+            buttons: 'close'
+        });
+    }
+});
+
 $('.action').entwine({
     onclick:function (e) {
         e.preventDefault();
