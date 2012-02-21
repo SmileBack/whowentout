@@ -27,25 +27,27 @@ function site_url($path = '')
         return $protocol . $host;
 }
 
+function _load_core_component($name, $driver)
+{
+    require_once COREPATH . 'driver/component.class.php';
+    require_once COREPATH . 'driver/driver.class.php';
+
+    require_once COREPATH . "$name/$name.class.php";
+    require_once COREPATH . "$name/{$name}driver.class.php";
+    require_once COREPATH . "$name/drivers/{$driver}{$name}driver.class.php";
+}
+
 /**
  * @return Cache
  */
 function _build_index_cache($path)
 {
-    require_once COREPATH . 'driver/component.class.php';
-    require_once COREPATH . 'driver/driver.class.php';
-
-    require_once COREPATH . 'cache/cache.php';
-    require_once COREPATH . 'cache/cachedriver.php';
-    require_once COREPATH . 'cache/drivers/storagecachedriver.php';
-
-    require_once COREPATH . 'file_storage/filerepository.class.php';
-    require_once COREPATH . 'file_storage/filerepositorydriver.class.php';
-    require_once COREPATH . 'file_storage/drivers/localfilerepositorydriver.class.php';
+    _load_core_component('filerepository', 'local');
+    _load_core_component('cache', 'storage');
 
     $storage = new FileRepository(array(
         'driver' => 'local',
-        'path' => '../cache',
+        'path' => $path,
     ));
 
     $cache = new Cache(array(
@@ -84,7 +86,6 @@ function factory($environment = null)
 
         $class_loader = new ClassLoader($index);
         $class_loader->enable_autoload();
-
         $class_loader->register('index', $index);
 
         $config_source = new ConfigSource($index, $environment);
