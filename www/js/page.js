@@ -855,6 +855,13 @@ $('.event_links a').entwine({
     }
 });
 
+$('.invite_leaderboard .score').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('li').find('.people').slideToggle();
+    }
+});
+
 $('.everyone_gallery').entwine({
     selectEvent: function(event_id) {
         this.find('.focused').removeClass('focused');
