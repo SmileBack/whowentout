@@ -2,7 +2,7 @@
 
     <div class="event_list <?= $selected_event ? 'event_selected collapsed' : '' ?>">
         <h1>
-            <div>Where are YOU going out?</div>
+            <div>Where are YOU doing tonight?</div>
             <?php if (!$selected_event): ?>
             <div>
                 <span>Check-in.</span>
