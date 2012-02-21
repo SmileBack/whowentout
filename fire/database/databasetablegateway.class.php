@@ -82,7 +82,7 @@ class DatabaseTableGateway
 
     function reload($id)
     {
-        $this->rows[$id] = $this->fetch_values($id);
+        $this->rows[$id] = $this->fetch_values_from_id($id);
     }
 
     private function clear($id)
@@ -96,7 +96,7 @@ class DatabaseTableGateway
             $this->reload($id);
     }
 
-    private function fetch_values($id)
+    private function fetch_values_from_id($id)
     {
         $query = $this->database->query_statement("SELECT * FROM $this->table_name WHERE $this->id_column = :id", array('id' => $id));
         $query->execute();

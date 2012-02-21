@@ -19,6 +19,7 @@ class MutualFriendsCalculator
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_OBJ);
 
+
         foreach ($rows as $row) {
             $friends[] = $this->database->table('users')->row($row->id);
         }

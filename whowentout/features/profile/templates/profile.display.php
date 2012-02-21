@@ -14,10 +14,17 @@ class Profile_Display extends Display
         $this->profile_picture = build('profile_picture', $this->user);
         $this->profile_picture_url = $this->profile_picture->url('thumb');
 
+        $this->your_profile = ($this->user == $this->current_user);
+        
+        if (!$this->your_profile)
+            $this->mutual_friends = $this->compute_mutual_friends();
+    }
+
+    function compute_mutual_friends()
+    {
         /* @var $mutual_friends_calculator MutualFriendsCalculator */
         $mutual_friends_calculator = build('mutual_friends_calculator');
-//        $this->mutual_friends = $mutual_friends_calculator->compute($this->current_user->id, $this->user->id);
-        $this->your_profile = ($this->user == $this->current_user);
+        return $mutual_friends_calculator->compute($this->current_user->id, $this->user->id);
     }
 
 }
