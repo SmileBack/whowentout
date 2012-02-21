@@ -21,6 +21,12 @@
             <?php if (!isset($friends[$checkin->user->id])) continue; //skip over non-friends ?>
 
             <li>
+                <?php benchmark::start('going_to'); ?>
+                <div class="going_to">
+                    <div><?= $checkin->event->name ?></div>
+                </div>
+                <?php benchmark::end('going_to'); ?>
+
                 <?php benchmark::start('profile_small'); ?>
                 <?=
                 r::profile_small(array(
@@ -32,12 +38,6 @@
                 ))
                 ?>
                 <?php benchmark::end('profile_small'); ?>
-
-                <?php benchmark::start('going_to'); ?>
-                <div class="going_to">
-                    <div><?= $checkin->event->name ?></div>
-                </div>
-                <?php benchmark::end('going_to'); ?>
 
             </li>
             <?php endforeach; ?>
@@ -69,6 +69,13 @@
             <?php else: ?>
             <?php foreach ($checkins as $checkin): ?>
                 <li>
+
+                    <?php benchmark::start('going_to'); ?>
+                    <div class="going_to">
+                        <div><?= $checkin->event->name ?></div>
+                    </div>
+                    <?php benchmark::end('going_to'); ?>
+
                     <?php benchmark::start('profile_small'); ?>
                     <?=
                     r::profile_small(array(
@@ -81,12 +88,6 @@
                     ))
                     ?>
                     <?php benchmark::end('profile_small'); ?>
-
-                    <?php benchmark::start('going_to'); ?>
-                    <div class="going_to">
-                        <div><?= $checkin->event->name ?></div>
-                    </div>
-                    <?php benchmark::end('going_to'); ?>
 
                 </li>
                 <?php endforeach; ?>

@@ -12,11 +12,19 @@
 
             <div class="profile_info">
                 <h2><?= $user->first_name . ' ' . $user->last_name ?></h2>
-                <ul class="profile_networks">
-                    <?php foreach ($user->networks->where('type', 'college') as $network): ?>
-                    <li><?= $network->name ?></li>
-                    <?php endforeach; ?>
-                </ul>
+                <dl>
+                    <dt>Colleges</dt>
+                    <dd>
+                        <ul class="profile_networks">
+                            <?php foreach ($user->networks->where('type', 'college') as $network): ?>
+                            <li><?= $network->name ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </dd>
+
+                    <dt>Hometown</dt>
+                    <dd><?= $user->hometown ?></dd>
+                </dl>
             </div>
 
             <?php if (!$your_profile): ?>
