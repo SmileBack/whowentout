@@ -24,15 +24,15 @@
                 <label>
                     <?= r::user_thumb(array('user' => $friend)) ?>
 
-                    <?php if ($invite_is_sent): //invited by you ?>
+                    <?php if ($user_has_checked_in): //attending event ?>
+                        <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
+                        <div class="note">attending</div>
+                    <?php elseif ($invite_is_sent): //invited by you ?>
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
                         <div class="note">invited</div>
                     <?php elseif ($is_invited): //invited by someone else ?>
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
                         <div class="note">invited</div>
-                    <?php elseif ($user_has_checked_in): //attending event ?>
-                        <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" checked="checked" disabled="disabled" />
-                        <div class="note">attending</div>
                     <?php else: ?>
                         <input type="checkbox" name="recipients[]" value="<?= $friend->id ?>" />
                     <?php endif; ?>
