@@ -1080,4 +1080,28 @@ section.entourage {
 
 .invite_leaderboard {
     text-align: left;
+    .contest_instructions {
+        border-bottom: 1px solid grey;
+        padding: 20px;
+        h1, h2, h3 { color: #333; }
+        h1 {
+            background: url(/images/beer.png) no-repeat top right;
+            margin-bottom: 15px;
+        }
+        .first { margin-left: 0; }
+        .second { margin-left: 40px; }
+        .third {
+            margin-left: 60px;
+            color: @red;
+        }
+    }
+    .current_rankings {
+        padding: 20px;
+    }
+    ol {
+        margin-left: 25px;
+        li {
+            margin: 4px 0;
+        }
+    }
 }

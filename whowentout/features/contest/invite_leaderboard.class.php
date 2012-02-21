@@ -11,6 +11,16 @@ class InviteLeaderboard
         $this->database = $database;
     }
 
+    public static function is_contest_date(DateTime $date)
+    {
+        $day_of_week = $date->format('l');
+        return in_array($day_of_week, array(
+            'Thursday',
+            'Friday',
+            'Saturday',
+        ));
+    }
+
     /**
      * @param DateTime $date
      * @return InviteLeaderBoardItem[]
