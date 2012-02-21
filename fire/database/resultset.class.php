@@ -303,6 +303,11 @@ class ResultSet implements Iterator
         return $values;
     }
 
+    function prefetch()
+    {
+        $this->table()->prefetch($this->to_sql(), $this->parameters());
+    }
+
     /**
      * @return DatabaseTable
      */

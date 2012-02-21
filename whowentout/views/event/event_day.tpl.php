@@ -2,7 +2,7 @@
 
     <?php if (InviteLeaderboard::is_contest_date($date)): ?>
     <h2 style="text-align: center;">
-    <?= a('leaderboard/' . $date->format('Y/m/d'), 'Contest Leaderboard', array('class' => 'view_leaderboard')) ?>
+    <?= a('leaderboard/' . $date->format('Y/m/d'), 'We Will be Giving away a $50 bar tab every Thursday, Friday, and Saturday', array('class' => 'view_leaderboard')) ?>
     </h2>
     <?php endif; ?>
 
