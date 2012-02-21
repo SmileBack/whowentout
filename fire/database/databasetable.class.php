@@ -60,6 +60,11 @@ class DatabaseTable implements Iterator
         return $this->rows[$id];
     }
 
+    function prefetch($query, $params = array())
+    {
+        $this->table_gateway->prefetch($query, $params);
+    }
+
     /**
      * @param  $row_id
      * @return bool

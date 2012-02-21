@@ -23,6 +23,21 @@ class DatabaseTableGateway
         return $this->rows[$id];
     }
 
+    function prefetch($query, $params = array())
+    {
+        $id_column = $this->id_column;
+
+        $query = "SELECT * FROM $this->table_name AS table_gateway_prefetch WHERE $id_column IN ($query)";
+        $stmt = $this->database->query_statement($query, $params);
+        $stmt->execute();
+
+        foreach ($stmt->fetchAll(PDO::FETCH_OBJ) as $row) {
+            $id = $row->$id_column;
+            if (!isset($this->rows[$id]))
+                $this->rows[$id] = (array)$row;
+        }
+    }
+
     function has($id)
     {
         return $this->get($id) != null;

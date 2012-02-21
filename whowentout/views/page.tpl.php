@@ -86,7 +86,7 @@
 
 <?= js() ?>
 
-<?php if (false): ?>
+<?php if (environment() == 'localhost' || environment() == 'whowasout'): ?>
 <?= r::debug_summary() ?>
 <?php endif; ?>
 
