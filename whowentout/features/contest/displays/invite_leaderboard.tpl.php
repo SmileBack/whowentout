@@ -7,7 +7,7 @@ $items = $board->get_items($date);
     <div class="contest_instructions">
         <h1>
             <p class="first">The one who invites the most friends</p>
-            <p class="second">to check-in for Thursday night</p>
+            <p class="second">to check-in for <?= $date->format('l') ?> night</p>
             <p class="third">wins a $50 bar tab!</p>
         </h1>
 
