@@ -451,15 +451,18 @@ td {
         }
         a {
             .scale(0.8);
+            .opacity(0.9);
             .transition(-webkit-transform 300ms ease-in);
             background: url(/images/calendar.png) no-repeat center;
             .day { margin-top: 25px; }
             .date { font-weight: bold; font-size: 16px; }
             &:hover {
+                .opacity(1);
                 background-image: url(/images/calendar_selected.png);
             }
             &.active {
                 .scale(1.2);
+                .opacity(1);
                 background-image: url(/images/calendar_selected.png);
             }
         }
