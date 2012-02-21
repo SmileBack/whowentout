@@ -15,7 +15,7 @@
 
     <div class="friends pane">
         <?php if ($checkin): ?>
-        <h1>Where are YOUR FRIENDS doing tonight?</h1>
+        <h1>What are YOUR FRIENDS doing tonight?</h1>
         <ul class="friends_gallery">
             <?php foreach ($friend_checkins as $checkin): ?>
             <?php if (!isset($friends[$checkin->user->id])) continue; //skip over non-friends ?>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="everyone pane">
-        <h1>Where is EVERYONE doing tonight?</h1>
+        <h1>What is EVERYONE doing tonight?</h1>
 
         <?php if (!$checkin): ?>
         <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />

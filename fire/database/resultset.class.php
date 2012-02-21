@@ -294,6 +294,15 @@ class ResultSet implements Iterator
         }
     }
 
+    function collect($field)
+    {
+        $values = array();
+        foreach ($this as $row) {
+            $values[] = $row->$field;
+        }
+        return $values;
+    }
+
     /**
      * @return DatabaseTable
      */

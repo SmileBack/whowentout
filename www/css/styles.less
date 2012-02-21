@@ -6,7 +6,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000018.less';
+@import 'elements.0000000019.less';
 
 .background_size() {
     -webkit-background-size: @arguments;
@@ -1097,6 +1097,9 @@ section.entourage {
     }
     .current_rankings {
         padding: 20px;
+        .people {
+            .comma_separated;
+        }
     }
     ol {
         margin-left: 25px;

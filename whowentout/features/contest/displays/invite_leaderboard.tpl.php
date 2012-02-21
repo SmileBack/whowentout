@@ -2,6 +2,11 @@
 /* @var $board InviteLeaderboard */
 $board = build('invite_leaderboard');
 $items = $board->get_items($date);
+
+$eligible_events = db()->table('events')->where('date', $date)
+                                        ->where('place.type', array('bar', 'club'))
+                                        ->collect('name');
+
 ?>
 <div class="invite_leaderboard">
     <div class="contest_instructions">
@@ -16,6 +21,9 @@ $items = $board->get_items($date);
             <li>To send an invite, first check-in to a party</li>
             <li>For an invite to count, the invited user must check-in to the party he was invited to</li>
             <li>The winner will be announced by 9pm on Thursday night</li>
+            <?php if (count($eligible_events) > 0): ?>
+                <li>Eligible places are <?= conjunct($eligible_events) ?>.</li>
+            <?php endif; ?>
         </ol>
     </div>
 <?php if (count($items) > 0): ?>
