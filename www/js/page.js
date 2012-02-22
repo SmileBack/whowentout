@@ -887,6 +887,14 @@ $('.event_links').entwine({
     }
 });
 
+$('#events_date_selector').entwine({
+    oninview: function(e) {
+        if ($('.event_links').isStuck())
+            $('.event_links').unstick();
+    }
+});
+
+
 $.fn.stick = function() {
     var ph = this.createPlaceholder();
     var left = ph.offset().left;
@@ -898,6 +906,8 @@ $.fn.stick = function() {
     });
     this.margin({top: 0, right: 0, bottom: 0, left: 0});
     this.width(ph.width());
+
+    this.addClass('stuck');
 
     this.trigger({
         type: 'stick',
@@ -916,24 +926,12 @@ $.fn.unstick = function() {
         margin: '',
         width: ''
     });
+
+    this.removeClass('stuck');
+
     this.destroyPlaceholder();
 };
 
-$(function() {
-
-    setInterval(function() {
-        var box = $('body').getBox();
-        var message = "top = :top, left = :left, width = :width, height = :height";
-        var placeholderExists = $('.placeholder').length > 0;
-
-        var view = {
-            viewport: format('viewport: ' + message, $('body').getBox()),
-            eventLinks: format('eventLinks ' + message, $('.event_links').getBox()),
-            placeholder: placeholderExists ? format('placeHolder ' + message, $('.placeholder').getBox()) : '?'
-        };
-
-        $('.debug').html(format('<p>:viewport</p><p>:eventLinks</p><p>:placeholder</p>', view));
-    }, 250);
-
-});
-
+$.fn.isStuck = function() {
+    return this.hasClass('stuck');
+};
