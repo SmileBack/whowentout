@@ -134,6 +134,8 @@ $.fn.createPlaceholder = function() {
     var node = $('<div/>');
     node.css(this.allCss());
     node.css('opacity', 0.5);
+    node.addClass('placeholder');
+
     this.after(node);
     this.data('__placeholder', node);
 

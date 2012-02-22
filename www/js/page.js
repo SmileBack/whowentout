@@ -919,8 +919,21 @@ $.fn.unstick = function() {
     this.destroyPlaceholder();
 };
 
-setInterval(function() {
-    var box = $('body').getBox();
-    var message = format("top = :top, left = :left, width = :width, height = :height", box);
-    $('.debug').text(message);
-}, 500);
+$(function() {
+
+    setInterval(function() {
+        var box = $('body').getBox();
+        var message = "top = :top, left = :left, width = :width, height = :height";
+        var placeholderExists = $('.placeholder').length > 0;
+
+        var view = {
+            viewport: format('viewport: ' + message, $('body').getBox()),
+            eventLinks: format('eventLinks ' + message, $('.event_links').getBox()),
+            placeholder: placeholderExists ? format('placeHolder ' + message, $('.placeholder').getBox()) : '?'
+        };
+
+        $('.debug').html(format('<p>:viewport</p><p>:eventLinks</p><p>:placeholder</p>', view));
+    }, 250);
+
+});
+
