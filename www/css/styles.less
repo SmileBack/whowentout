@@ -1081,7 +1081,6 @@ section.entourage {
 .invite_leaderboard {
     text-align: left;
     .contest_instructions {
-        border: 1px solid grey;
         padding: 20px;
         h1, h2, h3 { color: #333; }
         h1 {
@@ -1090,9 +1089,13 @@ section.entourage {
         }
         .first { margin-left: 0; }
         .second { margin-left: 40px; }
-        .third {
-            margin-left: 60px;
+        em {
             color: @red;
+            font-style: normal;
+        }
+        .contest_rules {
+            padding: 15px;
+            border: 1px solid grey;
         }
     }
     .current_rankings {

@@ -10,12 +10,10 @@ $eligible_events = db()->table('events')->where('date', $date)
 ?>
 <div class="invite_leaderboard">
     <div class="contest_instructions">
-        <h1>
-            <p class="first">The one who invites the most friends</p>
-            <p class="second">to check-in for <?= $date->format('l') ?> night</p>
-            <p class="third">wins a $50 bar tab!</p>
+        <h1>The one who invites the most friends to check-in for <?= $date->format('l') ?> night <em>wins a $50 bar tab!</em>
         </h1>
 
+        <div class="contest_rules">
         <h3>Rules:</h3>
         <ol>
             <li>To send an invite, first check-in to a party</li>
@@ -25,6 +23,7 @@ $eligible_events = db()->table('events')->where('date', $date)
                 <li>Eligible places are <?= conjunct($eligible_events) ?>.</li>
             <?php endif; ?>
         </ol>
+        </div>
     </div>
 <?php if (count($items) > 0): ?>
     <div class="current_rankings">
