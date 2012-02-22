@@ -23,6 +23,20 @@ class InviteLeaderboard
 
     /**
      * @param DateTime $date
+     * @return InviteLeaderBoardItem|null
+     */
+    function get_leader(DateTime $date)
+    {
+        $items = $this->get_items($date);
+
+        if (empty($items))
+            return null;
+        else
+            return $items[0];
+    }
+
+    /**
+     * @param DateTime $date
      * @return InviteLeaderBoardItem[]
      */
     function get_items(DateTime $date)

@@ -47,6 +47,22 @@ Rectangle.prototype.overlaps = function(rect) {
     return !noOverlap;
 };
 
+Rectangle.prototype.translate = function(deltaX, deltaY) {
+    return new Rectangle(this.left + deltaX, this.top + deltaY, this.width, this.height);
+};
+
+Rectangle.prototype.translatePoint = function(pointName, thatRect, thatPoint) {
+    var thisPoint = this[pointName];
+    var thatPoint = thatRect[thatPoint];
+
+    //without any further translation, the top-left of the source will get aligned to target
+    var translate = {
+        left: this.left - thisPoint.left,
+        top: this.top - thisPoint.top
+    };
+    return new Rectangle(thatPoint.left + translate.left, thatPoint.top + translate.top, this.width, this.height);
+};
+
 (function() {
 
   var sb_windowTools = {
@@ -279,30 +295,17 @@ $.fn.getPosition = function (target, options) {
     if (target == 'viewport')
         target = $('body').getBox();
 
-    var targetBox = $(target).getBox();
     var sourceBox = $(this).getBox();
+    var targetBox = $(target).getBox();
 
-    //the point on the target element that the source needs to anchor to
-    var pt = targetBox[options.anchor[1]];
-
-    //without any further translation, the top-left of the source will get aligned to target
-    var translate = {
-        left:sourceBox.tl.left - sourceBox[options.anchor[0]].left,
-        top:sourceBox.tl.top - sourceBox[options.anchor[0]].top
-    };
-
-    var position = {
-        left:pt.left + translate.left + options.offset[0],
-        top:pt.top + translate.top + options.offset[1]
-    };
+    var finalBox = sourceBox.translatePoint(options.anchor[0], targetBox, options.anchor[1]);
 
     if (this.css('position') == 'fixed') {
         var viewportBoxCorner = $('body').getBox().tl;
-        position.left -= viewportBoxCorner.left;
-        position.top -= viewportBoxCorner.top;
+        finalBox = finalBox.translate(-viewportBoxCorner.left, -viewportBoxCorner.top);
     }
 
-    return position;
+    return finalBox.tl;
 };
 
 $.fn.isAbove = function(that) {
