@@ -918,3 +918,9 @@ $.fn.unstick = function() {
     });
     this.destroyPlaceholder();
 };
+
+setInterval(function() {
+    var box = $('body').getBox();
+    var message = format("top = :top, left = :left, width = :width, height = :height", box);
+    $('.debug').text(message);
+}, 500);

@@ -374,7 +374,7 @@ td {
     padding: 15px;
 }
 
-#flash_message {
+.bottom_bar {
     position: fixed;
     z-index: 10000;
     left: 0;
@@ -388,6 +388,10 @@ td {
         background-color: @red;
         color: white;
     }
+}
+
+#flash_message {
+    .bottom_bar;
 }
 
 .definition {

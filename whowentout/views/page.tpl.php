@@ -82,6 +82,10 @@
 </div>
 <!-- page end -->
 
+<div class="bottom_bar debug">
+    debug
+</div>
+
 <?= flash::message() ?>
 
 <?= js() ?>
