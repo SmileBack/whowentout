@@ -885,7 +885,7 @@ $('.event_links').entwine({
     onunmatch: function() {
     },
     oninview: function(e, visible) {
-        if (!visible)
+        if (!visible && this.isAbove('body'))
             this.stick();
     },
     onstick: function(e) {

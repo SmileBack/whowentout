@@ -1,5 +1,52 @@
 //= require jquery.js
 
+function Rectangle(left, top, width, height) {
+    this.left = left;
+    this.top = top;
+    this.width = width;
+    this.height = height;
+    this._computeCorners();
+}
+
+Rectangle.prototype._computeCorners = function() {
+    this.bottom = this.top + this.height;
+    this.right = this.left + this.width;
+
+    this.lt = this.tl = {left:this.left, top:this.top};
+    this.ct = this.tc = {left:this.left + this.width / 2, top:this.top};
+    this.rt = this.tr = {left:this.left + this.width, top:this.top};
+
+    this.lc = this.cl = {left:this.left, top:this.top + this.height / 2};
+    this.c = this.cc = {left:this.left + this.width / 2, top:this.top + this.height / 2};
+    this.rc = this.cr = {left:this.left + this.width, top:this.top + this.height / 2};
+
+    this.lb = this.bl = {left:this.left, top:this.top + this.height};
+    this.cb = this.bc = {left:this.left + this.width / 2, top:this.top + this.height};
+    this.rb = this.br = {left:this.left + this.width, top:this.top + this.height};
+};
+
+Rectangle.prototype.isAbove = function(rect) {
+    return this.bottom < rect.top;
+};
+
+Rectangle.prototype.isBelow = function(rect) {
+    return this.top > rect.bottom;
+};
+
+Rectangle.prototype.isRight = function(rect) {
+    return this.left > rect.right;
+};
+
+Rectangle.prototype.isLeft = function(rect) {
+    return this.right < rect.left;
+};
+
+Rectangle.prototype.overlaps = function(rect) {
+    var noOverlap = this.isAbove(rect) || this.isBelow(rect)
+                || this.isRight(rect) || this.isLeft(rect);
+    return !noOverlap;
+};
+
 (function() {
 
   var sb_windowTools = {
@@ -113,31 +160,6 @@
         }
     }
   };
-
-    function Rectangle(left, top, width, height) {
-        this.left = left;
-        this.top = top;
-        this.width = width;
-        this.height = height;
-        this._computeCorners();
-    }
-
-    Rectangle.prototype._computeCorners = function() {
-        this.bottom = this.top + this.height;
-        this.right = this.left + this.width;
-
-        this.lt = this.tl = {left:this.left, top:this.top};
-        this.ct = this.tc = {left:this.left + this.width / 2, top:this.top};
-        this.rt = this.tr = {left:this.left + this.width, top:this.top};
-
-        this.lc = this.cl = {left:this.left, top:this.top + this.height / 2};
-        this.c = this.cc = {left:this.left + this.width / 2, top:this.top + this.height / 2};
-        this.rc = this.cr = {left:this.left + this.width, top:this.top + this.height / 2};
-
-        this.lb = this.bl = {left:this.left, top:this.top + this.height};
-        this.cb = this.bc = {left:this.left + this.width / 2, top:this.top + this.height};
-        this.rb = this.br = {left:this.left + this.width, top:this.top + this.height};
-    };
 
     $.fn.getBox = function () {
         if (this.get(0).tl !== undefined)
@@ -281,6 +303,18 @@ $.fn.getPosition = function (target, options) {
     }
 
     return position;
+};
+
+$.fn.isAbove = function(that) {
+    var thisBox = $(this).getBox();
+    var thatBox = $(that).getBox();
+    return thisBox.isAbove(thatBox);
+};
+
+$.fn.isBelow = function(that) {
+    var thisBox = $(this).getBox();
+    var thatBox = $(that).getBox();
+    return thisBox.isBelow(thatBox);
 };
 
 $.fn.applyPosition = function (target, options) {
