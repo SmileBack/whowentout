@@ -918,15 +918,3 @@ $.fn.unstick = function() {
     });
     this.destroyPlaceholder();
 };
-
-$('.super').entwine({
-    onclick: function() {
-        alert('super');
-    }
-});
-
-$('.sub.super').entwine({
-    onclick: function() {
-        alert('sub');
-    }
-});
