@@ -330,7 +330,6 @@ $('.profile_pic_upload_form input[type=file]').entwine({
 
 $('a').entwine({
     onmousedown:function () {
-        this._super();
         this.addClass('mousedown');
     },
     onmouseup:function () {
@@ -875,19 +874,14 @@ $('.everyone_gallery').entwine({
 });
 
 $('.event_links').entwine({
-    onmatch: function() {
-        this.bind('inview', function() {});
-    },
-    onunmatch: function() {
-    },
-    oninview: function(e, visible) {
-        if (!visible && this.isAbove('body'))
+    oninview: function(e) {
+        if (e.isAbove)
             this.stick();
     },
     onstick: function(e) {
         var self = this;
-        e.placeholder.bind('inview', function(e, visible) {
-            if (visible)
+        e.placeholder.bind('inview', function(e) {
+            if (e.inView)
                 self.unstick();
         });
     }
@@ -924,3 +918,15 @@ $.fn.unstick = function() {
     });
     this.destroyPlaceholder();
 };
+
+$('.super').entwine({
+    onclick: function() {
+        alert('super');
+    }
+});
+
+$('.sub.super').entwine({
+    onclick: function() {
+        alert('sub');
+    }
+});
