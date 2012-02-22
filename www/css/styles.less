@@ -646,6 +646,25 @@ td {
     }
 }
 
+.contest_link {
+    text-align: center;
+    margin-top: 30px;
+    a {
+        .button_style;
+        .white_button;
+    }
+    a, a:hover {
+        background-image: url(/images/medal.png);
+        background-repeat: no-repeat;
+        background-position: 5px 50%;
+        padding-left: 25px;
+    }
+    p {
+        margin-top: 10px;
+        font-size: 12px;
+    }
+}
+
 .event_gallery {
     position: relative;
     text-align: center;
@@ -1079,6 +1098,7 @@ section.entourage {
 
 .invite_leaderboard {
     text-align: left;
+    max-width: 550px;
     .contest_instructions {
         padding: 20px;
         h1, h2, h3 { color: #333; }
