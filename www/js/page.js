@@ -407,9 +407,7 @@ $('.event_list_wrapper .switch').entwine({
 
 $('.event_list').entwine({
     onmatch: function() {
-        this.entwineData('expandedHeight', this.find('.events').height());
-
-        this.find('.switch').hide();
+        this.expander().hide();
 
         if (this.hasClass('collapsed'))
             this.collapse();
@@ -417,37 +415,35 @@ $('.event_list').entwine({
     isExpanded: function() {
         return !this.hasClass('collapsed');
     },
-    switchLink: function() {
-        return this.closest('.event_list_wrapper').find('.switch');
+    expander: function() {
+        return this.closest('.event_list_wrapper').find('.expander');
     },
     expand: function() {
-        var height = this.entwineData('expandedHeight');
+        this.find('.new_event').show();
+        this.expander().hide();
 
         this.find('.events').css({
-            overflow: '',
-            paddingRight: ''
+            height: ''
         });
 
-        this.animateToHeight(height);
-
-        this.find('.new_event').show();
-        this.switchLink().hide();
+        this.unselectedEvents().show();
 
         return this;
     },
     collapse: function() {
-        var height = this.find('.selected').outerHeight(true);
+        this.find('.new_event').hide();
+        this.expander().show();
 
         this.find('.events').css({
-            overflow: 'hidden',
-            paddingRight: $.getScrollbarWidth() + 'px'
+            height: 'auto'
         });
 
-        this.find('.new_event').hide();
-        this.switchLink().show();
+        this.unselectedEvents().hide();
 
-        this.animateToHeight(height);
         return this;
+    },
+    unselectedEvents: function() {
+        return this.find('.events > li:not(.expander):not(.selected)');
     },
     animateToHeight: function(height) {
         var animateOptions = {

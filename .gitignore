@@ -21,4 +21,4 @@ www/pics
 www/tickets
 
 # mr contacts data
-mrcontacts/data/*
+scripts/mrcontacts/data/*

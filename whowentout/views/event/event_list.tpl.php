@@ -34,13 +34,16 @@
                 <?php benchmark::end('event_option'); ?>
             </li>
             <?php endforeach; ?>
-
         </ul>
 
-    </div>
+        <div class="expander">
+            <?php if ($selected_event): ?>
+                <span>&darr;</span>
+                <a href="#switch" class="switch expander">switch party</a>
+                <span>&darr;</span>
+            <?php endif; ?>
+        </div>
 
-    <?php if ($selected_event): ?>
-        <a href="#switch" class="switch">switch party</a>
-    <?php endif; ?>
+    </div>
 
 </div>
