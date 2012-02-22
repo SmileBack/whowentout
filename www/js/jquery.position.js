@@ -1,14 +1,174 @@
 //= require jquery.js
-//= require jquery.body.js
 
-/*!
- * JSizes - JQuery plugin v0.33
- *
- * Licensed under the revised BSD License.
- * Copyright 2008-2010 Bram Stein
- * All rights reserved.
- */
-/*global jQuery*/
+(function() {
+
+  var sb_windowTools = {
+    scrollBarPadding: 17, // padding to assume for scroll bars
+
+    // INFORMATION GETTERS
+    // load the page size, view port position and vertical scroll offset
+    updateDimensions: function() {
+            this.updatePageSize();
+            this.updateWindowSize();
+            this.updateScrollOffset();
+    },
+
+    // load page size information
+    updatePageSize: function() {
+            // document dimensions
+            var viewportWidth, viewportHeight;
+            if (window.innerHeight && window.scrollMaxY) {
+                    viewportWidth = document.body.scrollWidth;
+                    viewportHeight = window.innerHeight + window.scrollMaxY;
+            } else if (document.body.scrollHeight > document.body.offsetHeight) {
+                    // all but explorer mac
+                    viewportWidth = document.body.scrollWidth;
+                    viewportHeight = document.body.scrollHeight;
+            } else {
+                    // explorer mac...would also work in explorer 6 strict, mozilla and safari
+                    viewportWidth = document.body.offsetWidth;
+                    viewportHeight = document.body.offsetHeight;
+            };
+            this.pageSize = {
+                    viewportWidth: viewportWidth,
+                    viewportHeight: viewportHeight
+            };
+    },
+
+    // load window size information
+    updateWindowSize: function() {
+            // view port dimensions
+            var windowWidth, windowHeight;
+            if (self.innerHeight) {
+                    // all except explorer
+                    windowWidth = self.innerWidth;
+                    windowHeight = self.innerHeight;
+            } else if (document.documentElement && document.documentElement.clientHeight) {
+                    // explorer 6 strict mode
+                    windowWidth = document.documentElement.clientWidth;
+                    windowHeight = document.documentElement.clientHeight;
+            } else if (document.body) {
+                    // other explorers
+                    windowWidth = document.body.clientWidth;
+                    windowHeight = document.body.clientHeight;
+            };
+            this.windowSize = {
+                    windowWidth: windowWidth,
+                    windowHeight: windowHeight
+            };
+    },
+
+    // load scroll offset information
+    updateScrollOffset: function() {
+            // viewport vertical scroll offset
+            var horizontalOffset, verticalOffset;
+            if (self.pageYOffset) {
+                    horizontalOffset = self.pageXOffset;
+                    verticalOffset = self.pageYOffset;
+            } else if (document.documentElement && document.documentElement.scrollTop) {
+                    // Explorer 6 Strict
+                    horizontalOffset = document.documentElement.scrollLeft;
+                    verticalOffset = document.documentElement.scrollTop;
+            } else if (document.body) {
+                    // all other Explorers
+                    horizontalOffset = document.body.scrollLeft;
+                    verticalOffset = document.body.scrollTop;
+            };
+            this.scrollOffset = {
+                    horizontalOffset: horizontalOffset,
+                    verticalOffset: verticalOffset
+            };
+    },
+
+    // INFORMATION CONTAINERS
+
+    // raw data containers
+    pageSize: {},
+    windowSize: {},
+    scrollOffset: {},
+
+    // combined dimensions object with bounding logic
+    pageDimensions: {
+        pageWidth: function() {
+            return sb_windowTools.pageSize.viewportWidth > sb_windowTools.windowSize.windowWidth ?
+                    sb_windowTools.pageSize.viewportWidth :
+                    sb_windowTools.windowSize.windowWidth;
+        },
+        pageHeight: function() {
+            return sb_windowTools.pageSize.viewportHeight > sb_windowTools.windowSize.windowHeight ?
+                    sb_windowTools.pageSize.viewportHeight :
+                    sb_windowTools.windowSize.windowHeight;
+        },
+        windowWidth: function() {
+            return sb_windowTools.windowSize.windowWidth;
+        },
+        windowHeight: function() {
+            return sb_windowTools.windowSize.windowHeight;
+        },
+        horizontalOffset: function() {
+            return sb_windowTools.scrollOffset.horizontalOffset;
+        },
+        verticalOffset: function() {
+            return sb_windowTools.scrollOffset.verticalOffset;
+        }
+    }
+  };
+
+    function Rectangle(left, top, width, height) {
+        this.left = left;
+        this.top = top;
+        this.width = width;
+        this.height = height;
+        this._computeCorners();
+    }
+
+    Rectangle.prototype._computeCorners = function() {
+        this.bottom = this.top + this.height;
+        this.right = this.left + this.width;
+
+        this.lt = this.tl = {left:this.left, top:this.top};
+        this.ct = this.tc = {left:this.left + this.width / 2, top:this.top};
+        this.rt = this.tr = {left:this.left + this.width, top:this.top};
+
+        this.lc = this.cl = {left:this.left, top:this.top + this.height / 2};
+        this.c = this.cc = {left:this.left + this.width / 2, top:this.top + this.height / 2};
+        this.rc = this.cr = {left:this.left + this.width, top:this.top + this.height / 2};
+
+        this.lb = this.bl = {left:this.left, top:this.top + this.height};
+        this.cb = this.bc = {left:this.left + this.width / 2, top:this.top + this.height};
+        this.rb = this.br = {left:this.left + this.width, top:this.top + this.height};
+    };
+
+    $.fn.getBox = function () {
+        if (this.get(0).tl !== undefined)
+            return this.get(0);
+
+        var box;
+
+        if (this.is('body')) {
+            sb_windowTools.updateDimensions();
+            box = new Rectangle(
+              sb_windowTools.pageDimensions.horizontalOffset(),
+              sb_windowTools.pageDimensions.verticalOffset(),
+              sb_windowTools.pageDimensions.windowWidth(),
+              sb_windowTools.pageDimensions.windowHeight()
+            );
+        }
+        else {
+            box = new Rectangle(
+                        $(this).offset().left,
+                        $(this).offset().top,
+                        $(this).outerWidth(true),
+                        $(this).outerHeight(true)
+                    );
+        }
+
+        return box;
+    };
+
+})();
+
+
 (function ($) {
     var num = function (value) {
         return parseInt(value, 10) || 0;
@@ -43,13 +203,6 @@
     });
 
     /**
-     * Returns whether or not an element is visible.
-     */
-    $.fn.isVisible = function () {
-        return this.is(':visible');
-    };
-
-    /**
      * Sets or gets the values for border, margin and padding.
      */
     $.each(['border', 'margin', 'padding'], function (i, name) {
@@ -81,32 +234,6 @@
     });
 })(jQuery);
 
-$.fn.getBox = function () {
-    if (this.get(0).tl !== undefined)
-        return this.get(0);
-
-    var box = {
-        left:$(this).offset().left,
-        top:$(this).offset().top,
-        width:$(this).outerWidth(true),
-        height:$(this).outerHeight(true)
-    };
-
-    box.lt = box.tl = {left:box.left, top:box.top};
-    box.ct = box.tc = {left:box.left + box.width / 2, top:box.top};
-    box.rt = box.tr = {left:box.left + box.width, top:box.top};
-
-    box.lc = box.cl = {left:box.left, top:box.top + box.height / 2};
-    box.c = box.cc = {left:box.left + box.width / 2, top:box.top + box.height / 2};
-    box.rc = box.cr = {left:box.left + box.width, top:box.top + box.height / 2};
-
-    box.lb = box.bl = {left:box.left, top:box.top + box.height};
-    box.cb = box.bc = {left:box.left + box.width / 2, top:box.top + box.height};
-    box.rb = box.br = {left:box.left + box.width, top:box.top + box.height};
-
-    return box;
-};
-
 $.fn.getPosition = function (target, options) {
     var defaults = {
         anchor:['tl', 'tl'],
@@ -128,7 +255,7 @@ $.fn.getPosition = function (target, options) {
     }
 
     if (target == 'viewport')
-        target = $('body').getViewportBox();
+        target = $('body').getBox();
 
     var targetBox = $(target).getBox();
     var sourceBox = $(this).getBox();
@@ -148,7 +275,7 @@ $.fn.getPosition = function (target, options) {
     };
 
     if (this.css('position') == 'fixed') {
-        var viewportBoxCorner = $('body').getViewportBox().tl;
+        var viewportBoxCorner = $('body').getBox().tl;
         position.left -= viewportBoxCorner.left;
         position.top -= viewportBoxCorner.top;
     }
