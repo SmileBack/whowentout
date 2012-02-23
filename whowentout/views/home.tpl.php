@@ -41,11 +41,11 @@
     <div class="home_center">
 
         <?php if (browser::is_desktop()): ?>
-        <img src="/images/home.png?version=20" />
+        <img src="/images/home.png?version=21" />
         <?php endif; ?>
 
         <?php if (browser::is_mobile()): ?>
-        <img src="/images/home_mobile.png?version=20" />
+        <img src="/images/home_mobile.png?version=21" />
         <?php endif; ?>
 
         <a href="/login" class="login_button">Login with Facebook</a>
