@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="description" content=""/>
     <meta name="author" content="">
+    <meta name="viewport" content="width=320px, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 
     <meta property="og:image" content="http://www.whowentout.com/images/facebook_square.2.png" />
     <link rel="image_src" href="/images/facebook_square.2.png" />
