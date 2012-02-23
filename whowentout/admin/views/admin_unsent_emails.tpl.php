@@ -29,6 +29,7 @@ $job_count = $jobs->count();
         $user = db()->table('users')->row($opts->user_id);
         $subject = $opts->subject;
         $body = $opts->body;
+        $email = isset($opts->email) ? $opts->email : null;
         ?>
         <li>
 
@@ -39,6 +40,7 @@ $job_count = $jobs->count();
                     <dt>status</dt>
                     <dd><?= $job->status ?></dd>
 
+                    <?php if ($user): ?>
                     <dt>user</dt>
                     <dd>
                         <?= "$user->first_name $user->last_name" ?>
@@ -64,6 +66,12 @@ $job_count = $jobs->count();
                             <input type="submit" name="op" value="update email" />
                         </form>
                     </dd>
+                    <?php endif; ?>
+
+                    <?php if ($opts->email): ?>
+                    <dt>email</dt>
+                    <dd><?= $opts->email ?></dd>
+                    <?php endif; ?>
 
                     <dt>subject</dt>
                     <dd><?= $subject ?></dd>
