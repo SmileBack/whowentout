@@ -4,6 +4,17 @@
 
 @import 'elements.0000000001.less';
 
+#home_page .home_center {
+    margin: 0;
+    padding: 0;
+
+    height: 100%;
+
+    .login_button {
+        margin: 0 auto;
+    }
+}
+
 #nav {
     width: 100%;
     min-width: 320px;
@@ -107,8 +118,13 @@
                 width: 155px;
             }
             .badge {
-                top: 6px;
+                top: 2px;
             }
+        }
+        .badge {
+            position: absolute;
+            top: 1px;
+            right: 3px;
         }
         .place {
             margin: 0;
@@ -119,21 +135,15 @@
             margin: 0 0 0 8px;
             font-style: italic;
         }
-        .badge {
-            width: 60px;
-            position: absolute;
-            top: 4px;
-            right: 60px;
-            margin: 0;
-            > * {
-                padding: .5em 1em .55em;
-            }
-        }
     }
 }
 
+.event_gallery h1 {
+    font-size: 22px;
+}
+
 .event_gallery .event_gallery_message {
-    top: 110px;
+    top: 75px;
     margin-left: -150px;
     width: 300px;
 }
@@ -179,6 +189,18 @@
         text-indent: -9999px;
         position: absolute;
         z-index: 100;
+    }
+}
+
+@media (orientation:landscape) {
+    .portrait {
+        display: none !important;
+    }
+}
+
+@media (orientation: portrait) {
+    .landscape {
+        display: none !important;
     }
 }
 

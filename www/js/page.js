@@ -4,6 +4,8 @@
 //= require head.load.min.js
 //= require jquery.dialog.js
 //= require dateselector.js
+//= require jquery.easing.js
+//= require jquery.inview.js
 
 (function ($) {
     if ($.browser.msie == false)
@@ -19,16 +21,6 @@
     });
 
 })(jQuery);
-
-head.css = function (path) {
-    $("head").append("<link>");
-    var css = $("head").children(":last");
-    css.attr({
-        rel:'stylesheet',
-        type:'text/css',
-        href:path
-    });
-};
 
 var whowentout = window.whowentout = {};
 
@@ -207,7 +199,7 @@ $(function () {
             var href = '/day/' + date;
             var scrollable = $('#events_date_selector .scrollable');
             var link = scrollable.getElByHref(href);
-            scrollable.markSelected(link);
+            scrollable.markSelected(link, false);
         },
         showDealDialog:function (event_id) {
             whowentout.showDealDialog(event_id);
@@ -231,6 +223,18 @@ $(function () {
     whowentout.router = new whowentout.router();
 
     Backbone.history.start({pushState:true});
+});
+
+$('a.view_leaderboard').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        var href = this.attr('href');
+        whowentout.showDialog({
+            title: 'Leaderboard',
+            url: href,
+            buttons: 'close'
+        });
+    }
 });
 
 $('.action').entwine({
@@ -326,7 +330,6 @@ $('.profile_pic_upload_form input[type=file]').entwine({
 
 $('a').entwine({
     onmousedown:function () {
-        this._super();
         this.addClass('mousedown');
     },
     onmouseup:function () {
@@ -391,6 +394,66 @@ $('.event_invite :checkbox').entwine({
         else {
             this.closest('li').removeClass('selected');
         }
+    }
+});
+
+$('.event_list_wrapper .switch').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('.event_list_wrapper').find('.event_list').expand();
+    }
+});
+
+$('.event_list').entwine({
+    onmatch: function() {
+        this.expander().hide();
+
+        if (this.hasClass('collapsed'))
+            this.collapse();
+    },
+    isExpanded: function() {
+        return !this.hasClass('collapsed');
+    },
+    expander: function() {
+        return this.closest('.event_list_wrapper').find('.expander');
+    },
+    expand: function() {
+        this.find('.new_event').show();
+        this.expander().hide();
+
+        this.find('.events').css({
+            height: ''
+        });
+
+        this.unselectedEvents().show();
+
+        return this;
+    },
+    collapse: function() {
+        this.find('.new_event').hide();
+        this.expander().show();
+
+        this.find('.events').css({
+            height: 'auto'
+        });
+
+        this.unselectedEvents().hide();
+
+        return this;
+    },
+    unselectedEvents: function() {
+        return this.find('.events > li:not(.expander):not(.selected)');
+    },
+    animateToHeight: function(height) {
+        var animateOptions = {
+            easing: 'easeOutBounce',
+            duration: 0
+        };
+        this.find('.events').animate({
+            height: height + 'px'
+        }, animateOptions);
+
+        return this;
     }
 });
 
@@ -685,6 +748,9 @@ $('.tab_panel').entwine({
     selectTab:function (key) {
         this.find('.pane').hide();
         this.find('.pane').filter('.' + key).show();
+
+        this.find('.tabs a.selected').removeClass('selected');
+        this.find('.tabs a[href=#' + key + ']').addClass('selected');
     }
 });
 
@@ -700,8 +766,6 @@ $('.tab_panel .tabs a').entwine({
 
 $('.expandable').entwine({
     onmatch:function () {
-        console.log(this);
-        console.log('onmatch expandable');
         if (this.items().length < 2)
             return;
 
@@ -767,6 +831,107 @@ $('.expandable .view_less').entwine({
     }
 });
 
-$.fn.scrollTo = function() {
-    $('html, body').animate({scrollTop: $(this).offset().top}, 1000);
+$.fn.scrollTo = function(complete) {
+    var options = {
+        duration: 1000,
+        complete: complete || function() {}
+    };
+
+    $('html, body').animate({scrollTop: $(this).offset().top}, options);
+};
+
+$('.event_links a').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        var event_id = this.attr('href');
+        $('.everyone_gallery').scrollToEvent(event_id, function() {
+            $('.everyone_gallery').selectEvent(event_id);
+        });
+    }
+});
+
+$('.invite_leaderboard .score').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('li').find('.people').slideToggle();
+    }
+});
+
+$('.everyone_gallery').entwine({
+    selectEvent: function(event_id) {
+        this.find('.focused').removeClass('focused');
+        this.find('.checkin_event_' + event_id).addClass('focused');
+
+        $('.event_links a.selected').removeClass('selected');
+        $('.event_links a[href=' + event_id + ']').addClass('selected');
+
+        return this;
+    },
+    scrollToEvent: function(event_id, complete) {
+        $('.checkin_event_' + event_id).scrollTo(complete);
+        return this;
+    }
+});
+
+$('.event_links').entwine({
+    oninview: function(e) {
+        if (e.isAbove)
+            this.stick();
+    },
+    onstick: function(e) {
+        var self = this;
+        e.placeholder.bind('inview', function(e) {
+            if (e.inView)
+                self.unstick();
+        });
+    }
+});
+
+$('#events_date_selector').entwine({
+    oninview: function(e) {
+        if ($('.event_links').isStuck())
+            $('.event_links').unstick();
+    }
+});
+
+
+$.fn.stick = function() {
+    var ph = this.createPlaceholder();
+    var left = ph.offset().left;
+    this.css({
+        position: 'fixed',
+        top: 0,
+        left: left,
+        zIndex: 100
+    });
+    this.margin({top: 0, right: 0, bottom: 0, left: 0});
+    this.width(ph.width());
+
+    this.addClass('stuck');
+
+    this.trigger({
+        type: 'stick',
+        placeholder: ph
+    });
+
+    return this;
+};
+
+$.fn.unstick = function() {
+    this.css({
+        position: '',
+        top: '',
+        left: '',
+        zIndex: '',
+        margin: '',
+        width: ''
+    });
+
+    this.removeClass('stuck');
+
+    this.destroyPlaceholder();
+};
+
+$.fn.isStuck = function() {
+    return this.hasClass('stuck');
 };

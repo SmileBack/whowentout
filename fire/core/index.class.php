@@ -5,7 +5,7 @@ class Index
 
     private $root;
     /**
-     * @var \FilesystemCache
+     * @var \Cache
      */
     private $cache;
 
@@ -13,7 +13,7 @@ class Index
 
     private $resource_types = array('directory', 'file', 'class', 'config', 'js');
 
-    function __construct($root, FilesystemCache $cache)
+    function __construct($root, Cache $cache)
     {
         $this->load_requirements();
 

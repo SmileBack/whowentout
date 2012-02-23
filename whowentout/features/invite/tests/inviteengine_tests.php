@@ -5,9 +5,12 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
     private $mcfaddens_place;
     private $shadowroom_place;
     private $eden_place;
+
     private $venkat;
     private $dan;
     private $kate;
+    private $doron;
+
     private $mcfaddens_event;
     private $shadowroom_event;
     private $eden_event;
@@ -18,6 +21,9 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
     /* @var $invite_engine InviteEngine */
     private $invite_engine;
 
+    /* @var $checkin_engine CheckinEngine */
+    private $checkin_engine;
+
     function setUp()
     {
         $this->db = build('database');
@@ -27,9 +33,10 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
         $installer = build('package_installer');
 
         $installer->install('WhoWentOutPackage');
+        $installer->install('CheckinPackage');
         $installer->install('InvitePackage');
 
-        /* @var $invite_engine InviteEngine */
+        $this->checkin_engine = build('checkin_engine');
         $this->invite_engine = build('invite_engine');
 
         $this->create_users();
@@ -58,6 +65,14 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
             'email' => 'katesmith@gmail.com',
             'gender' => 'F',
         ));
+
+        $this->doron = $this->db->table('users')->create_row(array(
+            'first_name' => 'Doron',
+            'last_name' => 'Berenholtz',
+            'email' => 'doronberenholtz@gmail.com',
+            'gender' => 'M',
+        ));
+
     }
 
     function create_events()
@@ -95,6 +110,9 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
 
         $this->invite_engine->send_invite($this->mcfaddens_event, $this->venkat, $this->dan);
 
+        $invite = $this->invite_engine->fetch_invite($this->mcfaddens_event, $this->venkat, $this->dan);
+
+        $this->assertEquals($invite->status, 'pending', 'invitation status is pending');
         $this->assertTrue($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan), 'user invited after invitation sent');
         $this->assertFalse($this->invite_engine->is_invited($this->shadowroom_event, $this->dan), 'user not invited other events');
 
@@ -103,39 +121,45 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->invite_engine->is_invited($this->mcfaddens_event, $this->dan));
     }
 
-    function test_get_invite_sender()
+    function test_get_invite_senders()
     {
-        $this->assertNull($this->invite_engine->get_invite_sender($this->mcfaddens_event, $this->dan), 'no invite was sent to dan');
+        $senders = $this->invite_engine->get_invite_senders($this->mcfaddens_event, $this->dan);
+        $this->assertEmpty($senders, 'no invite was sent to dan');
 
         $this->invite_engine->send_invite($this->mcfaddens_event, $this->venkat, $this->dan);
-        $this->assertEquals($this->venkat, $this->invite_engine->get_invite_sender($this->mcfaddens_event, $this->dan), 'venkat invited dan to shadowroom');
+        $senders = $this->invite_engine->get_invite_senders($this->mcfaddens_event, $this->dan);
+        $this->assertContains($this->venkat, $senders, 'venakt invited dan to mcfaddens');
 
-        $this->assertNull($this->invite_engine->get_invite_sender($this->shadowroom_event, $this->dan), 'no one invited dan to shadowroom');
+        $senders = $this->invite_engine->get_invite_senders($this->shadowroom_event, $this->dan);
+        $this->assertEmpty($senders, 'no one invited dan to shadowroom');
 
         $this->invite_engine->send_invite($this->shadowroom_event, $this->kate, $this->dan);
-        $this->assertEquals($this->kate, $this->invite_engine->get_invite_sender($this->shadowroom_event, $this->dan), 'kate invited dan to shadowroom');
-        $this->assertEquals($this->venkat, $this->invite_engine->get_invite_sender($this->mcfaddens_event, $this->dan), 'dan is invited to shadowroom by kate');
+        $this->assertContains($this->kate, $this->invite_engine->get_invite_senders($this->shadowroom_event, $this->dan), 'kate invited dan to shadowroom');
+        $this->assertContains($this->venkat, $this->invite_engine->get_invite_senders($this->mcfaddens_event, $this->dan), 'venkat still invited dan to mcfaddens');
 
         $this->invite_engine->destroy_invite($this->mcfaddens_event, $this->venkat, $this->dan);
-        $this->assertNull($this->invite_engine->get_invite_sender($this->mcfaddens_event, $this->dan), 'dan is no longer invited to mcfaddens');
-        $this->assertEquals($this->kate, $this->invite_engine->get_invite_sender($this->shadowroom_event, $this->dan), 'dan is still invited to shadowroom by kate');
+        $this->assertEmpty($this->invite_engine->get_invite_senders($this->mcfaddens_event, $this->dan), 'dan is no longer invited to mcfaddens');
+        $this->assertContains($this->kate, $this->invite_engine->get_invite_senders($this->shadowroom_event, $this->dan), 'dan is still invited to shadowroom by kate');
 
         $this->invite_engine->destroy_invite($this->shadowroom_event, $this->kate, $this->dan);
-        $this->assertNull($this->invite_engine->get_invite_sender($this->shadowroom_event, $this->dan), 'dan is no longer invited to shadowroom');
+        $this->assertEmpty($this->invite_engine->get_invite_senders($this->shadowroom_event, $this->dan), 'dan is no longer invited to shadowroom');
     }
 
-    function test_send_duplicate_invite()
+    function test_send_multiple_invites()
     {
         $this->invite_engine->send_invite($this->eden_event, $this->venkat, $this->dan);
         $this->invite_engine->send_invite($this->eden_event, $this->venkat, $this->dan);
 
-        $this->invite_engine->send_invite($this->eden_event, $this->kate, $this->dan);
+        $senders = $this->invite_engine->get_invite_senders($this->eden_event, $this->dan);
+        $this->assertContains($this->venkat, $senders);
+        $this->assertCount(1, $senders);
 
-        $this->assertEquals($this->venkat, $this->invite_engine->get_invite_sender($this->eden_event, $this->dan), 'venkats invite prevails');
+        $this->invite_engine->send_invite($this->eden_event, $this->kate, $this->dan);
+        $senders = $this->invite_engine->get_invite_senders($this->eden_event, $this->dan);
+        $this->assertContains($this->kate, $senders);
+        $this->assertCount(2, $senders);
 
         $this->invite_engine->destroy_invite($this->eden_event, $this->venkat, $this->dan);
-
-        $this->assertFalse($this->invite_engine->is_invited($this->eden_event, $this->dan));
     }
 
     function test_invite_is_sent_condition()
@@ -145,6 +169,56 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
 
         $this->invite_engine->destroy_invite($this->eden_event, $this->kate, $this->dan);
         $this->assertFalse($this->invite_engine->invite_is_sent($this->eden_event, $this->kate, $this->dan), 'kate no longer invited dan');
+    }
+
+    function test_invite_is_accepted_after_checkin()
+    {
+        $this->invite_engine->send_invite($this->mcfaddens_event, $this->venkat, $this->dan);
+        $ven_invite = $this->invite_engine->fetch_invite($this->mcfaddens_event, $this->venkat, $this->dan);
+
+        $this->invite_engine->send_invite($this->mcfaddens_event, $this->kate, $this->dan);
+        $kate_invite = $this->invite_engine->fetch_invite($this->mcfaddens_event, $this->kate, $this->dan);
+
+        $this->assertEquals('pending', $ven_invite->status, 'invite status is pending');
+        $this->assertEquals('pending', $kate_invite->status, 'invite status is pending');
+
+        $this->checkin_engine->checkin_user_to_event($this->dan, $this->mcfaddens_event);
+        $this->assertEquals('accepted', $ven_invite->status, 'invite status is accepted after checking in');
+        $this->assertEquals('accepted', $kate_invite->status, 'invite status is accepted after checking in');
+    }
+
+    function test_invite_is_pending_after_switch_checkin()
+    {
+        //shadowroom and eden are on the same date
+        $this->invite_engine->send_invite($this->shadowroom_event, $this->venkat, $this->dan);
+        $ven_invite = $this->invite_engine->fetch_invite($this->shadowroom_event, $this->venkat, $this->dan);
+
+        $this->assertEquals('pending', $ven_invite->status, 'invite status is pending');
+
+        $this->checkin_engine->checkin_user_to_event($this->dan, $this->shadowroom_event);
+        $this->assertEquals('accepted', $ven_invite->status, 'invite status is accepted');
+
+        $this->checkin_engine->checkin_user_to_event($this->dan, $this->eden_event);
+        $this->assertEquals('pending', $ven_invite->status, 'invite is pending after checkin switch');
+    }
+
+    function test_invite_multiple_invite_checkins()
+    {
+        $this->invite_engine->send_invite($this->shadowroom_event, $this->venkat, $this->dan);
+        $ven_invite = $this->invite_engine->fetch_invite($this->shadowroom_event, $this->venkat, $this->dan);
+
+        $this->invite_engine->send_invite($this->shadowroom_event, $this->kate, $this->doron);
+        $kate_invite = $this->invite_engine->fetch_invite($this->shadowroom_event, $this->kate, $this->doron);
+
+        $this->assertEquals('pending', $ven_invite->status);
+        $this->assertEquals('pending', $kate_invite->status);
+
+        $this->checkin_engine->checkin_user_to_event($this->dan, $this->shadowroom_event);
+        $this->assertEquals('accepted', $ven_invite->status);
+
+        $this->checkin_engine->checkin_user_to_event($this->doron, $this->shadowroom_event);
+        $this->assertEquals('accepted', $kate_invite->status);
+        $this->assertEquals('accepted', $ven_invite->status);
     }
 
 }

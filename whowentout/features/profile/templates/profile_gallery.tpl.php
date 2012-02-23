@@ -1,4 +1,4 @@
-<ul>
+<ul class="gallery">
    <?php foreach ($users as $user): ?>
         <li>
             <?=

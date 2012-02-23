@@ -27,6 +27,37 @@ function site_url($path = '')
         return $protocol . $host;
 }
 
+function _load_core_component($name, $driver)
+{
+    require_once COREPATH . 'driver/component.class.php';
+    require_once COREPATH . 'driver/driver.class.php';
+
+    require_once COREPATH . "$name/$name.class.php";
+    require_once COREPATH . "$name/{$name}driver.class.php";
+    require_once COREPATH . "$name/drivers/{$driver}{$name}driver.class.php";
+}
+
+/**
+ * @return Cache
+ */
+function _build_index_cache($path)
+{
+    _load_core_component('filerepository', 'local');
+    _load_core_component('cache', 'storage');
+
+    $storage = new FileRepository(array(
+        'driver' => 'local',
+        'path' => $path,
+    ));
+
+    $cache = new Cache(array(
+        'driver' => 'storage',
+        'storage' => $storage,
+    ));
+
+    return $cache;
+}
+
 /**
  * @return Factory
  */
@@ -46,16 +77,15 @@ function factory($environment = null)
         throw new Exception('You must define APPPATH in your index.php file');
 
     if (!isset($_factories[$environment])) {
-        require_once COREPATH . 'filesystemcache.class.php';
         require_once COREPATH . 'index.class.php';
         require_once COREPATH . 'classloader.class.php';
 
-        $index_cache = new FilesystemCache(APPPATH . 'cache');
+        $index_cache = _build_index_cache(APPPATH . 'cache');
+
         $index = new Index(APPPATH, $index_cache);
 
         $class_loader = new ClassLoader($index);
         $class_loader->enable_autoload();
-
         $class_loader->register('index', $index);
 
         $config_source = new ConfigSource($index, $environment);
@@ -124,9 +154,6 @@ function current_url()
 
 function route_uri_request()
 {
-//    $router = factory()->build('router');
-//    $router->route_request();
-
     /* @var $router ActionRouter */
     $router = build('router');
     $router->route_request();

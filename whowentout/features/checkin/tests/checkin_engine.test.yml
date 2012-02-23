@@ -2,3 +2,4 @@ checkin_engine:
   type: CheckinEngine
   database: database
   clock: clock
+  event_dispatcher: event_dispatcher

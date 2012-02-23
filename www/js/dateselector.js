@@ -1,67 +1,6 @@
 //= require jquery.js
 //= require jquery.entwine.js
-
-var format = (function()
-{
-    var replacer = function(context)
-    {
-        return function(s, name)
-        {
-            return context[name];
-        };
-    };
-
-    return function(input, context)
-    {
-        return input.replace(/:(\w+)/g, replacer(context));
-    };
-})();
-
-$.fn.whenShown = function (fn) {
-    var props = { position:'absolute', visibility:'hidden', display:'block' },
-    hiddenParents = $(this).parents().andSelf().not(':visible');
-
-    //set style for hidden elements that allows computing
-    var oldProps = [];
-    hiddenParents.each(function () {
-        var old = {};
-
-        for (var name in props) {
-            old[ name ] = this.style[ name ];
-            this.style[ name ] = props[ name ];
-        }
-
-        oldProps.push(old);
-    });
-
-    var result = fn.call($(this));
-
-    //reset styles
-    hiddenParents.each(function (i) {
-        var old = oldProps[i];
-        for (var name in props) {
-            this.style[ name ] = old[ name ];
-        }
-    });
-
-    return result;
-};
-
-$.fn.hiddenDimensions = function (includeMargin) {
-    return this.whenShown(function () {
-        return {
-            width:this.width(),
-            outerWidth:this.outerWidth(includeMargin),
-            innerWidth:this.innerWidth(),
-            height:this.height(),
-            innerHeight:this.innerHeight(),
-            outerHeight:this.outerHeight(includeMargin),
-            margin:$.fn.margin ? this.margin() : null,
-            padding:$.fn.padding ? this.padding() : null,
-            border:$.fn.border ? this.border() : null
-        };
-    });
-};
+//= require jquery.ext.js
 
 $('.scrollable').entwine({
     onmatch: function () {
@@ -71,10 +10,8 @@ $('.scrollable').entwine({
     },
     markSelected: function(el, animate) {
         if (el instanceof $) {
-            if (!el.hasClass('active')) {
-                this.find('.active').removeClass('active');
-                el.addClass('active');
-            }
+            this.getSelected().removeClass('active');
+            el.addClass('active');
 
             if (animate === false) {
                 this._jumpToEl(el);
@@ -118,10 +55,10 @@ $('.scrollable').entwine({
     _getX: function() {
         return -1 * parseInt(this.find('> .items').css('margin-left'));
     },
-    _setX:function (x) {
+    _setX: function (x) {
         this.find('> .items').css({'margin-left':-x + 'px'});
     },
-    _animateToX:function (x, onComplete) {
+    _animateToX: function (x, onComplete) {
         var self = this;
         this.find('> .items').animate({'margin-left':-x + 'px'}, {
             duration: 300,
@@ -141,7 +78,7 @@ $('.scrollable').entwine({
 });
 
 $('#events_date_selector .items a').entwine({
-    onclick:function (e) {
+    onclick: function (e) {
         e.preventDefault();
         var index = this.index();
 
@@ -150,14 +87,14 @@ $('#events_date_selector .items a').entwine({
 });
 
 $('#events_date_selector .prev').entwine({
-    onclick:function (e) {
+    onclick: function (e) {
         e.preventDefault();
         this.closest('#events_date_selector').find('a.active').prev().click();
     }
 });
 
 $('#events_date_selector .next').entwine({
-    onclick:function (e) {
+    onclick: function (e) {
         e.preventDefault();
         this.closest('#events_date_selector').find('a.active').next().click();
     }

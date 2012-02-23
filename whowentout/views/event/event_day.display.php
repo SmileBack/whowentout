@@ -12,4 +12,12 @@ class Event_Day_Display extends Display
         $this->checkin_event = $this->checkin ? $this->checkin->event : null;
     }
 
+    private function prefetch_users()
+    {
+        $users = db()->table('checkins')->where('event.date', app()->clock()->today())
+                                        ->user;
+
+        db()->table('users')->prefetch($users->to_sql(), $users->parameters());
+    }
+
 }

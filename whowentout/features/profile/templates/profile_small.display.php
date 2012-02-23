@@ -8,6 +8,8 @@ class Profile_Small_Display extends Display
         'show_networks' => false,
         'link_to_profile' => false,
         'preset' => 'thumb',
+        'is_friend' => false,
+        'class' => '',
     );
 
     function process()

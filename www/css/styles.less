@@ -6,7 +6,7 @@
 @red: #ff6a6a;
 @sidebar_width: 300px;
 
-@import 'elements.0000000016.less';
+@import 'elements.0000000019.less';
 
 .background_size() {
     -webkit-background-size: @arguments;
@@ -81,9 +81,11 @@ label {
         color: @text_color;
     }
     &:hover {
+        color: @text_color;
         .vertical_gradient(@c, @d);
     }
     &:active, &.pressed {
+        color: @text_color;
         .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
     }
 }
@@ -156,13 +158,13 @@ input[type="submit"], button {
 .going_to {
     .border_radius(8px);
     .site_shadow;
-    margin: 8px;
-    padding: 8px;
+    margin: 4px;
+    padding: 4px;
     background-color: white;
     color: @primary_color;
     border: 1px solid @primary_color;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .dialog {
@@ -203,12 +205,13 @@ input[type="submit"], button {
     text-align: center;
     color: white;
     overflow: hidden;
+    height: 100%;
     background: black url(/images/background.jpg) no-repeat center;
     .background_size(cover);
     .home_center {
         margin-top: 50px;
         padding: 20px;
-        background-color: rgba(0, 0, 0, 0.757813);
+        background-color: rgba(0, 0, 0, 0.75);
     }
     img {
         max-width: 100%;
@@ -353,15 +356,16 @@ h3 { font-size: 16px; }
 h4 { font-size: 14px; }
 
 dt { font-weight: bold; }
+dd { margin-left: 8px; }
 
 fieldset { border: 1px solid #333; padding:  20px; }
 legend { font-size: 18px; }
 
-ul li {
+ul > li {
   list-style: none;
 }
 
-ol li {
+ol > li {
   list-style-type: decimal;
 }
 
@@ -371,7 +375,7 @@ td {
     padding: 15px;
 }
 
-#flash_message {
+.bottom_bar {
     position: fixed;
     z-index: 10000;
     left: 0;
@@ -385,6 +389,10 @@ td {
         background-color: @red;
         color: white;
     }
+}
+
+#flash_message {
+    .bottom_bar;
 }
 
 .definition {
@@ -440,19 +448,27 @@ td {
     .scrollable {
         float: left;
         width: 715px;
+        height: 80px;
         overflow: hidden;
         .items {
             float: left;
             width: 20000em;
+            .transition(margin 300ms ease-in);
         }
         a {
+            .scale(0.8);
+            .opacity(0.9);
+            .transition(-webkit-transform 300ms ease-in);
             background: url(/images/calendar.png) no-repeat center;
             .day { margin-top: 25px; }
             .date { font-weight: bold; font-size: 16px; }
             &:hover {
+                .opacity(1);
                 background-image: url(/images/calendar_selected.png);
             }
             &.active {
+                .scale(1.2);
+                .opacity(1);
                 background-image: url(/images/calendar_selected.png);
             }
         }
@@ -467,6 +483,8 @@ td {
     width: 100%;
     margin-top: 15px;
     text-align: center;
+    .switch {
+    }
     &.loading {
         background: url(/images/loading-message.gif) no-repeat center top;
         > * {
@@ -533,7 +551,7 @@ td {
     h1 {
         line-height: 26px;
         padding: 18px 0 12px 0;
-        font-size: 34px;
+        font-size: 32px;
         text-align: center;
         background: url(/images/h1_bg.png) repeat-x;
         border-bottom: 1px solid @border_color;
@@ -558,18 +576,12 @@ td {
         }
         .site_shadow;
     }
-    fieldset {
-        border: none;
-        padding: 0;
-    }
     ul.events {
-        height: 226px;
+        height: 190px;
         overflow-y: scroll;
         overflow-x: hidden;
         > li {
             border-bottom: 1px solid #b0b0b0;
-            &.selected { background-color: @selected_item_color; }
-            &:hover { background-color: @selected_item_color; }
         }
     }
     .event_option {
@@ -599,10 +611,10 @@ td {
           top: 8px;
       }
       .badge {
-          position: absolute;
-          top: 4px;
-          right: 30px;
-          > * {
+          float: right;
+          margin-top: 4px;
+          margin-right: 30px;
+          .checkin_badge, .attending_badge, .event_invite_link, .add_event, .show_deal_link {
               .button_style;
               display: block;
               font-size: 12px;
@@ -617,9 +629,12 @@ td {
                   padding: 6px 12px;
               }
           }
-          > input {
-              width: 85px;
+          .show_deal_link {
+              .orange_button;
           }
+        input {
+          width: 85px !important;
+        }
       }
       .attending_badge {
       }
@@ -629,22 +644,95 @@ td {
           font-size: 12px;
       }
     }
+    .expander {
+        text-align: center;
+        padding: 4px 0;
+        background: url(/images/h1_bg.png) repeat-x;
+        font-weight: bold;
+    }
+}
+
+.contest_link {
+    text-align: center;
+    margin-top: 30px;
+    a {
+        .button_style;
+        .white_button;
+    }
+    a, a:hover {
+        background-image: url(/images/medal.png);
+        background-repeat: no-repeat;
+        background-position: 5px 50%;
+        padding-left: 25px;
+    }
+    p {
+        margin-top: 10px;
+        font-size: 12px;
+    }
 }
 
 .event_gallery {
-    .gallery;
     position: relative;
     text-align: center;
-    border-top: 1px dotted grey;
     margin-top: 15px;
     padding-top: 15px;
-    min-height: 600px;
-    background-color: @light_color;
+    h1 {
+        font-size: 32px;
+    }
+    .tabs {
+        text-align: left;
+        border-bottom: 1px solid grey;
+        padding: 8px 0;
+        li {
+            display: inline-block;
+            margin-left: 4px;
+        }
+        a {
+            padding: 8px 30px;
+            border: 1px solid grey;
+            text-decoration: none;
+            &.selected {
+                border-bottom: 1px solid @light_color;
+                background-color: @light_color;
+            }
+        }
+    }
+    .pane {
+        padding: 20px;
+        background-color: @light_color;
+        min-height: 600px;
+    }
+    .everyone_gallery, .friends_gallery {
+        .gallery;
+    }
     .event_gallery_message {
         position: absolute;
-        top: 45px;
+        top: 110px;
         left: 50%;
         margin-left: -205px;
+        z-index: 1000;
+    }
+    .focused {
+        background-color: #FFEC8B;
+    }
+}
+
+.event_links {
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid grey;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 12px;
+    li {
+        padding: 4px;
+        margin: 4px;
+        display: inline-block;
+    }
+    a {
+        text-decoration: none;
+        &:hover { text-decoration: underline; }
+        &.selected { text-decoration: underline; }
     }
 }
 
@@ -706,13 +794,9 @@ td {
             display: block;
         }
     }
-    .mutual_friends_section {
-        .gallery;
-    }
-    .entourage_requests_section {
-        .gallery;
-    }
-    .entourage_outgoing_requests_section {
+    .mutual_friends_section > ul,
+    .mutual_friends_section > ul,
+    .entourage_outgoing_requests > ul {
         .gallery;
     }
     .profile_pic {
@@ -735,13 +819,17 @@ td {
 }
 
 section.entourage {
-    .gallery;
     .entourage_request_link {
         .button_style;
-        .border_radius(0);
+        .white_button;
         margin: 8px;
-        padding: 2px 12px;
         float: right;
+        clear: right;
+    }
+    h2 {
+        float: right;
+        clear: right;
+        margin-right: 8px;
     }
 }
 
@@ -791,10 +879,21 @@ section.entourage {
     overflow: hidden;
     .site_shadow;
     background-color: white;
-    .profile_caption {
-        font-size: 15px;
-        font-weight: bold;
-        margin-bottom: 4px;
+    position: relative;
+    .transition(background-color 500ms ease-in);
+    .profile_badge {
+        .note;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 50px;
+        background-color: #eee;
+        color: #333;
+        border: 1px solid #bbb;
+        .site_shadow;
+        &:empty {
+            display: none;
+        }
     }
     .profile_name {
         margin-top: 8px;
@@ -996,5 +1095,45 @@ section.entourage {
     }
     li {
         list-style-type: decimal;
+    }
+}
+
+#feedbackify .flink {
+    visibility: hidden;
+}
+
+.invite_leaderboard {
+    text-align: left;
+    max-width: 550px;
+    .contest_instructions {
+        padding: 0 20px;
+        h1, h2, h3 { color: #333; }
+        h1 {
+            background: url(/images/beer.png) no-repeat top right;
+            margin-bottom: 15px;
+        }
+        .first { margin-left: 0; }
+        .second { margin-left: 40px; }
+        em {
+            color: @red;
+            font-style: normal;
+        }
+        .contest_rules {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px solid grey;
+        }
+    }
+    .current_rankings {
+        padding: 8px 20px;
+        .people {
+            .comma_separated;
+        }
+    }
+    ol {
+        margin-left: 25px;
+        li {
+            margin: 4px 0;
+        }
     }
 }

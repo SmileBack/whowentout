@@ -23,11 +23,11 @@ foreach ($checkins as $checkin) {
     $breakdown[$checkin->event->id]['count']++;
 
     if (isset($friends[$checkin->user->id]))
-        $breakdown[$checkin->event->id]['friends'][] = $checkin->user->first_name . ' ' . $checkin->user->last_name;
+        $breakdown[$checkin->event->id]['friends'][] = $checkin->user;
 }
 ?>
 
-<table class="event_day_summary expandable">
+<table class="event_day_summary">
     <?php foreach ($breakdown as $summary): ?>
         <tr>
 
@@ -41,12 +41,8 @@ foreach ($checkins as $checkin) {
             </td>
 
             <td class="event_friends">
-                <?php if (count($summary['friends']) == 1): ?>
-                <?= $summary['friends'][0] ?> is attending
-                <?php endif; ?>
-
-                <?php if (count($summary['friends']) > 1): ?>
-                <?= conjunct($summary['friends']) ?> are attending
+                <?php if (count($summary['friends']) > 0): ?>
+                <?= format::people($summary['friends']) ?> are attending.
                 <?php endif; ?>
             </td>
 

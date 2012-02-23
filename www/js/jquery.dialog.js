@@ -211,7 +211,7 @@ $('.dialog').entwine({
         return actionCallback.call(this, dialogData);
     },
     expandToViewport: function() {
-        var box = $('body').getViewportBox();
+        var box = $('body').getBox();
         this.css({
             left: 0,
             top: 0,

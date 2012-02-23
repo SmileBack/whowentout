@@ -20,7 +20,7 @@ if (db()->has_table('sessions')) {
 session_start();
 
 if (environment() != 'whowentout')
-    app()->clock()->set_time(new DateTime('2011-12-08'));
+    app()->clock()->set_time(new DateTime('2011-12-09 21:00:00', build('timezone')));
 else
     app()->clock()->set_time(new DateTime('now'));
 

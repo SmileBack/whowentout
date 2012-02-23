@@ -37,15 +37,7 @@ class CheckinAction extends Action
             flash::message($this->get_checkin_message($event));
         }
 
-        if (!$event) {
-            redirect("day/" . $date->format('Ymd'));
-        }
-        elseif (browser::is_mobile()) {
-            app()->goto_event($event);
-        }
-        else {
-            redirect("checkin/explanation/$event->id");
-        }
+        app()->goto_event($event);
     }
 
     protected function get_checkin_message($event)

@@ -1,9 +1,15 @@
 # TODO: deny access to these directories using .htaccess
+
+event_dispatcher:
+  type: EventDispatcher
+  class_loader: class_loader
+
 app:
   type: WhoWentOutApp
   class_loader: class_loader
   database: database
   clock: clock
+  event_dispatcher: event_dispatcher
 
 route_matcher:
   type: RouteMatcher
@@ -59,6 +65,7 @@ router:
     "entourage/accept": AcceptEntourageRequest
     "entourage/invite": ViewEntourageRequestDialog
     "entourage/invite/submit": SendEntourageRequests
+    "leaderboard/(:num)/(:num)/(:num)": ViewLeaderboard/$1/$2/$3
 
 asset:
   type: Asset
@@ -132,11 +139,13 @@ checkin_engine:
   type: CheckinEngine
   database: database
   clock: clock
+  event_dispatcher: event_dispatcher
 
 invite_engine:
   type: InviteEngine
   database: database
   clock: clock
+  event_dispatcher: event_dispatcher
 
 entourage_engine:
   type: EntourageEngine
@@ -179,3 +188,9 @@ emailer:
   username: notifications@whowentout.com
   password: WWO12345
   from: WhoWentOut
+
+invite_contest_factory:
+  type: InviteContestFactory
+  database: database
+  clock: clock
+
