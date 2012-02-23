@@ -53,5 +53,10 @@
     </div>
 
     <?= js() ?>
+
+    <?php if (environment() == 'whowentout'): ?>
+    <?= r::google_analytics() ?>
+    <?php endif; ?>
+
 </body>
 </html>
