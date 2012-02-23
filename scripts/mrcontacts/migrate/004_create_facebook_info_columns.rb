@@ -4,6 +4,8 @@ class CreateFacebookInfoColumns < ActiveRecord::Migration
     add_column :students, :facebook_id, :string
     add_column :students, :facebook_name, :string
     add_column :students, :gender, :string
+
+    add_index :students, :facebook_id
   end
 
   def self.down
