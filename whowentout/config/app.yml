@@ -189,6 +189,8 @@ emailer:
   password: WWO12345
   from: WhoWentOut
 
-invite_leaderboard:
-  type: InviteLeaderboard
+invite_contest_factory:
+  type: InviteContestFactory
   database: database
+  clock: clock
+

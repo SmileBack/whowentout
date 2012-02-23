@@ -1,16 +1,21 @@
 <?php
-/* @var $board InviteLeaderboard */
-$board = build('invite_leaderboard');
-$items = $board->get_items($date);
+/* @var $contest InviteContest */
+$contest = build('invite_contest', $date);
 
-$eligible_events = db()->table('events')->where('date', $date)
-                                        ->where('place.type', array('bar', 'club'))
-                                        ->collect('name');
+$items = $contest->get_items($date);
+$leader = $contest->get_leader();
 
+$eligible_events = $contest->get_eligible_events()->collect('name');
 ?>
+
 <div class="invite_leaderboard">
     <div class="contest_instructions">
-        <h1>The one who invites the most friends to check-in for <?= $date->format('l') ?> night <em>wins a $50 bar tab!</em>
+
+        <h1>We are <em>giving away</em> a <em>$50 bar</em> tab every Thursday, Friday, and Saturday!</h1>
+
+        <h1>
+            To win <?= $date->format('l') ?>'s bar tab,
+            just invite the most friends to check in for <?= $date->format('l') ?> night!
         </h1>
 
         <div class="contest_rules">
@@ -25,34 +30,43 @@ $eligible_events = db()->table('events')->where('date', $date)
         </ol>
         </div>
     </div>
-<?php if (count($items) > 0): ?>
     <div class="current_rankings">
-        <h1>Current Rankings</h1>
-        <ol>
-            <?php foreach ($items as $item): ?>
-            <li>
+    <?php if (count($items) > 0): ?>
 
-                <h2>
-                    <span class="user"><?= $item->user->first_name . ' ' . $item->user->last_name ?></span>
-                    (<a class="score" href="#score"><?= $item->score ?></a>)
-                </h2>
+            <?php if ($contest->has_ended()): ?>
+                <h1>Final Ranking</h1>
+            <?php else: ?>
+                <h1>Current Ranking</h1>
+            <?php endif; ?>
 
-                <ul class="people" style="display: none;">
-                    <?php foreach ($item->invites as $invite): ?>
-                        <li>
-                            <span>
-                                <?= $invite->receiver->first_name . ' ' . $invite->receiver->last_name ?>
-                            </span>
-                            <span><?= $invite->accepted_at->format('Y-m-d H:i:s') ?></span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+            <ol>
+                <?php foreach ($items as $item): ?>
+                <li>
 
-            </li>
-            <?php endforeach; ?>
-        </ol>
+                    <h2>
+                        <span class="user"><?= $item->user->first_name . ' ' . $item->user->last_name ?></span>
+                        (<a class="score" href="#score"><?= $item->score ?></a>)
+                        <?php if ($contest->has_ended() && $item->user == $leader->user): ?>
+                            <span> - Winner</span>
+                        <?php endif; ?>
+                    </h2>
+
+                    <ul class="people" style="display: none;">
+                        <?php foreach ($item->invites as $invite): ?>
+                            <li>
+                                <span>
+                                    <?= $invite->receiver->first_name . ' ' . $invite->receiver->last_name ?>
+                                </span>
+                                <span><?= $invite->accepted_at->format('Y-m-d H:i:s') ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                </li>
+                <?php endforeach; ?>
+            </ol>
+    <?php else: ?>
+        <h2>Come back later to see the rankings!</h2>
+    <?php endif; ?>
     </div>
-<?php else: ?>
-    <h2>Come back later!</h2>
-<?php endif; ?>
 </div>
