@@ -33,9 +33,7 @@ class ViewDayAction extends Action
             $date = app()->clock()->today();
         }
         else {
-            $date = DateTime::createFromFormat('Ymd', $date);
-            $date = new XDateTime($date->format('Y-m-d'));
-            $date->setTime(0, 0, 0);
+            $date = $this->parse_date($date);
         }
 
         print r::event_day(array(
@@ -54,9 +52,7 @@ class ViewDayAction extends Action
             redirect('day/' . $date->format('Ymd'));
         }
         else {
-            $date = DateTime::createFromFormat('Ymd', $date);
-            $date = new XDateTime($date->format('Y-m-d'));
-            $date->setTime(0, 0, 0);
+            $date = $this->parse_date($date);
         }
 
         print r::page(array(
@@ -67,6 +63,21 @@ class ViewDayAction extends Action
                         'date' => $date,
                     )),
         ));
+    }
+
+    /**
+     * @param $date_string
+     * @return XDateTime
+     */
+    function parse_date($date_string)
+    {
+        /* @var $timezone DateTimeZone */
+        $timezone = build('timezone');
+        $date = DateTime::createFromFormat('Ymd', $date_string);
+
+        $date = new XDateTime($date->format('Y-m-d'), $timezone);
+        $date->setTime(0, 0, 0);
+        return $date;
     }
 
 }

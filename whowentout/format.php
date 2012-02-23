@@ -43,6 +43,15 @@ class format
         return auth()->current_user() == $user;
     }
 
+    public static function night_of(DateTime $date)
+    {
+        $today = app()->clock()->today();
+        if ($today == $date)
+            return 'tonight';
+        else
+            return $date->format('l') . ' night';
+    }
+
     public static function people($users, $limit = 1)
     {
         $names = array();
@@ -67,7 +76,5 @@ class format
 
         return Inflect::pluralize_if(count($names), 'friend');
     }
-
-
 
 }
