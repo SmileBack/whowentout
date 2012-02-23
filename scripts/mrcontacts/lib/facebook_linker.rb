@@ -1,6 +1,7 @@
 require 'fb_graph'
 
 require_relative '../database'
+require_relative 'string_extensions'
 require_relative 'facebook_id_directory'
 
 class FacebookLinker
@@ -59,6 +60,12 @@ class FacebookLinker
       FbGraph::User.fetch(facebook_id)
     rescue FbGraph::NotFound => e
       puts "#{facebook_id} not found"
+    rescue FbGraph::Unauthorized => e
+      puts "#{facebook_id} unauthorized"
+    rescue FbGraph::Exception => e
+      puts "#{facebook_id} facebook graph error"
+    rescue URI::InvalidURIError => e
+      puts "#{facebook_id} invalid uri"
     end
   end
 
@@ -81,24 +88,4 @@ class FacebookLinker
 
     return nil
   end
-end
-
-class String
-
-  def last_name
-    if include?(',')
-      return split(/\s*,\s*/).first
-    else
-      return split(/\s+/).last
-    end
-  end
-
-  def first_name
-    if include?(',')
-      return split(/\s*,\s*/).last
-    else
-      return split(/\s+/).first
-    end
-  end
-
 end

@@ -28,6 +28,12 @@ class FacebookIdDirectory
       FbGraph::User.fetch(facebook_id)
     rescue FbGraph::NotFound => e
       puts "#{facebook_id} not found"
+    rescue FbGraph::Unauthorized => e
+      puts "#{facebook_id} unauthorized"
+    rescue FbGraph::Exception => e
+      puts "#{facebook_id} facebook graph error"
+    rescue URI::InvalidURIError => e
+      puts "#{facebook_id} invalid uri"
     end
   end
 
