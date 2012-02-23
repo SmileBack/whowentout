@@ -885,7 +885,7 @@ $('.everyone_gallery').entwine({
     }
 });
 
-$('.event_links').entwine({
+$('.desktop .event_links').entwine({
     oninview: function(e) {
         if (e.isAbove)
             this.stick();
