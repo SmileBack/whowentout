@@ -45,7 +45,8 @@
         <?php endif; ?>
 
         <?php if (browser::is_mobile()): ?>
-        <img src="/images/home_mobile.png?version=21" />
+        <img src="/images/home_mobile_portrait.png?version=21" class="portrait" />
+        <img src="/images/home_mobile_landscape.png?version=21" class="landscape" />
         <?php endif; ?>
 
         <a href="/login" class="login_button">Login with Facebook</a>
