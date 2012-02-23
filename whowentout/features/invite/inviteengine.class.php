@@ -83,6 +83,12 @@ class InviteEngine
         return false;
     }
 
+    /**
+     * @param $event
+     * @param $sender
+     * @param $receiver
+     * @return DatabaseRow|null
+     */
     function fetch_invite($event, $sender, $receiver)
     {
         return $this->invites->where('event_id', $event->id)

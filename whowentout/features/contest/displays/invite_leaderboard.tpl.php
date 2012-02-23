@@ -43,6 +43,7 @@ $eligible_events = db()->table('events')->where('date', $date)
                             <span>
                                 <?= $invite->receiver->first_name . ' ' . $invite->receiver->last_name ?>
                             </span>
+                            <span><?= $invite->accepted_at->format('Y-m-d H:i:s') ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>

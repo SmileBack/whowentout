@@ -3,7 +3,7 @@
 class InvitePackage extends Package
 {
 
-    public $version = '0.2.4';
+    public $version = '0.2.6';
 
     function install()
     {
@@ -13,6 +13,7 @@ class InvitePackage extends Package
             'receiver_id' => array('type' => 'integer'),
             'event_id' => array('type' => 'integer'),
             'created_at' => array('type' => 'time'),
+            'accepted_at' => array('type' => 'time'),
             'status' => array('type' => 'string'),
         ));
 
@@ -35,6 +36,21 @@ class InvitePackage extends Package
         	(SELECT COUNT(*) FROM checkins
         		WHERE invites.event_id = checkins.event_id
         		AND invites.receiver_id = checkins.user_id) > 0");
+    }
+
+    function update_0_2_5()
+    {
+        $this->database->table('invites')->create_column('accepted_at', array(
+            'type' => 'time',
+        ));
+    }
+
+    function update_0_2_6()
+    {
+        $this->database->execute("UPDATE invites
+                                      INNER JOIN checkins
+                                      ON invites.event_id = checkins.event_id AND invites.receiver_id = checkins.user_id
+                                      SET invites.accepted_at = checkins.time");
     }
 
 }

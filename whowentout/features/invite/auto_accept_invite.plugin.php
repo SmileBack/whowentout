@@ -19,10 +19,13 @@ class AutoAcceptInvitePlugin extends Plugin
                        ->where('receiver_id', $checkin->user->id);
 
         foreach ($invites as $invite) {
-            if ($invite->event_id == $checkin->event_id)
+            if ($invite->event_id == $checkin->event_id) {
                 $invite->status = 'accepted';
-            else
+                $invite->accepted_at = app()->clock()->get_time();
+            }
+            else {
                 $invite->status = 'pending';
+            }
 
             $invite->save();
         }
