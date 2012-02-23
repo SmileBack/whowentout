@@ -5,9 +5,7 @@ class TestAction extends Action
 
     function execute()
     {
-        print r::page(array(
-            'content' => r::test(),
-        ));
+        app()->notify_admins('test notification', 'test notification');
     }
 
 }

@@ -48,5 +48,27 @@ class WhoWentOutApp extends FireApp
     {
         return "events/$event->id/invite";
     }
+
+    function notify_admins($subject, $body)
+    {
+        if (environment() == 'localhost')
+            return;
+        
+        /* @var $queue JobQueue */
+        $queue = build('job_queue');
+
+        $emails = array('4438569502@txt.att.net', '7186834668@vtext.com');
+
+        foreach ($emails as $cur_email) {
+            $job = new SendEmailJob(array(
+                'email' => $cur_email,
+                'subject' => $subject,
+                'body' => $body,
+            ));
+
+            $queue->add($job);
+            $queue->run_in_background($job->id);
+        }
+    }
     
 }

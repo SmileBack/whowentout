@@ -3,17 +3,26 @@
 class SendEventInviteEmailPlugin extends Plugin
 {
 
-    function on_event_invite_sent($e)
+    /* @var $queue JobQueue */
+    private $queue;
+
+    function on_event_invites_sent($e)
     {
+        $this->queue = build('job_queue');
+
         $invite = $e->invite;
         $this->send_email($invite);
+        $this->notify_admins($invite);
+    }
+
+    function notify_admins($invite)
+    {
+        app()->notify_admins('event invite', format::full_name($invite->sender)
+                . ' to ' . format::full_name($invite->receiver));
     }
 
     function send_email($invite)
     {
-        /* @var $queue JobQueue */
-        $queue = build('job_queue');
-
         $subject = r::invite_email_subject(array(
             'invite' => $invite,
         ))->render();
@@ -28,10 +37,10 @@ class SendEventInviteEmailPlugin extends Plugin
             ))->render(),
         ));
 
-        $queue->add($job);
+        $this->queue->add($job);
 
         if ($invite->receiver->email) // run job right away if you have their email
-            $queue->run_in_background($job->id);
+            $this->queue->run_in_background($job->id);
     }
 
 }

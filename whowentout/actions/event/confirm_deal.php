@@ -22,8 +22,13 @@ class ConfirmDealAction extends Action
         $event = to::event($_POST['event_id']);
         $current_user = $this->auth->current_user();
 
+        $prev_cell = $current_user->cell_phone_number;
+
         $current_user->cell_phone_number = $this->format_phone_number($cell_phone_number);
         $current_user->save();
+
+        if ($prev_cell != $current_user->cell_phone_number)
+            app()->notify_admins('new deal', format::full_name($current_user));
 
         app()->goto_event($event);
     }

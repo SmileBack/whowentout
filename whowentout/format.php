@@ -15,6 +15,11 @@ class format
         "is" => "are",
     );
 
+    public static function full_name($user)
+    {
+        return $user->first_name . ' ' . $user->last_name;
+    }
+
     public static function first_name($user)
     {
         return static::is_you($user) ? 'you' : $user->first_name;

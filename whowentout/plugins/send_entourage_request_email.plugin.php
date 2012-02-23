@@ -3,17 +3,26 @@
 class SendEntourageRequestEmailPlugin extends Plugin
 {
 
+    /* @var $queue JobQueue */
+    private $queue;
+
     function on_entourage_request_sent($e)
     {
+        $this->queue = build('job_queue');
         $request = $e->request;
+
         $this->send_email($request);
+        $this->notify_admin($request);
+    }
+
+    function notify_admin($request)
+    {
+        app()->notify_admins('entourage request', format::full_name($request->sender)
+                . ' to ' . format::full_name($request->receiver));
     }
 
     function send_email($request)
     {
-        /* @var $queue JobQueue */
-        $queue = build('job_queue');
-
         $subject = r::entourage_request_email_subject(array(
             'request' => $request,
         ))->render();
@@ -28,10 +37,10 @@ class SendEntourageRequestEmailPlugin extends Plugin
             ))->render(),
         ));
 
-        $queue->add($job);
+        $this->queue->add($job);
 
         if ($request->receiver->email) // run job right away if you have their email
-            $queue->run_in_background($job->id);
+            $this->queue->run_in_background($job->id);
     }
 
 }
