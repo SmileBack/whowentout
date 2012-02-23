@@ -11,12 +11,12 @@ $eligible_events = $contest->get_eligible_events()->collect('name');
 <div class="invite_leaderboard">
     <div class="contest_instructions">
 
-        <h1>We are <em>giving away</em> a <em>$50 bar</em> tab every Thursday, Friday, and Saturday!</h1>
+        <h1>We are giving away a <em>$50 bar tab</em> every Thursday, Friday, and Saturday!</h1>
 
-        <h1>
+        <h2>
             To win <?= $date->format('l') ?>'s bar tab,
             just invite the most friends to check in for <?= $date->format('l') ?> night!
-        </h1>
+        </h2>
 
         <div class="contest_rules">
         <h3>Rules:</h3>

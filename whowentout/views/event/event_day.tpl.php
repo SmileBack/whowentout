@@ -4,7 +4,7 @@
     <?= r::event_list(array('date' => $date, 'selected_event' => $checkin_event, 'current_user' => $current_user)) ?>
     <?php benchmark::end('event_list'); ?>
 
-    <?php if (InviteContest::is_contest_date($date)): ?>
+    <?php if (browser::is_desktop() && InviteContest::is_contest_date($date)): ?>
         <?= r::contest_link(array('date' => $date)); ?>
     <?php endif; ?>
 
