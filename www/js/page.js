@@ -745,12 +745,18 @@ $('.tab_panel').entwine({
     },
     onunmatch:function () {
     },
+    getSelectedTab: function() {
+        return this.find('.tabs a.selected');
+    },
+    getTab: function(key) {
+        return this.find('.tabs a[href=#' + key + ']');
+    },
     selectTab:function (key) {
         this.find('.pane').hide();
         this.find('.pane').filter('.' + key).show();
 
-        this.find('.tabs a.selected').removeClass('selected');
-        this.find('.tabs a[href=#' + key + ']').addClass('selected');
+        this.getSelectedTab().unmarkSelected();
+        this.getTab(key).markSelected();
     }
 });
 
@@ -761,6 +767,12 @@ $('.tab_panel .tabs a').entwine({
     },
     tabKey:function () {
         return this.attr('href').replace(/#/g, '');
+    },
+    markSelected: function() {
+        this.addClass('selected');
+    },
+    unmarkSelected: function() {
+        this.removeClass('selected');
     }
 });
 

@@ -691,7 +691,10 @@ td {
             padding: 8px 30px;
             border: 1px solid grey;
             text-decoration: none;
+            border-bottom-width: 0;
             &.selected {
+                position: relative;
+                top: 1px;
                 border-bottom: 1px solid @light_color;
                 background-color: @light_color;
             }
