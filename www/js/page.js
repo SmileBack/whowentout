@@ -199,7 +199,7 @@ $(function () {
             var href = '/day/' + date;
             var scrollable = $('#events_date_selector .scrollable');
             var link = scrollable.getElByHref(href);
-            scrollable.markSelected(link);
+            scrollable.markSelected(link, false);
         },
         showDealDialog:function (event_id) {
             whowentout.showDealDialog(event_id);
