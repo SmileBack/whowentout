@@ -1,9 +1,10 @@
 <?php
 if (auth()->logged_in()) {
     $user = auth()->current_user();
+    $levels = array('visitor' => 1, 'session' => 2, 'page' => 3);
     $commands = array(
-        array('_setCustomVar', 1, 'facebook_id', $user->facebook_id, 2),
-        array('_setCustomVar', 2, 'gender', $user->gender, 2),
+        array('_setCustomVar', 1, 'facebook_id', $user->facebook_id, $levels['visitor']),
+        array('_setCustomVar', 2, 'gender', $user->gender, $levels['visitor']),
     );
 }
 else {
