@@ -9,3 +9,5 @@ gem 'nokogiri'
 gem 'mechanize'
 
 gem 'fb_graph'
+
+gem 'sinatra'

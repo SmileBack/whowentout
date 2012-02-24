@@ -6,33 +6,33 @@ require_relative 'facebook_id_directory'
 
 class FacebookLinker
 
-  def initialize
+  def initialize(show_messages=false)
     connect_to_database('gwu')
     @facebook_ids = FacebookIdDirectory.new
+    @show_messages = show_messages
   end
 
-  def already_linked(fb_username)
-    facebook_id = @facebook_ids[fb_username]
+  def already_linked?(facebook_id)
     return Student.exists?(:facebook_id => facebook_id)
   end
 
   def cross_link_user(name, fb_username)
-    if already_linked(fb_username)
+    facebook_id = @facebook_ids[fb_username]
+    if already_linked?(facebook_id)
       #puts "Already linked #{name}, #{fb_username}"
-      return
+      return Student.where(:facebook_id => facebook_id).first
     end
 
-    facebook_id = @facebook_ids[fb_username]
     facebook_user = lookup_facebook_user(facebook_id)
 
     if facebook_user.nil?
-      puts "#{name} NOT FOUND ON FACEBOOK"
+      puts "#{name} NOT FOUND ON FACEBOOK" if @show_messages
       return
     end
 
     student = lookup_student(facebook_user.name)
     if student.nil?
-      puts "NOT FOUND IN DIRECTORY #{name}"
+      puts "NOT FOUND IN DIRECTORY #{name}" if @show_messages
       return
     end
 
@@ -40,19 +40,20 @@ class FacebookLinker
     facebook_name = facebook_user.name
     facebook_gender = facebook_user.gender == 'female' ? 'F' : 'M'
 
-    puts "----------------"
-    puts "Provided Name = #{name}"
-    puts "Facebook ID = #{uid}"
-    puts "Facebook Name = #{facebook_name}"
-    puts "Gender = #{facebook_gender}"
+    if @show_messages
+      puts "----------------"
+      puts "Provided Name = #{name}"
+      puts "Facebook ID = #{uid}"
+      puts "Facebook Name = #{facebook_name}"
+      puts "Gender = #{facebook_gender}"
+    end
 
     student.facebook_id = uid
     student.facebook_name = facebook_name
     student.gender = facebook_gender
     student.save
 
-    puts "Directory Name = #{student.name}"
-    puts "Directory Email = #{student.email}"
+    return student
   end
 
   def lookup_facebook_user(facebook_id)

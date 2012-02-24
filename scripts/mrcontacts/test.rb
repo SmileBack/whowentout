@@ -1,15 +1,13 @@
 require 'csv'
-require_relative 'lib/string_extensions'
+require_relative 'lib/facebook_linker'
 
-name = "Alexander Bahia Sasoon"
+linker = FacebookLinker.new(true)
 
-data = CSV.read("C:\\Users\\Venkat\\Desktop\\emails.csv")
-
-data.each do |row|
-  name = row[0]
-  if name.start_with?('Alex')
-    puts "#{name} :: #{name.first_name} :: #{name.last_name}"
+File.open('data/test.txt', 'w') do |f|
+  Student.where('facebook_id NOT NULL').each do |s|
+    query = "UPDATE users SET email = '#{s.email}' WHERE facebook_id = '#{s.facebook_id}' AND email IS NULL;"
+    f.puts query
+    puts query
   end
 end
-
 
