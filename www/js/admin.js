@@ -8,7 +8,7 @@ $('.filter_table').entwine({
         head.css('/css/jquery.datatables.css');
         head.js('/js/jquery.datatables.js', function () {
             self.dataTable({
-                iDisplayLength: 50
+                iDisplayLength: 100
             });
         });
     },
