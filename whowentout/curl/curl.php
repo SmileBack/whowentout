@@ -277,6 +277,7 @@ class Curl
   **/
   public function get($url, $vars = array())
   {
+      krumo::dump($this->create_get_url($url, $vars));
     return $this->request('GET', $this->create_get_url($url, $vars));
   }
 

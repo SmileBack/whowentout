@@ -13,10 +13,10 @@ class FacebookLinker
   end
 
   def already_linked?(facebook_id)
-    return Student.exists?(:facebook_id => facebook_id)
+    Student.exists?(:facebook_id => facebook_id)
   end
 
-  def cross_link_user(name, fb_username)
+  def cross_link_user(network, name, fb_username)
     facebook_id = @facebook_ids[fb_username]
     if already_linked?(facebook_id)
       #puts "Already linked #{name}, #{fb_username}"
@@ -30,7 +30,7 @@ class FacebookLinker
       return
     end
 
-    student = lookup_student(facebook_user.name)
+    student = lookup_student(network, facebook_user.name)
     if student.nil?
       puts "NOT FOUND IN DIRECTORY #{name}" if @show_messages
       return
@@ -70,7 +70,7 @@ class FacebookLinker
     end
   end
 
-  def lookup_student(full_name)
+  def lookup_student(network, full_name)
     first_name = full_name.first_name
     last_name = full_name.last_name
     patterns = [
@@ -83,10 +83,11 @@ class FacebookLinker
         "%, #{first_name}"
     ]
     patterns.each do |pat|
-      matches = Student.where('name LIKE ?', pat)
+      matches = Student.where('name LIKE ? AND network = ?', pat, network)
       return matches.first if matches.length == 1
     end
 
     return nil
   end
 end
+

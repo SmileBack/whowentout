@@ -73,7 +73,9 @@ $job_count = $jobs->count();
                     <form method="post" action="/admin/emails/update">
                         <input type="hidden" name="user[id]" value="<?= $user->id ?>" />
                         <input type="text" name="user[email]" value="<?= $user->email ?>" />
-                        <input type="submit" name="op" value="update email" />
+
+                        <input type="submit" name="op" value="update" />
+                        <input type="submit" name="op" value="lookup" />
                     </form>
                     <?php elseif (isset($opts->email)): ?>
                         <?= $opts->email ?>

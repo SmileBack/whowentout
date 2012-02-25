@@ -195,3 +195,6 @@ invite_contest_factory:
   database: database
   clock: clock
 
+facebook_email_linker:
+  type: FacebookEmailLinker
+  url: http://scwb.showoff.io/link
