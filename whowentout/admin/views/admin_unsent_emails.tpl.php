@@ -40,7 +40,9 @@ $job_count = $jobs->count();
         $hash = substr($job->id, 0, 5);
         $opts = (object)unserialize($job->options);
 
-        $user = db()->table('users')->row($opts->user_id);
+        if (isset($opts->user_id))
+            $user = db()->table('users')->row($opts->user_id);
+            
         $subject = $opts->subject;
         $body = $opts->body;
         $email = isset($opts->email) ? $opts->email : null;
