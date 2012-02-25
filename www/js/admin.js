@@ -7,7 +7,9 @@ $('.filter_table').entwine({
         var self = this;
         head.css('/css/jquery.datatables.css');
         head.js('/js/jquery.datatables.js', function () {
-            self.dataTable();
+            self.dataTable({
+                iDisplayLength: 50
+            });
         });
     },
     onunmatch: function() {}
