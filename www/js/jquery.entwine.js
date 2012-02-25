@@ -1199,7 +1199,7 @@ catch (e) {
         bind_event: function(selector, name, func, event) {
             $(selector.selector).live(event, function() {
                 var el = $(this);
-                func.apply(el, arguments);
+                return func.apply(el, arguments);
             });
         }
 

@@ -67,6 +67,13 @@ class JobQueue
         return $job;
     }
 
+    function update_status($job_id, $status)
+    {
+        $job_row = $this->jobs->row($job_id);
+        $job_row->status = $status;
+        $job_row->save();
+    }
+
     function destroy($job_id)
     {
         $this->jobs->destroy_row($job_id);

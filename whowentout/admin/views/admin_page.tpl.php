@@ -23,6 +23,8 @@
     <?= $content ?>
 
 
+    <?= flash::message() ?>
     <?= js() ?>
+
 </body>
 </html>

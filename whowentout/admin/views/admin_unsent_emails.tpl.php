@@ -31,6 +31,7 @@ $job_count = $jobs->count();
                 <th>email</th>
                 <th>subject</th>
                 <th>run job</th>
+                <th>delete job</th>
             </tr>
         </thead>
         <tbody>
@@ -82,9 +83,18 @@ $job_count = $jobs->count();
                 <td><?= $subject ?></td>
 
                 <td>
+
                     <form method="post" action="/admin/emails/run_job">
                         <input type="hidden" name="job_id" value="<?= $job->id ?>" />
                         <input type="submit" name="op" value="run job" />
+                    </form>
+
+                </td>
+
+                <td>
+                    <form method="post" action="/admin/emails/delete_job" class="confirm" title="delete this job">
+                        <input type="hidden" name="job_id" value="<?= $job->id ?>" />
+                        <input type="submit" name="op" value="delete job" />
                     </form>
                 </td>
 

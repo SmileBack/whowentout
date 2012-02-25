@@ -1,0 +1,23 @@
+@yellow: #ffcc66;
+@red: #ff6a6a;
+
+.bottom_bar {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: @yellow;
+    text-align: center;
+    font-size: 18px;
+    padding: 12px;
+    &.error {
+        background-color: @red;
+        color: white;
+    }
+}
+
+#flash_message {
+    .bottom_bar;
+}
+

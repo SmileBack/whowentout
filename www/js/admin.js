@@ -14,3 +14,21 @@ $('.filter_table').entwine({
     },
     onunmatch: function() {}
 });
+
+$('#flash_message').entwine({
+    onmatch:function () {
+        var flashMessage = this;
+        setTimeout(function () {
+            flashMessage.fadeOut();
+        }, 7000);
+    },
+    onunmatch:function () {
+    }
+});
+
+$('form.confirm').entwine({
+    onsubmit: function(e) {
+        return confirm("Are you sure?");
+    }
+});
+

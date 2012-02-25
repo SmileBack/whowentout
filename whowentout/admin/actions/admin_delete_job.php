@@ -1,6 +1,6 @@
 <?php
 
-class AdminRunEmailJobAction extends Action
+class AdminDeleteJobAction extends Action
 {
 
     /* @var $job_queue JobQueue */
@@ -16,9 +16,9 @@ class AdminRunEmailJobAction extends Action
         auth()->require_admin();
 
         $job_id = $_POST['job_id'];
-        $this->job_queue->run_in_background($job_id);
+        $this->job_queue->update_status($job_id, 'deleted');
 
-        flash::message("Queued job $job_id.");
+        flash::message("Deleted job $job_id");
 
         redirect('admin/emails');
     }
