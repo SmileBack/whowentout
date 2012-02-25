@@ -30,7 +30,7 @@ class AdminUpdateEmailAction extends Action
             $email = $this->linker->get_matching_email($network, $user->first_name . ' ' . $user->last_name, $user->facebook_id);
         }
 
-        if (!$email) {
+        if ($email) {
             $user->email = $email;
             $user->save();
             flash::message("Changed email of $user->first_name $user->last_name to $user->email.");
