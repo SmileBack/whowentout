@@ -11,6 +11,7 @@ get '/link' do
   response = {:name => params[:name], :facebook_id => params[:facebook_id]}
 
   unless student.nil?
+    response[:name] = student.name
     response[:email] = student.email
   end
 

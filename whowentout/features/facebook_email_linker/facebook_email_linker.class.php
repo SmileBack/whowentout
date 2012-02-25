@@ -9,7 +9,7 @@ class FacebookEmailLinker
         $this->url = $url;
     }
 
-    function get_matching_email($network, $full_name, $facebook_id)
+    function get_match($network, $full_name, $facebook_id)
     {
         $response = $this->curl->get($this->url, array(
             'network' => $network,
@@ -17,7 +17,7 @@ class FacebookEmailLinker
             'facebook_id' => $facebook_id,
         ));
         $response = json_decode($response->body);
-        return $response ? $response->email : null;
+        return $response;
     }
 
 }

@@ -27,13 +27,22 @@ class AdminUpdateEmailAction extends Action
             $email = $data['email'];
         }
         elseif ($op == 'lookup') {
-            $email = $this->linker->get_matching_email($network, $user->first_name . ' ' . $user->last_name, $user->facebook_id);
+            $match = $this->linker->get_match($network, $user->first_name . ' ' . $user->last_name, $user->facebook_id);
+            $email = $match->email;
         }
 
         if ($email) {
             $user->email = $email;
             $user->save();
-            flash::message("Changed email of $user->first_name $user->last_name to $user->email.");
+            $message = "Changed email of $user->first_name $user->last_name to $user->email.";
+
+            if (isset($match))
+                $message .= "(Name = $match->name)";
+
+            flash::message($message);
+        }
+        else {
+            flash::message("No e-mail for $user->first_name $user->last_name.");
         }
 
         redirect('admin/emails');
