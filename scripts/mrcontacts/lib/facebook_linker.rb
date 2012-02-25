@@ -7,7 +7,7 @@ require_relative 'facebook_id_directory'
 class FacebookLinker
 
   def initialize(show_messages=false)
-    connect_to_database('gwu')
+    connect_to_database('data/students.db')
     @facebook_ids = FacebookIdDirectory.new
     @show_messages = show_messages
   end

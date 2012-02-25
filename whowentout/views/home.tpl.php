@@ -44,6 +44,7 @@
         <img src="/images/home.png?version=22" />
         <?php endif; ?>
 
+
         <?php if (browser::is_mobile()): ?>
         <img src="/images/home_mobile_portrait.png?version=22" class="portrait" />
         <img src="/images/home_mobile_landscape.png?version=22" class="landscape" />

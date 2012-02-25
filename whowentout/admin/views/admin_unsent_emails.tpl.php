@@ -20,7 +20,20 @@ $job_count = $jobs->count();
 </style>
 <div class="admin_unsent_emails">
     <h1>Unsent Email Jobs (<?= $job_count ?>)</h1>
-    <ul>
+    <table class="filter_table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>status</th>
+                <th>user</th>
+                <th>facebook id</th>
+                <th>networks</th>
+                <th>email</th>
+                <th>subject</th>
+                <th>run job</th>
+            </tr>
+        </thead>
+        <tbody>
         <?php foreach ($jobs as $job): ?>
         <?php
         $hash = substr($job->id, 0, 5);
@@ -31,63 +44,52 @@ $job_count = $jobs->count();
         $body = $opts->body;
         $email = isset($opts->email) ? $opts->email : null;
         ?>
-        <li>
 
-                <dl>
-                    <dt>id</dt>
-                    <dd><?= $hash ?></dd>
+            <tr>
+                <td><?= $hash ?></td>
+                <td><?= $job->status ?></td>
 
-                    <dt>status</dt>
-                    <dd><?= $job->status ?></dd>
+                <td>
+                    <?= isset($user) ? "$user->first_name $user->last_name" : '-' ?>
+                </td>
 
-                    <?php if ($user): ?>
-                    <dt>user</dt>
-                    <dd>
-                        <?= "$user->first_name $user->last_name" ?>
-                    </dd>
+                <td>
+                    <?= isset($user) ? $user->facebook_id : '-' ?>
+                </td>
 
-                    <dt>facebook id</dt>
-                    <dd>
-                        <?= $user->facebook_id ?>
-                    </dd>
-
-                    <dt>networks</dt>
-                    <dd>
-                        <?php foreach ($user->networks->where('type', 'college') as $network): ?>
-                            <span><?= $network->name ?></span>
-                        <?php endforeach; ?>
-                    </dd>
-
-                    <dt>email</dt>
-                    <dd>
-                        <form method="post" action="/admin/emails/update">
-                            <input type="hidden" name="user[id]" value="<?= $user->id ?>" />
-                            <input type="text" name="user[email]" value="<?= $user->email ?>" />
-                            <input type="submit" name="op" value="update email" />
-                        </form>
-                    </dd>
+                <td>
+                    <?php if (isset($user)): ?>
+                    <?php foreach ($user->networks->where('type', 'college') as $network): ?>
+                        <span><?= $network->name ?></span>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                        -
                     <?php endif; ?>
+                </td>
 
-                    <?php if ($opts->email): ?>
-                    <dt>email</dt>
-                    <dd><?= $opts->email ?></dd>
+                <td>
+                    <?php if (isset($user)): ?>
+                    <form method="post" action="/admin/emails/update">
+                        <input type="hidden" name="user[id]" value="<?= $user->id ?>" />
+                        <input type="text" name="user[email]" value="<?= $user->email ?>" />
+                        <input type="submit" name="op" value="update email" />
+                    </form>
+                    <?php elseif (isset($opts->email)): ?>
+                        <?= $opts->email ?>
                     <?php endif; ?>
+                </td>
 
-                    <dt>subject</dt>
-                    <dd><?= $subject ?></dd>
+                <td><?= $subject ?></td>
 
-                    <?php if (false): ?>
-                        <dt>body</dt>
-                        <dd><?= $body ?></dd>
-                    <?php endif; ?>
-                </dl>
+                <td>
+                    <form method="post" action="/admin/emails/run_job">
+                        <input type="hidden" name="job_id" value="<?= $job->id ?>" />
+                        <input type="submit" name="op" value="run job" />
+                    </form>
+                </td>
 
-                <form method="post" action="/admin/emails/run_job">
-                    <input type="hidden" name="job_id" value="<?= $job->id ?>" />
-                    <input type="submit" name="op" value="run job" />
-                </form>
-
-        </li>
+            </tr>
         <?php endforeach; ?>
-    </ul>
+        </tbody>
+    </table>
 </div>

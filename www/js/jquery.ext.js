@@ -1,5 +1,6 @@
 //= require jquery.js
 //= require jquery.entwine.js
+//= require head.load.min.js
 
 var format = (function()
 {
@@ -17,8 +18,8 @@ var format = (function()
     };
 })();
 
-head = head || {};
-head.css = function (path) {
+window.head = window.head || {};
+window.head.css = function (path) {
     $("head").append("<link>");
     var css = $("head").children(":last");
     css.attr({
