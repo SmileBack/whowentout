@@ -44,9 +44,13 @@ class ResultSet implements Iterator
 
     function add_where($field_name, $field_value)
     {
+        benchmark::start(__METHOD__);
+
         $table = $this->select_field->column()->table();
         $field = new DatabaseField($table, $field_name);
         $this->filters[] = new DatabaseWhereFilter($field, $field_value);
+
+        benchmark::end(__METHOD__);
     }
 
     /**
@@ -63,9 +67,14 @@ class ResultSet implements Iterator
 
     function set_order_by($field_name, $order = 'asc')
     {
+        benchmark::start(__METHOD__);
+
         $table = $this->select_field->column()->table();
+
         $field = new DatabaseField($table, $field_name);
         $this->order_by = new DatabaseOrderBy($field, $order);
+
+        benchmark::end(__METHOD__);
     }
 
     /**
@@ -130,6 +139,7 @@ class ResultSet implements Iterator
 
     private function get_join_sql()
     {
+        benchmark::start(__METHOD__);
         $sql = array();
 
         $currently_joined_tables = array();
@@ -157,11 +167,14 @@ class ResultSet implements Iterator
             }
         }
 
+        benchmark::end(__METHOD__);
+
         return implode('', $sql);
     }
 
     function to_sql()
     {
+        benchmark::start(__METHOD__);
         $sql = array();
 
         $select_field_table_alias = $this->select_field->table_alias();
@@ -178,6 +191,8 @@ class ResultSet implements Iterator
 
         if ($this->limit)
             $sql[] = "\n  " . $this->limit->to_sql();
+
+        benchmark::end(__METHOD__);
 
         return implode('', $sql);
     }
