@@ -43,17 +43,22 @@
     </fieldset>
 </form>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Place</th>
-        <th>Deal</th>
-        <th>Deal Type</th>
-        <th>Priority</th>
-        <th>Actions</th>
-    </tr>
+<table class="filter_table">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Place</th>
+            <th>Deal</th>
+            <th>Deal Type</th>
+            <th>Priority</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
     <?php foreach ($events as $event): ?>
     <tr>
         <td><?= $event->id ?></td>
@@ -69,4 +74,5 @@
         </td>
     </tr>
     <?php endforeach; ?>
+    </tbody>
 </table>
