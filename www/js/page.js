@@ -149,7 +149,13 @@ $('a.coming_soon').entwine({
 
 $('.login_button').entwine({
     onclick: function(e) {
-        var bar = whowentout.showFlashMessage('Logging In...');
+        if (this.hasClass('clicked')) {
+            e.preventDefault();
+        }
+        else {
+            this.addClass('clicked')
+            whowentout.showFlashMessage('Logging In...');
+        }
     }
 });
 

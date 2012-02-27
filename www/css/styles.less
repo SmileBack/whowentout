@@ -232,7 +232,8 @@ input[type="submit"], button {
         @sprite_normal_state: 0;
         @sprite_hover_state: @sprite_height * -1;
         @sprite_down_state: @sprite_height * -2;
-        background: url(../images/login_button.png) no-repeat;
+        @sprite_clicked_state: @sprite_height * -3;
+        background: url(../images/login_button.png?version=2) no-repeat;
         width: 251px;
         height: @sprite_height;
         text-indent: -9999px;
@@ -242,6 +243,9 @@ input[type="submit"], button {
         }
         &.mousedown {
             background-position: 0 @sprite_down_state;
+        }
+        &.clicked {
+            background-position: 0 @sprite_clicked_state;
         }
     }
 }
