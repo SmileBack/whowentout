@@ -12,7 +12,7 @@
         <li><a href="#everyone" class="selected">Everyone</a></li>
         <li><a href="#friends">Friends</a></li>
     </ul>
-    
+
 
     <div class="friends pane">
         <?php if ($checkin): ?>
