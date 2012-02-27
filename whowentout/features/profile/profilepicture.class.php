@@ -30,14 +30,17 @@ class ProfilePicture
 
     function url($size)
     {
+        benchmark::start('ProfilePicture::url');
         $version = $this->row->version;
         if (string_starts_with('facebook.', $size)) {
             $type = string_after_first('facebook.', $size);
-            return $this->get_facebook_image_url($this->user, $type);
+            $url = $this->get_facebook_image_url($this->user, $type);
         }
         else {
-            return $this->image_repository->url($this->user->id, $size) . "?version=$version";
+            $url = $this->image_repository->url($this->user->id, $size) . "?version=$version";
         }
+        benchmark::end('ProfilePicture::url');
+        return $url;
     }
 
     function set_to_upload($field_name)

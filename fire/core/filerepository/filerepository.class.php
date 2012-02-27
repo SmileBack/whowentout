@@ -23,9 +23,9 @@ class FileRepository extends Component
 
     function url($filename)
     {
-        benchmark::start('filerepository_url');
+        benchmark::start('FileRepository::url');
         $url = $this->driver->url($filename);
-        benchmark::end('filerepository_url');
+        benchmark::end('FileRepository::url');
         return $url;
     }
 

@@ -19,7 +19,9 @@ class ProfilePictureFactory
      */
     function build($user)
     {
+        benchmark::start('ProfilePictureFactory::build');
         $profile_picture = new ProfilePicture($this->database, $this->image_repository, $user);
+        benchmark::end('ProfilePictureFactory::build');
         return $profile_picture;
     }
     
