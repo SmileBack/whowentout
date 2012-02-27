@@ -183,10 +183,14 @@ class ProfilePicture
     {
         benchmark::start(__METHOD__);
 
+        benchmark::start(__METHOD__ . '::get row query');
+        $query = $this->table->where('user_id', $this->user->id);
+        benchmark::end(__METHOD__ . '::get row query');
+
         benchmark::start(__METHOD__ . '::get row');
-        $this->row = $this->table->where('user_id', $this->user->id)->first();
+        $this->row = $query->first();
         benchmark::end(__METHOD__ . '::get row');
-        
+
         if (!$this->row) {
             $this->row = $this->table->create_row(array(
                                                        'user_id' => $this->user->id,
