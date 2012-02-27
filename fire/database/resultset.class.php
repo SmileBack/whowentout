@@ -259,7 +259,9 @@ class ResultSet implements Iterator
 
     function current()
     {
-        return $this->iterator->current();
+        benchmark::start(__METHOD__);
+        $current = $this->iterator->current();
+        benchmark::end(__METHOD__);
     }
 
     function key()
@@ -269,18 +271,23 @@ class ResultSet implements Iterator
 
     function next()
     {
+        benchmark::start(__METHOD__);
         return $this->iterator->next();
+        benchmark::start(__METHOD__);
     }
 
     function rewind()
     {
+        benchmark::start(__METHOD__);
         $table = $this->table();
         $sql = $this->to_sql();
         $params = $this->parameters();
         $this->iterator = new TableQueryIterator($table, $sql, $params);
 
         $this->iterator->rewind();
+        benchmark::end(__METHOD__);
     }
+
 
     function valid()
     {
