@@ -110,10 +110,7 @@ whowentout.showProfileEditDialog = function () {
     whowentout.showDialog({
         title: 'Your Profile Pic',
         cls: 'profile_edit_dialog',
-        url: '/profile/picture/edit',
-        onComplete: function() {
-            $('.profile_pic_crop_form').initCropper();
-        }
+        url: '/profile/picture/edit'
     });
 };
 
@@ -272,10 +269,9 @@ $('#flash_message').entwine({
 
 $('.profile_pic_crop_form').entwine({
     onmatch:function () {
-//        this.initCropper();
+        this.initCropper();
     },
-    onunmatch:function () {
-    },
+    onunmatch:function () {},
     getCropBox:function () {
         var vals = this.serializeArray();
         var box = {};
