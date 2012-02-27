@@ -3,13 +3,17 @@
 class ViewEventGalleryAction extends Action
 {
 
-    function execute($date)
+    function execute($date, $who)
     {
         $current_user = auth()->current_user();
         $date = $this->parse_date($date);
+
+        $filter_friends = ($who == 'friends');
+
         print r::event_gallery(array(
             'date' => $date,
             'user' => $current_user,
+            'filter_friends' => $filter_friends,
         ));
     }
 

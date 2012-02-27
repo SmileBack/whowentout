@@ -23,7 +23,7 @@ router:
     "day": ViewDay
     "networks_required": ViewNetworksRequiredDialog
     "day/(:num)": ViewDay/$1
-    "day/(:num)/gallery": ViewEventGallery/$1
+    "day/(:num)/gallery/(:alpha)": ViewEventGallery/$1/$2
     "login": Login
     "logout": Logout
     "login/complete": LoginComplete

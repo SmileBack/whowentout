@@ -124,6 +124,8 @@ class CheckinEngine
 
     function get_checkins_on_date(DateTime $date)
     {
+        benchmark::start(__METHOD__);
+
         $days_checkins = array();
 
         $events_on_date = $this->get_events_on_date($date);
@@ -134,6 +136,8 @@ class CheckinEngine
                 $days_checkins[] = $checkin;
             }
         }
+
+        benchmark::end(__METHOD__);
 
         return $days_checkins;
     }

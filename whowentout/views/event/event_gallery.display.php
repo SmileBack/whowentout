@@ -1,17 +1,16 @@
 <?php
 
-/**
- * @property $date DateTime  date to display checkins for
- * @property $user DatabaseRow  user who the display is for
- */
-class Event_Gallery extends Display
+class Event_Gallery_Display extends Display
 {
+
 
     /* @var $checkin_engine CheckinEngine */
     private $checkin_engine;
 
     /* @var $database Database */
     private $db;
+
+    protected $defaults = array('filter_friends' => false);
 
     function __construct($template_name, $options = array())
     {
@@ -23,25 +22,24 @@ class Event_Gallery extends Display
 
     function process()
     {
-        benchmark::start('get_checkin_on_date');
         $this->checkin = $this->checkin_engine->get_checkin_on_date($this->user, $this->date);
-        benchmark::end('get_checkin_on_date');
 
-        $this->hidden = ($this->checkin == null);
         $friends = $this->friends = $this->fetch_friends($this->user);
-
-        benchmark::start('get_checkins_on_date');
         $checkins = $this->checkin_engine->get_checkins_on_date($this->date);
-        benchmark::end('get_checkins_on_date');
+
+        $this->checkins = $checkins;
+
+        if ($this->filter_friends) {
+            $checkins = array_filter($checkins, function($checkin) use ($friends) {
+                return isset($friends[$checkin->user->id]);
+            });
+        }
 
         benchmark::start('sort_checkins');
         usort($checkins, array($this, 'checkin_sort_comparison'));
         benchmark::end('sort_checkins');
 
         $this->checkins = $checkins;
-        $this->friend_checkins = array_filter($this->checkins, function($checkin) use ($friends) {
-            return isset($friends[$checkin->user->id]);
-        });
     }
 
     private function fetch_friends($user)

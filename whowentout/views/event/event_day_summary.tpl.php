@@ -1,51 +1,36 @@
 <?php
-/* @var $checkin_engine CheckinEngine */
-$checkin_engine = build('checkin_engine');
-$checkins = $checkin_engine->get_checkins_on_date($date);
-
-$breakdown = array();
-
-$friends = array();
-foreach (auth()->current_user()->friends as $friend) {
-    $friends[$friend->id] = $friend;
-}
-
-foreach ($checkins as $checkin) {
-    if (!isset($breakdown[$checkin->event->id])) {
-        $breakdown[$checkin->event->id] = array(
-            'event' => $checkin->event,
-            'checkins' => array(),
-            'count' => 0,
-            'friends' => array(),
-        );
-    }
-    $breakdown[$checkin->event->id]['checkins'][] = $checkin;
-    $breakdown[$checkin->event->id]['count']++;
-
-    if (isset($friends[$checkin->user->id]))
-        $breakdown[$checkin->event->id]['friends'][] = $checkin->user;
-}
+/**
+ * @var $date DateTime
+ * @var $user DatabaseRow
+ */
 ?>
+<div class="event_gallery tab_panel">
 
-<table class="event_day_summary">
-    <?php foreach ($breakdown as $summary): ?>
-        <tr>
+    <ul class="tabs">
+        <li><a href="#everyone" class="selected">Everyone</a></li>
+        <li><a href="#friends">Friends</a></li>
+    </ul>
 
-            <td class="event_name"><?= $summary['event']->name ?></td>
 
-            <td class="event_attendance">
-                <div class="barchart">
-                    <div class="innerbar" style="width: <?= $summary['count'] * 2 ?>%;"></div>
-                    <span><?= $summary['count'] ?></span>
-                </div>
-            </td>
+    <div class="friends pane">
+        <?php if ($checkin): ?>
+        <h1>What are YOUR FRIENDS doing <?= format::night_of($date) ?>?</h1>
+            <div class="event_gallery load" data-url="<?= '/day/' . $date->format('Ymd') . '/gallery/friends' ?>"></div>
+        <?php endif; ?>
+    </div>
 
-            <td class="event_friends">
-                <?php if (count($summary['friends']) > 0): ?>
-                <?= format::people($summary['friends']) ?> are attending.
-                <?php endif; ?>
-            </td>
+    <div class="everyone pane">
+        <h1>What is EVERYONE doing <?= format::night_of($date) ?>?</h1>
 
-        </tr>
-    <?php endforeach; ?>
-</table>
+        <?php if (!$checkin): ?>
+        <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
+        <?php endif; ?>
+
+        <?php if ($checkin): ?>
+        <?= r::event_links(array('date' => $date)) ?>
+        <?php endif; ?>
+
+        <div class="event_gallery load" data-url="<?= '/day/' . $date->format('Ymd') . '/gallery/everyone' ?>"></div>
+    </div>
+
+</div>
