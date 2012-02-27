@@ -14,8 +14,10 @@ class DatabaseWhereFilter extends QueryPart
     {
         $this->field = $field;
         $this->value = $value;
-        
+
+        benchmark::start('uniqid');
         $this->unique_id = uniqid('field__');
+        benchmark::end('uniqid');
     }
 
     function __clone()
