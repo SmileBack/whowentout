@@ -7,11 +7,29 @@ class AdminCreateEventAction extends Action
     {
         auth()->require_admin();
 
-        $place_attributes = $_POST['event'];
-        $place_attributes['date'] = $this->parse_date($place_attributes['date']);
+        $event_attributes = $_POST['event'];
 
-        app()->database()->table('events')->create_row($place_attributes);
+        $dates = $this->parse_dates($event_attributes['date']);
+
+        foreach ($dates as $date) {
+            $event_attributes['date'] = $date;
+            app()->database()->table('events')->create_row($event_attributes);
+        }
+        
         redirect('admin/events');
+    }
+
+    /**
+     * @param $date_strings
+     * @return DateTime[]
+     */
+    private function parse_dates($date_strings)
+    {
+        $dates = array();
+        foreach (preg_split('/\s*,\s*/', $date_strings) as $date_string) {
+            $dates[] = $this->parse_date($date_string);
+        }
+        return $dates;
     }
 
     /**
