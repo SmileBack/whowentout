@@ -291,8 +291,14 @@ input[type="submit"], button {
     left: 0;
     background-color: white;
     max-height: 375px;
-    &.collapsed .debug_body {
-        display: none;
+    &.collapsed {
+        right: auto;
+        .debug_bar .collapse {
+            display: none;
+        }
+        .debug_body {
+            display: none;
+        }
     }
     &.expanded .debug_body {
         display: block;

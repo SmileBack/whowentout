@@ -181,8 +181,12 @@ class ProfilePicture
 
     private function load_profile_picture_row()
     {
-        benchmark::start(__CLASS__ . '::' . __METHOD__);
+        benchmark::start(__METHOD__);
+
+        benchmark::start(__METHOD__ . '::get row');
         $this->row = $this->table->where('user_id', $this->user->id)->first();
+        benchmark::end(__METHOD__ . '::get row');
+        
         if (!$this->row) {
             $this->row = $this->table->create_row(array(
                                                        'user_id' => $this->user->id,
@@ -190,7 +194,7 @@ class ProfilePicture
                                                   ));
             $this->set_to_facebook();
         }
-        benchmark::end(__CLASS__ . '::' . __METHOD__);
+        benchmark::end(__METHOD__);
     }
     
 }
