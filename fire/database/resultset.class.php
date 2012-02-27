@@ -46,9 +46,17 @@ class ResultSet implements Iterator
     {
         benchmark::start(__METHOD__);
 
+        benchmark::start(__METHOD__ . '::column table');
         $table = $this->select_field->column()->table();
+        benchmark::end(__METHOD__ . '::column table');
+
+        benchmark::start(__METHOD__ . '::new DatabaseField');
         $field = new DatabaseField($table, $field_name);
+        benchmark::end(__METHOD__ . '::new DatabaseField');
+
+        benchmark::start(__METHOD__ . '::new DatabaseWhereFilter');
         $this->filters[] = new DatabaseWhereFilter($field, $field_value);
+        benchmark::end(__METHOD__ . '::new DatabaseWhereFilter');
 
         benchmark::end(__METHOD__);
     }

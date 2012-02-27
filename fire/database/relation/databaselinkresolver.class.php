@@ -32,7 +32,7 @@ class DatabaseLinkResolver
         }
 
         benchmark::end(__METHOD__);
-        
+
         return $path;
     }
 
