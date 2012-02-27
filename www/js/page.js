@@ -716,7 +716,9 @@ $('.debug_panel table').entwine({
         var self = this;
         head.css('/css/jquery.datatables.css');
         head.js('/js/jquery.datatables.js', function () {
-            self.dataTable();
+            self.dataTable({
+                aaSorting: [[1, 'desc']]
+            });
         });
         this.collapse();
     },
