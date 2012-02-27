@@ -44,9 +44,21 @@ class ResultSet implements Iterator
 
     function add_where($field_name, $field_value)
     {
+        benchmark::start(__METHOD__);
+
+        benchmark::start(__METHOD__ . '::column table');
         $table = $this->select_field->column()->table();
+        benchmark::end(__METHOD__ . '::column table');
+
+        benchmark::start(__METHOD__ . '::new DatabaseField');
         $field = new DatabaseField($table, $field_name);
+        benchmark::end(__METHOD__ . '::new DatabaseField');
+
+        benchmark::start(__METHOD__ . '::new DatabaseWhereFilter');
         $this->filters[] = new DatabaseWhereFilter($field, $field_value);
+        benchmark::end(__METHOD__ . '::new DatabaseWhereFilter');
+
+        benchmark::end(__METHOD__);
     }
 
     /**
@@ -63,9 +75,14 @@ class ResultSet implements Iterator
 
     function set_order_by($field_name, $order = 'asc')
     {
+        benchmark::start(__METHOD__);
+
         $table = $this->select_field->column()->table();
+
         $field = new DatabaseField($table, $field_name);
         $this->order_by = new DatabaseOrderBy($field, $order);
+
+        benchmark::end(__METHOD__);
     }
 
     /**
@@ -130,6 +147,7 @@ class ResultSet implements Iterator
 
     private function get_join_sql()
     {
+        benchmark::start(__METHOD__);
         $sql = array();
 
         $currently_joined_tables = array();
@@ -157,11 +175,14 @@ class ResultSet implements Iterator
             }
         }
 
+        benchmark::end(__METHOD__);
+
         return implode('', $sql);
     }
 
     function to_sql()
     {
+        benchmark::start(__METHOD__);
         $sql = array();
 
         $select_field_table_alias = $this->select_field->table_alias();
@@ -178,6 +199,8 @@ class ResultSet implements Iterator
 
         if ($this->limit)
             $sql[] = "\n  " . $this->limit->to_sql();
+
+        benchmark::end(__METHOD__);
 
         return implode('', $sql);
     }
@@ -259,7 +282,11 @@ class ResultSet implements Iterator
 
     function current()
     {
-        return $this->iterator->current();
+        benchmark::start(__METHOD__);
+        $current = $this->iterator->current();
+        benchmark::end(__METHOD__);
+
+        return $current;
     }
 
     function key()
@@ -269,18 +296,25 @@ class ResultSet implements Iterator
 
     function next()
     {
-        return $this->iterator->next();
+        benchmark::start(__METHOD__);
+        $next = $this->iterator->next();
+        benchmark::end(__METHOD__);
+
+        return $next;
     }
 
     function rewind()
     {
+        benchmark::start(__METHOD__);
         $table = $this->table();
         $sql = $this->to_sql();
         $params = $this->parameters();
         $this->iterator = new TableQueryIterator($table, $sql, $params);
 
         $this->iterator->rewind();
+        benchmark::end(__METHOD__);
     }
+
 
     function valid()
     {

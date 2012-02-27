@@ -23,7 +23,10 @@ class FileRepository extends Component
 
     function url($filename)
     {
-        return $this->driver->url($filename);
+        benchmark::start('FileRepository::url');
+        $url = $this->driver->url($filename);
+        benchmark::end('FileRepository::url');
+        return $url;
     }
 
     function get_file_names()

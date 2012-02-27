@@ -153,3 +153,23 @@ $.fn.destroyPlaceholder = function() {
 
     return this;
 };
+
+$('.load').entwine({
+    onmatch: function() {
+        var self = this;
+        this.trigger('loadstart');
+        $.when(this.fetchContent()).then(function(html) {
+            var newEl = $(html);
+            self.replaceWith(newEl);
+            newEl.trigger('loadend');
+        });
+    },
+    onunmatch: function() {},
+    fetchContent: function() {
+        return $.ajax({
+            url: this.data('url'),
+            type: 'get',
+            dataType: 'html'
+        });
+    }
+});

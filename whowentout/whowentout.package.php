@@ -77,6 +77,7 @@ class WhoWentOutPackage extends Package
         ));
 
         $this->database->table('profile_pictures')->create_foreign_key('user_id', 'users', 'id');
+        $this->database->table('proflie_pictures')->create_unique_index('user_id');
     }
 
     function create_networks_table()

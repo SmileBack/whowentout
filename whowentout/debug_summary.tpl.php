@@ -6,7 +6,10 @@ r::debug_panel(array(
         )),
         'database' => r::table(array(
             'rows' => benchmark::summary('database'),
-        ))
+        )),
+        'render' => r::table(array(
+            'rows' => benchmark::summary('render'),
+        )),
     ),
 ))
 ?>

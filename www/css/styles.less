@@ -291,8 +291,17 @@ input[type="submit"], button {
     left: 0;
     background-color: white;
     max-height: 375px;
-    &.collapsed .debug_body {
-        display: none;
+    .tab.selected {
+        font-weight: bold;
+    }
+    &.collapsed {
+        right: auto;
+        .debug_bar .collapse {
+            display: none;
+        }
+        .debug_body {
+            display: none;
+        }
     }
     &.expanded .debug_body {
         display: block;
@@ -385,6 +394,7 @@ td {
     text-align: center;
     font-size: 18px;
     padding: 12px;
+    color: #333;
     &.error {
         background-color: @red;
         color: white;

@@ -10,12 +10,19 @@ class DatabaseWhereFilter extends QueryPart
 
     private $unique_id;
 
+    private static function unique_field_name()
+    {
+        static $n = 0;
+        $n++;
+        return "field__$n";
+    }
+
     function __construct(DatabaseField $field, $value)
     {
         $this->field = $field;
         $this->value = $value;
-        
-        $this->unique_id = uniqid('field__');
+
+        $this->unique_id = static::unique_field_name();
     }
 
     function __clone()

@@ -5,6 +5,9 @@ require_once 'template.functions.php';
 class Display
 {
 
+    /**
+     * @var FileMetadata
+     */
     private $template_file_resource;
     private $vars = array();
 
@@ -75,6 +78,8 @@ class Display
 
     function render()
     {
+        benchmark::start($this->template_file_resource->filename, 'render');
+
         $this->apply_default_variables();
         $this->process();
 
@@ -83,7 +88,9 @@ class Display
         include( $this->template_file_resource->filepath );
         $rendered_template = ob_get_contents();
         @ob_end_clean();
-        
+
+        benchmark::end($this->template_file_resource->filename, 'render');
+
         return $rendered_template;
     }
 

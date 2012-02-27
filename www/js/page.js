@@ -124,6 +124,13 @@ whowentout.showDisabledOnPhoneDialog = function () {
     });
 };
 
+whowentout.showFlashMessage = function(text) {
+    $('#flash_message').remove();
+    $('body').append('<div id="flash_message"></div>');
+    $('#flash_message').html(text);
+    return $('#flash_message');
+};
+
 $('a.coming_soon').entwine({
     onclick: function(e) {
         e.preventDefault();
@@ -137,6 +144,12 @@ $('a.coming_soon').entwine({
         );
         dialog.setButtons('ok');
         dialog.showDialog('coming_soon');
+    }
+});
+
+$('.login_button').entwine({
+    onclick: function(e) {
+        var bar = whowentout.showFlashMessage('Logging In...');
     }
 });
 
@@ -712,7 +725,9 @@ $('.debug_panel table').entwine({
         var self = this;
         head.css('/css/jquery.datatables.css');
         head.js('/js/jquery.datatables.js', function () {
-            self.dataTable();
+            self.dataTable({
+                aaSorting: [[1, 'desc']]
+            });
         });
         this.collapse();
     },

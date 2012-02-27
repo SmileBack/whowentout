@@ -39,6 +39,12 @@ class Facebook extends BaseFacebook
     parent::__construct($config);
   }
 
+  function api()
+  {
+      $args = func_get_args();
+      return call_user_func_array(array($this, 'parent::api'), $args);
+  }
+
   protected static $kSupportedKeys =
     array('state', 'code', 'access_token', 'user_id');
 
