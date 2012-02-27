@@ -181,6 +181,7 @@ class ProfilePicture
 
     private function load_profile_picture_row()
     {
+        benchmark::start(__CLASS__ . '::' . __METHOD__);
         $this->row = $this->table->where('user_id', $this->user->id)->first();
         if (!$this->row) {
             $this->row = $this->table->create_row(array(
@@ -189,6 +190,7 @@ class ProfilePicture
                                                   ));
             $this->set_to_facebook();
         }
+        benchmark::end(__CLASS__ . '::' . __METHOD__);
     }
     
 }
