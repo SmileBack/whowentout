@@ -262,6 +262,8 @@ class ResultSet implements Iterator
         benchmark::start(__METHOD__);
         $current = $this->iterator->current();
         benchmark::end(__METHOD__);
+
+        return $current;
     }
 
     function key()
@@ -272,8 +274,10 @@ class ResultSet implements Iterator
     function next()
     {
         benchmark::start(__METHOD__);
-        return $this->iterator->next();
-        benchmark::start(__METHOD__);
+        $next = $this->iterator->next();
+        benchmark::end(__METHOD__);
+
+        return $next;
     }
 
     function rewind()
