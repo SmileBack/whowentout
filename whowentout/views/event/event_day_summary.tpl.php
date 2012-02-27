@@ -23,14 +23,21 @@
         <h1>What is EVERYONE doing <?= format::night_of($date) ?>?</h1>
 
         <?php if (!$checkin): ?>
-        <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
+            <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
+            <ul class="friends_gallery">
+            <?php for ($n = 0; $n < 4 * 3; $n++): ?>
+                <li>
+                    <?= r::profile_anonymous() ?>
+                </li>
+            <?php endfor; ?>
+            </ul>
         <?php endif; ?>
 
         <?php if ($checkin): ?>
-        <?= r::event_links(array('date' => $date)) ?>
+            <?= r::event_links(array('date' => $date)) ?>
+            <div class="event_gallery load" data-url="<?= '/day/' . $date->format('Ymd') . '/gallery/everyone' ?>"></div>
         <?php endif; ?>
 
-        <div class="event_gallery load" data-url="<?= '/day/' . $date->format('Ymd') . '/gallery/everyone' ?>"></div>
     </div>
 
 </div>
