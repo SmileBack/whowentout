@@ -6,6 +6,8 @@
         <?= r::contest_link(array('date' => $date)); ?>
     <?php endif; ?>
 
-    <div class="event_gallery"></div>
-    
+    <div class="event_gallery load"
+         data-url="<?= '/day/' . $date->format('Ymd') . '/gallery' ?>">
+    </div>
+
 </div>
