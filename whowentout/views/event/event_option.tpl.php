@@ -15,7 +15,10 @@ benchmark::end('get_invite');
 
 <div class="event_option all <?= $event->place->type ?>">
     <div class="place">
-        <?= $event->name ?> (<?= $event->place->type ?>)
+        <?= $event->name ?>
+        <?php if (true): ?>
+        (<?= $event->place->type ?>)
+        <?php endif; ?>
 
         <?php if (!empty($invite_senders)): ?>
             <div class="invited_by">

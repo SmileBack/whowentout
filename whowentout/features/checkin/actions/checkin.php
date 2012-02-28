@@ -53,7 +53,10 @@ class CheckinAction extends Action
     protected function add_event()
     {
         $user = auth()->current_user();
+
         $event_name = $_POST['event']['name'];
+        $event_place_id = $_POST['event']['place_id'];
+
         $date = @DateTime::createFromFormat('Y-m-d', $_POST['event']['date']);
 
         if (!$event_name) {
@@ -64,7 +67,7 @@ class CheckinAction extends Action
         assert($date != null);
 
         $row = db()->table('events')->create_row(array(
-            'place_id' => 1, //unknown
+            'place_id' => $event_place_id,
             'user_id' => $user->id,
             'name' => $event_name,
             'date' => $date,

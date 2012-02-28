@@ -84,9 +84,9 @@ label {
         color: @text_color;
         .vertical_gradient(@c, @d);
     }
-    &:active, &.pressed {
+    &:active, &.pressed, &.selected, &.active {
         color: @text_color;
-        .vertical_gradient(lighten(@e, 10%), lighten(@f, 10%));
+        .vertical_gradient(@e, @f);
     }
 }
 
@@ -246,6 +246,7 @@ input[type="submit"], button {
         }
         &.clicked {
             background-position: 0 @sprite_clicked_state;
+            cursor: none;
         }
     }
 }
@@ -493,21 +494,6 @@ td {
     .comma_separated;
 }
 
-.event_list_wrapper {
-    width: 100%;
-    margin-top: 15px;
-    text-align: center;
-    .switch {
-    }
-    &.loading {
-        background: url(/images/loading-message.gif) no-repeat center top;
-        > * {
-            visibility: hidden;
-        }
-    }
-}
-
-
 .event_day .date_tip {
     margin: 0 auto;
 }
@@ -536,23 +522,30 @@ td {
     }
 }
 
-.barchart {
-    height: 16px;
-    width: 100px;
-    overflow: hidden;
-    .innerbar {
-        float: left;
-        height: 100%;
-        background-color: #333;
+
+.event_picker {
+    width: 100%;
+    text-align: center;
+    .tabs {
+        li {
+            display: inline-block;
+            margin: 8px 20px;
+        }
+        a {
+            .button_style;
+            .white_button;
+            display: block;
+            width: 100px;
+        }
     }
-    span {
-        font-size: 10px;
-        font-weight: bold;
-        line-height: 16px;
-        padding-left: 10px;
-        float: left;
+    &.loading {
+        background: url(/images/loading-message.gif) no-repeat center top;
+        > * {
+            visibility: hidden;
+        }
     }
 }
+
 
 .event_list {
     @border_color: #b5b5b5;
@@ -563,32 +556,6 @@ td {
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid @border_color;
-    h1 {
-        line-height: 26px;
-        padding: 18px 0 12px 0;
-        font-size: 32px;
-        text-align: center;
-        background: url(/images/h1_bg.png) repeat-x;
-        border-bottom: 1px solid @border_color;
-        span {
-            font-size: 16px;
-            font-weight: normal;
-        }
-    }
-    .filter {
-        li {
-            display: inline-block;
-            margin: 8px;
-            padding: 8px;
-        }
-        a {
-            .button_style;
-            .white_button;
-            display: block;
-            width: 100px;
-            font-size: 16px;
-        }
-    }
     ul.events {
         height: 190px;
         overflow-y: scroll;
@@ -609,6 +576,9 @@ td {
           display: none;
       }
       &.new_event {
+          select {
+            display: none;
+          }
       }
       &.new_event .radio {
           margin: 14px 10px;
@@ -656,12 +626,6 @@ td {
           float: left;
           font-size: 12px;
       }
-    }
-    .expander {
-        text-align: center;
-        padding: 4px 0;
-        background: url(/images/h1_bg.png) repeat-x;
-        font-weight: bold;
     }
 }
 

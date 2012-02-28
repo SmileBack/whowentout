@@ -19,12 +19,15 @@ class form
         return html_element('input', $attributes);
     }
 
-    static function select($name, $options, $selected = null, $attributes = array())
+    static function dropdown($name, $options, $selected = null, $attributes = array())
     {
         $html = array();
 
         $attributes['name'] = $name;
         $html[] = html_element_open('select', $attributes);
+
+        if (!$selected)
+            $selected = key($options);
 
         foreach ($options as $value => $title) {
             $option_attributes = array('value' => $value);

@@ -49,6 +49,20 @@ class WhoWentOutApp extends FireApp
         return "events/$event->id/invite";
     }
 
+    function places_dropdown($name = 'place', $type = 'all', $selected = null)
+    {
+        $options = array();
+
+        if (is_array($type))
+            $type = implode('|', $type);
+
+        foreach ($this->database->table('places') as $place) {
+            if ($type == 'all' || preg_match('/\b(' . $type . ')\b/', $place->type))
+                $options[$place->id] = $place->name;
+        }
+        return form::dropdown($name, $options, $selected, array('class' => 'place'));
+    }
+
     function notify_admins($subject, $body)
     {
         if (environment() == 'localhost')

@@ -1,4 +1,14 @@
-<form method="post" action="/checkin" class="event_option new_event all other">
+<?php
+$classes = array('event_option', 'new_event');
+$base_types = is_array($base_type) ? $base_type : array($base_type);
+
+foreach ($base_types as &$type) {
+    $type = "$type base";
+    $classes[] = $type;
+}
+
+?>
+<form method="post" action="/checkin" class="<?= implode(' ', $classes) ?>">
 
     <?= form::hidden('event_id', 'new') ?>
 
@@ -12,6 +22,8 @@
             'title' => 'Doing something else?',
         ))
         ?>
+
+        <?= app()->places_dropdown('event[place_id]', $base_types) ?>
 
     </div>
 

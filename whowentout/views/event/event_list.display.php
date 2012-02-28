@@ -6,13 +6,36 @@ class Event_List_Display extends Display
     /* @var $checkin_engine CheckinEngine */
     private $checkin_engine;
 
+    protected $defaults = array('type' => 'all');
+
     function process()
     {
         $this->checkin_engine = build('checkin_engine');
 
         $events = $this->checkin_engine->get_events_on_date($this->date);
-        usort($events, array($this, 'compare_events'));
+
+
+        $events = array_filter($events, $this->matches_type_filter());
+        usort($events, $this->sort_events_comparision());
+
         $this->events = $events;
+    }
+
+    function matches_type_filter()
+    {
+        $type_pattern = $this->type;
+        if (is_array($type_pattern))
+            $type_pattern = implode('|', $type_pattern);
+        $callback = function($event) use($type_pattern) {
+            $type = "{$event->place->type}, all";
+            return preg_match('/\b(' . $type_pattern . ')\b/', $type) == 1;
+        };
+        return $callback;
+    }
+
+    function sort_events_comparision()
+    {
+        return array($this, 'compare_events');
     }
 
     function compare_events($event_a, $event_b)
