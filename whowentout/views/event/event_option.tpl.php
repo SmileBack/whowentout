@@ -47,7 +47,13 @@ benchmark::end('get_invite');
         <?php else: ?>
             <form method="post" action="/checkin">
                 <input type="hidden" name="event_id" value="<?= $event->id ?>" />
-                <input type="submit" class="checkin_badge" value="join" />
+
+                <?php if ($selected_event): ?>
+                    <input type="submit" class="checkin_badge" value="switch" />
+                <?php else: ?>
+                    <input type="submit" class="checkin_badge" value="join" />
+                <?php endif; ?>
+
             </form>
         <?php endif; ?>
     </div>

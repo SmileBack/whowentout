@@ -412,14 +412,25 @@ $('.event_invite :checkbox').entwine({
     }
 });
 
-$('.event_list_wrapper .switch').entwine({
-    onclick: function(e) {
-        e.preventDefault();
-        this.closest('.event_list_wrapper').find('.event_list').expand();
+$('.event_picker').entwine({
+    onmatch: function() {
+        if (this.isEventSelected()) {
+            this.find('.tabs').hide();
+        }
+    },
+    onunmatch: function() {
+    },
+    isEventSelected: function() {
+        return this.find('.event_selection').length > 0;
     }
 });
 
-$('.event_list').entwine({
+$('.event_selection .switch').entwine({
+    onclick: function(e) {
+        e.preventDefault();
+        this.closest('.event_selection').hide();
+        this.closest('.event_picker').find('.tabs').show();
+    }
 });
 
 $('.event_list :radio').entwine({
@@ -453,61 +464,8 @@ $('.event_day').entwine({
         this.find('.event_list_wrapper').addClass('loading');
         return this;
     },
-    animateOutOfPage:function (direction) {
-        var d = $.Deferred();
-
-        var width = this.outerWidth();
-        var exitMargin = direction == 'left' ? '-' + width + 'px' : width + 'px';
-
-        this.animate({marginLeft:exitMargin}, {
-            duration:250,
-            complete:function () {
-                d.resolve();
-            }
-        });
-
-        return d.promise();
-    },
-    animateOntoPage:function (direction, html) {
-        var d = $.Deferred();
-
-        var nEl = $(html);
-        var width = this.outerWidth();
-        var enterMargin = direction == 'left' ? width + 'px' : '-' + width + 'px';
-
-        nEl.css('margin-left', enterMargin);
-
-        this.replaceWith(nEl);
-        nEl.animate({marginLeft:0}, {
-            duration:125,
-            complete:function () {
-                d.resolve();
-            }
-        });
-
-        return d.promise();
-    },
     replaceHtml:function (html) {
         this.replaceWith(html);
-    },
-    replaceHtmlAnimated:function (html) {
-        var self = this;
-        var d = $.Deferred();
-
-        var width = this.outerWidth(true);
-        var nEl = $(html);
-
-        var oldDate = self.attr('data-date');
-        var newDate = $(nEl).attr('data-date');
-
-        var direction = newDate > oldDate ? 'left' : 'right';
-        $.when(this.animateOutOfPage(direction)).then(function () {
-            $.when(self.animateOntoPage(direction, html)).then(function () {
-                d.resolve();
-            });
-        });
-
-        return d.promise();
     },
     getCurrentDate:function () {
         return this.attr('data-date');
@@ -673,8 +631,8 @@ $('.debug_panel .collapse').entwine({
 
 $('.tab_panel').entwine({
     onmatch:function () {
-        var key = this.find('.tabs a:first').tabKey();
-        this.selectTab(key);
+        this._super();
+        this.selectTab(this.getSelectedTab().tabKey());
     },
     onunmatch:function () {
     },

@@ -5,6 +5,7 @@
         <li><a href="#bar_club">Bar/Club</a></li>
         <li><a href="#house_party">House Party</a></li>
         <li><a href="#other">Other</a></li>
+        <li><a href="#undecided">Undecided</a></li>
     </ul>
 
     <div class="bar_club pane">
@@ -33,5 +34,21 @@
             'type' => 'other'
         )); ?>
     </div>
+
+    <div class="undecided pane">
+        <h1>You are undecided</h1>
+        <h2>blah blha blah</h2>
+    </div>
+
+    <?php if ($selected_event): ?>
+    <div class="event_selection">
+        <?= r::profile_small(array('user' => $user)) ?>
+        <div class="event_selection_summary">
+            <h3>Going to</h3>
+            <div class="going_to"><?= $selected_event->name ?></div>
+            <a class="switch" href="#switch">Switch</a>
+        </div>
+    </div>
+    <?php endif; ?>
 
 </div>
