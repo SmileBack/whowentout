@@ -429,6 +429,14 @@ $('.event_list').entwine({
     isExpanded: function() {
         return !this.hasClass('collapsed');
     },
+    filterEvents: function(selector) {
+        if (this.isExpanded()) {
+            this.find('.event_option').not(selector).closest('li').hide();
+            this.find('.event_option').filter(selector).closest('li').show();
+        }
+
+        return this;
+    },
     expander: function() {
         return this.closest('.event_list_wrapper').find('.expander');
     },
@@ -442,6 +450,8 @@ $('.event_list').entwine({
 
         this.unselectedEvents().show();
 
+        this.removeClass('collapsed').addClass('expanded');
+
         return this;
     },
     collapse: function() {
@@ -453,6 +463,8 @@ $('.event_list').entwine({
         });
 
         this.unselectedEvents().hide();
+
+        this.removeClass('expanded').addClass('collapsed');
 
         return this;
     },
@@ -472,37 +484,11 @@ $('.event_list').entwine({
     }
 });
 
-$('.event_list .filter').entwine({
-    applyFilter:function (type) {
-        var eventList = this.closest('.event_list');
-
-        function isMatch(el, type) {
-            var parts = type.split(/\s+/);
-            console.log(parts);
-            for (var i = 0; i < parts.length; i++)
-                if (el.hasClass(parts[i]))
-                    return true;
-
-            return false;
-        }
-
-        eventList.find('.event_option').each(function () {
-            var el = $(this);
-            if (isMatch(el, type))
-                el.parent().show();
-            else
-                el.parent().hide();
-        });
-    }
-});
-
 $('.event_list .filter a').entwine({
     onclick:function (e) {
         e.preventDefault();
         var type = this.attr('href');
-        this.closest('.event_list').find('.filter').applyFilter(type);
-        this.closest('.filter').find('.selected').removeClass('selected');
-        this.addClass('selected');
+        this.closest('.event_list').filterEvents(type);
     }
 });
 

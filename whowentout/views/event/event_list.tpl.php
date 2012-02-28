@@ -12,6 +12,12 @@
             <?php endif; ?>
         </h1>
 
+        <ul class="filter">
+            <li><a href=".bar, .club">Bar/Club</a></li>
+            <li><a href=".party">House Party</a></li>
+            <li><a href=".other">Other</a></li>
+        </ul>
+
         <ul class="events">
 
             <li>

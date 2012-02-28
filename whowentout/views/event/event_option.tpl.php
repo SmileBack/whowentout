@@ -15,7 +15,7 @@ benchmark::end('get_invite');
 
 <div class="event_option all <?= $event->place->type ?>">
     <div class="place">
-        <?= $event->name ?>
+        <?= $event->name ?> (<?= $event->place->type ?>)
 
         <?php if (!empty($invite_senders)): ?>
             <div class="invited_by">
@@ -44,7 +44,7 @@ benchmark::end('get_invite');
         <?php else: ?>
             <form method="post" action="/checkin">
                 <input type="hidden" name="event_id" value="<?= $event->id ?>" />
-                <input type="submit" class="checkin_badge" value="check-in" />
+                <input type="submit" class="checkin_badge" value="join" />
             </form>
         <?php endif; ?>
     </div>

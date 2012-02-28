@@ -507,6 +507,7 @@ td {
     }
 }
 
+
 .event_day .date_tip {
     margin: 0 auto;
 }
@@ -575,20 +576,18 @@ td {
         }
     }
     .filter {
-        padding: 5px 20px;
-        width: 100%;
-        a {
+        li {
             display: inline-block;
-            text-align: center;
-            width: 75px;
-            padding: 4px 2px;
-            .border_radius(3px);
-            &.selected {
-                background-color: @primary_color;
-                color: white;
-            }
+            margin: 8px;
+            padding: 8px;
         }
-        .site_shadow;
+        a {
+            .button_style;
+            .white_button;
+            display: block;
+            width: 100px;
+            font-size: 16px;
+        }
     }
     ul.events {
         height: 190px;
