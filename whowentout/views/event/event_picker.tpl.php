@@ -5,7 +5,7 @@
     <h3>Select a category below. You can change your selection at any time.</h3>
     <?php endif; ?>
 
-    <div class="pre_event_selection">
+    <div class="pre_event_selection <?= $selected_event ? 'hidden' : '' ?>">
         <ul class="tabs">
             <li>
                 <a href="#bar_club" class="selected">

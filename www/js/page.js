@@ -461,7 +461,7 @@ $('.event_day').entwine({
         });
     },
     showLoadingMessage:function () {
-        this.find('.event_list_wrapper').addClass('loading');
+        this.find('.event_picker').addClass('loading');
         return this;
     },
     replaceHtml:function (html) {
