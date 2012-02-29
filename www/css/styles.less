@@ -560,8 +560,11 @@ td {
     }
     .undecided.pane {
         @border_color: #b5b5b5;
-        width: 520px;
+
+        width: 80%;
+        max-width: 520px;
         margin: auto;
+
         text-align: left;
         padding: 25px;
         overflow: hidden;
@@ -569,6 +572,7 @@ td {
         position: relative;
         h2 {
             float: left;
+            clear: left;
         }
         .checkin_form {
             position: absolute;
@@ -614,8 +618,11 @@ td {
 
 .event_list {
     @border_color: #b5b5b5;
-    width: 670px;
+
+    width: 94%;
+    max-width: 670px;
     margin: auto;
+
     text-align: left;
     .shadow(0.9px, 2px, 3px, 1px, #989898);
     overflow: hidden;
