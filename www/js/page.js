@@ -415,7 +415,7 @@ $('.event_invite :checkbox').entwine({
 $('.event_picker').entwine({
     onmatch: function() {
         if (this.isEventSelected()) {
-            this.find('.tabs').hide();
+            this.find('.pre_event_selection').hide();
         }
     },
     onunmatch: function() {
@@ -429,7 +429,7 @@ $('.event_selection .switch').entwine({
     onclick: function(e) {
         e.preventDefault();
         this.closest('.event_selection').hide();
-        this.closest('.event_picker').find('.tabs').show();
+        this.closest('.event_picker').find('.pre_event_selection').show();
     }
 });
 
@@ -661,9 +661,11 @@ $('.tab_panel .tabs a').entwine({
     },
     markSelected: function() {
         this.addClass('selected');
+        this.parent().addClass('selected_container');
     },
     unmarkSelected: function() {
         this.removeClass('selected');
+        this.parent().removeClass('selected_container');
     }
 });
 

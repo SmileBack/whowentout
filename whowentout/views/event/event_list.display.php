@@ -6,7 +6,11 @@ class Event_List_Display extends Display
     /* @var $checkin_engine CheckinEngine */
     private $checkin_engine;
 
-    protected $defaults = array('type' => 'all');
+    protected $defaults = array(
+        'type' => 'all',
+        'add_form' => true,
+        'notice' => false,
+    );
 
     function process()
     {

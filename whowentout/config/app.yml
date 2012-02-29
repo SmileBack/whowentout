@@ -38,6 +38,7 @@ router:
     "events/(:num)/deal": ViewDealDialog/$1
     "deal/confirm": ConfirmDeal
     "checkin": Checkin
+    "checkin/undecided": CheckinUndecided
     "checkin/explanation/(:num)": ViewCheckinExplanation/$1
     "checkin/explanation/confirm": ConfirmCheckinExplanation
     "admin": AdminView

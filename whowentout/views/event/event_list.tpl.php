@@ -1,6 +1,10 @@
+<?php if ($notice): ?>
+<p><?= $notice ?></p>
+<?php endif; ?>
 <div class="event_list <?= $selected_event ? 'event_selected collapsed' : '' ?>">
     <ul class="events">
 
+        <?php if ($add_form): ?>
         <li>
             <?=
             r::event_add_form(array(
@@ -9,6 +13,7 @@
                 ));
             ?>
         </li>
+        <?php endif; ?>
 
         <?php foreach ($events as $k => $event): ?>
         <?php $selected = ($selected_event == $event); ?>

@@ -105,6 +105,13 @@ label {
                          darken(#00678e, @darker), darken(#0078a5, @darker), darken(#00adee, @darker));
 }
 
+.light_blue_button {
+    @darker: 0%;
+    .paint_button(white, darken(#0076a3, @darker), darken(#00adee, @darker),
+                         darken(#0078a5, @darker), darken(#0095cc, @darker),
+                         darken(#00678e, @darker), darken(#0078a5, @darker), darken(#00adee, @darker));
+}
+
 .white_button {
     .paint_button(#606060, #b7b7b7, #fff, #ededed, #fff, #dcdcdc, #ededed, #fff);
     text-shadow: none;
@@ -123,7 +130,6 @@ label {
     .green_button;
     font: 14px/100% Arial, Helvetica, sans-serif;
     font-weight: bold;
-	outline: none;
 	cursor: pointer;
 	text-align: center;
 	text-decoration: none;
@@ -526,16 +532,51 @@ td {
 .event_picker {
     width: 100%;
     text-align: center;
+    h1 {
+        font-size: 32px;
+    }
+    h3 {
+        margin: 8px;
+    }
     .tabs {
         li {
             display: inline-block;
-            margin: 8px 20px;
+            margin: 8px;
+            padding-bottom: 18px;
+            margin-bottom: 4px;
         }
         a {
             .button_style;
-            .white_button;
+            .blue_button;
+            padding: 8px;
             display: block;
             width: 100px;
+            text-decoration: none;
+        }
+        .selected_container {
+            background: url(/images/arrow_down.png) no-repeat center bottom;
+        }
+    }
+    .undecided.pane {
+        @border_color: #b5b5b5;
+        width: 520px;
+        margin: auto;
+        text-align: left;
+        padding: 25px;
+        overflow: hidden;
+        .shadow(0.9px, 2px, 3px, 1px, #989898);
+        position: relative;
+        h2 {
+            float: left;
+        }
+        .checkin_form {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+        }
+        .checkin_badge {
+            .green_button;
+            padding: 13px 32px;
         }
     }
     &.loading {
@@ -548,7 +589,7 @@ td {
 
 .event_selection {
     max-width: 400px;
-    margin: auto;
+    margin: 14px auto;
     background-color: @light_color;
     border: 1px solid darken(@light_color, 20%);
     overflow: hidden;
@@ -575,9 +616,13 @@ td {
     margin: auto;
     text-align: left;
     .shadow(0.9px, 2px, 3px, 1px, #989898);
-    border-radius: 10px;
     overflow: hidden;
     border: 1px solid @border_color;
+    h3 {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #b0b0b0;
+    }
     ul.events {
         height: 190px;
         overflow-y: scroll;

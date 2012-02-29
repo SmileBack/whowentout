@@ -42,7 +42,7 @@ class CheckinAction extends Action
 
     protected function get_checkin_message($event)
     {
-        return "You have checked into $event->name.";
+        return "You have joined $event->name.";
     }
 
     protected function is_new_event()
