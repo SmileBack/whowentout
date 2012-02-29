@@ -749,8 +749,9 @@ $('.event_links a').entwine({
     onclick: function(e) {
         e.preventDefault();
         var event_id = this.attr('href');
-        $('.everyone_gallery').scrollToEvent(event_id, function() {
-            $('.everyone_gallery').selectEvent(event_id);
+        var gallery = this.closest('.pane').find('.event_gallery');
+        gallery.scrollToEvent(event_id, function() {
+            gallery.selectEvent(event_id);
         });
     }
 });
@@ -762,7 +763,7 @@ $('.invite_leaderboard .score').entwine({
     }
 });
 
-$('.everyone_gallery').entwine({
+$('.event_gallery').entwine({
     selectEvent: function(event_id) {
         this.find('.focused').removeClass('focused');
         this.find('.checkin_event_' + event_id).addClass('focused');
@@ -772,8 +773,9 @@ $('.everyone_gallery').entwine({
 
         return this;
     },
-    scrollToEvent: function(event_id, complete) {
-        $('.checkin_event_' + event_id).scrollTo(complete);
+    scrollToEvent: function(event_id, onComplete) {
+        console.log(event_id);
+        this.find('.checkin_event_' + event_id).scrollTo(onComplete);
         return this;
     }
 });

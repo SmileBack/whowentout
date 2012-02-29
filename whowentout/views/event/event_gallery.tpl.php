@@ -1,4 +1,4 @@
-<ul class="friends_gallery">
+<ul class="event_gallery">
     <?php foreach ($checkins as $checkin): ?>
 
     <li>
@@ -13,6 +13,7 @@
             'show_networks' => true,
             'hidden' => false,
             'is_friend' => isset($friends[$checkin->user->id]),
+            'class' => "checkin_event_{$checkin->event->id}",
         ))
         ?>
 
