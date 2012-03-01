@@ -3,12 +3,20 @@
 class EntourageEngine
 {
 
-    /* @var $database Databse */
+    /**
+     * @var \Database
+     */
     private $database;
 
-    function __construct(Database $database)
+    /**
+     * @var \EventDispatcher
+     */
+    private $event_dispatcher;
+
+    function __construct(Database $database, EventDispatcher $event_dispatcher)
     {
         $this->database = $database;
+        $this->event_dispatcher = $event_dispatcher;
     }
 
     function send_request($sender, $receiver)
@@ -30,7 +38,7 @@ class EntourageEngine
 
         $this->clear_cache($sender);
 
-        app()->trigger('entourage_request_sent', array(
+        $this->event_dispatcher->trigger('entourage_request_sent', array(
             'request' => $request,
         ));
 

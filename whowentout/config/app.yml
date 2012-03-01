@@ -153,6 +153,7 @@ invite_engine:
 entourage_engine:
   type: EntourageEngine
   database: database
+  event_dispatcher: event_dispatcher
 
 test_invite_engine:
   type: InviteEngine
