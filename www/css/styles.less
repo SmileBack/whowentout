@@ -377,7 +377,7 @@ input[type="submit"], button {
 
 h1 {
     font-size: 24px;
-    font-family: Helvetica, Arial;
+    font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
     color: #333;
 }
 
@@ -540,14 +540,22 @@ td {
 
 
 .event_picker {
-    width: 100%;
+    width: 80%;
     text-align: center;
-    h1 {
-        margin: 0 8px;
+    border: 1px solid #bfbfbf;
+	text-align: center;
+	margin: 15px auto;
+	padding-bottom: 15px;
+	background-color: #fafafa;
+	h1 {
+        margin: 15px 8px 0 8px;
         font-size: 32px;
     }
     h3 {
-        margin: 8px;
+        margin-top: 4px;
+		margin-bottom: 12px;
+		font-weight: normal;
+		font-size: 14px;
     }
     .tabs {
         li {
@@ -559,9 +567,11 @@ td {
         a {
             .button_style;
             .blue_button;
+			width: 120px;
             padding: 8px;
             display: block;
-            width: 100px;
+			border-radius: 0;
+			-webkit-border-radius: 0;
             text-decoration: none;
         }
         .selected_container {
@@ -635,7 +645,6 @@ td {
     margin: auto;
 
     text-align: left;
-    .shadow(0.9px, 2px, 3px, 1px, #989898);
     overflow: hidden;
     border: 1px solid @border_color;
     h3 {
@@ -647,6 +656,7 @@ td {
         height: 190px;
         overflow-y: scroll;
         overflow-x: hidden;
+		background-color: white;
         > li {
             border-bottom: 1px solid #b0b0b0;
         }
