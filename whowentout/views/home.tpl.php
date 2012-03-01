@@ -38,19 +38,23 @@
 
 <body id="home_page">
 
+    <?php if (browser::is_desktop()): ?>
+        <img src="/images/front_page_logo.png?version=27" class="front_page_logo" />
+    <?php endif; ?>
+
     <div class="home_center">
 
         <?php if (browser::is_desktop()): ?>
-        <img src="/images/home.png?version=22" />
+            <img src="/images/home_explanation.png?version=27" />
         <?php endif; ?>
 
-
         <?php if (browser::is_mobile()): ?>
-        <img src="/images/home_mobile_portrait.png?version=22" class="portrait" />
-        <img src="/images/home_mobile_landscape.png?version=22" class="landscape" />
+            <img src="/images/home_mobile_portrait.png?version=22" class="portrait" />
+            <img src="/images/home_mobile_landscape.png?version=22" class="landscape" />
         <?php endif; ?>
 
         <a href="/login" class="login_button">Login with Facebook</a>
+
     </div>
 
     <?= js() ?>

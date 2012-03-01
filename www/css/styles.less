@@ -212,17 +212,27 @@ input[type="submit"], button {
     color: white;
     overflow: hidden;
     height: 100%;
-    background: black url(/images/background.jpg) no-repeat center;
+    background: black url(/images/georgetown.jpg) no-repeat center;
     .background_size(cover);
+    .front_page_logo {
+        display: block;
+        width: 360px;
+        margin: 30px auto 0 auto;
+    }
     .home_center {
-        margin-top: 50px;
-        padding: 20px;
+        width: 1000px;
+        margin: 15px auto;
+        position: relative;
+        overflow: hidden;
         background-color: rgba(0, 0, 0, 0.75);
     }
     img {
         max-width: 100%;
     }
     .login_button {
+        position: absolute;
+        right: 50px;
+        bottom: 85px;
         text-align: center;
         display: block;
         font-size: 35px;
