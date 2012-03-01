@@ -106,9 +106,9 @@ profile_pic_repository:
   type: ImageRepository
   file_repository: profile_pic_storage
 
-ticket_repository:
+deal_ticket_images:
   type: ImageRepository
-  file_repository: ticket_storage
+  file_repository: deal_ticket_storage
 
 profile_picture_factory:
   type: ProfilePictureFactory
@@ -200,3 +200,18 @@ invite_contest_factory:
 facebook_email_linker:
   type: FacebookEmailLinker
   url: http://scwb.showoff.io/link
+
+deal_ticket_printer:
+  type: DealTicketPrinter
+  profile_picture_factory: profile_picture_factory
+
+deal_ticket_url_repository:
+  type: DealTicketUrlRepository
+  deal_ticket_printer: deal_ticket_printer
+  deal_ticket_images: deal_ticket_images
+
+deal_emailer:
+  type: DealEmailer
+  deal_ticket_printer: deal_ticket_printer
+  emailer: emailer
+

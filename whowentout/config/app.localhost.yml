@@ -17,7 +17,7 @@ profile_pic_storage:
   path: pics
   base_url: http://localhost/
 
-ticket_storage:
+deal_ticket_storage:
   type: FileRepository
   driver: local
   path: tickets

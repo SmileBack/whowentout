@@ -1,7 +1,43 @@
 <?php
 
-class DealTicketGenerator
+class DealTicketPrinter
 {
+
+    private $profile_picture_factory;
+
+    function __construct(ProfilePictureFactory $profile_picture_factory)
+    {
+        $this->profile_picture_factory = $profile_picture_factory;
+    }
+
+    /**
+     * @param $user
+     * @param $event
+     * @param string $orientation
+     * @return WideImage_Image
+     */
+    function print_deal($user, $event, $orientation = 'landscape')
+    {
+        $venue = $event->name;
+        $deal = $event->deal;
+        $date = $event->date->format('M jS');
+        $profile_picture = $this->profile_picture_factory->build($user);
+
+        $profile_picture_url = $profile_picture->url('thumb');
+
+        if ($event->deal_type == 'door')
+            $redeem_message = 'SHOW AT DOOR (21+ to drink)';
+        else
+            $redeem_message = 'SHOW TO BARTENDER (21+ to drink)';
+
+        $ticket = $this->print_info($user->first_name, $user->last_name, $profile_picture_url, $venue, $deal, $redeem_message, $date);
+
+        if ($orientation == 'portrait')
+            $ticket = $ticket->rotate(90);
+
+        return $ticket;
+    }
+
 
     /**
      * @param DatabaseRow $user
@@ -12,23 +48,17 @@ class DealTicketGenerator
      *
      * @return WideImage_Image
      */
-    function generate(DatabaseRow $user, ProfilePicture $picture, $venue, $deal, $deal_type, $date)
+    private function print_info($first_name, $last_name, $profile_pic_url, $venue, $deal, $redeem_message, $date)
     {
-        $ticket = $this->blank_ticket();
+        $ticket = $this->create_blank_ticket();
 
-        $pic = WideImage::load($picture->url('thumb'));
+        $pic = WideImage::load($profile_pic_url);
+
         $this->print_picture($ticket, $pic);
-
-        $this->print_name($ticket, $user->first_name, $user->last_name);
-
-        $this->print_deal($ticket, explode("\n", $deal));
-
+        $this->print_name($ticket, $first_name, $last_name);
+        $this->print_lines($ticket, explode("\n", $deal));
         $this->print_venue_and_date($ticket, $venue, $date);
-
-        if ($deal_type == 'door')
-            $this->print_redeem_message($ticket, 'SHOW AT DOOR (21+ to drink)');
-        elseif ($deal_type == 'bar' || true)
-            $this->print_redeem_message($ticket, 'SHOW TO BARTENDER (21+ to drink)');
+        $this->print_redeem_message($ticket, $redeem_message);
 
         return $ticket;
     }
@@ -47,7 +77,7 @@ class DealTicketGenerator
         $canvas->writeText(130, 55, $venue . ', ' . $date);
     }
 
-    private function print_deal(WideImage_Image &$ticket, array $lines)
+    private function print_lines(WideImage_Image &$ticket, array $lines)
     {
         $canvas = $ticket->getCanvas();
         $canvas->useFont($this->font_path(), 14, $ticket->allocateColor(255, 255, 255));
@@ -83,7 +113,7 @@ class DealTicketGenerator
         return $box[2] - $box[0];
     }
 
-    private function blank_ticket()
+    private function create_blank_ticket()
     {
         return WideImage::load('./images/ticket_blank.png');
     }

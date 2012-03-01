@@ -2,7 +2,7 @@
 
 class EmptyEmailerDriver extends EmailerDriver
 {
-    function send_email($recipient_name, $recipient_email, $subject, $body)
+    function send_email($recipient_name, $recipient_email, $subject, $body, $attachments = array())
     {
         // do nothing
     }

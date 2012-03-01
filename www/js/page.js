@@ -70,7 +70,6 @@ whowentout.showCheckinExplanationDialog = function(event_id) {
 whowentout.showDealDialog = function (event_id) {
     whowentout.showDialog({
         title: 'Claim Your Deal',
-        subtitle: 'You have 2 options to claim your deal',
         url: '/events/' + event_id + '/deal',
         cls: 'deal_dialog',
         onComplete: function() {

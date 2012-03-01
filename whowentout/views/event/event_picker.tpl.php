@@ -69,8 +69,13 @@
         <div class="event_selection_summary">
             <h3>Going to</h3>
             <div class="going_to"><?= $selected_event->name ?></div>
-            <a class="switch" href="#switch">switch</a>
-            <?= r::show_deal_link(array('event' => $selected_event)) ?>
+
+            <ul>
+                <li><a class="switch" href="#switch">switch</a></li>
+                <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
+                <li><?= r::event_invite_link(array('event' => $selected_event)) ?></li>
+            </ul>
+
         </div>
     </div>
     <?php endif; ?>
