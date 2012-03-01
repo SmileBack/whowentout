@@ -40,8 +40,7 @@ $job_count = $jobs->count();
         $hash = substr($job->id, 0, 5);
         $opts = (object)unserialize($job->options);
 
-        if (isset($opts->user_id))
-            $user = db()->table('users')->row($opts->user_id);
+        $user = isset($opts->user_id) ? db()->table('users')->row($opts->user_id) : null;
 
         $subject = $opts->subject;
         $body = $opts->body;
@@ -53,15 +52,15 @@ $job_count = $jobs->count();
                 <td><?= $job->status ?></td>
 
                 <td>
-                    <?= isset($user) ? "$user->first_name $user->last_name" : '-' ?>
+                    <?= $user ? "$user->first_name $user->last_name" : '-' ?>
                 </td>
 
                 <td>
-                    <?= isset($user) ? $user->facebook_id : '-' ?>
+                    <?= $user ? $user->facebook_id : '-' ?>
                 </td>
 
                 <td>
-                    <?php if (isset($user)): ?>
+                    <?php if ($user): ?>
                     <?php foreach ($user->networks->where('type', 'college') as $network): ?>
                         <span><?= $network->name ?></span>
                     <?php endforeach; ?>
@@ -71,7 +70,7 @@ $job_count = $jobs->count();
                 </td>
 
                 <td>
-                    <?php if (isset($user)): ?>
+                    <?php if ($user): ?>
                     <form method="post" action="/admin/emails/update">
                         <input type="hidden" name="user[id]" value="<?= $user->id ?>" />
                         <input type="text" name="user[email]" value="<?= $user->email ?>" />
