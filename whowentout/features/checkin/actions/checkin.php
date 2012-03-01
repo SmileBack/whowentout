@@ -33,15 +33,18 @@ class CheckinAction extends Action
             /* @var $checkin_engine CheckinEngine */
             $this->checkin_engine->checkin_user_to_event($current_user, $event);
 
-            flash::message($this->get_checkin_message($event));
+            flash::message($this->get_checkin_message($event, $current_user));
         }
 
         app()->goto_event($event);
     }
 
-    protected function get_checkin_message($event)
+    protected function get_checkin_message($event, $user)
     {
-        return "You have joined $event->name.";
+        if ($event->deal)
+            return "Your deal for $event->name will be sent to $user->email.";
+        else
+            return "You have joined $event->name.";
     }
 
     protected function is_new_event()
