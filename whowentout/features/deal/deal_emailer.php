@@ -30,7 +30,7 @@ class DealEmailer
         $ticket->saveToFile($deal_file_path);
 
         $attachments = array($deal_file_path);
-        $this->emailer->send_email($user->email, "Deal for $event->name", 'Your deal is attached.', $attachments);
+        $this->emailer->send_email('vendiddy@gmail.com', "Deal for $event->name", 'Your deal is attached.', $attachments);
 
         @unlink($deal_file_path);
     }

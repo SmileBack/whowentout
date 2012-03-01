@@ -19,7 +19,6 @@ class CheckinAction extends Action
             show_404();
 
         $event_id = $_POST['event_id'];
-        $date = DateTime::createFromFormat('Y-m-d', $_POST['date']);
 
         if ($this->is_new_event()) {
             $event = $this->add_event();
@@ -47,7 +46,7 @@ class CheckinAction extends Action
 
     protected function is_new_event()
     {
-        return $_POST['event_id'] == 'new' || $_POST['op'] == 'add';
+        return $_POST['event_id'] == 'new';
     }
 
     protected function add_event()

@@ -16,9 +16,11 @@ class EventDispatcher
     function trigger($event_name, $event_data = array())
     {
         $this->load_plugins_if_not_loaded();
+
         $e = $this->cast_event($event_name, $event_data);
         foreach ($this->plugins as $plugin_name => $plugin_instance) {
             $handler = "on_$event_name";
+
             if (method_exists($plugin_instance, $handler)) {
                 $plugin_instance->$handler($e);
             }

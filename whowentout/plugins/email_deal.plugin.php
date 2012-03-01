@@ -10,9 +10,9 @@ class EmailDealPlugin extends Plugin
 
     function on_checkin($e)
     {
-        $checkin = $e->checkin;
-
         $this->queue = build('job_queue');
+
+        $checkin = $e->checkin;
 
         $job = new EmailDealJob(array('checkin_id' => $checkin->id));
         $this->queue->add($job);

@@ -19,6 +19,7 @@ www/pics
 
 # tickets
 www/tickets
+!www/tickets/.htaccess
 
 # mr contacts data
 scripts/mrcontacts/data/*
