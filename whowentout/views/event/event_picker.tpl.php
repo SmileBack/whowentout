@@ -14,7 +14,7 @@
             </li>
             <li>
                 <a href="#house_party">
-                    House Party
+                    Parties
                 </a>
             </li>
             <li>
@@ -35,7 +35,6 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => array('bar', 'club'),
-                'notice' => 'You can switch your selection at any time.',
             )); ?>
         </div>
 
@@ -45,7 +44,6 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => 'house party',
-                'notice' => 'You can switch your selection at any time.'
             )); ?>
         </div>
 
@@ -55,7 +53,6 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => 'other',
-                'notice' => 'You can switch your selection at any time.'
             )); ?>
         </div>
 
