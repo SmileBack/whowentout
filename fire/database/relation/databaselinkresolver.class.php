@@ -10,8 +10,6 @@ class DatabaseLinkResolver
      */
     function resolve_link_path(DatabaseTable $left_table, $field_name)
     {
-        benchmark::start(__METHOD__);
-
         $path = new DatabaseLinkPath();
 
         $field_parts = explode('.', $field_name);
@@ -30,8 +28,6 @@ class DatabaseLinkResolver
                     $current_left_table = $link->right_table;
             }
         }
-
-        benchmark::end(__METHOD__);
 
         return $path;
     }
