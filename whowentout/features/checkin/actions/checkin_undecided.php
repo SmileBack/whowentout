@@ -33,8 +33,9 @@ class CheckinUndecidedAction extends Action
     function get_undecided_event(DateTime $date)
     {
         $undecided_place = $this->database->table('places')->where('type', 'undecided base')->first();
-        $undecided_event = $this->database->table('events')->where('place.id', $undecided_place->id)
-                                          ->where('date', $date)->first();
+
+        $undecided_event = $this->database->table('events')->where('place_id', $undecided_place->id)
+                                                           ->where('date', $date)->first();
 
         if (!$undecided_event) {
             $undecided_event = $this->database->table('events')->create_row(array(
