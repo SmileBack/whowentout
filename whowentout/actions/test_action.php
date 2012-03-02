@@ -10,10 +10,7 @@ class TestAction extends Action
 
     function execute()
     {
-        $this->database = db();
-
-        $today = app()->clock()->today();
-        $event = $this->get_undecided_event($today);
+        print benchmark::memory_used();
     }
 
     function email_deal($user, $event)

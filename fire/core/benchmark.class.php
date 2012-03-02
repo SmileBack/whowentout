@@ -44,6 +44,20 @@ class benchmark
         return static::benchmarker($group)->summary();
     }
 
+    public static function stats()
+    {
+        return array(
+            'memory_used' => static::memory_used()
+        );
+    }
+
+    public static function memory_used()
+    {
+        $memory_in_bytes = memory_get_peak_usage(true);
+        $memory_in_megabytes = $memory_in_bytes / 1048576;
+        return round($memory_in_megabytes, 2);
+    }
+
 }
 
 class Benchmarker

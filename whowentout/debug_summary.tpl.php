@@ -10,6 +10,7 @@ r::debug_panel(array(
         'render' => r::table(array(
             'rows' => benchmark::summary('render'),
         )),
+        'stats' => r::benchmark_stats(benchmark::stats()),
     ),
 ))
 ?>
