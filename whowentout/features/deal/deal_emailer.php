@@ -27,6 +27,7 @@ class DealEmailer
         $deal_file_path = $this->get_file_path($user, $event);
 
         $ticket = $this->deal_ticket_printer->print_deal($user, $event);
+        $ticket->resizeUp('200%');
         $ticket->saveToFile($deal_file_path);
 
         $attachments = array($deal_file_path);
