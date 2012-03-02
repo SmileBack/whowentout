@@ -13,7 +13,7 @@
     <?php endif; ?>
 
     <?php if (browser::is_desktop()): ?>
-        <h3>You can also get to your deal from your phone's web browser.</h3>
+        <h3>You can also get your deal by logging onto WhoWentOut.com on your phone's web browser.</h3>
     <?php endif; ?>
 
     <div class="buttons">
