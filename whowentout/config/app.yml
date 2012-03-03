@@ -11,6 +11,12 @@ app:
   clock: clock
   event_dispatcher: event_dispatcher
 
+js_storage:
+  type: FileRepository
+  driver: local
+  path: js.output
+  base_url: http://localhost/
+
 route_matcher:
   type: RouteMatcher
 
