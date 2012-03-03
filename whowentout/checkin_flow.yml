@@ -1,6 +1,0 @@
-invite_flow:
-  states:
-    start:
-      type: NoAction
-    invite_dialog:
-      type: ShowInviteDialog
