@@ -3,5 +3,6 @@
 class Metadata
 {
     public $type;
-    public $path;
+    public $name;
+    public $children = array();
 }
