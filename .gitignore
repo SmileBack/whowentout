@@ -21,5 +21,8 @@ www/pics
 www/tickets
 !www/tickets/.htaccess
 
+# js output
+www/js.output
+
 # mr contacts data
 scripts/mrcontacts/data/*
