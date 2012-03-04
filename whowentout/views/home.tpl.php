@@ -38,19 +38,21 @@
 
 <body id="home_page">
 
+    <?php $version = 32; ?>
+
     <?php if (browser::is_desktop()): ?>
-        <img src="/images/front_page_logo.png?version=31" class="front_page_logo" />
+        <img src="/images/front_page_logo.png?version=<?= $version ?>" class="front_page_logo" />
     <?php endif; ?>
 
     <div class="home_center">
 
         <?php if (browser::is_desktop()): ?>
-            <img src="/images/home_explanation.png?version=31" />
+            <img src="/images/home_explanation.png?version=<?= $version ?>" />
         <?php endif; ?>
 
         <?php if (browser::is_mobile()): ?>
-            <img src="/images/home_mobile_portrait.png?version=31" class="portrait" />
-            <img src="/images/home_mobile_landscape.png?version=31" class="landscape" />
+            <img src="/images/home_mobile_portrait.png?version=<?= $version ?>" class="portrait" />
+            <img src="/images/home_mobile_landscape.png?version=<?= $version ?>" class="landscape" />
         <?php endif; ?>
 
         <a href="/login" class="login_button">Login with Facebook</a>
