@@ -38,7 +38,7 @@
 
 <body id="home_page">
 
-    <?php $version = 32; ?>
+    <?php $version = 33; ?>
 
     <?php if (browser::is_desktop()): ?>
         <img src="/images/front_page_logo.png?version=<?= $version ?>" class="front_page_logo" />
