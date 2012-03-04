@@ -34,10 +34,12 @@ pusher:
 allowed_networks:
   type: Config
   data:
-    - 16777274 #maryland
-    - 16777219 #stanford
+    - 16777231 #georgetown
+    - 16777270 #gwu
 
 network_blocker:
-  type: NetworkPassThrough
+  type: NetworkBlocker
   database: database
   allowed_networks: allowed_networks
+  allowed_users: allowed_users
+

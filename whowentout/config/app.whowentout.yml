@@ -43,3 +43,4 @@ network_blocker:
   type: NetworkBlocker
   database: database
   allowed_networks: allowed_networks
+  allowed_users: allowed_users

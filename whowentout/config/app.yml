@@ -222,3 +222,13 @@ deal_emailer:
   deal_ticket_printer: deal_ticket_printer
   emailer: emailer
 
+allowed_users:
+  type: Config
+  data:
+    - 776200121 # venkat dinavahi
+    - 8100231 # dan berenholtz
+    - 507980445 # doron berenholtz
+    - 1185700827 # roy goldschmidt
+    - 1225530016 # rohan oswal
+
+

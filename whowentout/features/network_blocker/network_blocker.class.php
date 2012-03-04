@@ -7,20 +7,31 @@ class NetworkBlocker
     private $database;
 
     private $allowed_networks;
+    private $allowed_users;
 
-    function __construct(Database $database, Config $allowed_networks)
+    function __construct(Database $database, Config $allowed_networks, Config $allowed_users)
     {
         $this->database = $database;
         $this->allowed_networks = (array)$allowed_networks;
+        $this->allowed_users = (array)$allowed_users;
     }
 
     function is_blocked($user)
     {
-        if (auth()->is_admin())
+        if ($this->is_special_access_user($user))
             return false;
 
-        $networks_ids = $this->get_network_ids($user);
+        return $this->in_allowed_network($user);
+    }
 
+    function is_special_access_user($user)
+    {
+        return in_array($user->facebook_id, $this->allowed_users);
+    }
+
+    function in_allowed_network($user)
+    {
+        $networks_ids = $this->get_network_ids($user);
         $permitted_user_networks = array_intersect($this->allowed_networks, $networks_ids);
 
         return empty($permitted_user_networks);

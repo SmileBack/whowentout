@@ -10,12 +10,7 @@ class TestAction extends Action
 
     function execute()
     {
-        /* @var $storage FileRepository */
-        $storage = build('js_storage');
-
-        $storage->create('jquery.0000000001.js', 'js/jquery.js');
-
-        print $this->url();
+        apc_add('woo', 'foo');
     }
 
     function url()
