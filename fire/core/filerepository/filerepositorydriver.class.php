@@ -10,4 +10,10 @@ abstract class FileRepositoryDriver extends Driver
 
     abstract function url($filename);
 
+    function load_text($filename)
+    {
+        $text = @file_get_contents($this->url($filename));
+        return $text;
+    }
+
 }

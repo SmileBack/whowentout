@@ -29,6 +29,12 @@ class LocalFileRepositoryDriver extends FileRepositoryDriver
         return $this->base_url() . $this->filepath($filename);
     }
 
+    function load_text($filename)
+    {
+        $text = @file_get_contents($this->filepath($filename));
+        return $text;
+    }
+
     function get_file_names()
     {
         $files = array();

@@ -23,9 +23,9 @@ class FileRepository extends Component
 
     function url($filename)
     {
-        benchmark::start('FileRepository::url');
+        benchmark::start(__METHOD__);
         $url = $this->driver->url($filename);
-        benchmark::end('FileRepository::url');
+        benchmark::end(__METHOD__);
         return $url;
     }
 
@@ -52,8 +52,7 @@ class FileRepository extends Component
 
     function load_text($filename)
     {
-        $text = @file_get_contents($this->url($filename));
-        return $text;
+        return $this->driver()->load_text($filename);
     }
 
     function create_from_data($destination_filename, $data)
