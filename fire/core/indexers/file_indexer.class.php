@@ -2,31 +2,37 @@
 
 class FileIndexer extends Indexer
 {
-    function run()
+
+    function matches(Metadata $meta)
     {
-        $files = $this->scan_files($this->index->root(), true);
-        foreach ($files as $filepath) {
-            $this->index_file($filepath);
+        return $meta instanceof DirectoryMetadata;
+    }
+
+    function index(DirectoryMetadata $meta)
+    {
+        /* @var $metas Metadata */
+        $metas = array();
+
+        $files = $this->get_files($meta->directory_path);
+        foreach ($files as $directory) {
+            $metas[] = $this->get_file_metadata($directory);
         }
+
+        return $metas;
     }
 
 
-    private function index_file($filepath)
+    private function get_file_metadata($file_path)
     {
-        $root = realpath($this->index->root());
-        $filepath = realpath($filepath);
-        $resource_path = string_after_first($root, $filepath);
-        $resource_path = str_replace('\\', '/', $resource_path);
-        $resource_path = substr($resource_path, 1);
-
         $meta = new FileMetadata();
         $meta->type = 'file';
-        $meta->path = $resource_path;
-        $meta->filepath = $filepath;
-        $meta->filename = basename($filepath);
+        $meta->name = basename($file_path);
+
+        $meta->filepath = $file_path;
+        $meta->filename = $meta->name;
         $meta->extension = string_after_last('.', $meta->filename);
 
-        $this->index->set_resource_metadata($resource_path, $meta);
-        $this->index->create_alias($meta->filename, $meta);
+        return $meta;
     }
+
 }

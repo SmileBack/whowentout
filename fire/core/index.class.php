@@ -11,7 +11,7 @@ class Index
 
     private $data = array();
 
-    private $resource_types = array('directory', 'file', 'class', 'config', 'js');
+    protected $resource_types = array('directory', 'file', 'class');
 
     function __construct($root, Cache $cache)
     {
@@ -19,23 +19,11 @@ class Index
 
         $this->root = $root;
         $this->cache = $cache;
-
-        if ($this->requires_rebuild()) {
-            $this->rebuild();
-        }
-        else {
-            $this->load_from_cache();
-        }
     }
 
     function data()
     {
         return $this->data;
-    }
-
-    function root()
-    {
-        return $this->data['root'];
     }
 
     /**
@@ -98,18 +86,13 @@ class Index
     private function load_requirements()
     {
         require_once 'meta/metadata.class.php';
-        require_once 'meta/directory_metadata.class.php';
-        require_once 'meta/file_metadata.class.php';
-        require_once 'meta/class_metadata.class.php';
-        require_once 'meta/config_metadata.class.php';
-        require_once 'meta/js_metadata.class.php';
-
         require_once 'indexers/indexer.class.php';
-        require_once 'indexers/directory_indexer.class.php';
-        require_once 'indexers/file_indexer.class.php';
-        require_once 'indexers/class_indexer.class.php';
-        require_once 'indexers/config_indexer.class.php';
-        require_once 'indexers/js_indexer.class.php';
+
+        foreach ($this->resource_types as $type)
+            require_once "meta/{$type}_metadata.class.php";
+
+        foreach ($this->resource_types as $type)
+            require_once "indexers/{$type}_indexer.class.php";
     }
 
     private function save_to_cache()
@@ -123,15 +106,29 @@ class Index
         $this->data = $this->cache_get('index');
     }
 
-    private function rebuild()
+    function rebuild()
     {
-        $this->data = array(
-            'root' => realpath($this->root),
-        );
+        $this->data = array();
 
-        foreach ($this->resource_types as $type) {
-            $indexer = $this->get_indexer($type);
-            $indexer->run();
+        $this->data['root'] = $root = new DirectoryMetadata();
+        $root->type = 'directory';
+        $root->name = 'root';
+        $root->directory_path = realpath($this->root);
+
+        $unprocessed = array();
+        $unprocessed[] = $root;
+
+        while (count($unprocessed) > 0) {
+            $cur = array_pop($unprocessed);
+            foreach ($this->get_matching_indexers($cur) as $indexer) {
+                $metas = $indexer->index($cur);
+
+                foreach ($metas as $meta)
+                    $cur->children[$meta->name] = $meta;
+
+                foreach ($metas as $meta)
+                    $unprocessed[] = $meta;
+            }
         }
 
         $this->save_to_cache();
@@ -139,14 +136,32 @@ class Index
         return $this->data;
     }
 
+    private function get_matching_indexers(Metadata $meta)
+    {
+        $indexers = array();
+
+        foreach ($this->resource_types as $type) {
+            $indexer = $this->get_indexer($type);
+            if ($indexer->matches($meta))
+                $indexers[] = $indexer;
+        }
+
+        return $indexers;
+    }
+
+    private $indexers = array();
     /**
      * @param $resource_type
      * @return Indexer
      */
     private function get_indexer($resource_type)
     {
-        $class_name = $resource_type . 'indexer';
-        return new $class_name($this);
+        if (!isset($this->indexers[$resource_type])) {
+            $class_name = $resource_type . 'indexer';
+            $this->indexers[$resource_type] = new $class_name;
+        }
+
+        return $this->indexers[$resource_type];
     }
 
     function create_alias($alias, Metadata $metadata)
