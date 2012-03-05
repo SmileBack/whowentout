@@ -3,7 +3,7 @@
 class WhoWentOutPackage extends Package
 {
 
-    public $version = '0.3.5';
+    public $version = '0.3.7';
 
     function install()
     {
@@ -196,6 +196,33 @@ class WhoWentOutPackage extends Package
     function update_0_3_5()
     {
         $this->database->table('users')->create_column('facebook_profile_last_update', array('type' => 'time'));
+    }
+
+    function update_0_3_6()
+    {
+        $this->database->table('events')->create_column('count', array(
+            'type' => 'integer',
+            'default' => 0,
+        ));
+        $this->database->table('events')->create_index('count');
+
+        $this->database->execute("UPDATE events SET count = (SELECT COUNT(*) AS count
+                                    FROM checkins WHERE checkins.event_id = events.id)");
+    }
+
+    function update_0_3_7()
+    {
+        $this->database->execute('CREATE TRIGGER update_event_count_after_checkin AFTER INSERT ON checkins
+          FOR EACH ROW
+            UPDATE events
+        	 	SET count = (SELECT COUNT(*) FROM checkins WHERE checkins.event_id = events.id)
+        	 	WHERE id = NEW.event_id;');
+
+        $this->database->execute('CREATE TRIGGER update_event_count_before_switch BEFORE DELETE ON checkins
+          FOR EACH ROW
+            UPDATE events
+        	 	SET count = (SELECT (COUNT(*)-1) AS count FROM checkins WHERE checkins.event_id = events.id)
+        	 	WHERE id = OLD.event_id;');
     }
 
     function uninstall()

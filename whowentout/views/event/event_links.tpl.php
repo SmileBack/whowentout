@@ -1,9 +1,9 @@
 <ul class="event_links">
-    <?php foreach ($link_data as $l): ?>
+    <?php foreach ($events as $event): ?>
     <li>
-        <a href="<?= $l->id ?>">
-            <span class="name"><?= db()->table('events')->row($l->id)->name ?></span>
-            <span class="count">(<?= $l->count ?>)</span>
+        <a href="<?= $event->id ?>">
+            <span class="name"><?= $event->name ?></span>
+            <span class="count">(<?= $event->count ?>)</span>
         </a>
     </li>
     <?php endforeach; ?>

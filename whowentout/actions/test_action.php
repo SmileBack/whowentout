@@ -10,6 +10,7 @@ class TestAction extends Action
 
     function execute()
     {
+        db()->execute('DELIMITER ;;');
     }
 
 }
