@@ -283,6 +283,25 @@ class Schema_Tests extends PHPUnit_Framework_TestCase
         $this->assertTrue($exception_thrown, 'exception thrown when table is missing');
     }
 
+    function test_fooo()
+    {
+        $this->db->create_table('default_valued_table', array(
+            'id' => array('type' => 'id'),
+            'name' => array('type' => 'string'),
+            'age' => array('type' => 'integer', 'default' => 15),
+            'count' => array('type' => 'integer', 'default' => 0),
+            'token' => array('type' => 'integer'),
+        ));
+
+        $row = $this->db->table('default_valued_table')->create_row(array(
+            'name' => 'foo',
+        ));
+
+        $this->assertSame($row->age, 15, 'default value is applied');
+        $this->assertSame($row->count, 0, 'default value of 0 is applied');
+        $this->assertNull($row->token, 'no default value is applied');
+    }
+
     /**
      * @expectedException IdColumnMissingException
      */

@@ -12,6 +12,11 @@ class IntegerColumnType extends ColumnType
             $sql[] = 'UNSIGNED';
         }
 
+        if (isset($this->options['default'])) {
+            $default_value = $this->options['default'];
+            $sql[] = "DEFAULT '$default_value'";
+        }
+
         return implode(' ', $sql);
     }
 
