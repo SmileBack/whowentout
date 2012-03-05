@@ -7,6 +7,9 @@ class CheckinPackage extends Package
 
     function install()
     {
+        if ($this->database->has_table('checkins'))
+            return;
+        
         $this->database->create_table('checkins', array(
             'id' => array('type' => 'id'),
             'user_id' => array('type' => 'integer'),
