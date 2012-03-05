@@ -92,19 +92,19 @@ class ResultSet implements Iterator
     }
 
     /**
-     * @param  $n
+     * @param  $count
      * @return ResultSet
      */
-    function limit($n)
+    function limit($count, $offset = 0)
     {
         $set = clone $this;
-        $set->set_limit($n);
+        $set->set_limit($count, $offset);
         return $set;
     }
 
-    function set_limit($n)
+    function set_limit($count, $offset = 0)
     {
-        $this->limit = new DatabaseLimit($n);
+        $this->limit = new DatabaseLimit($count, $offset);
     }
 
     /**

@@ -35,10 +35,6 @@ class Event_Gallery_Display extends Display
             });
         }
 
-        benchmark::start('sort_checkins');
-        usort($checkins, array($this, 'checkin_sort_comparison'));
-        benchmark::end('sort_checkins');
-
         $this->checkins = $checkins;
     }
 
@@ -49,16 +45,6 @@ class Event_Gallery_Display extends Display
             $friends[$friend->id] = $friend;
         }
         return $friends;
-    }
-
-    private function checkin_sort_comparison($a, $b)
-    {
-        return $this->checkin_sort_value($b) - $this->checkin_sort_value($a);
-    }
-
-    private function checkin_sort_value($checkin)
-    {
-        return $checkin->event->count;
     }
 
 }

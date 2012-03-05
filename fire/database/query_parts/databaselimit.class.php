@@ -3,16 +3,23 @@
 class DatabaseLimit extends QueryPart
 {
 
-    private $limit;
+    public $limit;
+    public $offset;
 
-    function __construct($limit)
+    function __construct($limit, $offset)
     {
         $this->limit = $limit;
+        $this->offset = $offset;
     }
 
     function to_sql()
     {
-        return "LIMIT $this->limit";
+        $sql = "LIMIT $this->limit";
+
+        if ($this->offset)
+            $sql .= " OFFSET $this->offset";
+
+        return $sql;
     }
 
 }

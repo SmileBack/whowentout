@@ -122,7 +122,7 @@ class CheckinEngine
         return $events;
     }
 
-    function get_checkins_on_date(DateTime $date, $offset = null, $limit = null)
+    function get_checkins_on_date(DateTime $date, $offset = 0, $limit = null)
     {
         benchmark::start(__METHOD__);
 
@@ -132,6 +132,9 @@ class CheckinEngine
                                             'event.count' => 'desc',
                                             'event.id' => 'asc',
                                         ));
+
+        if ($limit)
+            $days_checkins = $days_checkins->limit($limit, $offset);
 
         benchmark::end(__METHOD__);
 
