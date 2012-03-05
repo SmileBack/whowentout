@@ -3,13 +3,13 @@
 class CheckinPackage extends Package
 {
 
-    public $version = '0.2.1';
+    public $version = '0.2.0';
 
     function install()
     {
         if ($this->database->has_table('checkins'))
             return;
-        
+
         $this->database->create_table('checkins', array(
             'id' => array('type' => 'id'),
             'user_id' => array('type' => 'integer'),
