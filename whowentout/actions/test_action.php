@@ -10,7 +10,14 @@ class TestAction extends Action
 
     function execute()
     {
-        db()->execute('DELIMITER ;;');
+        $gallery = r::event_gallery(array(
+            'user' => auth()->current_user(),
+            'date' => app()->clock()->today(),
+        ));
+
+        print r::page(array(
+            'content' => $gallery,
+        ));
     }
 
 }

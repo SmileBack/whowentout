@@ -141,10 +141,83 @@ class CheckinEngine
         return $days_checkins->to_array();
     }
 
+    /**
+     * @param DateTime $date
+     * @param object $current_user
+     * @param int $offset
+     * @param int $limit
+     * @return PdoDatabaseStatement
+     */
+    private function get_all_checkins_on_date_query(DateTime $date, $current_user, $offset = 0, $limit = 0)
+    {
+        $sql = "SELECT users.id AS user_id, first_name, last_name,
+        		events.id AS event_id, events.name AS event_name, events.date,
+        		networks.name as network_name,
+        		checkins.id AS checkin_id,
+        		user_friends.friend_id AS friend_id
+        		FROM users
+                  INNER JOIN user_networks
+                    ON users.id = user_networks.user_id
+                  INNER JOIN networks
+                  	ON user_networks.network_id = networks.id AND networks.name IN ('GWU', 'Stanford', 'Maryland')
+                  LEFT JOIN user_friends
+                    ON user_friends.user_id = :user_id AND users.id = user_friends.friend_id
+                  LEFT JOIN checkins
+                    ON users.id = checkins.user_id
+                  LEFT JOIN events
+                    ON checkins.event_id = events.id
+                  WHERE events.id IS NULL OR events.date = :date #AND last_login IS NOT NULL
+                  GROUP BY users.id
+                  ORDER BY events.count DESC, events.id ASC, checkins.time DESC";
+
+        if ($limit)
+            $sql .= " LIMIT $limit OFFSET $offset";
+
+        return $this->database->query_statement($sql, array(
+            'date' => $date->format('Y-m-d'),
+            'user_id' => $current_user->id,
+        ));
+    }
+
+    /**
+     * @param DateTime $date
+     * @param int $offset
+     * @param int $limit
+     * @return EventCheckin[]
+     */
+    function get_all_checkins_on_date(DateTime $date, $current_user, $offset = 0, $limit = 0)
+    {
+        $query = $this->get_all_checkins_on_date_query($date, $current_user, $offset, $limit);
+        $query->execute();
+        $rows = $query->fetchAll(PDO::FETCH_OBJ);
+
+        $event_checkins = array();
+        foreach ($rows as $row) {
+            $ec = new EventCheckin();
+            $ec->user = $this->database->table('users')->row($row->user_id);
+
+            if ($row->event_id)
+                $ec->event = $this->database->table('events')->row($row->event_id);
+
+            $ec->is_friend = ($row->friend_id != null);
+
+            $event_checkins[] = $ec;
+        }
+
+        return $event_checkins;
+    }
+
     function get_checkin_count($event)
     {
         $checkins = $this->get_checkins_for_event($event);
         return count($checkins);
     }
 
+}
+
+class EventCheckin
+{
+    public $user;
+    public $event = null;
+    public $is_friend = false;
 }

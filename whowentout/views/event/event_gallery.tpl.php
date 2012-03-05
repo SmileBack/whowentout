@@ -3,7 +3,7 @@
 
     <li>
         <div class="going_to">
-            <div><?= $checkin->event->name ?></div>
+            <div><?= $checkin->event ? $checkin->event->name : 'Not Sure Yet' ?></div>
         </div>
 
         <?=
@@ -12,8 +12,9 @@
             'link_to_profile' => true,
             'show_networks' => true,
             'hidden' => false,
-            'is_friend' => isset($friends[$checkin->user->id]),
-            'class' => "checkin_event_{$checkin->event->id}",
+            'is_friend' => $checkin->is_friend,
+            'class' => $checkin->event ? "checkin_event_{$checkin->event->id}" : '',
+            'show_pic' => false,
         ))
         ?>
 

@@ -10,7 +10,7 @@ class Event_Links_Display extends Display
                                              ->to_array();
 
         $this->events = array_filter($this->events, function($event) {
-            return $event->count > 0;
+            return $event->count > 0 && $event->place->type != 'undecided base';
         });
     }
 

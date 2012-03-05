@@ -9,16 +9,22 @@ class Profile_Small_Display extends Display
         'link_to_profile' => false,
         'preset' => 'thumb',
         'is_friend' => false,
+        'show_pic' => true,
         'class' => '',
     );
 
     function process()
     {
-        benchmark::start('profile_picture_url');
-        /* @var $profile_picture ProfilePicture */
-        $profile_picture = build('profile_picture', $this->user);
-        $this->profile_picture_url = $profile_picture->url($this->preset);
-        benchmark::end('profile_picture_url');
+        if ($this->show_pic) {
+            benchmark::start('profile_picture_url');
+            /* @var $profile_picture ProfilePicture */
+            $profile_picture = build('profile_picture', $this->user);
+            $this->profile_picture_url = $profile_picture->url($this->preset);
+            benchmark::end('profile_picture_url');
+        }
+        else {
+            $this->profile_picture_url = null;
+        }
     }
 
 }

@@ -6,17 +6,21 @@
         <?= img('/images/profile_anonymous.png'); ?>
     <?php else: ?>
 
+    <div class="gallery_thumb">
+
         <?php if ($link_to_profile): ?>
             <?= a_open("profile/$user->id") ?>
         <?php endif; ?>
 
-        <div class="gallery_thumb">
+        <?php if ($show_pic): ?>
             <?= img($profile_picture_url) ?>
-        </div>
+        <?php endif; ?>
 
         <?php if ($link_to_profile): ?>
             <?= a_close() ?>
         <?php endif; ?>
+
+    </div>
 
     <?php endif; ?>
 

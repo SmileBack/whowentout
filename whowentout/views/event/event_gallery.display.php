@@ -23,25 +23,15 @@ class Event_Gallery_Display extends Display
     function process()
     {
         $this->checkin = $this->checkin_engine->get_checkin_on_date($this->user, $this->date);
-        $this->checkins = $checkins = $this->checkin_engine->get_checkins_on_date($this->date);
+        $this->checkins = $checkins = $this->checkin_engine->get_all_checkins_on_date($this->date, $this->user, 0, 300);
 
-        $friends = $this->friends = $this->fetch_friends($this->user);
         if ($this->filter_friends) {
-            $checkins = array_filter($checkins, function($checkin) use ($friends) {
-                return isset($friends[$checkin->user->id]);
+            $checkins = array_filter($checkins, function($checkin) {
+                return $checkin->is_friend;
             });
         }
 
         $this->checkins = $checkins;
-    }
-
-    private function fetch_friends($user)
-    {
-        $friends = array();
-        foreach ($user->friends as $friend) {
-            $friends[$friend->id] = $friend;
-        }
-        return $friends;
     }
 
 }
