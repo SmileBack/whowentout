@@ -26,7 +26,12 @@ class CheckinPackage extends Package
 
     function update_0_2_2()
     {
-        $this->create_auto_update_count_triggers();
+        try {
+            $this->create_auto_update_count_triggers();
+        }
+        catch (Exception $e) {
+            print $e->getMessage();
+        }
     }
 
     function create_auto_update_count_triggers()
