@@ -53,7 +53,7 @@ class Event_List_Display extends Display
 
         $value += (99 - $event->priority) << 0;
 
-        $value += $this->checkin_engine->get_checkin_count($event) << 2;
+        $value += $event->count << 2;
 
         if ($event == $this->selected_event)
             $value += 1 << 19;

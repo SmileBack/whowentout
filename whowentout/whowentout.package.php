@@ -3,7 +3,7 @@
 class WhoWentOutPackage extends Package
 {
 
-    public $version = '0.3.7';
+    public $version = '0.3.6';
 
     function install()
     {
@@ -58,6 +58,7 @@ class WhoWentOutPackage extends Package
             'place_id' => array('type' => 'integer'),
             'user_id' => array('type' => 'integer'),
             'priority' => array('type' => 'integer'),
+            'count' => array('type' => 'integer', 'default' => 0),
         ));
 
         $this->database->table('events')->create_foreign_key('place_id', 'places', 'id');
@@ -77,7 +78,7 @@ class WhoWentOutPackage extends Package
         ));
 
         $this->database->table('profile_pictures')->create_foreign_key('user_id', 'users', 'id');
-        $this->database->table('proflie_pictures')->create_unique_index('user_id');
+        $this->database->table('profile_pictures')->create_unique_index('user_id');
     }
 
     function create_networks_table()
@@ -210,20 +211,7 @@ class WhoWentOutPackage extends Package
                                     FROM checkins WHERE checkins.event_id = events.id)");
     }
 
-    function update_0_3_7()
-    {
-        $this->database->execute('CREATE TRIGGER update_event_count_after_checkin AFTER INSERT ON checkins
-          FOR EACH ROW
-            UPDATE events
-        	 	SET count = (SELECT COUNT(*) FROM checkins WHERE checkins.event_id = events.id)
-        	 	WHERE id = NEW.event_id;');
 
-        $this->database->execute('CREATE TRIGGER update_event_count_before_switch BEFORE DELETE ON checkins
-          FOR EACH ROW
-            UPDATE events
-        	 	SET count = (SELECT (COUNT(*)-1) AS count FROM checkins WHERE checkins.event_id = events.id)
-        	 	WHERE id = OLD.event_id;');
-    }
 
     function uninstall()
     {

@@ -58,19 +58,7 @@ class Event_Gallery_Display extends Display
 
     private function checkin_sort_value($checkin)
     {
-        $value = 0;
-
-        if ($checkin->user == $this->user)
-            $value += 1 << 17;
-
-        if ($this->checkin && $checkin->event == $this->checkin->event)
-            $value += 1 << 16;
-
-        benchmark::start('get_checkin_count');
-        $value += $this->checkin_engine->get_checkin_count($checkin->event);
-        benchmark::end('get_checkin_count');
-
-        return $value;
+        return $checkin->event->count;
     }
 
 }
