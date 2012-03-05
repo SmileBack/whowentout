@@ -3,22 +3,32 @@
 class DatabaseOrderBy extends QueryPart
 {
 
-    /* @var $base_table DatabaseField*/
-    public $field;
+    private $orders;
 
-    private $allowed_orders = array('asc', 'desc');
-    private $order;
-
-    function __construct(DatabaseField $field, $order = 'asc')
+    function __construct(array $orders)
     {
-        $this->field = $field;
-        $this->order = strtolower($order);
-        $this->validate_order();
+        $this->orders = $orders;
     }
 
     function to_sql()
     {
-        return "ORDER BY " . $this->field->to_sql() . ' ' . $this->order;
+        $parts = array();
+        foreach ($this->orders as $order) {
+            $parts[] = $order['field']->to_sql() . ' ' . strtoupper($order['sort']);
+        }
+        return 'ORDER BY ' . implode(', ', $parts);
+    }
+
+    /**
+     * @return DatabaseField[]
+     */
+    function required_fields()
+    {
+        $fields = array();
+        foreach ($this->orders as $order) {
+            $fields[] = $order['field'];
+        }
+        return $fields;
     }
 
     /**
@@ -26,13 +36,9 @@ class DatabaseOrderBy extends QueryPart
      */
     function joins()
     {
-        return $this->field->joins();
-    }
-
-    private function validate_order()
-    {
-        if (!in_array($this->order, $this->allowed_orders))
-            throw new Exception("\$order parameter must be asc or desc");
+        $joins = array();
+        foreach ($this->orders as $order)
+            $joins = array_merge($joins, $order['field']->joins());
     }
     
 }

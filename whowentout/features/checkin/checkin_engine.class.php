@@ -122,24 +122,20 @@ class CheckinEngine
         return $events;
     }
 
-    function get_checkins_on_date(DateTime $date)
+    function get_checkins_on_date(DateTime $date, $offset = null, $limit = null)
     {
         benchmark::start(__METHOD__);
 
-        $days_checkins = array();
-
-        $events_on_date = $this->get_events_on_date($date);
-
-        foreach ($events_on_date as $cur_event) {
-            $event_checkins = $this->get_checkins_for_event($cur_event);
-            foreach ($event_checkins as $checkin) {
-                $days_checkins[] = $checkin;
-            }
-        }
+        $days_checkins = $this->database->table('checkins')
+                                        ->where('event.date', $date)
+                                        ->order_by(array(
+                                            'event.count' => 'desc',
+                                            'event.id' => 'asc',
+                                        ));
 
         benchmark::end(__METHOD__);
 
-        return $days_checkins;
+        return $days_checkins->to_array();
     }
 
     function get_checkin_count($event)

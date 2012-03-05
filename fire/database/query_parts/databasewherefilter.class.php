@@ -38,6 +38,14 @@ class DatabaseWhereFilter extends QueryPart
             return $this->to_sql_equals();
     }
 
+    /**
+     * @return DatabaseField[]
+     */
+    function required_fields()
+    {
+        return array($this->field);
+    }
+
     private function to_sql_equals()
     {
         $filter_placeholder = $this->get_filter_placeholder();

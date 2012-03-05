@@ -63,24 +63,30 @@ class ResultSet implements Iterator
 
     /**
      * @param  $field_name
-     * @param string $order
+     * @param string $sort
      * @return ResultSet
      */
-    function order_by($field_name, $order = 'asc')
+    function order_by($field_name, $sort = 'asc')
     {
         $set = clone $this;
-        $set->set_order_by($field_name, $order);
+        $set->set_order_by($field_name, $sort);
         return $set;
     }
 
-    function set_order_by($field_name, $order = 'asc')
+    function set_order_by($field_name, $sort = 'asc')
     {
         benchmark::start(__METHOD__);
 
         $table = $this->select_field->column()->table();
+        $fields = is_string($field_name) ? array($field_name => $sort) : $field_name;
 
-        $field = new DatabaseField($table, $field_name);
-        $this->order_by = new DatabaseOrderBy($field, $order);
+        $orders = array();
+        foreach ($fields as $field_name => $sort) {
+            $field = new DatabaseField($table, $field_name);
+            $orders[] = array('field' => $field, 'sort' => $sort);
+        }
+
+        $this->order_by = new DatabaseOrderBy($orders);
 
         benchmark::end(__METHOD__);
     }
@@ -104,18 +110,17 @@ class ResultSet implements Iterator
     /**
      * @return DatabaseField[]
      */
-    function get_required_fields()
+    function required_fields()
     {
         $fields = array();
 
         $fields[] = $this->select_field;
 
-        foreach ($this->filters as $filter) {
-            $fields[] = $filter->field;
-        }
+        foreach ($this->filters as $filter)
+            $fields = array_merge($fields, $filter->required_fields());
 
         if ($this->order_by)
-            $fields[] = $this->order_by->field;
+            $fields = array_merge($fields, $this->order_by->required_fields());
 
         return $fields;
     }
@@ -127,7 +132,7 @@ class ResultSet implements Iterator
     {
         $links = array();
 
-        foreach ($this->get_required_fields() as $field) {
+        foreach ($this->required_fields() as $field) {
             $current_path = array();
             /* @var $link DatabaseTableLink */
             foreach ($field->link_path->links as $link) {
@@ -152,7 +157,7 @@ class ResultSet implements Iterator
 
         $currently_joined_tables = array();
 
-        foreach ($this->get_required_fields() as $field) {
+        foreach ($this->required_fields() as $field) {
             $right_table_alias = $this->select_field->table_alias();
             /* @var $link DatabaseTableLink */
             foreach ($field->link_path->links as $link) {

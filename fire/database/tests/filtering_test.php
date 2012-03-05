@@ -85,6 +85,12 @@ class Filtering_Test extends PHPUnit_Framework_TestCase
             'purchased' => new DateTime('2009-12-07'),
             'type' => 'chemical',
         ));
+
+        $this->db->create_table('dates', array(
+            'id' => array('type' => 'id'),
+            'year' => array('type' => 'integer'),
+            'month' => array('type' => 'integer'),
+        ));
     }
 
 
@@ -188,6 +194,32 @@ class Filtering_Test extends PHPUnit_Framework_TestCase
         sort($result);
 
         $this->assertEquals('celery,kiwi', implode(',', $result));
+    }
+
+    function test_multiple_order_by()
+    {
+        $dates_table = $this->db->table('dates');
+
+        $dates_table->create_row(array('year' => 2012, 'month' => 9));
+        $dates_table->create_row(array('year' => 2010, 'month' => 8));
+        $dates_table->create_row(array('year' => 2012, 'month' => 7));
+        $dates_table->create_row(array('year' => 2009, 'month' => 12));
+
+        $dates = $dates_table->order_by(array('year' => 'asc', 'month' => 'asc'))->to_array();
+        $this->assertEquals(2009, $dates[0]->year);
+        $this->assertEquals(2010, $dates[1]->year);
+        $this->assertEquals(2012, $dates[2]->year);
+        $this->assertEquals(7, $dates[2]->month);
+        $this->assertEquals(2012, $dates[3]->year);
+        $this->assertEquals(9, $dates[3]->month);
+
+        $dates = $dates_table->order_by(array('year' => 'asc', 'month' => 'desc'))->to_array();
+        $this->assertEquals(2009, $dates[0]->year);
+        $this->assertEquals(2010, $dates[1]->year);
+        $this->assertEquals(2012, $dates[2]->year);
+        $this->assertEquals(9, $dates[2]->month);
+        $this->assertEquals(2012, $dates[3]->year);
+        $this->assertEquals(7, $dates[3]->month);
     }
 
 }
