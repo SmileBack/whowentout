@@ -23,12 +23,9 @@ class Event_Gallery_Display extends Display
     function process()
     {
         $this->checkin = $this->checkin_engine->get_checkin_on_date($this->user, $this->date);
+        $this->checkins = $checkins = $this->checkin_engine->get_checkins_on_date($this->date);
 
         $friends = $this->friends = $this->fetch_friends($this->user);
-        $checkins = $this->checkin_engine->get_checkins_on_date($this->date);
-
-        $this->checkins = $checkins;
-
         if ($this->filter_friends) {
             $checkins = array_filter($checkins, function($checkin) use ($friends) {
                 return isset($friends[$checkin->user->id]);
