@@ -3,7 +3,7 @@
 class CheckinPackage extends Package
 {
 
-    public $version = '0.2.0';
+    public $version = '0.2.2';
 
     function install()
     {
@@ -24,7 +24,7 @@ class CheckinPackage extends Package
         $this->create_auto_update_count_triggers();
     }
 
-    function update_0_2_1()
+    function update_0_2_2()
     {
         $this->create_auto_update_count_triggers();
     }
