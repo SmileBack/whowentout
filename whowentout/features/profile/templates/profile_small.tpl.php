@@ -12,9 +12,13 @@
             <?= a_open("profile/$user->id") ?>
         <?php endif; ?>
 
-        <?php if ($show_pic): ?>
-            <?= img($profile_picture_url) ?>
-        <?php endif; ?>
+        <?=
+            img($profile_picture_url, array(
+                'data-user_id' => $user->id,
+                'class' => ($defer_load ? 'img_load' : 'img_loaded')
+                           . " profile_picture_{$user->id}",
+            ))
+        ?>
 
         <?php if ($link_to_profile): ?>
             <?= a_close() ?>

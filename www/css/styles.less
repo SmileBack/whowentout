@@ -955,6 +955,9 @@ section.entourage {
     background-color: white;
     position: relative;
     .transition(background-color 500ms ease-in);
+    &.seen {
+        //background-color: #caff70;
+    }
     .profile_badge {
         .note;
         position: absolute;
@@ -992,6 +995,7 @@ section.entourage {
 .gallery_thumb {
     .thumb(105px, 140px);
     margin: auto;
+    background: url(/images/spinner.gif) no-repeat center;
 }
 
 .dialog.invite_dialog {

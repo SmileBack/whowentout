@@ -99,6 +99,21 @@ $.fn.hiddenDimensions = function (includeMargin) {
 	};
 })(jQuery);
 
+$.fn.collect = function(fn) {
+    var values = [];
+
+    if (typeof fn == 'string') {
+        var prop = fn;
+        fn = function() { return this.attr(prop); };
+    }
+
+    $(this).each(function() {
+        var val = fn.call($(this));
+        values.push(val);
+    });
+    return values;
+};
+
 (function($) {
     $.fn.allCss = function(){
         var dom = this.get(0);
@@ -173,3 +188,5 @@ $('.load').entwine({
         });
     }
 });
+
+

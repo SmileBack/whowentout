@@ -3,21 +3,24 @@
 class TestAction extends Action
 {
 
-    /**
-     * @var Database
-     */
-    private $database;
-
     function execute()
     {
-        $gallery = r::event_gallery(array(
-            'user' => auth()->current_user(),
-            'date' => app()->clock()->today(),
-        ));
+        $user_ids = range(8250, 8270);
+        $urls = $this->get_profile_picture_urls($user_ids);
 
-        print r::page(array(
-            'content' => $gallery,
-        ));
+        krumo::dump($urls);
+    }
+
+    function get_profile_picture_urls($user_ids = array())
+    {
+        $urls = array();
+        foreach ($user_ids as $id) {
+            $user = db()->table('users')->row($id);
+            $profile_picture = build('profile_picture', $user);
+            $url = $profile_picture->url('normal');
+            $urls[$id] = $url;
+        }
+        return $urls;
     }
 
 }

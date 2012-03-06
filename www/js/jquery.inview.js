@@ -11,7 +11,7 @@
 
     function updateInViewForEl(el, viewportBox, triggerEvent) {
         var wasInView = el.data('inView') || false;
-        var isInView = el.getBox().overlaps(viewportBox);
+        var isInView = el.getBox().overlaps(viewportBox) && el.is(':visible');
 
         el.data('inView', isInView);
 

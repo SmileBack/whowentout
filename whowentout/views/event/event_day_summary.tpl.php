@@ -11,7 +11,6 @@
         <li><a href="#friends">Friends</a></li>
     </ul>
 
-
     <div class="friends pane">
         <?php if ($checkin): ?>
         <h1>What are YOUR FRIENDS doing <?= format::night_of($date) ?>?</h1>

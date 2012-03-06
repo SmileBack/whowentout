@@ -39,6 +39,7 @@ router:
     "profile/picture/facebook": SetProfilePictureToFacebook
     "profile/picture/upload": UploadProfilePicture
     "profile/picture/crop": CropProfilePicture
+    "profile/urls": GetProfilePictureUrls
     "events/(:num)/invite": ViewInviteDialog/$1
     "events/(:num)/invite/submit": SendInvites
     "events/(:num)/deal": ViewDealDialog/$1

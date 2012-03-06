@@ -1,4 +1,4 @@
-<ul class="event_gallery">
+<ul class="gallery">
     <?php foreach ($checkins as $checkin): ?>
 
     <li>
@@ -13,8 +13,9 @@
             'show_networks' => true,
             'hidden' => false,
             'is_friend' => $checkin->is_friend,
-            'class' => $checkin->event ? "checkin_event_{$checkin->event->id}" : '',
-            'show_pic' => false,
+            'class' => ($checkin->event ? "checkin_event_{$checkin->event->id}" : '')
+                     . " checkin_user_{$checkin->user->id}",
+            'defer_load' => true,
         ))
         ?>
 

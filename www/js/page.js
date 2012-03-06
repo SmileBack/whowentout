@@ -130,10 +130,25 @@ whowentout.showFlashMessage = function(text) {
     return $('#flash_message');
 };
 
+whowentout.getProfilePictureUrls = function(user_ids) {
+    var dfd = $.Deferred();
+
+    $.ajax({
+        url: '/profile/urls',
+        type: 'get',
+        dataType: 'json',
+        data: {user_ids: user_ids},
+        success: function(response) {
+            dfd.resolve(response.urls);
+        }
+    });
+
+    return dfd.promise();
+};
+
 $('a.coming_soon').entwine({
     onclick: function(e) {
         e.preventDefault();
-        console.log('coming soon click');
         whowentout.initDialog();
         dialog.title('Coming Soon');
         dialog.message('<p>Coming soon, along with other features!</p>'
@@ -748,7 +763,7 @@ $('.event_links a').entwine({
     onclick: function(e) {
         e.preventDefault();
         var event_id = this.attr('href');
-        var gallery = this.closest('.pane').find('.event_gallery');
+        var gallery = this.closest('.pane').find('.gallery');
         gallery.scrollToEvent(event_id, function() {
             gallery.selectEvent(event_id);
         });
@@ -759,23 +774,6 @@ $('.invite_leaderboard .score').entwine({
     onclick: function(e) {
         e.preventDefault();
         this.closest('li').find('.people').slideToggle();
-    }
-});
-
-$('.event_gallery').entwine({
-    selectEvent: function(event_id) {
-        this.find('.focused').removeClass('focused');
-        this.find('.checkin_event_' + event_id).addClass('focused');
-
-        $('.event_links a.selected').removeClass('selected');
-        $('.event_links a[href=' + event_id + ']').addClass('selected');
-
-        return this;
-    },
-    scrollToEvent: function(event_id, onComplete) {
-        console.log(event_id);
-        this.find('.checkin_event_' + event_id).scrollTo(onComplete);
-        return this;
     }
 });
 
@@ -800,6 +798,106 @@ $('#events_date_selector').entwine({
     }
 });
 
+$('.gallery').entwine({
+    onmatch: function() {
+        this.bindWindowScrollListener();
+    },
+    onunmatch: function() {
+    },
+    onitemsenteredview: function(e) {
+        e.items.find('.profile_small').addClass('seen');
+        this.loadProfilePictures(e.items);
+    },
+    loadProfilePictures: function(items) {
+        var userIds = items.find('.img_load')
+                           .removeClass('img_load')
+                           .collect(function() {
+            return this.data('user_id');
+        });
+
+        var pUrls = whowentout.getProfilePictureUrls(userIds);
+        $.when(pUrls).then(function(urls) {
+            $.each(urls, function(user_id, url) {
+                var profilePicture = $('.profile_picture_' + user_id);
+                profilePicture.attr('src', url);
+            });
+        });
+    },
+    bindWindowScrollListener: function() {
+        var self = this;
+        var onscroll = _.debounce(function() {
+            if (!self.is(':visible'))
+                return;
+            self.trigger({
+                type: 'itemsenteredview',
+                items: self.getItemsInView()
+            });
+        }, 250);
+        $(window).bind('scroll', onscroll);
+    },
+    unbindWindowScrollListerner: function() {
+        // @todo
+    },
+    getItemsInView: function() {
+        var start = this.getFirstVisibleItemData();
+        var end = this.getLastVisibleItemData();
+
+        if (!start || !end)
+            return $();
+
+        var extra = (end.index - start.index + 1);
+        extra = 0;
+
+        return this.find('> li').slice(start.index - extra, end.index + 1 + extra);
+    },
+    getFirstVisibleItemData: function() {
+        var centers = this.getAllPoints();
+        var viewport = $('body').getBox();
+
+        for (var i = 0; i < centers.length; i++)
+            if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
+                return {index: i, top: centers[i]};
+
+        return null;
+    },
+    getLastVisibleItemData: function() {
+        var centers = this.getAllPoints();
+        var viewport = $('body').getBox();
+
+        for (var i = centers.length - 1; i >= 0; i--)
+            if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
+                return {index: i, top: centers[i]};
+
+        return null;
+    },
+    getAllPoints: function() {
+        if (!this.is(':visible'))
+            return [];
+
+        if (this.data('centers'))
+            return this.data('centers');
+
+        var centers = this.find('> li').collect(function() {
+            return this.getBox().c.top;
+        });
+        this.data('centers', centers);
+
+        return this.data('centers');
+    },
+    selectEvent: function(event_id) {
+        this.find('.focused').removeClass('focused');
+        this.find('.checkin_event_' + event_id).addClass('focused');
+
+        $('.event_links a.selected').removeClass('selected');
+        $('.event_links a[href=' + event_id + ']').addClass('selected');
+
+        return this;
+    },
+    scrollToEvent: function(event_id, onComplete) {
+        this.find('.checkin_event_' + event_id).scrollTo(onComplete);
+        return this;
+    }
+});
 
 $.fn.stick = function() {
     var ph = this.createPlaceholder();
