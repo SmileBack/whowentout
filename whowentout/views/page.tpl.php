@@ -44,7 +44,11 @@
 
     <a class="logo" href="/"><img src="/images/logo.transparent.png" class="logo_transparent"/></a>
 	
-	<img src="/images/calendar2.png" class="calendar2"/>
+	<div class="calendar2">
+		<p>Tuesday, March 6th</p>
+		<img src="/images/calendar2.png"/></br></br>
+		<img src="/images/AmyProfile.png" width="125px"/>
+	</div>
 	
     <div class="tabs">
 

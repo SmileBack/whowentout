@@ -4,7 +4,7 @@
 @selected_item_color: #F9EDBE;
 @yellow: #ffcc66;
 @red: #ff6a6a;
-@sidebar_width: 260px;
+@sidebar_width: 235px;
 
 @import 'elements.0000000020.less';
 
@@ -607,18 +607,22 @@ td {
     .undecided.pane {
         @border_color: #b5b5b5;
 
-        width: 80%;
-        max-width: 520px;
+        width: 100%;
+        max-width: 595px;
         margin: auto;
+		margin-top: 8px;
+		margin-bottom: 8px;
+		background-color: white;
 
         text-align: left;
         padding: 25px;
         overflow: hidden;
-        .shadow(0.9px, 2px, 3px, 1px, #989898);
         position: relative;
+		border: 1px solid #b5b5b5;
         h2 {
             float: left;
             clear: left;
+			margin-left: 10px;
         }
         .checkin_form {
             position: absolute;
@@ -681,7 +685,7 @@ td {
         border-bottom: 1px solid #b0b0b0;
     }
     ul.events {
-        height: 190px;
+        height: 152px;
         overflow-y: scroll;
         overflow-x: hidden;
 		background-color: white;
@@ -1271,9 +1275,11 @@ section.entourage {
 }
 
 .logo_transparent {
-	width:230px;
+	width:200px;
 }
 
 .calendar2{
-	position: absolute; left:1200px; top:0px;
+	position: absolute; left:1170px; top:40px;
+	color: white;
+	font-size: 14px;
 }
