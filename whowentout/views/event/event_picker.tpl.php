@@ -6,29 +6,38 @@
     <?php endif; ?>
 
     <div class="pre_event_selection <?= $selected_event ? 'hidden' : '' ?>">
-        <ul class="tabs">
-            <li>
-                <a href="#bar_club" class="selected">
-                    Bar/Club
-                </a>
-            </li>
-            <li>
-                <a href="#house_party">
-                    Parties
-                </a>
-            </li>
-            <li>
-                <a href="#other">
-                    Other
-                </a>
-            </li>
-            <li>
-                <a href="#undecided">
-                    Not Sure Yet
-                </a>
-            </li>
-        </ul>
-
+       
+			<ul class="tabs">
+	            <li>
+	                <a href="#bar_club" class="selected">
+	                    Bar/Club	
+	                </a>
+					<div class="arrow"></div>
+	            </li>
+	            <li>
+	                <a href="#house_party">
+	                    Parties
+	                </a>
+					<div class="arrow"></div>
+	            </li>
+	            <li>
+	                <a href="#other">
+	                    Other
+	                </a>
+					<div class="arrow"></div>
+	            </li>
+	            <li>
+	                <a href="#undecided">
+	                    Not Sure Yet
+	                </a>
+					<div class="arrow"></div>
+	            </li>
+	        </ul>
+		
+		<div class="explanation">
+			<p><em>Bar/Club</em>: <strong>Select the bar/club you are thinking of going to. You can change your selection at any time.</strong></p>
+		</div>
+		
         <div class="bar_club pane">
             <?= r::event_list(array(
                 'date' => $date,

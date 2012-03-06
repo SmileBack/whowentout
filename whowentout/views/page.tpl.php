@@ -42,8 +42,10 @@
 
 <nav id="nav">
 
-    <a class="logo" href="/"><img src="/images/logo.transparent.png"/></a>
-
+    <a class="logo" href="/"><img src="/images/logo.transparent.png" class="logo_transparent"/></a>
+	
+	<img src="/images/calendar2.png" class="calendar2"/>
+	
     <div class="tabs">
 
         <?= a('day', 'Parties', array('class' => 'events_link')) ?>
