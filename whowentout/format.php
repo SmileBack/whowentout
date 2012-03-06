@@ -82,4 +82,11 @@ class format
         return Inflect::pluralize_if(count($names), 'friend');
     }
 
+    public static function truncate($string, $max_length = 12)
+    {
+        return strlen($string) > $max_length
+                               ? substr($string, 0, $max_length) . '...'
+                               : $string;
+    }
+
 }

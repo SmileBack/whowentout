@@ -43,6 +43,7 @@ router:
     "events/(:num)/invite": ViewInviteDialog/$1
     "events/(:num)/invite/submit": SendInvites
     "events/(:num)/deal": ViewDealDialog/$1
+    "invite/to": InviteTo
     "deal/confirm": ConfirmDeal
     "checkin": Checkin
     "checkin/undecided": CheckinUndecided

@@ -96,6 +96,12 @@ function factory($environment = null)
     return $_factories[$environment];
 }
 
+/**
+ * @param $item_name
+ * @param null $param1
+ * @param null $param2
+ * @return object
+ */
 function build($item_name, $param1 = null, $param2 = null)
 {
     return call_user_func_array(array(factory(), 'build'), func_get_args());

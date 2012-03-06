@@ -20,6 +20,8 @@
         ))
         ?>
 
+        <?= r::invite_to_form(array('user' => $checkin->user, 'event' => $selected_event)) ?>
+
     </li>
     <?php endforeach; ?>
 

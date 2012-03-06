@@ -221,4 +221,10 @@ class InviteEngine_Tests extends PHPUnit_Framework_TestCase
         $this->assertEquals('accepted', $ven_invite->status);
     }
 
+    function test_user_cant_invite_himself()
+    {
+        $this->invite_engine->send_invite($this->shadowroom_event, $this->venkat, $this->venkat);
+        $this->assertFalse($this->invite_engine->is_invited($this->shadowroom_event, $this->venkat));
+    }
+
 }

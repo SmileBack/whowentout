@@ -801,6 +801,7 @@ $('#events_date_selector').entwine({
 $('.gallery').entwine({
     onmatch: function() {
         this.bindWindowScrollListener();
+        this.bindWindowResizeListener();
     },
     onunmatch: function() {
     },
@@ -837,6 +838,12 @@ $('.gallery').entwine({
     },
     unbindWindowScrollListerner: function() {
         // @todo
+    },
+    bindWindowResizeListener: function() {
+        var self = this;
+        var onresize = _.debounce(function() {
+            self.removeData('centers');
+        }, 500);
     },
     getItemsInView: function() {
         var start = this.getFirstVisibleItemData();
@@ -896,6 +903,23 @@ $('.gallery').entwine({
     scrollToEvent: function(event_id, onComplete) {
         this.find('.checkin_event_' + event_id).scrollTo(onComplete);
         return this;
+    }
+});
+
+$('.invite_to_form').entwine({
+    onsubmit: function(e) {
+        e.preventDefault();
+        var data = this.serialize();
+        var self = this;
+        $.ajax({
+            type: this.attr('method'),
+            dataType: 'json',
+            url: this.attr('action'),
+            data: this.serialize(),
+            success: function(response) {
+                self.replaceWith(response.invite_to_form);
+            }
+        });
     }
 });
 

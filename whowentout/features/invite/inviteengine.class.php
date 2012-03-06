@@ -43,6 +43,9 @@ class InviteEngine
 
     function send_invite($event, $sender, $receiver)
     {
+        if ($sender == $receiver)
+            return;
+
         if ($this->invite_is_sent($event, $sender, $receiver))
             return;
 
