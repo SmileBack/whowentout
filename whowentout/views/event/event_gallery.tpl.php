@@ -1,4 +1,5 @@
 <ul class="gallery">
+    <?php $n = 1; ?>
     <?php foreach ($checkins as $checkin): ?>
 
     <li>
@@ -15,7 +16,7 @@
             'is_friend' => $checkin->is_friend,
             'class' => ($checkin->event ? "checkin_event_{$checkin->event->id}" : '')
                      . " checkin_user_{$checkin->user->id}",
-            'defer_load' => true,
+            'defer_load' => $n++ > 8,
         ))
         ?>
 
