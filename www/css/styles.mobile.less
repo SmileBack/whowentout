@@ -188,6 +188,42 @@ h1 {
     margin: 0;
 }
 
+.dialog.invite_dialog {
+    fieldset > ul > li {
+        overflow: hidden;
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        &.selected {
+            background-image: url(/images/check.png?version=3);
+            background-repeat: no-repeat;
+            background-position: center right;
+        }
+    }
+    label {
+        display: block;
+        overflow: hidden;
+    }
+    .user_thumb {
+        overflow: hidden;
+        float: left;
+        .thumb(50px, 50px);
+        margin: 8px;
+    }
+    .user_first_name, .user_last_name {
+        float: left;
+        margin: 8px 0px 8px 12px;
+    }
+    .profile_networks {
+        float: left;
+        display: none;
+    }
+    input {
+        display: none;
+    }
+}
+
 .deal_popup {
     padding: 0;
     h1, h2, h3, em, .phone_number_field, p, .edit_pic_link {
