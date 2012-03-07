@@ -1,6 +1,5 @@
 //= require jquery.js
 //= require jquery.entwine.js
-//= require jquery.position.js
 //= require underscore.js
 
 $('#mask').entwine({
@@ -31,10 +30,9 @@ jQuery(function ($) {
 
 $.dialog = {
     create:function (options) {
-        var defaults = {
-            expandToViewport: false
-        };
-        options = $.extend({}, defaults, options);
+        _.defaults(options, {
+            refreshPosition: true
+        });
 
         var d = $('<div class="dialog"> '
                 + '<h1></h1>'
@@ -44,16 +42,10 @@ $.dialog = {
                 + '</div>');
         $('body').append(d);
 
-        d.anchor('viewport', 'c'); //keeps the dialog box in the center
+        d.data('dialog.options', options);
 
-        var refresh_position = function() {
-            d.refreshPosition();
-        };
-        refresh_position = _.debounce(refresh_position, 100);
-        setInterval(refresh_position, 250);
-        $(window).bind('resize', function() {
-            setTimeout(refresh_position, 250);
-        });
+        if (d.data('dialog.options').refreshPosition)
+            d.beginRefreshPosition();
 
         return d;
     },
@@ -210,13 +202,26 @@ $('.dialog').entwine({
 
         return actionCallback.call(this, dialogData);
     },
-    expandToViewport: function() {
-        var box = $('body').getBox();
+    refreshPosition: function() {
+        if (!this.data('dialog.options').refreshPosition)
+            return this;
+
         this.css({
-            left: 0,
-            top: 0,
-            width: box.width,
-            height: box.height
+            marginLeft: '-' + (this.outerWidth() / 2) + 'px',
+            marginTop: '-' + (this.outerHeight() / 2) + 'px'
+        });
+        return this;
+    },
+    beginRefreshPosition: function() {
+        var self = this;
+        var refresh_position = function() {
+            self.refreshPosition();
+        };
+        refresh_position = _.debounce(refresh_position, 100);
+        setInterval(refresh_position, 250);
+
+        $(window).bind('resize', function() {
+            setTimeout(refresh_position, 250);
         });
     }
 });

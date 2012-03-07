@@ -32,6 +32,7 @@ class ProfilePicture
     {
         benchmark::start('ProfilePicture::url');
         $version = $this->row->version;
+
         if (string_starts_with('facebook.', $size)) {
             $type = string_after_first('facebook.', $size);
             $url = $this->get_facebook_image_url($this->user, $type);

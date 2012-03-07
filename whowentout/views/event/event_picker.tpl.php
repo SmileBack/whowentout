@@ -70,7 +70,11 @@
             <ul>
                 <li><a class="switch" href="#switch">switch</a></li>
                 <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
+
+                <?php if ($selected_event->place->type != 'undecided base'): ?>
                 <li><?= r::event_invite_link(array('event' => $selected_event)) ?></li>
+                <?php endif; ?>
+
             </ul>
 
         </div>

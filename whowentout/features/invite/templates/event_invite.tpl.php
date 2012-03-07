@@ -9,7 +9,7 @@
 <form class="event_invite invite" method="post" action="/events/<?= $event->id ?>/invite/submit">
     <input type="hidden" name="event_id" value="<?= $event->id ?>" />
 
-    <fieldset>
+    <fieldset class="friends">
 
     <input type="text" class="search inline_label" title="Type a friend's name" />
 

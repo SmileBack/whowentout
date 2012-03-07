@@ -36,13 +36,7 @@ benchmark::end('get_invite');
     </div>
 
     <div class="badge">
-        <?php if ($is_selected && browser::is_desktop()): ?>
-        <?= r::event_invite_link(array('event' => $event)) ?>
-        <?php endif; ?>
-
-        <?php if ($is_selected && $event->deal): ?>
-            <?= r::show_deal_link(array('event' => $event)) ?>
-        <?php elseif ($is_selected && !$event->deal): ?>
+        <?php if ($is_selected): ?>
             <div class="attending_badge pressed">attending</div>
         <?php else: ?>
             <form method="post" action="/checkin">

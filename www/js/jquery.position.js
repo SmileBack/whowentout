@@ -332,6 +332,7 @@ $.fn.applyPosition = function (target, options) {
 };
 
 $.fn.anchor = function (target, points) {
+    console.log('anchor');console.log(this);
     if (target === undefined && points === undefined) {
         if (this.data('anchor') == null)
             this.data('anchor', {

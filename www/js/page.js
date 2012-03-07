@@ -26,7 +26,9 @@ var whowentout = window.whowentout = {};
 
 whowentout.initDialog = function () {
     if (!window.dialog) {
-        var options = {};
+        var options = {
+            refreshPosition: $('body').hasClass('desktop')
+        };
         window.dialog = $.dialog.create(options);
     }
 };
@@ -891,14 +893,16 @@ $('#events_date_selector').entwine({
             }, 250);
             $(window).bind('scroll', onscroll);
         },
-        unbindWindowScrollListerner: function() {
+        unbindWindowScrollListener: function() {
             // @todo
         },
         bindWindowResizeListener: function() {
             var self = this;
             var onresize = _.debounce(function() {
                 self.removeData('centers');
+                $(window).trigger('scroll');
             }, 500);
+            $(window).bind('resize', onresize);
         },
         getItemsInView: function() {
             var start = this.getFirstVisibleItemData();

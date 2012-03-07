@@ -4,6 +4,10 @@
 
 @import 'elements.0000000001.less';
 
+h1 {
+    font-size: 18px;
+}
+
 #home_page .home_center {
     margin: 0;
     padding: 0;
@@ -97,9 +101,6 @@
 
 .event_picker {
     width: 98%;
-	h1 {
-        font-size: 18px;
-    }
 	h3 {
 		font-size: 12px;
 	}
@@ -128,7 +129,6 @@
 .event_list {
     h1 {
         padding: 8px 0;
-        font-size: 22px;
         span {
             display: block;
             font-size: 12px;
@@ -173,14 +173,19 @@
     }
 }
 
-.event_gallery h1 {
-    font-size: 22px;
-}
-
 .event_gallery .event_gallery_message {
     top: 75px;
     margin-left: -150px;
     width: 300px;
+}
+
+.dialog {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
 }
 
 .deal_popup {
