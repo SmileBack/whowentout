@@ -20,7 +20,9 @@
         ))
         ?>
 
+        <?php if ($selected_event->place->type != 'undecided base'): ?>
         <?= r::invite_to_form(array('user' => $checkin->user, 'event' => $selected_event)) ?>
+        <?php endif; ?>
 
     </li>
     <?php endforeach; ?>
