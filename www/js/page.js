@@ -374,7 +374,7 @@ $('.edit_cell_phone_number').entwine({
 });
 
 $('.event_invite').entwine({
-    applySearchFilter:_.debounce(function (keywords) {
+    applyFilters:_.debounce(function (keywords) {
 
         function isMatch(text, keywords) {
             text = text.toLowerCase();
@@ -401,7 +401,7 @@ $('.event_invite').entwine({
 $('.event_invite .search').entwine({
     onkeyup:function (e) {
         var keywords = this.val();
-        this.closest('.event_invite').applySearchFilter(keywords);
+        this.closest('.event_invite').applyFilters(keywords);
     }
 });
 
@@ -443,7 +443,8 @@ $('.event_selection .switch').entwine({
     onclick: function(e) {
         e.preventDefault();
         this.closest('.event_selection').hide();
-        this.closest('.event_picker').find('.pre_event_selection').show();
+        this.closest('.event_picker').find('.pre_event_selection')
+                                     .removeClass('hidden').show();
     }
 });
 
@@ -763,7 +764,7 @@ $('.event_links a').entwine({
     onclick: function(e) {
         e.preventDefault();
         var event_id = this.attr('href');
-        var gallery = this.closest('.pane').find('.gallery');
+        var gallery = this.closest('.event_day_summary').find('.gallery');
         gallery.scrollToEvent(event_id, function() {
             gallery.selectEvent(event_id);
         });
@@ -777,7 +778,7 @@ $('.invite_leaderboard .score').entwine({
     }
 });
 
-$('.desktop .event_links').entwine({
+$('.desktop .event_gallery_toolbar').entwine({
     oninview: function(e) {
         if (e.isAbove)
             this.stick();
@@ -793,116 +794,183 @@ $('.desktop .event_links').entwine({
 
 $('#events_date_selector').entwine({
     oninview: function(e) {
-        if ($('.event_links').isStuck())
-            $('.event_links').unstick();
+        if ($('.event_gallery_toolbar').isStuck())
+            $('.event_gallery_toolbar').unstick();
     }
 });
 
-$('.gallery').entwine({
-    onmatch: function() {
-        this.bindWindowScrollListener();
-        this.bindWindowResizeListener();
-    },
-    onunmatch: function() {
-    },
-    onitemsenteredview: function(e) {
-        e.items.find('.profile_small').addClass('seen');
-        this.loadProfilePictures(e.items);
-    },
-    loadProfilePictures: function(items) {
-        var userIds = items.find('.img_load')
-                           .removeClass('img_load')
-                           .collect(function() {
-            return this.data('user_id');
+(function() {
+
+    var matchers = {};
+
+    matchers.keywords = function(el, keywords) {
+        var text = $(el).find('.profile_name').text().toLowerCase();
+        var parts = keywords.toLowerCase().split(/\W+/);
+
+        for (var i = 0; i < parts.length; i++)
+            if (text.indexOf(parts[i]) == -1)
+                return false;
+
+        // match every keyword
+        return true;
+    };
+
+    matchers.friend = function(el, isFriend) {
+        if (isFriend == 'on')
+            isFriend == true;
+
+        return isFriend ? $(el).find('.profile_small').hasClass('friend') : true;
+    };
+
+    var isMatch = function(el, filters) {
+        var match = true;
+        $.each(filters, function(filterName, filterValue) {
+            var fn = matchers[filterName];
+            match = fn(el, filterValue);
+            return match;
         });
+        return match;
+    };
 
-        var pUrls = whowentout.getProfilePictureUrls(userIds);
-        $.when(pUrls).then(function(urls) {
-            $.each(urls, function(user_id, url) {
-                var profilePicture = $('.profile_picture_' + user_id);
-                profilePicture.attr('src', url);
+    $('.gallery').entwine({
+        onmatch: function() {
+            this.bindWindowScrollListener();
+            this.bindWindowResizeListener();
+        },
+        onunmatch: function() {
+        },
+        clearFilters: function() {
+            this.applyFilters({});
+        },
+        applyFilters: function (filters) {
+            var self = this;
+
+            var executeFilter = function(filters) {
+                self.find('> li').each(function () {
+                    var match = isMatch(this, filters);
+                    if (match)
+                        $(this).removeClass('hidden');
+                    else
+                        $(this).addClass('hidden');
+                });
+
+                self.removeData('centers');
+                $(window).trigger('scroll');
+            };
+            executeFilter = _.debounce(executeFilter, 500);
+
+            executeFilter(filters);
+        },
+        onitemsenteredview: function(e) {
+            e.items.find('.profile_small').addClass('seen');
+            this.loadProfilePictures(e.items);
+        },
+        loadProfilePictures: function(items) {
+            var userIds = items.find('.img_load')
+                               .removeClass('img_load')
+                               .collect(function() {
+                return this.data('user_id');
             });
-        });
-    },
-    bindWindowScrollListener: function() {
-        var self = this;
-        var onscroll = _.debounce(function() {
-            if (!self.is(':visible'))
-                return;
-            self.trigger({
-                type: 'itemsenteredview',
-                items: self.getItemsInView()
+
+            var pUrls = whowentout.getProfilePictureUrls(userIds);
+            $.when(pUrls).then(function(urls) {
+                $.each(urls, function(user_id, url) {
+                    var profilePicture = $('.profile_picture_' + user_id);
+                    profilePicture.attr('src', url);
+                });
             });
-        }, 250);
-        $(window).bind('scroll', onscroll);
-    },
-    unbindWindowScrollListerner: function() {
-        // @todo
-    },
-    bindWindowResizeListener: function() {
-        var self = this;
-        var onresize = _.debounce(function() {
-            self.removeData('centers');
-        }, 500);
-    },
-    getItemsInView: function() {
-        var start = this.getFirstVisibleItemData();
-        var end = this.getLastVisibleItemData();
+        },
+        bindWindowScrollListener: function() {
+            var self = this;
+            var onscroll = _.debounce(function() {
+                if (!self.is(':visible'))
+                    return;
+                self.trigger({
+                    type: 'itemsenteredview',
+                    items: self.getItemsInView()
+                });
+            }, 250);
+            $(window).bind('scroll', onscroll);
+        },
+        unbindWindowScrollListerner: function() {
+            // @todo
+        },
+        bindWindowResizeListener: function() {
+            var self = this;
+            var onresize = _.debounce(function() {
+                self.removeData('centers');
+            }, 500);
+        },
+        getItemsInView: function() {
+            var start = this.getFirstVisibleItemData();
+            var end = this.getLastVisibleItemData();
 
-        if (!start || !end)
-            return $();
+            if (!start || !end)
+                return $();
 
-        var extra = (end.index - start.index + 1);
-        extra = 0;
+            var extra = (end.index - start.index + 1);
 
-        return this.find('> li').slice(start.index - extra, end.index + 1 + extra);
-    },
-    getFirstVisibleItemData: function() {
-        var centers = this.getAllPoints();
-        var viewport = $('body').getBox();
+            return this.find('> li').slice(start.index - extra, end.index + 1 + extra * 2);
+        },
+        getFirstVisibleItemData: function() {
+            var centers = this.getAllPoints();
+            var viewport = $('body').getBox();
 
-        for (var i = 0; i < centers.length; i++)
-            if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
-                return {index: i, top: centers[i]};
+            for (var i = 0; i < centers.length; i++)
+                if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
+                    return {index: i, top: centers[i]};
 
-        return null;
-    },
-    getLastVisibleItemData: function() {
-        var centers = this.getAllPoints();
-        var viewport = $('body').getBox();
+            return null;
+        },
+        getLastVisibleItemData: function() {
+            var centers = this.getAllPoints();
+            var viewport = $('body').getBox();
 
-        for (var i = centers.length - 1; i >= 0; i--)
-            if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
-                return {index: i, top: centers[i]};
+            for (var i = centers.length - 1; i >= 0; i--)
+                if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
+                    return {index: i, top: centers[i]};
 
-        return null;
-    },
-    getAllPoints: function() {
-        if (!this.is(':visible'))
-            return [];
+            return null;
+        },
+        getAllPoints: function() {
+            if (!this.is(':visible'))
+                return [];
 
-        if (this.data('centers'))
+            if (this.data('centers'))
+                return this.data('centers');
+
+            var centers = this.find('> li').collect(function() {
+                return this.getBox().c.top;
+            });
+            this.data('centers', centers);
+
             return this.data('centers');
+        },
+        selectEvent: function(event_id) {
+            this.find('.focused').removeClass('focused');
+            this.find('.checkin_event_' + event_id).addClass('focused');
 
-        var centers = this.find('> li').collect(function() {
-            return this.getBox().c.top;
-        });
-        this.data('centers', centers);
+            $('.event_links a.selected').removeClass('selected');
+            $('.event_links a[href=' + event_id + ']').addClass('selected');
 
-        return this.data('centers');
+            return this;
+        },
+        scrollToEvent: function(event_id, onComplete) {
+            this.find('.checkin_event_' + event_id).scrollTo(onComplete);
+            return this;
+        }
+    });
+
+})();
+
+$('.gallery_filter :input').entwine({
+    onchange: function(e) {
+        var filters = this.closest('form').formParams();
+        console.log(filters);
+        this.closest('.event_day_summary').find('.gallery').applyFilters(filters);
     },
-    selectEvent: function(event_id) {
-        this.find('.focused').removeClass('focused');
-        this.find('.checkin_event_' + event_id).addClass('focused');
-
-        $('.event_links a.selected').removeClass('selected');
-        $('.event_links a[href=' + event_id + ']').addClass('selected');
-
-        return this;
-    },
-    scrollToEvent: function(event_id, onComplete) {
-        this.find('.checkin_event_' + event_id).scrollTo(onComplete);
-        return this;
+    onkeyup: function(e) {
+        this.trigger('change');
     }
 });
 

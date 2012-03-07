@@ -1,4 +1,4 @@
-<div class="profile_small <?= $class ?>">
+<div class="profile_small <?= $class ?> <?= $is_friend ? 'friend' : '' ?>">
 
     <div class="profile_badge"><?= $is_friend ? 'friend' : '' ?></div>
 
