@@ -4,7 +4,7 @@
 @selected_item_color: #F9EDBE;
 @yellow: #ffcc66;
 @red: #ff6a6a;
-@sidebar_width: 300px;
+@sidebar_width: 235px;
 
 @import 'elements.0000000021.less';
 
@@ -367,11 +367,12 @@ input[type="submit"], button {
         margin: 30px 20px;
     }
     .tabs a {
-        display: block;
+        font-size: 17px;
+		display: block;
         float: right;
-        width: 170px;
-        padding: 20px 0 20px 20px;
-        margin-bottom: 25px;
+        width: 150px;
+        padding: 15px 0 15px 20px;
+        margin-bottom: 5px;
         color: white;
         text-decoration: none;
         &:hover { background-color: white; color: #444; }
@@ -480,9 +481,11 @@ td {
     }
     .prev {
         background-image: url(../images/arrow_left.png);
+		background-size: 35px;
     }
     .next {
         background-image: url(../images/arrow_right.png);
+		background-size: 35px;
     }
     .scrollable {
         float: left;
@@ -495,8 +498,8 @@ td {
             .transition(margin 300ms ease-in);
         }
         a {
-            .scale(0.8);
-            .opacity(0.9);
+            .scale(0.7);
+            .opacity(1);
             .transition(-webkit-transform 300ms ease-in);
             background: url(/images/calendar.0000000002.png) no-repeat center;
             .day { margin-top: 25px; }
@@ -506,7 +509,7 @@ td {
                 background-image: url(/images/calendar_selected.0000000002.png);
             }
             &.active {
-                .scale(1.2);
+                .scale(1.1);
                 .opacity(1);
                 background-image: url(/images/calendar_selected.0000000002.png);
             }
@@ -564,43 +567,70 @@ td {
 		font-weight: normal;
 		font-size: 14px;
     }
+	.pre_event_selection {
+		width: 664px;
+		border: 1px solid @primary_color;
+		margin: auto;
+		margin-top: 20px;
+	}
     .tabs {
+		overflow: hidden;
+		width: 664px;
+		margin: auto;
         li {
             display: inline-block;
-            margin: 8px;
-            padding-bottom: 18px;
-            margin-bottom: 4px;
+			float: left;
         }
         a {
-            .button_style;
-            .blue_button;
-			width: 120px;
-            padding: 8px;
+			background-color: @primary_color;
+			border: 1px solid white;
+			border-top: 6px solid @primary_color;
+			margin-top: 1px;
+			color: white;
+			font-size: 1.1em;
+			width: 148px;
+            padding: 6px 8px 8px 8px;
             display: block;
 			border-radius: 0;
 			-webkit-border-radius: 0;
             text-decoration: none;
-        }
+		}
+		a:hover {
+				border-bottom: none;
+				border-top: 6px solid black;
+				margin-top: 1px;
+		}
         .selected_container {
-            background: url(/images/arrow_down.png) no-repeat center bottom;
+			a {
+				border-bottom: none;
+				border-top: 6px solid black;
+				margin-top: 1px;
+				}
+			.arrow {
+				display: block;
+			}
         }
     }
     .undecided.pane {
         @border_color: #b5b5b5;
         background-color: white;
 
-        width: 80%;
-        max-width: 520px;
+        width: 100%;
+        max-width: 595px;
         margin: auto;
+		margin-top: 8px;
+		margin-bottom: 8px;
+		background-color: white;
 
         text-align: left;
         padding: 25px;
         overflow: hidden;
-        .shadow(0.9px, 2px, 3px, 1px, #989898);
         position: relative;
+		border: 1px solid #b5b5b5;
         h2 {
             float: left;
             clear: left;
+			margin-left: 10px;
         }
         .checkin_form {
             position: absolute;
@@ -648,10 +678,12 @@ td {
 .event_list {
     @border_color: #b5b5b5;
 
-    width: 94%;
+    width: 645px;
     max-width: 670px;
     margin: auto;
-
+	margin-bottom: 8px;
+	margin-top: 8px;
+	
     text-align: left;
     overflow: hidden;
     border: 1px solid @border_color;
@@ -661,7 +693,7 @@ td {
         border-bottom: 1px solid #b0b0b0;
     }
     ul.events {
-        height: 190px;
+        height: 152px;
         overflow-y: scroll;
         overflow-x: hidden;
 		background-color: white;
@@ -1013,7 +1045,7 @@ section.entourage {
 
 .event_invite {
     .search {
-        width: 250px;
+        width: Fpx;
         margin: 8px 55px;
         padding: 4px;
         float: right;
@@ -1223,4 +1255,43 @@ section.entourage {
             margin: 4px 0;
         }
     }
+}
+
+.arrow {
+	width: 0;
+	height: 0;
+	border-left: 12px solid transparent;
+	border-right: 12px solid transparent;
+
+	border-top: 12px solid @primary_color;
+	
+	margin: auto;
+	
+	display: none;
+}
+
+.explanation {
+	text-align: left;
+	margin-left: 25px;
+	margin-top: 10px;
+	font-size: 13px;
+	font-weight: bold;
+	em {
+		font-style: normal;
+		text-decoration: underline;
+	}
+	strong {
+		font-size: 12px;
+		font-weight: normal;
+	}
+}
+
+.logo_transparent {
+	width:200px;
+}
+
+.calendar2{
+	position: absolute; left:1170px; top:40px;
+	color: white;
+	font-size: 14px;
 }
