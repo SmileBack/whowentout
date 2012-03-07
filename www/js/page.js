@@ -832,6 +832,21 @@ $('#events_date_selector').entwine({
         return match;
     };
 
+    var executeFilter = function(gallery, filters) {
+        gallery = $(gallery);
+        gallery.find('> li').each(function () {
+            var match = isMatch(this, filters);
+            if (match)
+                $(this).removeClass('hidden');
+            else
+                $(this).addClass('hidden');
+        });
+
+        gallery.removeData('centers');
+        $(window).trigger('scroll');
+    };
+    executeFilter = _.debounce(executeFilter, 500);
+
     $('.gallery').entwine({
         onmatch: function() {
             this.bindWindowScrollListener();
@@ -843,23 +858,7 @@ $('#events_date_selector').entwine({
             this.applyFilters({});
         },
         applyFilters: function (filters) {
-            var self = this;
-
-            var executeFilter = function(filters) {
-                self.find('> li').each(function () {
-                    var match = isMatch(this, filters);
-                    if (match)
-                        $(this).removeClass('hidden');
-                    else
-                        $(this).addClass('hidden');
-                });
-
-                self.removeData('centers');
-                $(window).trigger('scroll');
-            };
-            executeFilter = _.debounce(executeFilter, 500);
-
-            executeFilter(filters);
+            executeFilter(this, filters);
         },
         onitemsenteredview: function(e) {
             e.items.find('.profile_small').addClass('seen');
@@ -965,8 +964,10 @@ $('#events_date_selector').entwine({
 
 $('.gallery_filter :input').entwine({
     onchange: function(e) {
+        this.updateGalleryFilter();
+    },
+    updateGalleryFilter: function() {
         var filters = this.closest('form').formParams();
-        console.log(filters);
         this.closest('.event_day_summary').find('.gallery').applyFilters(filters);
     },
     onkeyup: function(e) {

@@ -7,6 +7,6 @@
     </div>
     <div>
         <label>Search by name:</label>
-        <input type="text" name="keywords" autocomplete="off"/>
+        <input type="text" name="keywords" class="search" autocomplete="off"/>
     </div>
 </form>
