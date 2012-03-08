@@ -292,11 +292,6 @@ input[type="submit"], button {
         background-color: white;
         overflow: hidden;
         min-height: 900px;
-        > * {
-          float: left;
-          clear: both;
-          width: 100%;
-        }
         .create_event {
             .button_style;
             float: right;
@@ -462,7 +457,8 @@ td {
 }
 
 #events_date_selector {
-    margin: 10px 30px 12px 30px;
+    margin: 0 auto;
+    overflow: hidden;
     a {
         float: left;
         display: block;
@@ -525,8 +521,8 @@ td {
     .comma_separated;
 }
 
-.event_day .date_tip {
-    margin: 0 auto;
+.event_day {
+    clear: both;
 }
 
 .show_deal_link.mobile {
@@ -555,13 +551,9 @@ td {
 
 
 .event_picker {
-    width: 80%;
     text-align: center;
-    border: 1px solid #bfbfbf;
 	text-align: center;
 	margin: 15px auto;
-	padding-bottom: 15px;
-	background-color: #fafafa;
 	h1 {
         margin: 15px 8px 0 8px;
     }
@@ -681,16 +673,8 @@ td {
 
 .event_list {
     @border_color: #b5b5b5;
-
-    width: 645px;
-    max-width: 670px;
-    margin: auto;
-	margin-bottom: 8px;
-	margin-top: 8px;
-	
     text-align: left;
     overflow: hidden;
-    border: 1px solid @border_color;
     h3 {
         width: 100%;
         text-align: center;
@@ -960,7 +944,6 @@ section.entourage {
 }
 
 .profile_edit_picture {
-    max-width: 775px;
     overflow: hidden;
     .profile_pic {
         float: left;
@@ -1120,42 +1103,6 @@ section.entourage {
     .dialog_body h3 {
         margin: 8px 0;
     }
-    .or {
-        position: relative;
-        font-size: 30px;
-        float: left;
-        width: 100%;
-        .text {
-            background-color: @light_color;
-            padding: 0 8px;
-        }
-        .line {
-            position: absolute;
-            height: 1px;
-            top: 50%;
-            left: 0;
-            right: 0;
-            border-top: 1px solid grey;
-            z-index: -1;
-        }
-    }
-    .phone_number_field {
-        margin: 0 0 25px 0;
-        input {
-            text-align: center;
-            width: 136px;
-            font-size: 18px;
-        }
-    }
-    .have_number {
-        h2, .phone_number_field, .edit_cell_phone_number {
-            display: inline-block;
-            vertical-align: bottom;
-        }
-    }
-    .edit_cell_phone_number {
-        font-size: 12px;
-    }
     p {
         margin: 15px 5px;
     }
@@ -1292,10 +1239,4 @@ section.entourage {
 
 .logo_transparent {
 	width:200px;
-}
-
-.calendar2{
-	position: absolute; left:1170px; top:40px;
-	color: white;
-	font-size: 14px;
 }

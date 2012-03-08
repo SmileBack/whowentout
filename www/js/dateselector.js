@@ -2,6 +2,16 @@
 //= require jquery.entwine.js
 //= require jquery.ext.js
 
+$('#events_date_selector').entwine({
+    updateWidth: function() {
+        var width = 0;
+        this.find('> *').each(function() {
+            width += $(this).outerWidth(true);
+        });
+        this.width(width);
+    }
+});
+
 $('.scrollable').entwine({
     onmatch: function () {
         this.refreshScrollPosition();

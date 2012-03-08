@@ -568,9 +568,11 @@ $('.inline_label').entwine({
 });
 
 whowentout.refreshDateSelector = _.debounce(function () {
+    $('#events_date_selector').updateWidth();
     $('#events_date_selector .scrollable').refreshScrollPosition();
 }, 250);
 $(window).resize(whowentout.refreshDateSelector);
+$(whowentout.refreshDateSelector);
 
 function hideAddressBar() {
     if (!window.location.hash) {
