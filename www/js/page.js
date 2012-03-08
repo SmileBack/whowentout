@@ -968,7 +968,10 @@ $('#events_date_selector').entwine({
 
 $('.gallery_filter :input').entwine({
     onchange: function(e) {
-        this.updateGalleryFilter();
+        var self = this;
+        _.defer(function() {
+            self.updateGalleryFilter();
+        });
     },
     updateGalleryFilter: function() {
         var filters = this.closest('form').formParams();

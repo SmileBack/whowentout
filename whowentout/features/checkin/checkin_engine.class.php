@@ -66,6 +66,8 @@ class CheckinEngine
             'user_id' => $user->id,
             'event_id' => $event->id,
         ));
+        $checkin->event->count++;
+        $checkin->event->save();
 
         $this->event_dispatcher->trigger('checkin', array(
             'checkin' => $checkin,
@@ -97,8 +99,13 @@ class CheckinEngine
     function remove_checkin_on_date($user, DateTime $date)
     {
         $checkin = $this->get_checkin_on_date($user, $date);
-        if ($checkin)
+
+        if ($checkin) {
             $this->checkins->destroy_row($checkin->id);
+            $checkin->event->count--;
+            $checkin->event->save();
+        }
+
 
         $this->clear_event_cache($checkin->event);
     }
@@ -209,8 +216,7 @@ class CheckinEngine
 
     function get_checkin_count($event)
     {
-        $checkins = $this->get_checkins_for_event($event);
-        return count($checkins);
+        return $event->count;
     }
 
 }

@@ -26,7 +26,7 @@ class CheckinPackage extends Package
 
     function update_0_2_2()
     {
-        $this->create_auto_update_count_triggers();
+        // auto update count triggers unsupported by phpfog :(
     }
 
     function create_auto_update_count_triggers()
