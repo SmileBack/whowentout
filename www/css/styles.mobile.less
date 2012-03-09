@@ -204,6 +204,9 @@ body.dialog_visible #page {
     .dialog_body {
         margin-top: 47px;
     }
+    .friends input {
+        display: none;
+    }
     fieldset > ul {
         height: auto;
         overflow-y: auto;
@@ -214,6 +217,10 @@ body.dialog_visible #page {
         width: 100%;
         margin: 0;
         padding: 0;
+        .note {
+            top: auto;
+            bottom: 10px;
+        }
         &.selected {
             background-image: url(/images/check.png?version=3);
             background-repeat: no-repeat;
@@ -236,9 +243,6 @@ body.dialog_visible #page {
     }
     .profile_networks {
         float: left;
-        display: none;
-    }
-    input {
         display: none;
     }
     .buttons {
