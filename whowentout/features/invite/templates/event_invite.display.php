@@ -13,9 +13,11 @@ class Event_Invite_Display extends Display
 
         $this->current_user = auth()->current_user();
 
-        $this->friends = $this->current_user->friends->where('networks.id', $this->get_allowed_networks())
-                                                     ->order_by('first_name');
+        $this->friends = $this->current_user->friends//->where('networks.id', $this->get_allowed_networks())
+                                                     ->order_by('first_name')->limit(50);
     }
+
+
 
     private function get_allowed_networks()
     {

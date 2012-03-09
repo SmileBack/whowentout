@@ -83,13 +83,19 @@ $('.dialog').entwine({
     backgroundMask: function() {
         return $('#mask');
     },
-    title:function (text) {
+    onshow: function() {
+        $('body').addClass('dialog_visible');
+    },
+    onhide: function() {
+        $('body').removeClass('dialog_visible');
+    },
+    title: function (text) {
         if (text === undefined) {
             return this.find('h1').text();
         }
         else {
             this.find('h1').text(text);
-            this.refreshPosition();
+            this.refreshDialogPosition();
             return this;
         }
     },
@@ -99,7 +105,7 @@ $('.dialog').entwine({
         }
         else {
             this.find('h2').text(text);
-            this.refreshPosition();
+            this.refreshDialogPosition();
             return this;
         }
     },
@@ -109,7 +115,7 @@ $('.dialog').entwine({
         }
         else {
             this.find('.dialog_body').html(text);
-            this.refreshPosition();
+            this.refreshDialogPosition();
             return this;
         }
     },
@@ -122,9 +128,9 @@ $('.dialog').entwine({
 
         this.showLoadingMessage();
         this.find('.dialog_body').load(path, function () {
-            self.refreshPosition();
+            self.refreshDialogPosition();
             $(this).bind('imageload', function (e) {
-                self.refreshPosition();
+                self.refreshDialogPosition();
             });
             complete.call(self);
         });
@@ -154,19 +160,21 @@ $('.dialog').entwine({
 
         this.find('.dialog_buttons').append(button);
 
-        this.refreshPosition();
+        this.refreshDialogPosition();
 
         return button;
     },
     removeButton:function (key) {
         this.find('.button[data-key=' + key + ']');
-        this.refreshPosition();
+        this.refreshDialogPosition();
     },
     removeAllButtons:function () {
         this.find('.dialog_buttons').empty();
-        this.refreshPosition();
+        this.refreshDialogPosition();
     },
     showDialog:function (cls, data) {
+        var self = this;
+
         if (cls != null) {
             this.attr('class', 'dialog');
             this.addClass(cls);
@@ -175,12 +183,17 @@ $('.dialog').entwine({
             this.data('dialog_data', data);
         }
         this.backgroundMask().fadeIn(300);
-        this.fadeIn(300);
+        this.fadeIn(300, function() {
+            self.trigger('show');
+        });
         return this;
     },
     hideDialog:function () {
+        var self = this;
         this.backgroundMask().fadeOut(300);
-        this.fadeOut(300);
+        this.fadeOut(300, function() {
+            self.trigger('hide');
+        });
         this.clearActions();
         return this;
     },
@@ -196,13 +209,13 @@ $('.dialog').entwine({
     },
     runAction:function (actionName) {
         var actions = this.getActions(actionName);
-        var actionCallback = actions[actionName] || function () {
-        };
+        var actionCallback = actions[actionName] || function () {};
         var dialogData = this.data('dialog_data');
 
         return actionCallback.call(this, dialogData);
     },
-    refreshPosition: function() {
+    refreshDialogPosition: function() {
+        console.log(this.data('dialog.options'));
         if (!this.data('dialog.options').refreshPosition)
             return this;
 
@@ -215,7 +228,7 @@ $('.dialog').entwine({
     beginRefreshPosition: function() {
         var self = this;
         var refresh_position = function() {
-            self.refreshPosition();
+            self.refreshDialogPosition();
         };
         refresh_position = _.debounce(refresh_position, 100);
         setInterval(refresh_position, 250);

@@ -21,7 +21,7 @@ class GetProfilePictureUrlsAction extends Action
 
     function execute()
     {
-        $user_ids = $_GET['user_ids'];
+        $user_ids = isset($_GET['user_ids']) ? $_GET['user_ids'] : array();
 
         $response = array('success' => true);
         $response['urls'] = $this->get_profile_picture_urls($user_ids);

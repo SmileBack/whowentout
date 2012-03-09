@@ -135,6 +135,9 @@ whowentout.showFlashMessage = function(text) {
 whowentout.getProfilePictureUrls = function(user_ids) {
     var dfd = $.Deferred();
 
+    user_ids = user_ids || [];
+    console.log(user_ids);
+
     $.ajax({
         url: '/profile/urls',
         type: 'get',
@@ -944,7 +947,7 @@ $('#events_date_selector').entwine({
             if (this.data('centers'))
                 return this.data('centers');
 
-            var centers = this.find('> li').collect(function() {
+            var centers = this.find('> li').filter(':visible').collect(function() {
                 return this.getBox().c.top;
             });
             this.data('centers', centers);
