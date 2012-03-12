@@ -1,5 +1,6 @@
 //= require underscore.js
 //= require jquery.js
+//= require handlebars.js
 //= require backbone.js
 //= require head.load.min.js
 //= require jquery.dialog.js
@@ -22,7 +23,30 @@
 
 })(jQuery);
 
+Handlebars.registerHelper('formatDate', function(date) {
+    return date.format('l jS');
+});
+
+(function() {
+
+    var templates = {};
+
+    var fetchContent = function(name) {
+        return $('#' + name).html();
+    };
+
+    $.fn.template = function(name, data) {
+        if (!templates[name]) {
+            templates[name] = Handlebars.compile(fetchContent(name));
+        }
+        this.html(templates[name](data));
+        return this;
+    };
+
+})();
+
 var whowentout = window.whowentout = {};
+_(whowentout).extend(Backbone.Events);
 
 whowentout.initDialog = function () {
     if (!window.dialog) {
@@ -332,7 +356,7 @@ $('.profile_pic_crop_form').entwine({
             }
 
             function onCoordsChange(coords) {
-                self.setCropBox(coords.x, coords.y, coords.w, coords.h);
+                self.setCropBox(coords.x, coords.year, coords.w, coords.h);
             }
 
             var box = self.getCropBox();
@@ -340,7 +364,7 @@ $('.profile_pic_crop_form').entwine({
                 aspectRatio:0.75,
                 boxWith:400,
                 boxHeight:400,
-                setSelect:[box.x, box.y, box.x + box.width, box.y + box.height],
+                setSelect:[box.x, box.year, box.x + box.width, box.year + box.height],
                 onChange:onCoordsChange,
                 onSelect:onCoordsChange
             };
@@ -1044,3 +1068,10 @@ $.fn.unstick = function() {
 $.fn.isStuck = function() {
     return this.hasClass('stuck');
 };
+
+$('#events_date_selector .scrollable').live('selected', function(e) {
+    console.log(e.item.getDate());
+    $('#right').template('date-template', {
+        date: e.item.getDate()
+    });
+});

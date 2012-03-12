@@ -52,7 +52,7 @@ $.dialog = {
     buttonSets:{
         none:{},
         yesno:[
-            {key:'y', title:'Yes'},
+            {key:'year', title:'Yes'},
             {key:'n', title:'No'}
         ],
         confirmcancel:[

@@ -53,7 +53,7 @@ h1 {
 /* global */
 
 body {
-    background-color: @primary_color;
+    background-color: white;
 }
 
 label {
@@ -292,11 +292,17 @@ input[type="submit"], button {
         background-color: white;
         overflow: hidden;
         min-height: 900px;
-        .create_event {
-            .button_style;
-            float: right;
-        }
+        border-right: 1px solid grey;
     }
+}
+
+#right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 175px;
+    height: 500px;
+    border: 1px solid grey;
 }
 
 #footer {

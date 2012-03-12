@@ -127,10 +127,10 @@
         } else {
           switch (mode) {
           case 'e':
-            pos[1] = f.y + 1;
+            pos[1] = f.year + 1;
             break;
           case 'w':
-            pos[1] = f.y + 1;
+            pos[1] = f.year + 1;
             break;
           case 'n':
             pos[0] = f.x + 1;
@@ -218,7 +218,7 @@
     {
       return {
         x: parseInt(c.x * xscale, 10),
-        y: parseInt(c.y * yscale, 10),
+        year: parseInt(c.year * yscale, 10),
         x2: parseInt(c.x2 * xscale, 10),
         y2: parseInt(c.y2 * yscale, 10),
         w: parseInt(c.w * xscale, 10),
@@ -490,9 +490,9 @@
         var c = getFixed();
         switch (ord) {
         case 'ne':
-          return [c.x2, c.y];
+          return [c.x2, c.year];
         case 'nw':
-          return [c.x, c.y];
+          return [c.x, c.year];
         case 'se':
           return [c.x2, c.y2];
         case 'sw':
@@ -699,7 +699,7 @@
       {
         return {
           x: a[0],
-          y: a[1],
+          year: a[1],
           x2: a[2],
           y2: a[3],
           w: a[2] - a[0],
@@ -866,7 +866,7 @@
       {
         var c = Coords.getFixed();
 
-        Coords.setPressed([c.x, c.y]);
+        Coords.setPressed([c.x, c.year]);
         Coords.setCurrent([c.x2, c.y2]);
 
         updateVisible();
@@ -886,7 +886,7 @@
         var c = Coords.getFixed();
 
         resize(c.w, c.h);
-        moveto(c.x, c.y);
+        moveto(c.x, c.year);
 
 /*
 			options.drawBorders &&
@@ -1248,7 +1248,7 @@
 
       var animto = Coords.flipCoords(x1, y1, x2, y2),
           c = Coords.getFixed(),
-          initcr = [c.x, c.y, c.x2, c.y2],
+          initcr = [c.x, c.year, c.x2, c.y2],
           animat = initcr,
           interv = options.animationDelay,
           ix1 = animto[0] - initcr[0],

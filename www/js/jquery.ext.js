@@ -18,6 +18,101 @@ var format = (function()
     };
 })();
 
+/**
+ * Inspired by http://jacwright.com/projects/javascript/date_format/
+ */
+(function() {
+
+    var compose = function(value, callbacks) {
+        if (typeof callbacks == 'function')
+            callbacks = [callbacks];
+
+        for (var i = 0; i < callbacks.length; i++)
+            value = callbacks[i](value);
+
+        return value;
+    };
+
+    var months = ['January', 'February', 'March', 'April',
+                  'May', 'June', 'July', 'August',
+                  'September', 'October', 'November', 'December'];
+
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
+                'Thursday', 'Friday', 'Saturday'];
+
+    var callbacks = {
+        year: function(d) { return d.getFullYear() },
+        month: function(d) { return d.getMonth() },
+        monthWord: function(d) { return months[d.getMonth()] },
+        date: function(d) { return d.getDate() },
+        day: function(d) { return d.getDay() },
+        dayWord: function(d) { return days[d.getDay()] },
+        hour: function(d) { return d.getHours() },
+        twelveHour: function(d) {
+             return d.getHours() % 12 || 12;
+        },
+        minute: function(d) {
+            return d.getMinutes();
+        },
+        second: function(d) {
+            return d.getSeconds();
+        },
+        am: function(d) {
+            return d.getHours() < 12 ? 'am' : 'pm';
+        },
+        ord: function(v) {
+            return (v > 10 && v < 20) ? 'th'
+                 : ['th', 'st', 'nd', 'rd'][v % 10] || 'th';
+        },
+        pad2: function(v) {
+            return v.toString().length > 1 ? v : '0' + v;
+        },
+        trim3: function(v) {
+            return v.substring(0, 3);
+        },
+        upper: function(v) {
+            return v.toUpperCase();
+        }
+    };
+
+    var c = callbacks;
+    // initial function,
+    var formats = {
+        // Day
+        d: [c.day, c.pad2],
+        D: [c.dayWord, c.trim3],
+        j: [c.date],
+        l: [c.dayWord],
+        N: [c.day, function(v) { return v + 1; }],
+        S: [c.date, c.ord],
+        w: [c.day],
+        // Month
+        F: [c.monthWord],
+        m: [c.month, c.pad2],
+        M: [c.monthWord, c.trim3],
+        n: [c.month],
+        // Year
+        Y: [c.year],
+        y: [c.year, function(v) { return v.substring(2, 4) }],
+        a: [c.am],
+        A: [c.am, c.upper],
+        g: [c.twelveHour],
+        G: [c.hour],
+        h: [c.twelveHour, c.pad2],
+        H: [c.hour, c.pad2],
+        i: [c.minute, c.pad2],
+        s: [c.second, c.pad2]
+    };
+
+    Date.prototype.format = function(format) {
+        var date = this;
+        return format.replace(/\w/g, function(pat) {
+            return formats[pat] ? compose(date, formats[pat]) : pat;
+        });
+    };
+
+})();
+
 window.head = window.head || {};
 window.head.css = function (path) {
     $("head").append("<link>");

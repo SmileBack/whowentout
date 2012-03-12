@@ -20,8 +20,14 @@ $('.scrollable').entwine({
     },
     markSelected: function(el, animate) {
         if (el instanceof $) {
+            var wasActive = el.hasClass('active');
             this.getSelected().removeClass('active');
             el.addClass('active');
+
+            if (!wasActive) {
+                console.log('woooooo');
+                this.trigger({type: 'selected', item: el});
+            }
 
             if (animate === false) {
                 this._jumpToEl(el);
@@ -93,6 +99,13 @@ $('#events_date_selector .items a').entwine({
         var index = this.index();
 
         whowentout.router.navigate(this.attr('href'), true);
+    },
+    getDate: function() {
+        var regex = /(\d\d\d\d)(\d\d)(\d\d)$/;
+        var href = this.attr('href');
+        var m = regex.exec(href);
+        console.log(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3]));
+        return new Date(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3]));
     }
 });
 

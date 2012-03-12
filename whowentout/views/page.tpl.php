@@ -40,6 +40,10 @@
 
 <body class="<?= browser::classes() ?>">
 
+<script id="date-template" type="text/x-handlebars-template">
+    <h3>{{formatDate date}}</h3>
+</script>
+
 <nav id="nav">
 
     <a class="logo" href="/"><img src="/images/logo.transparent.png" class="logo_transparent"/></a>
@@ -69,7 +73,6 @@
         <?= $content ?>
     </div>
 
-
     <div id="footer">
         <?= a('terms', 'Terms') ?>
         <?= a('mission', 'Mission') ?>
@@ -79,6 +82,11 @@
     </div>
 
 </div>
+
+<div id="right">
+
+</div>
+
 <!-- page end -->
 
 <?= flash::message() ?>

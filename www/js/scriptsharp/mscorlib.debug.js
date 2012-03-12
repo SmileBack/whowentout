@@ -208,7 +208,7 @@ Number.prototype._netFormat = function Number$_netFormat(format, useLocale) {
 
     var fs = format.charAt(0);
     switch (fs) {
-        case 'd': case 'D':
+        case 'day': case 'D':
             s = parseInt(Math.abs(this)).toString();
             if (precision != -1) {
                 s = s.padLeft(precision, '0');
@@ -813,7 +813,7 @@ Date.prototype._netFormat = function Date$_netFormat(format, useLocale) {
             case 'f': format = dtf.longDatePattern + ' ' + dtf.shortTimePattern; break;
             case 'F': format = dtf.dateTimePattern; break;
 
-            case 'd': format = dtf.shortDatePattern; break;
+            case 'day': format = dtf.shortDatePattern; break;
             case 'D': format = dtf.longDatePattern; break;
 
             case 't': format = dtf.shortTimePattern; break;
@@ -870,7 +870,7 @@ Date.prototype._netFormat = function Date$_netFormat(format, useLocale) {
             case 'dd':
                 part = dt.getDate().toString().padLeft(2, '0');
                 break;
-            case 'd':
+            case 'day':
                 part = dt.getDate();
                 break;
             case 'MMMM':
@@ -891,7 +891,7 @@ Date.prototype._netFormat = function Date$_netFormat(format, useLocale) {
             case 'yy':
                 part = (dt.getFullYear() % 100).toString().padLeft(2, '0');
                 break;
-            case 'y':
+            case 'year':
                 part = (dt.getFullYear() % 100);
                 break;
             case 'h': case 'hh':
@@ -912,7 +912,7 @@ Date.prototype._netFormat = function Date$_netFormat(format, useLocale) {
             case 'mm':
                 part = dt.getMinutes().toString().padLeft(2, '0');
                 break;
-            case 'm':
+            case 'month':
                 part = dt.getMinutes();
                 break;
             case 'ss':
