@@ -1,4 +1,4 @@
-<div class="event_day" data-date="<?= $date->format('Ymd') ?>">
+<div class="event_day">
 
 
     <?= r::event_picker(array(

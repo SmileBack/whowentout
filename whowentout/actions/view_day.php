@@ -36,11 +36,22 @@ class ViewDayAction extends Action
             $date = $this->parse_date($date);
         }
 
-        print r::event_day(array(
+        $response = array();
+        $response['event_day'] = r::event_day(array(
             'checkin_engine' => $this->checkin_engine,
             'current_user' => auth()->current_user(),
             'date' => $date,
-        ));
+        ))->render();
+
+        $checkin = $this->checkin_engine->get_checkin_on_date(auth()->current_user(), $date);
+
+        $response['date'] = $date->getTimestamp();
+        $response['event'] = $checkin ? array(
+            'id' => $checkin->event->id,
+            'name' => $checkin->event->name,
+        ) : null;
+
+        print json_encode($response);exit;
     }
 
     function execute_no_ajax($date = null)

@@ -23,8 +23,10 @@
 
 })(jQuery);
 
+var User = Backbone.Model.extend({});
+
 Handlebars.registerHelper('formatDate', function(date) {
-    return date.format('l jS');
+    return date.format('l M jS');
 });
 
 (function() {
@@ -47,6 +49,12 @@ Handlebars.registerHelper('formatDate', function(date) {
 
 var whowentout = window.whowentout = {};
 _(whowentout).extend(Backbone.Events);
+
+whowentout.currentUser = new User({
+    id: 53,
+    first_name: 'Venkat',
+    last_name: 'Dinavahi'
+});
 
 whowentout.initDialog = function () {
     if (!window.dialog) {
@@ -499,9 +507,14 @@ $('.event_day').entwine({
 
         this.showLoadingMessage();
 
-        var pHtml = this.getUpdatedHtml(date);
-        $.when(pHtml).then(function (html) {
-            self.replaceHtml(html);
+        var pData = this.getUpdatedData(date);
+        $.when(pData).then(function (data) {
+            self.replaceHtml(data.event_day);
+            var date = new Date(data.date * 1000);
+
+            $('.event_day').data(data);
+            $('.event_day').data('date', date);
+            $('.event_day').trigger({type: 'datechange', date: date, event: data.event});
         });
     },
     showLoadingMessage:function () {
@@ -512,15 +525,13 @@ $('.event_day').entwine({
         this.replaceWith(html);
     },
     getCurrentDate:function () {
-        return this.attr('data-date');
+        return this.data('date');
     },
-    getUpdatedHtml:function (date) {
-        var url = '/day/' + date;
+    getUpdatedData:function (date) {
         return $.ajax({
-            url:url,
+            url: '/day/' + date,
             type:'post',
-            success:function (html) {
-            }
+            dataType: 'json'
         });
     }
 });
@@ -782,15 +793,6 @@ $('.expandable .view_less').entwine({
     }
 });
 
-$.fn.scrollTo = function(complete) {
-    var options = {
-        duration: 1000,
-        complete: complete || function() {}
-    };
-
-    $('html, body').animate({scrollTop: $(this).offset().top}, options);
-};
-
 $('.event_links a').entwine({
     onclick: function(e) {
         e.preventDefault();
@@ -1028,50 +1030,17 @@ $('.invite_to_form').entwine({
     }
 });
 
-$.fn.stick = function() {
-    var ph = this.createPlaceholder();
-    var left = ph.offset().left;
-    this.css({
-        position: 'fixed',
-        top: 0,
-        left: left,
-        zIndex: 100
+$('#right .switch').live('click', function(e) {
+    e.preventDefault();
+    $('.event_picker').scrollTo(function() {
+        $('.event_picker .switch').click();
     });
-    this.margin({top: 0, right: 0, bottom: 0, left: 0});
-    this.width(ph.width());
+});
 
-    this.addClass('stuck');
-
-    this.trigger({
-        type: 'stick',
-        placeholder: ph
-    });
-
-    return this;
-};
-
-$.fn.unstick = function() {
-    this.css({
-        position: '',
-        top: '',
-        left: '',
-        zIndex: '',
-        margin: '',
-        width: ''
-    });
-
-    this.removeClass('stuck');
-
-    this.destroyPlaceholder();
-};
-
-$.fn.isStuck = function() {
-    return this.hasClass('stuck');
-};
-
-$('#events_date_selector .scrollable').live('selected', function(e) {
-    console.log(e.item.getDate());
-    $('#right').template('date-template', {
-        date: e.item.getDate()
+$('.event_day').live('datechange', function(e) {
+    $('#right').template('side-profile-template', {
+        user: whowentout.currentUser.toJSON(),
+        date: e.date,
+        event: e.event
     });
 });

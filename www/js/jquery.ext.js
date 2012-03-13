@@ -264,6 +264,47 @@ $.fn.destroyPlaceholder = function() {
     return this;
 };
 
+$.fn.stick = function() {
+    var ph = this.createPlaceholder();
+    var left = ph.offset().left;
+    this.css({
+        position: 'fixed',
+        top: 0,
+        left: left,
+        zIndex: 100
+    });
+    this.margin({top: 0, right: 0, bottom: 0, left: 0});
+    this.width(ph.width());
+
+    this.addClass('stuck');
+
+    this.trigger({
+        type: 'stick',
+        placeholder: ph
+    });
+
+    return this;
+};
+
+$.fn.unstick = function() {
+    this.css({
+        position: '',
+        top: '',
+        left: '',
+        zIndex: '',
+        margin: '',
+        width: ''
+    });
+
+    this.removeClass('stuck');
+
+    this.destroyPlaceholder();
+};
+
+$.fn.isStuck = function() {
+    return this.hasClass('stuck');
+};
+
 $('.load').entwine({
     onmatch: function() {
         var self = this;
@@ -283,6 +324,16 @@ $('.load').entwine({
         });
     }
 });
+
+
+$.fn.scrollTo = function(complete) {
+    var options = {
+        duration: 1000,
+        complete: complete || function() {}
+    };
+
+    $('html, body').animate({scrollTop: $(this).offset().top}, options);
+};
 
 //jquery.dom.form_params.js
 

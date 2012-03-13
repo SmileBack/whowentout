@@ -17,10 +17,15 @@ class ViewDayAjax extends Action
         $date = new XDateTime($date->format('Y-m-d'));
         $date->setTime(0, 0, 0);
 
-        print r::event_day(array(
+        $response = array();
+        $response['event_day'] = r::event_day(array(
             'checkin_engine' => $this->checkin_engine,
             'current_user' => auth()->current_user(),
             'date' => $date,
         ));
+
+        $response['date'] = $date->getTimestamp();
+
+        print json_encode($response);exit;
     }
 }
