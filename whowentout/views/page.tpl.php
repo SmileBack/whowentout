@@ -40,36 +40,6 @@
 
 <body class="<?= browser::classes() ?>">
 
-<script id="date-template" type="text/x-handlebars-template">
-    <h3>{{formatDate date}}</h3>
-</script>
-
-<script id="side-profile-template" type="text/x-handlebars-template">
-    <div class="side_profile">
-
-        <h3 class="date">{{formatDate date}}</h3>
-
-        <div class="profile_small">
-            <div class="gallery_thumb">
-                <img src="http://localhost/pics/12101.thumb.jpg?version=8" />
-            </div>
-            <div class="profile_name">{{user.first_name}} {{user.last_name}}</div>
-        </div>
-
-        {{#if event}}
-        <div class="event_selection_summary">
-            <h3>Going to</h3>
-            <div class="going_to">{{event.name}}</div>
-            <ul>
-                <li><a class="switch" href="#switch">switch</a></li>
-                <li><a class="action show_deal_link " href="/events/{{event.id}}/deal">claim deal</a></li>
-                <li><a class="action event_invite_link" href="/events/{{event.id}}/invite">invite</a></li>
-            </ul>
-        </div>
-        {{/if}}
-    </div>
-</script>
-
 <nav id="nav">
 
     <a class="logo" href="/"><img src="/images/logo.transparent.png" class="logo_transparent"/></a>

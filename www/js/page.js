@@ -33,16 +33,36 @@ Handlebars.registerHelper('formatDate', function(date) {
 
     var templates = {};
 
-    var fetchContent = function(name) {
-        return $('#' + name).html();
+    var fetchTemplate = function(name) {
+        if (templates[name])
+            return templates[name];
+
+        var pTemplate = $.Deferred();
+
+        var container = $('script#' + name);
+        if (container.length > 0) {
+            templates[name] = Handlebars.compile(container.html());
+            pTemplate.resolve(templates[name])
+        }
+        else {
+            $.get('/templates/' + name + '.html', function(html) {
+                templates[name] = Handlebars.compile(html);
+                pTemplate.resolve(templates[name]);
+            });
+        }
+
+        return pTemplate.promise();
     };
 
     $.fn.template = function(name, data) {
-        if (!templates[name]) {
-            templates[name] = Handlebars.compile(fetchContent(name));
-        }
-        this.html(templates[name](data));
-        return this;
+        var self = this;
+        var pTemplate = fetchTemplate(name);
+
+        $.when(pTemplate).then(function(template) {
+            self.html(template(data));
+        });
+
+        return pTemplate;
     };
 
 })();
@@ -1038,7 +1058,7 @@ $('#right .switch').live('click', function(e) {
 });
 
 $('.event_day').live('datechange', function(e) {
-    $('#right').template('side-profile-template', {
+    $('#right').template('side-profile', {
         user: whowentout.currentUser.toJSON(),
         date: e.date,
         event: e.event
