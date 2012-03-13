@@ -172,19 +172,27 @@ input[type="submit"], button {
 }
 
 .gallery {
+	a {
+		text-decoration:none;
+		color:#444;
+	}
+	a:hover {
+		text-decoration:underline;
+	}
 	li {
 		margin: 15px 10px;
 	}
 	.going_to {
 	    .border_radius(6px);
 	    .site_shadow;
-	    margin: 4px;
+	    margin: 0px 0px 2px 0px;
 	    padding: 4px;
 	    background-color: #1874CD;
 	    color: white;
 	    border: 1px solid @primary_color;
 	    font-weight: bold;
 	    font-size: 13px;
+		max-width: 125px;
 	}
 	.gallery_thumb {
 	    .thumb(105px, 140px);
@@ -226,6 +234,7 @@ input[type="submit"], button {
 	    .profile_networks {
 	        height: 16px;
 	        overflow: hidden;
+			text-decoration: none important!;
 	    }
 	}
 }
@@ -553,7 +562,7 @@ td {
         }
         a {
             .scale(0.7);
-            .opacity(0.9);
+            .opacity(1);
             .transition(-webkit-transform 300ms ease-in);
             background: url(/images/calendar.0000000002.png) no-repeat center;
             .day { margin-top: 25px; }

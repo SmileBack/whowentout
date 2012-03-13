@@ -1,5 +1,6 @@
+<?= a_open("profile/$user->id") ?>
 <div class="profile_small <?= $class ?> <?= $is_friend ? 'friend' : '' ?>">
-
+	
     <div class="profile_badge"><?= $is_friend ? 'friend' : '' ?></div>
 
     <?php if ($hidden): ?>
@@ -9,7 +10,7 @@
     <div class="gallery_thumb">
 
         <?php if ($link_to_profile): ?>
-            <?= a_open("profile/$user->id") ?>
+           
         <?php endif; ?>
 
         <?=
@@ -21,7 +22,7 @@
         ?>
 
         <?php if ($link_to_profile): ?>
-            <?= a_close() ?>
+            
         <?php endif; ?>
 
     </div>
@@ -41,5 +42,6 @@
         <?= r::profile_networks(array('user' => $user)) ?>
     <?php endif; ?>
     <?php benchmark::end('profile_networks'); ?>
-
+	
+<?= a_close() ?>
 </div>
