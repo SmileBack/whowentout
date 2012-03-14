@@ -2,6 +2,7 @@
 <html lang="en" style="height: 100%;">
 
 <head>
+    <?= browser::assign_settings() ?>
 
     <meta charset="utf-8">
     <meta name="description" content=""/>

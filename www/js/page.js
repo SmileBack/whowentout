@@ -135,7 +135,8 @@ _.each(HandlebarsHelpers, function(fn, helper) {
 var whowentout = window.whowentout = {};
 _(whowentout).extend(Backbone.Events);
 
-whowentout.currentUser = new User(window.settings.currentUser);
+if (window.settings.currentUser)
+    whowentout.currentUser = new User(window.settings.currentUser);
 
 whowentout.initDialog = function () {
     if (!window.dialog) {

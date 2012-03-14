@@ -38,7 +38,7 @@ allowed_networks:
     - 16777270 #gwu
 
 network_blocker:
-  type: NetworkBlocker
+  type: NetworkPassThrough
   database: database
   allowed_networks: allowed_networks
   allowed_users: allowed_users

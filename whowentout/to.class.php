@@ -43,7 +43,7 @@ class to
             'last_name' => $object->last_name,
             'picture' => array(
                 'normal' => $profile_picture->url('normal'),
-                'thumb' => $profile_picture->url('normal'),
+                'thumb' => $profile_picture->url('thumb'),
                 'square' => $profile_picture->url('facebook.square'),
             ),
         );

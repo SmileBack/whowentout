@@ -89,7 +89,11 @@
 
 <?= flash::message() ?>
 
-<?= js() ?>
+<script type="text/javascript">
+    $(function() {
+        <?= js()->to_js(); ?>
+    });
+</script>
 
 <?php if (environment() == 'localhost' || environment() == 'whowasout'): ?>
 <?= r::debug_summary() ?>
