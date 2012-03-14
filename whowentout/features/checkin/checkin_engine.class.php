@@ -158,24 +158,27 @@ class CheckinEngine
     private function get_all_checkins_on_date_query(DateTime $date, $current_user, $offset = 0, $limit = 0)
     {
         $sql = "SELECT users.id AS user_id, first_name, last_name,
-        		events.id AS event_id, events.name AS event_name, events.date,
-        		networks.name as network_name,
-        		checkins.id AS checkin_id,
-        		user_friends.friend_id AS friend_id
-        		FROM users
-                  INNER JOIN user_networks
-                    ON users.id = user_networks.user_id
-                  INNER JOIN networks
-                  	ON user_networks.network_id = networks.id AND networks.name IN ('GWU', 'Stanford', 'Maryland')
-                  LEFT JOIN user_friends
-                    ON user_friends.user_id = :user_id AND users.id = user_friends.friend_id
-                  LEFT JOIN checkins
-                    ON users.id = checkins.user_id
-                  LEFT JOIN events
-                    ON checkins.event_id = events.id
-                  WHERE events.id IS NULL OR events.date = :date #AND last_login IS NOT NULL
-                  GROUP BY users.id
-                  ORDER BY events.count DESC, events.id ASC, checkins.time DESC";
+                		events.id AS event_id, events.name AS event_name, events.date,
+                		networks.name as network_name,
+                		checkins.id AS checkin_id,
+                		(user_friends.friend_id IS NOT NULL) as is_friend,
+                        (entourage.friend_id IS NOT NULL) AS is_in_entourage
+                		FROM users
+                          INNER JOIN user_networks
+                            ON users.id = user_networks.user_id
+                          INNER JOIN networks
+                          	ON user_networks.network_id = networks.id AND networks.name IN ('GWU', 'Stanford', 'Maryland')
+                          LEFT JOIN user_friends
+                            ON user_friends.user_id = :user_id AND users.id = user_friends.friend_id
+                          LEFT JOIN entourage
+                            ON entourage.user_id = :user_id AND users.id = entourage.friend_id
+                          LEFT JOIN checkins
+                            ON users.id = checkins.user_id
+                          LEFT JOIN events
+                            ON checkins.event_id = events.id
+                          WHERE (events.id IS NULL OR events.date = :date) AND last_login IS NOT NULL
+                          GROUP BY users.id
+                          ORDER BY events.count DESC, events.id ASC, checkins.time DESC";
 
         if ($limit)
             $sql .= " LIMIT $limit OFFSET $offset";
@@ -206,7 +209,15 @@ class CheckinEngine
             if ($row->event_id)
                 $ec->event = $this->database->table('events')->row($row->event_id);
 
-            $ec->is_friend = ($row->friend_id != null);
+            $ec->is_friend = !!$row->is_friend;
+            $ec->is_in_entourage = !!$row->is_in_entourage;
+
+            if ($ec->is_in_entourage)
+                $ec->connection = 'entourage';
+            elseif ($ec->is_friend)
+                $ec->connection = 'friend';
+            else
+                $ec->connection = 'member';
 
             $event_checkins[] = $ec;
         }
@@ -226,4 +237,6 @@ class EventCheckin
     public $user;
     public $event = null;
     public $is_friend = false;
+    public $is_in_entourage = false;
+    public $connection = 'member';
 }

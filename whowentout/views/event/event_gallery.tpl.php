@@ -13,7 +13,7 @@
             'link_to_profile' => true,
             'show_networks' => true,
             'hidden' => false,
-            'is_friend' => $checkin->is_friend,
+            'badge' => $checkin->connection,
             'class' => ($checkin->event ? "checkin_event_{$checkin->event->id}" : '')
                      . " checkin_user_{$checkin->user->id}",
             'defer_load' => $n++ > 8,
