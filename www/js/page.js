@@ -1052,7 +1052,7 @@ $('.invite_to_form').entwine({
 
 $('#right .switch').live('click', function(e) {
     e.preventDefault();
-    $('.event_picker').scrollTo(function() {
+    $('#content').scrollTo(function() {
         $('.event_picker .switch').click();
     });
 });
