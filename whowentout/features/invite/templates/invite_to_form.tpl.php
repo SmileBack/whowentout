@@ -7,7 +7,11 @@
     <?php endif; ?>
 
     <?php if (!$is_invited): ?>
-        <button>Invite to <?= format::truncate ($event->name) ?></button>
+        <?php if (browser::is_mobile()): ?>
+			<button>Invite to <?= format::truncate ($event->name) ?></button>
+		<?php else: ?>
+			<button>Invite to </br> <?= ($event->name) ?></button>
+		<?php endif; ?>
 	<?php endif; ?>
 
 </form>
