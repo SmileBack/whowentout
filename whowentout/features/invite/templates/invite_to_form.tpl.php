@@ -7,7 +7,7 @@
     <?php endif; ?>
 
     <?php if (!$is_invited): ?>
-        <button>Invite to <br/> <?= /* format::truncate */ ($event->name) ?></button>
+        <button>Invite to <?= format::truncate ($event->name) ?></button>
 	<?php endif; ?>
 
 </form>
