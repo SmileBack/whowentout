@@ -151,6 +151,38 @@ function js()
     return $js;
 }
 
+function array_get($arr, $path)
+{
+    if (!$path)
+        return null;
+
+    $segments = is_array($path) ? $path : explode('.', $path);
+    $cur =& $arr;
+    foreach ($segments as $segment) {
+        if (!isset($cur[$segment]))
+            return null;
+
+        $cur = $cur[$segment];
+    }
+
+    return $cur;
+}
+
+function array_set(&$arr, $path, $value)
+{
+    if (!$path)
+        return null;
+
+    $segments = is_array($path) ? $path : explode('.', $path);
+    $cur =& $arr;
+    foreach ($segments as $segment) {
+        if (!isset($cur[$segment]))
+            $cur[$segment] = array();
+        $cur =& $cur[$segment];
+    }
+    $cur = $value;
+}
+
 function current_url()
 {
     return isset($_SERVER['PATH_INFO'])
@@ -274,4 +306,9 @@ function string_before_last($needle, $haystack)
     } else {
         return substr($haystack, 0, $pos);
     }
+}
+
+function _($values)
+{
+    return $values;
 }
