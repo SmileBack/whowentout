@@ -1032,19 +1032,29 @@ td {
 			height: 200px;
 			text-align: center;
 			overflow-y: scroll;
+			li {
+				margin: 0;
+				.profile_small {
+					padding: 0;
+					a {
+						padding: 4px 0 0 0;
+						width: 90px;
+						margin: 2px;
+						.gallery_thumb {
+							height: auto;
+							img {
+								width: 54px;
+								height: 72px;
+								min-width: 54px;
+								min-height: 72px;
+							}
+						}
+					}
+				}
+			}
 		}
-		img {
-			width: 54px;
-			height: 72px;
-		}
-		li {
-			margin: 0;
-		}
-		.profile_small {
-			padding: 4px 0 0 0;
-			width: 90px;
-			margin: 2px;
-		}
+		
+
 		.profile_name {
 			margin: 0;
 			font-size: 11px;
