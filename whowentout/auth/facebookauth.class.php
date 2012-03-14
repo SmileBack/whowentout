@@ -34,6 +34,9 @@ class FacebookAuth extends Auth
     {
         $facebook_id = $this->get_logged_in_facebook_id();
 
+        if (!$facebook_id)
+            return null;
+
         $user = $this->database->table('users')
                                ->where('facebook_id', $facebook_id)
                                ->first();
