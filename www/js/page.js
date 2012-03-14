@@ -25,38 +25,67 @@
 
 var User = Backbone.Model.extend({});
 
-Handlebars.registerHelper('formatDate', function(date) {
-    return date.format('l M jS');
-});
-
 (function() {
 
-    var templates = {};
+    var uniqueID = function() {
+        var date = new Date();
+        return date.getTime();
+    };
 
-    var fetchTemplate = function(name) {
+    var getSubtemplateNames = function(html) {
+        var regex = /\{\{\s*include\s*"([^"]+)/g, matches, names = [];
+        while (matches = regex.exec(html)) {
+            names.push(matches[1]);
+        }
+        return _.uniq(names);
+    };
+
+    var templateHtml = {};
+    $.templateHtml = function(name) {
+        if (templateHtml[name])
+            return templateHtml[name];
+
+        var pHtml = $.Deferred();
+
+        var container = $('script#' + name);
+        if (container.length > 0) {
+            templateHtml[name] = container.html();
+            pHtml.resolve(templateHtml[name]);
+        }
+        else {
+            $.get('/templates/' + name + '.html?version=' + uniqueID(), function(html) {
+                templateHtml[name] = html;
+                pHtml.resolve(templateHtml[name]);
+            });
+        }
+
+        return pHtml.promise();
+    };
+
+    var templates = {};
+    $.template = function(name) {
         if (templates[name])
             return templates[name];
 
         var pTemplate = $.Deferred();
 
-        var container = $('script#' + name);
-        if (container.length > 0) {
-            templates[name] = Handlebars.compile(container.html());
-            pTemplate.resolve(templates[name])
-        }
-        else {
-            $.get('/templates/' + name + '.html', function(html) {
-                templates[name] = Handlebars.compile(html);
+        $.when($.templateHtml(name)).then(function(html) {
+            templates[name] = Handlebars.compile(html);
+            Handlebars.registerPartial(name, templates[name]);
+
+            var subtemplateNames = getSubtemplateNames(html);
+            var pSubtemplates = _.map(subtemplateNames, $.template);
+            $.when.apply(this, pSubtemplates).then(function() {
                 pTemplate.resolve(templates[name]);
             });
-        }
+        });
 
         return pTemplate.promise();
     };
 
     $.fn.template = function(name, data) {
         var self = this;
-        var pTemplate = fetchTemplate(name);
+        var pTemplate = $.template(name);
 
         $.when(pTemplate).then(function(template) {
             self.html(template(data));
@@ -66,6 +95,42 @@ Handlebars.registerHelper('formatDate', function(date) {
     };
 
 })();
+
+var HandlebarsHelpers = {
+    include: function(partialName, options) {
+        // Find the partial in question.
+        var partial = Handlebars.partials[partialName];
+
+        // Build the new context; if we don't include `this` we get functionality
+        // similar to {% include ... with ... only %} in Django.
+        var context = _.extend({}, this, options.hash);
+
+        // Render, marked as safe so it isn't escaped.
+        return new Handlebars.SafeString(partial(context));
+    },
+    debug: function(value) {
+        console.log("Current Context");
+        console.log("====================");
+        console.log(this);
+
+        if (value) {
+            console.log("Value");
+            console.log("====================");
+            console.log(value);
+        }
+    },
+    formatDate: function(date, block) {
+        format = block.hash['format'] || 'l M jS';
+        return date.format(format);
+    },
+    nightOf: function(date) {
+        return date.format('l') + ' night';
+    }
+};
+
+_.each(HandlebarsHelpers, function(fn, helper) {
+    Handlebars.registerHelper(helper, fn);
+});
 
 var whowentout = window.whowentout = {};
 _(whowentout).extend(Backbone.Events);
