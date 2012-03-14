@@ -29,9 +29,9 @@ class JsWindowObject extends JsObject
     {
         $script = array(
             '<script type="text/javascript">',
-            '$(function() {',
+            '',
             $this->to_js(),
-            '});',
+            '',
             '</script>',
             '',
         );

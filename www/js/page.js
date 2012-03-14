@@ -70,11 +70,7 @@ Handlebars.registerHelper('formatDate', function(date) {
 var whowentout = window.whowentout = {};
 _(whowentout).extend(Backbone.Events);
 
-whowentout.currentUser = new User({
-    id: 53,
-    first_name: 'Venkat',
-    last_name: 'Dinavahi'
-});
+whowentout.currentUser = new User(window.settings.currentUser);
 
 whowentout.initDialog = function () {
     if (!window.dialog) {

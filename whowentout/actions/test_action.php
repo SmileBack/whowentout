@@ -5,10 +5,8 @@ class TestAction extends Action
 
     function execute()
     {
-        $user_ids = range(8250, 8270);
-        $urls = $this->get_profile_picture_urls($user_ids);
-
-        krumo::dump($urls);
+        $json = to::json(auth()->current_user());
+        krumo::dump($json);
     }
 
     function get_profile_picture_urls($user_ids = array())

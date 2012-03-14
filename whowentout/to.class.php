@@ -18,6 +18,37 @@ class to
         return static::row('places', $value);
     }
 
+    static function json($object)
+    {
+        if ($object instanceof DatabaseRow && $object->table()->name() == 'users') {
+            return static::json_user($object);
+        }
+        elseif ($object instanceof DatabaseRow && $object->table()->name() == 'event') {
+            return array(
+                'id' => $object->id,
+                'name' => $object->name,
+                'date' => $object->date,
+            );
+        }
+    }
+
+    static function json_user($object)
+    {
+        /* @var $profile_picture ProfilePicture */
+        $profile_picture = build('profile_picture', $object);
+        $profile_picture->url('normal');
+        return array(
+            'id' => $object->id,
+            'first_name' => $object->first_name,
+            'last_name' => $object->last_name,
+            'picture' => array(
+                'normal' => $profile_picture->url('normal'),
+                'thumb' => $profile_picture->url('normal'),
+                'square' => $profile_picture->url('facebook.square'),
+            ),
+        );
+    }
+
     private static function row($table, $value)
     {
         if (is_int($value) || is_string($value))
