@@ -302,13 +302,9 @@ body.dialog_visible #page {
 		width: 120px;
 		margin: 5px 6px 10px 6px;
 	}
-	img {
-		width: 60px;
-		height: 80px;
-	}
 	.going_to {
 		font-size: 11px;
-		margin: 4px 0px 1px 0px;
+		margin: 4px 0px 2px 0px;
 		-webkit-border-radius: 8px;
 		-moz-border-radius: 8px;
 		-ms-border-radius: 8px;
@@ -318,19 +314,25 @@ body.dialog_visible #page {
 	.profile_small {
 		padding: 2px 0 0 0;
 		width: auto;
-	}
-	.profile_name {
-		font-size: 11px;
-		margin-top: 1px;
-		height: auto;
-		max-width: 120px;
-	}
-	.profile_networks {
-		font-size: 11px;
-		max-width: 120px;
-	}
-	.gallery_thumb {
-		height: auto;
+		.gallery_thumb {	
+			height: auto;
+			img {
+				width: 60px;
+				height: 80px;
+				min-width: 60px;
+				min-height: 80px;
+			}
+		}
+		.profile_name {
+			font-size: 11px;
+			margin-top: 1px;
+			height: auto;
+			max-width: 120px;
+		}
+		.profile_networks {
+			font-size: 11px;
+			max-width: 120px;
+		}
 	}
 	button {
 		font-size: 11px;
