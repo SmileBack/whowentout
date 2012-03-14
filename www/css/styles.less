@@ -902,23 +902,40 @@ td {
 }
 
 .profile {
-    float: left;
+	float: left;
     overflow: hidden;
     .send_message_link {
         margin-top: 10px;
         .button_style;
         .white_button;
-        display: block;
+        display: none;
         float: right;
     }
+	h2 {
+		color: @primary_color;
+		font-size: 20px;
+		border-bottom: 1px solid grey;
+	}
     .profile_inner {
-        margin: 25px 50px;
+        min-height: 750px;
+		margin: 25px 50px;
         overflow: hidden;
+		.profile_name {
+			margin: 15px 0px 5px 0px;
+		}
     }
+	.profile_top {
+		width:770px;
+		overflow: hidden;
+		margin: 15px 10px 20px 5px;
+		padding: 15px 0px 20px 20px;
+		-moz-box-shadow: 0 0 5px #bfbfbf;
+		-webkit-box-shadow: 0 0 5px #bfbfbf;
+		box-shadow: 0 0 5px #bfbfbf;
+	}
     section {
         float: left;
-        clear: both;
-        width: 100%;
+        width: 40%;
         margin: 20px 0;
         > h3 {
             width: 100%;
@@ -933,15 +950,28 @@ td {
         }
     }
     .checkins_section {
+        width: 375px;
+		margin-right:0px;
+		margin-left:5px;
+		padding:15px 20px 20px 20px;
         font-size: 1em;
+		-moz-box-shadow: 0 0 5px #bfbfbf;
+		-webkit-box-shadow: 0 0 5px #bfbfbf;
+		box-shadow: 0 0 5px #bfbfbf;
+        .profile_checkins {
+			height: 310px;
+			margin: 5px 0 0 5px;
+			overflow-y:scroll;
+		}
         .checkin {
             .site_shadow;
+			width:320px;
             display: block;
-            margin: 16px 8px;
+            margin:5px 0 10px 0;
             overflow: hidden;
             cursor: pointer;
             text-decoration: none;
-            color: #333;
+			color: #333;
             &:hover {
                 background-color: @selected_item_color;
                 text-decoration: underline;
@@ -958,23 +988,94 @@ td {
             display: block;
         }
     }
-    .mutual_friends_section > ul,
-    .mutual_friends_section > ul,
+
+	.entourage {
+		width:300px;
+		float:right;
+		padding:15px 20px 20px 20px;
+		margin-right:5px;
+		-moz-box-shadow: 0 0 5px #bfbfbf;
+		-webkit-box-shadow: 0 0 5px #bfbfbf;
+		box-shadow: 0 0 5px #bfbfbf;
+		.profile_small {
+			padding: 0;
+			width: auto;
+			margin: 0 5px 5px 5px;
+		}
+		img {
+			width: 90px;
+			height: 120px;
+			margin: 10px 15px 0px 15px;
+		}
+		.profile_name {
+			margin: 0 0 2px 0;
+		}
+		li {
+			margin: 0;
+		}
+		.gallery {
+			text-align: left;
+			height: 311px;
+			overflow-y: scroll;
+		}
+		h3 {
+			margin-bottom: 4px;
+		}
+	}
+	
     .entourage_outgoing_requests > ul {
         .gallery;
     }
+	
+	.mutual_friends_section {
+		.gallery {
+			height: 200px;
+			text-align: center;
+			overflow-y: scroll;
+		}
+		img {
+			width: 54px;
+			height: 72px;
+		}
+		li {
+			margin: 0;
+		}
+		.profile_small {
+			padding: 4px 0 0 0;
+			width: 90px;
+			margin: 2px;
+		}
+		.profile_name {
+			margin: 0;
+			font-size: 11px;
+			overflow: visible;
+		}
+		h3 {
+			font-size:13px;
+			margin: 10px 0 2px 0;
+			border-bottom: 1px solid grey;
+			padding-bottom: 0;
+		}
+	}
+	
     .profile_pic {
-        .site_shadow;
+		> img{
+			width: 150px;
+			}
         float: left;
         overflow: hidden;
-        padding: 15px;
-        margin: 15px;
     }
     .profile_info {
-        float: left;
+		margin-left: 20px;
+		float: left;
+		width: 275px;
+		height: 225px;
         overflow: hidden;
-        margin: 15px;
-
+		dt {
+			width: 75%;
+			margin: 10px 0px 2px 0px;
+			border-bottom: 1px solid grey;
+		}
     }
     .profile_edit_picture_link {
         display: block;
