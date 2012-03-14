@@ -946,10 +946,16 @@ $('#events_date_selector').entwine({
     };
 
     matchers.connection = function(el, c) {
-        if (c == 'everyone')
-            return true;
+        var profile = $(el).find('.profile_small');
 
-        return $(el).find('.profile_small').hasClass(c);
+        if (c == 'members')
+            return true;
+        else if (c == 'friend')
+            return profile.hasClass('friend') || profile.hasClass('entourage');
+        else if (c == 'entourage')
+            return profile.hasClass('entourage');
+        else
+            return false;
     };
 
     var isMatch = function(el, filters) {

@@ -10,6 +10,7 @@ class Event_List_Display extends Display
         'type' => 'all',
         'add_form' => true,
         'notice' => false,
+        'explanation' => '',
     );
 
     function process()

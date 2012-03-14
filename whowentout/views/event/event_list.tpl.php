@@ -2,6 +2,9 @@
 <p><?= $notice ?></p>
 <?php endif; ?>
 <div class="event_list <?= $selected_event ? 'event_selected collapsed' : '' ?>">
+
+    <div class="explanation"><?= $explanation ?></div>
+
     <ul class="events">
 
         <?php if ($add_form): ?>

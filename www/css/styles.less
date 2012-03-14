@@ -212,15 +212,22 @@ input[type="submit"], button {
 	        //background-color: #caff70;
 	    }
 	    .profile_badge {
-	        .note;
-	        width: 75px;
+	        background: url(/images/badge-red.png) no-repeat center;
+	        width: 30px;
+	        height: 30px;
 	        position: absolute;
+	        text-indent: -9999px;
 	        bottom: -6px;
 	        right: -6px;
-	        background-color: #eee;
-	        color: #333;
-	        border: 1px solid #bbb;
-	        .site_shadow;
+	        &.member {
+	            background-image: url(/images/badge-green.png);
+	        }
+	        &.friend {
+	            background-image: url(/images/badge-red.png);
+	        }
+	        &.entourage {
+	            background-image: url(/images/badge-yellow.png);
+	        }
 	        &:empty {
 	            display: none;
 	        }
@@ -992,7 +999,7 @@ td {
     }
     .search {
         padding: 8px;
-        margin-top: 4px;
+        margin-top: 6px;
         width: 250px;
         float: right;
         background: url(/images/search.png) no-repeat center right;
@@ -1007,11 +1014,20 @@ td {
     overflow: auto;
     label {
         float: left;
-    }
-    label span {
-        text-align: center;
-        padding: 8px 16px;
-        display: block;
+        border-right: #D0D0D0;
+        span {
+            text-align: center;
+            padding: 12px 16px;
+            display: block;
+            padding-left: 50px;
+            background: url(/images/badge-yellow.png) 9px 50% no-repeat;
+        }
+        &.members span {
+            background-image: url(/images/badge-green.png);
+        }
+        &.friends span {
+            background-image: url(/images/badge-red.png);
+        }
     }
     input {
         position: fixed;

@@ -34,16 +34,13 @@
 	            </li>
 	        </ul>
 		
-		<div class="explanation">
-			<p><em>Bar/Club</em>: <strong>Select the bar/club you are thinking of going to. You can change your selection at any time.</strong></p>
-		</div>
-		
         <div class="bar_club pane">
             <?= r::event_list(array(
                 'date' => $date,
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => array('bar', 'club'),
+                'explanation' => '<p><em>Bar/Club</em>: <strong>Select the bar/club you are thinking of going to. You can change your selection at any time.</strong></p>',
             )); ?>
         </div>
 
@@ -53,6 +50,7 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => 'house party',
+                'explanation' => 'Add a party below or select one that you are going to.',
             )); ?>
         </div>
 
@@ -62,6 +60,7 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => 'other',
+                'explanation' => 'Doing something more chill tonight? Add it to the list below.',
             )); ?>
         </div>
 
