@@ -6,13 +6,17 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
 ?>
 
 <section class="entourage">
-    <h3>
-        <span>
-            <?= ucfirst(format::owner($user)) ?> Entourage
-        </span>
-        <span>(<?= count($entourage) ?>)</span>
-    </h3>
-
+	<div class="entourage_header">
+	    <h3>
+	        <span>
+	            <?= ucfirst(format::owner($user)) ?> Entourage
+	        </span>
+	        <span>(<?= count($entourage) ?>)</span>
+	    </h3>
+	    <?php if ($show_invite_link): ?>
+	        <a class="entourage_request_link action" href="/entourage/invite">Send Requests</a>
+	    <?php endif; ?>
+	</div>
 
     <?php if (empty($entourage)): ?>
     <div class="definition">
@@ -20,13 +24,14 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
         <em class="proununciation">[ahn-too-rahzh]</em>
         <span class="part">noun</span>
         <ol>
-            <li>The people you roll with</li>
+            <li>The people you go out with</li>
         </ol>
     </div>
     <?php endif; ?>
 
     <?php if (empty($entourage)): ?>
-    <h2>
+    <? return false ?>
+	<h2>
         <?= ucfirst(format::first_name($user)) ?>
         <?= format::pov('has', $user) ?>
         0 people in
@@ -34,9 +39,6 @@ $show_invite_link = isset($show_invite_link) ? $show_invite_link : false;
     </h2>
     <?php endif; ?>
 
-    <?php if ($show_invite_link): ?>
-        <a class="entourage_request_link action" href="/entourage/invite">Send Entourage Request</a>
-    <?php endif; ?>
 
     <?php if (count($entourage) > 0): ?>
         <?= r::profile_gallery(array('users' => $entourage, 'preset' => 'thumb', 'link_to_profile' => true)) ?>
