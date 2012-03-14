@@ -77,7 +77,7 @@
             <div class="going_to"><?= $selected_event->name ?></div>
 
             <ul>
-                <li><a class="switch" href="#switch">switch</a></li>
+                <li><a class="switch" href="#switch">switch event</a></li>
                 <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
 
                 <?php if ($selected_event->place->type != 'undecided base'): ?>
