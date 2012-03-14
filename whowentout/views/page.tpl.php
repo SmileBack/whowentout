@@ -79,9 +79,10 @@
 
 </div>
 
+<?php if (browser::is_desktop()): ?>
 <div id="right">
-
 </div>
+<?php endif; ?>
 
 <!-- page end -->
 
