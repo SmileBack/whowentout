@@ -698,6 +698,63 @@ td {
 		margin: auto;
 		margin-top: 20px;
 	}
+	.event_selection {
+	    width: 95%;
+	    max-width: 580px;
+	    margin: 14px auto;
+	    background-color: @light_color;
+	    border: 1px solid darken(@light_color, 20%);
+	    overflow: hidden;
+	    .profile_small {
+	        margin: 15px;
+	        width: 115px;
+	        float: left;
+	    }
+	    .event_selection_summary {
+	        margin: 10px;
+			width: 565px;
+			h3 {
+				display: none;
+			}
+	        float: left;
+			.going_to {
+				float: left;
+				.border_radius(6px);
+			    .site_shadow;
+			    margin: 0px 0px 2px 0px;
+			    padding: 4px;
+			    background-color: #1874CD;
+			    color: white;
+			    border: 1px solid @primary_color;
+			    font-weight: bold;
+			    font-size: 13px;
+				width: 140px;
+				max-width: 150px;
+			}
+	    }
+		.profile_small {
+			display: none;
+		}
+	    ul {
+			float: right;
+			width: 375px;
+			margin: 2px;
+			overflow: hidden;
+			a {
+		        .button_style;
+		        .green_button;
+		        display: block;
+				padding: 4px;
+				width: 100px;
+				float: left;
+				margin: 0 5px;
+				font-size: 13px;
+	    	}
+			li {
+				float: right;
+			}
+		}
+	}
     .tabs {
 		overflow: hidden;
 		width: 664px;
@@ -775,29 +832,7 @@ td {
     }
 }
 
-.event_selection {
-    width: 95%;
-    max-width: 400px;
-    margin: 14px auto;
-    background-color: @light_color;
-    border: 1px solid darken(@light_color, 20%);
-    overflow: hidden;
-    .profile_small {
-        margin: 15px;
-        width: 115px;
-        float: left;
-    }
-    .event_selection_summary {
-        margin: 15px 0;
-        float: left;
-    }
-    ul a {
-        .button_style;
-        .blue_button;
-        display: block;
-        margin: 8px 0;
-    }
-}
+
 
 
 .event_list {
@@ -810,6 +845,8 @@ td {
         border-bottom: 1px solid #b0b0b0;
     }
     ul.events {
+		margin: 5px;
+		border: 1px solid #b5b5b5;
         height: 152px;
         overflow-y: scroll;
         overflow-x: hidden;
@@ -821,7 +858,7 @@ td {
     .event_option {
       overflow:  hidden;
       display: block;
-      margin: 0 25px;
+      margin: 0 15px;
       width: 100%;
       position: relative;
       .radio {
