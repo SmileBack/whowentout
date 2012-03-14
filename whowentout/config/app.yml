@@ -22,7 +22,9 @@ route_matcher:
 
 router:
   type: ActionRouter
-  app: app
+  route_matcher: route_matcher
+  class_loader: class_loader
+  event_dispatcher: event_dispatcher
   routes:
     "test": TestAction
     "/": ViewHomepage

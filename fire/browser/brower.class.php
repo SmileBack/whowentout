@@ -5,6 +5,8 @@ class browser
 
     protected static $devices = array('blackberry', 'android', 'iphone');
 
+    public static $settings = array();
+
     static function classes()
     {
         $classes = array();
@@ -54,6 +56,13 @@ class browser
     static function is_desktop()
     {
         return !static::is_mobile();
+    }
+
+    static function assign_settings()
+    {
+        $window = new JsWindowObject();
+        $window->settings = static::$settings;
+        return $window->script();
     }
 
 }
