@@ -1,15 +1,15 @@
 <?= a_open("profile/$user->id") ?>
 <div class="profile_small <?= $class ?>">
 
-    <?php if ($badge): ?>
-        <div class="profile_badge <?= $badge ?>"><?= $badge ?></div>
-    <?php endif; ?>
-
     <?php if ($hidden): ?>
         <?= img('/images/profile_anonymous.png'); ?>
     <?php else: ?>
 
     <div class="gallery_thumb">
+
+        <?php if ($badge): ?>
+            <div class="profile_badge <?= $badge ?>"><?= $badge ?></div>
+        <?php endif; ?>
 
         <?php if ($link_to_profile): ?>
            

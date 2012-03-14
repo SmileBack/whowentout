@@ -196,27 +196,27 @@ input[type="submit"], button {
 	}
 	.gallery_thumb {
 	    .thumb(105px, 140px);
+	    overflow: visible;
 	    margin: auto;
 	    background: url(/images/spinner.gif) no-repeat center;
+	    position: relative;
 	}
 	.profile_small {
 	    padding: 5px 15px;
 	    text-align: center;
 	    width: 105px;
-	    overflow: hidden;
 	    .site_shadow;
 	    background-color: white;
-	    position: relative;
 	    .transition(background-color 500ms ease-in);
 	    &.seen {
 	        //background-color: #caff70;
 	    }
 	    .profile_badge {
 	        .note;
-	        position: absolute;
-	        top: 8px;
-	        right: 8px;
 	        width: 75px;
+	        position: absolute;
+	        bottom: -6px;
+	        right: -6px;
 	        background-color: #eee;
 	        color: #333;
 	        border: 1px solid #bbb;
