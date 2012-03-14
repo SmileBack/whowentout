@@ -34,11 +34,12 @@
 		        <section class="mutual_friends_section">
 		            <h3>Mutual Friends (<?= count($mutual_friends) ?>)</h3>
 		            <?php if (count($mutual_friends) > 0): ?>
-		                <?= r::profile_gallery(array('users' => $mutual_friends, 'preset' => 'facebook.normal', 'show_networks' => true)); ?>
+		                <?= r::profile_gallery(array('users' => $mutual_friends, 'preset' => 'facebook.normal', 'show_networks' => false)); ?>
 		            <?php else: ?>
 		                <h2>You and <?= $user->first_name ?> have no friends in common.</h2>
 		            <?php endif; ?>
 		        </section>
+		        <?php endif; ?>
 
 	            <?php if (!$your_profile): ?>
 	            <a class="send_message_link coming_soon" href="#send_message">Send Message</a>
@@ -55,7 +56,6 @@
 
 		<?= r::entourage_section(array('user' => $user, 'show_invite_link' => $your_profile)); ?>
 
-        <?php endif; ?>
 
     </div>
 </div>
