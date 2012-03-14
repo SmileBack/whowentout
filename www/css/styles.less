@@ -985,12 +985,41 @@ td {
 }
 
 .gallery_filter {
-    > div {
-        display: inline-block;
-        margin: 8px 4px 0 4px;
+    overflow: hidden;
+    padding: 8px 16px;
+    .radio_toggle {
+        float: left;
     }
     .search {
+        padding: 8px;
+        margin-top: 4px;
+        width: 250px;
+        float: right;
         background: url(/images/search.png) no-repeat center right;
+    }
+}
+
+.radio_toggle {
+    .border_radius(4px);
+    margin: 4px;
+    background-color: #EFEFEF;
+    border: 1px solid #D0D0D0;
+    overflow: auto;
+    label {
+        float: left;
+    }
+    label span {
+        text-align: center;
+        padding: 8px 16px;
+        display: block;
+    }
+    input {
+        position: fixed;
+        top: -999px;
+    }
+    input:checked + span {
+        background-color:#404040;
+        color:#F7F7F7;
     }
 }
 

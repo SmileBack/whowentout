@@ -664,8 +664,7 @@ $('.inline_label').entwine({
     onunmatch:function () {
     },
     isEmpty:function () {
-        var val = this.val();
-        return val == '' || val == this.attr('title');
+        return this.val() == '';
     },
     showLabelText:function () {
         if (this.isEmpty()) {
@@ -684,6 +683,22 @@ $('.inline_label').entwine({
     },
     onfocusout:function () {
         this.showLabelText();
+    },
+    val: function(value, original) {
+        var labelText = this._super();
+        var actualValue = labelText;
+
+        if (labelText == this.attr('title'))
+            actualValue = '';
+
+        if (arguments.length == 0)
+            return actualValue;
+        else if (arguments.length == 1)
+            return this._super(value);
+        else if (arguments.length == 3)
+            return labelText;
+        else
+            throw new Exception('Unsupported');
     }
 });
 
@@ -930,11 +945,11 @@ $('#events_date_selector').entwine({
         return true;
     };
 
-    matchers.friend = function(el, isFriend) {
-        if (isFriend == 'on')
-            isFriend == true;
+    matchers.connection = function(el, c) {
+        if (c == 'everyone')
+            return true;
 
-        return isFriend ? $(el).find('.profile_small').hasClass('friend') : true;
+        return $(el).find('.profile_small').hasClass(c);
     };
 
     var isMatch = function(el, filters) {
@@ -1087,7 +1102,8 @@ $('.gallery_filter :input').entwine({
         });
     },
     updateGalleryFilter: function() {
-        var filters = this.closest('form').formParams();
+        var filters = this.closest('form').val();
+        console.log(filters);
         this.closest('.event_day_summary').find('.gallery').applyFilters(filters);
     },
     onkeyup: function(e) {

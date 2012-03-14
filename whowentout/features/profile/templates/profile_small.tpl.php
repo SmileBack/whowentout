@@ -1,5 +1,5 @@
 <?= a_open("profile/$user->id") ?>
-<div class="profile_small <?= $class ?>">
+<div class="profile_small <?= $class ?> <?= $badge ?>">
 
     <?php if ($hidden): ?>
         <?= img('/images/profile_anonymous.png'); ?>
