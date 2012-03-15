@@ -186,8 +186,8 @@ class CheckinEngine
                           LEFT JOIN checkins
                             ON users.id = checkins.user_id
                           LEFT JOIN events
-                            ON checkins.event_id = events.id AND events.date = :date
-                          WHERE last_login IS NOT NULL
+                            ON checkins.event_id = events.id
+                          WHERE last_login IS NOT NULL AND (events.date = :date OR events.id IS NULL)
                           GROUP BY users.id
                           ORDER BY events.count DESC, events.id ASC, checkins.time DESC";
 
