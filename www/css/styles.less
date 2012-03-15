@@ -719,51 +719,31 @@ td {
 	.event_selection {
 	    width: 95%;
 	    max-width: 580px;
-	    margin: 14px auto;
+	    margin: 0 auto;
+	    padding: 8px;
 	    background-color: @light_color;
 	    border: 1px solid darken(@light_color, 20%);
 	    overflow: hidden;
-	    .profile_small {
-	        margin: 15px;
-	        width: 115px;
+	    img, .going_to {
 	        float: left;
+	    }
+	    .going_to {
+	        margin: 10px;
 	    }
 	    .event_selection_summary {
-	        margin: 35px 10px 10px 0px;
-			width: auto;
-			li {
-				margin-bottom: 10px;
-			}
-			h3 {
-				display: none;
-			}
-	        float: left;
-			.going_to {
-				float: left;
-			}
+	        float: right;
+	        li {
+	            float: left;
+	            margin: 10px 5px;
+	        }
 	    }
-		.profile_small {
-			display: none;
-		}
-	    ul {
-			float: right;
-			width: 375px;
-			margin: 2px;
-			overflow: hidden;
-			a {
-		        .button_style;
-		        .green_button;
-		        display: block;
-				padding: 4px;
-				width: 100px;
-				float: left;
-				margin: 0 5px;
-				font-size: 13px;
-	    	}
-			li {
-				float: right;
-			}
-		}
+	    a {
+	        .button_style;
+	        .green_button;
+	        display: block;
+	        padding: 4px 8px;
+	        width: 90px;
+	    }
 	}
     .tabs {
         @tab_color: @primary_color;

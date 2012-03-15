@@ -70,24 +70,26 @@
 
     <?php if ($selected_event): ?>
     <div class="event_selection">
-		<div class = "top_after_selection">
-			<div class="goingto_and_pic">
-				<div class="going_to"><?= $selected_event->name ?></div>
-		        <?= r::profile_small(array('user' => $user)) ?>
-			</div>
-		   	<div class="event_selection_summary">
+        <?php
+            /* @var $profile_picture ProfilePicture */
+            $profile_picture = build('profile_picture', $this->user);
+            $profile_picture_url = $profile_picture->url('facebook.square');
+        ?>
+        <img src="<?= $profile_picture_url ?>" />
+        <div class="going_to">
+            <?= $selected_event->name ?>
+        </div>
+        <div class="event_selection_summary">
+            <ul>
+                <li><a class="switch" href="#switch">switch event</a></li>
+                <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
 
-	            <ul>
-	                <li><a class="switch" href="#switch">switch event</a></li>
-	                <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
+                <?php if ($selected_event->place->type != 'undecided base'): ?>
+                <li><?= r::event_invite_link(array('event' => $selected_event)) ?></li>
+                <?php endif; ?>
 
-	                <?php if ($selected_event->place->type != 'undecided base'): ?>
-	                <li><?= r::event_invite_link(array('event' => $selected_event)) ?></li>
-	                <?php endif; ?>
-
-	            </ul>
-	        </div>
-		</div>
+            </ul>
+        </div>
     </div>
     <?php endif; ?>
 

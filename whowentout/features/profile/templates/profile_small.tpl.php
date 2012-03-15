@@ -11,10 +11,6 @@
             <div class="profile_badge <?= $badge ?>"><?= $badge ?></div>
         <?php endif; ?>
 
-        <?php if ($link_to_profile): ?>
-           
-        <?php endif; ?>
-
         <?=
             img($profile_picture_url, array(
                 'data-user_id' => $user->id,
@@ -22,10 +18,6 @@
                            . " profile_picture_{$user->id}",
             ))
         ?>
-
-        <?php if ($link_to_profile): ?>
-            
-        <?php endif; ?>
 
     </div>
 
