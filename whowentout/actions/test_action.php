@@ -5,8 +5,17 @@ class TestAction extends Action
 
     function execute()
     {
-        $json = to::json(auth()->current_user());
-        krumo::dump($json);
+//        $env = environment();
+        $env = 'whowentout';
+        $all_networks = array(
+            'localhost' => array('GWU', 'Stanford', 'Georgetown', 'Maryland'),
+            'whowasout' => array('GWU', 'Stanford', 'Georgetown', 'Maryland'),
+            'whowentout' => array('GWU', 'Georgetown', 'Stanford'),
+        );
+        $networks = $all_networks[ $env ];
+
+        $networks_sql = "('" . implode("', '", $networks) . "')";
+        print $networks_sql;
     }
 
     function get_profile_picture_urls($user_ids = array())

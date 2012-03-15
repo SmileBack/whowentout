@@ -166,6 +166,8 @@ class CheckinEngine
      */
     private function get_all_checkins_on_date_query(DateTime $date, $current_user, $offset = 0, $limit = 0)
     {
+        $networks_names_sql = $this->get_network_names_sql();
+
         $sql = "SELECT users.id AS user_id, first_name, last_name,
                 		events.id AS event_id, events.name AS event_name, events.date,
                 		networks.name as network_name,
@@ -176,7 +178,7 @@ class CheckinEngine
                           INNER JOIN user_networks
                             ON users.id = user_networks.user_id
                           INNER JOIN networks
-                          	ON user_networks.network_id = networks.id AND networks.name IN ('GWU', 'Stanford', 'Maryland')
+                          	ON user_networks.network_id = networks.id AND networks.name IN $networks_names_sql
                           LEFT JOIN user_friends
                             ON user_friends.user_id = :user_id AND users.id = user_friends.friend_id
                           LEFT JOIN entourage
@@ -196,6 +198,20 @@ class CheckinEngine
             'date' => $date->format('Y-m-d'),
             'user_id' => $current_user->id,
         ));
+    }
+
+    private function get_network_names_sql()
+    {
+        $env = environment();
+        $all_networks = array(
+            'localhost' => array('GWU', 'Stanford', 'Georgetown', 'Maryland'),
+            'whowasout' => array('GWU', 'Stanford', 'Georgetown', 'Maryland'),
+            'whowentout' => array('GWU', 'Georgetown', 'Stanford'),
+        );
+        $networks = $all_networks[ $env ];
+        $networks_sql = "('" . implode("', '", $networks) . "')";
+
+        return $networks_sql;
     }
 
     /**
