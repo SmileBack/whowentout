@@ -70,22 +70,24 @@
 
     <?php if ($selected_event): ?>
     <div class="event_selection">
-        <?= r::profile_small(array('user' => $user)) ?>
-        <div class="event_selection_summary">
-            <h3>Going to</h3>
-            <div class="going_to"><?= $selected_event->name ?></div>
+		<div class = "top_after_selection">
+			<div class="goingto_and_pic">
+				<div class="going_to"><?= $selected_event->name ?></div>
+		        <?= r::profile_small(array('user' => $user)) ?>
+			</div>
+		   	<div class="event_selection_summary">
 
-            <ul>
-                <li><a class="switch" href="#switch">switch event</a></li>
-                <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
+	            <ul>
+	                <li><a class="switch" href="#switch">switch event</a></li>
+	                <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
 
-                <?php if ($selected_event->place->type != 'undecided base'): ?>
-                <li><?= r::event_invite_link(array('event' => $selected_event)) ?></li>
-                <?php endif; ?>
+	                <?php if ($selected_event->place->type != 'undecided base'): ?>
+	                <li><?= r::event_invite_link(array('event' => $selected_event)) ?></li>
+	                <?php endif; ?>
 
-            </ul>
-
-        </div>
+	            </ul>
+	        </div>
+		</div>
     </div>
     <?php endif; ?>
 
