@@ -187,8 +187,13 @@ input[type="submit"], button {
 		max-width: 125px;
 	}
 	.gallery_thumb {
-	    max-width: 105px;
-        max-height: 140px;
+	    .thumb(105px, 140px);
+	    > img {
+	        min-height: 0;
+	        min-width: 0;
+	        max-width: 105px;
+	        max-height: 140px;
+	    }
 	    overflow: visible;
 	    margin: auto;
 	    background: url(/images/spinner.gif) no-repeat center;
