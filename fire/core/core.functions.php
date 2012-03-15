@@ -307,8 +307,3 @@ function string_before_last($needle, $haystack)
         return substr($haystack, 0, $pos);
     }
 }
-
-function _($values)
-{
-    return $values;
-}
