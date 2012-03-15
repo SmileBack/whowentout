@@ -47,7 +47,7 @@ class ViewDayAction extends Action
         $top_parties = $this->checkin_engine->get_top_parties($date);
 
         $response['date'] = $date->getTimestamp();
-        $response['event'] = to::json($checkin->event);
+        $response['event'] = $checkin ? to::json($checkin->event) : null;
 
         $response['top_parties'] = to::json($top_parties);
 

@@ -73,11 +73,14 @@
         <?php
             /* @var $profile_picture ProfilePicture */
             $profile_picture = build('profile_picture', $this->user);
-            $profile_picture_url = $profile_picture->url('facebook.square');
+            $preset = browser::is_desktop() ? 'facebook.square' : 'normal';
+            $profile_picture_url = $profile_picture->url($preset);
         ?>
-        <img src="<?= $profile_picture_url ?>" />
-        <div class="going_to">
-            <?= $selected_event->name ?>
+        <div class="left">
+            <img src="<?= $profile_picture_url ?>" />
+            <div class="going_to">
+                <?= $selected_event->name ?>
+            </div>
         </div>
         <div class="event_selection_summary">
             <ul>
