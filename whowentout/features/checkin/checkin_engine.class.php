@@ -169,7 +169,7 @@ class CheckinEngine
         $networks_names_sql = $this->get_network_names_sql();
 
         $sql = "SELECT users.id AS user_id, first_name, last_name,
-                		events.id AS event_id, events.name AS event_name, events.date,
+                		MAX(events.id) AS event_id,
                 		networks.name as network_name,
                 		checkins.id AS checkin_id,
                 		(user_friends.friend_id IS NOT NULL) as is_friend,
@@ -186,8 +186,8 @@ class CheckinEngine
                           LEFT JOIN checkins
                             ON users.id = checkins.user_id
                           LEFT JOIN events
-                            ON checkins.event_id = events.id
-                          WHERE last_login IS NOT NULL AND (events.date = :date OR events.id IS NULL)
+                            ON checkins.event_id = events.id AND events.date = :date
+                          WHERE last_login IS NOT NULL
                           GROUP BY users.id
                           ORDER BY events.count DESC, events.id ASC, checkins.time DESC";
 
