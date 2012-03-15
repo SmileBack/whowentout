@@ -63,133 +63,54 @@ Rectangle.prototype.translatePoint = function(pointName, thatRect, thatPoint) {
     return new Rectangle(thatPoint.left + translate.left, thatPoint.top + translate.top, this.width, this.height);
 };
 
+(function($) {
+	var scrollbarWidth = 0;
+	$.getScrollbarWidth = function() {
+		if ( !scrollbarWidth ) {
+			if ( $.browser.msie ) {
+				var $textarea1 = $('<textarea cols="10" rows="2"></textarea>')
+						.css({ position: 'absolute', top: -1000, left: -1000 }).appendTo('body'),
+					$textarea2 = $('<textarea cols="10" rows="2" style="overflow: hidden;"></textarea>')
+						.css({ position: 'absolute', top: -1000, left: -1000 }).appendTo('body');
+				scrollbarWidth = $textarea1.width() - $textarea2.width();
+				$textarea1.add($textarea2).remove();
+			} else {
+				var $div = $('<div />')
+					.css({ width: 100, height: 100, overflow: 'auto', position: 'absolute', top: -1000, left: -1000 })
+					.prependTo('body').append('<div />').find('div')
+						.css({ width: '100%', height: 200 });
+				scrollbarWidth = 100 - $div.width();
+				$div.parent().remove();
+			}
+		}
+		return scrollbarWidth;
+	};
+
+    $.isYScrollbarVisible = function() {
+        return $('body').height() > $(window).height();
+    };
+
+    $.isXScrollbarVisible = function() {
+        return $('body').width() > $(window).width();
+    };
+
+})(jQuery);
+
 (function() {
-
-  var sb_windowTools = {
-    scrollBarPadding: 17, // padding to assume for scroll bars
-
-    // INFORMATION GETTERS
-    // load the page size, view port position and vertical scroll offset
-    updateDimensions: function() {
-            this.updatePageSize();
-            this.updateWindowSize();
-            this.updateScrollOffset();
-    },
-
-    // load page size information
-    updatePageSize: function() {
-            // document dimensions
-            var viewportWidth, viewportHeight;
-            if (window.innerHeight && window.scrollMaxY) {
-                    viewportWidth = document.body.scrollWidth;
-                    viewportHeight = window.innerHeight + window.scrollMaxY;
-            } else if (document.body.scrollHeight > document.body.offsetHeight) {
-                    // all but explorer mac
-                    viewportWidth = document.body.scrollWidth;
-                    viewportHeight = document.body.scrollHeight;
-            } else {
-                    // explorer mac...would also work in explorer 6 strict, mozilla and safari
-                    viewportWidth = document.body.offsetWidth;
-                    viewportHeight = document.body.offsetHeight;
-            };
-            this.pageSize = {
-                    viewportWidth: viewportWidth,
-                    viewportHeight: viewportHeight
-            };
-    },
-
-    // load window size information
-    updateWindowSize: function() {
-            // view port dimensions
-            var windowWidth, windowHeight;
-            if (self.innerHeight) {
-                    // all except explorer
-                    windowWidth = self.innerWidth;
-                    windowHeight = self.innerHeight;
-            } else if (document.documentElement && document.documentElement.clientHeight) {
-                    // explorer 6 strict mode
-                    windowWidth = document.documentElement.clientWidth;
-                    windowHeight = document.documentElement.clientHeight;
-            } else if (document.body) {
-                    // other explorers
-                    windowWidth = document.body.clientWidth;
-                    windowHeight = document.body.clientHeight;
-            };
-            this.windowSize = {
-                    windowWidth: windowWidth,
-                    windowHeight: windowHeight
-            };
-    },
-
-    // load scroll offset information
-    updateScrollOffset: function() {
-            // viewport vertical scroll offset
-            var horizontalOffset, verticalOffset;
-            if (self.pageYOffset) {
-                    horizontalOffset = self.pageXOffset;
-                    verticalOffset = self.pageYOffset;
-            } else if (document.documentElement && document.documentElement.scrollTop) {
-                    // Explorer 6 Strict
-                    horizontalOffset = document.documentElement.scrollLeft;
-                    verticalOffset = document.documentElement.scrollTop;
-            } else if (document.body) {
-                    // all other Explorers
-                    horizontalOffset = document.body.scrollLeft;
-                    verticalOffset = document.body.scrollTop;
-            };
-            this.scrollOffset = {
-                    horizontalOffset: horizontalOffset,
-                    verticalOffset: verticalOffset
-            };
-    },
-
-    // INFORMATION CONTAINERS
-
-    // raw data containers
-    pageSize: {},
-    windowSize: {},
-    scrollOffset: {},
-
-    // combined dimensions object with bounding logic
-    pageDimensions: {
-        pageWidth: function() {
-            return sb_windowTools.pageSize.viewportWidth > sb_windowTools.windowSize.windowWidth ?
-                    sb_windowTools.pageSize.viewportWidth :
-                    sb_windowTools.windowSize.windowWidth;
-        },
-        pageHeight: function() {
-            return sb_windowTools.pageSize.viewportHeight > sb_windowTools.windowSize.windowHeight ?
-                    sb_windowTools.pageSize.viewportHeight :
-                    sb_windowTools.windowSize.windowHeight;
-        },
-        windowWidth: function() {
-            return sb_windowTools.windowSize.windowWidth;
-        },
-        windowHeight: function() {
-            return sb_windowTools.windowSize.windowHeight;
-        },
-        horizontalOffset: function() {
-            return sb_windowTools.scrollOffset.horizontalOffset;
-        },
-        verticalOffset: function() {
-            return sb_windowTools.scrollOffset.verticalOffset;
-        }
-    }
-  };
 
     $.fn.getBox = function () {
         if (this.get(0).tl !== undefined)
             return this.get(0);
 
         var box;
-
-        if (this.is('body')) {
-            sb_windowTools.updateDimensions();
+        if (this.get(0) == window) {
+            var deltaWidth = $.isYScrollbarVisible() ? $.getScrollbarWidth() : 0;
+            var deltaHeight = $.isXScrollbarVisible() ? $.getScrollbarWidth() : 0;
             box = new Rectangle(
-              sb_windowTools.pageDimensions.horizontalOffset(),
-              sb_windowTools.pageDimensions.verticalOffset(),
-              sb_windowTools.pageDimensions.windowWidth(),
-              sb_windowTools.pageDimensions.windowHeight()
+              $(window).scrollLeft(),
+              $(window).scrollTop(),
+              $(window).width() - deltaWidth,
+              $(window).height() - deltaHeight
             );
         }
         else {

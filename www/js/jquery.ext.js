@@ -170,30 +170,6 @@ $.fn.hiddenDimensions = function (includeMargin) {
     });
 };
 
-(function($) {
-	var scrollbarWidth = 0;
-	$.getScrollbarWidth = function() {
-		if ( !scrollbarWidth ) {
-			if ( $.browser.msie ) {
-				var $textarea1 = $('<textarea cols="10" rows="2"></textarea>')
-						.css({ position: 'absolute', top: -1000, left: -1000 }).appendTo('body'),
-					$textarea2 = $('<textarea cols="10" rows="2" style="overflow: hidden;"></textarea>')
-						.css({ position: 'absolute', top: -1000, left: -1000 }).appendTo('body');
-				scrollbarWidth = $textarea1.width() - $textarea2.width();
-				$textarea1.add($textarea2).remove();
-			} else {
-				var $div = $('<div />')
-					.css({ width: 100, height: 100, overflow: 'auto', position: 'absolute', top: -1000, left: -1000 })
-					.prependTo('body').append('<div />').find('div')
-						.css({ width: '100%', height: 200 });
-				scrollbarWidth = 100 - $div.width();
-				$div.parent().remove();
-			}
-		}
-		return scrollbarWidth;
-	};
-})(jQuery);
-
 $.fn.collect = function(fn) {
     var values = [];
 
@@ -344,6 +320,52 @@ $('form').entwine({
             val[pairs[i].name] = pairs[i].value;
         }
         return val;
+    }
+});
+
+
+(function($) {
+
+    var event = $.event,
+        resizeTimeout;
+
+    event.special[ "smartresize" ] = {
+        setup: function() {
+            $( this ).bind( "resize", event.special.smartresize.handler );
+        },
+        teardown: function() {
+            $( this ).unbind( "resize", event.special.smartresize.handler );
+        },
+        handler: function( event, execAsap ) {
+            // Save the context
+            var context = this,
+                args = arguments;
+
+            // set correct event type
+            event.type = "smartresize";
+
+            if(resizeTimeout)
+                clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                jQuery.event.handle.apply( context, args );
+            }, execAsap === "execAsap"? 0 : 100);
+        }
+    }
+
+    $.fn.smartresize = function( fn ) {
+        return fn ? this.bind( "smartresize", fn ) : this.trigger( "smartresize", ["execAsap"] );
+    };
+
+})(jQuery);
+
+$('#view').entwine({
+    setBox: function(box) {
+        this.css({
+            left: box.left + 'px',
+            top: box.top + 'px',
+            width: box.width + 'px',
+            height: box.height + 'px'
+        });
     }
 });
 

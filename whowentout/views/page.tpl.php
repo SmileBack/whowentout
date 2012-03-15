@@ -107,5 +107,7 @@
 <?= r::google_analytics() ?>
 <?php endif; ?>
 
+<div id="view"></div>
+
 </body>
 </html>
