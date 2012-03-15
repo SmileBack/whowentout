@@ -700,7 +700,6 @@ td {
 
 .event_picker {
     text-align: center;
-	text-align: center;
 	margin: 15px auto;
 	h1 {
         margin: 15px 8px 0 8px;
@@ -767,40 +766,36 @@ td {
 		}
 	}
     .tabs {
+        @tab_color: @primary_color;
+        @selected_color: lighten(@tab_color, 10%);
 		overflow: hidden;
 		width: 664px;
 		margin: auto;
         li {
-            display: inline-block;
 			float: left;
+            margin-left: 1px;
+			margin-right: 1px;
         }
         a {
-			background-color: @primary_color;
-			border: 1px solid white;
-			border-top: 6px solid @primary_color;
+			background-color: @tab_color;
 			margin-top: 1px;
 			color: white;
 			font-size: 1.1em;
 			width: 148px;
             padding: 6px 8px 8px 8px;
             display: block;
-			border-radius: 0;
-			-webkit-border-radius: 0;
             text-decoration: none;
-		}
-		a:hover {
-				border-bottom: none;
-				border-top: 6px solid black;
-				margin-top: 1px;
+            &:hover {
+                background-color: @tab_color;
+            }
 		}
         .selected_container {
-			a {
-				border-bottom: none;
-				border-top: 6px solid black;
-				margin-top: 1px;
-				}
+            a {
+                background-color: @selected_color;
+            }
 			.arrow {
-				display: block;
+			    display: block;
+			    border-top: 12px solid @selected_color;
 			}
         }
     }
