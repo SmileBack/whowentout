@@ -33,16 +33,17 @@ class ResultSet implements Iterator
     /**
      * @param  $field_name
      * @param  $field_value
+     * @param $operator
      * @return ResultSet
      */
-    function where($field_name, $field_value)
+    function where($field_name, $field_value, $operator = '=')
     {
         $set = clone $this;
-        $set->add_where($field_name, $field_value);
+        $set->add_where($field_name, $field_value, $operator);
         return $set;
     }
 
-    function add_where($field_name, $field_value)
+    function add_where($field_name, $field_value, $operator = '=')
     {
         benchmark::start(__METHOD__);
 
@@ -55,7 +56,7 @@ class ResultSet implements Iterator
         benchmark::end(__METHOD__ . '::new DatabaseField');
 
         benchmark::start(__METHOD__ . '::new DatabaseWhereFilter');
-        $this->filters[] = new DatabaseWhereFilter($field, $field_value);
+        $this->filters[] = new DatabaseWhereFilter($field, $field_value, $operator);
         benchmark::end(__METHOD__ . '::new DatabaseWhereFilter');
 
         benchmark::end(__METHOD__);

@@ -8,8 +8,9 @@ class DatabaseWhereFilter extends QueryPart
 
     public $value;
 
-    private $unique_id;
+    private $operator = '=';
 
+    private $unique_id;
     private static function unique_field_name()
     {
         static $n = 0;
@@ -17,10 +18,11 @@ class DatabaseWhereFilter extends QueryPart
         return "field__$n";
     }
 
-    function __construct(DatabaseField $field, $value)
+    function __construct(DatabaseField $field, $value, $operator = '=')
     {
         $this->field = $field;
         $this->value = $value;
+        $this->operator = $operator;
 
         $this->unique_id = static::unique_field_name();
     }
@@ -35,7 +37,7 @@ class DatabaseWhereFilter extends QueryPart
         if (is_array($this->value))
             return $this->to_sql_in();
         else
-            return $this->to_sql_equals();
+            return $this->to_sql_operator();
     }
 
     /**
@@ -46,10 +48,10 @@ class DatabaseWhereFilter extends QueryPart
         return array($this->field);
     }
 
-    private function to_sql_equals()
+    private function to_sql_operator()
     {
         $filter_placeholder = $this->get_filter_placeholder();
-        return $this->field->to_sql() . " = :$filter_placeholder";
+        return $this->field->to_sql() . " $this->operator :$filter_placeholder";
     }
 
     private function to_sql_in()
