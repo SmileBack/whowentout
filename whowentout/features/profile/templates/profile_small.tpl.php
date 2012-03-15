@@ -5,22 +5,21 @@
         <?= img('/images/profile_anonymous.png'); ?>
     <?php else: ?>
 
-    <div class="gallery_thumb">
+        <div class="gallery_thumb">
 
-        <?php if ($badge): ?>
-            <div class="profile_badge <?= $badge ?>"><?= $badge ?></div>
-        <?php endif; ?>
+            <?php if ($badge): ?>
+                <div class="profile_badge <?= $badge ?>"><?= $badge ?></div>
+            <?php endif; ?>
 
-        <?=
-            img($profile_picture_url, array(
-                'data-user_id' => $user->id,
-                'class' => ($defer_load ? 'img_load' : 'img_loaded')
-                           . " profile_picture_{$user->id}",
-            ))
-        ?>
+            <?=
+                img($profile_picture_url, array(
+                    'data-user_id' => $user->id,
+                    'class' => ($defer_load ? 'img_load' : 'img_loaded')
+                               . " profile_picture_{$user->id}",
+                ))
+            ?>
 
-    </div>
-
+        </div>
     <?php endif; ?>
 
     <div class="profile_name">
