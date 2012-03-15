@@ -1,5 +1,5 @@
-<?= a_open("profile/$user->id") ?>
 <div class="profile_small <?= $class ?> <?= $badge ?>">
+    <?= a_open("profile/$user->id") ?>
 
     <?php if ($hidden): ?>
         <?= img('/images/profile_anonymous.png'); ?>
@@ -36,6 +36,6 @@
         <?= r::profile_networks(array('user' => $user)) ?>
     <?php endif; ?>
     <?php benchmark::end('profile_networks'); ?>
-	
-<?= a_close() ?>
+
+    <?= a_close() ?>
 </div>
