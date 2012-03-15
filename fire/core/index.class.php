@@ -125,6 +125,7 @@ class Index
 
     private function rebuild()
     {
+        set_time_limit(60 * 2);
         $this->data = array(
             'root' => realpath($this->root),
         );
