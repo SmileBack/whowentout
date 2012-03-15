@@ -229,7 +229,7 @@ whowentout.showInviteDialog = function (event_id) {
 
 whowentout.showEntourageRequestDialog = function () {
     whowentout.showDialog({
-        title: 'Entourage Request',
+        title: 'Entourage Requests',
         url: '/entourage/invite',
         cls: 'invite_dialog'
     });

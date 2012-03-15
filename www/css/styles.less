@@ -368,7 +368,7 @@ input[type="submit"], button {
     #content {
         background-color: white;
         overflow: hidden;
-        min-height: 900px;
+        min-height: 800px;
         border-right: 1px solid grey;
     }
 }
@@ -1040,24 +1040,41 @@ td {
 }
 
 .profile {
-    float: left;
+	float: left;
     overflow: hidden;
     .send_message_link {
         margin-top: 10px;
         .button_style;
         .white_button;
-        display: block;
+        display: none;
         float: right;
     }
+	h2 {
+		color: @primary_color;
+		font-size: 20px;
+		border-bottom: 1px solid grey;
+	}
     .profile_inner {
-        margin: 25px 50px;
+        min-height: 750px;
+		margin: 25px 50px;
         overflow: hidden;
+		.profile_name {
+			margin: 15px 0px 5px 0px;
+		}
     }
+	.profile_top {
+		width:770px;
+		overflow: hidden;
+		margin: 15px 5px 5px 5px;
+		padding: 15px 0px 10px 20px;
+		-moz-box-shadow: 0 0 5px #bfbfbf;
+		-webkit-box-shadow: 0 0 5px #bfbfbf;
+		box-shadow: 0 0 5px #bfbfbf;
+	}
     section {
         float: left;
-        clear: both;
-        width: 100%;
-        margin: 20px 0;
+        width: 40%;
+        margin: 10px 0;
         > h3 {
             width: 100%;
             border-bottom: 1px solid grey;
@@ -1071,15 +1088,31 @@ td {
         }
     }
     .checkins_section {
+        width: 395px;
+		margin-right:0px;
+		margin-left:5px;
+		padding:15px 20px 20px 20px;
         font-size: 1em;
+		-moz-box-shadow: 0 0 5px #bfbfbf;
+		-webkit-box-shadow: 0 0 5px #bfbfbf;
+		box-shadow: 0 0 5px #bfbfbf;
+        h3 {
+			padding-bottom: 5px;
+		}
+		.profile_checkins {
+			height: 310px;
+			margin: 5px 0 0 5px;
+			overflow-y:scroll;
+		}
         .checkin {
             .site_shadow;
+			width:320px;
             display: block;
-            margin: 16px 8px;
+            margin:5px 0 10px 0;
             overflow: hidden;
             cursor: pointer;
             text-decoration: none;
-            color: #333;
+			color: #333;
             &:hover {
                 background-color: @selected_item_color;
                 text-decoration: underline;
@@ -1096,23 +1129,122 @@ td {
             display: block;
         }
     }
-    .mutual_friends_section > ul,
-    .mutual_friends_section > ul,
+
+	.entourage {
+		min-height: 339px;
+		width:300px;
+		float:right;
+		padding:14px 20px 20px 20px;
+		margin-right:5px;
+		-moz-box-shadow: 0 0 5px #bfbfbf;
+		-webkit-box-shadow: 0 0 5px #bfbfbf;
+		box-shadow: 0 0 5px #bfbfbf;
+		.profile_small {
+			padding: 0;
+			width: auto;
+			margin: 0 5px 5px 5px;
+		}
+		img {
+			width: 90px;
+			height: 120px;
+			margin: 10px 15px 0px 15px;
+		}
+		.profile_name {
+			margin: 0 0 2px 0;
+		}
+		li {
+			margin: 0;
+		}
+		.gallery {
+			text-align: left;
+			height: 311px;
+			overflow-y: scroll;
+			.gallery_thumb {
+				height: auto;
+				width: auto;
+				img {
+					width: 90px;
+					height: 120px;
+					min-width: 90px;
+					min-height: 120px;
+				}
+			}
+		}
+		.entourage_header {
+			border-bottom: 1px solid grey;
+			overflow: hidden;
+			h3 {
+				width: auto;
+				float: left;
+				margin-bottom: 4px;
+			}
+		}
+	}
+	
     .entourage_outgoing_requests > ul {
         .gallery;
     }
+	
+	.mutual_friends_section {
+		margin: 0;
+		.gallery {
+			height: 200px;
+			text-align: center;
+			overflow-y: scroll;
+			li {
+				margin: 0;
+				.profile_small {
+					padding: 4px 0 1px 0;
+					width: 90px;
+					margin: 2px 1px 4px 1px;
+					.gallery_thumb {
+						height: auto;
+						width: auto;
+						img {
+							width: 54px;
+							height: 72px;
+							min-width: 54px;
+							min-height: 72px;
+							}
+					}
+				}
+			}
+		}
+		.profile_name {
+			height: auto;
+			margin: 0;
+			font-size: 11px;
+			overflow: visible;
+		}
+		h3 {
+			font-size:13px;
+			margin: 2px 0 2px 0;
+			border-bottom: 1px solid grey;
+			padding-bottom: 0;
+		}
+	}
+	
     .profile_pic {
-        .site_shadow;
+		> img{
+			width: 150px;
+			}
         float: left;
         overflow: hidden;
-        padding: 15px;
-        margin: 15px;
     }
     .profile_info {
-        float: left;
+		margin-left: 20px;
+		float: left;
+		width: 275px;
+		height: 225px;
         overflow: hidden;
-        margin: 15px;
-
+		dt {
+			width: 75%;
+			margin: 2px 0px 2px 0px;
+			border-bottom: 1px solid grey;
+		}
+		dd {
+			margin-bottom: 10px;
+		}
     }
     .profile_edit_picture_link {
         display: block;
@@ -1123,10 +1255,12 @@ td {
 section.entourage {
     .entourage_request_link {
         .button_style;
-        .white_button;
-        margin: 8px;
+        .green_button;
+        margin-bottom: 2px;
         float: right;
         clear: right;
+		padding: 4px 10px;
+		font-size: 13px;
     }
     h2 {
         float: right;
@@ -1182,7 +1316,8 @@ section.entourage {
 }
 
 .dialog.invite_dialog {
-    .dialog_body {
+    width: 800px;
+	.dialog_body {
         margin: 0;
     }
     .dialog_buttons {
