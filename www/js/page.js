@@ -88,15 +88,33 @@ var User = Backbone.Model.extend({});
         return pTemplate.promise();
     };
 
-    $.fn.template = function(name, data) {
-        var self = this;
+    var getTemplate = function(el) {
+        return $(el).data('__template');
+    };
+
+    var setTemplate = function(el, template) {
+        $(el).data('__template', template);
+    };
+
+    var applyTemplate = function(el, name, data) {
         var pTemplate = $.template(name);
 
         $.when(pTemplate).then(function(template) {
-            self.html(template.render(data));
+            var nEl = $(template.render(data));
+            nEl.data(data);
+            setTemplate(nEl, template);
+
+            $(el).replaceWith(nEl);
         });
 
         return pTemplate;
+    };
+
+    $.fn.template = function(name, data) {
+        if (arguments.length == 0)
+            return getTemplate(this);
+        else
+            return applyTemplate(this, name, data);
     };
 
 })();
