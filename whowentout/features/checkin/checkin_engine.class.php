@@ -173,7 +173,8 @@ class CheckinEngine
                 		networks.name as network_name,
                 		checkins.id AS checkin_id,
                 		(user_friends.friend_id IS NOT NULL) as is_friend,
-                        (entourage.friend_id IS NOT NULL) AS is_in_entourage
+                        (entourage.friend_id IS NOT NULL) AS is_in_entourage,
+                        (event_id IS NOT NULL) AS has_checked_in
                 		FROM users
                           INNER JOIN user_networks
                             ON users.id = user_networks.user_id
@@ -189,7 +190,7 @@ class CheckinEngine
                             ON checkins.event_id = events.id AND events.date = :date
                           WHERE last_login IS NOT NULL
                           GROUP BY users.id
-                          ORDER BY events.count DESC, events.id ASC, checkins.time DESC";
+                          ORDER BY has_checked_in, events.count DESC, events.id ASC, checkins.time DESC";
 
         if ($limit)
             $sql .= " LIMIT $limit OFFSET $offset";
