@@ -379,7 +379,7 @@ input[type="submit"], button {
     top: 20px;
     right: 40px;
     width: 175px;
-    height: 485px;
+    height: 455px;
     border: 1px solid #bfbfbf;
 	background-color: #f5f5f5;
 	.date {
@@ -392,8 +392,17 @@ input[type="submit"], button {
 	}
 	.profile_small {
 		width: 125px;
-		padding: 10px 0;
-		margin: 20px auto;
+		padding: 0px 0 5px 0;
+		margin: 10px auto;
+		.gallery_thumb {
+			text-align: center;
+		}
+		.profile_name {
+			font-size: 13px;
+			font-weight: bold;
+			text-align: center;
+			margin-top: 5px;
+		}
 	}
 	a {
 		.button_style;
@@ -414,6 +423,7 @@ input[type="submit"], button {
 	ul {
 		margin: 25px auto;
 		width: 127px;
+		overflow: hidden;
 	}
 	.going_to {
 		text-align: center;
@@ -428,6 +438,26 @@ input[type="submit"], button {
 			color: black;
 			font-weight: normal;
 			border-top: 1px solid #dbdbdb;
+		}
+	}
+	.top_parties {
+		border: 1px solid #bfbfbf;
+		background-color: whitesmoke;
+		overflow: hidden;
+		width: 100%;
+		h3 {
+			text-align: center;
+			margin: 5px 0 0 0;
+			color: black;
+		}
+		h5 {
+			font-weight: normal;
+			text-align: center;
+			padding-bottom: 5px;
+		}
+		ol {
+			border-top: 1px solid #bfbfbf;
+			padding: 12px 0px 12px 50px;
 		}
 	}
 }
@@ -1095,7 +1125,8 @@ td {
         }
     }
     .checkins_section {
-        width: 395px;
+        min-height: 340px;
+		width: 395px;
 		margin-right:0px;
 		margin-left:5px;
 		padding:15px 20px 20px 20px;
@@ -1138,7 +1169,7 @@ td {
     }
 
 	.entourage {
-		min-height: 339px;
+		min-height: 340px;
 		width:300px;
 		float:right;
 		padding:14px 20px 20px 20px;
