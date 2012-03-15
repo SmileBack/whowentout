@@ -19,13 +19,11 @@ class ViewEventGalleryAction extends Action
         $current_user = $this->auth->current_user();
         $date = $this->parse_date($date);
         $checkin = $this->checkin_engine->get_checkin_on_date($current_user, $date);
-        $filter_friends = ($who == 'friends');
 
         print r::event_gallery(array(
             'date' => $date,
             'user' => $current_user,
-            'filter_friends' => $filter_friends,
-            'selected_event' => $checkin->event,
+            'selected_event' => $checkin ? $checkin->event : null,
         ));
     }
 

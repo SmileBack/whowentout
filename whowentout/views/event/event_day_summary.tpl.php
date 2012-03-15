@@ -12,10 +12,7 @@
         <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
     <?php endif; ?>
 
-    <?php if ($checkin): ?>
-        <?= r::event_gallery_toolbar(array('date' => $date)) ?>
-
-        <div class="load" data-url="<?= '/day/' . $date->format('Ymd') . '/gallery/everyone' ?>"></div>
-    <?php endif; ?>
+    <?= r::event_gallery_toolbar(array('date' => $date)) ?>
+    <div class="load" data-url="<?= '/day/' . $date->format('Ymd') . '/gallery/everyone' ?>"></div>
 
 </div>
