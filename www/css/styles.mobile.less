@@ -100,24 +100,34 @@ h1 {
 
 .event_picker {
     width: 98%;
+	h1 {
+		font-size: 17px;
+	}
 	h3 {
 		font-size: 12px;
 	}
-    .tabs {
-        li {
-            margin: 0;
+    .pre_event_selection {
+		max-width: 100%;
+	}
+	.tabs {
+        max-width: 100%;
+		li {
+            width: 25%;
+			margin: 0;
         }
         a {
             font-size: 12px;
-            width: 75px;
+            width: 100%;
             padding-left: 0;
             padding-right: 0;
         }
     }
     .undecided.pane {
-        h2 {
+        padding: 25px 0;
+		width: 98%;
+		h2 {
             font-size: 12px;
-            padding-right: 70px;
+			padding-bottom: 2px;
         }
         .checkin_badge {
             padding: 8px 16px;
@@ -170,6 +180,28 @@ h1 {
             font-style: italic;
         }
     }
+	.expandable {
+		li {
+			font-size: 11px;
+			font-style: normal;
+		}
+		a {
+			font-size: 11px;
+			font-style: normal;
+		}
+	}
+}
+
+.event_picker .tabs .selected_container {
+	a {
+		background-color: gold;
+		color: black;
+		font-weight: bold;
+		border-top: 6px solid gold;
+	}
+	.arrow {
+		border-top: 12px solid gold;
+	}
 }
 
 .event_gallery .event_gallery_message {
