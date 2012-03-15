@@ -16,7 +16,7 @@
 	            </li>
 	            <li>
 	                <a href="#house_party">
-	                    Parties
+	                    Party
 	                </a>
 					<div class="arrow"></div>
 	            </li>
@@ -28,7 +28,7 @@
 	            </li>
 	            <li>
 	                <a href="#undecided">
-	                    Not Sure Yet
+	                    Not Sure Yet?
 	                </a>
 					<div class="arrow"></div>
 	            </li>
@@ -40,7 +40,7 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => array('bar', 'club'),
-                'explanation' => '<p><em>Bar/Club</em>: <strong>Select the bar/club you are thinking of going to. You can change your selection at any time.</strong></p>',
+                'explanation' => '<p><em>Bar/Club</em>: <strong>Select the bar/club you are thinking of going to. (You can change your selection at any time)</strong></p>',
             )); ?>
         </div>
 
@@ -50,7 +50,7 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => 'house party',
-                'explanation' => 'Add a party below or select one that you are going to.',
+                'explanation' => '<p><em>Party</em>: <strong>Add a party below or select the one you\'re going to. (You can change your selection at any time)</strong>',
             )); ?>
         </div>
 
@@ -60,7 +60,7 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => 'other',
-                'explanation' => 'Doing something more chill tonight? Add it to the list below.',
+                'explanation' => '<p><em>Other</em>: <strong>Doing something else? Add it to the list below. (You can change your selection at any time)</strong>',
             )); ?>
         </div>
 
@@ -70,22 +70,24 @@
 
     <?php if ($selected_event): ?>
     <div class="event_selection">
-        <?= r::profile_small(array('user' => $user)) ?>
-        <div class="event_selection_summary">
-            <h3>Going to</h3>
-            <div class="going_to"><?= $selected_event->name ?></div>
+		<div class = "top_after_selection">
+			<div class="goingto_and_pic">
+				<div class="going_to"><?= $selected_event->name ?></div>
+		        <?= r::profile_small(array('user' => $user)) ?>
+			</div>
+		   	<div class="event_selection_summary">
 
-            <ul>
-                <li><a class="switch" href="#switch">switch event</a></li>
-                <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
+	            <ul>
+	                <li><a class="switch" href="#switch">switch event</a></li>
+	                <li><?= r::show_deal_link(array('event' => $selected_event)) ?></li>
 
-                <?php if ($selected_event->place->type != 'undecided base'): ?>
-                <li><?= r::event_invite_link(array('event' => $selected_event)) ?></li>
-                <?php endif; ?>
+	                <?php if ($selected_event->place->type != 'undecided base'): ?>
+	                <li><?= r::event_invite_link(array('event' => $selected_event)) ?></li>
+	                <?php endif; ?>
 
-            </ul>
-
-        </div>
+	            </ul>
+	        </div>
+		</div>
     </div>
     <?php endif; ?>
 

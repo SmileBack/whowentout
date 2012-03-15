@@ -19,7 +19,7 @@ foreach ($base_types as &$type) {
         form::input('event[name]', '', array(
             'class' => 'inline_label',
             'autocomplete' => 'off',
-            'title' => 'Doing something else?',
+            'title' => 'Add your own',
         ))
         ?>
 

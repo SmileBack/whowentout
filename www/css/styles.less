@@ -172,6 +172,7 @@ input[type="submit"], button {
 }
 
 .gallery {
+	margin-top: 15px;
 	a {
 		text-decoration:none;
 		color:#444;
@@ -240,7 +241,7 @@ input[type="submit"], button {
 }
 
 .going_to {
-    .border_radius(12px);
+    .border_radius(6px);
     .site_shadow;
     margin: 4px;
     padding: 4px 8px;
@@ -363,60 +364,80 @@ input[type="submit"], button {
     }
 }
 
+.sidebar_box {
+    border: 1px solid #bfbfbf;
+    background-color: #f5f5f5;
+}
+
 #right {
 	position: fixed;
     top: 20px;
-    right: 20px;
+    right: 41px;
     width: 160px;
-    height: 485px;
-    border: 1px solid #bfbfbf;
-	background-color: #f5f5f5;
 	.date {
-		text-align: center;
 		font-size: 18px;
-		margin: 10px 0 20px 0;
 		border-bottom: 1px solid #DBDBDB;
-		padding-bottom: 10px;
 		color: black;
+        padding: 8px;
 	}
-	.profile_small {
-		width: 125px;
-		padding: 10px 0;
-		margin: 20px auto;
+    .profile_small {
+        padding: 8px;
+        border-bottom: 1px solid #DBDBDB;
+    }
+	.side_profile {
+	    .sidebar_box;
+	    text-align: center;
+		.profile_name {
+			font-size: 13px;
+			font-weight: bold;
+			margin-top: 5px;
+		}
+        margin-bottom: 20px;
 	}
 	a {
 		.button_style;
 		.green_button;
-		padding: 5px;
-		width: 115px;
-		float: left;
-		margin: 5px 0;
-		img {
-			margin-right: 5px;
-		}
+		margin: 4px 0;
+        padding: 6px 4px;
+        display: block;
         &.event_invite_link > div {
             line-height: 16px;
             padding-left: 18px;
             background: url(/images/facebook.png) no-repeat center left;
         }
 	}
-	ul {
-		margin: 25px auto;
-		width: 127px;
-	}
 	.going_to {
 		text-align: center;
 		margin: auto;
-		width: 125px;
 	}
 	.event_selection_summary {
+	    padding: 8px 16px;
+	    h4 {
+	        font-weight: normal;
+	    }
+	    ul {
+	        margin-top: 26px;
+	    }
+        li {
+           margin: 12px 0;
+    	}
+	}
+	.top_parties {
+		border: 1px solid #bfbfbf;
+		background-color: whitesmoke;
+		overflow: hidden;
 		h3 {
 			text-align: center;
-			font-size: 14px;
-			padding: 20px 0 5px 0;
-			color: black;
+			margin: 5px 0 0 0;
+		}
+		h5 {
 			font-weight: normal;
-			border-top: 1px solid #dbdbdb;
+			text-align: center;
+			padding-bottom: 5px;
+		}
+		ol {
+			border-top: 1px solid #bfbfbf;
+			padding: 12px 0px 12px 50px;
 		}
 	}
 }
@@ -672,6 +693,7 @@ td {
 	h1 {
 		border-top: 1px solid @primary_color;
 		padding-top: 25px;
+		margin-bottom: 20px;
 	}
 }
 
@@ -708,8 +730,11 @@ td {
 	        float: left;
 	    }
 	    .event_selection_summary {
-	        margin: 10px;
-			width: 565px;
+	        margin: 35px 10px 10px 0px;
+			width: auto;
+			li {
+				margin-bottom: 10px;
+			}
 			h3 {
 				display: none;
 			}
@@ -950,7 +975,8 @@ td {
 }
 
 .event_gallery_toolbar {
-    font-weight: bold;
+    .border_radius(3px);
+	font-weight: bold;
     background-color: white;
     border: 1px solid grey;
     width: 80%;
@@ -971,15 +997,19 @@ td {
 }
 
 .gallery_filter {
-    overflow: hidden;
-    padding: 0px 12px;
+	overflow: hidden;
+    padding: 0px 12px 0px 10px;
     .radio_toggle {
         float: left;
-    }
+		.friends {
+			border-right: 1px solid #d0d0d0;
+			border-left: 1px solid #d0d0d0;
+    	}
+	}
     .search {
         padding: 8px;
         margin-top: 6px;
-        width: 250px;
+        width: 225px;
         float: right;
         background: url(/images/search.png) no-repeat center right;
     }
@@ -987,7 +1017,7 @@ td {
 
 .radio_toggle {
     .border_radius(4px);
-    margin: 4px;
+    margin: 3px 2px;
     background-color: #EFEFEF;
     border: 1px solid #D0D0D0;
     overflow: auto;
@@ -1067,7 +1097,8 @@ td {
         }
     }
     .checkins_section {
-        width: 395px;
+        min-height: 340px;
+		width: 395px;
 		margin-right:0px;
 		margin-left:5px;
 		padding:15px 20px 20px 20px;
@@ -1110,7 +1141,7 @@ td {
     }
 
 	.entourage {
-		min-height: 339px;
+		min-height: 340px;
 		width:300px;
 		float:right;
 		padding:14px 20px 20px 20px;
@@ -1503,6 +1534,9 @@ section.entourage {
 	margin-top: 10px;
 	font-size: 13px;
 	font-weight: bold;
+	p {
+		color: @primary_color;
+	}
 	em {
 		font-style: normal;
 		text-decoration: underline;
