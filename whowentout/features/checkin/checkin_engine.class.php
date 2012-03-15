@@ -148,6 +148,15 @@ class CheckinEngine
         return $days_checkins->to_array();
     }
 
+    function get_top_parties(DateTime $date)
+    {
+        $events = $this->database->table('events')
+                                 ->where('date', $date)
+                                 ->order_by('count', 'desc')
+                                 ->limit(3)->to_array();
+        return $events;
+    }
+
     /**
      * @param DateTime $date
      * @param object $current_user
@@ -191,6 +200,7 @@ class CheckinEngine
 
     /**
      * @param DateTime $date
+     * @param object $current_user
      * @param int $offset
      * @param int $limit
      * @return EventCheckin[]

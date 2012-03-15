@@ -25,7 +25,6 @@ $('.scrollable').entwine({
             el.addClass('active');
 
             if (!wasActive) {
-                console.log('woooooo');
                 this.trigger({type: 'selected', item: el});
             }
 

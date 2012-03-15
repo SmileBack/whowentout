@@ -44,12 +44,15 @@ class ViewDayAction extends Action
         ))->render();
 
         $checkin = $this->checkin_engine->get_checkin_on_date(auth()->current_user(), $date);
+        $top_parties = $this->checkin_engine->get_top_parties($date);
 
         $response['date'] = $date->getTimestamp();
         $response['event'] = $checkin ? array(
             'id' => $checkin->event->id,
             'name' => $checkin->event->name,
         ) : null;
+
+        $response['top_parties'] = to::json($top_parties);
 
         print json_encode($response);exit;
     }
@@ -68,11 +71,7 @@ class ViewDayAction extends Action
 
         print r::page(array(
             'content' => r::events_date_selector(array('selected_date' => $date))
-                    . r::event_day(array(
-                        'checkin_engine' => $this->checkin_engine,
-                        'current_user' => $current_user,
-                        'date' => $date,
-                    )),
+                    . '<div class="event_day"></div>',
         ));
     }
 

@@ -19,7 +19,6 @@ class Event_List_Display extends Display
 
         $events = $this->checkin_engine->get_events_on_date($this->date);
 
-
         $events = array_filter($events, $this->matches_type_filter());
         usort($events, $this->sort_events_comparision());
 

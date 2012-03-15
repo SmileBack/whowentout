@@ -26,18 +26,24 @@
 var User = Backbone.Model.extend({});
 
 (function() {
+    var Template = function(html) {
+        this.html = html;
+        this.fn = Handlebars.compile(this.html);
+    };
+    Template.prototype.render = function(data) {
+        return this.fn(data);
+    };
+    Template.prototype.getSubtemplateNames = function() {
+        var regex = /\{\{\s*include\s*"([^"]+)/g, matches, names = [];
+        while (matches = regex.exec(this.html)) {
+            names.push(matches[1]);
+        }
+        return _.uniq(names);
+    };
 
     var uniqueID = function() {
         var date = new Date();
         return date.getTime();
-    };
-
-    var getSubtemplateNames = function(html) {
-        var regex = /\{\{\s*include\s*"([^"]+)/g, matches, names = [];
-        while (matches = regex.exec(html)) {
-            names.push(matches[1]);
-        }
-        return _.uniq(names);
     };
 
     var templateHtml = {};
@@ -70,11 +76,10 @@ var User = Backbone.Model.extend({});
         var pTemplate = $.Deferred();
 
         $.when($.templateHtml(name)).then(function(html) {
-            templates[name] = Handlebars.compile(html);
-            Handlebars.registerPartial(name, templates[name]);
+            var template = templates[name] = new Template(html);
+            Handlebars.registerPartial(name, template.fn);
 
-            var subtemplateNames = getSubtemplateNames(html);
-            var pSubtemplates = _.map(subtemplateNames, $.template);
+            var pSubtemplates = _.map(template.getSubtemplateNames(), $.template);
             $.when.apply(this, pSubtemplates).then(function() {
                 pTemplate.resolve(templates[name]);
             });
@@ -88,7 +93,7 @@ var User = Backbone.Model.extend({});
         var pTemplate = $.template(name);
 
         $.when(pTemplate).then(function(template) {
-            self.html(template(data));
+            self.html(template.render(data));
         });
 
         return pTemplate;
@@ -250,7 +255,6 @@ whowentout.getProfilePictureUrls = function(user_ids) {
     var dfd = $.Deferred();
 
     user_ids = user_ids || [];
-    console.log(user_ids);
 
     $.ajax({
         url: '/profile/urls',
@@ -1109,7 +1113,6 @@ $('.gallery_filter :input').entwine({
     },
     updateGalleryFilter: function() {
         var filters = this.closest('form').val();
-        console.log(filters);
         this.closest('.event_day_summary').find('.gallery').applyFilters(filters);
     },
     onkeyup: function(e) {
@@ -1142,9 +1145,7 @@ $('#right .switch').live('click', function(e) {
 });
 
 $('.event_day').live('datechange', function(e) {
-    $('#right').template('side-profile', {
-        user: whowentout.currentUser.toJSON(),
-        date: e.date,
-        event: e.event
-    });
+    var data = $(this).data();
+    data.user = whowentout.currentUser.toJSON();
+    $('#right').template('right', data);
 });

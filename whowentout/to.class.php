@@ -23,13 +23,27 @@ class to
         if ($object instanceof DatabaseRow && $object->table()->name() == 'users') {
             return static::json_user($object);
         }
-        elseif ($object instanceof DatabaseRow && $object->table()->name() == 'event') {
+        elseif ($object instanceof DatabaseRow && $object->table()->name() == 'events') {
             return array(
                 'id' => $object->id,
                 'name' => $object->name,
                 'date' => $object->date,
+                'deal' => $object->deal,
+                'count' => $object->count,
             );
         }
+        elseif (is_array($object)) {
+            return static::json_array($object);
+        }
+    }
+
+    static function json_array($array)
+    {
+        $values = array();
+        foreach ($array as $key => $value) {
+            $values[$key] = to::json($value);
+        }
+        return $values;
     }
 
     static function json_user($object)

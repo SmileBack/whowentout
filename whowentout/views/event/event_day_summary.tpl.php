@@ -10,13 +10,6 @@
 
     <?php if (!$checkin): ?>
         <img class="event_gallery_message" src="/images/event_gallery_message.png" align="checkin to see who's going out" />
-        <ul class="event_gallery">
-        <?php for ($n = 0; $n < 4 * 3; $n++): ?>
-            <li>
-                <?= r::profile_anonymous() ?>
-            </li>
-        <?php endfor; ?>
-        </ul>
     <?php endif; ?>
 
     <?php if ($checkin): ?>
