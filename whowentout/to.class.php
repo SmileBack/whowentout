@@ -20,7 +20,10 @@ class to
 
     static function json($object)
     {
-        if ($object instanceof DatabaseRow && $object->table()->name() == 'users') {
+        if ($object === null) {
+            return null;
+        }
+        elseif ($object instanceof DatabaseRow && $object->table()->name() == 'users') {
             return static::json_user($object);
         }
         elseif ($object instanceof DatabaseRow && $object->table()->name() == 'events') {
