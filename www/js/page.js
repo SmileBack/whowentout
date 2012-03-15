@@ -1165,24 +1165,12 @@ $('#right .switch').live('click', function(e) {
 
 $('#right').entwine({
     onmatch: function() {
-        var onchange = function() {
-            this.refreshPosition();
-        };
-        onchange = _.bind(onchange, this);
-        onchange = _.debounce(onchange, 100);
-        $(window).bind('smartresize, scroll', onchange);
-    },
-    onunmatch: function() {},
-    refreshPosition: function() {
-        var contentBox = $('#content').getBox();
-        console.log('refresh position');
-        console.log((contentBox.right + 10) + 'px');
         this.css({
-            right: ($('body').width() - contentBox.right - this.outerWidth()) + 'px'
+            right: 'auto',
+            left: this.offset().left + 'px'
         });
-
-
-    }
+    },
+    onunmatch: function() {}
 });
 
 $('.event_day').live('datechange', function(e) {
