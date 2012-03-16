@@ -1162,12 +1162,12 @@ $('#right .switch').live('click', function(e) {
     });
 });
 
-
 $('#right').entwine({
     onmatch: function() {
+        var left = $('#content').getBox().right + 10;
         this.css({
-            right: 'auto',
-            left: this.offset().left + 'px'
+            display: 'block',
+            left: left + 'px'
         });
     },
     onunmatch: function() {}
