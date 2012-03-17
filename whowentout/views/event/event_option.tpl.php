@@ -11,9 +11,18 @@ benchmark::start('get_invite');
 $invite_senders = $invite_engine->get_invite_senders($event, $current_user);
 benchmark::end('get_invite');
 
+$data = array(
+    'template' => 'event-option',
+    'event' => to::json($event),
+    'is_selected' => $is_selected,
+    'selected_event' => to::json($selected_event),
+    'invite_senders' => to::json($invite_senders),
+);
 ?>
 
-<div class="event_option all <?= $event->place->type ?>">
+<?= html_element_open('div', array('class' => 'event_option render'), $data) ?>
+
+<?php if (false): ?>
     <div class="place">
         <?= $event->name ?>
         <?php if (false): ?>
@@ -51,6 +60,6 @@ benchmark::end('get_invite');
             </form>
         <?php endif; ?>
     </div>
+<?php endif; ?>
+<?= html_element_close('div') ?>
 
-</div>
-    

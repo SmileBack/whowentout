@@ -8,14 +8,21 @@ function html_element_attributes($attributes = array())
     $html = array();
     foreach ($attributes as $prop => $val) {
         $html[] = ' ';
-        $html[] = sprintf('%s="%s"', $prop, $val);
+
+        if (is_array($val) || is_object($val))
+            $html[] = sprintf("%s='%s'", $prop, @json_encode($val));
+        else
+            $html[] = sprintf('%s="%s"', $prop, $val);
     }
 
     return implode('', $html);
 }
 
-function html_element_open($tag, $attributes = array())
+function html_element_open($tag, $attributes = array(), $data = array())
 {
+    foreach ($data as $prop => $val) {
+        $attributes["data-$prop"] = $val;
+    }
     $attributes = html_element_attributes($attributes);
     return "<$tag$attributes>";
 }

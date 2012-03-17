@@ -1,0 +1,29 @@
+<div class="event_option">
+
+    <div class="place">
+        {{event.name}}
+    </div>
+
+    <div class="deal">
+        <ul class="expandable">
+            {{#eachLine event.deal}}
+                <li>{{this}}</li>
+            {{/eachLine}}
+        </ul>
+    </div>
+
+    <div class="badge">
+        {{#if is_selected}}
+            <div class="attending_badge pressed">attending</div>
+        {{else}}
+            <form method="post" action="/checkin">
+                <input type="hidden" name="event_id" value="{{event.id}}"/>
+                {{#if selected_event}}
+                    <input type="submit" class="checkin_badge" value="switch"/>
+                {{else}}
+                    <input type="submit" class="checkin_badge" value="join"/>
+                {{/if}}
+            </form>
+        {{/if}}
+    </div>
+</div>

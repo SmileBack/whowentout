@@ -111,10 +111,15 @@ var User = Backbone.Model.extend({});
     };
 
     $.fn.template = function(name, data) {
-        if (arguments.length == 0)
+        if (arguments.length == 0) {
             return getTemplate(this);
-        else
-            return applyTemplate(this, name, data);
+        }
+        else {
+            $(this).each(function() {
+                applyTemplate(this, name, data);
+            });
+            return this;
+        }
     };
 
 })();
@@ -130,6 +135,10 @@ var HandlebarsHelpers = {
 
         // Render, marked as safe so it isn't escaped.
         return new Handlebars.SafeString(partial(context));
+    },
+    eachLine: function(context, options) {
+        var lines = context ? context.split(/\n/) : [];
+        return Handlebars.helpers['each'].call(this, lines, options);
     },
     debug: function(value) {
         console.log("Current Context");
@@ -153,6 +162,14 @@ var HandlebarsHelpers = {
 
 _.each(HandlebarsHelpers, function(fn, helper) {
     Handlebars.registerHelper(helper, fn);
+});
+
+$('.render').entwine({
+    onmatch: function() {
+        var templateName = this.data('template');
+        this.template(templateName, this.data());
+    },
+    onunmatch: function() {}
 });
 
 var whowentout = window.whowentout = {};

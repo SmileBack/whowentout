@@ -33,6 +33,13 @@ class to
                 'date' => $object->date,
                 'deal' => $object->deal,
                 'count' => $object->count,
+                'place' => to::json($object->place),
+            );
+        }
+        elseif ($object instanceof DatabaseRow && $object->table()->name() == 'places') {
+            return array(
+                'id' => $object->id,
+                'name' => $object->name,
             );
         }
         elseif (is_array($object)) {
