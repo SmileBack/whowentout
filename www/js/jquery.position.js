@@ -214,7 +214,7 @@ $.fn.getPosition = function (target, options) {
     }
 
     if (target == 'viewport')
-        target = $('body').getBox();
+        target = $(window).getBox();
 
     var sourceBox = $(this).getBox();
     var targetBox = $(target).getBox();
@@ -222,7 +222,7 @@ $.fn.getPosition = function (target, options) {
     var finalBox = sourceBox.translatePoint(options.anchor[0], targetBox, options.anchor[1]);
 
     if (this.css('position') == 'fixed') {
-        var viewportBoxCorner = $('body').getBox().tl;
+        var viewportBoxCorner = $(window).getBox().tl;
         finalBox = finalBox.translate(-viewportBoxCorner.left, -viewportBoxCorner.top);
     }
 

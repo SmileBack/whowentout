@@ -274,6 +274,9 @@ whowentout.getProfilePictureUrls = function(user_ids) {
 
     user_ids = user_ids || [];
 
+    if (user_ids.length == 0)
+        dfd.resolve({});
+
     $.ajax({
         url: '/profile/urls',
         type: 'get',
@@ -1073,7 +1076,7 @@ $('#events_date_selector').entwine({
         },
         getFirstVisibleItemData: function() {
             var centers = this.getAllPoints();
-            var viewport = $('body').getBox();
+            var viewport = $(window).getBox();
 
             for (var i = 0; i < centers.length; i++)
                 if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
@@ -1083,7 +1086,7 @@ $('#events_date_selector').entwine({
         },
         getLastVisibleItemData: function() {
             var centers = this.getAllPoints();
-            var viewport = $('body').getBox();
+            var viewport = $(window).getBox();
 
             for (var i = centers.length - 1; i >= 0; i--)
                 if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)

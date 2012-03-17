@@ -34,7 +34,7 @@
             $elements = $elements.add(selector ? $element.find(selector) : $element);
         });
 
-        var viewportBox = $('body').getBox();
+        var viewportBox = $(window).getBox();
         $elements.each(function() {
             updateInViewForEl($(this), viewportBox, true);
         });
