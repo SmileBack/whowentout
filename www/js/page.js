@@ -1107,19 +1107,6 @@ $('#events_date_selector').entwine({
             this.data('centers', centers);
 
             return this.data('centers');
-        },
-        selectEvent: function(event_id) {
-            this.find('.focused').removeClass('focused');
-            this.find('.checkin_event_' + event_id).addClass('focused');
-
-            $('.event_links a.selected').removeClass('selected');
-            $('.event_links a[href=' + event_id + ']').addClass('selected');
-
-            return this;
-        },
-        scrollToEvent: function(event_id, onComplete) {
-            this.find('.checkin_event_' + event_id).scrollTo(onComplete);
-            return this;
         }
     });
 

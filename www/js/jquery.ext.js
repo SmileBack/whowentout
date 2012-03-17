@@ -369,3 +369,119 @@ $('#view').entwine({
     }
 });
 
+(function() {
+
+   	var REGEX_SINGLE_PSEUDO_ELEMENT = /[:]{1,2}(?:first\-(letter|line)|before|after|selection|value|choices|repeat\-(item|index)|outside|alternate|(line\-)?marker|slot\([_a-z0-9\-\+\.\\]*\))/i,
+        REGEX_PSEUDO_ELEMENTS = /([:]{1,2}(?:first\-(letter|line)|before|after|selection|value|choices|repeat\-(item|index)|outside|alternate|(line\-)?marker|slot\([_a-z0-9\-\+\.\\]*\)))/ig,
+        REGEX_PSEUDO_CLASSES_EXCEPT_NOT = /([:](?:(link|visited|active|hover|focus|lang|root|empty|target|enabled|disabled|checked|default|valid|invalid|required|optional)|((in|out\-of)\-range)|(read\-(only|write))|(first|last|only|nth)(\-last)?\-(child|of\-type))(?:\([_a-z0-9\-\+\.\\]*\))?)/ig,
+        REGEX_ATTR_SELECTORS = /(\[\s*[_a-z0-9-:\.\|\\]+\s*(?:[~\|\*\^\$]?=\s*[\"\'][^\"\']*[\"\'])?\s*\])/ig,
+        REGEX_ID_SELECTORS = /(#[a-z]+[_a-z0-9-:\\]*)/ig,
+        REGEX_CLASS_SELECTORS = /(\.[_a-z]+[_a-z0-9-:\\]*)/ig,
+        IMPORTANT_RULE = /\!\s*important\s*$/i;
+
+    //get the specificity of a selector, using the rules defined in the CSS3 spec
+    //http://www.w3.org/TR/css3-selectors/#specificity
+    var getSelectorSpecificity = function(selector)
+    {
+    	//create an object for storing the scores,
+    	//ordered by specificity class: [style, id, class, type]
+    	var scores = [0,0,0,0];
+
+
+    	//if the selector is an empty string, this indicates a style attribute
+    	//so add 1 to the style score and return the scores array straight away
+    	if(selector === '')
+    	{
+    		scores[0] += 1;
+    		return scores;
+    	}
+
+
+    	//create an edited versions of the input selector
+    	//that's stripped of all attribute selectors
+    	//which we can use to avoid confusion with attribute values
+    	//that look like other selectors, for example [href="index.html"]
+    	//might otherwise be confused with a class selector ".html"
+    	var editedselector = selector.replace(REGEX_ATTR_SELECTORS, '');
+
+    	//look for ID selectors, which have the highest specificity category
+    	//use the selector that's been stripped of attribute selectors,
+    	//to avoid confusion with attribute values containing # symbols
+    	//and we should also check for valid characters and a valid ID pattern
+    	//nb. although "." is allowed in an ID value,
+    	//we'd never be able to test it with an ID selector
+    	//because it will just be interpreted as an ID.class selector
+    	//matches from this regex will also include any pseudo-class or pseudo-elements
+    	//that immediately follow the ID selector, but that's doesn't matter
+    	var matches = editedselector.match(REGEX_ID_SELECTORS);
+
+    	//add the number of matches (if any) to the id score
+    	if(matches) { scores[1] += matches.length; }
+
+
+    	//look for class selectors, in almost exactly the same way
+    	//and with the same caveats as an ID selector, except that
+    	//the valid syntax and pattern is slightly different
+    	var matches = editedselector.match(REGEX_CLASS_SELECTORS);
+
+    	//add the number of matches (if any) to the class score
+    	if(matches) { scores[2] += matches.length; }
+
+
+    	//look for attribute selectors in the unedited selector,
+    	//these are the easiest to detect because there's
+    	//no possibility of confusing them with anything else
+    	matches = selector.match(REGEX_ATTR_SELECTORS);
+
+    	//add the number of matches (if any) to the class score
+    	if(matches) { scores[2] += matches.length; }
+
+
+    	//look for any pseudo-class - except :not, which isn't counted
+    	//use the selector that's been stripped of attribute selectors
+    	//since there's a limited number of pseudos, we can test for each one specifically
+    	//nb. this will let through some fake permutations, like
+    	//"only-child" or "first-last-of-type", but I don't think that's worth worrying about
+    	var matches = editedselector.match(REGEX_PSEUDO_CLASSES_EXCEPT_NOT);
+
+    	//add the number of matches (if any) to the class score
+    	if(matches) { scores[2] += matches.length; }
+
+
+    	//look for element type selectors, which is by far the hardest to do
+    	//because it's so easily confused for other types of selector
+    	//because it has no distinguishing tokens of its own, only the lack of them
+    	//so to begin with we'll use the selector that's been stripped of attribute selectors
+    	//then remove all pseudo-classes except :not(), and all pseudo-elements,
+    	//(but remove the actual word ":not", because XML element names are allowed to
+    	//  contain colons and it would otherwise look like an element called ":not")
+    	//remove any namespace prefix (at the start of the selector, or inside a :not bracket)
+    	//and remove any ID or class selectors
+    	//then finally (if there's anything left!) check for valid tag name characters
+    	var typeonlyselector = editedselector.replace(REGEX_PSEUDO_CLASSES_EXCEPT_NOT, '')
+    										 .replace(REGEX_PSEUDO_ELEMENTS, '')
+    										 .replace(/(:not)/ig, '')
+    										 .replace(/(^|\()([_a-z0-9-\.\\]+\|)/ig, '$1')
+    										 .replace(REGEX_ID_SELECTORS, '')
+    										 .replace(REGEX_CLASS_SELECTORS, '');
+    	var matches = typeonlyselector.match(/([_a-z0-9-:\\]+)/ig);
+
+    	//add the number of matches (if any) to the type score
+    	if(matches) { scores[3] += matches.length; }
+
+
+    	//and last but not least, look for pseudo-elements
+    	//use the selector that's been stripped of attribute selectors
+    	//then we can identify them easily and specifically, given such a limited range
+    	var matches = editedselector.match(REGEX_PSEUDO_ELEMENTS);
+
+    	//add the number of matches (if any) to the type score
+    	if(matches) { scores[3] += matches.length; }
+
+
+    	//return the final scores array
+    	return scores;
+    }
+
+    window.getSelectorSpecificity = getSelectorSpecificity;
+})();
