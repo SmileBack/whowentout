@@ -5,7 +5,6 @@
 //= require head.load.min.js
 //= require jquery.dialog.js
 //= require dateselector.js
-//= require jquery.easing.js
 //= require jquery.inview.js
 
 (function ($) {

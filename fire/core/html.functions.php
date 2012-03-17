@@ -2,6 +2,9 @@
 
 function html_element_attributes($attributes = array())
 {
+    $escaped_double_quote = '&quot;';
+    $escaped_single_quote = '&#039;';
+
     if (empty($attributes))
         return '';
 
@@ -10,7 +13,7 @@ function html_element_attributes($attributes = array())
         $html[] = ' ';
 
         if (is_array($val) || is_object($val))
-            $html[] = sprintf("%s='%s'", $prop, @json_encode($val));
+            $html[] = sprintf("%s='%s'", $prop, str_replace("'", $escaped_single_quote, @json_encode($val)) );
         else
             $html[] = sprintf('%s="%s"', $prop, $val);
     }
