@@ -22,7 +22,15 @@ class Event_List_Display extends Display
         $events = array_filter($events, $this->matches_type_filter());
         usort($events, $this->sort_events_comparision());
 
-        $this->events = $events;
+        $data = array(
+          'template' => 'event-list',
+          'date' => to::json($this->date),
+          'events' => to::json($events),
+          'selected_event' => to::json($this->selected_event),
+          'explanation' => $this->explanation,
+        );
+
+        $this->data = $data;
     }
 
     function matches_type_filter()

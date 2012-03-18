@@ -67,6 +67,7 @@ class CheckinAction extends Action
         }
 
         assert($date != null);
+        assert($event_place_id != null);
 
         $row = db()->table('events')->create_row(array(
             'place_id' => $event_place_id,

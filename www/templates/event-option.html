@@ -13,12 +13,12 @@
     </div>
 
     <div class="badge">
-        {{#if is_selected}}
+        {{#if event.is_selected}}
             <div class="attending_badge pressed">attending</div>
         {{else}}
             <form method="post" action="/checkin">
                 <input type="hidden" name="event_id" value="{{event.id}}"/>
-                {{#if selected_event}}
+                {{#if ../selected_event}}
                     <input type="submit" class="checkin_badge" value="switch"/>
                 {{else}}
                     <input type="submit" class="checkin_badge" value="join"/>
@@ -26,4 +26,5 @@
             </form>
         {{/if}}
     </div>
+
 </div>

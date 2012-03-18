@@ -18,9 +18,6 @@ var format = (function()
     };
 })();
 
-/**
- * Inspired by http://jacwright.com/projects/javascript/date_format/
- */
 (function() {
 
     var compose = function(value, callbacks) {
@@ -42,7 +39,7 @@ var format = (function()
 
     var callbacks = {
         year: function(d) { return d.getFullYear() },
-        month: function(d) { return d.getMonth() },
+        month: function(d) { return d.getMonth() + 1 },
         monthWord: function(d) { return months[d.getMonth()] },
         date: function(d) { return d.getDate() },
         day: function(d) { return d.getDay() },
@@ -78,10 +75,11 @@ var format = (function()
     var c = callbacks;
     // initial function,
     var formats = {
-        // Day
-        d: [c.day, c.pad2],
+        // Date
+        d: [c.date, c.pad2],
         D: [c.dayWord, c.trim3],
         j: [c.date],
+        // Day
         l: [c.dayWord],
         N: [c.day, function(v) { return v + 1; }],
         S: [c.date, c.ord],

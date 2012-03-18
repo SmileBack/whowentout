@@ -124,8 +124,9 @@ class CheckinEngine
     function get_events_on_date(DateTime $date)
     {
         $events = $this->database->table('events')
-                              ->where('date', $date)
-                              ->to_array();
+                                 ->where('date', $date)
+                                 ->order_by('count', 'desc')
+                                 ->to_array();
         return $events;
     }
 

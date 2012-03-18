@@ -1,0 +1,18 @@
+<div class="event_list">
+
+    <div class="explanation"></div>
+
+    <ul class="events">
+
+        <li>
+            {{include "event-add-form" date=date}}
+        </li>
+
+        {{#each events}}
+        <li>
+            {{include "event-option" event=this}}
+        </li>
+        {{/each}}
+    </ul>
+
+</div>

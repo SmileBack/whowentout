@@ -45,6 +45,9 @@ class to
         elseif (is_array($object)) {
             return static::json_array($object);
         }
+        else {
+            return @json_decode(json_encode($object));
+        }
     }
 
     static function json_array($array)

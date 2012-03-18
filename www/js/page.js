@@ -32,9 +32,10 @@ var User = Backbone.Model.extend({});
     Template.prototype.render = function(data) {
         return this.fn(data);
     };
+    Template.SUBTEMPLATE_REGEX = /\{\{\s*include\s*"([^"]+).*\}\}/g;
     Template.prototype.getSubtemplateNames = function() {
-        var regex = /\{\{\s*include\s*"([^"]+)/g, matches, names = [];
-        while (matches = regex.exec(this.html)) {
+        var matches, names = [];
+        while (matches = Template.SUBTEMPLATE_REGEX.exec(this.html)) {
             names.push(matches[1]);
         }
         return _.uniq(names);
@@ -114,11 +115,19 @@ var User = Backbone.Model.extend({});
             return getTemplate(this);
         }
         else {
+            $(this).processData(data, name);
             $(this).each(function() {
                 applyTemplate(this, name, data);
             });
             return this;
         }
+    };
+
+    $.fn.processData = function(data, templateName) {
+        _.each(data, function(value, key) {
+            if (value.date && value.timezone_type)
+                data[key] = new Date(value.date);
+        });
     };
 
 })();
@@ -151,7 +160,7 @@ var HandlebarsHelpers = {
         }
     },
     formatDate: function(date, block) {
-        format = block.hash['format'] || 'l M jS';
+        var format = block.hash['format'] || 'l M jS';
         return date.format(format);
     },
     nightOf: function(date) {
@@ -605,6 +614,16 @@ $('.event_selection .switch').entwine({
         this.closest('.event_selection').hide();
         this.closest('.event_picker').find('.pre_event_selection')
                                      .removeClass('hidden').show();
+    }
+});
+
+$('.event_list').entwine({
+    processData: function(data) {
+        this._super(data);
+        _.each(data.events, function(event, k, events) {
+            if (data.selected_event.id == event.id)
+                event.is_selected = true;
+        });
     }
 });
 
