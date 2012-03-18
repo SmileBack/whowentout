@@ -3,6 +3,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+assert_options(ASSERT_ACTIVE,   true);
+assert_options(ASSERT_BAIL,     true);
+assert_options(ASSERT_WARNING,  false);
+
 require_once '../fire/core/boot.php';
 
 if (db()->has_table('sessions')) {
