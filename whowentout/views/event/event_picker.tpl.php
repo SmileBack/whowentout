@@ -40,7 +40,7 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => array('bar', 'club'),
-                'explanation' => '<p><em>Bar/Club</em>: <strong>Select the bar/club you are thinking of going to. (You can change your selection at any time)</strong></p>',
+                'explanation' => '<p><strong>Bar/Club</strong>: Select the bar/club you are thinking of going to. (You can change your selection at any time)</p>',
             )); ?>
         </div>
 
@@ -50,7 +50,7 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => 'house party',
-                'explanation' => '<p><em>Party</em>: <strong>Add a party below or select the one you\'re going to. (You can change your selection at any time)</strong>',
+                'explanation' => '<p><strong>Party</strong>: Add a party below or select the one you\'re going to. (You can change your selection at any time)',
             )); ?>
         </div>
 
@@ -60,7 +60,7 @@
                 'selected_event' => $selected_event,
                 'user' => $user,
                 'type' => 'other',
-                'explanation' => '<p><em>Other</em>: <strong>Doing something else? Add it to the list below. (You can change your selection at any time)</strong>',
+                'explanation' => '<p><strong>Other</strong>: Doing something else? Add it to the list below. (You can change your selection at any time)',
             )); ?>
         </div>
 
