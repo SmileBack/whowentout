@@ -994,7 +994,8 @@ $('#events_date_selector').entwine({
     var matchers = {};
 
     matchers.keywords = function(el, keywords) {
-        var text = $(el).find('.profile_name').text().toLowerCase();
+        var text = $(el).find('.going_to').text().toLowerCase() + ' '
+                 + $(el).find('.profile_name').text().toLowerCase();
         var parts = keywords.toLowerCase().split(/\W+/);
 
         for (var i = 0; i < parts.length; i++)
