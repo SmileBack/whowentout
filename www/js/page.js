@@ -51,7 +51,7 @@ var User = Backbone.Model.extend({});
         if (templateHtml[name])
             return templateHtml[name];
 
-        var pHtml = $.Deferred();
+        var pHtml = templateHtml[name] = $.Deferred();
 
         var container = $('script#' + name);
         if (container.length > 0) {
