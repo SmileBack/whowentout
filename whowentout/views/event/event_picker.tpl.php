@@ -39,7 +39,7 @@
                 'date' => $date,
                 'selected_event' => $selected_event,
                 'user' => $user,
-                'type' => array('bar', 'club'),
+                'type' => 'bar,club',
                 'explanation' => '<p><em>Bar/Club</em>: <strong>Select the bar/club you are thinking of going to. (You can change your selection at any time)</strong></p>',
             )); ?>
         </div>

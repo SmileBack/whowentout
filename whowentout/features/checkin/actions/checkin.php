@@ -57,7 +57,9 @@ class CheckinAction extends Action
         $user = auth()->current_user();
 
         $event_name = $_POST['event']['name'];
-        $event_place_id = $_POST['event']['place_id'];
+
+        $event_place_type = $_POST['type'];
+        $event_place = db()->table('places')->where('type', $event_place_type)->first();
 
         $date = @DateTime::createFromFormat('Y-m-d', $_POST['event']['date']);
 
@@ -67,10 +69,10 @@ class CheckinAction extends Action
         }
 
         assert($date != null);
-        assert($event_place_id != null);
+        assert($event_place != null);
 
         $row = db()->table('events')->create_row(array(
-            'place_id' => $event_place_id,
+            'place_id' => $event_place->id,
             'user_id' => $user->id,
             'name' => $event_name,
             'date' => $date,

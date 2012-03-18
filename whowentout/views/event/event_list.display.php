@@ -28,6 +28,7 @@ class Event_List_Display extends Display
           'events' => to::json($events),
           'selected_event' => to::json($this->selected_event),
           'explanation' => $this->explanation,
+          'type' => $this->type,
         );
 
         $this->data = $data;
@@ -39,8 +40,7 @@ class Event_List_Display extends Display
         if (is_array($type_pattern))
             $type_pattern = implode('|', $type_pattern);
         $callback = function($event) use($type_pattern) {
-            $type = "{$event->place->type}, all";
-            return preg_match('/\b(' . $type_pattern . ')\b/', $type) == 1;
+            return strpos($type_pattern, $event->place->type) !== false;
         };
         return $callback;
     }

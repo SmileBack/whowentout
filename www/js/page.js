@@ -73,7 +73,7 @@ var User = Backbone.Model.extend({});
         if (templates[name])
             return templates[name];
 
-        var pTemplate = $.Deferred();
+        var pTemplate = templates[name] = $.Deferred();
 
         $.when($.templateHtml(name)).then(function(html) {
             var template = templates[name] = new Template(html);
