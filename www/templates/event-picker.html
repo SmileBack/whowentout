@@ -1,0 +1,71 @@
+<div class="event_picker tab_panel">
+    <h1>What are YOU doing {{nightOf date}}?</h1>
+
+    {{#if selected_event}}
+    <h3>Select a category below. You can change your selection at any time.</h3>
+    {{/if}}
+
+    <div class="pre_event_selection <?= $selected_event ? 'hidden' : '' ?>">
+
+			<ul class="tabs">
+	            <li>
+	                <a href="#bar_club" class="selected">
+	                    Bar/Club
+	                </a>
+					<div class="arrow"></div>
+	            </li>
+	            <li>
+	                <a href="#house_party">
+	                    Party
+	                </a>
+					<div class="arrow"></div>
+	            </li>
+	            <li>
+	                <a href="#other">
+	                    Other
+	                </a>
+					<div class="arrow"></div>
+	            </li>
+	            <li>
+	                <a href="#undecided">
+	                    Not Sure Yet?
+	                </a>
+					<div class="arrow"></div>
+	            </li>
+	        </ul>
+
+        <div class="bar_club pane">
+            {{include "event-list" type="bar,club" date=date events=events selected_event=selected_event}}
+        </div>
+
+        <div class="house_party pane">
+            {{include "event-list" type="house_party" date=date events=events selected_event=selected_event}}
+        </div>
+
+        <div class="other pane">
+            {{include "event-list" type="other" date=date events=events selected_event=selected_event}}
+        </div>
+
+        {{include "undecided-pane" date=date}}
+
+    </div>
+
+    <?php if ($selected_event): ?>
+    <div class="event_selection">
+        <div class="left">
+            <!--<img src="<?= $profile_picture_url ?>" />-->
+            <div class="going_to">
+                {{selected_event.name}}
+            </div>
+        </div>
+        <div class="event_selection_summary">
+            <ul>
+                <li><a class="switch" href="#switch">switch event</a></li>
+                <li>show deal link</li>
+                <li>show invite link</li>
+            </ul>
+        </div>
+    </div>
+    <?php endif; ?>
+
+</div>

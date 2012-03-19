@@ -40,6 +40,7 @@ class to
             return array(
                 'id' => $object->id,
                 'name' => $object->name,
+                'type' => $object->type,
             );
         }
         elseif (is_array($object)) {

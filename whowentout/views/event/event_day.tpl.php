@@ -1,12 +1,7 @@
 <div class="event_day">
 
-
-    <?= r::event_picker(array(
-            'date' => $date,
-            'selected_event' => $checkin_event,
-            'user' => $current_user
-        ))
-    ?>
+   <?= html_element_open('div', array('class' => 'event_picker render'), $data); ?>
+   <?= html_element_close('div') ?>
 
     <?= r::event_day_summary(array(
         'user' => $current_user,

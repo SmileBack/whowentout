@@ -152,6 +152,10 @@ $.fn.whenShown = function (fn) {
     return result;
 };
 
+jQuery.fn.outerHTML = function() {
+    return $('<div>').append( this.eq(0).clone() ).html();
+};
+
 $.fn.hiddenDimensions = function (includeMargin) {
     return this.whenShown(function () {
         return {
@@ -483,3 +487,144 @@ $('#view').entwine({
 
     window.getSelectorSpecificity = getSelectorSpecificity;
 })();
+
+(function() {
+    var Template = function(html, name) {
+        this.html = html;
+        this.name = name;
+        this.fn = Handlebars.compile(this.html);
+    };
+    Template.process = {};
+    Template.prototype.render = function(data) {
+        var html = this.fn(data);
+
+        var el = $(html);
+        el.data(data);
+        el.data('__template', this.name);
+        el.renderSubtemplates();
+
+        return el;
+    };
+    Template.SUBTEMPLATE_REGEX = /\{\{\s*include\s*"([^"]+).*\}\}/g;
+    Template.prototype.getSubtemplateNames = function() {
+        var matches, names = [];
+        while (matches = Template.SUBTEMPLATE_REGEX.exec(this.html)) {
+            console.log(matches);
+            names.push(matches[1]);
+        }
+        return _.uniq(names);
+    };
+
+    var uniqueID = function() {
+        var date = new Date();
+        return date.getTime();
+    };
+
+    var includes = {};
+    var includeHelper = function(templateName, options) {
+        // Build the new context; if we don't include `this` we get functionality
+        // similar to {% include ... with ... only %} in Django.
+        var context = _.extend({}, this, options.hash);
+
+        var inc = {
+            id: _.uniqueId('template_partial_'),
+            templateName: templateName,
+            context: context
+        };
+        includes[inc.id] = inc;
+
+        var placeholder = '<span id="' + inc.id + '" class="template_placeholder" style="display: none;"></span>';
+
+        return new Handlebars.SafeString(placeholder);
+    };
+    Handlebars.registerHelper('include', includeHelper);
+
+    var templateHtml = {};
+    $.templateHtml = function(name) {
+        if (templateHtml[name])
+            return templateHtml[name];
+
+        var pHtml = templateHtml[name] = $.Deferred();
+
+        var container = $('script#' + name);
+        if (container.length > 0) {
+            templateHtml[name] = container.html();
+            pHtml.resolve(templateHtml[name]);
+        }
+        else {
+            $.get('/templates/' + name + '.html?version=' + uniqueID(), function(html) {
+                templateHtml[name] = html;
+                pHtml.resolve(templateHtml[name]);
+            });
+        }
+
+        return pHtml.promise();
+    };
+
+    var templates = {};
+    $.template = function(name) {
+        if (templates[name])
+            return templates[name];
+
+        var pTemplate = templates[name] = $.Deferred();
+
+        $.when($.templateHtml(name)).then(function(html) {
+            var template = templates[name] = new Template(html, name);
+            pTemplate.resolve(template);
+        });
+
+        return pTemplate.promise();
+    };
+
+    var getTemplate = function(el) {
+        return $(el).data('__template');
+    };
+
+    var applyTemplate = function(el, name, data) {
+        var pTemplate = $.template(name);
+
+        $.when(pTemplate).then(function(template) {
+            var t = template.render(data);
+            $(el).replaceWith(t);
+        });
+
+        return pTemplate;
+    };
+
+    var processTemplateData = function(data, templateName) {
+        _.each(data, function(value, key) {
+            if (value && value.date && value.timezone_type)
+                data[key] = new Date(value.date);
+        });
+
+        var process = Template.process[templateName] || function() {};
+        process(data);
+    };
+
+    $.fn.template = function(templateName, data) {
+        if (arguments.length == 0) {
+            return getTemplate(this);
+        }
+        else {
+            processTemplateData(data, templateName);
+            $(this).each(function() {
+                applyTemplate(this, templateName, data);
+            });
+            return this;
+        }
+    };
+
+    $.fn.renderSubtemplates = function() {
+        $(this).find('.template_placeholder').each(function() {
+            var placeholder = $(this);
+            var id = placeholder.attr('id');
+            var inc = includes[id];
+            placeholder.template(inc.templateName, inc.context);
+            delete includes[id];
+        });
+    };
+
+    window.Template = Template;
+
+})();
+

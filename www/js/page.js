@@ -24,126 +24,30 @@
 
 var User = Backbone.Model.extend({});
 
-(function() {
-    var Template = function(html) {
-        this.html = html;
-        this.fn = Handlebars.compile(this.html);
-    };
-    Template.prototype.render = function(data) {
-        return this.fn(data);
-    };
-    Template.SUBTEMPLATE_REGEX = /\{\{\s*include\s*"([^"]+).*\}\}/g;
-    Template.prototype.getSubtemplateNames = function() {
-        var matches, names = [];
-        while (matches = Template.SUBTEMPLATE_REGEX.exec(this.html)) {
-            names.push(matches[1]);
-        }
-        return _.uniq(names);
-    };
+Template.process['event-picker'] = function(data) {
+    _.each(data.events, function(event, k, events) {
+        if (data.selected_event.id == event.id)
+            event.is_selected = true;
+    });
+    console.log(data);
+};
 
-    var uniqueID = function() {
-        var date = new Date();
-        return date.getTime();
-    };
+Template.process['event-list'] = function(data) {
+    console.log('--eventlist--');
+    console.log(data);
+    var types = data.type.split(',');
 
-    var templateHtml = {};
-    $.templateHtml = function(name) {
-        if (templateHtml[name])
-            return templateHtml[name];
-
-        var pHtml = templateHtml[name] = $.Deferred();
-
-        var container = $('script#' + name);
-        if (container.length > 0) {
-            templateHtml[name] = container.html();
-            pHtml.resolve(templateHtml[name]);
-        }
-        else {
-            $.get('/templates/' + name + '.html?version=' + uniqueID(), function(html) {
-                templateHtml[name] = html;
-                pHtml.resolve(templateHtml[name]);
-            });
-        }
-
-        return pHtml.promise();
-    };
-
-    var templates = {};
-    $.template = function(name) {
-        if (templates[name])
-            return templates[name];
-
-        var pTemplate = templates[name] = $.Deferred();
-
-        $.when($.templateHtml(name)).then(function(html) {
-            var template = templates[name] = new Template(html);
-            Handlebars.registerPartial(name, template.fn);
-
-            var pSubtemplates = _.map(template.getSubtemplateNames(), $.template);
-            $.when.apply(this, pSubtemplates).then(function() {
-                pTemplate.resolve(templates[name]);
-            });
-        });
-
-        return pTemplate.promise();
-    };
-
-    var getTemplate = function(el) {
-        return $(el).data('__template');
-    };
-
-    var setTemplate = function(el, template) {
-        $(el).data('__template', template);
-    };
-
-    var applyTemplate = function(el, name, data) {
-        var pTemplate = $.template(name);
-
-        $.when(pTemplate).then(function(template) {
-            var nEl = $(template.render(data));
-            nEl.data(data);
-            setTemplate(nEl, template);
-
-            $(el).replaceWith(nEl);
-        });
-
-        return pTemplate;
-    };
-
-    $.fn.template = function(name, data) {
-        if (arguments.length == 0) {
-            return getTemplate(this);
-        }
-        else {
-            $(this).processData(data, name);
-            $(this).each(function() {
-                applyTemplate(this, name, data);
-            });
-            return this;
-        }
-    };
-
-    $.fn.processData = function(data, templateName) {
-        _.each(data, function(value, key) {
-            if (value.date && value.timezone_type)
-                data[key] = new Date(value.date);
+    var matchesEventType = function(event) {
+        var eventType = event.place.type || '';
+        return _.any(types, function(curType) {
+            return eventType.indexOf(curType) != -1;
         });
     };
 
-})();
+    data.events = _.filter(data.events, matchesEventType);
+};
 
 var HandlebarsHelpers = {
-    include: function(partialName, options) {
-        // Find the partial in question.
-        var partial = Handlebars.partials[partialName];
-
-        // Build the new context; if we don't include `this` we get functionality
-        // similar to {% include ... with ... only %} in Django.
-        var context = _.extend({}, this, options.hash);
-
-        // Render, marked as safe so it isn't escaped.
-        return new Handlebars.SafeString(partial(context));
-    },
     eachLine: function(context, options) {
         var lines = context ? context.split(/\n/) : [];
         return Handlebars.helpers['each'].call(this, lines, options);
@@ -174,6 +78,7 @@ _.each(HandlebarsHelpers, function(fn, helper) {
 
 $('.render').entwine({
     onmatch: function() {
+        this._super();
         var templateName = this.data('template');
         this.template(templateName, this.data());
     },
@@ -424,18 +329,6 @@ $(function () {
     Backbone.history.start({pushState:true});
 });
 
-$('a.view_leaderboard').entwine({
-    onclick: function(e) {
-        e.preventDefault();
-        var href = this.attr('href');
-        whowentout.showDialog({
-            title: 'Leaderboard',
-            url: href,
-            buttons: 'close'
-        });
-    }
-});
-
 $('.action').entwine({
     onclick:function (e) {
         e.preventDefault();
@@ -597,6 +490,7 @@ $('.event_invite :checkbox').entwine({
 
 $('.event_picker').entwine({
     onmatch: function() {
+        this._super();
         if (this.isEventSelected()) {
             this.find('.pre_event_selection').hide();
         }
@@ -614,16 +508,6 @@ $('.event_selection .switch').entwine({
         this.closest('.event_selection').hide();
         this.closest('.event_picker').find('.pre_event_selection')
                                      .removeClass('hidden').show();
-    }
-});
-
-$('.event_list').entwine({
-    processData: function(data) {
-        this._super(data);
-        _.each(data.events, function(event, k, events) {
-            if (data.selected_event.id == event.id)
-                event.is_selected = true;
-        });
     }
 });
 
