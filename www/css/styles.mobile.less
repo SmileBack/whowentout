@@ -78,9 +78,6 @@ h1 {
 #events_date_selector {
     a {
         margin: 0;
-		.scale(0.6);
-		&.active {
-            .scale(1.0);
     	}
 	}
     .items a {
@@ -88,9 +85,12 @@ h1 {
         background-size: 75px;
     }
     .scrollable {
-      float: left;
-      width: 225px;
-      overflow: hidden;
+      	float: left;
+      	width: 225px;
+      	overflow: hidden;
+		a.active {
+			display: none;
+		}
     }
     .prev, .next {
         width: 45px;
