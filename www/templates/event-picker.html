@@ -61,8 +61,17 @@
         <div class="event_selection_summary">
             <ul>
                 <li><a class="switch" href="#switch">switch event</a></li>
-                <li>show deal link</li>
-                <li>show invite link</li>
+                {{#if selected_event.deal}}
+                    <li>
+                        <a class="action show_deal_link " href="/events/{{selected_event.id}}/deal">claim deal</a>
+                    </li>
+                {{/if}}
+
+                <li>
+                    <a class="action event_invite_link" href="/events/{{selected_event.id}}/invite">
+                        <div>invite friends</div>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
