@@ -28,7 +28,7 @@
 	            </li>
 	            <li>
 	                <a href="#undecided">
-	                    Not Sure Yet?
+	                    <?= browser::is_desktop() ? 'Not Sure Yet?' : 'Not Sure?' ?>
 	                </a>
 					<div class="arrow"></div>
 	            </li>
