@@ -5,7 +5,7 @@
     <h3>Select a category below. You can change your selection at any time.</h3>
     {{/if}}
 
-    <div class="pre_event_selection <?= $selected_event ? 'hidden' : '' ?>">
+    <div class="pre_event_selection">
 
 			<ul class="tabs">
 	            <li>
@@ -35,22 +35,25 @@
 	        </ul>
 
         <div class="bar_club pane">
-            {{include "event-list" type="bar,club" date=date events=events selected_event=selected_event}}
+            {{include "event-list" type="bar,club" date=date events=events selected_event=selected_event
+                      explanation="<em>Bar/Club</em>: Select the bar/club you are thinking of going to. (You can change your selection at any time)"}}
         </div>
 
         <div class="house_party pane">
-            {{include "event-list" type="house_party" date=date events=events selected_event=selected_event}}
+            {{include "event-list" type="house_party" date=date events=events selected_event=selected_event
+                      explanation="<em>Party</em>: Add a party below or select the one you're going to. (You can change your selection at any time)"}}
         </div>
 
         <div class="other pane">
-            {{include "event-list" type="other" date=date events=events selected_event=selected_event}}
+            {{include "event-list" type="other" date=date events=events selected_event=selected_event
+                      explanation="<em>Other</em>: Doing something else? Add it to the list below. (You can change your selection at any time)"}}
         </div>
 
         {{include "undecided-pane" date=date}}
 
     </div>
 
-    <?php if ($selected_event): ?>
+    {{#if selected_event}}
     <div class="event_selection">
         <div class="left">
             <!--<img src="<?= $profile_picture_url ?>" />-->
@@ -75,6 +78,6 @@
             </ul>
         </div>
     </div>
-    <?php endif; ?>
+    {{/if}}
 
 </div>
