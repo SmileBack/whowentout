@@ -78,7 +78,11 @@ h1 {
 #events_date_selector {
     a {
         margin: 0;
-    }
+		.scale(0.6);
+		&.active {
+            .scale(1.0);
+    	}
+	}
     .items a {
         width: 75px;
         background-size: 75px;
@@ -138,7 +142,7 @@ h1 {
             padding: 8px 16px;
         }
 		.checkin_form {
-			right: 8px;
+			right: 5px;
 		}
     }
 	.event_selection {
@@ -258,7 +262,7 @@ h1 {
 		float: none;
         display: inline-block;
         span {
-            padding: 8px 4px;
+            padding: 10px 4px;
             padding-left: 36px;
             background: url(/images/badge-yellow.png) 5px 50% no-repeat;
         }
