@@ -87,6 +87,20 @@ h1 {
       float: left;
       width: 225px;
       overflow: hidden;
+	  a {
+		o-transform: scale(0.5);
+		-webkit-transform: scale(0.5);
+		-moz-transform: scale(0.5);
+		-ms-transform: scale(0.5);
+		transform: scale(0.5);
+	  }
+	  a.active {
+	    o-transform: scale(0.8);
+	    -webkit-transform: scale(0.8);
+	    -moz-transform: scale(0.8);
+	    -ms-transform: scale(0.8);
+	    transform: scale(0.8);
+	}
     }
     .prev, .next {
         width: 45px;
@@ -161,7 +175,7 @@ h1 {
 	}
 	.explanation {
 		margin: 10px 10px 0 10px;
-		width: 400px;
+		width: 300px;
 		p {
 			font-size: 11px;
 			font-weight: normal;
