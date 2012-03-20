@@ -28,27 +28,16 @@ class ApplePushNotificationSender
 
         $json = json_encode($push);
 
-        $session = curl_init($this->url);
-        curl_setopt($session, CURLOPT_USERPWD, $this->application_key . ':' . $this->master_secret);
-        curl_setopt($session, CURLOPT_POST, true);
-        curl_setopt($session, CURLOPT_POSTFIELDS, $json);
-        curl_setopt($session, CURLOPT_HEADER, false);
-        curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        $content = curl_exec($session);
-        echo $content; // just for testing what was sent
+        $curl = new Curl;
 
-        // Check if any error occured
-        $response = curl_getinfo($session);
-        if($response['http_code'] != 200) {
-        echo "Got negative response from server, http code: ".
-        $response['http_code'] . "\n";
-        } else {
+        $curl->setOptions(array(
+            CURLOPT_USERPWD => $this->application_key . ':' . $this->master_secret,
+            CURLOPT_HEADER => false,
+        ));
+        $curl->setHeader('Content-Type', 'application/json');
+        $response = $curl->post($this->url, $json);
 
-        echo "Wow, it worked!\n";
-        }
-
-        curl_close($session);
+        var_dump($response);
     }
 
 }
@@ -63,7 +52,7 @@ class TestAction extends Action
         $token = '7c3b21784425aa1a778a2cbcb21763599e7c767f5476489eb8a15b00a9627766';
 
         $sender = new ApplePushNotificationSender($application_key, $master_secret);
-        $sender->send($token, 'helloooo');
+        $sender->send($token, 'wowowowowowo');
     }
 
 }

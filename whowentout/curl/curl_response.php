@@ -39,7 +39,10 @@ class CurlResponse
   {
     do
     {
-      list($header, $response) = explode("\r\n\r\n", $response, 2);
+      $response_parts = explode("\r\n\r\n", $response);
+      $header = $response_parts[0];
+      $response = isset($response_parts[1]) ? $response_parts[1] : null;
+
       # handle 1xx responses and 3xx redirects
       list($statusLine) = explode("\r\n", $header, 2);
     }
