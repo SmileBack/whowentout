@@ -47,12 +47,16 @@ class TestAction extends Action
 
     function execute()
     {
-        $application_key = 'cJjEXUGkRnyl8dFo2NMueA';
-        $master_secret = 'uFbpIvQNSq27QFoFBUN1cg';
-        $token = '7c3b21784425aa1a778a2cbcb21763599e7c767f5476489eb8a15b00a9627766';
+//        $application_key = 'cJjEXUGkRnyl8dFo2NMueA';
+//        $master_secret = 'uFbpIvQNSq27QFoFBUN1cg';
+//        $token = '7c3b21784425aa1a778a2cbcb21763599e7c767f5476489eb8a15b00a9627766';
+
+        $application_key = 'JRutzFNcQVi-VUglIadqYQ';
+        $master_secret = '4y08w0umTeCAt4c2rRy0Hg';
+        $token =
 
         $sender = new ApplePushNotificationSender($application_key, $master_secret);
-        $sender->send($token, 'wowowowowowo');
+        $sender->send($token, 'production woo');
     }
 
 }

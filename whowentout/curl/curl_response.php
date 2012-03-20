@@ -41,7 +41,7 @@ class CurlResponse
     {
       $response_parts = explode("\r\n\r\n", $response);
       $header = $response_parts[0];
-      $response = isset($response_parts[1]) ? $response_parts[1] : null;
+      $response = @$response_parts[1];
 
       # handle 1xx responses and 3xx redirects
       list($statusLine) = explode("\r\n", $header, 2);
@@ -55,9 +55,9 @@ class CurlResponse
     # Extract the version and status from the first header
     $version_and_status = array_shift($headers);
     preg_match('#HTTP/(\d\.\d)\s(\d\d\d)\s(.*)#', $version_and_status, $matches);
-    $this->headers['Http-Version'] = $matches[1];
-    $this->headers['Status-Code'] = $matches[2];
-    $this->headers['Status'] = $matches[2].' '.$matches[3];
+    $this->headers['Http-Version'] = @$matches[1];
+    $this->headers['Status-Code'] = @$matches[2];
+    $this->headers['Status'] = @$matches[2].' '.@$matches[3];
 
     # Convert headers into an associative array
     foreach ($headers as $header)

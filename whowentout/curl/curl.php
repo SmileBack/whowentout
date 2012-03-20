@@ -508,8 +508,6 @@ class Curl
     # Set any custom CURL options
     foreach ($this->options as $option => $value)
     {
-        krumo::dump($option);
-        krumo::dump($value);
       curl_setopt($this->request, $option, $value);
     }
   }
