@@ -15,7 +15,7 @@ class ViewHomepage extends Action
     {
         if (!empty($_GET))
             krumo::dump($_GET);
-        
+
         if (auth()->logged_in()) {
             /* @var $updater FacebookNetworksUpdater */
             $updater = build('facebook_networks_updater');
