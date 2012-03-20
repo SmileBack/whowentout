@@ -13,8 +13,8 @@ class ViewHomepage extends Action
 
     function execute()
     {
-        if (!empty($_GET))
-            print $_GET['test'];exit;
+//        if (!empty($_GET))
+//            print $_GET['test'];exit;
         
         if (auth()->logged_in()) {
             /* @var $updater FacebookNetworksUpdater */
