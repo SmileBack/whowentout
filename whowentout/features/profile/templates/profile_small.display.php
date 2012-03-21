@@ -11,6 +11,7 @@ class Profile_Small_Display extends Display
         'badge' => false,
         'defer_load' => false,
         'class' => '',
+        'version' => 1,
     );
 
     function process()
