@@ -14,6 +14,7 @@
             <?=
                 img($profile_picture_url, array(
                     'data-user_id' => $user->id,
+                    'data-version' => $version,
                     'class' => ($defer_load ? 'img_load' : 'img_loaded')
                                . " profile_picture_{$user->id}",
                 ))

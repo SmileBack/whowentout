@@ -21,7 +21,8 @@
             'badge' => $checkin->connection,
             'class' => ($checkin->event ? "checkin_event_{$checkin->event->id}" : '')
                      . " checkin_user_{$checkin->user->id}",
-            'defer_load' => $n++ > 8,
+            'defer_load' => $n++ > 10,
+            'version' => $checkin->profile_picture_version,
         ))
         ?>
 

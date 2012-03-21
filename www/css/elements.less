@@ -203,6 +203,20 @@
 }
 
 #view {
-    outline: 2px solid red;
     position: absolute;
+    top: 0;
+    left: 0;
+    .point {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        margin-top: -5px;
+        margin-left: -5px;
+        background-color: red;
+        .border_radius(5px);
+    }
+    .box {
+        position: absolute;
+        outline: 2px solid red;
+    }
 }

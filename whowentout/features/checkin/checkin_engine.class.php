@@ -175,7 +175,8 @@ class CheckinEngine
                 		networks.name as network_name,
                 		checkins.id AS checkin_id,
                 		(user_friends.friend_id IS NOT NULL) as is_friend,
-                        (entourage.friend_id IS NOT NULL) AS is_in_entourage
+                        (entourage.friend_id IS NOT NULL) AS is_in_entourage,
+                        profile_pictures.version AS profile_picture_version
                 		FROM users
                           INNER JOIN user_networks
                             ON users.id = user_networks.user_id
@@ -189,7 +190,9 @@ class CheckinEngine
                             ON users.id = checkins.user_id
                           LEFT JOIN events
                             ON checkins.event_id = events.id AND events.date = :date
-                          WHERE last_login IS NOT NULL
+                          LEFT JOIN profile_pictures
+                            ON users.id = profile_pictures.user_id
+                          #WHERE last_login IS NOT NULL
                           GROUP BY users.id
                           ORDER BY has_checked_in DESC, event_count DESC, event_id ASC, checkins.time DESC";
 
@@ -247,6 +250,8 @@ class CheckinEngine
             else
                 $ec->connection = 'member';
 
+            $ec->profile_picture_version = $row->profile_picture_version;
+
             $event_checkins[] = $ec;
         }
 
@@ -267,4 +272,5 @@ class EventCheckin
     public $is_friend = false;
     public $is_in_entourage = false;
     public $connection = 'member';
+    public $profile_picture_version = 1;
 }

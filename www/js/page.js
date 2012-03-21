@@ -269,25 +269,25 @@ whowentout.showFlashMessage = function(text) {
     return $('#flash_message');
 };
 
+whowentout.getProfilePictureUrl = {
+    localhost: function(user_id) {
+        return '/pics/' + user_id + '.normal.jpg';
+    },
+    whowasout: function(user_id) {
+        return 'http://s3.amazonaws.com/whowasout_pics/' + user_id + '.normal.jpg';
+    },
+    whowentout: function(user_id) {
+        return 'http://s3.amazonaws.com/whowentout_pics/' + user_id + '.normal.jpg'
+    }
+};
+
 whowentout.getProfilePictureUrls = function(user_ids) {
-    var dfd = $.Deferred();
-
-    user_ids = user_ids || [];
-
-    if (user_ids.length == 0)
-        dfd.resolve({});
-
-    $.ajax({
-        url: '/profile/urls',
-        type: 'get',
-        dataType: 'json',
-        data: {user_ids: user_ids},
-        success: function(response) {
-            dfd.resolve(response.urls);
-        }
+    var fn = whowentout.getProfilePictureUrl[window.settings.environment];
+    var urls = {};
+    _(user_ids).each(function(id) {
+        urls[id] = fn(id);
     });
-
-    return dfd.promise();
+    return urls;
 };
 
 $('a.coming_soon').entwine({
@@ -1003,7 +1003,7 @@ $('#events_date_selector').entwine({
                 $(this).addClass('hidden');
         });
 
-        gallery.removeData('centers');
+        gallery.recalculateGalleryBoxes();
         $(window).trigger('scroll');
     };
     executeFilter = _.debounce(executeFilter, 500);
@@ -1012,6 +1012,7 @@ $('#events_date_selector').entwine({
         onmatch: function() {
             this.bindWindowScrollListener();
             this.bindWindowResizeListener();
+            $(window).trigger('scroll');
         },
         onunmatch: function() {
         },
@@ -1036,7 +1037,8 @@ $('#events_date_selector').entwine({
             $.when(pUrls).then(function(urls) {
                 $.each(urls, function(user_id, url) {
                     var profilePicture = $('.profile_picture_' + user_id);
-                    profilePicture.attr('src', url);
+                    var version = profilePicture.data('version');console.log(version);
+                    profilePicture.attr('src', url + '?version=' + version);
                 });
             });
         },
@@ -1058,55 +1060,58 @@ $('#events_date_selector').entwine({
         bindWindowResizeListener: function() {
             var self = this;
             var onresize = _.debounce(function() {
-                self.removeData('centers');
+                self.recalculateGalleryBoxes();
                 $(window).trigger('scroll');
             }, 500);
             $(window).bind('resize', onresize);
         },
         getItemsInView: function() {
-            var start = this.getFirstVisibleItemData();
-            var end = this.getLastVisibleItemData();
+            var indices = this.getVisibleItemIndices();
+            var start = _(indices).first();
+            var end = _(indices).last();
 
-            if (!start || !end)
+            if (indices.length == 0)
                 return $();
 
-            var extra = (end.index - start.index + 1);
+            var extra = (end - start + 1);
 
-            return this.find('> li').slice(start.index - extra, end.index + 1 + extra * 2);
+            return this.find('> li').slice(start, end + extra * 2);
         },
-        getFirstVisibleItemData: function() {
-            var centers = this.getAllPoints();
+        getVisibleItemIndices: function() {
+            var boxes = this.galleryBoxes();
             var viewport = $(window).getBox();
+            var indices = [];
 
-            for (var i = 0; i < centers.length; i++)
-                if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
-                    return {index: i, top: centers[i]};
+            for (var i = 0; i < boxes.length; i++)
+                if (boxes[i].overlaps(viewport))
+                    indices.push(i);
 
-            return null;
+            return indices;
         },
-        getLastVisibleItemData: function() {
-            var centers = this.getAllPoints();
-            var viewport = $(window).getBox();
+        galleryBoxes: function(val) {
+            if (arguments.length == 0) {
+                if (!this.data('galleryBoxes')) {
+                    this.galleryBoxes(this.fetchGalleryBoxes());
+                }
+                return this.data('galleryBoxes');
+            }
+            else {
+                this.data('galleryBoxes', val);
 
-            for (var i = centers.length - 1; i >= 0; i--)
-                if (centers[i] >= viewport.top && centers[i] <= viewport.bottom)
-                    return {index: i, top: centers[i]};
+//                $('#view').clearBoxes();
+//                if (val)
+//                    $('#view').addBoxes(val);
 
-            return null;
+                return this;
+            }
         },
-        getAllPoints: function() {
-            if (!this.is(':visible'))
-                return [];
-
-            if (this.data('centers'))
-                return this.data('centers');
-
-            var centers = this.find('> li').filter(':visible').collect(function() {
-                return this.getBox().c.top;
-            });
-            this.data('centers', centers);
-
-            return this.data('centers');
+        recalculateGalleryBoxes: function() {
+            this.galleryBoxes(this);
+        },
+        fetchGalleryBoxes: function() {
+            return this.find('> li').filter(':visible').collect(function() {
+                            return this.getBox();
+                        });
         }
     });
 

@@ -7,6 +7,7 @@ class BrowserSettingsPlugin extends Plugin
     {
         browser::$settings['currentTime'] = app()->clock()->get_time()->getTimestamp();
         browser::$settings['currentUser'] = to::json(auth()->current_user());
+        browser::$settings['environment'] = environment();
     }
 
 }

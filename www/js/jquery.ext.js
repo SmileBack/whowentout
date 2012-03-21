@@ -366,6 +366,35 @@ $('#view').entwine({
             width: box.width + 'px',
             height: box.height + 'px'
         });
+    },
+    addPoints: function(points) {
+        for (var i = 0; i < points.length; i++) {
+            this.addPoint(points[i]);
+        }
+    },
+    addPoint: function(point) {
+        var point = $('<div class="point"></div>').css({left: point.left, top: point.top});
+        this.append(point);
+    },
+    clearPoints: function() {
+        this.find('.point').remove();
+    },
+    addBoxes: function(boxes) {
+        for (var i = 0; i < boxes.length; i++) {
+            this.addBox(boxes[i]);
+        }
+    },
+    addBox: function(box) {
+        var box = $('<div class="box"></div>').css({
+            left: box.left,
+            top: box.top,
+            width: box.width,
+            height: box.height
+        });
+        this.append(box);
+    },
+    clearBoxes: function() {
+        this.find('.box').remove();
     }
 });
 
