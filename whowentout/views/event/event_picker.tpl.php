@@ -79,7 +79,7 @@
         <div class="left">
             <img src="<?= $profile_picture_url ?>" />
             <div class="going_to">
-                <?= $selected_event->name ?>
+                <?= format::truncate($selected_event->name, 20) ?>
             </div>
         </div>
         <div class="event_selection_summary">
