@@ -8,9 +8,9 @@
 
     <?php if (!$is_invited): ?>
         <?php if (browser::is_mobile()): ?>
-			<button>Invite to <?= format::truncate ($event->name) ?></button>
+			<button>Invite to <br/> <?= ($event->name) ?></button>		
 		<?php else: ?>
-			<button>Invite to </br> <?= ($event->name) ?></button>
+			<button>Invite to <?= format::truncate ($event->name) ?></button>
 		<?php endif; ?>
 	<?php endif; ?>
 

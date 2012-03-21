@@ -182,9 +182,11 @@ input[type="submit"], button {
 	}
 	li {
 		margin: 15px 10px;
+		max-width: 137px;
 	}
 	.going_to {
 		max-width: 125px;
+		max-height: 30px;
 	}
 	.gallery_thumb {
 	    .thumb(105px, 140px);
@@ -235,10 +237,12 @@ input[type="submit"], button {
 	        font-weight: bold;
 	        height: 16px;
 	        overflow: hidden;
+			font-size: 12px;
 	    }
 	    .profile_networks {
 	        height: 16px;
 	        overflow: hidden;
+			font-size: 12px;
 	    }
 			li {
 				margin: 0;
@@ -360,7 +364,7 @@ input[type="submit"], button {
 }
 
 #page {
-    width: 900px;
+    width: 860px;
     margin-left: @sidebar_width;
     #content {
         background-color: white;
@@ -384,7 +388,7 @@ input[type="submit"], button {
 		font-size: 18px;
 		border-bottom: 1px solid #DBDBDB;
 		color: black;
-        padding: 8px;
+        padding: 8px 0;
 	}
     .profile_small {
         padding: 8px;
@@ -403,8 +407,9 @@ input[type="submit"], button {
 	a {
 		.button_style;
 		.green_button;
+		font-size: 13px;
 		margin: 4px 0;
-        padding: 6px 4px;
+        padding: 4px 4px;
         display: block;
         &.event_invite_link > div {
             line-height: 16px;
@@ -425,7 +430,7 @@ input[type="submit"], button {
 	        margin-top: 26px;
 	    }
         li {
-           margin: 12px 0;
+           margin: 8px 0;
     	}
 	}
 	.top_parties {
@@ -944,7 +949,7 @@ td {
 .invite_to_form {
     margin-top: 5px;
     button, .invited {
-        font-size: 12px;
+        font-size: 11px;
         padding: 5px;
         display: block;
         width: 100%;
@@ -1515,19 +1520,15 @@ section.entourage {
 	text-align: left;
 	margin-left: 25px;
 	margin-top: 10px;
-	font-size: 13px;
-	font-weight: bold;
 	p {
-		color: @primary_color;
-	}
-	em {
-		font-style: normal;
-		text-decoration: underline;
 		font-size: 12px;
+		font-weight: normal;
+		color: @primary_color;
 	}
 	strong {
 		font-size: 12px;
-		font-weight: normal;
+		font-weight: bold;
+		text-decoration: underline;
 	}
 }
 

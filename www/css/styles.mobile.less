@@ -87,9 +87,24 @@ h1 {
       float: left;
       width: 225px;
       overflow: hidden;
+	  a {
+		o-transform: scale(0.6);
+		-webkit-transform: scale(0.6);
+		-moz-transform: scale(0.6);
+		-ms-transform: scale(0.6);
+		transform: scale(0.6);
+	  }
+	  a.active {
+	    o-transform: scale(0.8);
+	    -webkit-transform: scale(0.8);
+	    -moz-transform: scale(0.8);
+	    -ms-transform: scale(0.8);
+	    transform: scale(0.8);
+	}
     }
     .prev, .next {
         width: 45px;
+		background-size: 25px;
     }
 }
 
@@ -100,14 +115,17 @@ h1 {
 
 .event_picker {
     width: 98%;
+	padding-left: 3px;
 	h1 {
-		font-size: 17px;
+		font-size: 20px;
+		margin-top: 0;
 	}
 	h3 {
 		font-size: 12px;
 	}
     .pre_event_selection {
-		max-width: 100%;
+		max-width: 99%;
+		margin-top: 10px;
 	}
 	.tabs {
         max-width: 100%;
@@ -117,21 +135,26 @@ h1 {
         }
         a {
             font-size: 12px;
-            width: 100%;
+            width: 98%;
             padding-left: 0;
             padding-right: 0;
+			margin-left: 1px;
         }
     }
     .undecided.pane {
         padding: 25px 0;
 		width: 98%;
 		h2 {
-            font-size: 12px;
+            font-size: 11px;
 			padding-bottom: 2px;
+			margin-left: 5px;
         }
         .checkin_badge {
             padding: 8px 16px;
         }
+		.checkin_form {
+			right: 5px;
+		}
     }
 	.event_selection {
 		ul {
@@ -150,6 +173,19 @@ h1 {
                 clear: left;
             }
         }
+	}
+	.explanation {
+		margin: 10px 10px 0 10px;
+		width: 300px;
+		p {
+			font-size: 11px;
+			font-weight: normal;
+		}
+		strong {
+			font-size: 11px;
+			font-weight: bold;
+			text-decoration: underline;
+		}
 	}
 }
 
@@ -212,6 +248,11 @@ h1 {
 
 .event_day_summary {
     margin: 5px 0;
+	h1 {
+		margin-bottom: 10px;
+		font-size: 18px;
+		border-top: none;
+	}
 }
 
 .event_gallery_toolbar {
@@ -225,14 +266,17 @@ h1 {
     .search {
         float: none;
         display: inline-block;
-        width: 290px;
+        width: 250px;
+		margin-top: 4px;
+		padding: 5px;
     }
     .radio_toggle {
-        float: none;
+        margin: 0px 2px;
+		float: none;
         display: inline-block;
         span {
-            padding: 12px 6px;
-            padding-left: 40px;
+            padding: 10px 4px;
+            padding-left: 36px;
             background: url(/images/badge-yellow.png) 5px 50% no-repeat;
         }
     }
@@ -365,6 +409,7 @@ body.dialog_visible #page {
 }
 
 .gallery {
+	margin-top: 20px;
 	li {
 		width: 120px;
 		margin: 5px 6px 10px 6px;
