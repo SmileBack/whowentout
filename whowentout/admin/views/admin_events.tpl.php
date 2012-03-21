@@ -27,6 +27,11 @@
         </div>
 
         <div>
+            <label>Deal Ticket (leave blank to use Deal above)</label>
+            <textarea rows="4" cols="100" name="event[deal_ticket]"></textarea>
+        </div>
+
+        <div>
             <label>Deal Type</label>
             <select name="event[deal_type]">
                 <option value="bar">bar</option>

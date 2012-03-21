@@ -11,6 +11,9 @@ class AdminCreateEventAction extends Action
 
         $dates = $this->parse_dates($event_attributes['date']);
 
+        if (!$event_attributes['deal_ticket'])
+            $event_attributes['deal_ticket'] = $event_attributes['deal'];
+
         foreach ($dates as $date) {
             $event_attributes['date'] = $date;
             app()->database()->table('events')->create_row($event_attributes);

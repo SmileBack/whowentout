@@ -19,7 +19,7 @@ class DealTicketPrinter
     function print_deal($user, $event, $orientation = 'landscape')
     {
         $venue = $event->name;
-        $deal = $event->deal;
+        $deal = $event->deal_ticket;
         $date = $event->date->format('M jS');
         $profile_picture = $this->profile_picture_factory->build($user);
 

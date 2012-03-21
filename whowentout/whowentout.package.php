@@ -3,7 +3,7 @@
 class WhoWentOutPackage extends Package
 {
 
-    public $version = '0.3.6';
+    public $version = '0.3.7';
 
     function install()
     {
@@ -211,7 +211,13 @@ class WhoWentOutPackage extends Package
                                     FROM checkins WHERE checkins.event_id = events.id)");
     }
 
-
+    function update_0_3_7()
+    {
+        $this->database->table('events')->create_column('deal_ticket', array(
+            'type' => 'text',
+        ));
+        $this->database->execute('UPDATE events SET deal_ticket = deal');
+    }
 
     function uninstall()
     {
