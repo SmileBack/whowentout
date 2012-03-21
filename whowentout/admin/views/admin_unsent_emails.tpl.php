@@ -1,6 +1,6 @@
 <?php
 $jobs = db()->table('jobs')
-        ->where('type', 'SendEmailJob')
+        ->where('type', array('SendEmailJob', 'EmailDealJob'))
         ->where('status', array('pending', 'running'));
 $job_count = $jobs->count();
 ?>
@@ -23,7 +23,9 @@ $job_count = $jobs->count();
     <table class="filter_table">
         <thead>
             <tr>
+                <th>type</th>
                 <th>id</th>
+                <th>time</th>
                 <th>status</th>
                 <th>user</th>
                 <th>facebook id</th>
@@ -41,16 +43,21 @@ $job_count = $jobs->count();
         $opts = (object)unserialize($job->options);
 
         $user = isset($opts->user_id) ? db()->table('users')->row($opts->user_id) : null;
+        $checkin = isset($opts->checkin_id) ? db()->table('checkins')->row($opts->checkin_id) : null;
 
-        $subject = $opts->subject;
-        $body = $opts->body;
+        if (!$user && $checkin)
+            $user = $checkin->user;
+
+        $subject = isset($opts->subject) ? $opts->subject : '-';
+        $body = isset($opts->body) ? $opts->body : '-';
         $email = isset($opts->email) ? $opts->email : null;
         ?>
 
             <tr>
+                <td><?= $job->type ?></td>
                 <td><?= $hash ?></td>
+                <td><?= format::date($job->created_at) ?></td>
                 <td><?= $job->status ?></td>
-
                 <td>
                     <?= $user ? "$user->first_name $user->last_name" : '-' ?>
                 </td>

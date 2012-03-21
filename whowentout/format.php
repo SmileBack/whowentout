@@ -15,6 +15,14 @@ class format
         "is" => "are",
     );
 
+    public static function date($date)
+    {
+        if ($date instanceof DateTime)
+            return $date->format('m/d, g:ia');
+        else
+            return '';
+    }
+
     public static function full_name($user)
     {
         return $user->first_name . ' ' . $user->last_name;

@@ -9,9 +9,18 @@ class JobQueue
     /* @var $jobs DatabaseTable */
     private $jobs;
 
-    function __construct(Database $database)
+    /* @var $clock Clock */
+    private $clock;
+
+    /* @var $pusher Pusher */
+    private $pusher;
+
+    function __construct(Database $database, Clock $clock, Pusher $pusher)
     {
         $this->database = $database;
+        $this->clock = $clock;
+        $this->pusher = $pusher;
+
         $this->jobs = $this->database->table('jobs');
     }
 
@@ -31,6 +40,7 @@ class JobQueue
             'type' => get_class($job),
             'status' => $job->status,
             'options' => serialize($job->options),
+            'created_at' => $this->clock->get_time(),
         ));
 
         return $job;
@@ -97,6 +107,8 @@ class JobQueue
             }
 
             $job->status = 'complete';
+            $job->completed_at = $this->clock->get_time();
+
             $this->update($job);
         }
     }
@@ -136,9 +148,7 @@ class JobQueue
 
     private function post_async_pusher($url, $params = array())
     {
-        /* @var $pusher Pusher */
-        $pusher = build('pusher');
-        $pusher->trigger('job_queue', 'new_job', array(
+        $this->pusher->trigger('job_queue', 'new_job', array(
             'url' => $url,
             'params' => $params,
         ));
