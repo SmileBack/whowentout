@@ -36,7 +36,10 @@ class CheckinAction extends Action
             flash::message($this->get_checkin_message($event, $current_user));
         }
 
-        app()->goto_event($event);
+        if ($event->deal_ticket && browser::is_desktop())
+            app()->goto_event_deal($event);
+        else
+            app()->goto_event($event);
     }
 
     protected function get_checkin_message($event, $user)
