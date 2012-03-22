@@ -193,7 +193,7 @@ class CheckinEngine
                             ON checkins.event_id = events.id AND events.date = :date
                           LEFT JOIN profile_pictures
                             ON users.id = profile_pictures.user_id
-                          #WHERE last_login IS NOT NULL
+                          WHERE last_login IS NOT NULL
                           GROUP BY users.id
                           ORDER BY has_checked_in DESC, event_count DESC, event_id ASC, checkins.time DESC";
 
