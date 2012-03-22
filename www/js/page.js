@@ -1106,7 +1106,7 @@ $('#events_date_selector').entwine({
             }
         },
         recalculateGalleryBoxes: function() {
-            this.galleryBoxes(this);
+            this.galleryBoxes(null);
         },
         fetchGalleryBoxes: function() {
             return this.find('> li').filter(':visible').collect(function() {

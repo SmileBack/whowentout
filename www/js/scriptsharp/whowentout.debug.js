@@ -30,6 +30,13 @@ whowentout.JobRelay.prototype = {
     _started: false,
     _pusherKey: null,
     
+    _log: function whowentout_JobRelay$_log(message) {
+        /// <param name="message" type="Object">
+        /// </param>
+        var time = Date.get_now().toLocaleDateString() + ' ' + Date.get_now().toLocaleTimeString();
+        console.log(String.format('{0} : {1}', time, message));
+    },
+    
     _start: function whowentout_JobRelay$_start() {
         if (this._started) {
             return;
@@ -41,7 +48,7 @@ whowentout.JobRelay.prototype = {
         this._queue.add_statusChanged(ss.Delegate.create(this, this._queue_StatusChanged));
         this._pusher = new PusherApi.PusherClient(this._pusherKey);
         this._pusher.get_connection().add_stateChange(ss.Delegate.create(this, this._connection_StateChange));
-        console.log('pusher key = ' + this._pusherKey);
+        this._log('pusher key = ' + this._pusherKey);
         this._channel = this._pusher.subscribe('job_queue');
         this._channel.add_subscriptionSucceeded(ss.Delegate.create(this, this._channel_SubscriptionSucceeded));
         this._channel.add_subscriptionFailed(ss.Delegate.create(this, this._channel_SubscriptionFailed));
@@ -54,7 +61,7 @@ whowentout.JobRelay.prototype = {
         var url = jobObject.url;
         var job = new whowentout.SendRequestJob(url);
         this._queue.add(job);
-        console.log(String.format('queued job [{0} jobs]', this._queue.get_count()));
+        this._log(String.format('queued job [{0} jobs]', this._queue.get_count()));
         console.log(jobObject);
     },
     
@@ -63,7 +70,7 @@ whowentout.JobRelay.prototype = {
         /// </param>
         /// <param name="e" type="whowentout.lib.JobQueueStatusChangedEventArgs">
         /// </param>
-        console.log(String.format('JOB QUEUE : {0} -> {1}', e.get_oldStatus(), e.get_newStatus()));
+        this._log(String.format('JOB QUEUE : {0} -> {1}', e.get_oldStatus(), e.get_newStatus()));
     },
     
     _queue_JobComplete: function whowentout_JobRelay$_queue_JobComplete(sender, e) {
@@ -71,7 +78,7 @@ whowentout.JobRelay.prototype = {
         /// </param>
         /// <param name="e" type="whowentout.lib.JobEventArgs">
         /// </param>
-        console.log(String.format('job complete [{0} jobs]', this._queue.get_count()));
+        this._log(String.format('job complete [{0} jobs]', this._queue.get_count()));
     },
     
     _queue_JobStart: function whowentout_JobRelay$_queue_JobStart(sender, e) {
@@ -79,7 +86,7 @@ whowentout.JobRelay.prototype = {
         /// </param>
         /// <param name="e" type="whowentout.lib.JobEventArgs">
         /// </param>
-        console.log('job start');
+        this._log('job start');
     },
     
     _channel_SubscriptionFailed: function whowentout_JobRelay$_channel_SubscriptionFailed(sender, e) {
@@ -87,7 +94,7 @@ whowentout.JobRelay.prototype = {
         /// </param>
         /// <param name="e" type="ss.EventArgs">
         /// </param>
-        console.log('subscription failed');
+        this._log('subscription failed');
     },
     
     _channel_SubscriptionSucceeded: function whowentout_JobRelay$_channel_SubscriptionSucceeded(sender, e) {
@@ -95,7 +102,7 @@ whowentout.JobRelay.prototype = {
         /// </param>
         /// <param name="e" type="ss.EventArgs">
         /// </param>
-        console.log('subscription succeeded');
+        this._log('subscription succeeded');
     },
     
     _connection_StateChange: function whowentout_JobRelay$_connection_StateChange(sender, e) {
@@ -103,7 +110,7 @@ whowentout.JobRelay.prototype = {
         /// </param>
         /// <param name="e" type="PusherApi.StateChangeEventArgs">
         /// </param>
-        console.log(String.format('PUSHER : {0} -> {1}', e.get_previous(), e.get_current()));
+        this._log(String.format('PUSHER : {0} -> {1}', e.get_previous(), e.get_current()));
     }
 }
 
@@ -377,7 +384,7 @@ PusherApi.Connection.prototype = {
                 return 'connecting';
             case 'connected':
                 return 'connected';
-            case 'unvailable':
+            case 'unavailable':
                 return 'unavailable';
             case 'failed':
                 return 'failed';

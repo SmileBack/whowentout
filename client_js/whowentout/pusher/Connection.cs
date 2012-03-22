@@ -51,7 +51,7 @@ namespace PusherApi
                     return ConnectionState.Connecting;
                 case "connected":
                     return ConnectionState.Connected;
-                case "unvailable":
+                case "unavailable":
                     return ConnectionState.Unavailable;
                 case "failed":
                     return ConnectionState.Failed;

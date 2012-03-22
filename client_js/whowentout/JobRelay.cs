@@ -25,6 +25,12 @@ namespace whowentout
             _pusherKey = pusherKey;
         }
 
+        private void Log(object message)
+        {
+            string time = Date.Now.ToLocaleDateString() + " " + Date.Now.ToLocaleTimeString();
+            console.log(string.Format("{0} : {1}", time, message));
+        }
+
         internal void Start()
         {
             if (_started)
@@ -40,7 +46,7 @@ namespace whowentout
             pusher = new PusherClient(_pusherKey);
             pusher.Connection.StateChange += new EventHandler<StateChangeEventArgs>(Connection_StateChange);
 
-            console.log("pusher key = " + _pusherKey);
+            Log("pusher key = " + _pusherKey);
 
             channel = pusher.Subscribe("job_queue");
             channel.SubscriptionSucceeded += new EventHandler(Channel_SubscriptionSucceeded);
@@ -55,38 +61,38 @@ namespace whowentout
             SendRequestJob job = new SendRequestJob(url);
             queue.Add(job);
 
-            console.log(string.Format("queued job [{0} jobs]", queue.Count));
+            Log(string.Format("queued job [{0} jobs]", queue.Count));
             console.log(jobObject);
         }
 
         void Queue_StatusChanged(object sender, JobQueueStatusChangedEventArgs e)
         {
-            console.log(string.Format("JOB QUEUE : {0} -> {1}", e.OldStatus, e.NewStatus));
+            Log(string.Format("JOB QUEUE : {0} -> {1}", e.OldStatus, e.NewStatus));
         }
 
         void Queue_JobComplete(object sender, JobEventArgs e)
         {
-            console.log(string.Format("job complete [{0} jobs]", queue.Count));
+            Log(string.Format("job complete [{0} jobs]", queue.Count));
         }
 
         void Queue_JobStart(object sender, JobEventArgs e)
         {
-            console.log("job start");
+            Log("job start");
         }
 
         void Channel_SubscriptionFailed(object sender, EventArgs e)
         {
-            console.log("subscription failed");
+            Log("subscription failed");
         }
 
         void Channel_SubscriptionSucceeded(object sender, EventArgs e)
         {
-            console.log("subscription succeeded");
+            Log("subscription succeeded");
         }
 
         void Connection_StateChange(object sender, StateChangeEventArgs e)
         {
-            console.log(string.Format("PUSHER : {0} -> {1}", e.Previous, e.Current));
+            Log(string.Format("PUSHER : {0} -> {1}", e.Previous, e.Current));
         }
 
     }
