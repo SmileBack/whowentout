@@ -1037,7 +1037,7 @@ $('#events_date_selector').entwine({
             $.when(pUrls).then(function(urls) {
                 $.each(urls, function(user_id, url) {
                     var profilePicture = $('.profile_picture_' + user_id);
-                    var version = profilePicture.data('version');console.log(version);
+                    var version = profilePicture.data('version');
                     profilePicture.attr('src', url + '?version=' + version);
                 });
             });
@@ -1075,7 +1075,7 @@ $('#events_date_selector').entwine({
 
             var extra = (end - start + 1);
 
-            return this.find('> li').slice(start, end + extra * 2);
+            return this.find('> li:visible').slice(start, end + extra * 2);
         },
         getVisibleItemIndices: function() {
             var boxes = this.galleryBoxes();
