@@ -9,6 +9,15 @@ class DatabaseWhereFilter extends QueryPart
     public $value;
 
     private $operator = '=';
+    private $operator_names = array(
+        'in' => 'in',
+        '=' => 'equal',
+        '!=' => 'not_equal',
+        '>' => 'default',
+        '>=' => 'default',
+        '<' => 'default',
+        '<=' => 'default',
+    );
 
     private $unique_id;
     private static function unique_field_name()
@@ -22,7 +31,10 @@ class DatabaseWhereFilter extends QueryPart
     {
         $this->field = $field;
         $this->value = $value;
-        $this->operator = $operator;
+        $this->operator = strtolower($operator);
+
+        if (is_array($value))
+            $this->operator = 'in';
 
         $this->unique_id = static::unique_field_name();
     }
@@ -37,7 +49,7 @@ class DatabaseWhereFilter extends QueryPart
         if (is_array($this->value))
             return $this->to_sql_in();
         else
-            return $this->to_sql_operator();
+            return $this->to_sql_with_operator();
     }
 
     /**
@@ -48,10 +60,36 @@ class DatabaseWhereFilter extends QueryPart
         return array($this->field);
     }
 
-    private function to_sql_operator()
+    private function to_sql_with_operator()
     {
         $filter_placeholder = $this->get_filter_placeholder();
-        return $this->field->to_sql() . " $this->operator :$filter_placeholder";
+
+        if (!isset($this->operator_names[$this->operator]))
+            throw new Exception("Invalid operator $this->operator");
+
+        $callback = 'operator_' . $this->operator_names[$this->operator];
+        return $this->$callback($this->operator, $this->field->to_sql(), $filter_placeholder);
+    }
+
+    private function operator_default($operator, $field, $filter_placeholder)
+    {
+        return "$field $operator :$filter_placeholder";
+    }
+
+    private function operator_equal($operator, $field, $filter_placeholder)
+    {
+        if ($this->value === null)
+            return "$field IS NULL";
+        else
+            return "$field = :$filter_placeholder";
+    }
+
+    private function operator_not_equal($operator, $field, $filter_placeholder)
+    {
+        if ($this->value === null)
+            return "$field IS NOT NULL";
+        else
+            return "$field != :$filter_placeholder";
     }
 
     private function to_sql_in()

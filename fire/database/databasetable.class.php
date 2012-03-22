@@ -436,9 +436,9 @@ class DatabaseTable implements Iterator
      * @param  $value mixed
      * @return ResultSet
      */
-    function where($field_name, $value)
+    function where($field_name, $value, $operator = '=')
     {
-        return $this->all()->where($field_name, $value);
+        return $this->all()->where($field_name, $value, $operator);
     }
 
     /**

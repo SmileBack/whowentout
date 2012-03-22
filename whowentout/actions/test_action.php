@@ -1,12 +1,5 @@
 <?php
 
-class TestJob extends Job
-{
-    function run()
-    {
-    }
-}
-
 class TestAction extends Action
 {
 
@@ -15,8 +8,15 @@ class TestAction extends Action
         /* @var $queue JobQueue */
         $queue = build('job_queue');
 
-        $job = $queue->add(new TestJob());
-        $queue->run_in_background($job->id);
+        $users_without_email = db()->table('users')->where('last_login', null, '!=')
+                                     ->where('email', null);
+
+        /* @var $user DatabaseRow */
+        foreach ($users_without_email as $user) {
+            $job = new UpdateFacebookProfileJob(array('user_id' => $user->id));
+            $queue->add($job);
+            $queue->run_in_background($job->id);
+        }
     }
     
 }
