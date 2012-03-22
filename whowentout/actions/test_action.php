@@ -3,7 +3,7 @@
 class TestAction extends Action
 {
 
-    function execute()
+    function execute_update_emails()
     {
         /* @var $queue JobQueue */
         $queue = build('job_queue');
