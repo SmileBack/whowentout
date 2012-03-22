@@ -152,6 +152,7 @@ class CheckinEngine
     {
         $events = $this->database->table('events')
                                  ->where('date', $date)
+                                 ->where('count', 0, '!=')
                                  ->order_by('count', 'desc')
                                  ->limit(3)->to_array();
         return $events;
