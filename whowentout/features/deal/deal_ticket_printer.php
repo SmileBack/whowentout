@@ -3,6 +3,8 @@
 class DealTicketPrinter
 {
 
+    private $right_width = 230;
+
     private $profile_picture_factory;
 
     function __construct(ProfilePictureFactory $profile_picture_factory)
@@ -20,7 +22,7 @@ class DealTicketPrinter
     {
         $venue = $event->name;
         $deal = $event->deal_ticket;
-        $date = $event->date->format('M jS');
+        $date = $event->date;
         $profile_picture = $this->profile_picture_factory->build($user);
 
         $profile_picture_url = $profile_picture->url('thumb');
@@ -71,10 +73,23 @@ class DealTicketPrinter
 
     private function print_venue_and_date(WideImage_Image &$ticket, $venue, $date)
     {
+        $text = $this->get_venue_and_date_text($venue, $date);
         $canvas = $ticket->getCanvas();
         $canvas->useFont($this->font_path(), 14, $ticket->allocateColor(255, 204, 51));
 
-        $canvas->writeText(130, 55, $venue . ', ' . $date);
+        $canvas->writeText(130, 55, $text);
+    }
+
+    private function get_venue_and_date_text($venue, $date)
+    {
+        $long_date_format = 'l n/j';
+        $short_date_format = 'D. n/j';
+
+        $text = $venue . ', ' . $date->format($long_date_format);
+        if ($this->get_text_width(14, $text) > $this->right_width)
+            $text = $venue . ', ' . $date->format($short_date_format);
+
+        return $text;
     }
 
     private function print_lines(WideImage_Image &$ticket, array $lines)
@@ -116,6 +131,12 @@ class DealTicketPrinter
     private function create_blank_ticket()
     {
         return WideImage::load('./images/ticket_blank.png');
+    }
+
+    private function text_width($font_size, $text)
+    {
+        $box = imagettfbbox($font_size, 0, $this->font_path(), $text);
+        return $box[4];
     }
 
     private function font_path()
