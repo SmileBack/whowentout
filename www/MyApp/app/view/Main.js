@@ -1,16 +1,14 @@
-Ext.define("MyApp.view.Main", {
+Ext.define('MyApp.view.Main', {
     extend: 'Ext.tab.Panel',
     requires: ['Ext.TitleBar'],
     
     config: {
         tabBarPosition: 'bottom',
-        
         items: [
             {
                 title: 'Neighborhood',
                 iconCls: 'team',
-                scrollable: true,
-
+                layout: 'vbox',
                 items: [
                     {
                         docked: 'top',
@@ -19,7 +17,12 @@ Ext.define("MyApp.view.Main", {
                     },
                     {
                         xtype: 'panel',
-                        html: '<h1>my neighborhood</h1>'
+                        padding: '15 15 15 15',
+                        html: '<h1>Welcome to the West Village crowd!</h1>'
+                    },
+                    {
+                        xclass: 'MyApp.view.UserList',
+                        flex: 1
                     }
                 ]
             },
