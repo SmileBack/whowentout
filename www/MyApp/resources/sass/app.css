@@ -1,0 +1,90 @@
+/*
+Syntax error: File to import not found or unreadable: compass/css3.
+              Load paths:
+                c:/wamp/site/www/MyApp/resources
+                c:/wamp/site/www/MyApp/resources/sass
+        on line 1 of sass/../themes/stylesheets/sencha-touch/default/core/../_mixins.scss
+        from line 2 of sass/../themes/stylesheets/sencha-touch/default/core/../_global.scss
+        from line 1 of sass/../themes/stylesheets/sencha-touch/default/core/_core.scss
+        from line 2 of sass/../themes/stylesheets/sencha-touch/default/_core.scss
+        from line 1 of sass/../themes/stylesheets/sencha-touch/default/_all.scss
+        from line 1 of sass/app.scss
+
+1: @import '../themes/stylesheets/sencha-touch/default/all';
+2: 
+3: // You may remove any of the following modules that you
+4: // do not use in order to create a smaller css file.
+5: @include sencha-panel;
+6: @include sencha-buttons;
+
+Backtrace:
+sass/../themes/stylesheets/sencha-touch/default/core/../_mixins.scss:1
+sass/../themes/stylesheets/sencha-touch/default/core/../_global.scss:2
+sass/../themes/stylesheets/sencha-touch/default/core/_core.scss:1
+sass/../themes/stylesheets/sencha-touch/default/_core.scss:2
+sass/../themes/stylesheets/sencha-touch/default/_all.scss:1
+sass/app.scss:1
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/import_node.rb:64:in `rescue in import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/import_node.rb:42:in `import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/import_node.rb:25:in `imported_file'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:149:in `rescue in visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:154:in `visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:18:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `block in visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `map'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:18:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `block in visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `map'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:18:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `block in visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `map'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:18:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `block in visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `map'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:18:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `block in visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `map'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:146:in `visit_import'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:18:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:53:in `map'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:47:in `visit_root'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/base.rb:37:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:18:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/visitors/perform.rb:7:in `visit'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/tree/root_node.rb:20:in `render'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/engine.rb:299:in `_render'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/engine.rb:246:in `render'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/plugin/compiler.rb:339:in `update_stylesheet'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/plugin/compiler.rb:202:in `block in update_stylesheets'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/plugin/compiler.rb:200:in `each'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/plugin/compiler.rb:200:in `update_stylesheets'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/plugin/compiler.rb:234:in `watch'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/plugin.rb:107:in `method_missing'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/exec.rb:431:in `watch_or_update'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/exec.rb:302:in `process_result'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/exec.rb:41:in `parse'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/lib/sass/exec.rb:21:in `parse!'
+C:/RailsInstaller/Ruby1.9.2/lib/ruby/gems/1.9.1/gems/sass-3.1.15/bin/sass:8:in `<top (required)>'
+C:/RailsInstaller/Ruby1.9.2/bin/sass:19:in `load'
+C:/RailsInstaller/Ruby1.9.2/bin/sass:19:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: File to import not found or unreadable: compass/css3.\A               Load paths:\A                 c:/wamp/site/www/MyApp/resources\A                 c:/wamp/site/www/MyApp/resources/sass\A         on line 1 of sass/../themes/stylesheets/sencha-touch/default/core/../_mixins.scss\A         from line 2 of sass/../themes/stylesheets/sencha-touch/default/core/../_global.scss\A         from line 1 of sass/../themes/stylesheets/sencha-touch/default/core/_core.scss\A         from line 2 of sass/../themes/stylesheets/sencha-touch/default/_core.scss\A         from line 1 of sass/../themes/stylesheets/sencha-touch/default/_all.scss\A         from line 1 of sass/app.scss\A \A 1: @import '../themes/stylesheets/sencha-touch/default/all';\A 2: \A 3: // You may remove any of the following modules that you\A 4: // do not use in order to create a smaller css file.\A 5: @include sencha-panel;\A 6: @include sencha-buttons;"; }

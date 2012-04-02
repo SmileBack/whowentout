@@ -7,7 +7,7 @@ Ext.define('MyApp.view.Main', {
         items: [
             {
                 title: 'Neighborhood',
-                iconCls: 'team',
+                iconCls: 'home',
                 layout: 'vbox',
                 items: [
                     {
@@ -45,7 +45,7 @@ Ext.define('MyApp.view.Main', {
             },
             {
                 title: 'Checkin',
-                iconCls: 'download',
+                iconCls: 'marker',
                 scrollable: true,
 
                 items: [
@@ -62,7 +62,7 @@ Ext.define('MyApp.view.Main', {
             },
             {
                 title: 'My Circle',
-                iconCls: 'time',
+                iconCls: 'circle',
                 scrollable: true,
 
                 items: [
