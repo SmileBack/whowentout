@@ -11,5 +11,9 @@ Ext.define('App.model.User', {
             {name: 'age', type: 'int'}
         ],
         hasMany: {name: 'networks', model: 'App.model.Network'}
+    },
+
+    fullName: function() {
+        return this.data.firstName + ' ' + this.data.lastName;
     }
 });

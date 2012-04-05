@@ -4,7 +4,7 @@ Ext.define('App.view.UserDetail', {
 
     config: {
         title: 'User Details',
-        html: 'Hello Wooo',
-        scrollable: 'vertical'
+        scrollable: 'vertical',
+        tpl: '{firstName} profile'
     }
 });

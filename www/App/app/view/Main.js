@@ -8,6 +8,7 @@ Ext.define('App.view.Main', {
     ],
 
     config: {
+        header: false,
         items: [{
             xtype: 'homepanel'
         }]

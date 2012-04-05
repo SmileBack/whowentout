@@ -12,9 +12,11 @@ Ext.define('App.controller.Main', {
         }
     },
 
-    showDetail: function() {
+    showDetail: function(list, record) {
         this.getMain().push({
-            xtype: 'userdetail'
+            xtype: 'userdetail',
+            data: record.data,
+            title: record.fullName()
         });
     }
 });
