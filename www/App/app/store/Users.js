@@ -1,8 +1,8 @@
-Ext.define('MyApp.store.Users', {
+Ext.define('App.store.Users', {
     extend: 'Ext.data.Store',
 
     config: {
-        model: 'MyApp.model.User',
+        model: 'App.model.User',
         data: [
             {
                 "id": 1,

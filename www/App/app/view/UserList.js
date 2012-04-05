@@ -1,6 +1,7 @@
-Ext.define('MyApp.view.UserList', {
+Ext.define('App.view.UserList', {
     extend: 'Ext.List',
-    requires: ['MyApp.store.Users'],
+    requires: ['App.store.Users'],
+    xtype: 'userlist',
 
     config: {
         title: 'People in Your Neighborhood',
@@ -12,6 +13,7 @@ Ext.define('MyApp.view.UserList', {
                 return '<img src="' + link + '" />';
             }
         }),
-        store: 'Users'
+        store: 'Users',
+        onItemDisclosure: true
     }
 });

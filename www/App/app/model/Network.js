@@ -1,4 +1,4 @@
-Ext.define('MyApp.model.Network', {
+Ext.define('App.model.Network', {
     extend: 'Ext.data.Model',
     config: {
         fields: [
@@ -6,6 +6,6 @@ Ext.define('MyApp.model.Network', {
             {name: 'name', type: 'string'},
             {name: 'type', type: 'string'}
         ],
-        belongsTo: {name: 'user', model: 'MyApp.model.User'}
+        belongsTo: {name: 'user', model: 'App.model.User'}
     }
 });

@@ -5,15 +5,15 @@ Ext.Loader.setPath({
 //</debug>
 
 Ext.application({
-    name: 'MyApp',
+    name: 'App',
 
     requires: [
         'Ext.MessageBox'
     ],
 
     models: ['User'],
-    views: ['Main', 'UserList', 'TestPanel'],
-    controllers: [],
+    views: ['Main', 'Home', 'UserList', 'UserDetail'],
+    controllers: ['Main'],
     stores: ['Users'],
 
     icon: {
@@ -31,7 +31,9 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add(Ext.create('MyApp.view.Main'));
+        Ext.Viewport.add({
+            xclass: 'App.view.Main'
+        });
     },
 
     onUpdated: function() {

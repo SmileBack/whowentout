@@ -1,6 +1,6 @@
-Ext.define('MyApp.model.User', {
+Ext.define('App.model.User', {
     extend: 'Ext.data.Model',
-    requires: 'MyApp.model.Network',
+    requires: 'App.model.Network',
     config: {
         fields: [
             {name: 'id', type: 'int'},
@@ -10,6 +10,6 @@ Ext.define('MyApp.model.User', {
             {name: 'facebookId', type: 'string'},
             {name: 'age', type: 'int'}
         ],
-        hasMany: {name: 'networks', model: 'MyApp.model.Network'}
+        hasMany: {name: 'networks', model: 'App.model.Network'}
     }
 });
