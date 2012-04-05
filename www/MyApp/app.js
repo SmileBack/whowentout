@@ -42,5 +42,26 @@ Ext.application({
                 window.location.reload();
             }
         );
+    },
+
+    updateLocation: function() {
+        var geo = Ext.create('Ext.util.Geolocation', {
+            autoUpdate: false,
+            listeners: {
+                locationupdate: function(geo) {
+                    console.log(geo.getLatitude());
+                    console.log(geo.getLongitude());
+                },
+                locationerror: function(geo, bTimeout, bPermissionDenied, bLocationUnavailable, message) {
+                    if(bTimeout){
+                        alert('Timeout occurred.');
+                    } else {
+                        alert('Error occurred.');
+                    }
+                }
+            }
+        });
+        console.log('geo update location');
+        geo.updateLocation();
     }
 });
