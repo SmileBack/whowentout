@@ -9,6 +9,9 @@ Ext.define('App.view.Main', {
 
     config: {
         header: false,
+        navigationBar: {
+            hidden: true
+        },
         items: [{
             xtype: 'homepanel'
         }]
