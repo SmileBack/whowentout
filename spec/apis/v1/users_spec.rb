@@ -1,10 +1,28 @@
-require "rspec"
+require 'spec_helper'
 
-describe "My behaviour" do
+describe '/api/v1/users', :type => :api do
 
-  it "should do something" do
-
-    #To change this template use File | Settings | File Templates.
-    true.should == false
+  before(:each) do
+    user = User.create!(:first_name => 'Joe', :last_name => 'Schmoe', :email => 'joe@schmoe.com')
+    user = User.create!(:first_name => 'Doe', :last_name => 'Whoa', :email => 'doe@woo.com')
   end
+
+  context "should get users" do
+
+    let(:url) { '/api/v1/users' }
+
+    it 'json' do
+      get "#{url}.json"
+
+      users = JSON.parse(last_response.body)
+      users.length.should == 2
+
+      puts users.inspect
+
+      users.any? { |u| u['first_name'] == 'Joe' }.should be_true
+      users.any? { |u| u['email'] == 'doe@woo.com' }.should be_true
+    end
+
+  end
+
 end
