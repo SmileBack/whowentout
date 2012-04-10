@@ -7,9 +7,9 @@ describe '/api/v1/users', :type => :api do
     user = User.create!(:first_name => 'Doe', :last_name => 'Whoa', :email => 'doe@woo.com')
   end
 
-  context "should get users" do
+  let(:url) { '/api/v1/users' }
 
-    let(:url) { '/api/v1/users' }
+  context "should get users" do
 
     it 'json' do
       get "#{url}.json"
@@ -22,6 +22,10 @@ describe '/api/v1/users', :type => :api do
       users.any? { |u| u['first_name'] == 'Joe' }.should be_true
       users.any? { |u| u['email'] == 'doe@woo.com' }.should be_true
     end
+
+  end
+
+  context "should create user" do
 
   end
 

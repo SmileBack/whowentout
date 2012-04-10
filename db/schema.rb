@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120407192244) do
+ActiveRecord::Schema.define(:version => 20120410171043) do
+
+  create_table "regions", :force => true do |t|
+    t.string  "name"
+    t.text    "points"
+    t.text    "text"
+    t.decimal "lat_min", :precision => 15, :scale => 10
+    t.decimal "lat_max", :precision => 15, :scale => 10
+    t.decimal "lng_min", :precision => 15, :scale => 10
+    t.decimal "lng_max", :precision => 15, :scale => 10
+  end
 
   create_table "users", :force => true do |t|
     t.integer  "facebook_id", :limit => 8
