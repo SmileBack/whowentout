@@ -5,9 +5,14 @@ class Region < ActiveRecord::Base
 
   serialize :points, Array
 
+  # Reduces the set to regions that contain the point
   def self.including(point)
     region_ids = select { |region| region.include?(point) }.pluck(:id)
-    where(:id => region_ids)
+    where('lat_min <= ?', point[0]) \
+      .where('lat_max >= ?', point[0]) \
+      .where('lng_min <= ?', point[1])
+      .where('lng_max >= ?', point[1])
+      .where(:id => region_ids)
   end
 
   # [latitude, longitude] (equivalent to y, x in cartesian coordinates)

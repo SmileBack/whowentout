@@ -10,14 +10,9 @@ describe Region do
     [[38.995, -77.040], [38.893, -76.913], [38.813, -77.018], [38.871, -77.021], [38.934, -77.116]]
   end
 
-  let(:right_dc_points) do
-    [[38.995, -77.040], [38.893, -76.913], [38.813, -77.018]]
-  end
-
   before do
     @nyc = Region.create!(:name => 'nyc', :points => nyc_points)
     @dc = Region.create!(:name => 'dc', :points => dc_points)
-    @right_dc = Region.create!(:name => 'right_dc', :points => right_dc_points)
   end
 
   it "should update the bounding box after a save" do
@@ -44,21 +39,28 @@ describe Region do
 
   describe "including" do
     it "should only return a region that contains a point" do
-        Region.including([38.921, -77.014]).length.should == 1
-        Region.including([38.921, -77.014]).first.name.should == 'dc'
+      Region.including([38.921, -77.014]).length.should == 1
+      Region.including([38.921, -77.014]).first.name.should == 'dc'
 
-        Region.including([40.71265, -73.99843]).length.should == 1
-        Region.including([40.71265, -73.99843]).first.name.should == 'nyc'
-      end
+      Region.including([40.71265, -73.99843]).length.should == 1
+      Region.including([40.71265, -73.99843]).first.name.should == 'nyc'
+    end
 
-      it "should return no regions when the none of the regions contain the point" do
-        Region.including([40.162, -82.903]).length.should == 0
-      end
+    it "should return no regions when the none of the regions contain the point" do
+      Region.including([40.162, -82.903]).length.should == 0
+    end
 
-      it "should be a relation" do
-        Region.including([40.71265, -73.99843]).where(:name => 'nyc').length.should == 1
-        Region.where(:name => 'nyc').including([40.71265, -73.99843]).length.should == 1
-      end
+    it "should be a relation" do
+      Region.including([40.71265, -73.99843]).where(:name => 'nyc').length.should == 1
+      Region.including([40.71265, -73.99843]).where(:name => 'nyc').first.name.should == 'nyc'
+
+      Region.where(:name => 'nyc').including([40.71265, -73.99843]).first.name.should == 'nyc'
+    end
+
+    it "should return all overlapping regions" do
+
+    end
+
   end
 
 end
