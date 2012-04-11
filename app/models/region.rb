@@ -5,6 +5,11 @@ class Region < ActiveRecord::Base
 
   serialize :points, Array
 
+  def self.including(point)
+    region_ids = select { |region| region.include?(point) }.pluck(:id)
+    where(:id => region_ids)
+  end
+
   # [latitude, longitude] (equivalent to y, x in cartesian coordinates)
   #   point[1] is the x coordinate
   #   point[0] is the y coordinate
