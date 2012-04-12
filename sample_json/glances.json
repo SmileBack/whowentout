@@ -1,0 +1,65 @@
+{
+    "received": [
+        {
+            "id": 46,
+            "guesses_left": 3
+        },
+        {
+            "id": 52,
+            "guesses_left": 2
+        },
+        {
+            "id": 53,
+            "guesses_left": 0
+        },
+        {
+            "id": 56,
+            "guesses_left": 0
+        }
+    ],
+    "sent": [
+        {
+            "id": 47,
+            "user": {
+                "id": 7,
+                "first_name": "Marissa",
+                "last_name": "Clark",
+                "age": 28,
+                "networks": ["Harvard"],
+                "pictures": {
+                    "thumb": "http://example.com/images/007-profile-thumb.jpg",
+                    "large": "http://example.com/images/007-profile-large.jpg"
+                }
+            }
+        },
+        {
+            "id": 53,
+            "user": {
+                "id": 90,
+                "first_name": "Courtney",
+                "last_name": "Smith",
+                "age": 26,
+                "networks": ["NYU"],
+                "pictures": {
+                    "thumb": "http://example.com/images/053-profile-thumb.jpg",
+                    "large": "http://example.com/images/053-profile-large.jpg"
+                }
+            }
+        }
+    ],
+    "matches": [
+        {
+            "id": 60,
+            "user": {
+                "first_name": "Kaitlyn",
+                "last_name": "Murphy",
+                "age": 24,
+                "networks": ["Boston University"],
+                "pictures": {
+                    "thumb": "http://example.com/images/053-profile-thumb.jpg",
+                    "large": "http://example.com/images/053-profile-large.jpg"
+                }
+            }
+        }
+    ]
+}

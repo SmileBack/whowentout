@@ -1,0 +1,63 @@
+{
+    "requests": [
+        {
+            "id": 234,
+            "user": {
+                "id": 3,
+                "first_name": "Dan",
+                "last_name": "Schwartz",
+                "age": 21,
+                "networks": ["UMD", "Cornell"],
+                "miles_away": 1.25,
+                "mutual_friends": 12,
+                "pictures": {
+                    "thumb": "http://example.com/images/002-profile-thumb.jpg",
+                    "large": "http://example.com/images/002-profile-large.jpg"
+                }
+            }
+        }
+    ],
+    "friends": [
+        {
+            "id": 8,
+            "first_name": "Edward",
+            "last_name": "Castano",
+            "age": 26,
+            "mutual_friends": 1,
+            "networks": ["Conneticut College", "Boston University"],
+            "pictures": {
+                "thumb": "http://example.com/images/008-profile-thumb.jpg",
+                "large": "http://example.com/images/008-profile-large.jpg"
+            },
+            "current_region": {
+                "id": 4,
+                "name": "Lower East Side"
+            },
+            "current_place": {
+                "id": 32,
+                "name": "Capitol Brewery"
+            }
+        },
+        {
+            "id": 1,
+            "first_name": "Mandy",
+            "last_name": "Kreuger",
+            "age": 25,
+            "networks": ["FIT"],
+            "mutual_friends": 31,
+            "miles_away": 0.4,
+            "pictures": {
+                "thumb": "http://example.com/images/001-profile_thumb.jpg",
+                "large": "http://example.com/images/001-profile-large.jpg"
+            },
+            "current_region": {
+                "id": 3,
+                "name": "Upper West Side"
+            },
+            "current_place": {
+                "id": 32,
+                "name": "One Oak"
+            }
+        }
+    ]
+}

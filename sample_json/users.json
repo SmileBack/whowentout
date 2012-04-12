@@ -1,0 +1,158 @@
+[
+    {
+        "id": 1,
+        "first_name": "Mandy",
+        "last_name": "Kreuger",
+        "age": 25,
+        "networks": ["FIT"],
+        "mutual_friends": 31,
+        "miles_away": 0.4,
+        "pictures": {
+            "thumb": "http://example.com/images/001-profile_thumb.jpg",
+            "large": "http://example.com/images/001-profile-large.jpg"
+        },
+        "current_region": {
+            "id": 3,
+            "name": "Upper West Side"
+        },
+        "current_place": {
+            "id": 32,
+            "name": "One Oak"
+        }
+    },
+    {
+        "id": 2,
+        "first_name": "James",
+        "last_name": "Green",
+        "age": 21,
+        "miles_away": 0.2,
+        "networks": ["FIT"],
+        "mutual_friends": 30,
+        "pictures": {
+            "thumb": "http://example.com/images/002-profile-thumb.jpg",
+            "large": "http://example.com/images/002-profile-large.jpg"
+        },
+        "current_region": {
+            "id": 3,
+            "name": "Upper West Side"
+        },
+        "current_place": null
+    },
+    {
+        "id": 3,
+        "first_name": "Dan",
+        "last_name": "Schwartz",
+        "age": 21,
+        "networks": ["UMD", "Cornell"],
+        "miles_away": 1.25,
+        "mutual_friends": 12,
+        "pictures": {
+            "thumb": "http://example.com/images/002-profile-thumb.jpg",
+            "large": "http://example.com/images/002-profile-large.jpg"
+        },
+        "current_region": {
+            "id": 3,
+            "name": "Upper West Side"
+        },
+        "current_place": {
+            "id": 32,
+            "name": "Joshua Tree"
+        }
+    },
+    {
+        "id": 4,
+        "first_name": "Melissa",
+        "last_name": "Burnstein",
+        "age": 23,
+        "networks": ["UCLA"],
+        "miles_away": 1.31,
+        "mutual_friends": 0,
+        "pictures": {
+            "thumb": "http://example.com/images/004-profile-thumb.jpg",
+            "large": "http://example.com/images/004-profile-large.jpg"
+        },
+        "current_region": null,
+        "current_place": null
+    },
+    {
+        "id": 5,
+        "first_name": "Sara",
+        "last_name": "Ross",
+        "age": 22,
+        "networks": ["UMBC"],
+        "miles_away": 1.31,
+        "mutual_friends": 2,
+        "pictures": {
+            "thumb": "http://example.com/images/005-profile-thumb.jpg",
+            "large": "http://example.com/images/005-profile-large.jpg"
+        },
+        "current_region": {
+            "id": 3,
+            "name": "Upper West Side"
+        },
+        "current_place": {
+            "id": 23,
+            "name": "One Oak"
+        }
+    },
+    {
+        "id": 6,
+        "first_name": "Jessica",
+        "last_name": "Dunham",
+        "age": 24,
+        "networks": ["UCSB"],
+        "mutual_friends": 4,
+        "pictures": {
+            "thumb": "http://example.com/images/006-profile-thumb.jpg",
+            "large": "http://example.com/images/006-profile-large.jpg"
+        },
+        "current_region": {
+            "id": 4,
+            "name": "Lower East Side"
+        },
+        "current_place": {
+            "id": 32,
+            "name": "Josephine"
+        }
+    },
+    {
+        "id": 7,
+        "first_name": "Marissa",
+        "last_name": "Clark",
+        "age": 28,
+        "networks": ["Harvard"],
+        "mutual_friends" 2,
+        "pictures": {
+            "thumb": "http://example.com/images/007-profile-thumb.jpg",
+            "large": "http://example.com/images/007-profile-large.jpg"
+        },
+        "current_region": {
+            "id": 4,
+            "name": "Lower East Side"
+        },
+        "current_place": {
+            "id": 45,
+            "name": "Current Lounge"
+        }
+    },
+    {
+        "id": 8,
+        "first_name": "Edward",
+        "last_name": "Castano",
+        "age": 26,
+        "mutual_friends": 1,
+        "networks": ["Conneticut College", "Boston University"],
+        "pictures": {
+            "thumb": "http://example.com/images/008-profile-thumb.jpg",
+            "large": "http://example.com/images/008-profile-large.jpg"
+        },
+        "current_region": {
+            "id": 4,
+            "name": "Lower East Side"
+        },
+        "current_place": {
+            "id": 32,
+            "name": "Capitol Brewery"
+        }
+    }
+]

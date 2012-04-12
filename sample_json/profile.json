@@ -1,0 +1,27 @@
+{
+    "id": 34,
+    "first_name": "Roy",
+    "last_name": "Goldschmidt",
+    "networks": ["NYU"],
+    "hometown": "Fresh Meadows, NY",
+    "current_city": "Astoria, NY",
+    "work": "Abercrombie & Fitch",
+    "relationship_status": "single",
+    "interested_in": "women",
+    "pictures": {
+        "thumb": "http://example.com/images/034-profile_thumb.jpg",
+        "large": "http://example.com/images/034-profile-large.jpg"
+    },
+    "interests": [
+        {
+            "id": 90,
+            "name": "Running",
+            "icon": "http://example.com/images/running-icon.jpg"
+        },
+        {
+            "id": 94,
+            "name": "Techno",
+            "icon": "http://example.com/images/techno-icon.jpg"
+        }
+    ]
+}
