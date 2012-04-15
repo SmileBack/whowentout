@@ -14,8 +14,6 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'execjs'
-gem 'therubyracer'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -25,8 +23,6 @@ gem 'therubyracer'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-
-gem 'koala'
 
 # Databases
 group :test, :development do
