@@ -15,6 +15,8 @@ describe User do
       user.first_name.should == 'Venkat'
       user.last_name.should == 'Dinavahi'
       user.email.should == 'ven@stanford.edu'
+      user.gender.should == 'M'
+      user.birthday.should == Date.new(1988, 10, 6)
     end
 
     it "shouldnt return duplicate users" do
