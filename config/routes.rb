@@ -6,7 +6,7 @@ Wwo::Application.routes.draw do
       resources :users
 
       match 'auth/login' => 'sessions#create'
-      match 'auth/logout' => 'sessions#logout'
+      match 'auth/logout' => 'sessions#destroy'
       match 'auth/current-user' => 'sessions#index'
     end
   end
