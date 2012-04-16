@@ -4,6 +4,10 @@ Wwo::Application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users
+
+      match 'auth/login' => 'sessions#create'
+      match 'auth/logout' => 'sessions#logout'
+      match 'auth/current-user' => 'sessions#index'
     end
   end
 
