@@ -16,7 +16,6 @@ end
 gem 'jquery-rails'
 gem 'execjs'
 gem 'therubyracer'
-gem 'jbuilder'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -25,8 +24,9 @@ gem 'jbuilder'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'debugger', :group => [:test, :development]
 
+gem 'grape'
 gem 'koala'
 
 # Databases
@@ -40,7 +40,7 @@ end
 
 # Testing
 group :test, :development do
-  gem "rspec-rails", "~> 2.6"
+  gem 'rspec-rails', '~> 2.6'
 end
 
 group :test do

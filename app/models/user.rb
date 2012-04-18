@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   def self.find_by_token(token)
     profile = get_profile_hash(token)
 
+    return nil if profile.nil?
+
     facebook_id = profile['id'].to_i
     user = User.find_by_facebook_id(facebook_id)
 
@@ -27,10 +29,18 @@ class User < ActiveRecord::Base
   private
 
     def self.get_profile_hash(token)
-      @profile_hash_store ||= Hash.new do |h, k|
+      @profile_hash_store ||= {}
+
+      unless @profile_hash_store.has_key?(token)
         api = Koala::Facebook::API.new(token)
-        h[k] = api.get_object('me')
+
+        begin
+          @profile_hash_store[token] = api.get_object('me')
+        rescue Koala::Facebook::APIError => e
+          @profile_hash_store[token] = nil
+        end
       end
+
       return @profile_hash_store[token]
     end
 

@@ -1,15 +1,9 @@
+require_relative '../lib/api'
+
 Wwo::Application.routes.draw do
   resources :users
 
-  namespace :api do
-    namespace :v1 do
-      resources :users
-
-      match 'auth/login' => 'sessions#create'
-      match 'auth/logout' => 'sessions#destroy'
-      match 'auth/current-user' => 'sessions#index'
-    end
-  end
+  mount WWOApi => '/'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

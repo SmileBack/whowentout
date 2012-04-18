@@ -27,6 +27,11 @@ describe User do
       user_a.id.should == user_b.id
     end
 
+    it "should return nil if the token is invalid" do
+      user = User.find_by_token('wooyah')
+      user.should == nil
+    end
+
   end
 
 end
