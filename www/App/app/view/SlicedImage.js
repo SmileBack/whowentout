@@ -10,6 +10,9 @@ Ext.define('App.view.SlicedImage', {
         config.style = {
             position: 'relative'
         };
+        config.mode = 'image';
+        config.width = 320;
+
         this.callParent([config]);
 
         this.createAllRegions(config.regions);
@@ -28,15 +31,25 @@ Ext.define('App.view.SlicedImage', {
     },
 
     destroyRegion: function(name) {
-        if (this.regions[name])
-            this.regions[name].destroy();
+        if (this.regions[name]) {
+            this.regions[name].el.destroy();
+            delete this.regions[name];
+        }
+    },
+
+    _transformBox: function(box, factor) {
+        box.left *= factor;
+        box.top *= factor;
+        box.width *= factor;
+        box.height *= factor;
     },
 
     createRegion: function(name, box) {
         var me = this;
         this.destroyRegion(name);
 
-        var region = this.element.createChild({
+        this._transformBox(box, 0.5);
+        var regionEl = this.element.createChild({
             tag: 'div',
             style: {
                 'position': 'absolute',
@@ -44,13 +57,16 @@ Ext.define('App.view.SlicedImage', {
                 'border': '1px solid greenyellow'
             }
         });
-        region.setBox(box);
+        regionEl.setBox(box);
 
-        region.on('tap', function() {
+        regionEl.on('tap', function() {
             Ext.getCmp('main').setActiveItem(box.goto);
         });
 
-        this.regions[name] = region;
+        this.regions[name] = {
+            el: regionEl,
+            box: box
+        };
     }
 
 });

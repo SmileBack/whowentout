@@ -37,7 +37,6 @@ Ext.application({
             },
             items: [{
                 xtype: 'slicedimage',
-                height: 216,
                 docked: 'top',
                 src: 'screen-1-top.png',
                 regions: {
@@ -45,11 +44,9 @@ Ext.application({
                 }
             },{
                 xtype: 'slicedimage',
-                height: 1200,
                 src: 'screen-1-middle.png'
             },{
                 xtype: 'slicedimage',
-                height: 88,
                 docked: 'bottom',
                 src: 'screen-1-bottom.png'
             }]
@@ -62,16 +59,13 @@ Ext.application({
             },
             items: [{
                 xtype: 'slicedimage',
-                height: 127,
                 docked: 'top',
                 src: 'screen-2-top.png'
             },{
                 xtype: 'slicedimage',
-                height: 1307,
                 src: 'screen-2-middle.png'
             },{
                 xtype: 'slicedimage',
-                height: 109,
                 docked: 'bottom',
                 src: 'screen-2-bottom.png',
                 regions: {
