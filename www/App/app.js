@@ -80,12 +80,6 @@ Ext.application({
             }]
         });
 
-        var green = {
-            style: "background-color: #3B7E00; color:white;",
-            title: "Green",
-            html: "Green"
-        };1
-
         App.container = Ext.create('Ext.Container', {
             id: 'main',
             fullscreen: true,
