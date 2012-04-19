@@ -12,7 +12,7 @@ Ext.application({
     ],
 
     models: ['User'],
-    views: ['Main', 'Home', 'UserList', 'UserDetail'],
+    views: ['Main', 'Home', 'UserList', 'UserDetail', 'SlicedImage'],
     controllers: ['Main'],
     stores: ['Users'],
 
@@ -30,9 +30,73 @@ Ext.application({
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
-        // Initialize the main view
-        Ext.Viewport.add({
-            xclass: 'App.view.Main'
+        var checkinPage = Ext.create('Ext.Panel', {
+            scrollable: {
+                direction: 'vertical',
+                directionLock: true
+            },
+            items: [{
+                xtype: 'slicedimage',
+                height: 216,
+                docked: 'top',
+                src: 'screen-1-top.png',
+                regions: {
+                    back: {top: 50, left: 10, width: 125, height: 60, goto: 1}
+                }
+            },{
+                xtype: 'slicedimage',
+                height: 1200,
+                src: 'screen-1-middle.png'
+            },{
+                xtype: 'slicedimage',
+                height: 88,
+                docked: 'bottom',
+                src: 'screen-1-bottom.png'
+            }]
+        });
+
+        var mainPage = Ext.create('Ext.Panel', {
+            scrollable: {
+                direction: 'vertical',
+                directionLock: true
+            },
+            items: [{
+                xtype: 'slicedimage',
+                height: 127,
+                docked: 'top',
+                src: 'screen-2-top.png'
+            },{
+                xtype: 'slicedimage',
+                height: 1307,
+                src: 'screen-2-middle.png'
+            },{
+                xtype: 'slicedimage',
+                height: 109,
+                docked: 'bottom',
+                src: 'screen-2-bottom.png',
+                regions: {
+                    checkin: {top: 5, left: 250, width: 130, height: 100, goto: 0}
+                }
+            }]
+        });
+
+        var green = {
+            style: "background-color: #3B7E00; color:white;",
+            title: "Green",
+            html: "Green"
+        };1
+
+        App.container = Ext.create('Ext.Container', {
+            id: 'main',
+            fullscreen: true,
+            layout: {
+                type: 'card',
+                animation: {
+                    type: 'slide',
+                    direction: 'left'
+                }
+            },
+            items: [checkinPage, mainPage]
         });
     },
 

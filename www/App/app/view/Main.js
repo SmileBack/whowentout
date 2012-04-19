@@ -1,19 +1,24 @@
 Ext.define('App.view.Main', {
-    extend: 'Ext.navigation.View',
+    extend: 'Ext.Container',
     xtype: 'mainpanel',
 
-    requires: [
-        'App.view.UserList',
-        'App.view.UserDetail'
-    ],
+    requires: [],
 
     config: {
         header: false,
-        navigationBar: {
-            hidden: true
-        },
-        items: [{
-            xtype: 'homepanel'
-        }]
+        navigationBar: {hidden: true},
+        fullscreen: true,
+        layout: 'card',
+        items: [
+            {
+                html: '<h1>item a</h1>'
+            },
+            {
+                html: '<h1>item a</h1>'
+            },
+            {
+                html: '<h1>item a</h1>'
+            }
+        ]
     }
 });
