@@ -1,10 +1,10 @@
 class User < ActiveRecord::Base
 
-  has_many :networks, :through => :network_memberships
   has_many :network_memberships
+  has_many :networks, :through => :network_memberships
 
   has_many :facebook_friendships
-  has_many :facebook_friends, :through => :facebook_friendships, :source => :user
+  has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
 
   validates_inclusion_of :gender, :in => ['M', 'F', '?']
 
@@ -55,75 +55,85 @@ class User < ActiveRecord::Base
     update_facebook_friends_from_data(facebook_friends_hash)
   end
 
-  private
-
     def update_networks_from_data(affiliations_hash)
-      networks.clear
-      affiliations_hash.each do |affiliation_data|
-        network = Network.find_or_create_by_facebook_id(:facebook_id => affiliation_data['nid'],
-                                              :name => affiliation_data['name'],
-                                              :network_type => affiliation_data['type'])
+      transaction do
+        networks.clear
+        affiliations_hash.each do |affiliation_data|
+          network = Network.find_or_create_by_facebook_id(:facebook_id => affiliation_data['nid'],
+                                                :name => affiliation_data['name'],
+                                                :network_type => affiliation_data['type'])
 
-        networks << network
+          networks << network
+        end
+        save
       end
-      save
     end
 
     def update_facebook_friends_from_data(facebook_friends_hash)
-      facebook_friendships.clear
-      facebook_friends_hash.each do |friend_data|
+      transaction do
+        facebook_friendships.clear
+        facebook_friends_hash.each do |friend_data|
 
-        if friend_data['sex'].blank?
-          friend_gender = '?'
-        else
-          friend_gender = friend_data['sex'][0].upcase
+          if friend_data['sex'].blank?
+            friend_gender = '?'
+          else
+            friend_gender = friend_data['sex'][0].upcase
+          end
+
+          friend = User.find_or_create_by_facebook_id(
+                                                        :is_active => false,
+                                                        :facebook_id => friend_data['uid'],
+                                                        :first_name => friend_data['first_name'],
+                                                        :last_name => friend_data['last_name'],
+                                                        :gender => friend_gender
+                                                      )
+
+          friend.update_networks_from_data(friend_data['affiliations'])
+
+          facebook_friendships.create(:friend_id => friend.id)
         end
 
-        friend = User.find_or_create_by_facebook_id(
-                                                      :is_active => false,
-                                                      :facebook_id => friend_data['uid'],
-                                                      :first_name => friend_data['first_name'],
-                                                      :last_name => friend_data['last_name'],
-                                                      :gender => friend_gender
-                                                    )
-
-        facebook_friendships.create(:friend_id => friend.id)
+        save
       end
-
-      save
     end
 
-    def self.get_facebook_friends_hash(token)
-      api = Koala::Facebook::API.new(token)
-      response = api.fql_query("SELECT uid, first_name, last_name, sex, affiliations FROM user
-                                WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())")
-      return response
-    end
+    class << self
+      extend ActiveSupport::Memoizable
 
-    def self.get_affiliations_hash(token)
-      profile = get_profile_hash(token)
-      uid = profile['id']
+      def get_facebook_friends_hash(token)
+        api = Koala::Facebook::API.new(token)
+        response = api.fql_query("SELECT uid, first_name, last_name, sex, affiliations FROM user
+                                  WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())")
+        return response
+      end
+      memoize :get_facebook_friends_hash
 
-      api = Koala::Facebook::API.new(token)
-      response = api.fql_query("SELECT affiliations FROM user WHERE uid=#{uid}")
+      def get_affiliations_hash(token)
+        profile = get_profile_hash(token)
+        uid = profile['id']
 
-      return response[0]['affiliations']
-    end
+        api = Koala::Facebook::API.new(token)
+        response = api.fql_query("SELECT affiliations FROM user WHERE uid=#{uid}")
 
-    def self.get_profile_hash(token)
-      @profile_hash_store ||= {}
+        return response[0]['affiliations']
+      end
+      memoize :get_affiliations_hash
 
-      unless @profile_hash_store.has_key?(token)
+      def get_profile_hash(token)
         api = Koala::Facebook::API.new(token)
 
         begin
-          @profile_hash_store[token] = api.get_object('me')
+          profile_hash = api.get_object('me')
         rescue Koala::Facebook::APIError => e
-          @profile_hash_store[token] = nil
+          profile_hash = nil
         end
-      end
 
-      return @profile_hash_store[token]
+        return profile_hash
+      end
+      memoize :get_profile_hash
+
     end
+
+
 
 end

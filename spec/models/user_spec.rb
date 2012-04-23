@@ -72,8 +72,18 @@ describe User do
 
       friend_names = user.facebook_friends.map { |friend| "#{friend.first_name} #{friend.last_name}"}
 
-      friend_names.count.should == 274
+      friend_names.count.should == 269
       friend_names.should include('Dan Berenholtz')
+    end
+
+    it "should come with the college networks" do
+      user = User.find_by_token(fb_access_token)
+
+      danb = user.facebook_friends.where(:facebook_id => 8100231).first
+      danb.should_not be_nil
+
+      network_names = danb.networks.pluck(:name).sort
+      network_names.should == ['Cornell', 'GWU', 'Stanford']
     end
 
     it "should update after calling update_friends_from_facebook" do
