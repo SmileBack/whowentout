@@ -37,6 +37,17 @@ describe User do
 
   end
 
+  describe "refresh_networks_from_facebook" do
+    it "should work when called multiple times" do
+      user = User.find_by_token(fb_access_token)
+
+      user.refresh_networks_from_facebook
+      user.refresh_networks_from_facebook
+
+      user.networks.length.should == 2
+    end
+  end
+
   describe "networks" do
     it "should contain the right networks" do
       user = User.find_by_token(fb_access_token)
