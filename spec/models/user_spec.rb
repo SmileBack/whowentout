@@ -11,6 +11,7 @@ describe User do
     it "should return the proper fields" do
       user = User.find_by_token(fb_access_token)
 
+      user.is_active?.should == true
       user.facebook_id.should == 776200121
       user.first_name.should == 'Venkat'
       user.last_name.should == 'Dinavahi'
@@ -37,12 +38,14 @@ describe User do
 
   end
 
-  describe "refresh_networks_from_facebook" do
+  describe "sync_networks_from_facebook" do
     it "should work when called multiple times" do
       user = User.find_by_token(fb_access_token)
 
-      user.refresh_networks_from_facebook
-      user.refresh_networks_from_facebook
+      user.should respond_to :sync_networks_from_facebook
+
+      user.sync_networks_from_facebook
+      user.sync_networks_from_facebook
 
       user.networks.length.should == 2
     end
@@ -51,6 +54,7 @@ describe User do
   describe "networks" do
     it "should contain the right networks" do
       user = User.find_by_token(fb_access_token)
+      user.should respond_to :college_networks
 
       networks = user.college_networks.pluck :name
 
@@ -58,6 +62,26 @@ describe User do
       networks.should include('Stanford')
       networks.should include('Maryland')
     end
+  end
+
+  describe "facebook_friends" do
+    it "shouldnt be empty" do
+      user = User.find_by_token(fb_access_token)
+
+      user.facebook_friends.empty?.should == false
+
+      friend_names = user.facebook_friends.map { |friend| "#{friend.first_name} #{friend.last_name}"}
+
+      friend_names.count.should == 274
+      friend_names.should include('Dan Berenholtz')
+    end
+
+    it "should update after calling update_friends_from_facebook" do
+      user = User.find_by_token(fb_access_token)
+
+      user.should respond_to :sync_friends_from_facebook
+    end
+
   end
 
 end

@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423010715) do
+ActiveRecord::Schema.define(:version => 20120423184527) do
+
+  create_table "facebook_friendships", :force => true do |t|
+    t.integer "user_id",   :null => false
+    t.integer "friend_id", :null => false
+  end
+
+  add_index "facebook_friendships", ["user_id", "friend_id"], :name => "index_facebook_friendships_on_user_id_and_friend_id"
 
   create_table "network_memberships", :force => true do |t|
     t.integer "user_id"
@@ -51,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20120423010715) do
     t.string   "hometown"
     t.string   "current_city"
     t.text     "facebook_token"
+    t.boolean  "is_active",                   :default => false
   end
 
 end
