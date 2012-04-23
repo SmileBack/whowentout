@@ -17,6 +17,9 @@ describe User do
       user.email.should == 'ven@stanford.edu'
       user.gender.should == 'M'
       user.birthday.should == Date.new(1988, 10, 6)
+
+      user.hometown.should == 'Severna Park, Maryland'
+      user.current_city.should == 'Washington, District of Columbia'
     end
 
     it "shouldnt return duplicate users" do
@@ -32,6 +35,18 @@ describe User do
       user.should == nil
     end
 
+  end
+
+  describe "networks" do
+    it "should contain the right networks" do
+      user = User.find_by_token(fb_access_token)
+
+      networks = user.college_networks.pluck :name
+
+      networks.length.should == 2
+      networks.should include('Stanford')
+      networks.should include('Maryland')
+    end
   end
 
 end

@@ -11,7 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120415212824) do
+ActiveRecord::Schema.define(:version => 20120423010715) do
+
+  create_table "network_memberships", :force => true do |t|
+    t.integer "user_id"
+    t.integer "network_id"
+  end
+
+  add_index "network_memberships", ["user_id", "network_id"], :name => "index_network_memberships_on_user_id_and_network_id", :unique => true
+
+  create_table "networks", :force => true do |t|
+    t.integer "facebook_id",  :limit => 8
+    t.string  "network_type",              :null => false
+    t.string  "name",                      :null => false
+  end
+
+  add_index "networks", ["facebook_id"], :name => "index_networks_on_facebook_id", :unique => true
+  add_index "networks", ["network_type"], :name => "index_networks_on_type"
 
   create_table "regions", :force => true do |t|
     t.string  "name"
@@ -24,7 +40,7 @@ ActiveRecord::Schema.define(:version => 20120415212824) do
   end
 
   create_table "users", :force => true do |t|
-    t.integer  "facebook_id", :limit => 8
+    t.integer  "facebook_id",    :limit => 8
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
@@ -32,6 +48,9 @@ ActiveRecord::Schema.define(:version => 20120415212824) do
     t.datetime "updated_at"
     t.string   "gender"
     t.date     "birthday"
+    t.string   "hometown"
+    t.string   "current_city"
+    t.text     "facebook_token"
   end
 
 end
