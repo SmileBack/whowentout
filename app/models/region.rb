@@ -3,7 +3,7 @@ class Region < ActiveRecord::Base
 
   validates :name, :presence => true
 
-  serialize :points, Array
+  serialize :points, JSONColumn.new
 
   # Reduces the set to regions that contain the point
   def self.including(point)

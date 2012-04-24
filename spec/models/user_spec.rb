@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe User do
 
-  let(:venkats_token) { "AAACEdEose0cBAAnVLRpzUSqHbOLXuB02sBTw1yfqN2thdQwGuUZAYG2Ipdrj78EqkoZCjzW4ZC8aU4NJfnLcq9eZCgXNwb3ocdrtqmj7bwZDZD" }
-  let(:dans_token) { "AAACEdEose0cBAKt9ugfkqsH5R4VAum3ivAW2D6kL0hVfCKim57Srnc3QLCLZC3DYb4SZAbukYUVyR2I4Tyl0gklK9WfFHQE773l4ZCnCgZDZD" }
+  let(:venkats_token) { "AAACEdEose0cBAFqkOkxzEMtEc2J1sVZBgAZBDDrdFkSHtCb99t65Bb8Jcfyoh2mUejoZBGj5vz7YWnZBg68YTHCPhzXPZC5A99X5TgPdpdwZDZD" }
+  let(:dans_token) { "AAACEdEose0cBAMDvdZAuWsPp4uT7CDzbafEOGnalVQvpNVR5FPDDKvSZCtRl2ZA6jCwoBDe5TAFgGSdu7PWGxxgZARWgPZBwXiStGxlkZCfgZDZD" }
 
   describe "find_by_token" do
 
