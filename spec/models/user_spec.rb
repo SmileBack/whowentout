@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
 
-  let(:venkats_token) { "AAACEdEose0cBALvOM1GpXfmMctNM50gJG2IV8zJkqXvzjT3ylu1WbCbdB1PTj74oDx6eKZChuhREATXrn7rtc6FNHJDQWbRhEOcpNeAZDZD" }
+  let(:venkats_token) { "AAACEdEose0cBAAnVLRpzUSqHbOLXuB02sBTw1yfqN2thdQwGuUZAYG2Ipdrj78EqkoZCjzW4ZC8aU4NJfnLcq9eZCgXNwb3ocdrtqmj7bwZDZD" }
 
   describe "find_by_token" do
 
@@ -73,8 +73,6 @@ describe User do
       user.facebook_friends.empty?.should == false
 
       friend_names = user.facebook_friends.map { |friend| "#{friend.first_name} #{friend.last_name}"}
-
-      friend_names.count.should == 269
       friend_names.should include('Dan Berenholtz')
     end
 
