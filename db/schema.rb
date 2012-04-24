@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424001159) do
+ActiveRecord::Schema.define(:version => 20120424181318) do
 
   create_table "facebook_friendships", :force => true do |t|
     t.integer "user_id",   :null => false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(:version => 20120424001159) do
   add_index "user_interests", ["user_id", "interest_id"], :name => "index_user_interests_on_user_id_and_interest_id", :unique => true
 
   create_table "users", :force => true do |t|
-    t.integer  "facebook_id",    :limit => 8
+    t.integer  "facebook_id",         :limit => 8
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
@@ -72,7 +72,10 @@ ActiveRecord::Schema.define(:version => 20120424001159) do
     t.string   "hometown"
     t.string   "current_city"
     t.text     "facebook_token"
-    t.boolean  "is_active",                   :default => false
+    t.boolean  "is_active",                        :default => false
+    t.string   "relationship_status"
+    t.string   "interested_in"
+    t.string   "work"
   end
 
 end

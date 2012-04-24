@@ -3,6 +3,7 @@ require 'spec_helper'
 describe User do
 
   let(:venkats_token) { "AAACEdEose0cBAAnVLRpzUSqHbOLXuB02sBTw1yfqN2thdQwGuUZAYG2Ipdrj78EqkoZCjzW4ZC8aU4NJfnLcq9eZCgXNwb3ocdrtqmj7bwZDZD" }
+  let(:dans_token) { "AAACEdEose0cBAKt9ugfkqsH5R4VAum3ivAW2D6kL0hVfCKim57Srnc3QLCLZC3DYb4SZAbukYUVyR2I4Tyl0gklK9WfFHQE773l4ZCnCgZDZD" }
 
   describe "find_by_token" do
 
@@ -17,10 +18,12 @@ describe User do
       user.gender.should == 'M'
       user.birthday.should == Date.new(1988, 10, 6)
 
+      user.relationship_status.should == 'Single'
+      user.interested_in.should == 'female'
+
       user.hometown.should == 'Severna Park, Maryland'
       user.current_city.should == 'Washington, District of Columbia'
     end
-
 
     it "shouldnt return duplicate users" do
       user_a = User.find_by_token(venkats_token)
@@ -94,6 +97,17 @@ describe User do
 
   end
 
+  describe "work" do
+    it "should be nil if not listed on profile" do
+      ven = User.find_by_token(venkats_token)
+      ven.work.should == nil
+    end
+
+    it "should be set to the employer if present" do
+      dan = User.find_by_token(dans_token)
+      dan.work.should == 'WhoWentOut'
+    end
+  end
 
   describe "interests" do
 
