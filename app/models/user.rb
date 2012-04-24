@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
 
   has_many :photos
 
+  has_one :photo
+
   validates_inclusion_of :gender, :in => ['M', 'F', '?']
 
   def college_networks
@@ -141,9 +143,11 @@ class User < ActiveRecord::Base
           :facebook_id => picture_data['pid'],
           :created_at => Time.at(picture_data['created']),
           :thumb => picture_data['src_small'],
-          :large => picture_data['src_large']
+          :large => picture_data['src_big']
         )
       end
+
+      photo = photos.first
 
       save
     end
