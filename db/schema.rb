@@ -11,14 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423184527) do
+ActiveRecord::Schema.define(:version => 20120424001159) do
 
   create_table "facebook_friendships", :force => true do |t|
     t.integer "user_id",   :null => false
     t.integer "friend_id", :null => false
   end
 
-  add_index "facebook_friendships", ["user_id", "friend_id"], :name => "index_facebook_friendships_on_user_id_and_friend_id"
+  add_index "facebook_friendships", ["user_id", "friend_id"], :name => "index_facebook_friendships_on_user_id_and_friend_id", :unique => true
+
+  create_table "interests", :force => true do |t|
+    t.integer "facebook_id", :limit => 8
+    t.string  "name",                     :null => false
+  end
+
+  add_index "interests", ["facebook_id"], :name => "index_interests_on_facebook_id"
 
   create_table "network_memberships", :force => true do |t|
     t.integer "user_id"
@@ -45,6 +52,13 @@ ActiveRecord::Schema.define(:version => 20120423184527) do
     t.decimal "lng_min", :precision => 15, :scale => 10
     t.decimal "lng_max", :precision => 15, :scale => 10
   end
+
+  create_table "user_interests", :force => true do |t|
+    t.integer "user_id"
+    t.integer "interest_id"
+  end
+
+  add_index "user_interests", ["user_id", "interest_id"], :name => "index_user_interests_on_user_id_and_interest_id", :unique => true
 
   create_table "users", :force => true do |t|
     t.integer  "facebook_id",    :limit => 8

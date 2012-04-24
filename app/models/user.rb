@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   has_many :network_memberships
   has_many :networks, :through => :network_memberships
 
+  has_many :user_interests
+  has_many :interests, :through => :user_interests
+
   has_many :facebook_friendships
   has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
 
@@ -40,6 +43,7 @@ class User < ActiveRecord::Base
 
       user.sync_networks_from_facebook
       user.sync_friends_from_facebook
+      user.sync_interests_from_facebook
     end
 
     return user
@@ -55,13 +59,18 @@ class User < ActiveRecord::Base
     update_facebook_friends_from_data(facebook_friends_hash)
   end
 
+  def sync_interests_from_facebook
+    interests_hash = self.class.get_interests_hash(facebook_token)
+    update_interests_from_data(interests_hash)
+  end
+
     def update_networks_from_data(affiliations_hash)
       transaction do
         networks.clear
         affiliations_hash.each do |affiliation_data|
           network = Network.find_or_create_by_facebook_id(:facebook_id => affiliation_data['nid'],
-                                                :name => affiliation_data['name'],
-                                                :network_type => affiliation_data['type'])
+                                                          :name => affiliation_data['name'],
+                                                          :network_type => affiliation_data['type'])
 
           networks << network
         end
@@ -89,10 +98,21 @@ class User < ActiveRecord::Base
                                                       )
 
           friend.update_networks_from_data(friend_data['affiliations'])
-
           facebook_friendships.create(:friend_id => friend.id)
         end
 
+        save
+      end
+    end
+
+    def update_interests_from_data(interests_hash)
+      transaction do
+        user_interests.clear
+        interests_hash.each do |interest_data|
+          interest = Interest.find_or_create_by_facebook_id(:facebook_id => interest_data['id'],
+                                                            :name => interest_data['name'])
+          user_interests.create(:interest => interest)
+        end
         save
       end
     end
@@ -118,6 +138,11 @@ class User < ActiveRecord::Base
         return response[0]['affiliations']
       end
       memoize :get_affiliations_hash
+
+      def get_interests_hash(token)
+        api = Koala::Facebook::API.new(token)
+        return api.get_connections('me', 'interests')
+      end
 
       def get_profile_hash(token)
         api = Koala::Facebook::API.new(token)
