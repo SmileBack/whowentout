@@ -21,10 +21,11 @@ class User < ActiveRecord::Base
     return nil if profile.nil?
 
     facebook_id = profile['id'].to_i
-    user = User.find_by_facebook_id(facebook_id)
 
-    if user.nil?
-      user = User.new
+    user = User.find_by_facebook_id(facebook_id)
+    user = User.new if user.nil?
+
+    if user.is_inactive?
       user.facebook_token = token
 
       user.sync_profile_from_facebook
@@ -37,6 +38,10 @@ class User < ActiveRecord::Base
     end
 
     return user
+  end
+
+  def is_inactive?
+    not is_active?
   end
 
   def sync_profile_from_facebook
@@ -157,6 +162,7 @@ class User < ActiveRecord::Base
       api = Koala::Facebook::API.new(token)
       return api.get_connections('me', 'interests')
     end
+    memoize :get_interests_hash
 
     def get_profile_hash(token)
       api = Koala::Facebook::API.new(token)
