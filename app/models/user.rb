@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
   end
 
   def sync_profile_pictures_from_facebook
-    profile_pictuers_hash self.class.get_profile_pictures_hash(facebook_token)
+    profile_pictures_hash = self.class.get_profile_pictures_hash(facebook_token)
     update_profile_pictures_from_data(profile_pictures_hash)
   end
 
@@ -137,7 +137,12 @@ class User < ActiveRecord::Base
       photos.destroy_all
 
       profile_pictures_hash.each do |picture_data|
-
+        photos.create(
+          :facebook_id => picture_data['pid'],
+          :created_at => Time.at(picture_data['created']),
+          :thumb => picture_data['src_small'],
+          :large => picture_data['src_large']
+        )
       end
 
       save
@@ -169,7 +174,7 @@ class User < ActiveRecord::Base
 
     def get_profile_pictures_hash(token)
       api = Koala::Facebook::API.new(token)
-      response = api.fql_query("SELECT pid, src, src_small, src_big
+      response = api.fql_query("SELECT pid, created, src, src_small, src_big
                                 FROM photo WHERE
                                   aid IN (SELECT aid FROM album WHERE owner = me() AND type = 'profile')")
       return response
@@ -180,7 +185,7 @@ class User < ActiveRecord::Base
       uid = profile['id']
 
       api = Koala::Facebook::API.new(token)
-      response = api.fql_query("SELECT affiliations FROM user WHERE uid=#{uid}")
+      response = api.fql_query("SELECT affiliations FROM user WHERE uid=me()")
 
       return response[0]['affiliations']
     end
