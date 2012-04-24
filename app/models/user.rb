@@ -147,6 +147,14 @@ class User < ActiveRecord::Base
     end
     memoize :get_facebook_friends_hash
 
+    def get_profile_pictures_hash(token)
+      api = Koala::Facebook::API.new(token)
+      response = api.fql_query("SELECT pid, src, src_small, src_big
+                                FROM photo WHERE
+                                  aid IN (SELECT aid FROM album WHERE owner = me() AND type = 'profile')")
+      return response
+    end
+
     def get_affiliations_hash(token)
       profile = get_profile_hash(token)
       uid = profile['id']
