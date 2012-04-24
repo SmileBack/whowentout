@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :facebook_friendships
   has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
 
+  has_many :photos
+
   validates_inclusion_of :gender, :in => ['M', 'F', '?']
 
   def college_networks
@@ -35,6 +37,7 @@ class User < ActiveRecord::Base
       user.sync_networks_from_facebook
       user.sync_friends_from_facebook
       user.sync_interests_from_facebook
+      user.sync_profile_pictures_from_facebook
     end
 
     return user
@@ -62,6 +65,11 @@ class User < ActiveRecord::Base
   def sync_interests_from_facebook
     interests_hash = self.class.get_interests_hash(facebook_token)
     update_interests_from_data(interests_hash)
+  end
+
+  def sync_profile_pictures_from_facebook
+    profile_pictuers_hash self.class.get_profile_pictures_hash(facebook_token)
+    update_profile_pictures_from_data(profile_pictures_hash)
   end
 
   def update_networks_from_data(affiliations_hash)
@@ -118,6 +126,18 @@ class User < ActiveRecord::Base
 
         friend.update_networks_from_data(friend_data['affiliations'])
         facebook_friendships.create(:friend_id => friend.id)
+      end
+
+      save
+    end
+  end
+
+  def update_profile_pictures_from_data(profile_pictures_hash)
+    transaction do
+      photos.destroy_all
+
+      profile_pictures_hash.each do |picture_data|
+
       end
 
       save

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424181318) do
+ActiveRecord::Schema.define(:version => 20120424214406) do
 
   create_table "facebook_friendships", :force => true do |t|
     t.integer "user_id",   :null => false
@@ -42,6 +42,17 @@ ActiveRecord::Schema.define(:version => 20120424181318) do
 
   add_index "networks", ["facebook_id"], :name => "index_networks_on_facebook_id", :unique => true
   add_index "networks", ["network_type"], :name => "index_networks_on_type"
+
+  create_table "photos", :force => true do |t|
+    t.integer "user_id"
+    t.string  "facebook_id"
+    t.time    "created_at"
+    t.text    "thumb"
+    t.text    "large"
+  end
+
+  add_index "photos", ["facebook_id"], :name => "index_photos_on_facebook_id"
+  add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
 
   create_table "regions", :force => true do |t|
     t.string  "name"
@@ -76,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20120424181318) do
     t.string   "relationship_status"
     t.string   "interested_in"
     t.string   "work"
+    t.integer  "photo_id"
   end
 
 end
