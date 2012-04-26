@@ -3,7 +3,9 @@ require 'spec_helper'
 describe "/auth", :type => :api do
 
   before(:all) do
-    user = User.find_by_token(venkats_token)
+    VCR.use_cassette 'facebook_api', :record => :new_episodes do
+      user = User.find_by_token(venkats_token)
+    end
   end
 
   describe "/me" do
@@ -26,28 +28,28 @@ describe "/auth", :type => :api do
 
   describe "/login" do
 
-    it "should fail with no access token" do
+    it "should fail with no access token", :vcr do
       response = get_json('api/v1/login.json')
 
       last_response.status.should == 401
       response['user'].should == nil
     end
 
-    it "should fail with an invalid access token" do
+    it "should fail with an invalid access token", :vcr do
       response = get_json('api/v1/login.json', :token => 'woohahayeah')
 
       last_response.status.should == 401
       response['user'].should == nil
     end
 
-    it "should return the current user with the right access token" do
+    it "should return the current user with the right access token", :vcr do
       response = get_json('api/v1/login.json', :token => venkats_token)
 
       last_response.status.should == 200
       response['user']['first_name'].should == 'Venkat'
     end
 
-    it "should set the user_id" do
+    it "should set the user_id", :vcr do
       response = get_json('api/v1/login.json', :token => venkats_token)
 
       last_response.status.should == 200

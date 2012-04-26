@@ -10,7 +10,6 @@ class User < ActiveRecord::Base
   has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
 
   has_many :photos
-
   has_one :photo
 
   validates_inclusion_of :gender, :in => ['M', 'F', '?']

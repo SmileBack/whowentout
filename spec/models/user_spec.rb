@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe User do
 
-  let(:venkats_token) { "AAACEdEose0cBAFqkOkxzEMtEc2J1sVZBgAZBDDrdFkSHtCb99t65Bb8Jcfyoh2mUejoZBGj5vz7YWnZBg68YTHCPhzXPZC5A99X5TgPdpdwZDZD" }
-  let(:dans_token) { "AAACEdEose0cBAMDvdZAuWsPp4uT7CDzbafEOGnalVQvpNVR5FPDDKvSZCtRl2ZA6jCwoBDe5TAFgGSdu7PWGxxgZARWgPZBwXiStGxlkZCfgZDZD" }
+  let(:venkats_token) { "AAACEdEose0cBAM04sZBwqPbKm1SviCmFSA9vewlGxZBFadbXZCCNCwY4ZBnHtd4l62d3vv7V2PyXkP1LwHblNE8AwFC0ZCwnTFVhtphtXMwZDZD" }
+  let(:dans_token) { "AAACEdEose0cBAD2RuX8t5pcS9km8AHpZBQ6Ah3DA2IGJUw6zXwVZCIbj8WKRsNqJQPsBvmqRCw7YSUYIdO0uyvvgDsK3bExUQZC807BHgZDZD" }
 
   describe "find_by_token" do
 
-    it "should return the proper fields" do
+    it "should return the proper fields", :vcr do
       user = User.find_by_token(venkats_token)
 
       user.is_active?.should == true
@@ -25,7 +25,7 @@ describe User do
       user.current_city.should == 'Washington, District of Columbia'
     end
 
-    it "shouldnt return duplicate users" do
+    it "shouldnt return duplicate users", :vcr do
       user_a = User.find_by_token(venkats_token)
       user_b = User.find_by_token(venkats_token)
 
@@ -33,7 +33,7 @@ describe User do
       user_a.id.should == user_b.id
     end
 
-    it "should return nil if the token is invalid" do
+    it "should return nil if the token is invalid", :vcr do
       user = User.find_by_token('wooyah')
       user.should == nil
     end
@@ -42,7 +42,7 @@ describe User do
 
 
   describe "sync_networks_from_facebook" do
-    it "should work when called multiple times" do
+    it "should work when called multiple times", :vcr do
       user = User.find_by_token(venkats_token)
 
       user.should respond_to :sync_networks_from_facebook
@@ -56,7 +56,7 @@ describe User do
 
 
   describe "networks" do
-    it "should contain the right networks" do
+    it "should contain the right networks", :vcr do
       user = User.find_by_token(venkats_token)
       user.should respond_to :college_networks
 
@@ -70,7 +70,8 @@ describe User do
 
 
   describe "facebook_friends" do
-    it "shouldnt be empty" do
+
+    it "shouldnt be empty", :vcr do
       user = User.find_by_token(venkats_token)
 
       user.facebook_friends.empty?.should == false
@@ -79,7 +80,7 @@ describe User do
       friend_names.should include('Dan Berenholtz')
     end
 
-    it "should come with the college networks" do
+    it "should come with the college networks", :vcr do
       user = User.find_by_token(venkats_token)
 
       danb = user.facebook_friends.where(:facebook_id => 8100231).first
@@ -89,21 +90,26 @@ describe User do
       network_names.should == ['Cornell', 'GWU', 'Stanford']
     end
 
-    it "should update after calling update_friends_from_facebook" do
+    it "should update after calling update_friends_from_facebook", :vcr do
       user = User.find_by_token(venkats_token)
 
-      user.should respond_to :sync_friends_from_facebook
+      # todo delete a few friends and add a few friends
+      # sync friends from facebook
+
+      # check that dummy friends are gone
+      # check that deleted friends are back
+      # check that count is what it previously was
     end
 
   end
 
   describe "work" do
-    it "should be nil if not listed on profile" do
+    it "should be nil if not listed on profile", :vcr do
       ven = User.find_by_token(venkats_token)
       ven.work.should == nil
     end
 
-    it "should be set to the employer if present" do
+    it "should be set to the employer if present", :vcr do
       dan = User.find_by_token(dans_token)
       dan.work.should == 'WhoWentOut'
     end
@@ -111,7 +117,7 @@ describe User do
 
   describe "interests" do
 
-    it "should return the correct interests" do
+    it "should return the correct interests", :vcr do
       user = User.find_by_token(venkats_token)
 
       interest_names = user.interests.pluck(:name)
@@ -120,12 +126,27 @@ describe User do
       interest_names.should include('Graphic Design')
       interest_names.should include('Traveling')
 
-
     end
 
-    it "should provide correct facebook ids for interests taken from facebook" do
+    it "should provide correct facebook ids for interests taken from facebook", :vcr do
       user = User.find_by_token(venkats_token)
       user.interests.where(:name => 'Traveling').first.facebook_id.should == 110534865635330
+    end
+
+  end
+
+  describe "photo" do
+
+    it "should be a valid picture", :vcr do
+      venkat = User.find_by_token(venkats_token)
+      venkat.photo.thumb.should match /\.jpg$/
+      venkat.photo.large.should match /\.jpg$/
+
+      venkat.photo.thumb.should_not == venkat.photo.large
+
+      dan = User.find_by_token(dans_token)
+      dan.photo.thumb.should match /\.jpg$/
+      dan.photo.large.should match /\.jpg$/
     end
 
   end

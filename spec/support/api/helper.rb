@@ -35,18 +35,17 @@ module ApiHelper
   end
 
   def venkats_id
-    User.where(:first_name => 'Venkat', :last_name => 'Dinavahi').first.id
+    User.find_by_first_name_and_last_name('Venkat', 'Dinavahi').id
   end
   def venkats_token
-    "AAACEdEose0cBAFqkOkxzEMtEc2J1sVZBgAZBDDrdFkSHtCb99t65Bb8Jcfyoh2mUejoZBGj5vz7YWnZBg68YTHCPhzXPZC5A99X5TgPdpdwZDZD"
+    "AAACEdEose0cBAM04sZBwqPbKm1SviCmFSA9vewlGxZBFadbXZCCNCwY4ZBnHtd4l62d3vv7V2PyXkP1LwHblNE8AwFC0ZCwnTFVhtphtXMwZDZD"
   end
-
 
   def dans_id
-    User.where(:first_name => 'Dan', :last_name => 'Berenholtz').first.id
+    User.find_by_first_name_and_last_name('Dan', 'Berenholtz').id
   end
   def dans_token
-    "AAACEdEose0cBAMDvdZAuWsPp4uT7CDzbafEOGnalVQvpNVR5FPDDKvSZCtRl2ZA6jCwoBDe5TAFgGSdu7PWGxxgZARWgPZBwXiStGxlkZCfgZDZD"
+    "AAACEdEose0cBAD2RuX8t5pcS9km8AHpZBQ6Ah3DA2IGJUw6zXwVZCIbj8WKRsNqJQPsBvmqRCw7YSUYIdO0uyvvgDsK3bExUQZC807BHgZDZD"
   end
 
 end
