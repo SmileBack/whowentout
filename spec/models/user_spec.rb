@@ -75,9 +75,7 @@ describe User do
       user = User.find_by_token(venkats_token)
 
       user.facebook_friends.empty?.should == false
-
-      friend_names = user.facebook_friends.map { |friend| "#{friend.first_name} #{friend.last_name}"}
-      friend_names.should include('Dan Berenholtz')
+      user.facebook_friends.find_by_first_name_and_last_name('Dan', 'Berenholtz').should_not == nil
     end
 
     it "should come with the college networks", :vcr do
@@ -90,15 +88,28 @@ describe User do
       network_names.should == ['Cornell', 'GWU', 'Stanford']
     end
 
-    it "should update after calling update_friends_from_facebook", :vcr do
-      user = User.find_by_token(venkats_token)
+    it "should update after calling sync_friends_from_facebook", :vcr do
+      venkat = User.find_by_token(venkats_token)
 
-      # todo delete a few friends and add a few friends
+      sean = venkat.facebook_friends.find_by_first_name_and_last_name('Sean', 'Holbert')
+      sean.should_not == nil
+
+      bruce = venkat.facebook_friends.find_by_first_name_and_last_name('Bruce', 'Lee')
+      bruce.should == nil
+
+      # delete and add a friend
+      venkat.facebook_friends.delete(sean)
+      venkat.facebook_friends.find_by_first_name_and_last_name('Sean', 'Holbert').should == nil
+
+      venkat.facebook_friends.create(:first_name => 'Bruce', :last_name => 'Lee', :gender => 'M')
+      venkat.facebook_friends.find_by_first_name_and_last_name('Bruce', 'Lee').should_not == nil
+
       # sync friends from facebook
+      venkat.sync_friends_from_facebook
 
-      # check that dummy friends are gone
-      # check that deleted friends are back
-      # check that count is what it previously was
+      # check that the deleted friend is back and the added friend is gone
+      venkat.facebook_friends.find_by_first_name_and_last_name('Sean', 'Holbert').should_not == nil
+      venkat.facebook_friends.find_by_first_name_and_last_name('Bruce', 'Lee').should == nil
     end
 
   end

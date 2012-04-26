@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
 
   def update_facebook_friends_from_data(facebook_friends_hash)
     transaction do
-      facebook_friendships.clear
+      facebook_friendships.destroy_all
       facebook_friends_hash.each do |friend_data|
 
         if friend_data['sex'].blank?
@@ -154,7 +154,7 @@ class User < ActiveRecord::Base
 
   def update_interests_from_data(interests_hash)
     transaction do
-      user_interests.clear
+      user_interests.destroy_all
       interests_hash.each do |interest_data|
         interest = Interest.find_or_create_by_facebook_id(:facebook_id => interest_data['id'],
                                                           :name => interest_data['name'])
