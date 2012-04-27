@@ -1,4 +1,14 @@
 ActiveAdmin.register Place do
+
+  index do
+    column :name
+    column "Type", :tag_list
+
+    column :address
+
+    default_actions
+  end
+
   form do |f|
     f.inputs "Details" do
       f.input :name
