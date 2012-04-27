@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424214406) do
+ActiveRecord::Schema.define(:version => 20120427193622) do
 
   create_table "facebook_friendships", :force => true do |t|
     t.integer "user_id",   :null => false
@@ -54,14 +54,24 @@ ActiveRecord::Schema.define(:version => 20120424214406) do
   add_index "photos", ["facebook_id"], :name => "index_photos_on_facebook_id"
   add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
 
+  create_table "places", :force => true do |t|
+    t.string "type"
+    t.string "name"
+    t.string "phone_number"
+    t.string "address"
+    t.float  "latitude",     :null => false
+    t.float  "longitude",    :null => false
+    t.text   "details"
+  end
+
   create_table "regions", :force => true do |t|
-    t.string  "name"
-    t.text    "points"
-    t.text    "text"
-    t.decimal "lat_min", :precision => 15, :scale => 10
-    t.decimal "lat_max", :precision => 15, :scale => 10
-    t.decimal "lng_min", :precision => 15, :scale => 10
-    t.decimal "lng_max", :precision => 15, :scale => 10
+    t.string "name"
+    t.text   "points"
+    t.text   "text"
+    t.float  "lat_min"
+    t.float  "lat_max"
+    t.float  "lng_min"
+    t.float  "lng_max"
   end
 
   create_table "user_interests", :force => true do |t|
@@ -70,6 +80,15 @@ ActiveRecord::Schema.define(:version => 20120424214406) do
   end
 
   add_index "user_interests", ["user_id", "interest_id"], :name => "index_user_interests_on_user_id_and_interest_id", :unique => true
+
+  create_table "user_locations", :force => true do |t|
+    t.integer  "user_id",                       :null => false
+    t.float    "latitude",                      :null => false
+    t.float    "longitude",                     :null => false
+    t.boolean  "is_active",  :default => false, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.integer  "facebook_id",         :limit => 8

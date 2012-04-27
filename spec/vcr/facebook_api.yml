@@ -2255,4 +2255,71 @@ http_interactions:
       string: ! '{"data":[{"pid":"3333754134855564853","created":1254792719,"src":"https:\/\/fbcdn-photos-a.akamaihd.net\/hphotos-ak-ash3\/9528_300613540121_776200121_9322037_5149022_s.jpg","src_small":"https:\/\/fbcdn-photos-a.akamaihd.net\/hphotos-ak-ash3\/9528_300613540121_776200121_9322037_5149022_t.jpg","src_big":"https:\/\/fbcdn-sphotos-a.akamaihd.net\/hphotos-ak-ash3\/9528_300613540121_776200121_9322037_5149022_n.jpg"},{"pid":"3333754134855564768","created":1254792373,"src":"https:\/\/fbcdn-photos-a.akamaihd.net\/hphotos-ak-ash3\/9528_300608645121_776200121_9321952_6424750_s.jpg","src_small":"https:\/\/fbcdn-photos-a.akamaihd.net\/hphotos-ak-ash3\/9528_300608645121_776200121_9321952_6424750_t.jpg","src_big":"https:\/\/fbcdn-sphotos-a.akamaihd.net\/hphotos-ak-ash3\/9528_300608645121_776200121_9321952_6424750_n.jpg"}]}'
     http_version: 
   recorded_at: Thu, 26 Apr 2012 02:20:06 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=Statue%20of%20Liberty,%20NY&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 27 Apr 2012 19:29:46 GMT
+      Expires:
+      - Sat, 28 Apr 2012 19:29:46 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "{\n   \"results\" : [\n      {\n         \"address_components\" :
+        [\n            {\n               \"long_name\" : \"Statue of Liberty\",\n
+        \              \"short_name\" : \"Statue of Liberty\",\n               \"types\"
+        : [ \"point_of_interest\", \"establishment\" ]\n            },\n            {\n
+        \              \"long_name\" : \"Liberty Island\",\n               \"short_name\"
+        : \"Liberty Island\",\n               \"types\" : [ \"neighborhood\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"Manhattan\",\n
+        \              \"short_name\" : \"Manhattan\",\n               \"types\" :
+        [ \"sublocality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"locality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"administrative_area_level_2\", \"political\" ]\n            },\n            {\n
+        \              \"long_name\" : \"New York\",\n               \"short_name\"
+        : \"NY\",\n               \"types\" : [ \"administrative_area_level_1\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"United
+        States\",\n               \"short_name\" : \"US\",\n               \"types\"
+        : [ \"country\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"11231\",\n               \"short_name\" : \"11231\",\n               \"types\"
+        : [ \"postal_code\" ]\n            }\n         ],\n         \"formatted_address\"
+        : \"Statue of Liberty, New York, NY 11231, USA\",\n         \"geometry\" :
+        {\n            \"location\" : {\n               \"lat\" : 40.68921470,\n               \"lng\"
+        : -74.04470090000001\n            },\n            \"location_type\" : \"APPROXIMATE\",\n
+        \           \"viewport\" : {\n               \"northeast\" : {\n                  \"lat\"
+        : 40.69767480,\n                  \"lng\" : -74.02869350\n               },\n
+        \              \"southwest\" : {\n                  \"lat\" : 40.68075350,\n
+        \                 \"lng\" : -74.06070830\n               }\n            }\n
+        \        },\n         \"types\" : [ \"point_of_interest\", \"establishment\"
+        ]\n      }\n   ],\n   \"status\" : \"OK\"\n}\n"
+    http_version: 
+  recorded_at: Fri, 27 Apr 2012 19:29:46 GMT
 recorded_with: VCR 2.1.1

@@ -28,6 +28,7 @@ gem 'debugger', :group => [:test, :development]
 
 gem 'grape'
 gem 'koala'
+gem 'geocoder'
 
 # Databases
 group :test, :development do
@@ -53,6 +54,8 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
 end
+
+
 
 
 
