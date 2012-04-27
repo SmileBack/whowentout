@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :photos
   has_one :photo
 
-  validates_inclusion_of :gender, :in => ['M', 'F', '?']
+  validates_inclusion_of :gender, :in => ['M', 'F']
 
   def college_networks
     networks.where(:network_type => 'college')
@@ -112,7 +112,7 @@ class User < ActiveRecord::Base
       facebook_friends_hash.each do |friend_data|
 
         if friend_data['sex'].blank?
-          friend_gender = '?'
+          friend_gender = nil
         else
           friend_gender = friend_data['sex'][0].upcase
         end

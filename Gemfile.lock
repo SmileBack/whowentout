@@ -30,6 +30,8 @@ GEM
       activesupport (= 3.1.0)
     activesupport (3.1.0)
       multi_json (~> 1.0)
+    acts-as-taggable-on (2.2.2)
+      rails (~> 3.0)
     addressable (2.2.7)
     ansi (1.4.2)
     arel (2.2.3)
@@ -164,6 +166,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  acts-as-taggable-on (~> 2.2.2)
   coffee-rails (~> 3.1.0)
   debugger
   execjs

@@ -29,6 +29,7 @@ gem 'debugger', :group => [:test, :development]
 gem 'grape'
 gem 'koala'
 gem 'geocoder'
+gem 'acts-as-taggable-on', '~> 2.2.2'
 
 # Databases
 group :test, :development do

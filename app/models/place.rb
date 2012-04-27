@@ -3,4 +3,9 @@ class Place < ActiveRecord::Base
   after_validation :geocode
 
   validates_presence_of :name
+
+  acts_as_taggable
+
+  serialize :details, JSONColumn.new
 end
+
