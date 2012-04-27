@@ -30,6 +30,8 @@ gem 'grape'
 gem 'koala'
 gem 'geocoder'
 gem 'acts-as-taggable-on', '~> 2.2.2'
+gem 'formtastic', '~> 2.1.1'
+gem 'activeadmin'
 
 # Databases
 group :test, :development do
