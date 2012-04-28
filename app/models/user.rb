@@ -12,13 +12,13 @@ class User < ActiveRecord::Base
   has_many :photos
   has_one :photo
 
-  validates_inclusion_of :gender, :in => ['M', 'F']
+  validates_inclusion_of :gender, :in => ['M', 'F', nil]
 
   def college_networks
     networks.where(:network_type => 'college')
   end
 
-  def self.find_by_token(token)
+  def self.find_by_token(token, sync = [:networks, :friends, :interests, :profile_pictures])
     profile = get_profile_hash(token)
 
     return nil if profile.nil?
@@ -29,16 +29,18 @@ class User < ActiveRecord::Base
     user = User.new if user.nil?
 
     if user.is_inactive?
+      debugger
+
       user.facebook_token = token
 
       user.sync_profile_from_facebook
       user.is_active = true
       user.save
 
-      user.sync_networks_from_facebook
-      user.sync_friends_from_facebook
-      user.sync_interests_from_facebook
-      user.sync_profile_pictures_from_facebook
+      user.sync_networks_from_facebook if sync.include?(:networks)
+      user.sync_friends_from_facebook if sync.include?(:friends)
+      user.sync_interests_from_facebook if sync.include?(:interests)
+      user.sync_profile_pictures_from_facebook if sync.include?(:profile_pictures)
     end
 
     return user
@@ -173,7 +175,6 @@ class User < ActiveRecord::Base
                                 WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())")
       return response
     end
-    memoize :get_facebook_friends_hash
 
     def get_profile_pictures_hash(token)
       api = Koala::Facebook::API.new(token)
@@ -192,13 +193,11 @@ class User < ActiveRecord::Base
 
       return response[0]['affiliations']
     end
-    memoize :get_affiliations_hash
 
     def get_interests_hash(token)
       api = Koala::Facebook::API.new(token)
       return api.get_connections('me', 'interests')
     end
-    memoize :get_interests_hash
 
     def get_profile_hash(token)
       api = Koala::Facebook::API.new(token)
@@ -211,7 +210,6 @@ class User < ActiveRecord::Base
 
       return profile_hash
     end
-    memoize :get_profile_hash
 
   end
 
