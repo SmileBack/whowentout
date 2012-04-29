@@ -29,8 +29,6 @@ class User < ActiveRecord::Base
     user = User.new if user.nil?
 
     if user.is_inactive?
-      debugger
-
       user.facebook_token = token
 
       user.sync_profile_from_facebook
