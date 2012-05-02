@@ -12,7 +12,25 @@ class User < ActiveRecord::Base
   has_many :photos
   has_one :photo
 
+  has_many :locations, :class_name => 'UserLocation', :order => 'created_at DESC'
+  has_one :current_location, :class_name => 'UserLocation', :conditions => {:is_active => true}
+  has_many :past_locations, :class_name =>  'UserLocation', :conditions => {:is_active => false}, :order => 'created_at DESC'
+
   validates_inclusion_of :gender, :in => ['M', 'F', nil]
+
+  def update_location(l)
+    clear_location
+    locations.create!(:longitude => l[:longitude], :latitude => l[:latitude], :is_active => true)
+    reload
+  end
+
+  def clear_location
+    unless current_location.nil?
+      current_location.is_active = false
+      current_location.save
+      reload
+    end
+  end
 
   def college_networks
     networks.where(:network_type => 'college')

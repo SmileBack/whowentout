@@ -60,8 +60,6 @@ describe User do
       venkat.past_locations.count.should == 3
     end
 
-
-
   end
 
 end
