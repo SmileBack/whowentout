@@ -196,7 +196,7 @@ textarea { overflow: auto; vertical-align: top; resize: vertical; }
 
 /* Colors for form validity */
 input:valid, textarea:valid {  }
-input:invalid, textarea:invalid { background-color: #f0dddd; }
+input:invalid, textarea:invalid {  }
 
 
 /* =============================================================================
@@ -218,6 +218,11 @@ td { vertical-align: top; }
    Author:
    ========================================================================== */
 
+.border-radius(@size) {
+    -moz-border-radius: @size; /* Firefox */
+    -webkit-border-radius: @size; /* Safari, Chrome */
+    border-radius: @size; /* CSS3 */
+}
 
 body {
   width: 100%;
@@ -233,6 +238,35 @@ body {
   top: 60px;
   margin-left: @width / -2;
   height: auto;
+}
+
+#right {
+    @width: 300px;
+    position: absolute;
+    width: @width;
+    top: 60px;
+    left: 50%;
+    margin-left: 200px;
+    #mc_embed_signup {
+        padding: 15px;
+        .border-radius(5px);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        input.email, input.button {
+            display: inline;
+        }
+        .button {
+            background-image: linear-gradient(bottom, #05F515 4%, #24AB3F 52%);
+            background-image: -o-linear-gradient(bottom, #05F515 4%, #24AB3F 52%);
+            background-image: -moz-linear-gradient(bottom, #05F515 4%, #24AB3F 52%);
+            background-image: -webkit-linear-gradient(bottom, #05F515 4%, #24AB3F 52%);
+            background-image: -ms-linear-gradient(bottom, #05F515 4%, #24AB3F 52%);
+
+            &:active {
+                margin-top: 2px;
+            }
+        }
+    }
 }
 
 /* ==|== media queries ======================================================
