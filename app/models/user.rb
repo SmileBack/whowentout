@@ -24,6 +24,12 @@ class User < ActiveRecord::Base
     reload
   end
 
+  def current_region
+    unless current_location.nil?
+      Region.including(to_coordinates).first
+    end
+  end
+
   def nearby_places
     unless current_location.nil?
       Place.near(to_coordinates, 50, :order => 'distance')
