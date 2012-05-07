@@ -1,3 +1,2 @@
 web1:
-  name: atnightapp
-  document_root: www
+  document_root: www/
