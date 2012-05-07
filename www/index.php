@@ -21,14 +21,15 @@
 
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
-  <?= css('style.css') ?>
+  <?= css('style.less') ?>
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
   <!-- All JavaScript at the bottom, except this Modernizr build.
        Modernizr enables HTML5 elements & feature detects for optimal performance.
        Create your own custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="js/libs/modernizr-2.5.3.min.js"></script>
+  <script src="/js/libs/modernizr-2.5.3.min.js"></script>
+  <script src="/js/libs/less-1.3.0.min.js" type="text/javascript"></script>
 </head>
 <body>
   <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
@@ -38,9 +39,7 @@
 
   </header>
 
-  <div role="main" id="main">
-      
-  </div>
+  <?= img('iphone.png', array('id' => 'iphone')) ?>
 
   <footer>
   </footer>

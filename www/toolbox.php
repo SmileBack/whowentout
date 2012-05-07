@@ -31,15 +31,13 @@ function js($name)
     return html_element('script', $attributes);
 }
 
-function img($name)
+function img($name, $attributes = array())
 {
     $path = IMG_PATH . '/' . $name;
     $ext = string_after_last('.', $name);
     $uncached_path = string_before_last(".$ext", $path) . '.' . filemtime("./$path") . ".$ext";
 
-    $attributes = array(
-        'src' => $uncached_path,
-    );
+    $attributes['src'] = $uncached_path;
     return html_element('img', $attributes);
 }
 
