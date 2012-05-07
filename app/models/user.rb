@@ -24,6 +24,24 @@ class User < ActiveRecord::Base
     reload
   end
 
+  def nearby_places
+    unless current_location.nil?
+      Place.near(to_coordinates, 50, :order => 'distance')
+    end
+  end
+
+  def to_coordinates
+    unless current_location.nil?
+      [current_location.latitude, current_location.longitude]
+    end
+  end
+
+  def nearby_users
+    unless current_location.nil?
+      []
+    end
+  end
+
   def clear_location
     unless current_location.nil?
       current_location.is_active = false
@@ -34,6 +52,10 @@ class User < ActiveRecord::Base
 
   def college_networks
     networks.where(:network_type => 'college')
+  end
+
+  def self.clear_all_locations
+    UserLocation.where(:is_active =>  true).update_all(:is_active => false)
   end
 
   def self.find_by_token(token, sync = [:networks, :friends, :interests, :profile_pictures])

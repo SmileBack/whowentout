@@ -5,4 +5,9 @@ FactoryGirl.define do
     gender "M"
     email { first_name.downcase + '@example.com' }
   end
+
+  factory :place do |f|
+    f.sequence(:name) { |n| "Place #{n}" }
+  end
+
 end

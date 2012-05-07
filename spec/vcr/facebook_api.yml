@@ -2146,4 +2146,208 @@ http_interactions:
         AucpVqn/LobPE/xR/8+v3wG8o46F/BAAAA==
     http_version: 
   recorded_at: Sat, 28 Apr 2012 22:39:54 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=122%20MacDougal%20Street,%20New%20York,%20NY&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Mon, 07 May 2012 17:46:37 GMT
+      Expires:
+      - Tue, 08 May 2012 17:46:37 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "{\n   \"results\" : [\n      {\n         \"address_components\" :
+        [\n            {\n               \"long_name\" : \"122\",\n               \"short_name\"
+        : \"122\",\n               \"types\" : [ \"street_number\" ]\n            },\n
+        \           {\n               \"long_name\" : \"MacDougal St\",\n               \"short_name\"
+        : \"MacDougal St\",\n               \"types\" : [ \"route\" ]\n            },\n
+        \           {\n               \"long_name\" : \"Lower Manhattan\",\n               \"short_name\"
+        : \"Lower Manhattan\",\n               \"types\" : [ \"neighborhood\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"Manhattan\",\n
+        \              \"short_name\" : \"Manhattan\",\n               \"types\" :
+        [ \"sublocality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"locality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"administrative_area_level_2\", \"political\" ]\n            },\n            {\n
+        \              \"long_name\" : \"New York\",\n               \"short_name\"
+        : \"NY\",\n               \"types\" : [ \"administrative_area_level_1\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"United
+        States\",\n               \"short_name\" : \"US\",\n               \"types\"
+        : [ \"country\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"10012\",\n               \"short_name\" : \"10012\",\n               \"types\"
+        : [ \"postal_code\" ]\n            }\n         ],\n         \"formatted_address\"
+        : \"122 MacDougal St, New York, NY 10012, USA\",\n         \"geometry\" :
+        {\n            \"location\" : {\n               \"lat\" : 40.72995770,\n               \"lng\"
+        : -74.00044729999999\n            },\n            \"location_type\" : \"ROOFTOP\",\n
+        \           \"viewport\" : {\n               \"northeast\" : {\n                  \"lat\"
+        : 40.73130668029150,\n                  \"lng\" : -73.99909831970849\n               },\n
+        \              \"southwest\" : {\n                  \"lat\" : 40.72860871970850,\n
+        \                 \"lng\" : -74.00179628029150\n               }\n            }\n
+        \        },\n         \"types\" : [ \"street_address\" ]\n      }\n   ],\n
+        \  \"status\" : \"OK\"\n}\n"
+    http_version: 
+  recorded_at: Mon, 07 May 2012 17:46:37 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=225%20Sullivan%20Street,%20New%20York,%20NY%2010012&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Mon, 07 May 2012 17:46:37 GMT
+      Expires:
+      - Tue, 08 May 2012 17:46:37 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "{\n   \"results\" : [\n      {\n         \"address_components\" :
+        [\n            {\n               \"long_name\" : \"225\",\n               \"short_name\"
+        : \"225\",\n               \"types\" : [ \"street_number\" ]\n            },\n
+        \           {\n               \"long_name\" : \"Sullivan St\",\n               \"short_name\"
+        : \"Sullivan St\",\n               \"types\" : [ \"route\" ]\n            },\n
+        \           {\n               \"long_name\" : \"Lower Manhattan\",\n               \"short_name\"
+        : \"Lower Manhattan\",\n               \"types\" : [ \"neighborhood\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"Manhattan\",\n
+        \              \"short_name\" : \"Manhattan\",\n               \"types\" :
+        [ \"sublocality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"locality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"administrative_area_level_2\", \"political\" ]\n            },\n            {\n
+        \              \"long_name\" : \"New York\",\n               \"short_name\"
+        : \"NY\",\n               \"types\" : [ \"administrative_area_level_1\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"United
+        States\",\n               \"short_name\" : \"US\",\n               \"types\"
+        : [ \"country\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"10012\",\n               \"short_name\" : \"10012\",\n               \"types\"
+        : [ \"postal_code\" ]\n            }\n         ],\n         \"formatted_address\"
+        : \"225 Sullivan St, New York, NY 10012, USA\",\n         \"geometry\" : {\n
+        \           \"location\" : {\n               \"lat\" : 40.72961180,\n               \"lng\"
+        : -73.99967110\n            },\n            \"location_type\" : \"ROOFTOP\",\n
+        \           \"viewport\" : {\n               \"northeast\" : {\n                  \"lat\"
+        : 40.73096078029150,\n                  \"lng\" : -73.99832211970849\n               },\n
+        \              \"southwest\" : {\n                  \"lat\" : 40.72826281970850,\n
+        \                 \"lng\" : -74.00102008029150\n               }\n            }\n
+        \        },\n         \"types\" : [ \"street_address\" ]\n      }\n   ],\n
+        \  \"status\" : \"OK\"\n}\n"
+    http_version: 
+  recorded_at: Mon, 07 May 2012 17:46:37 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=157%20Bleecker%20Street,%20New%20York,%20NY%2010012&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Mon, 07 May 2012 17:46:38 GMT
+      Expires:
+      - Tue, 08 May 2012 17:46:38 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "{\n   \"results\" : [\n      {\n         \"address_components\" :
+        [\n            {\n               \"long_name\" : \"157\",\n               \"short_name\"
+        : \"157\",\n               \"types\" : [ \"street_number\" ]\n            },\n
+        \           {\n               \"long_name\" : \"Bleecker St\",\n               \"short_name\"
+        : \"Bleecker St\",\n               \"types\" : [ \"route\" ]\n            },\n
+        \           {\n               \"long_name\" : \"Lower Manhattan\",\n               \"short_name\"
+        : \"Lower Manhattan\",\n               \"types\" : [ \"neighborhood\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"Manhattan\",\n
+        \              \"short_name\" : \"Manhattan\",\n               \"types\" :
+        [ \"sublocality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"locality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"administrative_area_level_2\", \"political\" ]\n            },\n            {\n
+        \              \"long_name\" : \"New York\",\n               \"short_name\"
+        : \"NY\",\n               \"types\" : [ \"administrative_area_level_1\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"United
+        States\",\n               \"short_name\" : \"US\",\n               \"types\"
+        : [ \"country\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"10012\",\n               \"short_name\" : \"10012\",\n               \"types\"
+        : [ \"postal_code\" ]\n            }\n         ],\n         \"formatted_address\"
+        : \"157 Bleecker St, New York, NY 10012, USA\",\n         \"geometry\" : {\n
+        \           \"location\" : {\n               \"lat\" : 40.72861839999999,\n
+        \              \"lng\" : -73.99982580\n            },\n            \"location_type\"
+        : \"ROOFTOP\",\n            \"viewport\" : {\n               \"northeast\"
+        : {\n                  \"lat\" : 40.72996738029150,\n                  \"lng\"
+        : -73.99847681970849\n               },\n               \"southwest\" : {\n
+        \                 \"lat\" : 40.72726941970850,\n                  \"lng\"
+        : -74.00117478029149\n               }\n            }\n         },\n         \"types\"
+        : [ \"street_address\" ]\n      }\n   ],\n   \"status\" : \"OK\"\n}\n"
+    http_version: 
+  recorded_at: Mon, 07 May 2012 17:46:37 GMT
 recorded_with: VCR 2.1.1
