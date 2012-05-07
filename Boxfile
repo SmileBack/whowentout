@@ -1,2 +1,3 @@
-web1:
-    document_root: www/
+web1: #component type & number
+  document_root: /www
+  
