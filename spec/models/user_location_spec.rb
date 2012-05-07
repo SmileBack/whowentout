@@ -66,6 +66,18 @@ describe User do
 
   end
 
+  describe "clear_all_locations" do
+    it "should set all current_location values to nil" do
+      user_a = create(:user)
+
+      user_a.update_location(longitude: 11, latitude: 22)
+      user_a.current_location.should_not == nil
+
+      User.clear_all_locations
+      user_a.current_location.should == nil
+    end
+  end
+
   describe "past_locations" do
 
     it "should transfer to past_location" do

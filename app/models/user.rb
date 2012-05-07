@@ -61,7 +61,18 @@ class User < ActiveRecord::Base
   end
 
   def self.clear_all_locations
-    UserLocation.where(:is_active =>  true).update_all(:is_active => false)
+    UserLocation.where(:is_active =>  true).each do |user_location|
+      puts "-=====================================-"
+      puts "-=====================================-"
+
+      pp user_location
+      pp user_location.user.current_location
+
+      user_location.user.clear_location
+
+      pp user_location
+      pp user_location.user.current_location
+    end
   end
 
   def self.find_by_token(token, sync = [:networks, :friends, :interests, :profile_pictures])
