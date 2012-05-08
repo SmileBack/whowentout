@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  geocoded_by nil
 
   has_many :network_memberships
   has_many :networks, :through => :network_memberships
@@ -16,18 +17,43 @@ class User < ActiveRecord::Base
   has_one :current_location, :class_name => 'UserLocation', :conditions => {:is_active => true}
   has_many :past_locations, :class_name =>  'UserLocation', :conditions => {:is_active => false}, :order => 'created_at DESC'
 
+  belongs_to :current_region, :class_name => 'Region'
+
   validates_inclusion_of :gender, :in => ['M', 'F', nil]
 
   def update_location(coordinates)
     c = convert_to_coordinates(coordinates)
+    debugger if c[:latitude] == 66
 
     clear_location
     locations.create!(:longitude => c[:longitude], :latitude => c[:latitude], :is_active => true)
     reload
+
+    self.latitude = current_location.latitude
+    self.longitude = current_location.longitude
+    self.current_region = calculate_current_region
+
+    save
   end
 
-  def current_region
+  def clear_location
     unless current_location.nil?
+      current_location.is_active = false
+      current_location.save
+      reload
+
+      self.latitude = nil
+      self.longitude = nil
+      self.current_region = calculate_current_region
+
+      save
+    end
+  end
+
+  def calculate_current_region
+    if current_location.nil?
+      nil
+    else
       Region.including(to_coordinates).first
     end
   end
@@ -40,21 +66,13 @@ class User < ActiveRecord::Base
 
   def to_coordinates
     unless current_location.nil?
-      [current_location.latitude, current_location.longitude]
+      super
     end
   end
 
   def nearby_users
     unless current_location.nil?
-      []
-    end
-  end
-
-  def clear_location
-    unless current_location.nil?
-      current_location.is_active = false
-      current_location.save
-      reload
+      User.near(to_coordinates)
     end
   end
 

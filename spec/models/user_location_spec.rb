@@ -43,7 +43,7 @@ describe User do
     get_place("Vbar&Cafe")
   end
 
-  def another_point_inside_a
+  def second_point_inside_a
     get_place("1849")
   end
 
@@ -59,10 +59,14 @@ describe User do
 
       user.current_location.longitude.should == 66
       user.current_location.latitude.should == 77
+      user.longitude.should == 66
+      user.latitude.should == 77
 
       user.update_location(longitude: 88, latitude: 99)
       user.current_location.longitude.should == 88
       user.current_location.latitude.should == 99
+      user.longitude.should == 88
+      user.latitude.should == 99
     end
 
     it "should work with objects that have longitude and latitude" do
@@ -103,6 +107,8 @@ describe User do
     it "should start out nil" do
       user = create(:user)
       user.current_location.should == nil
+      user.latitude.should == nil
+      user.longitude.should == nil
     end
   end
 
@@ -115,6 +121,8 @@ describe User do
 
       user.clear_location
       user.current_location.should == nil
+      user.latitude.should == nil
+      user.longitude.should == nil
     end
   end
 
@@ -200,8 +208,20 @@ describe User do
       region_a = create_region_a
       region_b = create_region_b
 
-      inside_a = [point_inside_a, another_point_inside_a]
-      user.update_location(latitude: inside_a.first.latitude, longitude: inside_a.first.longitude)
+      # these users are in region a
+      user.update_location(point_inside_a)
+      jake.update_location(point_inside_a)
+      kate.update_location(second_point_inside_a)
+
+      # this user is in region b
+      joe.update_location(point_inside_b)
+
+      users = user.nearby_users.pluck(:first_name).sort
+      users.should == ['Jake', 'Kate']
+
+      user.update_location(point_inside_b)
+      users = user.nearby_users.pluck(:first_name).sort
+      users.should == ['Joe']
     end
 
   end
