@@ -2690,4 +2690,72 @@ http_interactions:
         \  \"status\" : \"OK\"\n}\n"
     http_version: 
   recorded_at: Mon, 07 May 2012 19:34:48 GMT
+- request:
+    method: get
+    uri: http://maps.googleapis.com/maps/api/geocode/json?address=183%20Bleecker%20Street,%20New%20York,%20NY%2010012&language=en&sensor=false
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Tue, 08 May 2012 15:58:01 GMT
+      Expires:
+      - Wed, 09 May 2012 15:58:01 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "{\n   \"results\" : [\n      {\n         \"address_components\" :
+        [\n            {\n               \"long_name\" : \"183\",\n               \"short_name\"
+        : \"183\",\n               \"types\" : [ \"street_number\" ]\n            },\n
+        \           {\n               \"long_name\" : \"Bleecker St\",\n               \"short_name\"
+        : \"Bleecker St\",\n               \"types\" : [ \"route\" ]\n            },\n
+        \           {\n               \"long_name\" : \"Lower Manhattan\",\n               \"short_name\"
+        : \"Lower Manhattan\",\n               \"types\" : [ \"neighborhood\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"Manhattan\",\n
+        \              \"short_name\" : \"Manhattan\",\n               \"types\" :
+        [ \"sublocality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"locality\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"New York\",\n               \"short_name\" : \"New York\",\n               \"types\"
+        : [ \"administrative_area_level_2\", \"political\" ]\n            },\n            {\n
+        \              \"long_name\" : \"New York\",\n               \"short_name\"
+        : \"NY\",\n               \"types\" : [ \"administrative_area_level_1\", \"political\"
+        ]\n            },\n            {\n               \"long_name\" : \"United
+        States\",\n               \"short_name\" : \"US\",\n               \"types\"
+        : [ \"country\", \"political\" ]\n            },\n            {\n               \"long_name\"
+        : \"10012\",\n               \"short_name\" : \"10012\",\n               \"types\"
+        : [ \"postal_code\" ]\n            }\n         ],\n         \"formatted_address\"
+        : \"183 Bleecker St, New York, NY 10012, USA\",\n         \"geometry\" : {\n
+        \           \"location\" : {\n               \"lat\" : 40.7291970,\n               \"lng\"
+        : -74.00079590\n            },\n            \"location_type\" : \"ROOFTOP\",\n
+        \           \"viewport\" : {\n               \"northeast\" : {\n                  \"lat\"
+        : 40.73054598029150,\n                  \"lng\" : -73.99944691970849\n               },\n
+        \              \"southwest\" : {\n                  \"lat\" : 40.72784801970850,\n
+        \                 \"lng\" : -74.00214488029150\n               }\n            }\n
+        \        },\n         \"types\" : [ \"street_address\" ]\n      }\n   ],\n
+        \  \"status\" : \"OK\"\n}\n"
+    http_version: 
+  recorded_at: Tue, 08 May 2012 15:58:01 GMT
 recorded_with: VCR 2.1.1

@@ -18,9 +18,11 @@ class User < ActiveRecord::Base
 
   validates_inclusion_of :gender, :in => ['M', 'F', nil]
 
-  def update_location(l)
+  def update_location(coordinates)
+    c = convert_to_coordinates(coordinates)
+
     clear_location
-    locations.create!(:longitude => l[:longitude], :latitude => l[:latitude], :is_active => true)
+    locations.create!(:longitude => c[:longitude], :latitude => c[:latitude], :is_active => true)
     reload
   end
 
@@ -62,16 +64,20 @@ class User < ActiveRecord::Base
 
   def self.clear_all_locations
     UserLocation.where(:is_active =>  true).each do |user_location|
-      puts "-=====================================-"
-      puts "-=====================================-"
+      puts "vv-=====================================-vv"
+
 
       pp user_location
       pp user_location.user.current_location
 
+
+      puts "--------------"
       user_location.user.clear_location
 
+
       pp user_location
       pp user_location.user.current_location
+      puts "^^-=====================================-^^"
     end
   end
 
@@ -221,51 +227,58 @@ class User < ActiveRecord::Base
     end
   end
 
-  class << self
-    extend ActiveSupport::Memoizable
+  def self.get_facebook_friends_hash(token)
+    api = Koala::Facebook::API.new(token)
+    response = api.fql_query("SELECT uid, first_name, last_name, sex, affiliations FROM user
+                              WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())")
+    return response
+  end
 
-    def get_facebook_friends_hash(token)
-      api = Koala::Facebook::API.new(token)
-      response = api.fql_query("SELECT uid, first_name, last_name, sex, affiliations FROM user
-                                WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())")
-      return response
+  def self.get_profile_pictures_hash(token)
+    api = Koala::Facebook::API.new(token)
+    response = api.fql_query("SELECT pid, created, src, src_small, src_big
+                              FROM photo WHERE
+                                aid IN (SELECT aid FROM album WHERE owner = me() AND type = 'profile')")
+    return response
+  end
+
+  def self.get_affiliations_hash(token)
+    profile = get_profile_hash(token)
+    uid = profile['id']
+
+    api = Koala::Facebook::API.new(token)
+    response = api.fql_query("SELECT affiliations FROM user WHERE uid=me()")
+
+    return response[0]['affiliations']
+  end
+
+  def self.get_interests_hash(token)
+    api = Koala::Facebook::API.new(token)
+    return api.get_connections('me', 'interests')
+  end
+
+  def self.get_profile_hash(token)
+    api = Koala::Facebook::API.new(token)
+
+    begin
+      profile_hash = api.get_object('me')
+    rescue Koala::Facebook::APIError => e
+      profile_hash = nil
     end
 
-    def get_profile_pictures_hash(token)
-      api = Koala::Facebook::API.new(token)
-      response = api.fql_query("SELECT pid, created, src, src_small, src_big
-                                FROM photo WHERE
-                                  aid IN (SELECT aid FROM album WHERE owner = me() AND type = 'profile')")
-      return response
+    return profile_hash
+  end
+
+
+  def convert_to_coordinates(coordinates)
+    if coordinates.respond_to?(:longitude) && coordinates.respond_to?(:latitude)
+      {latitude: coordinates.latitude, longitude: coordinates.longitude}
+    elsif coordinates.respond_to?(:[]) && coordinates
+      {latitude: coordinates[0], longitude: coordinates[1]} if coordinates[0] != nil
+      {latitude: coordinates[:latitude], longitude: coordinates[:longitude]} if coordinates[:latitude] != nil
+    else
+      raise "Failed to convert coordinates."
     end
-
-    def get_affiliations_hash(token)
-      profile = get_profile_hash(token)
-      uid = profile['id']
-
-      api = Koala::Facebook::API.new(token)
-      response = api.fql_query("SELECT affiliations FROM user WHERE uid=me()")
-
-      return response[0]['affiliations']
-    end
-
-    def get_interests_hash(token)
-      api = Koala::Facebook::API.new(token)
-      return api.get_connections('me', 'interests')
-    end
-
-    def get_profile_hash(token)
-      api = Koala::Facebook::API.new(token)
-
-      begin
-        profile_hash = api.get_object('me')
-      rescue Koala::Facebook::APIError => e
-        profile_hash = nil
-      end
-
-      return profile_hash
-    end
-
   end
 
 end

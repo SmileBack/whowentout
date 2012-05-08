@@ -4,7 +4,6 @@ describe User do
 
   def place_addresses
     {
-        "Le Figaro Cafe" => "157 Bleecker Street, New York, NY 10012",
         "MacDougal Street Ale House" => "122 MacDougal Street, New York, NY",
         "Vbar&Cafe" => "225 Sullivan Street, New York, NY 10012",
         "Le Figaro Cafe" => "174 Bleecker Street, New York, NY 10012",
@@ -12,7 +11,9 @@ describe User do
         "The Dove Parlor" => "228 Thompson Street, New York, NY 10012",
         "Kenny's Castaways" => "157 Bleecker Street, New York, NY 10012",
         "The Room" => "144 Sullivan St, Manhattan, New York 10012",
-        "Sullivan Bistro" => "169 Sullivan Street, New York, NY 10012"
+        "Sullivan Bistro" => "169 Sullivan Street, New York, NY 10012",
+        "Children's Aid Society" => "219 Sullivan Street, New York, NY 10012",
+        "1849" => "183 Bleecker Street, New York, NY 10012"
     }
   end
 
@@ -30,17 +31,27 @@ describe User do
     create(:region, name: region_name, points: points)
   end
 
-  describe "current_location" do
+  def create_region_a
+    create_region_from_places 'a', ['Le Figaro Cafe', 'Comedy Cellar', 'The Dove Parlor']
+  end
 
-    it "should exist" do
-      user = create(:user)
-      user.should respond_to(:current_location)
-    end
+  def create_region_b
+    create_region_from_places 'b', ['Le Figaro Cafe', 'The Dove Parlor', "Kenny's Castaways", 'The Room']
+  end
 
-    it "should start out nil" do
-      user = create(:user)
-      user.current_location.should == nil
-    end
+  def point_inside_a
+    get_place("Vbar&Cafe")
+  end
+
+  def another_point_inside_a
+    get_place("1849")
+  end
+
+  def point_inside_b
+    get_place("Sullivan Bistro")
+  end
+
+  describe "update_location" do
 
     it "should set the current location" do
       user = create(:user)
@@ -54,7 +65,49 @@ describe User do
       user.current_location.latitude.should == 99
     end
 
-    it "should get set to nil when the location is cleared" do
+    it "should work with objects that have longitude and latitude" do
+      user = create(:user)
+
+      class SomePlace
+        def latitude
+          33
+        end
+        def longitude
+          44
+        end
+      end
+
+      user.update_location(SomePlace.new)
+
+      user.current_location.latitude.should == 33
+      user.current_location.longitude.should == 44
+    end
+
+    it "should work with an array" do
+      user = create(:user)
+
+      user.update_location([77, 88])
+
+      user.current_location.latitude.should == 77
+      user.current_location.longitude.should == 88
+    end
+
+  end
+
+  describe "current_location" do
+    it "should exist" do
+      user = create(:user)
+      user.should respond_to(:current_location)
+    end
+
+    it "should start out nil" do
+      user = create(:user)
+      user.current_location.should == nil
+    end
+  end
+
+  describe "clear_location" do
+    it "should get current_location to nil when called" do
       user = create(:user)
 
       user.update_location(longitude: 11, latitude: 22)
@@ -63,7 +116,6 @@ describe User do
       user.clear_location
       user.current_location.should == nil
     end
-
   end
 
   describe "clear_all_locations" do
@@ -130,15 +182,31 @@ describe User do
 
   end
 
+  describe "nearby_users" do
+
+    it "should be nil when the user doesn't have a location" do
+      user = create(:user)
+      user.current_location.should == nil
+      user.nearby_users.should == nil
+    end
+
+    it "should only show users in your neighborhood", :vcr, :cassette => 'google_maps_api' do
+      user = create(:user)
+
+      joe = create(:user, first_name: "Joe")
+      kate = create(:user, first_name: "Kate")
+      jake = create(:user, first_name: "Jake")
+
+      region_a = create_region_a
+      region_b = create_region_b
+
+      inside_a = [point_inside_a, another_point_inside_a]
+      user.update_location(latitude: inside_a.first.latitude, longitude: inside_a.first.longitude)
+    end
+
+  end
+
   describe "current_region" do
-
-    def create_region_a
-      create_region_from_places 'a', ['Le Figaro Cafe', 'Comedy Cellar', 'The Dove Parlor']
-    end
-
-    def create_region_b
-      create_region_from_places 'b', ['Le Figaro Cafe', 'The Dove Parlor', "Kenny's Castaways", 'The Room']
-    end
 
     it "should be nil when the user hasnt updated his/her location" do
       user = create(:user)
@@ -149,7 +217,7 @@ describe User do
       user = create(:user)
 
       region_a = create_region_a
-      inside_a = get_place("Vbar&Cafe")
+      inside_a = point_inside_a
 
       user.update_location(latitude: inside_a.latitude, longitude: inside_a.longitude)
       user.current_region.should == region_a
@@ -161,8 +229,8 @@ describe User do
       region_a = create_region_a
       region_b = create_region_b
 
-      inside_a = get_place("Vbar&Cafe")
-      inside_b = get_place("Sullivan Bistro")
+      inside_a = point_inside_a
+      inside_b = point_inside_b
 
       user.update_location(latitude: inside_a.latitude, longitude: inside_a.longitude)
       user.current_region.should == region_a
@@ -175,8 +243,8 @@ describe User do
       user = create(:user)
 
       region_a = create_region_a
-      inside_a = get_place("Vbar&Cafe")
-      outside_a = get_place("Sullivan Bistro")
+      inside_a = point_inside_a
+      outside_a = point_inside_b
 
       user.update_location(latitude: inside_a.latitude, longitude: inside_a.longitude)
       user.current_region.should == region_a
@@ -189,7 +257,7 @@ describe User do
       user = create(:user)
 
       region_a = create_region_a
-      inside_a = get_place("Vbar&Cafe")
+      inside_a = point_inside_a
 
       user.update_location(latitude: inside_a.latitude, longitude: inside_a.longitude)
       user.current_region.should == region_a
