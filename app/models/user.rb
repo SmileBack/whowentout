@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
 
   def nearby_users
     unless current_location.nil?
-      User.near(to_coordinates)
+      User.near(to_coordinates).where(current_region_id: current_region.id).where('users.id != ?', self.id)
     end
   end
 

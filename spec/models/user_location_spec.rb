@@ -12,7 +12,7 @@ describe User do
         "Kenny's Castaways" => "157 Bleecker Street, New York, NY 10012",
         "The Room" => "144 Sullivan St, Manhattan, New York 10012",
         "Sullivan Bistro" => "169 Sullivan Street, New York, NY 10012",
-        "Children's Aid Society" => "219 Sullivan Street, New York, NY 10012",
+        "Childrens Aid Society" => "219 Sullivan Street, New York, NY 10012",
         "1849" => "183 Bleecker Street, New York, NY 10012"
     }
   end
@@ -44,7 +44,7 @@ describe User do
   end
 
   def second_point_inside_a
-    get_place("1849")
+    get_place("Childrens Aid Society")
   end
 
   def point_inside_b
