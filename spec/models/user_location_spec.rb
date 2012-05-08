@@ -171,7 +171,7 @@ describe User do
       ale_house = get_place("MacDougal Street Ale House")
       vbar_cafe = get_place("Vbar&Cafe")
 
-      user.update_location(latitude: ale_house.latitude, longitude: ale_house.longitude)
+      user.update_location(ale_house)
 
       user.nearby_places.should_not == nil
       user.nearby_places.count.should == 3
@@ -219,7 +219,7 @@ describe User do
       region_a = create_region_a
       inside_a = point_inside_a
 
-      user.update_location(latitude: inside_a.latitude, longitude: inside_a.longitude)
+      user.update_location(inside_a)
       user.current_region.should == region_a
     end
 
@@ -232,10 +232,10 @@ describe User do
       inside_a = point_inside_a
       inside_b = point_inside_b
 
-      user.update_location(latitude: inside_a.latitude, longitude: inside_a.longitude)
+      user.update_location(inside_a)
       user.current_region.should == region_a
 
-      user.update_location(latitude: inside_b.latitude, longitude: inside_b.longitude)
+      user.update_location(inside_b)
       user.current_region.should == region_b
     end
 
@@ -246,10 +246,10 @@ describe User do
       inside_a = point_inside_a
       outside_a = point_inside_b
 
-      user.update_location(latitude: inside_a.latitude, longitude: inside_a.longitude)
+      user.update_location(inside_a)
       user.current_region.should == region_a
 
-      user.update_location(latitude: outside_a.latitude, longitude: outside_a.longitude)
+      user.update_location(outside_a)
       user.current_region.should == nil
     end
 
@@ -259,7 +259,7 @@ describe User do
       region_a = create_region_a
       inside_a = point_inside_a
 
-      user.update_location(latitude: inside_a.latitude, longitude: inside_a.longitude)
+      user.update_location(inside_a)
       user.current_region.should == region_a
 
       user.clear_location

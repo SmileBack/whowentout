@@ -64,20 +64,7 @@ class User < ActiveRecord::Base
 
   def self.clear_all_locations
     UserLocation.where(:is_active =>  true).each do |user_location|
-      puts "vv-=====================================-vv"
-
-
-      pp user_location
-      pp user_location.user.current_location
-
-
-      puts "--------------"
       user_location.user.clear_location
-
-
-      pp user_location
-      pp user_location.user.current_location
-      puts "^^-=====================================-^^"
     end
   end
 
@@ -273,8 +260,9 @@ class User < ActiveRecord::Base
   def convert_to_coordinates(coordinates)
     if coordinates.respond_to?(:longitude) && coordinates.respond_to?(:latitude)
       {latitude: coordinates.latitude, longitude: coordinates.longitude}
-    elsif coordinates.respond_to?(:[]) && coordinates
-      {latitude: coordinates[0], longitude: coordinates[1]} if coordinates[0] != nil
+    elsif coordinates.is_a?(Array)
+      {latitude: coordinates[0], longitude: coordinates[1]}
+    elsif coordinates.is_a?(Hash)
       {latitude: coordinates[:latitude], longitude: coordinates[:longitude]} if coordinates[:latitude] != nil
     else
       raise "Failed to convert coordinates."
