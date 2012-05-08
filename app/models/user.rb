@@ -23,7 +23,6 @@ class User < ActiveRecord::Base
 
   def update_location(coordinates)
     c = convert_to_coordinates(coordinates)
-    debugger if c[:latitude] == 66
 
     clear_location
     locations.create!(:longitude => c[:longitude], :latitude => c[:latitude], :is_active => true)
@@ -71,7 +70,7 @@ class User < ActiveRecord::Base
   end
 
   def nearby_users
-    unless current_location.nil?
+    unless current_region.nil?
       neq_cur_user = User.arel_table[:id].not_eq(self.id)
       User.near(to_coordinates).where(current_region_id: current_region.id).where(neq_cur_user)
     end

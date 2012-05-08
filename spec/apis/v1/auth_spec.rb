@@ -28,28 +28,28 @@ describe "/auth", :type => :api do
 
   describe "/login" do
 
-    it "should fail with no access token", :vcr do
+    it "should fail with no access token", :vcr, :cassette => 'facebook_api' do
       response = get_json('api/v1/login.json')
 
       last_response.status.should == 401
       response['user'].should == nil
     end
 
-    it "should fail with an invalid access token", :vcr do
+    it "should fail with an invalid access token", :vcr, :cassette => 'facebook_api' do
       response = get_json('api/v1/login.json', :token => 'woohahayeah')
 
       last_response.status.should == 401
       response['user'].should == nil
     end
 
-    it "should return the current user with the right access token", :vcr do
+    it "should return the current user with the right access token", :vcr, :cassette => 'facebook_api' do
       response = get_json('api/v1/login.json', :token => venkats_token)
 
       last_response.status.should == 200
       response['user']['first_name'].should == 'Venkat'
     end
 
-    it "should set the user_id", :vcr do
+    it "should set the user_id", :vcr, :cassette => 'facebook_api' do
       response = get_json('api/v1/login.json', :token => venkats_token)
 
       last_response.status.should == 200

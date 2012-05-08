@@ -13,7 +13,7 @@ describe User do
         "The Room" => "144 Sullivan St, Manhattan, New York 10012",
         "Sullivan Bistro" => "169 Sullivan Street, New York, NY 10012",
         "Childrens Aid Society" => "219 Sullivan Street, New York, NY 10012",
-        "1849" => "183 Bleecker Street, New York, NY 10012"
+        "Yama" => "40 Carmine Street, New York, NY 10014"
     }
   end
 
@@ -49,6 +49,10 @@ describe User do
 
   def point_inside_b
     get_place("Sullivan Bistro")
+  end
+
+  def point_outside_all
+    get_place("Yama")
   end
 
   describe "update_location" do
@@ -198,6 +202,17 @@ describe User do
       user.nearby_users.should == nil
     end
 
+    it "should be nil when the user isnt in any of the regions", :vcr, :cassette => 'google_maps_api' do
+      user = create(:user)
+
+      region_a = create_region_a
+      region_b = create_region_b
+
+      user.update_location(point_outside_all)
+
+      user.nearby_users.should == nil
+    end
+
     it "should only show users in your neighborhood", :vcr, :cassette => 'google_maps_api' do
       user = create(:user)
 
@@ -219,6 +234,7 @@ describe User do
       users = user.nearby_users.pluck(:first_name).sort
       users.should == ['Jake', 'Kate']
 
+      # move to region B and see if you can see only joe now
       user.update_location(point_inside_b)
       users = user.nearby_users.pluck(:first_name).sort
       users.should == ['Joe']
