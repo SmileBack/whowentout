@@ -8,6 +8,8 @@ FactoryGirl.define do
 
   factory :place do |f|
     f.sequence(:name) { |n| "Place #{n}" }
+    f.latitude 45
+    f.longitude 75
   end
 
   factory :region do |f|

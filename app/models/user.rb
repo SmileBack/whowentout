@@ -13,19 +13,43 @@ class User < ActiveRecord::Base
   has_many :photos
   has_one :photo
 
-  has_many :locations, :class_name => 'UserLocation', :order => 'created_at DESC'
+  has_many :locations, :class_name => 'UserLocation', :order => 'created_at DESC', :inverse_of => :user
   has_one :current_location, :class_name => 'UserLocation', :conditions => {:is_active => true}
   has_many :past_locations, :class_name =>  'UserLocation', :conditions => {:is_active => false}, :order => 'created_at DESC'
 
   belongs_to :current_region, :class_name => 'Region'
 
+  has_many :checkins, :order => 'created_at DESC', :inverse_of => :user
+  has_one :current_checkin, :class_name => 'Checkin', :conditions => {:is_active => true}
+  has_many :past_checkins, :class_name => 'Checkin', :conditions => {:is_active => false}, :order => 'created_at DESC'
+
   validates_inclusion_of :gender, :in => ['M', 'F', nil]
+
+  def update_checkin(place)
+    clear_checkin
+
+    checkins.create!(place: place, is_active: true)
+
+    reload
+    save
+  end
+  alias_method :checkin_to, :update_checkin
+
+  def clear_checkin
+    unless current_checkin.nil?
+      current_checkin.is_active = false
+      current_checkin.save
+      reload
+
+      save
+    end
+  end
 
   def update_location(coordinates)
     c = convert_to_coordinates(coordinates)
 
     clear_location
-    locations.create!(:longitude => c[:longitude], :latitude => c[:latitude], :is_active => true)
+    locations.create!(longitude: c[:longitude], latitude: c[:latitude], is_active: true)
     reload
 
     self.latitude = current_location.latitude

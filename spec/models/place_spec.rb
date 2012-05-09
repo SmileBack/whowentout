@@ -10,6 +10,7 @@ describe Place do
       statue_of_liberty.latitude.round(2).should == 40.69
       statue_of_liberty.longitude.round(2).should == -74.04
     end
+
   end
 
 end
