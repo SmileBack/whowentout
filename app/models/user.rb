@@ -105,8 +105,16 @@ class User < ActiveRecord::Base
   end
 
   def self.clear_all_locations
-    UserLocation.where(:is_active =>  true).each do |user_location|
-      user_location.user.clear_location
+    User.joins(:current_location).each do |row|
+      user = User.find(row.id)
+      user.clear_location
+    end
+  end
+
+  def self.clear_all_checkins
+    User.joins(:current_checkin).each do |checkin|
+      user = User.find(checkin.user_id)
+      user.clear_checkin
     end
   end
 
@@ -297,7 +305,6 @@ class User < ActiveRecord::Base
 
     return profile_hash
   end
-
 
   def convert_to_coordinates(coordinates)
     if coordinates.respond_to?(:longitude) && coordinates.respond_to?(:latitude)
