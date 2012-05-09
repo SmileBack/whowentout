@@ -112,8 +112,8 @@ class User < ActiveRecord::Base
   end
 
   def self.clear_all_checkins
-    User.joins(:current_checkin).each do |checkin|
-      user = User.find(checkin.user_id)
+    User.joins(:current_checkin).each do |row|
+      user = User.find(row.id)
       user.clear_checkin
     end
   end

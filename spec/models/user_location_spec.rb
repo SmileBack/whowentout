@@ -133,12 +133,18 @@ describe User do
   describe "clear_all_locations" do
     it "should set all current_location values to nil" do
       user_a = create(:user)
+      user_b = create(:user)
 
       user_a.update_location(longitude: 11, latitude: 22)
-      user_a.current_location.should_not == nil
+      user_b.update_location(longitude: 55, latitude: 66)
 
       User.clear_all_locations
+
+      user_a.reload #todo: make it so you dont need to reload
+      user_b.reload
+
       user_a.current_location.should == nil
+      user_b.current_location.should == nil
     end
   end
 

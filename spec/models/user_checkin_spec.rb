@@ -104,6 +104,10 @@ describe User do
 
       User.clear_all_checkins
 
+      #todo: make reload unnecessary
+      user_a.reload
+      user_b.reload
+
       user_a.current_checkin.should == nil
       user_b.current_checkin.should == nil
     end
