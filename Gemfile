@@ -32,6 +32,7 @@ gem 'geocoder'
 gem 'acts-as-taggable-on', '~> 2.2.2'
 gem 'formtastic', '~> 2.1.1'
 gem 'activeadmin'
+gem 'resque'
 
 # Databases
 group :test, :development do
