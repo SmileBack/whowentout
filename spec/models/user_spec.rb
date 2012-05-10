@@ -2,10 +2,21 @@ require 'spec_helper'
 
 describe User do
 
-  let(:venkats_token) { "AAACEdEose0cBACbgp5WpcwOIZATLF78rYAjSJoYJ1zbZCbtRLN5fiZBUhUZCYZCZBzpkvzBm8D6C2qI9sVOy9NL6jStZBrBI4F0LAFgsdpoZAgZDZD" }
-  let(:dans_token) { "AAACEdEose0cBAL5rZBKpi3eEadUCZArVqnd6ZCSJWDmu5KX4URZClZCmoufXEB4AddZAZAPNVbtIIunIjFmNt3EU0jghZANNwH2DULO8N3SisgZDZD" }
+  let(:venkats_token) { "AAACEdEose0cBAHe29aI1no1SzdwvsYzc9hrdiec4ORyOQe1zD9VgBtN8k1keVGnjVtE9eZBvqMo2ZCcoEXspVW5aAinAtZBBnjZCZBUgupgZDZD" }
+  let(:dans_token) { "AAACEdEose0cBAJS6LCNhveh1m4PQlGXkENqPw8KQbZAkthfC60efxRfKat0HZB9Pc0c7rL53FLYxXQ2XoZA5jZBYcCYldF11KOM5aZB7wQwZDZD" }
 
   describe "find_by_token" do
+
+    it "should update the old token", :vcr, :cassette => 'facebook_api' do
+      user = create(:user, facebook_id: 776200121, facebook_token: "old token")
+
+      user.facebook_token.should == "old token"
+
+      venkat = User.find_by_token(venkats_token)
+
+      venkat.id.should == user.id
+      venkat.facebook_token.should == venkats_token
+    end
 
     it "should return the proper fields", :vcr, :cassette => 'facebook_api' do
       user = User.find_by_token(venkats_token)
@@ -41,14 +52,12 @@ describe User do
   end
 
 
-  describe "sync_networks_from_facebook" do
+  describe "sync_from_facebook :networks" do
     it "should work when called multiple times", :vcr, :cassette => 'facebook_api' do
       user = User.find_by_token(venkats_token)
 
-      user.should respond_to :sync_networks_from_facebook
-
-      user.sync_networks_from_facebook
-      user.sync_networks_from_facebook
+      user.sync_from_facebook :networks
+      user.sync_from_facebook :networks
 
       user.networks.length.should == 2
     end
@@ -88,7 +97,7 @@ describe User do
       network_names.should == ['Cornell', 'GWU', 'Stanford']
     end
 
-    it "should update after calling sync_friends_from_facebook", :vcr, :cassette => 'facebook_api' do
+    it "should update after calling sync_from_facebook :friends", :vcr, :cassette => 'facebook_api' do
       venkat = User.find_by_token(venkats_token)
 
       sean = venkat.facebook_friends.find_by_first_name_and_last_name('Sean', 'Holbert')
@@ -105,7 +114,7 @@ describe User do
       venkat.facebook_friends.find_by_first_name_and_last_name('Bruce', 'Lee').should_not == nil
 
       # sync friends from facebook
-      venkat.sync_friends_from_facebook
+      venkat.sync_from_facebook :friends
 
       # check that the deleted friend is back and the added friend is gone
       venkat.facebook_friends.find_by_first_name_and_last_name('Sean', 'Holbert').should_not == nil

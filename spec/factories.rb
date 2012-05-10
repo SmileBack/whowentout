@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :user do |f|
     f.sequence(:first_name) { |n| "Userfirst#{n}" }
     f.sequence(:last_name) { |n| "Userlast#{n}" }
+    facebook_id 1234
     gender "M"
     email { first_name.downcase + '@example.com' }
   end
