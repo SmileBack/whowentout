@@ -38,7 +38,7 @@ class Friendship < ActiveRecord::Base
   end
 
   def reverse_friendship
-    Friendship.find(user_id: self.friend_id, friend_id: self.user_id)
+    Friendship.where(user_id: self.friend_id, friend_id: self.user_id).first
   end
 
 end
