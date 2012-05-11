@@ -118,9 +118,10 @@ class User < ActiveRecord::Base
 
   def send_friend_request(user)
     Friendship.transaction do
-      Friendship.create!(user: self, friend: user, status: 'sent')
-      Friendship.create!(user: user, friend: self, status: 'pending')
+      friendship = Friendship.create!(user: self, friend: user, status: 'inactive')
+      reverse_friendship = Friendship.create!(user: user, friend: self, status: 'inactive')
     end
+    friendship.send!
   end
 
   def friend_requests(status)

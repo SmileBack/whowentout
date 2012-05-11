@@ -6,6 +6,7 @@ class Friendship < ActiveRecord::Base
 
     event :send do
       transition [:inactive, :ignored_by_you] => :sent
+      # call they_send on reverse friendship
     end
 
     event :they_send do
@@ -14,6 +15,7 @@ class Friendship < ActiveRecord::Base
 
     event :accept do
       transition :pending => :active
+      # call they_accept on reverse friendship
     end
 
     event :they_accept do
@@ -22,6 +24,7 @@ class Friendship < ActiveRecord::Base
 
     event :ignore do
       transition :pending => :ignored_by_you
+      # call they_ignore on reverse friendship
     end
 
     event :they_ignore do
@@ -32,6 +35,10 @@ class Friendship < ActiveRecord::Base
       transition :active => :inactive
     end
 
+  end
+
+  def reverse_friendship
+    Friendship.find(user_id: self.friend_id, friend_id: self.user_id)
   end
 
 end
