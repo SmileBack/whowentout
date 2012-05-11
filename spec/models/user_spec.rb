@@ -7,12 +7,16 @@ describe User do
 
   describe "find_by_token" do
 
+    before(:all) do
+      User.destroy_all
+    end
+
     it "should update the old token", :vcr, :cassette => 'facebook_api' do
       user = create(:user, facebook_id: 776200121, facebook_token: "old token")
 
       user.facebook_token.should == "old token"
 
-      venkat = User.find_by_token(venkats_token)
+      venkat = User.find_by_token(venkats_token, [])
 
       venkat.id.should == user.id
       venkat.facebook_token.should == venkats_token

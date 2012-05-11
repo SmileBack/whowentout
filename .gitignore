@@ -1,5 +1,7 @@
 *.rbc
 *.sassc
+*.journal
+*.sqlite3-journal
 .sass-cache
 capybara-*.html
 .rspec

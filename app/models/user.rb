@@ -1,3 +1,5 @@
+require Rails.root.join('lib', 'facebook_syncer')
+
 class User < ActiveRecord::Base
   geocoded_by nil
 
@@ -118,7 +120,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_by_token(token, sync = [:networks, :friends, :interests, :profile_pictures])
+  def self.find_by_token(token, fields_to_sync = [:networks, :friends, :interests, :profile_pictures])
     facebook_id = self.get_facebook_id_from_token(token)
     return nil if facebook_id.nil?
 
@@ -132,10 +134,7 @@ class User < ActiveRecord::Base
       user.is_active = true
       user.save
 
-      user.sync_from_facebook(:networks) if sync.include?(:networks)
-      user.sync_from_facebook(:friends) if sync.include?(:friends)
-      user.sync_from_facebook(:interests) if sync.include?(:interests)
-      user.sync_from_facebook(:profile_pictures) if sync.include?(:profile_pictures)
+      user.sync_from_facebook(fields_to_sync)
     end
 
     if user.facebook_token != token
@@ -160,20 +159,12 @@ class User < ActiveRecord::Base
     not is_active?
   end
 
-  def require_syncer(name)
-    require Rails.root.join('lib', 'facebook_syncer', "#{name}_syncer")
+  def sync_from_facebook(fields)
+    FacebookSyncer.sync_from_facebook(self, fields)
   end
 
-  def get_syncer_class(name)
-    name = name.to_s
-    require_syncer(name)
-    FacebookSyncer.const_get(name.camelize + 'Syncer')
-  end
-
-  def sync_from_facebook(name)
-    syncer_class = get_syncer_class(name)
-    syncer = syncer_class.new
-    syncer.sync(self, facebook_token)
+  def sync_from_facebook_in_background(fields)
+    Resque.enqueue(SyncFromFacebookWorker, :user_id => self.id, :fields => fields)
   end
 
   def convert_to_coordinates(coordinates)
