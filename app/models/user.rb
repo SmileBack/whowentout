@@ -116,6 +116,21 @@ class User < ActiveRecord::Base
                         INNER JOIN users ON users.id = a.friend_id", self.id, user.id]
   end
 
+  def send_friend_request(user)
+    Friendship.transaction do
+      Friendship.create!(user: self, friend: user, status: 'sent')
+      Friendship.create!(user: user, friend: self, status: 'pending')
+    end
+  end
+
+  def friend_requests(status)
+    friendships.where(status: status.to_s)
+  end
+
+  def is_friends_with?(user)
+    friends.include?(user)
+  end
+
   def self.clear_all_locations
     User.joins(:current_location).each do |row|
       user = User.find(row.id)

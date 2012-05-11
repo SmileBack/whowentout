@@ -13,6 +13,8 @@ group :assets do
   gem 'uglifier'
 end
 
+gem 'state_machine'
+
 gem 'jquery-rails'
 gem 'execjs'
 gem 'therubyracer'
