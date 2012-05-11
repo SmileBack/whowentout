@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   has_many :facebook_friendships
   has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
 
+  has_many :friendships
+  has_many :friends, :through => :friendships, :source => :friend
+
   has_many :photos
   has_one :photo
 
@@ -104,6 +107,13 @@ class User < ActiveRecord::Base
 
   def college_networks
     networks.where(:network_type => 'college')
+  end
+
+  def mutual_facebook_friends_with(user)
+    User.find_by_sql ["SELECT users.* FROM facebook_friendships AS a
+                        INNER JOIN facebook_friendships AS b
+                          ON a.user_id = ? AND b.user_id = ? AND a.friend_id = b.friend_id
+                        INNER JOIN users ON users.id = a.friend_id", self.id, user.id]
   end
 
   def self.clear_all_locations

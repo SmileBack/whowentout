@@ -23,7 +23,7 @@ describe User do
     end
 
     it "should return the proper fields", :vcr, :cassette => 'facebook_api' do
-      user = User.find_by_token(venkats_token)
+      user = User.find_by_token(venkats_token, [])
 
       user.is_active?.should == true
       user.facebook_id.should == 776200121
@@ -41,8 +41,8 @@ describe User do
     end
 
     it "shouldnt return duplicate users", :vcr, :cassette => 'facebook_api' do
-      user_a = User.find_by_token(venkats_token)
-      user_b = User.find_by_token(venkats_token)
+      user_a = User.find_by_token(venkats_token, [])
+      user_b = User.find_by_token(venkats_token, [])
 
       user_a.should == user_b
       user_a.id.should == user_b.id
@@ -55,6 +55,19 @@ describe User do
 
   end
 
+  describe "is_active?" do
+    it "should be true when a user has provided a valid token", :vcr, :cassette => 'facebook_api' do
+      user = User.find_by_token(venkats_token, [])
+      user.is_active?.should == true
+    end
+
+    it "should be false for new users", :vcr, :cassette => 'facebook_api' do
+      user = User.find_by_token(venkats_token, :friends)
+      sean = User.find_by_first_name_and_last_name('Sean', 'Holbert')
+      sean.is_active?.should == false
+    end
+
+  end
 
   describe "sync_from_facebook :networks" do
     it "should work when called multiple times", :vcr, :cassette => 'facebook_api' do
@@ -171,6 +184,18 @@ describe User do
       dan = User.find_by_token(dans_token)
       dan.photo.thumb.should match /\.jpg$/
       dan.photo.large.should match /\.jpg$/
+    end
+
+  end
+
+  describe "mutual_facebook_friends_with" do
+
+    it "should have the right number of users", :vcr, :cassette => 'facebook_api' do
+      venkat = User.find_by_token(venkats_token)
+      dan = User.find_by_token(dans_token)
+
+      venkat.mutual_facebook_friends_with(dan).count.should == 72
+      dan.mutual_facebook_friends_with(venkat).count.should == 72
     end
 
   end
