@@ -4,40 +4,53 @@ class Friendship < ActiveRecord::Base
 
   state_machine :status, :initial => :inactive do
 
-    event :send do
-      transition [:inactive, :ignored_by_you] => :sent
-      # call they_send on reverse friendship
+    event :send_request do
+      transition [:inactive, :ignored] => :sent
+      # if you have a pending request from the other user, accept automatically
+      transition :pending => :active
     end
 
-    event :they_send do
-      transition [:inactive, :ignored_by_them] => :pending
+    event :other_send_request do
+      transition [:inactive, :other_ignored] => :pending
+      # if you already sent the other user a request and they send you one, accept automatically
+      transition :sent => :active
     end
 
     event :accept do
       transition :pending => :active
-      # call they_accept on reverse friendship
     end
 
-    event :they_accept do
+    event :other_accept do
       transition :sent => :active
     end
 
     event :ignore do
-      transition :pending => :ignored_by_you
-      # call they_ignore on reverse friendship
+      transition :pending => :ignored
     end
 
-    event :they_ignore do
-      transition :sent => :they_ignored
+    event :other_ignore do
+      transition :sent => :other_ignored
     end
 
     event :remove do
       transition :active => :inactive
     end
 
+    event :other_remove do
+      transition :active => :inactive
+    end
+
+    after_transition any => any do |friendship, transition|
+      event_name = transition.event.to_s
+      unless event_name.starts_with?("other_")
+        inverse_transition = "other_#{event_name}"
+        friendship.inverse_friendship.fire_status_event(inverse_transition)
+      end
+    end
+
   end
 
-  def reverse_friendship
+  def inverse_friendship
     Friendship.where(user_id: self.friend_id, friend_id: self.user_id).first
   end
 

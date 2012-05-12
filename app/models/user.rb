@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
   has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
 
   has_many :friendships
-  has_many :friends, :through => :friendships, :source => :friend
+  has_many :active_friendships, :class_name => 'Friendship', :conditions => {:status => 'active'}
+  has_many :friends, :through => :active_friendships, :source => :friend
 
   has_many :photos
   has_one :photo
@@ -117,11 +118,26 @@ class User < ActiveRecord::Base
   end
 
   def send_friend_request(user)
-    Friendship.transaction do
-      friendship = Friendship.create!(user: self, friend: user, status: 'inactive')
-      reverse_friendship = Friendship.create!(user: user, friend: self, status: 'inactive')
+    friendship = self.find_or_create_friendship_with(user)
+    friendship.send_request
+  end
+
+  def remove_friend(user)
+    friendship = self.find_or_create_friendship_with(user)
+    friendship.remove
+  end
+
+  def find_or_create_friendship_with(user)
+    friendship = Friendship.find_by_user_id_and_friend_id(self.id, user.id)
+
+    if friendship.nil?
+      transaction do
+        friendship = Friendship.create!(user: self, friend: user, status: 'inactive')
+        inverse_friendship = Friendship.create!(user: user, friend: self, status: 'inactive')
+      end
     end
-    friendship.send!
+
+    return friendship
   end
 
   def friend_requests(status)

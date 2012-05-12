@@ -40,7 +40,7 @@ describe User do
       b.friend_requests(:pending).count.should == 0
 
       a.is_friends_with?(b).should == true
-      b.is_friends_with(a).should == true
+      b.is_friends_with?(a).should == true
     end
 
     it "should do nothing when sent twice" do
@@ -60,8 +60,7 @@ describe User do
       a = create(:user)
       b = create(:user)
 
-      a.send_friend_request(a)
-
+      a.send_friend_request(b)
       b.friend_requests(:pending).first.accept!
 
       a.friends.include?(b).should == true
@@ -83,19 +82,29 @@ describe User do
       b.friend_requests(:pending).count.should == 0
     end
 
-    it "should allow a user to resend a friend request" do
+    it "shouldnt allow a user to resend an ignored request" do
       a = create(:user)
       b = create(:user)
 
-      a.send_friend_request(b)
+      a.send_friend_request(b).should == true
       b.friend_requests(:pending).first.ignore!
 
-      a.is_friends_with?(b).should == true
-      b.is_friends_with?(a).should == true
+      a.send_friend_request(b).should == false
 
-      a.send_friend_request(b)
-      b.reload
-      b.friend_requests(:pending).first.accept!
+      a.is_friends_with?(b).should == false
+      b.is_friends_with?(a).should == false
+    end
+
+    it "should allow the a user to a user after ignoring his request" do
+      a = create(:user)
+      b = create(:user)
+
+      a.send_friend_request(b).should == true
+      b.friend_requests(:pending).first.ignore!
+
+      b.send_friend_request(a).should == true
+
+      a.friend_requests(:pending).first.accept!
 
       a.is_friends_with?(b).should == true
       b.is_friends_with?(a).should == true
