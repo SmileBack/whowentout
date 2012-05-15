@@ -13,15 +13,17 @@ describe User do
     it "should be sorted in descending order" do
       a = create(:user)
       b = create(:user)
+      c = create(:user)
 
-      a.send_message(b, 'hows it going')
-      b.send_message(a, 'not too bad')
+      a.send_message(b, 'hi b')
+      c.send_message(b, 'whats up its c')
+      b.send_message(a, 'hi a')
 
       a.reload
       b.reload
 
-      a.messages.first.body.should == 'not too bad'
-      a.messages.last.body.should == 'hows it going'
+      a.messages.pluck(:body).should == ['hi a', 'hi b']
+      b.messages.pluck(:body).should == ['hi a', 'whats up its c', 'hi b']
     end
 
   end
