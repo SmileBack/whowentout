@@ -221,4 +221,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def send_message(user, message_body)
+    message = Message.create!(sender: self, receiver: user, body: message_body)
+    message.send_message!
+  end
+
+  def messages
+    Message.involving(self).where(status: ['sent', 'received', 'read']).order('updated_at DESC')
+  end
+
 end
+
