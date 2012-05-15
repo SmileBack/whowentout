@@ -21,7 +21,7 @@ describe User do
       b.reload
 
       a.messages.first.body.should == 'not too bad'
-      a.messages.first.body.should == 'hows it going'
+      a.messages.last.body.should == 'hows it going'
     end
 
   end

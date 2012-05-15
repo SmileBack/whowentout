@@ -227,7 +227,7 @@ class User < ActiveRecord::Base
   end
 
   def messages
-    Message.involving(self).where(status: ['sent', 'received', 'read']).order('updated_at DESC')
+    Message.involving(self).where(status: ['sent', 'received', 'read']).order('created_at DESC')
   end
 
 end
