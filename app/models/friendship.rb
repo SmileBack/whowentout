@@ -52,6 +52,10 @@ class Friendship < ActiveRecord::Base
       transition :blocked => :inactive
     end
 
+    event :other_unblock do
+      transition :other_blocked => :inactive
+    end
+
     after_transition any => any do |friendship, transition|
       event_name = transition.event.to_s
       unless event_name.starts_with?("other_")

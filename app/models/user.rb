@@ -118,13 +118,23 @@ class User < ActiveRecord::Base
   end
 
   def send_friend_request(user)
-    friendship = self.find_or_create_friendship_with(user)
-    friendship.send_request
+    change_friendship_with(user, :send_request)
   end
 
   def remove_friend(user)
-    friendship = self.find_or_create_friendship_with(user)
-    friendship.remove
+    change_friendship_with(user, :remove)
+  end
+
+  def block_user(user)
+    change_friendship_with(user, :block)
+  end
+
+  def unblock_user(user)
+    change_friendship_with(user, :unblock)
+  end
+
+  def change_friendship_with(user, action)
+    find_or_create_friendship_with(user).send(action)
   end
 
   def find_or_create_friendship_with(user)
@@ -199,14 +209,6 @@ class User < ActiveRecord::Base
 
   def is_inactive?
     not is_active?
-  end
-
-  def block_user(user)
-
-  end
-
-  def unblock_user(user)
-
   end
 
   def sync_from_facebook(fields)
