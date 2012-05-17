@@ -20,7 +20,6 @@ module FacebookSyncer
           end
 
           friend = User.find_or_create_by_facebook_id(
-                                                        :is_active => false,
                                                         :facebook_id => friend_data['uid'],
                                                         :first_name => friend_data['first_name'],
                                                         :last_name => friend_data['last_name'],

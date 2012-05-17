@@ -25,7 +25,7 @@ describe User do
     it "should return the proper fields", :vcr, :cassette => 'facebook_api' do
       user = User.find_by_token(venkats_token, [])
 
-      user.is_active?.should == true
+      user.registered?.should == true
       user.facebook_id.should == 776200121
       user.first_name.should == 'Venkat'
       user.last_name.should == 'Dinavahi'
@@ -55,16 +55,16 @@ describe User do
 
   end
 
-  describe "is_active?" do
+  describe "registered?" do
     it "should be true when a user has provided a valid token", :vcr, :cassette => 'facebook_api' do
       user = User.find_by_token(venkats_token, [])
-      user.is_active?.should == true
+      user.registered?.should == true
     end
 
     it "should be false for new users", :vcr, :cassette => 'facebook_api' do
       user = User.find_by_token(venkats_token, :friends)
       sean = User.find_by_first_name_and_last_name('Sean', 'Holbert')
-      sean.is_active?.should == false
+      sean.registered?.should == false
     end
 
   end

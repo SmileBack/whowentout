@@ -307,6 +307,40 @@ describe User do
 
   end
 
+  describe "go_offline" do
+
+    it "should hide all nearby users", :vcr, :cassette => 'google_maps_api' do
+      bob = create(:user, first_name: "Bob")
+      kate = create(:user, first_name: "Kate")
+
+      region_a = create_region_a
+      bob.update_location(point_inside_a)
+      kate.update_location(point_inside_a)
+
+      bob.go_offline
+      bob.nearby_users.should be_empty
+
+      bob.go_online
+      bob.nearby_users.should_not be_empty
+    end
+
+    it "should make this user invisible to other users", :vcr, :cassette => 'google_maps_api' do
+      bob = create(:user, first_name: "Bob")
+      kate = create(:user, first_name: "Kate")
+
+      region_a = create_region_a
+      bob.update_location(point_inside_a)
+      kate.update_location(point_inside_a)
+
+      bob.go_offline
+      kate.nearby_users.should be_empty
+
+      bob.go_online
+      kate.nearby_users.should_not be_empty
+    end
+
+  end
+
   describe "current_region" do
 
     it "should be nil when the user hasnt updated his/her location" do

@@ -31,6 +31,34 @@ class User < ActiveRecord::Base
 
   validates_inclusion_of :gender, :in => ['M', 'F', nil]
 
+  state_machine :status, :initial => :unregistered do
+
+    event :register do
+      transition :unregistered => :online
+    end
+
+    event :go_online do
+      transition :offline => :online
+    end
+
+    event :go_offline do
+      transition :online => :offline
+    end
+
+    state :online, :offline do
+      def registered?
+        true
+      end
+    end
+
+    state :unregistered do
+      def registered?
+        false
+      end
+    end
+
+  end
+
   def update_checkin(place)
     clear_checkin
 
@@ -111,9 +139,17 @@ class User < ActiveRecord::Base
     blocked_users = Friendship.where(user_id: user.id, status: ['blocked', 'other_blocked'])
     blocked_user_ids = blocked_users.pluck(:friend_id)
 
-    return all if blocked_user_ids.empty? #need this because NOT IN(NULL) always resolves to false
+    return where('1=0') if user.status != 'online'
 
-    where arel_table[:id].not_in(blocked_user_ids)
+    results = where('1=1')
+
+    unless blocked_user_ids.empty?
+      results = results.where( arel_table[:id].not_in(blocked_user_ids) )
+    end
+
+    results = results.where( arel_table[:status].eq('online') )
+
+    return results
   end
 
   def nearby_users
@@ -197,11 +233,11 @@ class User < ActiveRecord::Base
     user = User.find_by_facebook_id(facebook_id)
     user = User.new if user.nil?
 
-    if user.is_inactive?
+    if not user.registered?
       user.facebook_token = token
 
       user.sync_from_facebook :profile
-      user.is_active = true
+      user.register!
       user.save
 
       user.sync_from_facebook(fields_to_sync)
@@ -223,10 +259,6 @@ class User < ActiveRecord::Base
     rescue Koala::Facebook::APIError => e
       nil
     end
-  end
-
-  def is_inactive?
-    not is_active?
   end
 
   def sync_from_facebook(fields)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120515200058) do
+ActiveRecord::Schema.define(:version => 20120517221715) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -186,7 +186,6 @@ ActiveRecord::Schema.define(:version => 20120515200058) do
     t.string   "hometown"
     t.string   "current_city"
     t.text     "facebook_token"
-    t.boolean  "is_active",                        :default => false
     t.string   "relationship_status"
     t.string   "interested_in"
     t.string   "work"
@@ -194,6 +193,9 @@ ActiveRecord::Schema.define(:version => 20120515200058) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "current_region_id"
+    t.string   "status"
   end
+
+  add_index "users", ["status"], :name => "index_users_on_status"
 
 end
