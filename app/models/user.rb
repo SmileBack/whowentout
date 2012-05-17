@@ -99,10 +99,28 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.in_region(region)
+    where(current_region_id: region.id)
+  end
+
+  def self.except_user(user)
+    where arel_table[:id].not_eq(user.id)
+  end
+
+  def self.visible_to(user)
+    blocked_users = Friendship.where(user_id: user.id, status: ['blocked', 'other_blocked'])
+    blocked_user_ids = blocked_users.pluck(:friend_id)
+
+    return all if blocked_user_ids.empty? #need this because NOT IN(NULL) always resolves to false
+
+    where arel_table[:id].not_in(blocked_user_ids)
+  end
+
   def nearby_users
     unless current_region.nil?
-      neq_cur_user = User.arel_table[:id].not_eq(self.id)
-      User.near(to_coordinates).where(current_region_id: current_region.id).where(neq_cur_user)
+      User.near(to_coordinates).in_region(current_region)
+                               .except_user(self)
+                               .visible_to(self)
     end
   end
 
