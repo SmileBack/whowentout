@@ -201,6 +201,14 @@ class User < ActiveRecord::Base
     not is_active?
   end
 
+  def block_user(user)
+
+  end
+
+  def unblock_user(user)
+
+  end
+
   def sync_from_facebook(fields)
     FacebookSyncer.sync_from_facebook(self, fields)
   end

@@ -208,7 +208,7 @@ describe User do
       user.nearby_users.should == nil
     end
 
-    it "should be nil when the user isnt in any of the regions", :vcr, :cassette => 'google_maps_api' do
+    it "should be nil when the user isn't in any of the regions", :vcr, :cassette => 'google_maps_api' do
       user = create(:user)
 
       region_a = create_region_a
@@ -244,6 +244,65 @@ describe User do
       user.update_location(point_inside_b)
       users = user.nearby_users.pluck(:first_name).sort
       users.should == ['Joe']
+    end
+
+  end
+
+  describe "block_user" do
+
+    it "should prevent two users in the same region from seeing each other", :vcr, :cassette => 'google_maps_api' do
+      bob = create(:user, first_name: "Bob")
+      kate = create(:user, first_name: "Kate")
+
+      region_a = create_region_a
+      bob.update_location(point_inside_a)
+      kate.update_location(point_inside_a)
+
+      bob.nearby_users.pluck(:first_name).sort.should == ['Kate']
+
+      bob.block_user(kate)
+      bob.nearby_users.should be_empty
+      kate.nearby_users.should be_empty
+    end
+
+  end
+
+  describe "unblock_user" do
+
+    it "should allow two users to see each other again", :vcr, :cassette => 'google_maps_api' do
+      bob = create(:user, first_name: "Bob")
+      kate = create(:user, first_name: "Kate")
+
+      region_a = create_region_a
+      bob.update_location(point_inside_a)
+      kate.update_location(point_inside_a)
+
+      bob.nearby_users.pluck(:first_name).should == ['Kate']
+
+      bob.block_user(kate)
+      bob.nearby_users.should be_empty
+      kate.nearby_users.should be_empty
+
+      bob.unblock_user(kate)
+      bob.nearby_users.pluck(:first_name).should == ['Kate']
+      kate.nearby_users.pluck(:first_name).should == ['Bob']
+    end
+
+    it "shouldn't do anything if the blocked user did the unblock", :vcr, :cassette => 'google_maps_api' do
+      bob = create(:user, first_name: "Bob")
+      kate = create(:user, first_name: "Kate")
+
+      region_a = create_region_a
+      bob.update_location(point_inside_a)
+      kate.update_location(point_inside_a)
+
+      bob.nearby_users.pluck(:first_name).should == ['Kate']
+
+      bob.block_user(kate)
+      kate.unblock_user(bob)
+
+      bob.nearby_users.should be_empty
+      kate.nearby_users.should be_empty
     end
 
   end
