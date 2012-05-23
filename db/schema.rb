@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120517221715) do
+ActiveRecord::Schema.define(:version => 20120523231424) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -140,6 +140,30 @@ ActiveRecord::Schema.define(:version => 20120517221715) do
     t.float  "lng_min"
     t.float  "lng_max"
   end
+
+  create_table "smile_game_choices", :force => true do |t|
+    t.string   "status"
+    t.integer  "smile_game_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position"
+  end
+
+  add_index "smile_game_choices", ["smile_game_id"], :name => "index_smile_game_choices_on_smile_game_id"
+
+  create_table "smile_games", :force => true do |t|
+    t.string   "status"
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.integer  "origin_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "smile_games", ["receiver_id"], :name => "index_smile_games_on_receiver_id"
+  add_index "smile_games", ["sender_id"], :name => "index_smile_games_on_sender_id"
+  add_index "smile_games", ["status"], :name => "index_smile_games_on_status"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

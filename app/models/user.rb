@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
   has_one :current_checkin, :class_name => 'Checkin', :conditions => {:is_active => true}
   has_many :past_checkins, :class_name => 'Checkin', :conditions => {:is_active => false}, :order => 'created_at DESC'
 
+  has_many :smile_games, :foreign_key => 'receiver_id'
+
   validates_inclusion_of :gender, :in => ['M', 'F', nil]
 
   state_machine :status, :initial => :unregistered do
@@ -143,7 +145,7 @@ class User < ActiveRecord::Base
 
     results = where('1=1')
 
-    unless blocked_user_ids.empty?
+    unless blocked_user_ids.empty? #NOT IN(NULL) doesn't work as expected
       results = results.where( arel_table[:id].not_in(blocked_user_ids) )
     end
 
@@ -288,6 +290,10 @@ class User < ActiveRecord::Base
 
   def messages
     Message.involving(self).where(status: ['sent', 'received', 'read']).order('created_at DESC')
+  end
+
+  def open_smile_games
+    smile_games(status: 'open')
   end
 
 end
