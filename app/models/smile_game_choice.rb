@@ -1,6 +1,7 @@
 class SmileGameChoice < ActiveRecord::Base
 
   belongs_to :user
+  belongs_to :smile_game
 
   state_machine :status, :initial => :inactive do
 
@@ -13,8 +14,8 @@ class SmileGameChoice < ActiveRecord::Base
     end
 
     event :guess do
-      transition :will_match => :matched
-      transition :wont_match => :didnt_match
+      transition :will_match => :match
+      transition :wont_match => :no_match
     end
 
   end

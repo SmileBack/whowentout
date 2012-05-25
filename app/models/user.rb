@@ -300,8 +300,13 @@ class User < ActiveRecord::Base
 
   def can_start_smile_game_with?(user, number_of_choices = 12)
     return false if started_smile_game_with?(user)
+    return false if smile_count_today >= 3
 
     return true
+  end
+
+  def smile_count_today
+    SmileGame.where(sender_id: self.id).created_today.count
   end
 
   def started_smile_game_with?(user)

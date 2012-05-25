@@ -2,14 +2,47 @@ class SmileGame < ActiveRecord::Base
 
   belongs_to :sender, :class_name => 'User'
   belongs_to :receiver, :class_name => 'User'
+  belongs_to :match, :class_name => 'User'
 
   has_many :choices, :class_name => 'SmileGameChoice', :order => 'position ASC'
 
   state_machine :status, :initial => :open do
+    event :mark_as_matched do
+      transition :open => :match
+    end
+
+    event :mark_as_didnt_match do
+      transition :open => :no_match
+    end
+
+    state :open do
+      def open?
+        true
+      end
+    end
+
+    state :match, :no_match do
+      def open?
+        false
+      end
+    end
+
   end
 
-  def has_guesses_left?
-    false
+  def has_guesses_remaining?
+    guesses_remaining > 0
+  end
+
+  def total_guesses_allowed
+    3
+  end
+
+  def guesses_remaining
+    total_guesses_allowed - guesses_used
+  end
+
+  def guesses_used
+    choices(status: 'no_match').count
   end
 
   def self.shuffle(arr)
@@ -31,13 +64,33 @@ class SmileGame < ActiveRecord::Base
     return game
   end
 
+  def self.created_today
+    where("smile_games.created_at >= ? AND smile_games.created_at < ?", Date.today, Date.tomorrow)
+  end
+
+  def guess(choice, number_of_choices = 12)
+    success = choice.guess
+    return if success == false
+
+    if choice.status == 'match'
+      self.match = choice.user
+      self.mark_as_matched
+      save
+    elsif choice.status == 'no_match'
+      receiver.start_smile_game_with(choice.user, number_of_choices)
+      self.mark_as_didnt_match if has_guesses_remaining? == false
+    end
+  end
+
   def add_incorrect_choice
     user = draw_incorrect_user
-    choices.create(user: user, status: 'wont_match')
+    choice = choices.create(user: user, status: 'wont_match')
+    choice.mark_as_cannot_match
   end
 
   def add_correct_choice(user)
-    choices.create(user: user, status: 'will_match')
+    choice = choices.create(user: user, status: 'will_match')
+    choice.mark_as_can_match
   end
 
   def draw_incorrect_user

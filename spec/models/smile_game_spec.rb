@@ -57,23 +57,83 @@ describe SmileGame do
       a.start_smile_game_with(b, 3).should be_nil
     end
 
-    #describe "direct smiling" do
-    #
-    #  it "be limited to 3 per day" do
-    #    a = create(:user)
-    #    b = create(:user)
-    #
-    #    a.start_smile_game_with(b).should == true
-    #    a.start_smile_game_with(b).should == true
-    #    a.start_smile_game_with(b).should == true
-    #
-    #    a.start_smile_game_with(b).should == false
-    #
-    #    Timecop.freeze(Date.today + 1) do
-    #      a.start_smile_game_with(b).should == true
-    #    end
-    #  end
-    #end
+    describe "direct smiling" do
+
+      it "be limited to 3 per day" do
+        a, b, c, d, e = create_users('a'..'z')
+
+        a.start_smile_game_with(b)
+        a.start_smile_game_with(c)
+        a.start_smile_game_with(d)
+
+        a.can_start_smile_game_with?(e).should be_false
+
+        Timecop.freeze(Date.today + 1) do
+          a.can_start_smile_game_with?(e).should be_true
+          a.start_smile_game_with(e)
+        end
+
+        SmileGame.where(status: 'open').count.should == 4
+      end
+    end
+
+  end
+
+  describe "guessing" do
+
+    it "should create a smile game when there is no match" do
+      Kernel.stub!(:rand).and_return( 0 )
+      SmileGame.define_shuffler do |arr|
+        arr.sort
+      end
+
+      a, b, c = create_users('a'..'z')
+      a.start_smile_game_with(b, 3)
+      game = b.open_smile_games.first
+
+      c.open_smile_games.should be_empty
+
+      c_choice = game.choices.find_by_user_id(c.id)
+      #debugger
+      game.guess(c_choice)
+
+      c.open_smile_games.should_not be_empty
+    end
+
+    it "should not create a smile game when there IS a match" do
+      Kernel.stub!(:rand).and_return( 0 )
+      SmileGame.define_shuffler do |arr|
+        arr.sort
+      end
+
+      a, b, c = create_users('a'..'z')
+      a.start_smile_game_with(b, 3)
+      game = b.open_smile_games.first
+
+      c.open_smile_games.should be_empty
+
+      a_choice = game.choices.find_by_user_id(a.id)
+      game.guess(a_choice)
+
+      c.open_smile_games.should be_empty
+    end
+
+    it "should end the game with the matched user when there IS a match" do
+      a, b, c, d = create_users('a'..'d')
+
+      a.start_smile_game_with(b, 3)
+
+      game = b.open_smile_games.first
+      game.open?.should be_false
+
+      a_choice = game.choices.find_by_user_id(a.id)
+      game.guess(a_choice)
+
+      game.open?.should be_false
+      game.match.user.first_name
+    end
+
+    it "should end the game when "
 
   end
 

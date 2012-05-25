@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120523231424) do
+ActiveRecord::Schema.define(:version => 20120525194049) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(:version => 20120523231424) do
     t.integer  "origin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "match_id"
   end
 
   add_index "smile_games", ["receiver_id"], :name => "index_smile_games_on_receiver_id"
