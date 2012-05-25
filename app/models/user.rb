@@ -292,6 +292,22 @@ class User < ActiveRecord::Base
     Message.involving(self).where(status: ['sent', 'received', 'read']).order('created_at DESC')
   end
 
+  def start_smile_game_with(user, number_of_choices = 12)
+    if can_start_smile_game_with?(user, number_of_choices)
+      SmileGame.create_for_user(user, self, number_of_choices)
+    end
+  end
+
+  def can_start_smile_game_with?(user, number_of_choices = 12)
+    return false if started_smile_game_with?(user)
+
+    return true
+  end
+
+  def started_smile_game_with?(user)
+    not SmileGame.find_by_sender_id_and_receiver_id(self.id, user.id).nil?
+  end
+
   def open_smile_games
     smile_games(status: 'open')
   end
