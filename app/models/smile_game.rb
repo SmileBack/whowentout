@@ -29,8 +29,6 @@ class SmileGame < ActiveRecord::Base
 
   end
 
-  after_initialize :set_smile_game_defaults
-
   def has_guesses_remaining?
     guesses_remaining > 0
   end
