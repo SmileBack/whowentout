@@ -29,6 +29,8 @@ class SmileGame < ActiveRecord::Base
 
   end
 
+  after_initialize :set_smile_game_defaults
+
   def has_guesses_remaining?
     guesses_remaining > 0
   end
@@ -42,7 +44,7 @@ class SmileGame < ActiveRecord::Base
   end
 
   def guesses_used
-    choices(status: 'no_match').count
+    choices.where(status: 'no_match').count
   end
 
   def self.shuffle(arr)

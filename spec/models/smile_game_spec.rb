@@ -94,7 +94,6 @@ describe SmileGame do
       c.open_smile_games.should be_empty
 
       c_choice = game.choices.find_by_user_id(c.id)
-      #debugger
       game.guess(c_choice)
 
       c.open_smile_games.should_not be_empty
@@ -124,16 +123,38 @@ describe SmileGame do
       a.start_smile_game_with(b, 3)
 
       game = b.open_smile_games.first
-      game.open?.should be_false
+      game.open?.should be_true
 
       a_choice = game.choices.find_by_user_id(a.id)
       game.guess(a_choice)
 
       game.open?.should be_false
-      game.match.user.first_name
+      game.match.first_name.should == 'a'
     end
 
-    it "should end the game when "
+
+    it "should end the game when the user makes 3 incorrect guesses" do
+      Kernel.stub!(:rand).and_return( 0 )
+      SmileGame.define_shuffler do |arr|
+        arr.sort
+      end
+
+      a, b, c, d, e = create_users('a'..'g')
+
+      a.start_smile_game_with(b, 4)
+
+      game = b.open_smile_games.first
+      game.open?.should be_true
+
+      [c, d, e].each do |user|
+        choice = game.choices.find_by_user_id(user.id)
+        game.open?.should be_true
+        game.guess(choice, 4)
+      end
+
+      game.open?.should be_false
+      game.match.should be_nil
+    end
 
   end
 
