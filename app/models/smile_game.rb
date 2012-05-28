@@ -3,6 +3,7 @@ class SmileGame < ActiveRecord::Base
   belongs_to :sender, :class_name => 'User'
   belongs_to :receiver, :class_name => 'User'
   belongs_to :match, :class_name => 'User'
+  belongs_to :origin, :class_name => 'SmileGame'
 
   has_many :choices, :class_name => 'SmileGameChoice', :order => 'position ASC'
 
@@ -68,6 +69,11 @@ class SmileGame < ActiveRecord::Base
     where("smile_games.created_at >= ? AND smile_games.created_at < ?", Date.today, Date.tomorrow)
   end
 
+  def self.direct
+    direct_condition = arel_table[:origin_id].eq(nil)
+    where(direct_condition)
+  end
+
   def guess(choice, number_of_choices = 12)
     success = choice.guess
     return if success == false
@@ -77,7 +83,9 @@ class SmileGame < ActiveRecord::Base
       self.mark_as_matched
       save
     elsif choice.status == 'no_match'
-      receiver.start_smile_game_with(choice.user, number_of_choices)
+      game = receiver.start_smile_game_with(choice.user, number_of_choices)
+      game.update_attribute(:origin_id, self.id)
+
       self.mark_as_didnt_match if has_guesses_remaining? == false
     end
   end

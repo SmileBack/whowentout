@@ -75,6 +75,32 @@ describe SmileGame do
 
         SmileGame.where(status: 'open').count.should == 4
       end
+
+      it "shouldnt be affected by smiles sent in games" do
+        Kernel.stub!(:rand).and_return( 0 )
+        SmileGame.define_shuffler do |arr|
+          arr.sort
+        end
+
+        a, b, c, d, e, f, g, h, i = create_users('a'..'z')
+
+        a.start_smile_game_with(b, 4)
+
+        game = b.open_smile_games.first
+
+        [c, d, e].each do |user|
+          choice = game.choices.find_by_user_id(user.id)
+          game.guess(choice, 4)
+        end
+
+        [f, g, h].each do |user|
+          b.can_start_smile_game_with?(user).should be_true
+          b.start_smile_game_with(user, 3)
+        end
+
+        b.can_start_smile_game_with?(i).should be_false
+      end
+
     end
 
   end
@@ -97,6 +123,8 @@ describe SmileGame do
       game.guess(c_choice)
 
       c.open_smile_games.should_not be_empty
+
+      c.open_smile_games.first.origin.should == game
     end
 
     it "should not create a smile game when there IS a match" do

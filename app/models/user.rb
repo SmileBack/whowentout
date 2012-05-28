@@ -306,7 +306,7 @@ class User < ActiveRecord::Base
   end
 
   def smile_count_today
-    SmileGame.where(sender_id: self.id).created_today.count
+    SmileGame.where(sender_id: self.id).direct.created_today.count
   end
 
   def started_smile_game_with?(user)
