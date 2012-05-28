@@ -30,7 +30,10 @@ Ext.application({
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
-        var checkinPage = Ext.create('Ext.Panel', {
+        var pages = {};
+
+        pages.checkin = Ext.create('Ext.Panel', {
+            id: 'checkin_page',
             scrollable: {
                 direction: 'vertical',
                 directionLock: true
@@ -40,7 +43,7 @@ Ext.application({
                 docked: 'top',
                 src: 'screen-1-top.png',
                 regions: {
-                    back: {top: 50, left: 10, width: 125, height: 60, goto: 1}
+                    back: {top: 50, left: 10, width: 125, height: 60, goto: 'main_page'}
                 }
             },{
                 xtype: 'slicedimage',
@@ -52,7 +55,8 @@ Ext.application({
             }]
         });
 
-        var mainPage = Ext.create('Ext.Panel', {
+        pages.main = Ext.create('Ext.Panel', {
+            id: 'main_page',
             scrollable: {
                 direction: 'vertical',
                 directionLock: true
@@ -69,7 +73,7 @@ Ext.application({
                 docked: 'bottom',
                 src: 'screen-2-bottom.png',
                 regions: {
-                    checkin: {top: 5, left: 250, width: 130, height: 100, goto: 0}
+                    checkin: {top: 5, left: 250, width: 130, height: 100, goto: 'checkin_page'}
                 }
             }]
         });
@@ -84,7 +88,7 @@ Ext.application({
                     direction: 'left'
                 }
             },
-            items: [checkinPage, mainPage]
+            items: [pages.checkin, pages.main]
         });
     },
 

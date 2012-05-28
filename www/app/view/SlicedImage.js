@@ -6,7 +6,7 @@ Ext.define('App.view.SlicedImage', {
 
     constructor: function(config) {
         config = config || {};
-        config.src = '/app/resources/images/' + config.src;
+        config.src = '/resources/images/' + config.src;
         config.style = {
             position: 'relative'
         };
@@ -60,7 +60,8 @@ Ext.define('App.view.SlicedImage', {
         regionEl.setBox(box);
 
         regionEl.on('tap', function() {
-            Ext.getCmp('main').setActiveItem(box.goto);
+            var item = Ext.getCmp(box.goto);
+            Ext.getCmp('main').setActiveItem(item);
         });
 
         this.regions[name] = {
