@@ -72,7 +72,16 @@ Ext.application({
                 id: 'crew',
                 regions: {
                     filters: top.filters, maps: top.maps, messages: top.messages,
-                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
+                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile,
+
+                    addtocrew: {left: 105, top: 250, width: 420, height: 70}
+                }
+            },
+
+            {
+                id: 'addtocrew',
+                regions: {
+                    back: {left: 4, top: 5, width: 150, height: 67, goto: 'crew'}
                 }
             },
 
