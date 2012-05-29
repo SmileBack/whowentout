@@ -55,26 +55,15 @@ Ext.application({
             }]
         });
 
-        pages.main = Ext.create('Ext.Panel', {
-            id: 'main_page',
+        pages.nearby = Ext.create('Ext.Panel', {
+            id: 'nearby',
             scrollable: {
                 direction: 'vertical',
                 directionLock: true
             },
             items: [{
                 xtype: 'slicedimage',
-                docked: 'top',
-                src: 'screen-2-top.png'
-            },{
-                xtype: 'slicedimage',
-                src: 'screen-2-middle.png'
-            },{
-                xtype: 'slicedimage',
-                docked: 'bottom',
-                src: 'screen-2-bottom.png',
-                regions: {
-                    checkin: {top: 5, left: 250, width: 130, height: 100, goto: 'checkin_page'}
-                }
+                src: 'nearby.jpg'
             }]
         });
 
@@ -88,7 +77,7 @@ Ext.application({
                     direction: 'left'
                 }
             },
-            items: [pages.checkin, pages.main]
+            items: [pages.nearby, pages.checkin]
         });
     },
 

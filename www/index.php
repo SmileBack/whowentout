@@ -1,3 +1,4 @@
+<?php require_once 'toolbox.php' ?>
 <!DOCTYPE HTML>
 <html manifest="" lang="en-US">
 <head>
