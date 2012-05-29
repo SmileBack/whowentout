@@ -31,18 +31,18 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         var top = {
-            filters: {left: 4, top: 47, width: 68, height: 67},
-            maps: {left: 81, top: 47, width: 68, height: 67},
-            messages: {left: 566, top: 47, width: 68, height: 67},
-            back: {left: 4, top: 47, width: 150, height: 67, goto: 'nearby'}
+            filters: {left: 4, top: 5, width: 68, height: 67},
+            maps: {left: 81, top: 5, width: 68, height: 67},
+            messages: {left: 566, top: 5, width: 68, height: 67},
+            back: {left: 4, top: 5, width: 150, height: 67, goto: 'nearby'}
         };
 
         var bottom = {
-            nearby: {left: 0, top: 835, width: 131, height: 125},
-            smiles: {left: 125, top: 835, width: 131, height: 125},
-            checkin: {left: 253, top: 827, width: 138, height: 132},
-            crew: {left: 389, top: 835, width: 131, height: 125},
-            myprofile: {left: 515, top: 835, width: 131, height: 125}
+            nearby: {left: 0, top: 795, width: 131, height: 125},
+            smiles: {left: 125, top: 795, width: 131, height: 125},
+            checkin: {left: 253, top: 785, width: 138, height: 132},
+            crew: {left: 389, top: 795, width: 131, height: 125},
+            myprofile: {left: 515, top: 795, width: 131, height: 125}
         };
 
         var pages = [
