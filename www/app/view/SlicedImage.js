@@ -37,30 +37,34 @@ Ext.define('App.view.SlicedImage', {
         }
     },
 
-    _transformBox: function(box, factor) {
-        box.left *= factor;
-        box.top *= factor;
-        box.width *= factor;
-        box.height *= factor;
+    _scaleBox: function(box, factor) {
+        return {
+            left: box.left * factor,
+            top: box.top * factor,
+            width: box.width * factor,
+            height: box.height * factor
+        };
     },
 
     createRegion: function(name, box) {
         var me = this;
         this.destroyRegion(name);
 
-        this._transformBox(box, 0.5);
+        box.name = name;
+
+        var scaledBox = this._scaleBox(box, 0.5);
         var regionEl = this.element.createChild({
             tag: 'div',
             style: {
                 'position': 'absolute',
-                'cursor': 'pointer',
-                'border': '1px solid greenyellow'
+                'cursor': 'pointer'//,
+//                'border': '1px solid greenyellow'
             }
         });
-        regionEl.setBox(box);
+        regionEl.setBox(scaledBox);
 
         regionEl.on('tap', function() {
-            var item = Ext.getCmp(box.goto);
+            var item = box.goto? Ext.getCmp(box.goto) : Ext.getCmp(box.name);
             Ext.getCmp('main').setActiveItem(item);
         });
 

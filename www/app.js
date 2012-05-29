@@ -12,7 +12,7 @@ Ext.application({
     ],
 
     models: ['User'],
-    views: ['Main', 'Home', 'UserList', 'UserDetail', 'SlicedImage'],
+    views: ['Main', 'Home', 'UserList', 'UserDetail', 'SlicedImage', 'PhoneScreen'],
     controllers: ['Main'],
     stores: ['Users'],
 
@@ -30,42 +30,62 @@ Ext.application({
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
-        var pages = {};
+        var top = {
+            filters: {left: 4, top: 47, width: 68, height: 67},
+            maps: {left: 81, top: 47, width: 68, height: 67},
+            messages: {left: 566, top: 47, width: 68, height: 67},
+            back: {left: 4, top: 47, width: 150, height: 67, goto: 'nearby'}
+        };
 
-        pages.checkin = Ext.create('Ext.Panel', {
-            id: 'checkin_page',
-            scrollable: {
-                direction: 'vertical',
-                directionLock: true
-            },
-            items: [{
-                xtype: 'slicedimage',
-                docked: 'top',
-                src: 'screen-1-top.png',
+        var bottom = {
+            nearby: {left: 0, top: 835, width: 131, height: 125},
+            smiles: {left: 125, top: 835, width: 131, height: 125},
+            checkin: {left: 253, top: 827, width: 138, height: 132},
+            crew: {left: 389, top: 835, width: 131, height: 125},
+            myprofile: {left: 515, top: 835, width: 131, height: 125}
+        };
+
+        var pages = [
+            {
+                id: 'nearby',
                 regions: {
-                    back: {top: 50, left: 10, width: 125, height: 60, goto: 'main_page'}
-                }
-            },{
-                xtype: 'slicedimage',
-                src: 'screen-1-middle.png'
-            },{
-                xtype: 'slicedimage',
-                docked: 'bottom',
-                src: 'screen-1-bottom.png'
-            }]
-        });
+                    filters: top.filters, maps: top.maps, messages: top.messages,
 
-        pages.nearby = Ext.create('Ext.Panel', {
-            id: 'nearby',
-            scrollable: {
-                direction: 'vertical',
-                directionLock: true
+                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
+                }
             },
-            items: [{
-                xtype: 'slicedimage',
-                src: 'nearby.jpg'
-            }]
-        });
+
+            {
+                id: 'checkin',
+                regions: {
+                    filters: top.filters, maps: top.maps, messages: top.messages
+                }
+            },
+
+            {
+                id: 'messages',
+                regions: {
+                    back: top.back
+                }
+            },
+
+            {
+                id: 'crew',
+                regions: {
+                    filters: top.filters, maps: top.maps, messages: top.messages,
+                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
+                }
+            },
+
+            {
+                id: 'myprofile',
+                regions: {
+                    filters: top.filters, maps: top.maps, messages: top.messages,
+
+                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
+                }
+            }
+        ];
 
         App.container = Ext.create('Ext.Container', {
             id: 'main',
@@ -77,7 +97,8 @@ Ext.application({
                     direction: 'left'
                 }
             },
-            items: [pages.nearby, pages.checkin]
+            defaultType: 'phonescreen',
+            items: pages
         });
     },
 
