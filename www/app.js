@@ -50,7 +50,6 @@ Ext.application({
                 id: 'nearby',
                 regions: {
                     filters: top.filters, maps: top.maps, messages: top.messages,
-
                     nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
                 }
             },
@@ -58,7 +57,7 @@ Ext.application({
             {
                 id: 'checkin',
                 regions: {
-                    filters: top.filters, maps: top.maps, messages: top.messages
+                    back: top.back
                 }
             },
 
@@ -81,8 +80,14 @@ Ext.application({
                 id: 'myprofile',
                 regions: {
                     filters: top.filters, maps: top.maps, messages: top.messages,
-
                     nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
+                }
+            },
+
+            {
+                id: 'filters',
+                regions: {
+                    back: top.back
                 }
             }
         ];
