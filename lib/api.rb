@@ -5,6 +5,8 @@ class WWOApi < Grape::API
 
   prefix 'api'
   version 'v1'
+  format :json
+  default_format :json
 
   helpers do
     def session
