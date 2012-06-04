@@ -141,3 +141,7 @@ class SmileGame < ActiveRecord::Base
   end
 
 end
+
+
+
+
