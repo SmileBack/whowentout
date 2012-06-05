@@ -50,8 +50,9 @@ Ext.application({
                 id: 'nearby',
                 regions: {
                     filters: top.filters, maps: top.maps, messages: top.messages,
-                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
-                }
+                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile,
+                	profile: {left: 233, top: 408, width: 179, height: 179}
+				}
             },
 
             {
@@ -94,7 +95,63 @@ Ext.application({
             },
 
             {
+                id: 'smiles',
+                regions: {
+                    filters: top.back, messages: top.messages,
+					nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile,
+					
+                    smilesreceived: {left: 0, top: 251, width: 640, height: 147},
+ 					smilessent: {left: 0, top: 396, width: 640, height: 147},
+					smilematches: {left: 0, top: 544, width: 640, height: 147},
+                }
+            },
+
+			{
+                id: 'smilesreceived',
+                regions: {
+                    back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'},
+
+					smilegame: {left: 42, top: 275, width: 169, height: 226},
+                }
+            },
+			
+			{
+                id: 'smilessent',
+                regions: {
+                    back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'}
+                }
+            },
+
+			{
+                id: 'smilematches',
+                regions: {
+                    back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'}
+                }
+            },
+
+			{
+                id: 'smilegame',
+                regions: {
+                    back: {left: 4, top: 5, width: 150, height: 67, goto: 'smilesreceived'}
+                }
+            },
+
+            {
                 id: 'filters',
+                regions: {
+                    back: top.back
+                }
+            },
+
+            {
+                id: 'maps',
+                regions: {
+                    back: top.back
+                }
+            },
+
+			{
+                id: 'profile',
                 regions: {
                     back: top.back
                 }
