@@ -6,7 +6,6 @@ Ext.define('App.view.SlicedImage', {
 
     constructor: function(config) {
         config = config || {};
-        config.src = '/resources/images/' + config.src;
         config.style = {
             position: 'relative'
         };
@@ -57,8 +56,8 @@ Ext.define('App.view.SlicedImage', {
             tag: 'div',
             style: {
                 'position': 'absolute',
-                'cursor': 'pointer'//,
-//                'border': '1px solid greenyellow'
+                'cursor': 'pointer',
+                'border': '1px solid greenyellow'
             }
         });
         regionEl.setBox(scaledBox);

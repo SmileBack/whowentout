@@ -46,13 +46,18 @@ Ext.application({
         };
 
         var pages = [
+
             {
                 id: 'nearby',
                 regions: {
-                    filters: top.filters, maps: top.maps, messages: top.messages,
-                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile,
-                	profile: {left: 233, top: 408, width: 179, height: 179}
-				}
+                    profile: {left: 250, top: 350, width: 200, height: 200}
+                },
+                topRegions: {
+                    filters: {left: 10, top: 10, width: 50, height: 50}
+                },
+                bottomRegions: {
+                    smiles: {left: 150, top: 0, width: 130, height: 125}
+                }
             },
 
             {
