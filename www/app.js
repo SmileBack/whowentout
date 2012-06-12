@@ -38,34 +38,41 @@ Ext.application({
         };
 
         var bottom = {
-            nearby: {left: 0, top: 795, width: 131, height: 125},
-            smiles: {left: 125, top: 795, width: 131, height: 125},
-            checkin: {left: 253, top: 785, width: 138, height: 132},
-            crew: {left: 389, top: 795, width: 131, height: 125},
-            myprofile: {left: 515, top: 795, width: 131, height: 125}
+            nearby: {left: 0, top: 10, width: 131, height: 125},
+            smiles: {left: 125, top: 10, width: 131, height: 125},
+            checkin: {left: 253, top: 10, width: 138, height: 132},
+            crew: {left: 389, top: 10, width: 131, height: 125},
+            myprofile: {left: 515, top: 10, width: 131, height: 125}
         };
 
         var pages = [
-
-            {
+            
+			{
                 id: 'nearby',
                 regions: {
-                    profile: {left: 250, top: 350, width: 200, height: 200}
+                    profile: {left: 230, top: 350, width: 200, height: 200}
                 },
-                topRegions: {
-                    filters: {left: 10, top: 10, width: 50, height: 50}
-                },
-                bottomRegions: {
-                    smiles: {left: 150, top: 0, width: 130, height: 125}
-                }
-            },
-
+				topRegions: {
+					filters: {left: 10, top: 10, width: 68, height: 68},
+					messages: {left: 566, top: 5, width: 68, height: 68}
+				},
+				bottomRegions: {
+		            smiles: {left: 125, top: 10, width: 131, height: 125},
+		            checkin: {left: 253, top: 10, width: 138, height: 132},
+		            crew: {left: 389, top: 10, width: 131, height: 125},
+		            myprofile: {left: 515, top: 10, width: 131, height: 125}
+				}
+			},
+			
             {
                 id: 'checkin',
                 regions: {
-                    back: top.back
+                    club: {left: 0, top: 140, width: 640, height: 690}
+                },
+				topRegions: {
+					back: {left: 4, top: 5, width: 150, height: 67, goto: 'nearby'}
                 }
-            },
+			},
 
             {
                 id: 'messages',
@@ -77,11 +84,19 @@ Ext.application({
             {
                 id: 'crew',
                 regions: {
-                    filters: top.filters, maps: top.maps, messages: top.messages,
-                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile,
-
-                    addtocrew: {left: 105, top: 250, width: 420, height: 70}
-                }
+//                    filters: top.filters, maps: top.maps, messages: top.messages,
+//                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile,
+                    addtocrew: {left: 105, top: 125, width: 420, height: 70}
+				},
+				topRegions: {
+					messages: {left: 566, top: 5, width: 68, height: 67}
+				},
+				bottomRegions: {
+					nearby: {left: 0, top: 10, width: 131, height: 125},
+		            smiles: {left: 125, top: 10, width: 131, height: 125},
+		            checkin: {left: 253, top: 10, width: 138, height: 132},
+		            myprofile: {left: 515, top: 10, width: 131, height: 125}
+               }
             },
 
             {
@@ -94,44 +109,66 @@ Ext.application({
             {
                 id: 'myprofile',
                 regions: {
-                    filters: top.filters, maps: top.maps, messages: top.messages,
-                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
-                }
+//                    filters: top.filters, maps: top.maps, messages: top.messages,
+//                    nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile
+                },
+				bottomRegions: {
+					nearby: {left: 0, top: 10, width: 131, height: 125},
+					smiles: {left: 125, top: 10, width: 131, height: 125},
+		            checkin: {left: 253, top: 10, width: 138, height: 132},
+					crew: {left: 389, top: 10, width: 131, height: 125},
+               	},
+				topRegions: {
+					profilesettings: {left: 566, top: 5, width: 68, height: 67}
+				}
             },
 
             {
                 id: 'smiles',
                 regions: {
-                    filters: top.back, messages: top.messages,
-					nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile,
+//                    filters: top.back, messages: top.messages,
+//					nearby: bottom.nearby, smiles: bottom.smiles, checkin: bottom.checkin, crew: bottom.crew, myprofile: bottom.myprofile,
 					
-                    smilesreceived: {left: 0, top: 251, width: 640, height: 147},
- 					smilessent: {left: 0, top: 396, width: 640, height: 147},
-					smilematches: {left: 0, top: 544, width: 640, height: 147},
-                }
+                    smilesreceived: {left: 0, top: 170, width: 640, height: 147},
+ 					smilessent: {left: 0, top: 316, width: 640, height: 147},
+					smilematches: {left: 0, top: 464, width: 640, height: 147},
+                },
+				bottomRegions: {
+					nearby: {left: 0, top: 10, width: 131, height: 125},
+					checkin: {left: 253, top: 10, width: 138, height: 132},
+					crew: {left: 389, top: 10, width: 131, height: 125},
+		            myprofile: {left: 515, top: 10, width: 131, height: 125}
+               }
             },
 
 			{
                 id: 'smilesreceived',
                 regions: {
-                    back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'},
-
-					smilegame: {left: 42, top: 275, width: 169, height: 226},
-                }
+					smilegame: {left: 42, top: 185, width: 169, height: 226},
+                },
+				topRegions: {
+					back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'}
+				}
             },
 			
 			{
                 id: 'smilessent',
                 regions: {
-                    back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'}
-                }
+                    profile: {left: 42, top: 120, width: 169, height: 226}
+                },
+				topRegions: {
+					back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'}
+				}
             },
 
 			{
                 id: 'smilematches',
                 regions: {
-                    back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'}
-                }
+                    profile: {left: 42, top: 120, width: 169, height: 226}
+                },
+				topRegions: {
+					back: {left: 4, top: 5, width: 150, height: 67, goto: 'smiles'}
+				}
             },
 
 			{
@@ -157,8 +194,22 @@ Ext.application({
 
 			{
                 id: 'profile',
-                regions: {
-                    back: top.back
+				topRegions: {
+					back: {left: 4, top: 5, width: 150, height: 67, goto: 'nearby'}
+	            }
+            },
+
+			{
+                id: 'profilesettings',
+				topRegions: {
+					back: {left: 4, top: 5, width: 150, height: 67, goto: 'myprofile'}
+	            }
+            },
+
+			{
+                id: 'club',
+				topRegions: {
+					back: {left: 4, top: 5, width: 150, height: 67, goto: 'checkin'}
                 }
             }
         ];

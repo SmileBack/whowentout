@@ -4,3 +4,4 @@ db/test.sqlite3
 .bundle
 tmp
 log
+.DS_Store
