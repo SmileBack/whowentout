@@ -65,6 +65,12 @@
             }
         }
     </style>
+
+    <script>
+      window.resources = {};
+      window.resources.images = <?= json_encode(scandir('resources/images')) ?>;
+    </script>
+
     <script id="microloader" type="text/javascript" src="sdk/microloader/development.js"></script>
 </head>
 <body>

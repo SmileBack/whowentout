@@ -57,21 +57,12 @@ Ext.define('App.view.PhoneScreen', {
     filePath: function(fileName) {
         var extensions = ['.png', '.jpg'];
         for (var i = 0; i < extensions.length; i++)
-            if (this.fileExists('resources/images/' + fileName + extensions[i]))
+            if (this.imageExists(fileName + extensions[i]))
                 return 'resources/images/' + fileName + extensions[i];
     },
 
-    fileExists: function(url) {
-        this.exists = this.exists || {};
-
-        if (this.exists[url] === undefined) {
-            var http = new XMLHttpRequest();
-            http.open('HEAD', url, false);
-            http.send();
-            this.exists[url] = (http.status != 404);
-        }
-
-        return this.exists[url];
+    imageExists: function(fileName) {
+        return window.resources.images.indexOf(fileName) != -1;
     }
 
 });
