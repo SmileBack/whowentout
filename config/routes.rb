@@ -1,4 +1,5 @@
 require_relative '../lib/api'
+require 'resque/server'
 
 Wwo::Application.routes.draw do
   ActiveAdmin.routes(self)
@@ -8,6 +9,7 @@ Wwo::Application.routes.draw do
   resources :users
 
   mount WWOApi => '/'
+  mount Resque::Server => "/admin/jobs"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
