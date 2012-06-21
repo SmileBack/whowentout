@@ -23,4 +23,5 @@ ActiveAdmin.register Place do
 
     f.buttons
   end
+
 end
