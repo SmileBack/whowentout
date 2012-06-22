@@ -9,4 +9,24 @@ ActiveAdmin.register Region do
     f.buttons
   end
 
+  show do |region|
+    attributes_table do
+      row :id
+      row :name
+      row :points
+
+      row :map do
+        render :partial => 'map', :locals => {
+            :settings => {
+                :zoom => 12,
+                :center => [40.76338, -73.96682],
+                :points => region.points
+            }
+        }
+      end
+
+    end
+    active_admin_comments
+  end
+
 end

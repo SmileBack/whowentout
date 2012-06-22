@@ -1,0 +1,57 @@
+<script>
+  window.regionMapSettings = <%= raw settings.to_json %>;
+</script>
+
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyCf2QMgXkzogwENbnEYdzfiTow2ptLJrHE" type="text/javascript"></script>
+<div id="map_canvas" style="width: 800px; height: 500px"></div>
+
+<script>
+    var RegionMap = function(id) {
+        this.id = id;
+
+        this.map = new GMap2(document.getElementById(this.id));
+        this.map.setUIToDefault();
+
+        this.bounds = new GLatLngBounds();
+    };
+    RegionMap.prototype.setCenterAndZoom = function(center, zoom) {
+        this.map.setCenter(new GLatLng(center[0], center[1]), zoom);
+    };
+    RegionMap.prototype.addPolygon = function(points) {
+        var convertedPoints = [];
+        for (var i = 0; i < points.length; i++)
+            convertedPoints.push( new GLatLng(points[i][0], points[i][1]) );
+
+        var polygon = new GPolygon(convertedPoints, "#f33f00", 3, 1, "#ff0000", 0.2);
+        this.map.addOverlay(polygon);
+    };
+    RegionMap.prototype.pointsFromString = function(str) {
+        var parts = str.split("\n");
+        var points = [];
+        for (var i = 0; i < parts.length; i++) {
+            points.push([
+              parseFloat(parts[i].split(',')[0]),
+              parseFloat(parts[i].split(',')[1])
+            ]);
+        }
+        return points;
+    };
+    RegionMap.prototype.addPolygonFromString = function(pointsStr) {
+        var points = this.pointsFromString(pointsStr);
+        this.addPolygon(points);
+    };
+
+    function initMap(settings) {
+        if (GBrowserIsCompatible()) {
+            window.map = new RegionMap('map_canvas');
+            map.setCenterAndZoom(settings.center, settings.zoom);
+            map.addPolygon(settings.points);
+        }
+    }
+
+    $(function() {
+        initMap(window.regionMapSettings);
+    });
+
+</script>
+

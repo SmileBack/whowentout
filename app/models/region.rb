@@ -42,7 +42,7 @@ class Region < ActiveRecord::Base
 
   def point_list=(val)
     converted_points = []
-    val.scan(/[0-9.]+/).each_slice(2) do |val|
+    val.scan(/[+-]?[0-9.]+/).each_slice(2) do |val|
       converted_points << [val[0].to_f, val[1].to_f]
     end
     self.points = converted_points
