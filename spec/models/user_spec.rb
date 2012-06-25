@@ -11,6 +11,11 @@ describe User do
       User.destroy_all
     end
 
+    it "should return nil if passed an empty or nil value" do
+      User.find_by_token(nil).should == nil
+      User.find_by_token("").should == nil
+    end
+
     it "should update the old token", :vcr, :cassette => 'facebook_api' do
       user = create(:user, facebook_id: 776200121, facebook_token: "old token")
 
@@ -32,6 +37,10 @@ describe User do
       user.email.should == 'ven@stanford.edu'
       user.gender.should == 'M'
       user.birthday.should == Date.new(1988, 10, 6)
+
+      Timecop.freeze(Time.local(2012, 6, 25, 11, 30, 0)) do
+        user.age.should == 23
+      end
 
       user.relationship_status.should == 'Single'
       user.interested_in.should == 'female'
