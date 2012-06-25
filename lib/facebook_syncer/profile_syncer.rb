@@ -16,8 +16,8 @@ module FacebookSyncer
       user.email = hash['email']
       user.birthday = Date.strptime(hash['birthday'], "%m/%d/%Y")
 
-      user.hometown = hash['hometown']['name']
-      user.current_city = hash['location']['name']
+      user.hometown = hash['hometown']['name'] unless hash['hometown'].nil?
+      user.current_city = hash['location']['name'] unless hash['location'].nil?
 
       user.relationship_status = hash['relationship_status']
       user.interested_in = hash['interested_in'].sort.join(',')

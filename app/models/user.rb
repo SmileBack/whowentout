@@ -61,6 +61,11 @@ class User < ActiveRecord::Base
 
   end
 
+  def age
+    now = Time.now.utc.to_date
+    now.year - self.birthday.year - ((now.month > self.birthday.month || (now.month == self.birthday.month && now.day >= dob.day)) ? 0 : 1)
+  end
+
   def update_checkin(place)
     clear_checkin
 
@@ -252,14 +257,21 @@ class User < ActiveRecord::Base
     return user
   end
 
-  def self.get_facebook_id_from_token(token)
-    api = Koala::Facebook::API.new(token)
+  def self.token_cache
+    @@token_cache ||= ActiveSupport::Cache::MemoryStore.new(:expires_in => 1.hour)
+  end
 
-    begin
-      profile_hash = api.get_object('me')
-      profile_hash['id'].to_i
-    rescue Koala::Facebook::APIError => e
-      nil
+  def self.get_facebook_id_from_token(token)
+    return nil if token.nil?
+    return nil if token == ""
+    self.token_cache.fetch(token) do
+      api = Koala::Facebook::API.new(token)
+      begin
+        profile_hash = api.get_object('me')
+        profile_hash['id'].to_i
+      rescue Koala::Facebook::APIError => e
+        nil
+      end
     end
   end
 

@@ -9,19 +9,70 @@ class WWOApi < Grape::API
   default_format :json
 
   helpers do
+
     def session
       env['rack.session']
     end
 
     def current_user
-      if logged_in?
-        User.find(env['rack.session'][:user_id])
-      end
+      User.find_by_token(params[:token])
     end
 
     def logged_in?
-      return !env['rack.session'][:user_id].nil?
+      User.find_by_token(params[:token]) != nil
     end
+
+  end
+
+  post 'location' do
+    user = current_user
+
+    longitude = params[:longitude].to_f
+    latitude = params[:latitude].to_f
+
+    user.update_location(longitude: longitude, latitude: latitude)
+
+    {
+        :success => true
+    }
+  end
+
+  get 'location' do
+    user = current_user
+
+    {
+        success: true,
+        longitude: user.longitude,
+        latitude: user.latitude
+    }
+  end
+
+  get 'nearby' do
+    response = {
+      success: true,
+      users: [],
+      current_region: nil
+    }
+
+    user = current_user
+    nearby_users = user.nearby_users
+    unless nearby_users.nil?
+      nearby_users.each do |u|
+        response[:users] << {
+            id: u.id,
+            name: u.first_name,
+            age: u.age,
+            networks: u.college_networks.pluck(:name).join(', '),
+            thumb: u.photo.thumb
+        }
+      end
+    end
+
+    unless user.current_region.nil?
+      response[:current_region] = user.current_region.name
+    end
+
+    response
   end
 
   get 'me' do
