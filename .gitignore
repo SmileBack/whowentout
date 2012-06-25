@@ -42,3 +42,8 @@ publish
 # build script local files
 build/buildinfo.properties
 build/config/buildinfo.properties
+
+.env
+.bundle
+db
+tmp
