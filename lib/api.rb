@@ -77,6 +77,31 @@ class WWOApi < Grape::API
     response
   end
 
+  get 'users/:id' do
+    authenticate!
+
+    u = User.find(params[:id])
+
+    {
+        user: {
+          name: u.first_name,
+          age: u.age,
+          photos: u.photos.pluck(:large),
+          networks: u.networks.pluck(:name).join(', '),
+          hometown: u.hometown,
+          current_city: u.current_city,
+          networks: u.college_networks.pluck(:name).join(', '),
+          work: '-',
+          mutual_friends: [],
+          music: [],
+          interests: [],
+          recent_places: []
+        },
+        success: true,
+        request: params
+    }
+  end
+
   get 'me' do
     if logged_in?
       {user: current_user}
