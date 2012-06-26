@@ -33,7 +33,7 @@ class WWOApi < Grape::API
 
     current_user.update_location(longitude: longitude, latitude: latitude)
 
-    {success: true}
+    {success: true, request: params}
   end
 
   get 'location' do
@@ -42,7 +42,8 @@ class WWOApi < Grape::API
     {
         success: true,
         longitude: current_user.longitude,
-        latitude: current_user.latitude
+        latitude: current_user.latitude,
+        request: params
     }
   end
 
@@ -52,7 +53,8 @@ class WWOApi < Grape::API
     response = {
       success: true,
       users: [],
-      current_region: nil
+      current_region: nil,
+      request: params
     }
 
     nearby_users = current_user.nearby_users
