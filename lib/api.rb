@@ -84,6 +84,7 @@ class WWOApi < Grape::API
 
     {
         user: {
+          id: u.id,
           name: u.first_name,
           age: u.age,
           photos: u.photos.pluck(:large),
