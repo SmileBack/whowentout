@@ -95,7 +95,7 @@ class WWOApi < Grape::API
           relationship_status: u.relationship_status || "",
           interested_in: u.interested_in || "",
           work: '-',
-          mutual_friends: u.mutual_friends_with(current_user).map do |friend|
+          mutual_friends: u.mutual_facebook_friends_with(current_user).map do |friend|
             {name: friend.first_name}
           end,
           music: [],
