@@ -96,7 +96,10 @@ class WWOApi < Grape::API
           interested_in: u.interested_in || "",
           work: '-',
           mutual_friends: u.mutual_facebook_friends_with(current_user).map do |friend|
-            {name: friend.first_name}
+            {
+                name: friend.first_name,
+                thumb: "http://graph.facebook.com/#{friend.facebook_id}/picture?type=square"
+            }
           end,
           music: [],
           interests: u.interests.map do |interest|
