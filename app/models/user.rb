@@ -233,7 +233,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_by_token(token, fields_to_sync = [:networks, :friends, :interests, :profile_pictures])
+  def self.find_by_token(token)
     facebook_id = self.get_facebook_id_from_token(token)
     return nil if facebook_id.nil?
 
@@ -246,8 +246,6 @@ class User < ActiveRecord::Base
       user.sync_from_facebook :profile
       user.register!
       user.save
-
-      user.sync_from_facebook(fields_to_sync)
     end
 
     if user.facebook_token != token

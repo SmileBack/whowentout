@@ -96,7 +96,9 @@ class WWOApi < Grape::API
           work: '-',
           mutual_friends: [],
           music: [],
-          interests: [],
+          interests: u.interests.map do |interest|
+            {name: interest.name}
+          end,
           recent_places: []
         },
         success: true,

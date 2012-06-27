@@ -1,6 +1,6 @@
 module FacebookSyncer
 
-  class ProfilePicturesSyncer
+  class PhotosSyncer
 
     def sync(user, facebook_token)
       hash = get_hash(facebook_token)
