@@ -180,6 +180,7 @@ describe User do
       interest_names.should include('Graphic Design')
       interest_names.should include('Traveling')
 
+      user.interests.where(name: 'Web development').first.tag_list.should include('interest')
     end
 
     it "should provide correct facebook ids for interests taken from facebook", :vcr, :cassette => 'facebook_api' do
