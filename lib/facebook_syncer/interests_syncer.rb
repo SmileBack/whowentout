@@ -7,6 +7,10 @@ module FacebookSyncer
         user.user_interests.destroy_all
 
         fetch_and_update_user_interests(facebook_token, user, 'interests')
+        fetch_and_update_user_interests(facebook_token, user, 'movies')
+        fetch_and_update_user_interests(facebook_token, user, 'music')
+        fetch_and_update_user_interests(facebook_token, user, 'books')
+
 
         user.save
       end
@@ -19,7 +23,7 @@ module FacebookSyncer
     end
 
     def fetch_user_interests(token, category)
-      get_connections(token, category.pluralize).map do |interest_data|
+      get_connections(token, category).map do |interest_data|
         find_or_create_interest(category.singularize, interest_data)
       end
     end
