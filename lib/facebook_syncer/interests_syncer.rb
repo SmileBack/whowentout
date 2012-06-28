@@ -26,7 +26,11 @@ module FacebookSyncer
 
     def get_connections(token, type)
       api = Koala::Facebook::API.new(token)
-      api.get_connections('me', type)
+      api.get_connections('me', type).map do |connection|
+        connection.merge(
+            'thumb' => Koala::Facebook::API.new.get_picture(connection['id'])
+        )
+      end
     end
 
     def find_or_create_interest(category, interest_data)
@@ -36,6 +40,7 @@ module FacebookSyncer
         interest = Interest.create(
           :facebook_id => interest_data['id'],
           :name => interest_data['name'],
+          :thumb => interest_data['thumb'],
           :tag_list => category
         )
       end

@@ -103,7 +103,7 @@ class WWOApi < Grape::API
           end,
           music: [],
           interests: u.interests.map do |interest|
-            {name: interest.name}
+            {name: interest.name, thumb: interest.thumb}
           end,
           recent_places: []
         },

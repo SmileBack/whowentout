@@ -7474,4 +7474,321 @@ http_interactions:
         8vNu4h9//Q/t2jcVmbsAAA==
     http_version: 
   recorded_at: Thu, 10 May 2012 22:15:07 GMT
-recorded_with: VCR 2.1.1
+- request:
+    method: get
+    uri: https://graph.facebook.com/109803049037749/picture?access_token=AAACEdEose0cBAHe29aI1no1SzdwvsYzc9hrdiec4ORyOQe1zD9VgBtN8k1keVGnjVtE9eZBvqMo2ZCcoEXspVW5aAinAtZBBnjZCZBUgupgZDZD
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - no-store
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Pragma:
+      - no-cache
+      Www-Authenticate:
+      - ! 'OAuth "Facebook Platform" "invalid_token" "Error validating access token:
+        Session has expired at unix time 1336690800. The current unix time is 1340917801."'
+      X-Fb-Rev:
+      - '581908'
+      X-Fb-Debug:
+      - ZNqJGsih+mlxKrg6kM0UJQrpp4uaCeArXN9gszSPeCM=
+      Date:
+      - Thu, 28 Jun 2012 21:10:01 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '191'
+    body:
+      encoding: US-ASCII
+      string: ! '{"error":{"message":"Error validating access token: Session has expired
+        at unix time 1336690800. The current unix time is 1340917801.","type":"OAuthException","code":190,"error_subcode":463}}'
+    http_version: 
+  recorded_at: Thu, 28 Jun 2012 21:10:01 GMT
+- request:
+    method: get
+    uri: http://graph.facebook.com/109803049037749/picture
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Content-Type:
+      - image/jpeg
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Location:
+      - http://external.ak.fbcdn.net/safe_image.php?d=AQAXbrG43gSIJ96k&w=50&h=50&url=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Fd%2Fde%2FNational_Park_Service_sample_pictographs.svg%2F720px-National_Park_Service_sample_pictographs.svg&crop&fallback=hub_likes&prefix=q
+      Pragma:
+      - no-cache
+      X-Fb-Rev:
+      - '581908'
+      X-Fb-Debug:
+      - 4TNlMIREVWNMCR1sZ54f/fc0nMlpZXa9pCB0kzJ/yLU=
+      Date:
+      - Thu, 28 Jun 2012 21:10:52 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Thu, 28 Jun 2012 21:10:52 GMT
+- request:
+    method: get
+    uri: http://graph.facebook.com/109644819062307/picture
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Content-Type:
+      - image/jpeg
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Location:
+      - http://external.ak.fbcdn.net/safe_image.php?d=AQDaAdgOuoHtneGr&w=50&h=50&url=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Fe%2Fe4%2FWeb_development_timeline.png%2F720px-Web_development_timeline.png&crop&fallback=hub_likes&prefix=q
+      Pragma:
+      - no-cache
+      X-Fb-Rev:
+      - '581908'
+      X-Fb-Debug:
+      - PApSCZZFvnFXNqS3m6DAHjCQvgGmftJEO05THU6/L04=
+      Date:
+      - Thu, 28 Jun 2012 21:10:53 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Thu, 28 Jun 2012 21:10:53 GMT
+- request:
+    method: get
+    uri: http://graph.facebook.com/11575044327/picture
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Content-Type:
+      - image/jpeg
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Location:
+      - http://profile.ak.fbcdn.net/hprofile-ak-snc4/174658_11575044327_348064748_q.jpg
+      Pragma:
+      - no-cache
+      X-Fb-Rev:
+      - '581908'
+      X-Fb-Debug:
+      - SeijuYsudOzUvRQyK5LHli/A5B2jg2xTwhdYLYwjQbg=
+      Date:
+      - Thu, 28 Jun 2012 21:10:53 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Thu, 28 Jun 2012 21:10:53 GMT
+- request:
+    method: get
+    uri: http://graph.facebook.com/110534865635330/picture
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Content-Type:
+      - image/jpeg
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Location:
+      - http://external.ak.fbcdn.net/safe_image.php?d=AQD5oM_cORl7w1M7&w=50&h=50&url=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Fd%2Fdf%2FEl_viaxeru_d%2527Urculo.JPG%2F720px-El_viaxeru_d%2527Urculo.JPG&crop&fallback=hub_likes&prefix=q
+      Pragma:
+      - no-cache
+      X-Fb-Rev:
+      - '581908'
+      X-Fb-Debug:
+      - f757RDVGyPYayjVM6c/ecAJCKNUH+lQNk9f60ESGCJU=
+      Date:
+      - Thu, 28 Jun 2012 21:10:54 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Thu, 28 Jun 2012 21:10:53 GMT
+- request:
+    method: get
+    uri: http://graph.facebook.com/109803049037749/picture
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Content-Type:
+      - image/jpeg
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Location:
+      - http://external.ak.fbcdn.net/safe_image.php?d=AQAXbrG43gSIJ96k&w=50&h=50&url=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Fd%2Fde%2FNational_Park_Service_sample_pictographs.svg%2F720px-National_Park_Service_sample_pictographs.svg&crop&fallback=hub_likes&prefix=q
+      Pragma:
+      - no-cache
+      X-Fb-Rev:
+      - '581908'
+      X-Fb-Debug:
+      - 84qKG7TU1PsujkPKjbNUJGJ63Iev2/zNuRp2VjrJPwU=
+      Date:
+      - Thu, 28 Jun 2012 21:17:09 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Thu, 28 Jun 2012 21:17:09 GMT
+- request:
+    method: get
+    uri: http://graph.facebook.com/109803049037749/picture
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Content-Type:
+      - image/jpeg
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Location:
+      - http://external.ak.fbcdn.net/safe_image.php?d=AQAXbrG43gSIJ96k&w=50&h=50&url=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Fd%2Fde%2FNational_Park_Service_sample_pictographs.svg%2F720px-National_Park_Service_sample_pictographs.svg&crop&fallback=hub_likes&prefix=q
+      Pragma:
+      - no-cache
+      X-Fb-Rev:
+      - '581908'
+      X-Fb-Debug:
+      - IujTaA2w9HGOA3LSEvZfPyrGxQK9pZI+ZBmAQXmRj+Q=
+      Date:
+      - Thu, 28 Jun 2012 21:17:32 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Thu, 28 Jun 2012 21:17:31 GMT
+recorded_with: VCR 2.2.2

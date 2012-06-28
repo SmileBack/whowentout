@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120525194049) do
+ActiveRecord::Schema.define(:version => 20120627215646) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20120525194049) do
   create_table "interests", :force => true do |t|
     t.integer "facebook_id", :limit => 8
     t.string  "name",                     :null => false
+    t.text    "thumb"
   end
 
   add_index "interests", ["facebook_id"], :name => "index_interests_on_facebook_id"

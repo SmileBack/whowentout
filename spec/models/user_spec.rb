@@ -16,6 +16,7 @@ describe User do
       User.find_by_token("").should == nil
     end
 
+
     it "should update the old token", :vcr, :cassette => 'facebook_api' do
       user = create(:user, facebook_id: 776200121, facebook_token: "old token")
 
@@ -180,7 +181,15 @@ describe User do
       interest_names.should include('Graphic Design')
       interest_names.should include('Traveling')
 
-      user.interests.where(name: 'Web development').first.tag_list.should include('interest')
+      web_dev = user.interests.where(name: 'Web development').first
+      web_dev.tag_list.should include('interest')
+    end
+
+    it "should come with pictures", :vcr, :cassette => 'facebook_api' do
+      user = User.find_by_token(venkats_token)
+      user.sync_from_facebook :interests
+
+      user.interests.first.thumb.should_not be_nil
     end
 
     it "should provide correct facebook ids for interests taken from facebook", :vcr, :cassette => 'facebook_api' do
