@@ -94,7 +94,7 @@ class WWOApi < Grape::API
           college: u.college_networks.pluck(:name).join(', '),
           relationship_status: u.relationship_status || "",
           interested_in: u.interested_in || "",
-          work: u.work || nil,
+          work: u.work || "",
           mutual_friends: u.mutual_facebook_friends_with(current_user).map do |friend|
             {
                 name: friend.first_name,
