@@ -7,10 +7,10 @@ module FacebookSyncer
         user.user_interests.destroy_all
 
         fetch_and_update_user_interests(facebook_token, user, 'interests')
+        fetch_and_update_user_interests(facebook_token, user, 'activities')
         fetch_and_update_user_interests(facebook_token, user, 'movies')
         fetch_and_update_user_interests(facebook_token, user, 'music')
         fetch_and_update_user_interests(facebook_token, user, 'books')
-
 
         user.save
       end

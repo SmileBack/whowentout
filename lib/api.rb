@@ -73,6 +73,7 @@ class WWOApi < Grape::API
     unless current_user.current_region.nil?
       response[:current_region] = current_user.current_region.name
     end
+    response[:current_region] = '' if response[:current_region].nil?
 
     response
   end
