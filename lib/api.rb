@@ -113,6 +113,15 @@ class WWOApi < Grape::API
     }
   end
 
+  post 'push/register' do
+    authenticate!
+
+    current_user.iphone_push_token = params[:iphone_push_token]
+    current_user.save
+
+    {success: true}
+  end
+
   get 'me' do
     if logged_in?
       {user: current_user}
