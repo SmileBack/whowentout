@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.0'
+gem 'rake', '0.8.7' # heroku issue where rake is built into ruby 1.9.2+ so we gotta use this gem
+
 gem 'thin'
 
 # Bundle edge Rails instead:
