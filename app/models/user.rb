@@ -308,6 +308,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def notify(message)
+    unless self.iphone_push_token.nil?
+      notification = {device_tokens: [self.iphone_push_token], aps: {alert: message, badge: 1}}
+      Urbanairship.push(notification)
+    end
+  end
+
   def can_start_smile_game_with?(user, number_of_choices = 12)
     return false if started_smile_game_with?(user)
     return false if smile_count_today >= 3
