@@ -6,7 +6,7 @@
 
       <script>
 
-          var token = 'AAACEdEose0cBAIQNlMeCDkZCqvqWQ38rPSKopOV6dXR05HTJyRZB5lgELOdeVOKE7ZClzfNJ6ztfLdPT3MNhWDZBJmWpBf7YxJVTqN1UpwZDZD';
+          var token = 'AAACEdEose0cBAExvusMvGiKNZA8fuBXL7nbWb3g8fGz79f8IIDzubVXnMOvRRqmaTHljxVFWH7E987lxVcPEEWgCJuy7pmGaS16954gZDZD';
 
           function update_location(longitude, latitude) {
               $.ajax({
@@ -22,6 +22,18 @@
                       $.dump(response);
                   }
               });
+          }
+
+          function register_push_token(iphone_push_token) {
+              $.ajax({
+                  url: '/api/v1/push/register',
+                  type: 'POST',
+                  dataType: 'json',
+                  data: {token: token, iphone_push_token: iphone_push_token},
+                  success: function(response) {
+                      $.dump(response);
+                  }
+              })
           }
 
           function get_location() {
