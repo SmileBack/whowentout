@@ -37,6 +37,7 @@ gem 'formtastic', '~> 2.1.1'
 gem 'activeadmin'
 gem 'resque'
 gem 'mechanize', :require => false
+gem 'urbanairship', :git => 'git://github.com/groupon/urbanairship.git'
 
 # Databases
 group :test, :development do

@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/groupon/urbanairship.git
+  revision: 276e35ae1f538faeb5d258b37e282d1ec55d3ac2
+  specs:
+    urbanairship (2.1.0)
+      json
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -279,5 +286,6 @@ DEPENDENCIES
   timecop
   turn
   uglifier
+  urbanairship!
   vcr
   webmock
