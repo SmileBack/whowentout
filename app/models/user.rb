@@ -161,9 +161,7 @@ class User < ActiveRecord::Base
 
   def nearby_users
     unless current_region.nil?
-      User.near(to_coordinates).in_region(current_region)
-                               .except_user(self)
-                               .visible_to(self)
+      User.in_region(current_region).except_user(self).visible_to(self)
     end
   end
 
@@ -309,9 +307,25 @@ class User < ActiveRecord::Base
   end
 
   def notify(message)
+    self.push(alert: message, badge: '+1', sound: 'default')
+  end
+
+  def push(message_data)
     unless self.iphone_push_token.nil?
-      notification = {device_tokens: [self.iphone_push_token], aps: {alert: message, badge: 1}}
-      Urbanairship.push(notification)
+      Urbanairship.push(
+        device_tokens: [self.iphone_push_token],
+        aps: message_data
+      )
+    end
+  end
+
+  def push_event(event)
+    unless self.iphone_push_token.nil?
+      Urbanairship.push(
+        device_tokens: [self.iphone_push_token],
+        aps: {},
+        event: event
+      )
     end
   end
 
