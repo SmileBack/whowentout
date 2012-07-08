@@ -22,6 +22,12 @@ class Message < ActiveRecord::Base
 
   end
 
+  def self.between(userA, userB)
+    from_a_to_b = arel_table[:sender_id].eq(userA.id).and(arel_table[:receiver_id].eq(userB.id))
+    from_b_to_a = arel_table[:sender_id].eq(userB.id).and(arel_table[:receiver_id].eq(userA.id))
+    Message.where(from_a_to_b.or(from_b_to_a))
+  end
+
   def self.involving(user)
     from_sender = arel_table[:sender_id].eq(user.id)
     to_sender = arel_table[:receiver_id].eq(user.id)

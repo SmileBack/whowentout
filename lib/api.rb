@@ -125,17 +125,21 @@ class WWOApi < Grape::API
   get 'conversations/:id' do
     authenticate!
 
+    other_user = User.find(params[:id])
+    messages = Message.between(current_user, other_user).map do |message|
+      {
+        sender_id: message.sender_id,
+        receiver_id: message.receiver_id,
+        body: message.body
+      }
+    end
+
     {
         success: true,
         conversation: {
-            current_user_id: 2,
-            other_user_id: 5,
-            messages: [
-                {sender_id: 2, receiver_id: 5, body: "hello"},
-                {sender_id: 2, receiver_id: 5, body: "whats up"},
-                {sender_id: 5, receiver_id: 2, body: "sir"},
-                {sender_id: 2, receiver_id: 5, body: "hello world!"},
-            ]
+            current_user_id: current_user.id,
+            other_user_id: other_user.id,
+            messages: messages
         }
     }
   end

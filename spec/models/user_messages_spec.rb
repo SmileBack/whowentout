@@ -51,4 +51,20 @@ describe User do
 
   end
 
+  describe "between" do
+
+    it "should show only the messages between two users" do
+      a = create(:user)
+      b = create(:user)
+      c = create(:user)
+
+      a.send_message(b, "a to b")
+      a.send_message(c, "a to c")
+      b.send_message(a, "b to a")
+
+      Message.between(a, b).pluck(:body).should == ['a to b', 'b to a']
+    end
+
+  end
+
 end
