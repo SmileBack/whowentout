@@ -122,6 +122,22 @@ class WWOApi < Grape::API
     {success: true}
   end
 
+  get 'conversations/:id' do
+    authenticate!
+
+    {
+        success: true,
+        conversation: {
+            messages: [
+                {sender_id: 2, receiver_id: 5, body: "hello"},
+                {sender_id: 2, receiver_id: 5, body: "whats up"},
+                {sender_id: 2, receiver_id: 5, body: "sir"},
+                {sender_id: 2, receiver_id: 5, body: "man"},
+            ]
+        }
+    }
+  end
+
   get 'me' do
     if logged_in?
       {user: current_user}
