@@ -128,13 +128,28 @@ class WWOApi < Grape::API
     {
         success: true,
         conversation: {
+            current_user_id: 2,
+            other_user_id: 5,
             messages: [
                 {sender_id: 2, receiver_id: 5, body: "hello"},
                 {sender_id: 2, receiver_id: 5, body: "whats up"},
                 {sender_id: 2, receiver_id: 5, body: "sir"},
-                {sender_id: 2, receiver_id: 5, body: "man"},
+                {sender_id: 2, receiver_id: 5, body: "hello world!"},
             ]
         }
+    }
+  end
+
+  post 'user/:id/message' do
+    authenticate!
+
+    recipient = User.find(params[:recipient_id])
+    body = params[:body]
+
+    current_user.send_message(recipient, body) unless recipient.nil?
+
+    {
+        success: true
     }
   end
 
