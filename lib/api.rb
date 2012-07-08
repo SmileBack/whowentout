@@ -133,7 +133,7 @@ class WWOApi < Grape::API
             messages: [
                 {sender_id: 2, receiver_id: 5, body: "hello"},
                 {sender_id: 2, receiver_id: 5, body: "whats up"},
-                {sender_id: 2, receiver_id: 5, body: "sir"},
+                {sender_id: 5, receiver_id: 2, body: "sir"},
                 {sender_id: 2, receiver_id: 5, body: "hello world!"},
             ]
         }
