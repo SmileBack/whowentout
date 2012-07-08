@@ -46,7 +46,7 @@ class Message < ActiveRecord::Base
       }
     )
 
-    self.receiver.notify("#{self.sender.name}: #{self.body}")
+    self.receiver.notify("#{self.sender.first_name}: #{self.body}")
   end
 
   def notify_sender

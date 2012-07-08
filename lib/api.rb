@@ -144,10 +144,10 @@ class WWOApi < Grape::API
     }
   end
 
-  post 'user/:id/message' do
+  post 'users/:id/message' do
     authenticate!
 
-    recipient = User.find(params[:recipient_id])
+    recipient = User.find(params[:id])
     body = params[:body]
 
     current_user.send_message(recipient, body) unless recipient.nil?
