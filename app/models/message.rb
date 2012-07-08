@@ -20,6 +20,8 @@ class Message < ActiveRecord::Base
       transition :received => :ignored
     end
 
+    after_transition :on => :send_message, :do => :notify_receiver unless Rails.env.test?
+    after_transition :on => :send_message, :do => :notify_sender unless Rails.env.test?
   end
 
   def self.between(userA, userB)
@@ -32,6 +34,30 @@ class Message < ActiveRecord::Base
     from_sender = arel_table[:sender_id].eq(user.id)
     to_sender = arel_table[:receiver_id].eq(user.id)
     Message.where(from_sender.or(to_sender))
+  end
+
+  def notify_receiver
+    self.receiver.push_event(
+      name: 'UserDidReceiveMessage',
+      message: {
+        sender_id: self.sender_id,
+        receiver_id: self.receiver_id,
+        body: self.body
+      }
+    )
+
+    self.receiver.notify("#{self.sender.name}: #{self.body}")
+  end
+
+  def notify_sender
+    self.sender.push_event(
+      name: 'UserDidSendMessage',
+      message: {
+        sender_id: self.sender_id,
+        receiver_id: self.receiver_id,
+        body: self.body
+      }
+    )
   end
 
 end
