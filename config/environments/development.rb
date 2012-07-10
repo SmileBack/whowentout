@@ -27,4 +27,10 @@ Wwo::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  begin
+      require 'pry'
+      IRB = Pry
+  rescue LoadError
+  end
 end

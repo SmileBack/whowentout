@@ -94,30 +94,24 @@ class WWOApi < Grape::API
   end
 
   get 'conversations' do
-    conversations = {}
-    Message.involving(current_user).order('created_at DESC').each do |message|
-    end
+    authenticate!
+
+    {
+      success: true,
+      conversations: current_user.conversations.map do |c|
+        Boxer.ship(:conversation, c, current_user)
+      end
+    }
   end
 
   get 'conversations/:id' do
     authenticate!
 
-    other_user = User.find(params[:id])
-    messages = Message.between(current_user, other_user).map do |message|
-      {
-        sender_id: message.sender_id,
-        receiver_id: message.receiver_id,
-        body: message.body
-      }
-    end
+    conversation = Conversation.find(params[:id])
 
     {
-        success: true,
-        conversation: {
-            current_user_id: current_user.id,
-            other_user_id: other_user.id,
-            messages: messages
-        }
+      success: true,
+      conversation: Boxer.ship(:conversation, conversation, current_user, :view => :full)
     }
   end
 
