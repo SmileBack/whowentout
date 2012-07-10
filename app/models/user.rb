@@ -298,7 +298,6 @@ class User < ActiveRecord::Base
     convo = Conversation.between(self, user)
     message = convo.messages.create!(
       sender: self,
-      receiver: user,
       body: message_body
     )
     message.send_message!
