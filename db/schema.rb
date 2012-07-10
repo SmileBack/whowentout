@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120703210553) do
+ActiveRecord::Schema.define(:version => 20120709215822) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -54,6 +54,16 @@ ActiveRecord::Schema.define(:version => 20120703210553) do
     t.datetime "updated_at"
   end
 
+  create_table "conversations", :force => true do |t|
+    t.integer  "latest_message_id"
+    t.string   "users_hash"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "messages_count",    :default => 0, :null => false
+  end
+
+  add_index "conversations", ["users_hash"], :name => "index_conversations_on_users_hash"
+
   create_table "facebook_friendships", :force => true do |t|
     t.integer "user_id",   :null => false
     t.integer "friend_id", :null => false
@@ -81,14 +91,16 @@ ActiveRecord::Schema.define(:version => 20120703210553) do
   add_index "interests", ["facebook_id"], :name => "index_interests_on_facebook_id"
 
   create_table "messages", :force => true do |t|
-    t.integer  "sender_id",   :null => false
-    t.integer  "receiver_id", :null => false
+    t.integer  "sender_id",       :null => false
+    t.integer  "receiver_id",     :null => false
     t.string   "status"
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "conversation_id"
   end
 
+  add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
   add_index "messages", ["sender_id", "receiver_id"], :name => "index_messages_on_sender_id_and_receiver_id"
   add_index "messages", ["status"], :name => "index_messages_on_status"
 
@@ -182,6 +194,13 @@ ActiveRecord::Schema.define(:version => 20120703210553) do
 
   create_table "tags", :force => true do |t|
     t.string "name"
+  end
+
+  create_table "user_conversations", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "conversation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_interests", :force => true do |t|

@@ -32,7 +32,7 @@ class Friendship < ActiveRecord::Base
       transition :sent => :other_ignored
     end
 
-    event :remove do
+    event :remove_friendship do
       transition :active => :inactive
     end
 

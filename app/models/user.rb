@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   has_many :user_interests
   has_many :interests, :through => :user_interests
 
+  has_many :user_conversations
+  has_many :conversations, :through => :user_conversations
+
   has_many :facebook_friendships
   has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
 
@@ -181,7 +184,7 @@ class User < ActiveRecord::Base
   end
 
   def remove_friend(user)
-    change_friendship_with(user, :remove)
+    change_friendship_with(user, :remove_friendship)
   end
 
   def block_user(user)
@@ -292,7 +295,12 @@ class User < ActiveRecord::Base
   end
 
   def send_message(user, message_body)
-    message = Message.create!(sender: self, receiver: user, body: message_body)
+    convo = Conversation.between(self, user)
+    message = convo.messages.create!(
+      sender: self,
+      receiver: user,
+      body: message_body
+    )
     message.send_message!
   end
 

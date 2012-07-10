@@ -59,14 +59,8 @@ class WWOApi < Grape::API
 
     nearby_users = current_user.nearby_users
     unless nearby_users.nil?
-      nearby_users.each do |u|
-        response[:users] << {
-            id: u.id,
-            name: u.first_name,
-            age: u.age,
-            networks: u.college_networks.pluck(:name).join(', '),
-            thumb: u.photo.thumb
-        }
+      response[:users] = nearby_users.map do |user|
+        Boxer.ship(:user, user)
       end
     end
 
@@ -81,33 +75,10 @@ class WWOApi < Grape::API
   get 'users/:id' do
     authenticate!
 
-    u = User.find(params[:id])
+    user = User.find(params[:id])
 
     {
-        user: {
-          id: u.id,
-          name: u.first_name,
-          age: u.age,
-          photos: u.photos.pluck(:large),
-          networks: u.networks.pluck(:name).join(', '),
-          hometown: u.hometown || "",
-          current_city: u.current_city || "",
-          college: u.college_networks.pluck(:name).join(', '),
-          relationship_status: u.relationship_status || "",
-          interested_in: u.interested_in || "",
-          work: u.work || "",
-          mutual_friends: u.mutual_facebook_friends_with(current_user).map do |friend|
-            {
-                name: friend.first_name,
-                thumb: "http://graph.facebook.com/#{friend.facebook_id}/picture?type=square"
-            }
-          end,
-          music: [],
-          interests: u.interests.map do |interest|
-            {name: interest.name, thumb: interest.thumb}
-          end,
-          recent_places: []
-        },
+        user: Boxer.ship(:user, user, current_user, :view => :full),
         success: true,
         request: params
     }
@@ -120,6 +91,12 @@ class WWOApi < Grape::API
     current_user.save
 
     {success: true}
+  end
+
+  get 'conversations' do
+    conversations = {}
+    Message.involving(current_user).order('created_at DESC').each do |message|
+    end
   end
 
   get 'conversations/:id' do
@@ -159,7 +136,9 @@ class WWOApi < Grape::API
 
   get 'me' do
     if logged_in?
-      {user: current_user}
+      {
+          user: current_user
+      }
     else
       {user: nil}
     end

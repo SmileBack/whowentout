@@ -1,5 +1,9 @@
 class Message < ActiveRecord::Base
+
   belongs_to :sender, :class_name => 'User'
+  belongs_to :conversation, :counter_cache => true
+
+  # todo: remove
   belongs_to :receiver, :class_name => 'User'
 
   state_machine :status, :initial => :composed do
@@ -24,9 +28,9 @@ class Message < ActiveRecord::Base
     after_transition :on => :send_message, :do => :notify_sender unless Rails.env.test?
   end
 
-  def self.between(userA, userB)
-    from_a_to_b = arel_table[:sender_id].eq(userA.id).and(arel_table[:receiver_id].eq(userB.id))
-    from_b_to_a = arel_table[:sender_id].eq(userB.id).and(arel_table[:receiver_id].eq(userA.id))
+  def self.between(user_a, user_b)
+    from_a_to_b = arel_table[:sender_id].eq(user_a.id).and(arel_table[:receiver_id].eq(user_b.id))
+    from_b_to_a = arel_table[:sender_id].eq(user_b.id).and(arel_table[:receiver_id].eq(user_a.id))
     Message.where(from_a_to_b.or(from_b_to_a))
   end
 

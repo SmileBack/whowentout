@@ -30,8 +30,11 @@ gem 'therubyracer'
 
 # To use debugger
 gem 'debugger', :group => [:test, :development]
+gem 'pry', :group => [:test, :development]
+gem 'pry-nav', :group => [:test, :development]
 
 gem 'grape'
+gem 'boxer'
 gem 'koala'
 gem 'geocoder'
 gem 'acts-as-taggable-on', '~> 2.2.2'
