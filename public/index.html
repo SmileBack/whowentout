@@ -6,67 +6,68 @@
 
       <script>
 
-          var token = 'AAACEdEose0cBAN5JZAJExJGo0FBTx4mrnZCDqZBFWCdZCabjH9T9QYOEZBun1GusZALMZCIBd42yJrvWbsS7rHpeKcDBgZBvoZALzXVTwiXZAdNgZDZD';
+          var token = 'AAACEdEose0cBAGyx9q64uul7r5wIPGqg4LHZCiwhkLxoZBCYAXpMHdkPpvdqq3Nla6a3yWvpOWAdqIEZAMqKXICIEa61lgtyPwvKZCS3NgZDZD';
+
+          function request(type, url, data) {
+              data = data || {};
+              data.token = token;
+
+              var requestParameters = {
+                url: '/api/v1/' + url,
+                type: type,
+                dataType: 'json',
+                data: data
+              };
+
+              var ajaxRequest = $.ajax(requestParameters);
+              ajaxRequest.success(function(response) {
+                  response.request = requestParameters;
+                  $.dump(response);
+              });
+              return ajaxRequest;
+          }
+
+          function get(url, data) {
+              return request('GET', url, data);
+          }
+
+          function post(url, data) {
+              return request('POST', url, data);
+          }
+
+          function get_user(user_id) {
+              get('users/' + user_id);
+          }
 
           function update_location(longitude, latitude) {
-              $.ajax({
-                  url: '/api/v1/location',
-                  type: 'POST',
-                  dataType: 'json',
-                  data: {
-                      token: token,
-                      latitude: longitude,
-                      longitude: latitude
-                  },
-                  success: function(response) {
-                      $.dump(response);
-                  }
+              post('location', {
+                  longitude: longitude,
+                  latitude: latitude
               });
           }
 
           function register_push_token(iphone_push_token) {
-              $.ajax({
-                  url: '/api/v1/push/register',
-                  type: 'POST',
-                  dataType: 'json',
-                  data: {token: token, iphone_push_token: iphone_push_token},
-                  success: function(response) {
-                      $.dump(response);
-                  }
-              })
-          }
-
-          function get_location() {
-              $.ajax({
-                  url: '/api/v1/location',
-                  type: 'GET',
-                  data: {token: token},
-                  success: function(response) {
-                      $.dump(response);
-                  }
+              post('push/register', {
+                  iphone_push_token: iphone_push_token
               });
           }
 
-          function get_nearby() {
-              $.ajax({
-                  url: '/api/v1/nearby',
-                  type: 'GET',
-                  data: {token: token},
-                  success: function(response) {
-                      $.dump(response);
-                  }
-              })
+          function get_location() {
+              get('location');
           }
 
-          function send_message(user_id, body) {
-              $.ajax({
-                  url: '/api/v1/users/' + user_id + '/message',
-                  type: 'POST',
-                  data: {token: token, body: body},
-                  success: function(response) {
-                      $.dump(response);
-                  }
-              })
+          function get_nearby() {
+              get('nearby');
+          }
+
+          function get_conversation(conversation_id) {
+              get('conversations/' + conversation_id);
+          }
+
+          function send_message(conversation_id, body) {
+              post('conversations/' + conversation_id + '/send', {
+                  body: body
+              });
           }
 
       </script>

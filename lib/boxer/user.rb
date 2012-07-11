@@ -14,6 +14,7 @@ Boxer.box(:user) do |box, user, current_user|
   box.view(:profile, :extends => :base) do
     {
       photos: user.photos.pluck(:large),
+      conversation_id: Conversation.find_or_create_by_users(user, current_user).id,
       hometown: user.hometown || "",
       current_city: user.current_city || "",
       relationship_status: user.relationship_status || "",

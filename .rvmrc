@@ -46,4 +46,3 @@ fi
 # then
 #   bundle install | grep -vE '^Using|Your bundle is complete'
 # fi
-                 N
