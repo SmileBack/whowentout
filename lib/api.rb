@@ -17,10 +17,18 @@ class WWOApi < Grape::API
       current_user != nil
     end
 
+    def unauthorized!(message)
+      error!({:error => message}, 401)
+    end
+
+    def resource_not_found!(type)
+      error!({:error => "This #{type} does not exist."}, 404)
+    end
+
     def authenticate!
       token = params[:token]
-      error!({:error => 'Must provide a Facebook access token. None provided'}, 401) if token.nil?
-      error!({:error => 'Invalid or expired Facebook access token.'}, 401) if current_user.nil?
+      unauthorized!('Must provide a Facebook access token. None provided') if token.nil?
+      unauthorized!('Invalid or expired Facebook access token.') if current_user.nil?
     end
 
   end
@@ -76,9 +84,10 @@ class WWOApi < Grape::API
     authenticate!
 
     user = User.find(params[:id])
+    resource_not_found!('user') if user.nil?
 
     {
-        user: Boxer.ship(:user, user, current_user, :view => :full),
+        user: Boxer.ship(:user, user, current_user, :view => :profile),
         success: true,
         request: params
     }
@@ -108,6 +117,7 @@ class WWOApi < Grape::API
     authenticate!
 
     conversation = Conversation.find(params[:id])
+    resource_not_found!('conversation') if conversation.nil?
 
     {
       success: true,
@@ -115,13 +125,20 @@ class WWOApi < Grape::API
     }
   end
 
-  post 'users/:id/message' do
+  post 'conversations/:id/send' do
     authenticate!
 
-    recipient = User.find(params[:id])
+    conversation = Conversation.find(params[:id])
+    resource_not_found!('conversation') if conversation.nil?
+
+
     body = params[:body]
 
-    current_user.send_message(recipient, body) unless recipient.nil?
+    message = conversation.messages.create!(
+      sender: current_user,
+      body: body
+    )
+    message.send_message!
 
     {
         success: true
@@ -129,13 +146,12 @@ class WWOApi < Grape::API
   end
 
   get 'me' do
-    if logged_in?
-      {
-          user: current_user
-      }
-    else
-      {user: nil}
-    end
+    authenticate!
+
+    {
+      success: true,
+      user: Boxer.ship(:user, current_user, current_user, :view => :profile)
+    }
   end
 
 end

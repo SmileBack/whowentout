@@ -1,4 +1,5 @@
 Boxer.box(:user) do |box, user, current_user|
+
   box.view(:base) do
     {
         id: user.id,
@@ -10,7 +11,7 @@ Boxer.box(:user) do |box, user, current_user|
     }
   end
 
-  box.view(:full, :extends => :base) do
+  box.view(:profile, :extends => :base) do
     {
       photos: user.photos.pluck(:large),
       hometown: user.hometown || "",
@@ -31,3 +32,4 @@ Boxer.box(:user) do |box, user, current_user|
   end
 
 end
+

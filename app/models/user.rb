@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :interests, :through => :user_interests
 
   has_many :user_conversations
-  has_many :conversations, :through => :user_conversations
+  has_many :conversations, :through => :user_conversations, :conditions => ['messages_count > ?', 0]
 
   has_many :facebook_friendships
   has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
@@ -295,16 +295,13 @@ class User < ActiveRecord::Base
   end
 
   def send_message(user, message_body)
-    convo = Conversation.between(self, user)
-    message = convo.messages.create!(
+    conversation = Conversation.find_or_create_by_users(self, user)
+
+    message = conversation.messages.create!(
       sender: self,
       body: message_body
     )
     message.send_message!
-  end
-
-  def messages
-    Message.involving(self).where(status: ['sent', 'received', 'read']).order('created_at DESC')
   end
 
   def start_smile_game_with(user, number_of_choices = 12)
