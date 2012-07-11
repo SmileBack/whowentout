@@ -34,7 +34,14 @@ class Message < ActiveRecord::Base
           body: self.body
         }
       )
+      unless u == self.sender
+        u.notify(message_summary)
+      end
     end
+  end
+
+  def message_summary
+    "#{self.sender.first_name}: #{self.body}"
   end
 
 end

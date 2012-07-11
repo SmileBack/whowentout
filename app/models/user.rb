@@ -65,6 +65,8 @@ class User < ActiveRecord::Base
   end
 
   def age
+    return nil if self.birthday.nil?
+
     now = Time.now.utc.to_date
     now.year - self.birthday.year - ((now.month > self.birthday.month || (now.month == self.birthday.month && now.day >= dob.day)) ? 0 : 1)
   end
