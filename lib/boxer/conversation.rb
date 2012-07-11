@@ -2,7 +2,6 @@ Boxer.box(:conversation) do |box, conversation, current_user|
 
   box.view(:base) do
     latest_message = conversation.latest_message
-    binding.pry
 
     other_user = (conversation.users - [current_user]).first
     {
