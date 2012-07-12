@@ -32,7 +32,8 @@ class User < ActiveRecord::Base
   has_one :current_checkin, :class_name => 'Checkin', :conditions => {:is_active => true}
   has_many :past_checkins, :class_name => 'Checkin', :conditions => {:is_active => false}, :order => 'created_at DESC'
 
-  has_many :smile_games, :foreign_key => 'receiver_id'
+  has_many :smile_games_sent, :class_name => 'SmileGame', :foreign_key => 'sender_id'
+  has_many :smile_games_received, :class_name => 'SmileGame', :foreign_key => 'receiver_id'
 
   validates_inclusion_of :gender, :in => ['M', 'F', nil]
 
@@ -351,7 +352,7 @@ class User < ActiveRecord::Base
   end
 
   def open_smile_games
-    smile_games(status: 'open')
+    self.smile_games_received.where(status: 'open')
   end
 
 end

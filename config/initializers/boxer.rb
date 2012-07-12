@@ -1,3 +1,11 @@
+class Boxer
+
+  def self.ship_all(type, objects, *args)
+    objects.map { |o| ship(type, o, *args) }
+  end
+
+end
+
 Boxer.configure do |config|
 
 end

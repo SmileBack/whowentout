@@ -67,9 +67,7 @@ class WWOApi < Grape::API
 
     nearby_users = current_user.nearby_users
     unless nearby_users.nil?
-      response[:users] = nearby_users.map do |user|
-        Boxer.ship(:user, user)
-      end
+      response[:users] = Boxer.ship_all(:user, nearby_users)
     end
 
     unless current_user.current_region.nil?
@@ -107,9 +105,7 @@ class WWOApi < Grape::API
 
     {
       success: true,
-      conversations: current_user.conversations.map do |c|
-        Boxer.ship(:conversation, c, current_user)
-      end
+      conversations: Boxer.ship_all(:conversation, current_user.conversations, current_user)
     }
   end
 
@@ -142,6 +138,15 @@ class WWOApi < Grape::API
 
     {
         success: true
+    }
+  end
+
+  get 'smile-games/sent' do
+    authenticate!
+
+    {
+      success: true,
+      smile_games: Boxer.ship_all(:smile_game, current_user.smile_games_sent, :view => :sent)
     }
   end
 
