@@ -14,7 +14,7 @@ Boxer.box(:smile_game) do |box, smile_game|
 
   box.view(:received, :extends => :base) do
     {
-      receiver: smile_game.status == 'match' ? Boxer.ship(:user, smile_game.sender) : nil,
+      receiver: Boxer.ship(:user, smile_game.sender, :view => :anonymous),
       guesses_remaining: smile_game.guesses_remaining
     }
   end

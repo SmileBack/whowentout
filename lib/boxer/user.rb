@@ -1,7 +1,7 @@
 Boxer.box(:user) do |box, user, current_user|
 
   def image_path(name)
-    "http://wwoapp.herokuapp.com#{helper.path_to_image(name)}"
+    "http://wwoapp.herokuapp.com/assets/#{name}"
   end
 
   box.view(:base) do
