@@ -6,7 +6,7 @@
 
       <script>
 
-          var token = 'AAACEdEose0cBAHbcIoEbcFtq53Q0PmCEOZBCoZBLRjursqoZAeYR3OT8rCUTIEaWwnqGTE1j7LJZBT1Kendz47Ix13N7ZBBFaasmq1U9QjAZDZD';
+          var token = 'AAACEdEose0cBACCubudJog268UwOvTJHUS9VUgvereZBKrSps9xcZCNuBtzCwoA2Pc5mOCauV7kl87X3wIkXycxb5lSqYxPsMZBLgLCrgZDZD';
 
           function request(type, url, data) {
               data = data || {};
@@ -21,6 +21,10 @@
 
               var ajaxRequest = $.ajax(requestParameters);
               ajaxRequest.success(function(response) {
+                  response.request = requestParameters;
+                  $.dump(response);
+              });
+              ajaxRequest.error(function(response) {
                   response.request = requestParameters;
                   $.dump(response);
               });
@@ -76,6 +80,10 @@
 
           function get_smile_games_received() {
               get('smile-games/received');
+          }
+
+          function start_smile_game(user_id) {
+              post('users/' + user_id + '/start-smile-game');
           }
 
       </script>

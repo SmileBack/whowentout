@@ -141,6 +141,23 @@ class WWOApi < Grape::API
     }
   end
 
+  post 'users/:id/start-smile-game' do
+    authenticate!
+
+    target_user = User.find(params[:id])
+    resource_not_found!('user') if target_user.nil?
+
+    if current_user.can_start_smile_game_with?(target_user)
+      current_user.start_smile_game_with(target_user)
+    else
+      unauthorized!("Can't start smile game with user #{target_user.id}")
+    end
+
+    {
+      success: true
+    }
+  end
+
   get 'smile-games/sent' do
     authenticate!
 

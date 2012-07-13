@@ -26,3 +26,4 @@ Boxer.box(:smile_game) do |box, smile_game|
   end
 
 end
+
