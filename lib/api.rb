@@ -150,6 +150,15 @@ class WWOApi < Grape::API
     }
   end
 
+  get 'smile-games/received' do
+    authenticate!
+
+    {
+      success: true,
+      smile_games: Boxer.ship_all(:smile_game, current_user.smile_games_received, :view => :received)
+    }
+  end
+
   get 'me' do
     authenticate!
 

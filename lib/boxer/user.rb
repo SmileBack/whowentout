@@ -1,13 +1,25 @@
 Boxer.box(:user) do |box, user, current_user|
 
+  def image_path(name)
+    "http://wwoapp.herokuapp.com#{helper.path_to_image(name)}"
+  end
+
   box.view(:base) do
     {
         id: user.id,
         name: user.first_name,
         age: user.age,
+        gender: user.gender,
         networks: user.college_networks.pluck(:name).join(', '),
         college: user.college_networks.pluck(:name).join(', '),
         thumb: user.photo.thumb
+    }
+  end
+
+  box.view(:anonymous) do
+    {
+      gender: user.gender,
+      thumb: image_path('user_anonymous_m.png')
     }
   end
 

@@ -7,7 +7,7 @@ class Boxer
 end
 
 Boxer.configure do |config|
-
+  config.box_includes = []
 end
 
 # Load all of our boxes

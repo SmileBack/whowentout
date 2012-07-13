@@ -307,7 +307,7 @@ class User < ActiveRecord::Base
     message.send_message!
   end
 
-  def start_smile_game_with(user, number_of_choices = 12)
+  def start_smile_game_with(user, number_of_choices = 9)
     if can_start_smile_game_with?(user, number_of_choices)
       SmileGame.create_for_user(user, self, number_of_choices)
     end
@@ -336,7 +336,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def can_start_smile_game_with?(user, number_of_choices = 12)
+  def can_start_smile_game_with?(user, number_of_choices = 9)
     return false if started_smile_game_with?(user)
     return false if smile_count_today >= 3
 
