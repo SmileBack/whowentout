@@ -78,6 +78,17 @@ class WWOApi < Grape::API
     response
   end
 
+  get 'users/me' do
+    authenticate!
+
+    user = current_user
+    {
+        user: Boxer.ship(:user, user, current_user, :view => :profile),
+        success: true,
+        request: params
+    }
+  end
+
   get 'users/:id' do
     authenticate!
 
@@ -173,15 +184,6 @@ class WWOApi < Grape::API
     {
       success: true,
       smile_games: Boxer.ship_all(:smile_game, current_user.smile_games_received, :view => :received)
-    }
-  end
-
-  get 'me' do
-    authenticate!
-
-    {
-      success: true,
-      user: Boxer.ship(:user, current_user, current_user, :view => :profile)
     }
   end
 

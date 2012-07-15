@@ -24,6 +24,15 @@ Boxer.box(:user) do |box, user, current_user|
   end
 
   box.view(:profile, :extends => :base) do
+    mutual_friends = []
+    if user != current_user
+      mutual_friends = current_user.mutual_facebook_friends_with(user).map do |friend|
+        {
+            name: friend.first_name,
+            thumb: "http://graph.facebook.com/#{friend.facebook_id}/picture?type=square"
+        }
+      end
+    end
     {
       photos: user.photos.pluck(:large),
       conversation_id: Conversation.find_or_create_by_users(user, current_user).id,
@@ -32,12 +41,7 @@ Boxer.box(:user) do |box, user, current_user|
       relationship_status: user.relationship_status || "",
       interested_in: user.interested_in || "",
       work: user.work || "",
-      mutual_friends: user.mutual_facebook_friends_with(current_user).map do |friend|
-        {
-            name: friend.first_name,
-            thumb: "http://graph.facebook.com/#{friend.facebook_id}/picture?type=square"
-        }
-      end,
+      mutual_friends: mutual_friends,
       interests: user.interests.map do |interest|
         {name: interest.name, thumb: interest.thumb}
       end

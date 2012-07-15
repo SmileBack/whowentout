@@ -27,7 +27,6 @@ class SmileGame < ActiveRecord::Base
         false
       end
     end
-
   end
 
   def has_guesses_remaining?

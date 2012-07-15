@@ -3,6 +3,7 @@ Boxer.box(:smile_game) do |box, smile_game|
   box.view(:base) do
     {
       id: smile_game.id,
+      status: smile_game.status
     }
   end
 
@@ -22,6 +23,12 @@ Boxer.box(:smile_game) do |box, smile_game|
   box.view(:match, :extends => :base) do
     {
       receiver: smile_game.match.nil? ? nil : Boxer.ship(:user, smile_game.match)
+    }
+  end
+
+  box.view(:full, :extends => :base) do
+    {
+      choices: Boxer.ship_all(:smile_game_choice, smile_game.choices)
     }
   end
 

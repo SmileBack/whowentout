@@ -6,7 +6,7 @@
 
       <script>
 
-          var token = 'AAACEdEose0cBACCubudJog268UwOvTJHUS9VUgvereZBKrSps9xcZCNuBtzCwoA2Pc5mOCauV7kl87X3wIkXycxb5lSqYxPsMZBLgLCrgZDZD';
+          var token = 'AAACEdEose0cBAO0VrhmOLhq9ZB9zVfYN0ceiHdEUj3fOgyJ7wF26s5lwehdhUKiFOVfXT7zlAOCtLyZAAv7r33sCbf3vxfZBNJ7etHJMgZDZD';
 
           function request(type, url, data) {
               data = data || {};
@@ -37,6 +37,10 @@
 
           function post(url, data) {
               return request('POST', url, data);
+          }
+
+          function get_current_user() {
+              get('users/me');
           }
 
           function get_user(user_id) {
@@ -72,6 +76,10 @@
               post('conversations/' + conversation_id + '/send', {
                   body: body
               });
+          }
+
+          function get_smile_game(smile_game_id) {
+              get('smile-games/' + smile_game_id);
           }
 
           function get_smile_games_sent() {
