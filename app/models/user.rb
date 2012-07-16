@@ -65,6 +65,10 @@ class User < ActiveRecord::Base
 
   end
 
+  def last_initial
+    last_name[0].to_s.upcase + '.'
+  end
+
   def age
     return nil if self.birthday.nil?
 

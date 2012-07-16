@@ -92,8 +92,7 @@ class WWOApi < Grape::API
   get 'users/:id' do
     authenticate!
 
-    user = User.find(params[:id])
-    resource_not_found!('user') if user.nil?
+    user = User.find(params[:id]) || resource_not_found!('user')
 
     {
         user: Boxer.ship(:user, user, current_user, :view => :profile),
@@ -123,8 +122,7 @@ class WWOApi < Grape::API
   get 'conversations/:id' do
     authenticate!
 
-    conversation = Conversation.find(params[:id])
-    resource_not_found!('conversation') if conversation.nil?
+    conversation = Conversation.find(params[:id]) || resource_not_found!('conversation')
 
     {
       success: true,
@@ -135,9 +133,7 @@ class WWOApi < Grape::API
   post 'conversations/:id/send' do
     authenticate!
 
-    conversation = Conversation.find(params[:id])
-    resource_not_found!('conversation') if conversation.nil?
-
+    conversation = Conversation.find(params[:id]) || resource_not_found!('conversation')
 
     body = params[:body]
 
@@ -155,8 +151,7 @@ class WWOApi < Grape::API
   post 'users/:id/start-smile-game' do
     authenticate!
 
-    target_user = User.find(params[:id])
-    resource_not_found!('user') if target_user.nil?
+    target_user = User.find(params[:id]) || resource_not_found!('user')
 
     if current_user.can_start_smile_game_with?(target_user)
       current_user.start_smile_game_with(target_user)
@@ -184,6 +179,17 @@ class WWOApi < Grape::API
     {
       success: true,
       smile_games: Boxer.ship_all(:smile_game, current_user.smile_games_received, :view => :received)
+    }
+  end
+
+  get 'smile-games/:id' do
+    authenticate!
+
+    smile_game = SmileGame.find(params[:id]) || resource_not_found!('smile game')
+
+    {
+      success: true,
+      smile_game: Boxer.ship(:smile_game, smile_game, :view => :full)
     }
   end
 
