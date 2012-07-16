@@ -34,8 +34,15 @@ Boxer.box(:user) do |box, user, current_user|
         }
       end
     end
+
+    if user.photos.empty?
+      photos = [user.facebook_profile_picture('large')]
+    else
+      photos = user.photos.pluck(:large)
+    end
+
     {
-      photos: user.photos.pluck(:large),
+      photos: photos,
       conversation_id: Conversation.find_or_create_by_users(user, current_user).id,
       hometown: user.hometown || "",
       current_city: user.current_city || "",
