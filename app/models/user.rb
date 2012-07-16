@@ -140,6 +140,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def facebook_profile_picture(type = 'large')
+    "https://graph.facebook.com/#{self.facebook_id}/picture?type=#{type}"
+  end
+
   def self.in_region(region)
     where(current_region_id: region.id)
   end

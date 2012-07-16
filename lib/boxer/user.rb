@@ -5,6 +5,7 @@ Boxer.box(:user) do |box, user, current_user|
   end
 
   box.view(:base) do
+    thumb = user.photo ? user.photo.thumb : user.facebook_profile_picture('square')
     {
         id: user.id,
         name: user.first_name,
@@ -12,7 +13,7 @@ Boxer.box(:user) do |box, user, current_user|
         gender: user.gender,
         networks: user.college_networks.pluck(:name).join(', '),
         college: user.college_networks.pluck(:name).join(', '),
-        thumb: user.photo.thumb
+        thumb: thumb
     }
   end
 
