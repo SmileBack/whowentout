@@ -5,7 +5,7 @@ class SmileGame < ActiveRecord::Base
   belongs_to :match, :class_name => 'User'
   belongs_to :origin, :class_name => 'SmileGame'
 
-  has_many :choices, :class_name => 'SmileGameChoice', :order => 'position ASC'
+  has_many :choices, :class_name => 'SmileGameChoice', :order => 'position ASC', :dependent => :destroy
 
   state_machine :status, :initial => :open do
     event :mark_as_matched do
@@ -42,7 +42,7 @@ class SmileGame < ActiveRecord::Base
   end
 
   def guesses_used
-    choices.where(status: 'no_match').count
+    choices.where(status: ['no_match', 'match']).count
   end
 
   def self.shuffle(arr)
@@ -53,7 +53,7 @@ class SmileGame < ActiveRecord::Base
     define_singleton_method(:shuffle, &block)
   end
 
-  def self.create_for_user(user, sender, number_of_choices = 12)
+  def self.create_for_user(user, sender, number_of_choices = 9)
     game = SmileGame.create(sender_id: sender.id, receiver_id: user.id)
 
     game.add_correct_choice(sender)
@@ -73,7 +73,13 @@ class SmileGame < ActiveRecord::Base
     where(direct_condition)
   end
 
+  def can_guess?(choice)
+    return open?
+  end
+
   def guess(choice, number_of_choices = 9)
+    return if not can_guess?(choice)
+
     success = choice.guess
     return if success == false
 
@@ -126,6 +132,8 @@ class SmileGame < ActiveRecord::Base
       not_existing_choice = User.arel_table[:id].not_in(chosen_user_ids)
       available_choices = available_choices.where(not_existing_choice)
     end
+
+    available_choices = available_choices.where(gender: self.sender.gender)
 
     return available_choices.order('id ASC')
   end

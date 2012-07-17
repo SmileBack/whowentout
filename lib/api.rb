@@ -78,7 +78,7 @@ class WWOApi < Grape::API
     response
   end
 
-  get 'users/me' do
+  get 'me' do
     authenticate!
 
     user = current_user
@@ -164,7 +164,7 @@ class WWOApi < Grape::API
     }
   end
 
-  get 'smile-games/sent' do
+  get 'smile-games-sent' do
     authenticate!
 
     {
@@ -173,12 +173,21 @@ class WWOApi < Grape::API
     }
   end
 
-  get 'smile-games/received' do
+  get 'smile-games-received' do
     authenticate!
 
     {
       success: true,
       smile_games: Boxer.ship_all(:smile_game, current_user.smile_games_received, :view => :received)
+    }
+  end
+
+  get 'smile-games-matched' do
+    authenticate!
+
+    {
+      success: true,
+      smile_games: Boxer.ship_all(:smile_game, current_user.smile_games_matched, current_user, :view => :matched)
     }
   end
 
@@ -198,6 +207,7 @@ class WWOApi < Grape::API
 
     smile_game = SmileGame.find(params[:game_id]) || resource_not_found('smile game')
     smile_game_choice = smile_game.choices.find(params[:choice_id]) || resource_not_found('smile game choice')
+
     smile_game.guess(smile_game_choice)
 
     {

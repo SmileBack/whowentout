@@ -1,7 +1,8 @@
 FactoryGirl.define do
+
   factory :user do |f|
-    f.sequence(:first_name) { |n| "Userfirst#{n}" }
-    f.sequence(:last_name) { |n| "Userlast#{n}" }
+    f.sequence(:first_name) { |n| "Guyfirst #{n}" }
+    f.sequence(:last_name) { |n| "Guylast #{n}" }
     facebook_id 1234
     gender "M"
     status "online"

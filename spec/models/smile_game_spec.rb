@@ -41,10 +41,10 @@ describe SmileGame do
     it "should create a game for the receiving user" do
       a, b = create_users('a'..'d')
 
-      b.open_smile_games.should be_empty
+      b.smile_games_open.should be_empty
 
       a.start_smile_game_with(b, 3)
-      b.open_smile_games.should_not be_empty
+      b.smile_games_open.should_not be_empty
     end
 
     it "should only let you smile at a user once" do
@@ -86,7 +86,7 @@ describe SmileGame do
 
         a.start_smile_game_with(b, 4)
 
-        game = b.open_smile_games.first
+        game = b.smile_games_open.first
 
         [c, d, e].each do |user|
           choice = game.choices.find_by_user_id(user.id)
@@ -115,16 +115,16 @@ describe SmileGame do
 
       a, b, c = create_users('a'..'z')
       a.start_smile_game_with(b, 3)
-      game = b.open_smile_games.first
+      game = b.smile_games_open.first
 
-      c.open_smile_games.should be_empty
+      c.smile_games_open.should be_empty
 
       c_choice = game.choices.find_by_user_id(c.id)
       game.guess(c_choice)
 
-      c.open_smile_games.should_not be_empty
+      c.smile_games_open.should_not be_empty
 
-      c.open_smile_games.first.origin.should == game
+      c.smile_games_open.first.origin.should == game
     end
 
     it "should not create a smile game when there IS a match" do
@@ -135,14 +135,14 @@ describe SmileGame do
 
       a, b, c = create_users('a'..'z')
       a.start_smile_game_with(b, 3)
-      game = b.open_smile_games.first
+      game = b.smile_games_open.first
 
-      c.open_smile_games.should be_empty
+      c.smile_games_open.should be_empty
 
       a_choice = game.choices.find_by_user_id(a.id)
       game.guess(a_choice)
 
-      c.open_smile_games.should be_empty
+      c.smile_games_open.should be_empty
     end
 
     it "should end the game with the matched user when there IS a match" do
@@ -150,7 +150,7 @@ describe SmileGame do
 
       a.start_smile_game_with(b, 3)
 
-      game = b.open_smile_games.first
+      game = b.smile_games_open.first
       game.open?.should be_true
 
       a_choice = game.choices.find_by_user_id(a.id)
@@ -171,7 +171,7 @@ describe SmileGame do
 
       a.start_smile_game_with(b, 4)
 
-      game = b.open_smile_games.first
+      game = b.smile_games_open.first
       game.open?.should be_true
 
       [c, d, e].each do |user|

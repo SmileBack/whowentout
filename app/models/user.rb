@@ -32,8 +32,8 @@ class User < ActiveRecord::Base
   has_one :current_checkin, :class_name => 'Checkin', :conditions => {:is_active => true}
   has_many :past_checkins, :class_name => 'Checkin', :conditions => {:is_active => false}, :order => 'created_at DESC'
 
-  has_many :smile_games_sent, :class_name => 'SmileGame', :foreign_key => 'sender_id'
-  has_many :smile_games_received, :class_name => 'SmileGame', :foreign_key => 'receiver_id'
+  has_many :smile_games_sent, :class_name => 'SmileGame', :foreign_key => 'sender_id', :order => 'created_at DESC'
+  has_many :smile_games_received, :class_name => 'SmileGame', :foreign_key => 'receiver_id', :order => 'created_at DESC'
 
   validates_inclusion_of :gender, :in => ['M', 'F', nil]
 
@@ -63,6 +63,22 @@ class User < ActiveRecord::Base
       end
     end
 
+  end
+
+  def smile_games_sent_or_received
+    t = SmileGame.arel_table
+    sent_smile_game = t[:sender_id].eq(self.id)
+    received_smile_game = t[:receiver_id].eq(self.id)
+
+    SmileGame.where(sent_smile_game.or(received_smile_game))
+  end
+
+  def smile_games_matched
+    smile_games_sent_or_received.where(status: 'match')
+  end
+
+  def smile_games_open
+    self.smile_games_received.where(status: 'open')
   end
 
   def last_initial
@@ -348,7 +364,7 @@ class User < ActiveRecord::Base
   # todo: move out of user object
   def can_start_smile_game_with?(user)
     return false if started_smile_game_with?(user)
-    #return false if smile_count_today >= 3
+    return false if smile_count_today >= 3
 
     return true
   end
@@ -360,10 +376,6 @@ class User < ActiveRecord::Base
   # todo: move out of user object?
   def started_smile_game_with?(user)
     not SmileGame.find_by_sender_id_and_receiver_id(self.id, user.id).nil?
-  end
-
-  def open_smile_games
-    self.smile_games_received.where(status: 'open')
   end
 
 end
