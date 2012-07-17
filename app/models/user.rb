@@ -28,10 +28,6 @@ class User < ActiveRecord::Base
 
   belongs_to :current_region, :class_name => 'Region'
 
-  has_many :checkins, :order => 'created_at DESC', :inverse_of => :user
-  has_one :current_checkin, :class_name => 'Checkin', :conditions => {:is_active => true}
-  has_many :past_checkins, :class_name => 'Checkin', :conditions => {:is_active => false}, :order => 'created_at DESC'
-
   has_many :smile_games_sent, :class_name => 'SmileGame', :foreign_key => 'sender_id', :order => 'created_at DESC'
   has_many :smile_games_received, :class_name => 'SmileGame', :foreign_key => 'receiver_id', :order => 'created_at DESC'
 
@@ -90,26 +86,6 @@ class User < ActiveRecord::Base
 
     now = Time.now.utc.to_date
     now.year - self.birthday.year - ((now.month > self.birthday.month || (now.month == self.birthday.month && now.day >= dob.day)) ? 0 : 1)
-  end
-
-  def update_checkin(place)
-    clear_checkin
-
-    checkins.create!(place: place, is_active: true)
-
-    reload
-    save
-  end
-  alias_method :checkin_to, :update_checkin
-
-  def clear_checkin
-    unless current_checkin.nil?
-      current_checkin.is_active = false
-      current_checkin.save
-      reload
-
-      save
-    end
   end
 
   def update_location(coordinates)
@@ -251,13 +227,6 @@ class User < ActiveRecord::Base
     User.joins(:current_location).each do |row|
       user = User.find(row.id)
       user.clear_location
-    end
-  end
-
-  def self.clear_all_checkins
-    User.joins(:current_checkin).each do |row|
-      user = User.find(row.id)
-      user.clear_checkin
     end
   end
 
