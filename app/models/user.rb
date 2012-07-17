@@ -145,11 +145,10 @@ class User < ActiveRecord::Base
   end
 
   def self.visible_to(user)
-    blocked_users = Friendship.where(user_id: user.id, status: ['blocked', 'other_blocked'])
-    blocked_user_ids = blocked_users.pluck(:friend_id)
+    #todo can use dthis for later
+    blocked_user_ids = []
 
     return where('1=0') if user.status != 'online'
-
     results = where('1=1')
 
     unless blocked_user_ids.empty? #NOT IN(NULL) doesn't work as expected
