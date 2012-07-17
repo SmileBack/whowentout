@@ -6,7 +6,7 @@
 
       <script>
 
-          var token = 'AAACEdEose0cBAMWhZCoQV9C47HhqpSoZBPEZA7ePXH386CCjHIAt6EjPOMTxJiaHYD5oiiSBGRtc09lp9yZAaPGhYDRU6cXOIyU2dpYo3gZDZD';
+          var token = 'AAACEdEose0cBADDIRRYAjreNBYvWwnIkBXWigGridHGSem8JvKpATl8dRZCADsZBE4WZC5nkRgGCMHOWFgZBkKy2oCofTlMgzcAgXJFUOwZDZD';
 
           function request(type, url, data) {
               data = data || {};
@@ -92,6 +92,10 @@
 
           function start_smile_game(user_id) {
               post('users/' + user_id + '/start-smile-game');
+          }
+
+          function guess_smile_game_choice(smile_game_id, smile_game_choice_id) {
+              post('smile-games/' + smile_game_id + '/choices/' + smile_game_choice_id + '/guess');
           }
 
       </script>

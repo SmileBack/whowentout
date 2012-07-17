@@ -193,4 +193,17 @@ class WWOApi < Grape::API
     }
   end
 
+  post 'smile-games/:game_id/choices/:choice_id/guess' do
+    authenticate!
+
+    smile_game = SmileGame.find(params[:game_id]) || resource_not_found('smile game')
+    smile_game_choice = smile_game.choices.find(params[:choice_id]) || resource_not_found('smile game choice')
+    smile_game.guess(smile_game_choice)
+
+    {
+      success: true,
+      smile_game: Boxer.ship(:smile_game, smile_game, :view => :full)
+    }
+  end
+
 end
