@@ -65,6 +65,10 @@ class User < ActiveRecord::Base
 
   end
 
+  def last_initial
+    last_name[0].to_s.upcase + '.'
+  end
+
   def age
     return nil if self.birthday.nil?
 
@@ -311,6 +315,7 @@ class User < ActiveRecord::Base
     message.send_message!
   end
 
+  # todo: move out of user object
   def start_smile_game_with(user, number_of_choices = 9)
     if can_start_smile_game_with?(user)
       SmileGame.create_for_user(user, self, number_of_choices)
@@ -340,9 +345,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  # todo: move out of user object
   def can_start_smile_game_with?(user)
     return false if started_smile_game_with?(user)
-    return false if smile_count_today >= 3
+    #return false if smile_count_today >= 3
 
     return true
   end
@@ -351,6 +357,7 @@ class User < ActiveRecord::Base
     SmileGame.where(sender_id: self.id).direct.created_today.count
   end
 
+  # todo: move out of user object?
   def started_smile_game_with?(user)
     not SmileGame.find_by_sender_id_and_receiver_id(self.id, user.id).nil?
   end

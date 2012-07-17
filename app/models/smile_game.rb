@@ -73,7 +73,7 @@ class SmileGame < ActiveRecord::Base
     where(direct_condition)
   end
 
-  def guess(choice, number_of_choices = 12)
+  def guess(choice, number_of_choices = 9)
     success = choice.guess
     return if success == false
 
@@ -82,8 +82,11 @@ class SmileGame < ActiveRecord::Base
       self.mark_as_matched
       save
     elsif choice.status == 'no_match'
+
+      # if returned game is nil, it means we failed to create the smile game
+      # this could be because we ran out of people or some other reason
       game = receiver.start_smile_game_with(choice.user, number_of_choices)
-      game.update_attribute(:origin_id, self.id)
+      game.update_attribute(:origin_id, self.id) unless game.nil?
 
       self.mark_as_didnt_match if has_guesses_remaining? == false
     end
