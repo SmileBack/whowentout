@@ -61,6 +61,7 @@ class SmileGame < ActiveRecord::Base
 
     game.shuffle!
 
+    user.notify("Someone has just smiled at you.")
     return game
   end
 
