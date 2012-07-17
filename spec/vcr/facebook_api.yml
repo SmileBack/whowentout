@@ -8449,4 +8449,192 @@ http_interactions:
       string: ! '{"data":[]}'
     http_version: 
   recorded_at: Thu, 28 Jun 2012 21:56:40 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com/fql?access_token=AAACEdEose0cBAEyukryoZAII9kZCB71O9OEhcvz8bEZB3KsXwYZB6HvxxZA1WAzyReS9gPxdYjc8ZA2DZC8klPi0yMKNHino3EgKUtsUuY9hQZDZD&q=SELECT%20uid,%20first_name,%20last_name,%20sex,%20affiliations%20FROM%20user%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20WHERE%20uid%20IN%20(SELECT%20uid2%20FROM%20friend%20WHERE%20uid1%20=%20me())
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - no-store
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Pragma:
+      - no-cache
+      Www-Authenticate:
+      - ! 'OAuth "Facebook Platform" "invalid_token" "Error validating access token:
+        Session has expired at unix time 1340924400. The current unix time is 1342564464."'
+      X-Fb-Rev:
+      - '592070'
+      X-Fb-Debug:
+      - J2C52is5i2gYsNofFR3Cu1LWk7Yalq+K7QdFVlhwa5s=
+      Date:
+      - Tue, 17 Jul 2012 22:34:24 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '191'
+    body:
+      encoding: US-ASCII
+      string: ! '{"error":{"message":"Error validating access token: Session has expired
+        at unix time 1340924400. The current unix time is 1342564464.","type":"OAuthException","code":190,"error_subcode":463}}'
+    http_version: 
+  recorded_at: Tue, 17 Jul 2012 22:34:24 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com/fql?access_token=AAACEdEose0cBAEyukryoZAII9kZCB71O9OEhcvz8bEZB3KsXwYZB6HvxxZA1WAzyReS9gPxdYjc8ZA2DZC8klPi0yMKNHino3EgKUtsUuY9hQZDZD&q=SELECT%20affiliations%20FROM%20user%20WHERE%20uid=me()
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - no-store
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Pragma:
+      - no-cache
+      Www-Authenticate:
+      - ! 'OAuth "Facebook Platform" "invalid_token" "Error validating access token:
+        Session has expired at unix time 1340924400. The current unix time is 1342564465."'
+      X-Fb-Rev:
+      - '592070'
+      X-Fb-Debug:
+      - WEtktZq8zgjmBXaiBnbpdjuX+xqUv0BRm5aXR8hndEw=
+      Date:
+      - Tue, 17 Jul 2012 22:34:25 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '191'
+    body:
+      encoding: US-ASCII
+      string: ! '{"error":{"message":"Error validating access token: Session has expired
+        at unix time 1340924400. The current unix time is 1342564465.","type":"OAuthException","code":190,"error_subcode":463}}'
+    http_version: 
+  recorded_at: Tue, 17 Jul 2012 22:34:25 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com/me/activities?access_token=AAACEdEose0cBAEyukryoZAII9kZCB71O9OEhcvz8bEZB3KsXwYZB6HvxxZA1WAzyReS9gPxdYjc8ZA2DZC8klPi0yMKNHino3EgKUtsUuY9hQZDZD
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - no-store
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Pragma:
+      - no-cache
+      Www-Authenticate:
+      - ! 'OAuth "Facebook Platform" "invalid_token" "Error validating access token:
+        Session has expired at unix time 1340924400. The current unix time is 1342564467."'
+      X-Fb-Rev:
+      - '592070'
+      X-Fb-Debug:
+      - Ws0askXAUaBIctyEAARo0pVNXE8DQajSwyWT+7G5XQE=
+      Date:
+      - Tue, 17 Jul 2012 22:34:27 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '191'
+    body:
+      encoding: US-ASCII
+      string: ! '{"error":{"message":"Error validating access token: Session has expired
+        at unix time 1340924400. The current unix time is 1342564467.","type":"OAuthException","code":190,"error_subcode":463}}'
+    http_version: 
+  recorded_at: Tue, 17 Jul 2012 22:34:27 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com/fql?access_token=AAACEdEose0cBAEyukryoZAII9kZCB71O9OEhcvz8bEZB3KsXwYZB6HvxxZA1WAzyReS9gPxdYjc8ZA2DZC8klPi0yMKNHino3EgKUtsUuY9hQZDZD&q=SELECT%20pid,%20created,%20src,%20src_small,%20src_big%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20FROM%20photo%20WHERE%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20aid%20IN%20(SELECT%20aid%20FROM%20album%20WHERE%20owner%20=%20me()%20AND%20type%20=%20'profile')
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Access-Control-Allow-Origin:
+      - ! '*'
+      Cache-Control:
+      - no-store
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Pragma:
+      - no-cache
+      Www-Authenticate:
+      - ! 'OAuth "Facebook Platform" "invalid_token" "Error validating access token:
+        Session has expired at unix time 1340924400. The current unix time is 1342564468."'
+      X-Fb-Rev:
+      - '592850'
+      X-Fb-Debug:
+      - RzF+c9eXNh7GIOGU1I0Rpe40PGK7/Sj3AJig1KkPhTM=
+      Date:
+      - Tue, 17 Jul 2012 22:34:28 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '191'
+    body:
+      encoding: US-ASCII
+      string: ! '{"error":{"message":"Error validating access token: Session has expired
+        at unix time 1340924400. The current unix time is 1342564468.","type":"OAuthException","code":190,"error_subcode":463}}'
+    http_version: 
+  recorded_at: Tue, 17 Jul 2012 22:34:28 GMT
 recorded_with: VCR 2.2.2

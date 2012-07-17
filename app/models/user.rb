@@ -15,10 +15,6 @@ class User < ActiveRecord::Base
   has_many :facebook_friendships
   has_many :facebook_friends, :through => :facebook_friendships, :source => :friend
 
-  has_many :friendships
-  has_many :active_friendships, :class_name => 'Friendship', :conditions => {:status => 'active'}
-  has_many :friends, :through => :active_friendships, :source => :friend
-
   has_many :photos
   has_one :photo
 
@@ -180,47 +176,6 @@ class User < ActiveRecord::Base
                         INNER JOIN facebook_friendships AS b
                           ON a.user_id = ? AND b.user_id = ? AND a.friend_id = b.friend_id
                         INNER JOIN users ON users.id = a.friend_id", self.id, user.id]
-  end
-
-  def send_friend_request(user)
-    change_friendship_with(user, :send_request)
-  end
-
-  def remove_friend(user)
-    change_friendship_with(user, :remove_friendship)
-  end
-
-  def block_user(user)
-    change_friendship_with(user, :block)
-  end
-
-  def unblock_user(user)
-    change_friendship_with(user, :unblock)
-  end
-
-  def change_friendship_with(user, action)
-    find_or_create_friendship_with(user).send(action)
-  end
-
-  def find_or_create_friendship_with(user)
-    friendship = Friendship.find_by_user_id_and_friend_id(self.id, user.id)
-
-    if friendship.nil?
-      transaction do
-        friendship = Friendship.create!(user: self, friend: user, status: 'inactive')
-        inverse_friendship = Friendship.create!(user: user, friend: self, status: 'inactive')
-      end
-    end
-
-    return friendship
-  end
-
-  def friend_requests(status)
-    friendships.where(status: status.to_s)
-  end
-
-  def is_friends_with?(user)
-    friends.include?(user)
   end
 
   def self.clear_all_locations

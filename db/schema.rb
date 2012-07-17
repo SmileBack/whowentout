@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120717223243) do
+ActiveRecord::Schema.define(:version => 20120717223738) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -62,17 +62,6 @@ ActiveRecord::Schema.define(:version => 20120717223243) do
   end
 
   add_index "facebook_friendships", ["user_id", "friend_id"], :name => "index_facebook_friendships_on_user_id_and_friend_id", :unique => true
-
-  create_table "friendships", :force => true do |t|
-    t.string   "status"
-    t.integer  "user_id"
-    t.integer  "friend_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "friendships", ["status"], :name => "index_friendships_on_status"
-  add_index "friendships", ["user_id", "friend_id"], :name => "index_friendships_on_user_id_and_friend_id", :unique => true
 
   create_table "interests", :force => true do |t|
     t.integer "facebook_id", :limit => 8
