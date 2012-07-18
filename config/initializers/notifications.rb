@@ -3,8 +3,6 @@ ActiveSupport::Notifications.subscribe 'smile_game.sent' do |name, start, finish
 
   smile_game = payload[:smile_game]
   smile_game.receiver.notify("Someone has just smiled at you.")
-
-  puts "Someone has smiled woo"
 end
 
 ActiveSupport::Notifications.subscribe 'smile_game.match' do |name, start, finish, id, payload|
@@ -12,8 +10,6 @@ ActiveSupport::Notifications.subscribe 'smile_game.match' do |name, start, finis
 
   smile_game = payload[:smile_game]
   smile_game.sender.notify("You and #{smile_game.receiver.first_name} #{smile_game.receiver.last_initial} have matched.")
-
-  puts "Smile game match wooo"
 end
 
 ActiveSupport::Notifications.subscribe 'conversation.new_message' do |name, start, finish, id, payload|
@@ -35,7 +31,5 @@ ActiveSupport::Notifications.subscribe 'conversation.new_message' do |name, star
     )
     u.notify(message_summary) unless u == message.sender
   end
-
-  puts "New conversation message woo"
 end
 
