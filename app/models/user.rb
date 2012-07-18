@@ -66,11 +66,11 @@ class User < ActiveRecord::Base
   end
 
   def smile_games_matched
-    smile_games_sent_or_received.where(status: 'match')
+    smile_games_sent_or_received.where(status: 'match').order('updated_at DESC')
   end
 
   def smile_games_open
-    self.smile_games_received.where(status: 'open')
+    self.smile_games_received.where(status: 'open').order('updated_at DESC')
   end
 
   def last_initial

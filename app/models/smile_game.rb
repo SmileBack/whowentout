@@ -27,6 +27,9 @@ class SmileGame < ActiveRecord::Base
         false
       end
     end
+
+    after_transition any => :match, :do => :on_smile_game_match
+
   end
 
   def has_guesses_remaining?
@@ -61,7 +64,8 @@ class SmileGame < ActiveRecord::Base
 
     game.shuffle!
 
-    user.notify("Someone has just smiled at you.")
+    ActiveSupport::Notifications::instrument('smile_game.sent', :smile_game => game)
+
     return game
   end
 
@@ -149,6 +153,12 @@ class SmileGame < ActiveRecord::Base
       index += 1
     end
     choices.reload
+  end
+
+  private
+
+  def on_smile_game_match
+    ActiveSupport::Notifications.instrument('smile_game.match', smile_game: self)
   end
 
 end

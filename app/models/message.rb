@@ -21,27 +21,13 @@ class Message < ActiveRecord::Base
       transition :received => :ignored
     end
 
-    after_transition :on => :send_message, :do => :notify_users unless Rails.env.test?
+    after_transition :on => :send_message, :do => :on_conversation_new_message
   end
 
-  def notify_users
-    self.conversation.users.each do |u|
-      u.push_event(
-        name: 'ConversationNewMessage',
-        message: {
-          conversation_id: self.conversation_id,
-          sender_id: self.sender_id,
-          body: self.body
-        }
-      )
-      unless u == self.sender
-        u.notify(message_summary)
-      end
-    end
-  end
+  private
 
-  def message_summary
-    "#{self.sender.first_name}: #{self.body}"
+  def on_conversation_new_message
+    ActiveSupport::Notifications.instrument('conversation.new_message', conversation: self.conversation, message: self)
   end
 
 end
