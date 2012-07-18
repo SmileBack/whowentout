@@ -75,6 +75,8 @@ class WWOApi < Grape::API
     end
     response[:current_region] = '' if response[:current_region].nil?
 
+    response[:current_user] = Boxer.ship(:user, current_user)
+
     response
   end
 
